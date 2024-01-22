@@ -10,30 +10,40 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Lists the private endpoints in the cluster.
  *
  * @summary Lists the private endpoints in the cluster.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/PrivateEndpoint_ListByCluster.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_ListByCluster.json
  */
 async function getThePrivateEndpointsInACluster() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "sjrg";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
   const clusterName = "testcluster";
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.privateEndpoints.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
-getThePrivateEndpointsInACluster().catch(console.error);
+async function main() {
+  getThePrivateEndpointsInACluster();
+}
+
+main().catch(console.error);

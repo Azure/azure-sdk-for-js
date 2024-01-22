@@ -10,19 +10,25 @@
 // Licensed under the MIT License.
 import {
   Input,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  *
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Update_Reference_Blob.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Reference_Blob.json
  */
 async function updateAReferenceBlobInput() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg8440";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8440";
   const jobName = "sj9597";
   const inputName = "input7225";
   const input: Input = {
@@ -30,36 +36,37 @@ async function updateAReferenceBlobInput() {
       type: "Reference",
       datasource: {
         type: "Microsoft.Storage/Blob",
-        container: "differentContainer"
+        container: "differentContainer",
       },
-      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" }
-    }
+      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.update(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-updateAReferenceBlobInput().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  *
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Update_Stream_EventHub.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_EventHub.json
  */
 async function updateAStreamEventHubInput() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg3139";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3139";
   const jobName = "sj197";
   const inputName = "input7425";
   const input: Input = {
@@ -67,36 +74,37 @@ async function updateAStreamEventHubInput() {
       type: "Stream",
       datasource: {
         type: "Microsoft.ServiceBus/EventHub",
-        consumerGroupName: "differentConsumerGroupName"
+        consumerGroupName: "differentConsumerGroupName",
       },
-      serialization: { type: "Avro" }
-    }
+      serialization: { type: "Avro" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.update(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-updateAStreamEventHubInput().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  *
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Update_Stream_IoTHub.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_IoTHub.json
  */
 async function updateAStreamIoTHubInput() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg3467";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3467";
   const jobName = "sj9742";
   const inputName = "input7970";
   const input: Input = {
@@ -104,57 +112,65 @@ async function updateAStreamIoTHubInput() {
       type: "Stream",
       datasource: {
         type: "Microsoft.Devices/IotHubs",
-        endpoint: "messages/operationsMonitoringEvents"
+        endpoint: "messages/operationsMonitoringEvents",
       },
-      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" }
-    }
+      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.update(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-updateAStreamIoTHubInput().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
  *
  * @summary Updates an existing input under an existing streaming job. This can be used to partially update (ie. update one or two properties) an input without affecting the rest the job or input definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Update_Stream_Blob.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Update_Stream_Blob.json
  */
 async function updateAStreamBlobInput() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg8161";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8161";
   const jobName = "sj6695";
   const inputName = "input8899";
   const input: Input = {
     properties: {
       type: "Stream",
       datasource: { type: "Microsoft.Storage/Blob", sourcePartitionCount: 32 },
-      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" }
-    }
+      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "|" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.update(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
 
-updateAStreamBlobInput().catch(console.error);
+async function main() {
+  updateAReferenceBlobInput();
+  updateAStreamEventHubInput();
+  updateAStreamIoTHubInput();
+  updateAStreamBlobInput();
+}
+
+main().catch(console.error);

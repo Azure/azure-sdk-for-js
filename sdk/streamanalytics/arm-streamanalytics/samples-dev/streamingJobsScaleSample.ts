@@ -11,35 +11,45 @@
 import {
   ScaleStreamingJobParameters,
   StreamingJobsScaleOptionalParams,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Scales a streaming job when the job is running.
  *
  * @summary Scales a streaming job when the job is running.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Scale.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Scale.json
  */
 async function scaleAStreamingJob() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg6936";
-  const jobName = "sj59";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
+  const jobName = "sjName";
   const scaleJobParameters: ScaleStreamingJobParameters = {
-    streamingUnits: 36
+    streamingUnits: 36,
   };
   const options: StreamingJobsScaleOptionalParams = { scaleJobParameters };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.streamingJobs.beginScaleAndWait(
     resourceGroupName,
     jobName,
-    options
+    options,
   );
   console.log(result);
 }
 
-scaleAStreamingJob().catch(console.error);
+async function main() {
+  scaleAStreamingJob();
+}
+
+main().catch(console.error);

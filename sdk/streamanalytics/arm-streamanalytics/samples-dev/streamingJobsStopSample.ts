@@ -10,27 +10,37 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Stops a running streaming job. This will cause a running streaming job to stop processing input events and producing output.
  *
  * @summary Stops a running streaming job. This will cause a running streaming job to stop processing input events and producing output.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/StreamingJob_Stop.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/StreamingJob_Stop.json
  */
 async function stopAStreamingJob() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg6936";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg6936";
   const jobName = "sj59";
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.streamingJobs.beginStopAndWait(
     resourceGroupName,
-    jobName
+    jobName,
   );
   console.log(result);
 }
 
-stopAStreamingJob().catch(console.error);
+async function main() {
+  stopAStreamingJob();
+}
+
+main().catch(console.error);

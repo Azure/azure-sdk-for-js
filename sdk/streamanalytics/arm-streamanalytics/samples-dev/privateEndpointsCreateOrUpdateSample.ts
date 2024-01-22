@@ -10,42 +10,54 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpoint,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
  *
  * @summary Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/PrivateEndpoint_Create.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_Create.json
  */
 async function createAPrivateEndpoint() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "sjrg";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
   const clusterName = "testcluster";
   const privateEndpointName = "testpe";
   const privateEndpoint: PrivateEndpoint = {
-    manualPrivateLinkServiceConnections: [
-      {
-        groupIds: ["groupIdFromResource"],
-        privateLinkServiceId:
-          "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls"
-      }
-    ]
+    properties: {
+      manualPrivateLinkServiceConnections: [
+        {
+          groupIds: ["groupIdFromResource"],
+          privateLinkServiceId:
+            "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls",
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.privateEndpoints.createOrUpdate(
     resourceGroupName,
     clusterName,
     privateEndpointName,
-    privateEndpoint
+    privateEndpoint,
   );
   console.log(result);
 }
 
-createAPrivateEndpoint().catch(console.error);
+async function main() {
+  createAPrivateEndpoint();
+}
+
+main().catch(console.error);

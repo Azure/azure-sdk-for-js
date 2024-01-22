@@ -13,7 +13,7 @@ import {
   TransformationsUpdateOptionalParams,
   TransformationsUpdateResponse,
   TransformationsGetOptionalParams,
-  TransformationsGetResponse
+  TransformationsGetResponse,
 } from "../models";
 
 /** Interface representing a Transformations. */
@@ -33,7 +33,7 @@ export interface Transformations {
     jobName: string,
     transformationName: string,
     transformation: Transformation,
-    options?: TransformationsCreateOrReplaceOptionalParams
+    options?: TransformationsCreateOrReplaceOptionalParams,
   ): Promise<TransformationsCreateOrReplaceResponse>;
   /**
    * Updates an existing transformation under an existing streaming job. This can be used to partially
@@ -53,7 +53,7 @@ export interface Transformations {
     jobName: string,
     transformationName: string,
     transformation: Transformation,
-    options?: TransformationsUpdateOptionalParams
+    options?: TransformationsUpdateOptionalParams,
   ): Promise<TransformationsUpdateResponse>;
   /**
    * Gets details about the specified transformation.
@@ -66,6 +66,6 @@ export interface Transformations {
     resourceGroupName: string,
     jobName: string,
     transformationName: string,
-    options?: TransformationsGetOptionalParams
+    options?: TransformationsGetOptionalParams,
   ): Promise<TransformationsGetResponse>;
 }

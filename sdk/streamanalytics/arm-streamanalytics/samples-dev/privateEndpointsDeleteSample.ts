@@ -10,29 +10,39 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Delete the specified private endpoint.
  *
  * @summary Delete the specified private endpoint.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/PrivateEndpoint_Delete.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/PrivateEndpoint_Delete.json
  */
 async function deleteAPrivateEndpoint() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "sjrg";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
   const clusterName = "testcluster";
   const privateEndpointName = "testpe";
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.privateEndpoints.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    privateEndpointName
+    privateEndpointName,
   );
   console.log(result);
 }
 
-deleteAPrivateEndpoint().catch(console.error);
+async function main() {
+  deleteAPrivateEndpoint();
+}
+
+main().catch(console.error);

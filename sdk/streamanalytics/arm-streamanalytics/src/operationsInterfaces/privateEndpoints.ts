@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   PrivateEndpoint,
   PrivateEndpointsListByClusterOptionalParams,
@@ -15,7 +15,7 @@ import {
   PrivateEndpointsCreateOrUpdateResponse,
   PrivateEndpointsGetOptionalParams,
   PrivateEndpointsGetResponse,
-  PrivateEndpointsDeleteOptionalParams
+  PrivateEndpointsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PrivateEndpoints {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: PrivateEndpointsListByClusterOptionalParams
+    options?: PrivateEndpointsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpoint>;
   /**
    * Creates a Stream Analytics Private Endpoint or replaces an already existing Private Endpoint.
@@ -46,7 +46,7 @@ export interface PrivateEndpoints {
     clusterName: string,
     privateEndpointName: string,
     privateEndpoint: PrivateEndpoint,
-    options?: PrivateEndpointsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointsCreateOrUpdateResponse>;
   /**
    * Gets information about the specified Private Endpoint.
@@ -59,7 +59,7 @@ export interface PrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsGetOptionalParams
+    options?: PrivateEndpointsGetOptionalParams,
   ): Promise<PrivateEndpointsGetResponse>;
   /**
    * Delete the specified private endpoint.
@@ -72,8 +72,8 @@ export interface PrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: PrivateEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified private endpoint.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -85,6 +85,6 @@ export interface PrivateEndpoints {
     resourceGroupName: string,
     clusterName: string,
     privateEndpointName: string,
-    options?: PrivateEndpointsDeleteOptionalParams
+    options?: PrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

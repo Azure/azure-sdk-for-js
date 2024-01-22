@@ -9,43 +9,54 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import {
-  AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters,
+  AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters,
   FunctionsRetrieveDefaultDefinitionOptionalParams,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves the default definition of a function based on the parameters specified.
  *
  * @summary Retrieves the default definition of a function based on the parameters specified.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_RetrieveDefaultDefinition_AzureML.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_RetrieveDefaultDefinition_AzureML.json
  */
 async function retrieveTheDefaultDefinitionForAnAzureMlFunction() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg7";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7";
   const jobName = "sj9093";
   const functionName = "function588";
-  const functionRetrieveDefaultDefinitionParameters: AzureMachineLearningWebServiceFunctionRetrieveDefaultDefinitionParameters = {
-    bindingType: "Microsoft.MachineLearning/WebService",
-    executeEndpoint: "someAzureMLExecuteEndpointUrl",
-    udfType: "Scalar"
-  };
+  const functionRetrieveDefaultDefinitionParameters: AzureMachineLearningStudioFunctionRetrieveDefaultDefinitionParameters =
+    {
+      bindingType: "Microsoft.MachineLearning/WebService",
+      executeEndpoint: "someAzureMLExecuteEndpointUrl",
+      udfType: "Scalar",
+    };
   const options: FunctionsRetrieveDefaultDefinitionOptionalParams = {
-    functionRetrieveDefaultDefinitionParameters
+    functionRetrieveDefaultDefinitionParameters,
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.functions.retrieveDefaultDefinition(
     resourceGroupName,
     jobName,
     functionName,
-    options
+    options,
   );
   console.log(result);
 }
 
-retrieveTheDefaultDefinitionForAnAzureMlFunction().catch(console.error);
+async function main() {
+  retrieveTheDefaultDefinitionForAnAzureMlFunction();
+}
+
+main().catch(console.error);

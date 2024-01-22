@@ -10,36 +10,46 @@
 // Licensed under the MIT License.
 import {
   Cluster,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates a Stream Analytics Cluster or replaces an already existing cluster.
  *
  * @summary Creates a Stream Analytics Cluster or replaces an already existing cluster.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Cluster_Create.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2020-03-01-preview/examples/Cluster_Create.json
  */
 async function createANewCluster() {
-  const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-  const resourceGroupName = "sjrg";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg";
   const clusterName = "An Example Cluster";
   const cluster: Cluster = {
     location: "North US",
     sku: { name: "Default", capacity: 48 },
-    tags: { key: "value" }
+    tags: { key: "value" },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.clusters.beginCreateOrUpdateAndWait(
     resourceGroupName,
     clusterName,
-    cluster
+    cluster,
   );
   console.log(result);
 }
 
-createANewCluster().catch(console.error);
+async function main() {
+  createANewCluster();
+}
+
+main().catch(console.error);

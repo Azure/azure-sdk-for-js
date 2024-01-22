@@ -10,19 +10,59 @@
 // Licensed under the MIT License.
 import {
   Input,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
  *
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Reference_Blob_CSV.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_GatewayMessageBus.json
+ */
+async function createAGatewayMessageBusInput() {
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3467";
+  const jobName = "sj9742";
+  const inputName = "input7970";
+  const input: Input = {
+    properties: {
+      type: "Stream",
+      datasource: { type: "GatewayMessageBus", topic: "EdgeTopic1" },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new StreamAnalyticsManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.inputs.createOrReplace(
+    resourceGroupName,
+    jobName,
+    inputName,
+    input,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+ *
+ * @summary Creates an input or replaces an already existing input under an existing streaming job.
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Reference_Blob_CSV.json
  */
 async function createAReferenceBlobInputWithCsvSerialization() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg8440";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8440";
   const jobName = "sj9597";
   const inputName = "input7225";
   const input: Input = {
@@ -30,42 +70,82 @@ async function createAReferenceBlobInputWithCsvSerialization() {
       type: "Reference",
       datasource: {
         type: "Microsoft.Storage/Blob",
+        blobName: "myblobinput",
         container: "state",
         dateFormat: "yyyy/MM/dd",
+        deltaPathPattern: "/testBlob/{date}/delta/{time}/",
+        deltaSnapshotRefreshRate: "16:14:30",
+        fullSnapshotRefreshRate: "16:14:30",
         pathPattern: "{date}/{time}",
+        sourcePartitionCount: 16,
         storageAccounts: [
-          { accountKey: "someAccountKey==", accountName: "someAccountName" }
+          { accountKey: "someAccountKey==", accountName: "someAccountName" },
         ],
-        timeFormat: "HH"
+        timeFormat: "HH",
       },
-      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," }
-    }
+      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.createOrReplace(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-createAReferenceBlobInputWithCsvSerialization().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
  *
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_EventHub_JSON.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Reference_File.json
+ */
+async function createAReferenceFileInput() {
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8440";
+  const jobName = "sj9597";
+  const inputName = "input7225";
+  const input: Input = {
+    properties: {
+      type: "Reference",
+      datasource: { type: "File", path: "my/path" },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new StreamAnalyticsManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.inputs.createOrReplace(
+    resourceGroupName,
+    jobName,
+    inputName,
+    input,
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+ *
+ * @summary Creates an input or replaces an already existing input under an existing streaming job.
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_EventHub_JSON.json
  */
 async function createAStreamEventHubInputWithJsonSerialization() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg3139";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3139";
   const jobName = "sj197";
   const inputName = "input7425";
   const input: Input = {
@@ -77,36 +157,38 @@ async function createAStreamEventHubInputWithJsonSerialization() {
         eventHubName: "sdkeventhub",
         serviceBusNamespace: "sdktest",
         sharedAccessPolicyKey: "someSharedAccessPolicyKey==",
-        sharedAccessPolicyName: "RootManageSharedAccessKey"
+        sharedAccessPolicyName: "RootManageSharedAccessKey",
       },
-      serialization: { type: "Json", encoding: "UTF8" }
-    }
+      serialization: { type: "Json", encoding: "UTF8" },
+      watermarkSettings: { watermarkMode: "ReadWatermark" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.createOrReplace(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-createAStreamEventHubInputWithJsonSerialization().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
  *
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_IoTHub_Avro.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_IoTHub_Avro.json
  */
 async function createAStreamIoTHubInputWithAvroSerialization() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg3467";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3467";
   const jobName = "sj9742";
   const inputName = "input7970";
   const input: Input = {
@@ -118,36 +200,37 @@ async function createAStreamIoTHubInputWithAvroSerialization() {
         endpoint: "messages/events",
         iotHubNamespace: "iothub",
         sharedAccessPolicyKey: "sharedAccessPolicyKey=",
-        sharedAccessPolicyName: "owner"
+        sharedAccessPolicyName: "owner",
       },
-      serialization: { type: "Avro" }
-    }
+      serialization: { type: "Avro" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.createOrReplace(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
-
-createAStreamIoTHubInputWithAvroSerialization().catch(console.error);
 
 /**
  * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
  *
  * @summary Creates an input or replaces an already existing input under an existing streaming job.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Input_Create_Stream_Blob_CSV.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_Stream_Blob_CSV.json
  */
 async function createAStreamBlobInputWithCsvSerialization() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg8161";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg8161";
   const jobName = "sj6695";
   const inputName = "input8899";
   const input: Input = {
@@ -160,25 +243,90 @@ async function createAStreamBlobInputWithCsvSerialization() {
         pathPattern: "{date}/{time}",
         sourcePartitionCount: 16,
         storageAccounts: [
-          { accountKey: "someAccountKey==", accountName: "someAccountName" }
+          { accountKey: "someAccountKey==", accountName: "someAccountName" },
         ],
-        timeFormat: "HH"
+        timeFormat: "HH",
       },
-      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," }
-    }
+      serialization: { type: "Csv", encoding: "UTF8", fieldDelimiter: "," },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.inputs.createOrReplace(
     resourceGroupName,
     jobName,
     inputName,
-    input
+    input,
   );
   console.log(result);
 }
 
-createAStreamBlobInputWithCsvSerialization().catch(console.error);
+/**
+ * This sample demonstrates how to Creates an input or replaces an already existing input under an existing streaming job.
+ *
+ * @summary Creates an input or replaces an already existing input under an existing streaming job.
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Input_Create_EventGrid.json
+ */
+async function createAnEventGridInput() {
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg3467";
+  const jobName = "sj9742";
+  const inputName = "input7970";
+  const input: Input = {
+    properties: {
+      type: "Stream",
+      datasource: {
+        type: "Microsoft.EventGrid/EventSubscriptions",
+        schema: "CloudEventSchema",
+        eventTypes: ["Microsoft.Storage.BlobCreated"],
+        storageAccounts: [
+          {
+            accountKey: "myaccountkey",
+            accountName: "myaccount",
+            authenticationMode: "Msi",
+          },
+        ],
+        subscriber: {
+          type: "Microsoft.EventHub/EventHub",
+          authenticationMode: "Msi",
+          consumerGroupName: "sdkconsumergroup",
+          eventHubName: "sdkeventhub",
+          partitionCount: 16,
+          serviceBusNamespace: "sdktest",
+          sharedAccessPolicyKey: "someSharedAccessPolicyKey==",
+          sharedAccessPolicyName: "RootManageSharedAccessKey",
+        },
+      },
+    },
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new StreamAnalyticsManagementClient(
+    credential,
+    subscriptionId,
+  );
+  const result = await client.inputs.createOrReplace(
+    resourceGroupName,
+    jobName,
+    inputName,
+    input,
+  );
+  console.log(result);
+}
+
+async function main() {
+  createAGatewayMessageBusInput();
+  createAReferenceBlobInputWithCsvSerialization();
+  createAReferenceFileInput();
+  createAStreamEventHubInputWithJsonSerialization();
+  createAStreamIoTHubInputWithAvroSerialization();
+  createAStreamBlobInputWithCsvSerialization();
+  createAnEventGridInput();
+}
+
+main().catch(console.error);

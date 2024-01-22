@@ -10,55 +10,67 @@
 // Licensed under the MIT License.
 import { StreamAnalyticsManagementClient } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Gets details about the specified function.
  *
  * @summary Gets details about the specified function.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Get_JavaScript.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Get_JavaScript.json
  */
 async function getAJavaScriptFunction() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg1637";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg1637";
   const jobName = "sj8653";
   const functionName = "function8197";
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.functions.get(
     resourceGroupName,
     jobName,
-    functionName
+    functionName,
   );
   console.log(result);
 }
-
-getAJavaScriptFunction().catch(console.error);
 
 /**
  * This sample demonstrates how to Gets details about the specified function.
  *
  * @summary Gets details about the specified function.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Get_AzureML.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Get_AzureML.json
  */
 async function getAnAzureMlFunction() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg7";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7";
   const jobName = "sj9093";
   const functionName = "function588";
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.functions.get(
     resourceGroupName,
     jobName,
-    functionName
+    functionName,
   );
   console.log(result);
 }
 
-getAnAzureMlFunction().catch(console.error);
+async function main() {
+  getAJavaScriptFunction();
+  getAnAzureMlFunction();
+}
+
+main().catch(console.error);

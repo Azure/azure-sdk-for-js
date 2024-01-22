@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Cluster,
   ClustersListBySubscriptionOptionalParams,
@@ -20,7 +20,7 @@ import {
   ClustersUpdateResponse,
   ClustersGetOptionalParams,
   ClustersGetResponse,
-  ClustersDeleteOptionalParams
+  ClustersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClustersListBySubscriptionOptionalParams
+    options?: ClustersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists all of the clusters in the given resource group.
@@ -40,7 +40,7 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists all of the streaming jobs in the given cluster.
@@ -51,7 +51,7 @@ export interface Clusters {
   listStreamingJobs(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersListStreamingJobsOptionalParams
+    options?: ClustersListStreamingJobsOptionalParams,
   ): PagedAsyncIterableIterator<ClusterJob>;
   /**
    * Creates a Stream Analytics Cluster or replaces an already existing cluster.
@@ -65,10 +65,10 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersCreateOrUpdateResponse>,
       ClustersCreateOrUpdateResponse
     >
   >;
@@ -84,7 +84,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersCreateOrUpdateOptionalParams
+    options?: ClustersCreateOrUpdateOptionalParams,
   ): Promise<ClustersCreateOrUpdateResponse>;
   /**
    * Updates an existing cluster. This can be used to partially update (ie. update one or two properties)
@@ -99,10 +99,10 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<ClustersUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ClustersUpdateResponse>,
       ClustersUpdateResponse
     >
   >;
@@ -119,7 +119,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     cluster: Cluster,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Gets information about the specified cluster.
@@ -130,7 +130,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Deletes the specified cluster.
@@ -141,8 +141,8 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: ClustersDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -152,6 +152,6 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   FunctionModel,
   FunctionsListByStreamingJobOptionalParams,
@@ -21,7 +21,7 @@ import {
   FunctionsTestOptionalParams,
   FunctionsTestResponse,
   FunctionsRetrieveDefaultDefinitionOptionalParams,
-  FunctionsRetrieveDefaultDefinitionResponse
+  FunctionsRetrieveDefaultDefinitionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Functions {
   listByStreamingJob(
     resourceGroupName: string,
     jobName: string,
-    options?: FunctionsListByStreamingJobOptionalParams
+    options?: FunctionsListByStreamingJobOptionalParams,
   ): PagedAsyncIterableIterator<FunctionModel>;
   /**
    * Creates a function or replaces an already existing function under an existing streaming job.
@@ -52,7 +52,7 @@ export interface Functions {
     jobName: string,
     functionName: string,
     functionParam: FunctionModel,
-    options?: FunctionsCreateOrReplaceOptionalParams
+    options?: FunctionsCreateOrReplaceOptionalParams,
   ): Promise<FunctionsCreateOrReplaceResponse>;
   /**
    * Updates an existing function under an existing streaming job. This can be used to partially update
@@ -72,7 +72,7 @@ export interface Functions {
     jobName: string,
     functionName: string,
     functionParam: FunctionModel,
-    options?: FunctionsUpdateOptionalParams
+    options?: FunctionsUpdateOptionalParams,
   ): Promise<FunctionsUpdateResponse>;
   /**
    * Deletes a function from the streaming job.
@@ -85,7 +85,7 @@ export interface Functions {
     resourceGroupName: string,
     jobName: string,
     functionName: string,
-    options?: FunctionsDeleteOptionalParams
+    options?: FunctionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets details about the specified function.
@@ -98,7 +98,7 @@ export interface Functions {
     resourceGroupName: string,
     jobName: string,
     functionName: string,
-    options?: FunctionsGetOptionalParams
+    options?: FunctionsGetOptionalParams,
   ): Promise<FunctionsGetResponse>;
   /**
    * Tests if the information provided for a function is valid. This can range from testing the
@@ -113,9 +113,12 @@ export interface Functions {
     resourceGroupName: string,
     jobName: string,
     functionName: string,
-    options?: FunctionsTestOptionalParams
+    options?: FunctionsTestOptionalParams,
   ): Promise<
-    PollerLike<PollOperationState<FunctionsTestResponse>, FunctionsTestResponse>
+    SimplePollerLike<
+      OperationState<FunctionsTestResponse>,
+      FunctionsTestResponse
+    >
   >;
   /**
    * Tests if the information provided for a function is valid. This can range from testing the
@@ -130,7 +133,7 @@ export interface Functions {
     resourceGroupName: string,
     jobName: string,
     functionName: string,
-    options?: FunctionsTestOptionalParams
+    options?: FunctionsTestOptionalParams,
   ): Promise<FunctionsTestResponse>;
   /**
    * Retrieves the default definition of a function based on the parameters specified.
@@ -143,6 +146,6 @@ export interface Functions {
     resourceGroupName: string,
     jobName: string,
     functionName: string,
-    options?: FunctionsRetrieveDefaultDefinitionOptionalParams
+    options?: FunctionsRetrieveDefaultDefinitionOptionalParams,
   ): Promise<FunctionsRetrieveDefaultDefinitionResponse>;
 }

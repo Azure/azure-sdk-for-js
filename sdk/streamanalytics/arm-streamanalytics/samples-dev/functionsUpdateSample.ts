@@ -10,19 +10,25 @@
 // Licensed under the MIT License.
 import {
   FunctionModel,
-  StreamAnalyticsManagementClient
+  StreamAnalyticsManagementClient,
 } from "@azure/arm-streamanalytics";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Updates an existing function under an existing streaming job. This can be used to partially update (ie. update one or two properties) a function without affecting the rest the job or function definition.
  *
  * @summary Updates an existing function under an existing streaming job. This can be used to partially update (ie. update one or two properties) a function without affecting the rest the job or function definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Update_JavaScript.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Update_JavaScript.json
  */
 async function updateAJavaScriptFunction() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg1637";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg1637";
   const jobName = "sj8653";
   const functionName = "function8197";
   const functionParam: FunctionModel = {
@@ -30,55 +36,64 @@ async function updateAJavaScriptFunction() {
       type: "Scalar",
       binding: {
         type: "Microsoft.StreamAnalytics/JavascriptUdf",
-        script: "function (a, b) { return a * b; }"
-      }
-    }
+        script: "function (a, b) { return a * b; }",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.functions.update(
     resourceGroupName,
     jobName,
     functionName,
-    functionParam
+    functionParam,
   );
   console.log(result);
 }
-
-updateAJavaScriptFunction().catch(console.error);
 
 /**
  * This sample demonstrates how to Updates an existing function under an existing streaming job. This can be used to partially update (ie. update one or two properties) a function without affecting the rest the job or function definition.
  *
  * @summary Updates an existing function under an existing streaming job. This can be used to partially update (ie. update one or two properties) a function without affecting the rest the job or function definition.
- * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Update_AzureML.json
+ * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/preview/2021-10-01-preview/examples/Function_Update_AzureML.json
  */
 async function updateAnAzureMlFunction() {
-  const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
-  const resourceGroupName = "sjrg7";
+  const subscriptionId =
+    process.env["STREAMANALYTICS_SUBSCRIPTION_ID"] ||
+    "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+  const resourceGroupName =
+    process.env["STREAMANALYTICS_RESOURCE_GROUP"] || "sjrg7";
   const jobName = "sj9093";
   const functionName = "function588";
   const functionParam: FunctionModel = {
     properties: {
       type: "Scalar",
-      binding: { type: "Microsoft.MachineLearning/WebService", batchSize: 5000 }
-    }
+      binding: {
+        type: "Microsoft.MachineLearning/WebService",
+        batchSize: 5000,
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new StreamAnalyticsManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.functions.update(
     resourceGroupName,
     jobName,
     functionName,
-    functionParam
+    functionParam,
   );
   console.log(result);
 }
 
-updateAnAzureMlFunction().catch(console.error);
+async function main() {
+  updateAJavaScriptFunction();
+  updateAnAzureMlFunction();
+}
+
+main().catch(console.error);
