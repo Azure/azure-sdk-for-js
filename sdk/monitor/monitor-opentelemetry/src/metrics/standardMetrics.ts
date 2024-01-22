@@ -145,7 +145,9 @@ export class StandardMetrics {
    * @internal
    */
   public recordLog(logRecord: LogRecord): void {
-    logRecord.setAttribute("operation/synthetic", isSyntheticLoad(logRecord));
+    if (isSyntheticLoad(logRecord)) {
+      logRecord.setAttribute("operation/synthetic", "True");
+    }
     if (isExceptionTelemetry(logRecord)) {
       logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
       this._exceptionsCounter.add(1, getExceptionDimensions(logRecord.resource));
