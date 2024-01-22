@@ -25,9 +25,11 @@ async function volumesCreateMaximumSetGen() {
   const volumeGroupName = "volumegroupname";
   const volumeName = "volumename";
   const parameters = {
-    creationData: { createSource: "None", sourceId: "ARM Id of Resource" },
-    managedBy: { resourceId: "mtkeip" },
-    sizeGiB: 9,
+    properties: {
+      creationData: { createSource: "None", sourceId: "ARM Id of Resource" },
+      managedBy: { resourceId: "mtkeip" },
+      sizeGiB: 9,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -53,7 +55,7 @@ async function volumesCreateMinimumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const volumeName = "volumename";
-  const parameters = { sizeGiB: 9 };
+  const parameters = { properties: { sizeGiB: 9 } };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginCreateAndWait(

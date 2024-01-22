@@ -23,9 +23,11 @@ async function elasticSansUpdateMaximumSetGen() {
   const resourceGroupName = process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const parameters = {
-    baseSizeTiB: 13,
-    extendedCapacitySizeTiB: 29,
-    publicNetworkAccess: "Enabled",
+    properties: {
+      baseSizeTiB: 13,
+      extendedCapacitySizeTiB: 29,
+      publicNetworkAccess: "Enabled",
+    },
     tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" },
   };
   const credential = new DefaultAzureCredential();
