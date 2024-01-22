@@ -17,7 +17,7 @@ import {
   PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
   PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
   PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
-  PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+  PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface PolicyEvents {
   listQueryResultsForManagementGroup(
     policyEventsResource: PolicyEventsResourceType,
     managementGroupName: string,
-    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resources under the subscription.
@@ -45,7 +45,7 @@ export interface PolicyEvents {
   listQueryResultsForSubscription(
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resources under the resource group.
@@ -59,7 +59,7 @@ export interface PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     resourceGroupName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resource.
@@ -71,7 +71,7 @@ export interface PolicyEvents {
   listQueryResultsForResource(
     policyEventsResource: PolicyEventsResourceType,
     resourceId: string,
-    options?: PolicyEventsListQueryResultsForResourceOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy set definition.
@@ -85,7 +85,7 @@ export interface PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policySetDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy definition.
@@ -99,7 +99,7 @@ export interface PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyDefinitionName: string,
-    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
+    options?: PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the subscription level policy assignment.
@@ -113,7 +113,7 @@ export interface PolicyEvents {
     policyEventsResource: PolicyEventsResourceType,
     subscriptionId: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
   /**
    * Queries policy events for the resource group level policy assignment.
@@ -129,6 +129,6 @@ export interface PolicyEvents {
     subscriptionId: string,
     resourceGroupName: string,
     policyAssignmentName: string,
-    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
+    options?: PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
   ): PagedAsyncIterableIterator<PolicyEvent>;
 }

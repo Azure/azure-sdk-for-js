@@ -49,7 +49,7 @@ import {
   RemediationsGetAtResourceOptionalParams,
   RemediationsGetAtResourceResponse,
   RemediationsDeleteAtResourceOptionalParams,
-  RemediationsDeleteAtResourceResponse
+  RemediationsDeleteAtResourceResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -64,7 +64,7 @@ export interface Remediations {
   listDeploymentsAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams
+    options?: RemediationsListDeploymentsAtManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment>;
   /**
    * Gets all remediations for the management group.
@@ -73,7 +73,7 @@ export interface Remediations {
    */
   listForManagementGroup(
     managementGroupId: string,
-    options?: RemediationsListForManagementGroupOptionalParams
+    options?: RemediationsListForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<Remediation>;
   /**
    * Gets all deployments for a remediation at subscription scope.
@@ -82,14 +82,14 @@ export interface Remediations {
    */
   listDeploymentsAtSubscription(
     remediationName: string,
-    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams
+    options?: RemediationsListDeploymentsAtSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment>;
   /**
    * Gets all remediations for the subscription.
    * @param options The options parameters.
    */
   listForSubscription(
-    options?: RemediationsListForSubscriptionOptionalParams
+    options?: RemediationsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Remediation>;
   /**
    * Gets all deployments for a remediation at resource group scope.
@@ -100,7 +100,7 @@ export interface Remediations {
   listDeploymentsAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams
+    options?: RemediationsListDeploymentsAtResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment>;
   /**
    * Gets all remediations for the subscription.
@@ -109,7 +109,7 @@ export interface Remediations {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: RemediationsListForResourceGroupOptionalParams
+    options?: RemediationsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Remediation>;
   /**
    * Gets all deployments for a remediation at resource scope.
@@ -120,7 +120,7 @@ export interface Remediations {
   listDeploymentsAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsListDeploymentsAtResourceOptionalParams
+    options?: RemediationsListDeploymentsAtResourceOptionalParams,
   ): PagedAsyncIterableIterator<RemediationDeployment>;
   /**
    * Gets all remediations for a resource.
@@ -129,7 +129,7 @@ export interface Remediations {
    */
   listForResource(
     resourceId: string,
-    options?: RemediationsListForResourceOptionalParams
+    options?: RemediationsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Remediation>;
   /**
    * Cancels a remediation at management group scope.
@@ -140,7 +140,7 @@ export interface Remediations {
   cancelAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsCancelAtManagementGroupOptionalParams
+    options?: RemediationsCancelAtManagementGroupOptionalParams,
   ): Promise<RemediationsCancelAtManagementGroupResponse>;
   /**
    * Creates or updates a remediation at management group scope.
@@ -153,7 +153,7 @@ export interface Remediations {
     managementGroupId: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams
+    options?: RemediationsCreateOrUpdateAtManagementGroupOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtManagementGroupResponse>;
   /**
    * Gets an existing remediation at management group scope.
@@ -164,7 +164,7 @@ export interface Remediations {
   getAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsGetAtManagementGroupOptionalParams
+    options?: RemediationsGetAtManagementGroupOptionalParams,
   ): Promise<RemediationsGetAtManagementGroupResponse>;
   /**
    * Deletes an existing remediation at management group scope.
@@ -175,7 +175,7 @@ export interface Remediations {
   deleteAtManagementGroup(
     managementGroupId: string,
     remediationName: string,
-    options?: RemediationsDeleteAtManagementGroupOptionalParams
+    options?: RemediationsDeleteAtManagementGroupOptionalParams,
   ): Promise<RemediationsDeleteAtManagementGroupResponse>;
   /**
    * Cancels a remediation at subscription scope.
@@ -184,7 +184,7 @@ export interface Remediations {
    */
   cancelAtSubscription(
     remediationName: string,
-    options?: RemediationsCancelAtSubscriptionOptionalParams
+    options?: RemediationsCancelAtSubscriptionOptionalParams,
   ): Promise<RemediationsCancelAtSubscriptionResponse>;
   /**
    * Creates or updates a remediation at subscription scope.
@@ -195,7 +195,7 @@ export interface Remediations {
   createOrUpdateAtSubscription(
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: RemediationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtSubscriptionResponse>;
   /**
    * Gets an existing remediation at subscription scope.
@@ -204,7 +204,7 @@ export interface Remediations {
    */
   getAtSubscription(
     remediationName: string,
-    options?: RemediationsGetAtSubscriptionOptionalParams
+    options?: RemediationsGetAtSubscriptionOptionalParams,
   ): Promise<RemediationsGetAtSubscriptionResponse>;
   /**
    * Deletes an existing remediation at subscription scope.
@@ -213,7 +213,7 @@ export interface Remediations {
    */
   deleteAtSubscription(
     remediationName: string,
-    options?: RemediationsDeleteAtSubscriptionOptionalParams
+    options?: RemediationsDeleteAtSubscriptionOptionalParams,
   ): Promise<RemediationsDeleteAtSubscriptionResponse>;
   /**
    * Cancels a remediation at resource group scope.
@@ -224,7 +224,7 @@ export interface Remediations {
   cancelAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsCancelAtResourceGroupOptionalParams
+    options?: RemediationsCancelAtResourceGroupOptionalParams,
   ): Promise<RemediationsCancelAtResourceGroupResponse>;
   /**
    * Creates or updates a remediation at resource group scope.
@@ -237,7 +237,7 @@ export interface Remediations {
     resourceGroupName: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: RemediationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtResourceGroupResponse>;
   /**
    * Gets an existing remediation at resource group scope.
@@ -248,7 +248,7 @@ export interface Remediations {
   getAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsGetAtResourceGroupOptionalParams
+    options?: RemediationsGetAtResourceGroupOptionalParams,
   ): Promise<RemediationsGetAtResourceGroupResponse>;
   /**
    * Deletes an existing remediation at resource group scope.
@@ -259,7 +259,7 @@ export interface Remediations {
   deleteAtResourceGroup(
     resourceGroupName: string,
     remediationName: string,
-    options?: RemediationsDeleteAtResourceGroupOptionalParams
+    options?: RemediationsDeleteAtResourceGroupOptionalParams,
   ): Promise<RemediationsDeleteAtResourceGroupResponse>;
   /**
    * Cancel a remediation at resource scope.
@@ -270,7 +270,7 @@ export interface Remediations {
   cancelAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsCancelAtResourceOptionalParams
+    options?: RemediationsCancelAtResourceOptionalParams,
   ): Promise<RemediationsCancelAtResourceResponse>;
   /**
    * Creates or updates a remediation at resource scope.
@@ -283,7 +283,7 @@ export interface Remediations {
     resourceId: string,
     remediationName: string,
     parameters: Remediation,
-    options?: RemediationsCreateOrUpdateAtResourceOptionalParams
+    options?: RemediationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<RemediationsCreateOrUpdateAtResourceResponse>;
   /**
    * Gets an existing remediation at resource scope.
@@ -294,7 +294,7 @@ export interface Remediations {
   getAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsGetAtResourceOptionalParams
+    options?: RemediationsGetAtResourceOptionalParams,
   ): Promise<RemediationsGetAtResourceResponse>;
   /**
    * Deletes an existing remediation at individual resource scope.
@@ -305,6 +305,6 @@ export interface Remediations {
   deleteAtResource(
     resourceId: string,
     remediationName: string,
-    options?: RemediationsDeleteAtResourceOptionalParams
+    options?: RemediationsDeleteAtResourceOptionalParams,
   ): Promise<RemediationsDeleteAtResourceResponse>;
 }

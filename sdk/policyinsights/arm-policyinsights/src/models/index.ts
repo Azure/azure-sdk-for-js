@@ -255,7 +255,7 @@ export interface Remediation {
   /** The way resources to remediate are discovered. Defaults to ExistingNonCompliant if not specified. */
   resourceDiscoveryMode?: ResourceDiscoveryMode;
   /**
-   * The status of the remediation.
+   * The status of the remediation. This refers to the entire remediation task, not individual deployments. Allowed values are Evaluating, Canceled, Cancelling, Failed, Complete, or Succeeded.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
@@ -882,6 +882,8 @@ export interface CheckRestrictionsRequest {
   resourceDetails: CheckRestrictionsResourceDetails;
   /** The list of fields and values that should be evaluated for potential restrictions. */
   pendingFields?: PendingField[];
+  /** Whether to include policies with the 'audit' effect in the results. Defaults to false. */
+  includeAuditEffect?: boolean;
 }
 
 /** The information about the resource that will be evaluated. */
@@ -949,6 +951,16 @@ export interface FieldRestriction {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly policy?: PolicyReference;
+  /**
+   * The effect of the policy that is causing the field restriction. http://aka.ms/policyeffects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyEffect?: string;
+  /**
+   * The reason for the restriction.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
 }
 
 /** Resource identifiers for a policy. */
@@ -997,7 +1009,34 @@ export interface PolicyEvaluationResult {
    * The detailed results of the policy expressions and values that were evaluated.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly evaluationDetails?: PolicyEvaluationDetails;
+  readonly evaluationDetails?: CheckRestrictionEvaluationDetails;
+  /**
+   * The details of the effect that was applied to the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectDetails?: PolicyEffectDetails;
+}
+
+/** Policy evaluation details. */
+export interface CheckRestrictionEvaluationDetails {
+  /** Details of the evaluated expressions. */
+  evaluatedExpressions?: ExpressionEvaluationDetails[];
+  /** Evaluation details of IfNotExists effect. */
+  ifNotExistsDetails?: IfNotExistsEvaluationDetails;
+  /**
+   * The reason for the evaluation result.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly reason?: string;
+}
+
+/** The details of the effect that was applied to the resource. */
+export interface PolicyEffectDetails {
+  /**
+   * The effect that was applied to the resource. http://aka.ms/policyeffects
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly policyEffect?: string;
 }
 
 /** The check policy restrictions parameters describing the resource that is being evaluated. */
@@ -1410,7 +1449,7 @@ export interface QueryOptions {
 /** Known values of {@link PolicyTrackedResourcesResourceType} that the service accepts. */
 export enum KnownPolicyTrackedResourcesResourceType {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -1427,7 +1466,7 @@ export enum KnownResourceDiscoveryMode {
   /** Remediate resources that are already known to be non-compliant. */
   ExistingNonCompliant = "ExistingNonCompliant",
   /** Re-evaluate the compliance state of resources and then remediate the resources found to be non-compliant. */
-  ReEvaluateCompliance = "ReEvaluateCompliance"
+  ReEvaluateCompliance = "ReEvaluateCompliance",
 }
 
 /**
@@ -1449,7 +1488,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -1467,7 +1506,7 @@ export type CreatedByType = string;
 /** Known values of {@link PolicyEventsResourceType} that the service accepts. */
 export enum KnownPolicyEventsResourceType {
   /** Default */
-  Default = "default"
+  Default = "default",
 }
 
 /**
@@ -1484,7 +1523,7 @@ export enum KnownPolicyStatesResource {
   /** Default */
   Default = "default",
   /** Latest */
-  Latest = "latest"
+  Latest = "latest",
 }
 
 /**
@@ -1500,7 +1539,7 @@ export type PolicyStatesResource = string;
 /** Known values of {@link PolicyStatesSummaryResourceType} that the service accepts. */
 export enum KnownPolicyStatesSummaryResourceType {
   /** Latest */
-  Latest = "latest"
+  Latest = "latest",
 }
 
 /**
@@ -1514,12 +1553,14 @@ export type PolicyStatesSummaryResourceType = string;
 
 /** Known values of {@link FieldRestrictionResult} that the service accepts. */
 export enum KnownFieldRestrictionResult {
-  /** The field and/or values are required by policy. */
+  /** The field and\/or values are required by policy. */
   Required = "Required",
   /** The field will be removed by policy. */
   Removed = "Removed",
-  /** The field and/or values will be denied by policy. */
-  Deny = "Deny"
+  /** The field and\/or values will be denied by policy. */
+  Deny = "Deny",
+  /** The field and\/or values will be audited by policy. */
+  Audit = "Audit",
 }
 
 /**
@@ -1529,14 +1570,15 @@ export enum KnownFieldRestrictionResult {
  * ### Known values supported by the service
  * **Required**: The field and\/or values are required by policy. \
  * **Removed**: The field will be removed by policy. \
- * **Deny**: The field and\/or values will be denied by policy.
+ * **Deny**: The field and\/or values will be denied by policy. \
+ * **Audit**: The field and\/or values will be audited by policy.
  */
 export type FieldRestrictionResult = string;
 
 /** Known values of {@link ComponentPolicyStatesResource} that the service accepts. */
 export enum KnownComponentPolicyStatesResource {
   /** Latest */
-  Latest = "latest"
+  Latest = "latest",
 }
 
 /**
@@ -1555,7 +1597,7 @@ export enum KnownComplianceState {
   /** The resource is not in compliance with the policy. */
   NonCompliant = "NonCompliant",
   /** The compliance state of the resource is not known. */
-  Unknown = "Unknown"
+  Unknown = "Unknown",
 }
 
 /**
@@ -1577,7 +1619,8 @@ export interface PolicyTrackedResourcesListQueryResultsForManagementGroupOptiona
 }
 
 /** Contains response data for the listQueryResultsForManagementGroup operation. */
-export type PolicyTrackedResourcesListQueryResultsForManagementGroupResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForManagementGroupResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
@@ -1587,7 +1630,8 @@ export interface PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalPa
 }
 
 /** Contains response data for the listQueryResultsForSubscription operation. */
-export type PolicyTrackedResourcesListQueryResultsForSubscriptionResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForSubscriptionResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
@@ -1597,7 +1641,8 @@ export interface PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalP
 }
 
 /** Contains response data for the listQueryResultsForResourceGroup operation. */
-export type PolicyTrackedResourcesListQueryResultsForResourceGroupResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForResourceGroupResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
@@ -1607,35 +1652,40 @@ export interface PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResource operation. */
-export type PolicyTrackedResourcesListQueryResultsForResourceResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForResourceResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForManagementGroupNext operation. */
-export type PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForSubscriptionNext operation. */
-export type PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceGroupNext operation. */
-export type PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceNext operation. */
-export type PolicyTrackedResourcesListQueryResultsForResourceNextResponse = PolicyTrackedResourcesQueryResults;
+export type PolicyTrackedResourcesListQueryResultsForResourceNextResponse =
+  PolicyTrackedResourcesQueryResults;
 
 /** Optional parameters. */
 export interface RemediationsListDeploymentsAtManagementGroupOptionalParams
@@ -1645,7 +1695,8 @@ export interface RemediationsListDeploymentsAtManagementGroupOptionalParams
 }
 
 /** Contains response data for the listDeploymentsAtManagementGroup operation. */
-export type RemediationsListDeploymentsAtManagementGroupResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtManagementGroupResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsCancelAtManagementGroupOptionalParams
@@ -1693,7 +1744,8 @@ export interface RemediationsListDeploymentsAtSubscriptionOptionalParams
 }
 
 /** Contains response data for the listDeploymentsAtSubscription operation. */
-export type RemediationsListDeploymentsAtSubscriptionResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtSubscriptionResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsCancelAtSubscriptionOptionalParams
@@ -1741,7 +1793,8 @@ export interface RemediationsListDeploymentsAtResourceGroupOptionalParams
 }
 
 /** Contains response data for the listDeploymentsAtResourceGroup operation. */
-export type RemediationsListDeploymentsAtResourceGroupResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtResourceGroupResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsCancelAtResourceGroupOptionalParams
@@ -1789,7 +1842,8 @@ export interface RemediationsListDeploymentsAtResourceOptionalParams
 }
 
 /** Contains response data for the listDeploymentsAtResource operation. */
-export type RemediationsListDeploymentsAtResourceResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtResourceResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsCancelAtResourceOptionalParams
@@ -1834,21 +1888,24 @@ export interface RemediationsListDeploymentsAtManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsAtManagementGroupNext operation. */
-export type RemediationsListDeploymentsAtManagementGroupNextResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtManagementGroupNextResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsListForManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForManagementGroupNext operation. */
-export type RemediationsListForManagementGroupNextResponse = RemediationListResult;
+export type RemediationsListForManagementGroupNextResponse =
+  RemediationListResult;
 
 /** Optional parameters. */
 export interface RemediationsListDeploymentsAtSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsAtSubscriptionNext operation. */
-export type RemediationsListDeploymentsAtSubscriptionNextResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtSubscriptionNextResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsListForSubscriptionNextOptionalParams
@@ -1862,21 +1919,24 @@ export interface RemediationsListDeploymentsAtResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsAtResourceGroupNext operation. */
-export type RemediationsListDeploymentsAtResourceGroupNextResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtResourceGroupNextResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsListForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
-export type RemediationsListForResourceGroupNextResponse = RemediationListResult;
+export type RemediationsListForResourceGroupNextResponse =
+  RemediationListResult;
 
 /** Optional parameters. */
 export interface RemediationsListDeploymentsAtResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDeploymentsAtResourceNext operation. */
-export type RemediationsListDeploymentsAtResourceNextResponse = RemediationDeploymentsListResult;
+export type RemediationsListDeploymentsAtResourceNextResponse =
+  RemediationDeploymentsListResult;
 
 /** Optional parameters. */
 export interface RemediationsListForResourceNextOptionalParams
@@ -1893,7 +1953,8 @@ export interface PolicyEventsListQueryResultsForManagementGroupOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForManagementGroup operation. */
-export type PolicyEventsListQueryResultsForManagementGroupResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForManagementGroupResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams
@@ -1903,7 +1964,8 @@ export interface PolicyEventsListQueryResultsForSubscriptionOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForSubscription operation. */
-export type PolicyEventsListQueryResultsForSubscriptionResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForSubscriptionResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams
@@ -1913,7 +1975,8 @@ export interface PolicyEventsListQueryResultsForResourceGroupOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResourceGroup operation. */
-export type PolicyEventsListQueryResultsForResourceGroupResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceGroupResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceOptionalParams
@@ -1923,7 +1986,8 @@ export interface PolicyEventsListQueryResultsForResourceOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResource operation. */
-export type PolicyEventsListQueryResultsForResourceResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParams
@@ -1933,7 +1997,8 @@ export interface PolicyEventsListQueryResultsForPolicySetDefinitionOptionalParam
 }
 
 /** Contains response data for the listQueryResultsForPolicySetDefinition operation. */
-export type PolicyEventsListQueryResultsForPolicySetDefinitionResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForPolicySetDefinitionResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
@@ -1943,7 +2008,8 @@ export interface PolicyEventsListQueryResultsForPolicyDefinitionOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForPolicyDefinition operation. */
-export type PolicyEventsListQueryResultsForPolicyDefinitionResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForPolicyDefinitionResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
@@ -1953,7 +2019,8 @@ export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmen
 }
 
 /** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignment operation. */
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
@@ -1963,63 +2030,72 @@ export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignme
 }
 
 /** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignment operation. */
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForManagementGroupNext operation. */
-export type PolicyEventsListQueryResultsForManagementGroupNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForManagementGroupNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForSubscriptionNext operation. */
-export type PolicyEventsListQueryResultsForSubscriptionNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForSubscriptionNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceGroupNext operation. */
-export type PolicyEventsListQueryResultsForResourceGroupNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceGroupNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceNext operation. */
-export type PolicyEventsListQueryResultsForResourceNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForPolicySetDefinitionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForPolicySetDefinitionNext operation. */
-export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForPolicySetDefinitionNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForPolicyDefinitionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForPolicyDefinitionNext operation. */
-export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForPolicyDefinitionNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignmentNext operation. */
-export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignmentNext operation. */
-export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyEventsQueryResults;
+export type PolicyEventsListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse =
+  PolicyEventsQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams
@@ -2029,7 +2105,8 @@ export interface PolicyStatesListQueryResultsForManagementGroupOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForManagementGroup operation. */
-export type PolicyStatesListQueryResultsForManagementGroupResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForManagementGroupResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForManagementGroupOptionalParams
@@ -2049,7 +2126,8 @@ export interface PolicyStatesListQueryResultsForSubscriptionOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForSubscription operation. */
-export type PolicyStatesListQueryResultsForSubscriptionResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForSubscriptionResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForSubscriptionOptionalParams
@@ -2069,7 +2147,8 @@ export interface PolicyStatesListQueryResultsForResourceGroupOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResourceGroup operation. */
-export type PolicyStatesListQueryResultsForResourceGroupResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceGroupResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForResourceGroupOptionalParams
@@ -2089,7 +2168,8 @@ export interface PolicyStatesListQueryResultsForResourceOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResource operation. */
-export type PolicyStatesListQueryResultsForResourceResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForResourceOptionalParams
@@ -2127,7 +2207,8 @@ export interface PolicyStatesListQueryResultsForPolicySetDefinitionOptionalParam
 }
 
 /** Contains response data for the listQueryResultsForPolicySetDefinition operation. */
-export type PolicyStatesListQueryResultsForPolicySetDefinitionResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForPolicySetDefinitionResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
@@ -2137,7 +2218,8 @@ export interface PolicyStatesSummarizeForPolicySetDefinitionOptionalParams
 }
 
 /** Contains response data for the summarizeForPolicySetDefinition operation. */
-export type PolicyStatesSummarizeForPolicySetDefinitionResponse = SummarizeResults;
+export type PolicyStatesSummarizeForPolicySetDefinitionResponse =
+  SummarizeResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
@@ -2147,7 +2229,8 @@ export interface PolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForPolicyDefinition operation. */
-export type PolicyStatesListQueryResultsForPolicyDefinitionResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForPolicyDefinitionResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForPolicyDefinitionOptionalParams
@@ -2167,7 +2250,8 @@ export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmen
 }
 
 /** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignment operation. */
-export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOptionalParams
@@ -2177,7 +2261,8 @@ export interface PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentOption
 }
 
 /** Contains response data for the summarizeForSubscriptionLevelPolicyAssignment operation. */
-export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse = SummarizeResults;
+export type PolicyStatesSummarizeForSubscriptionLevelPolicyAssignmentResponse =
+  SummarizeResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
@@ -2187,7 +2272,8 @@ export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignme
 }
 
 /** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignment operation. */
-export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptionalParams
@@ -2197,63 +2283,72 @@ export interface PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentOptio
 }
 
 /** Contains response data for the summarizeForResourceGroupLevelPolicyAssignment operation. */
-export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse = SummarizeResults;
+export type PolicyStatesSummarizeForResourceGroupLevelPolicyAssignmentResponse =
+  SummarizeResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForManagementGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForManagementGroupNext operation. */
-export type PolicyStatesListQueryResultsForManagementGroupNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForManagementGroupNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForSubscriptionNext operation. */
-export type PolicyStatesListQueryResultsForSubscriptionNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForSubscriptionNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceGroupNext operation. */
-export type PolicyStatesListQueryResultsForResourceGroupNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceGroupNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceNext operation. */
-export type PolicyStatesListQueryResultsForResourceNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForPolicySetDefinitionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForPolicySetDefinitionNext operation. */
-export type PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForPolicySetDefinitionNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForPolicyDefinitionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForPolicyDefinitionNext operation. */
-export type PolicyStatesListQueryResultsForPolicyDefinitionNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForPolicyDefinitionNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignmentNext operation. */
-export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignmentNext operation. */
-export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse = PolicyStatesQueryResults;
+export type PolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentNextResponse =
+  PolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface PolicyMetadataGetResourceOptionalParams
@@ -2284,21 +2379,24 @@ export interface PolicyRestrictionsCheckAtSubscriptionScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAtSubscriptionScope operation. */
-export type PolicyRestrictionsCheckAtSubscriptionScopeResponse = CheckRestrictionsResult;
+export type PolicyRestrictionsCheckAtSubscriptionScopeResponse =
+  CheckRestrictionsResult;
 
 /** Optional parameters. */
 export interface PolicyRestrictionsCheckAtResourceGroupScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAtResourceGroupScope operation. */
-export type PolicyRestrictionsCheckAtResourceGroupScopeResponse = CheckRestrictionsResult;
+export type PolicyRestrictionsCheckAtResourceGroupScopeResponse =
+  CheckRestrictionsResult;
 
 /** Optional parameters. */
 export interface PolicyRestrictionsCheckAtManagementGroupScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkAtManagementGroupScope operation. */
-export type PolicyRestrictionsCheckAtManagementGroupScopeResponse = CheckRestrictionsResult;
+export type PolicyRestrictionsCheckAtManagementGroupScopeResponse =
+  CheckRestrictionsResult;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
@@ -2310,7 +2408,7 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalPar
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2320,7 +2418,8 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalPar
 }
 
 /** Contains response data for the listQueryResultsForSubscription operation. */
-export type ComponentPolicyStatesListQueryResultsForSubscriptionResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForSubscriptionResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
@@ -2332,7 +2431,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalPa
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2342,7 +2441,8 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalPa
 }
 
 /** Contains response data for the listQueryResultsForResourceGroup operation. */
-export type ComponentPolicyStatesListQueryResultsForResourceGroupResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForResourceGroupResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
@@ -2354,7 +2454,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2366,7 +2466,8 @@ export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
 }
 
 /** Contains response data for the listQueryResultsForResource operation. */
-export type ComponentPolicyStatesListQueryResultsForResourceResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForResourceResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
@@ -2378,7 +2479,7 @@ export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptiona
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2388,7 +2489,8 @@ export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptiona
 }
 
 /** Contains response data for the listQueryResultsForPolicyDefinition operation. */
-export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
@@ -2400,7 +2502,7 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicy
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2410,7 +2512,8 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicy
 }
 
 /** Contains response data for the listQueryResultsForSubscriptionLevelPolicyAssignment operation. */
-export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
@@ -2422,7 +2525,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolic
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  from?: Date;
+  fromParam?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2432,7 +2535,8 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolic
 }
 
 /** Contains response data for the listQueryResultsForResourceGroupLevelPolicyAssignment operation. */
-export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse = ComponentPolicyStatesQueryResults;
+export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse =
+  ComponentPolicyStatesQueryResults;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -2552,7 +2656,8 @@ export interface AttestationsListForResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listForResourceGroupNext operation. */
-export type AttestationsListForResourceGroupNextResponse = AttestationListResult;
+export type AttestationsListForResourceGroupNextResponse =
+  AttestationListResult;
 
 /** Optional parameters. */
 export interface AttestationsListForResourceNextOptionalParams

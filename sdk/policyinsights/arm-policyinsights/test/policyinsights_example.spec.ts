@@ -64,4 +64,24 @@ describe("policyinsights test", () => {
     }
     assert.equal(resArray.length, 0);
   });
+
+  it.only("policyEvents list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.policyEvents.listQueryResultsForResourceGroup("latest", subscriptionId, resourceGroup, {
+      queryOptions: { from: new Date("2023-01-01T00:00:00Z") }
+    })) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
+
+  it.only("policyStates list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.policyStates.listQueryResultsForResourceGroup("latest", subscriptionId, resourceGroup, {
+      queryOptions: { from: new Date("2023-01-01T00:00:00Z") }
+    })) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 })

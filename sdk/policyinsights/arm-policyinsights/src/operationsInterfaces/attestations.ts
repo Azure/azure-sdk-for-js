@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Attestation,
   AttestationsListForSubscriptionOptionalParams,
@@ -27,7 +27,7 @@ import {
   AttestationsCreateOrUpdateAtResourceResponse,
   AttestationsGetAtResourceOptionalParams,
   AttestationsGetAtResourceResponse,
-  AttestationsDeleteAtResourceOptionalParams
+  AttestationsDeleteAtResourceOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export interface Attestations {
    * @param options The options parameters.
    */
   listForSubscription(
-    options?: AttestationsListForSubscriptionOptionalParams
+    options?: AttestationsListForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Attestation>;
   /**
    * Gets all attestations for the resource group.
@@ -47,7 +47,7 @@ export interface Attestations {
    */
   listForResourceGroup(
     resourceGroupName: string,
-    options?: AttestationsListForResourceGroupOptionalParams
+    options?: AttestationsListForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Attestation>;
   /**
    * Gets all attestations for a resource.
@@ -56,7 +56,7 @@ export interface Attestations {
    */
   listForResource(
     resourceId: string,
-    options?: AttestationsListForResourceOptionalParams
+    options?: AttestationsListForResourceOptionalParams,
   ): PagedAsyncIterableIterator<Attestation>;
   /**
    * Creates or updates an attestation at subscription scope.
@@ -67,10 +67,10 @@ export interface Attestations {
   beginCreateOrUpdateAtSubscription(
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtSubscriptionResponse>,
       AttestationsCreateOrUpdateAtSubscriptionResponse
     >
   >;
@@ -83,7 +83,7 @@ export interface Attestations {
   beginCreateOrUpdateAtSubscriptionAndWait(
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams
+    options?: AttestationsCreateOrUpdateAtSubscriptionOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtSubscriptionResponse>;
   /**
    * Gets an existing attestation at subscription scope.
@@ -92,7 +92,7 @@ export interface Attestations {
    */
   getAtSubscription(
     attestationName: string,
-    options?: AttestationsGetAtSubscriptionOptionalParams
+    options?: AttestationsGetAtSubscriptionOptionalParams,
   ): Promise<AttestationsGetAtSubscriptionResponse>;
   /**
    * Deletes an existing attestation at subscription scope.
@@ -101,7 +101,7 @@ export interface Attestations {
    */
   deleteAtSubscription(
     attestationName: string,
-    options?: AttestationsDeleteAtSubscriptionOptionalParams
+    options?: AttestationsDeleteAtSubscriptionOptionalParams,
   ): Promise<void>;
   /**
    * Creates or updates an attestation at resource group scope.
@@ -114,10 +114,10 @@ export interface Attestations {
     resourceGroupName: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceGroupResponse>,
       AttestationsCreateOrUpdateAtResourceGroupResponse
     >
   >;
@@ -132,7 +132,7 @@ export interface Attestations {
     resourceGroupName: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceGroupOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtResourceGroupResponse>;
   /**
    * Gets an existing attestation at resource group scope.
@@ -143,7 +143,7 @@ export interface Attestations {
   getAtResourceGroup(
     resourceGroupName: string,
     attestationName: string,
-    options?: AttestationsGetAtResourceGroupOptionalParams
+    options?: AttestationsGetAtResourceGroupOptionalParams,
   ): Promise<AttestationsGetAtResourceGroupResponse>;
   /**
    * Deletes an existing attestation at resource group scope.
@@ -154,7 +154,7 @@ export interface Attestations {
   deleteAtResourceGroup(
     resourceGroupName: string,
     attestationName: string,
-    options?: AttestationsDeleteAtResourceGroupOptionalParams
+    options?: AttestationsDeleteAtResourceGroupOptionalParams,
   ): Promise<void>;
   /**
    * Creates or updates an attestation at resource scope.
@@ -167,10 +167,10 @@ export interface Attestations {
     resourceId: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<AttestationsCreateOrUpdateAtResourceResponse>,
+    SimplePollerLike<
+      OperationState<AttestationsCreateOrUpdateAtResourceResponse>,
       AttestationsCreateOrUpdateAtResourceResponse
     >
   >;
@@ -185,7 +185,7 @@ export interface Attestations {
     resourceId: string,
     attestationName: string,
     parameters: Attestation,
-    options?: AttestationsCreateOrUpdateAtResourceOptionalParams
+    options?: AttestationsCreateOrUpdateAtResourceOptionalParams,
   ): Promise<AttestationsCreateOrUpdateAtResourceResponse>;
   /**
    * Gets an existing attestation at resource scope.
@@ -196,7 +196,7 @@ export interface Attestations {
   getAtResource(
     resourceId: string,
     attestationName: string,
-    options?: AttestationsGetAtResourceOptionalParams
+    options?: AttestationsGetAtResourceOptionalParams,
   ): Promise<AttestationsGetAtResourceResponse>;
   /**
    * Deletes an existing attestation at individual resource scope.
@@ -207,6 +207,6 @@ export interface Attestations {
   deleteAtResource(
     resourceId: string,
     attestationName: string,
-    options?: AttestationsDeleteAtResourceOptionalParams
+    options?: AttestationsDeleteAtResourceOptionalParams,
   ): Promise<void>;
 }

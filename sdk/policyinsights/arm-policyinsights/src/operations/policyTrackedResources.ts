@@ -31,7 +31,7 @@ import {
   PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse,
   PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse,
   PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse,
-  PolicyTrackedResourcesListQueryResultsForResourceNextResponse
+  PolicyTrackedResourcesListQueryResultsForResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +57,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   public listQueryResultsForManagementGroup(
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForManagementGroupPagingAll(
       managementGroupName,
       policyTrackedResourcesResource,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +79,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
           managementGroupName,
           policyTrackedResourcesResource,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +89,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result: PolicyTrackedResourcesListQueryResultsForManagementGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +97,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       result = await this._listQueryResultsForManagementGroup(
         managementGroupName,
         policyTrackedResourcesResource,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         managementGroupName,
         policyTrackedResourcesResource,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +121,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForManagementGroupPagingAll(
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForManagementGroupPagingPage(
       managementGroupName,
       policyTrackedResourcesResource,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
    */
   public listQueryResultsForSubscription(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForSubscriptionPagingAll(
       policyTrackedResourcesResource,
-      options
+      options,
     );
     return {
       next() {
@@ -160,23 +160,23 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         return this.listQueryResultsForSubscriptionPagingPage(
           policyTrackedResourcesResource,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listQueryResultsForSubscriptionPagingPage(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result: PolicyTrackedResourcesListQueryResultsForSubscriptionResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
       result = await this._listQueryResultsForSubscription(
         policyTrackedResourcesResource,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -187,7 +187,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       result = await this._listQueryResultsForSubscriptionNext(
         policyTrackedResourcesResource,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -198,11 +198,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
 
   private async *listQueryResultsForSubscriptionPagingAll(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForSubscriptionPagingPage(
       policyTrackedResourcesResource,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -218,12 +218,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   public listQueryResultsForResourceGroup(
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForResourceGroupPagingAll(
       resourceGroupName,
       policyTrackedResourcesResource,
-      options
+      options,
     );
     return {
       next() {
@@ -240,9 +240,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
           resourceGroupName,
           policyTrackedResourcesResource,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -250,7 +250,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result: PolicyTrackedResourcesListQueryResultsForResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -258,7 +258,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       result = await this._listQueryResultsForResourceGroup(
         resourceGroupName,
         policyTrackedResourcesResource,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -270,7 +270,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         resourceGroupName,
         policyTrackedResourcesResource,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -282,12 +282,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForResourceGroupPagingAll(
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForResourceGroupPagingPage(
       resourceGroupName,
       policyTrackedResourcesResource,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -303,12 +303,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   public listQueryResultsForResource(
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
   ): PagedAsyncIterableIterator<PolicyTrackedResource> {
     const iter = this.listQueryResultsForResourcePagingAll(
       resourceId,
       policyTrackedResourcesResource,
-      options
+      options,
     );
     return {
       next() {
@@ -325,9 +325,9 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
           resourceId,
           policyTrackedResourcesResource,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -335,7 +335,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PolicyTrackedResource[]> {
     let result: PolicyTrackedResourcesListQueryResultsForResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -343,7 +343,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
       result = await this._listQueryResultsForResource(
         resourceId,
         policyTrackedResourcesResource,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -355,7 +355,7 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
         resourceId,
         policyTrackedResourcesResource,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -367,12 +367,12 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private async *listQueryResultsForResourcePagingAll(
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
   ): AsyncIterableIterator<PolicyTrackedResource> {
     for await (const page of this.listQueryResultsForResourcePagingPage(
       resourceId,
       policyTrackedResourcesResource,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -388,11 +388,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private _listQueryResultsForManagementGroup(
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupOptionalParams,
   ): Promise<PolicyTrackedResourcesListQueryResultsForManagementGroupResponse> {
     return this.client.sendOperationRequest(
       { managementGroupName, policyTrackedResourcesResource, options },
-      listQueryResultsForManagementGroupOperationSpec
+      listQueryResultsForManagementGroupOperationSpec,
     );
   }
 
@@ -404,11 +404,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
    */
   private _listQueryResultsForSubscription(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionOptionalParams,
   ): Promise<PolicyTrackedResourcesListQueryResultsForSubscriptionResponse> {
     return this.client.sendOperationRequest(
       { policyTrackedResourcesResource, options },
-      listQueryResultsForSubscriptionOperationSpec
+      listQueryResultsForSubscriptionOperationSpec,
     );
   }
 
@@ -422,11 +422,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private _listQueryResultsForResourceGroup(
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupOptionalParams,
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, policyTrackedResourcesResource, options },
-      listQueryResultsForResourceGroupOperationSpec
+      listQueryResultsForResourceGroupOperationSpec,
     );
   }
 
@@ -440,11 +440,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private _listQueryResultsForResource(
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceOptionalParams,
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceId, policyTrackedResourcesResource, options },
-      listQueryResultsForResourceOperationSpec
+      listQueryResultsForResourceOperationSpec,
     );
   }
 
@@ -461,18 +461,16 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     managementGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
-    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams
-  ): Promise<
-    PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse
-  > {
+    options?: PolicyTrackedResourcesListQueryResultsForManagementGroupNextOptionalParams,
+  ): Promise<PolicyTrackedResourcesListQueryResultsForManagementGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupName,
         policyTrackedResourcesResource,
         nextLink,
-        options
+        options,
       },
-      listQueryResultsForManagementGroupNextOperationSpec
+      listQueryResultsForManagementGroupNextOperationSpec,
     );
   }
 
@@ -487,13 +485,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
   private _listQueryResultsForSubscriptionNext(
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
-    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams
-  ): Promise<
-    PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse
-  > {
+    options?: PolicyTrackedResourcesListQueryResultsForSubscriptionNextOptionalParams,
+  ): Promise<PolicyTrackedResourcesListQueryResultsForSubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { policyTrackedResourcesResource, nextLink, options },
-      listQueryResultsForSubscriptionNextOperationSpec
+      listQueryResultsForSubscriptionNextOperationSpec,
     );
   }
 
@@ -510,13 +506,11 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     resourceGroupName: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams
-  ): Promise<
-    PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse
-  > {
+    options?: PolicyTrackedResourcesListQueryResultsForResourceGroupNextOptionalParams,
+  ): Promise<PolicyTrackedResourcesListQueryResultsForResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, policyTrackedResourcesResource, nextLink, options },
-      listQueryResultsForResourceGroupNextOperationSpec
+      listQueryResultsForResourceGroupNextOperationSpec,
     );
   }
 
@@ -533,182 +527,183 @@ export class PolicyTrackedResourcesImpl implements PolicyTrackedResources {
     resourceId: string,
     policyTrackedResourcesResource: PolicyTrackedResourcesResourceType,
     nextLink: string,
-    options?: PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams
+    options?: PolicyTrackedResourcesListQueryResultsForResourceNextOptionalParams,
   ): Promise<PolicyTrackedResourcesListQueryResultsForResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceId, policyTrackedResourcesResource, nextLink, options },
-      listQueryResultsForResourceNextOperationSpec
+      listQueryResultsForResourceNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+const listQueryResultsForManagementGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/providers/{managementGroupsNamespace}/managementGroups/{managementGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.policyTrackedResourcesResource
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.policyTrackedResourcesResource,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForSubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyTrackedResourcesResource,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+      bodyMapper: Mappers.QueryFailure,
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+const listQueryResultsForResourceGroupOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
+    httpMethod: "POST",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
+    },
+    queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyTrackedResourcesResource,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceId}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
+  path: "/{resourceId}/providers/Microsoft.PolicyInsights/policyTrackedResources/{policyTrackedResourcesResource}/queryResults",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   queryParameters: [Parameters.top, Parameters.filter, Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,
-    Parameters.resourceId
+    Parameters.resourceId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+const listQueryResultsForManagementGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.managementGroupsNamespace,
-    Parameters.managementGroupName,
-    Parameters.policyTrackedResourcesResource,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.managementGroupsNamespace,
+      Parameters.managementGroupName,
+      Parameters.policyTrackedResourcesResource,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForSubscriptionNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyTrackedResourcesResource,
-    Parameters.subscriptionId,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyTrackedResourcesResource,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listQueryResultsForResourceGroupNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
+      },
+      default: {
+        bodyMapper: Mappers.QueryFailure,
+      },
     },
-    default: {
-      bodyMapper: Mappers.QueryFailure
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.policyTrackedResourcesResource,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.nextLink
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+    urlParameters: [
+      Parameters.$host,
+      Parameters.policyTrackedResourcesResource,
+      Parameters.subscriptionId,
+      Parameters.resourceGroupName,
+      Parameters.nextLink,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const listQueryResultsForResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults
+      bodyMapper: Mappers.PolicyTrackedResourcesQueryResults,
     },
     default: {
-      bodyMapper: Mappers.QueryFailure
-    }
+      bodyMapper: Mappers.QueryFailure,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.policyTrackedResourcesResource,
     Parameters.resourceId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

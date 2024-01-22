@@ -19,7 +19,7 @@ import {
   ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
   ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse,
   ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
-  ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
+  ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse,
 } from "../models";
 
 /** Interface representing a ComponentPolicyStates. */
@@ -34,7 +34,7 @@ export interface ComponentPolicyStates {
   listQueryResultsForSubscription(
     subscriptionId: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionResponse>;
   /**
    * Queries component policy states under resource group scope.
@@ -48,7 +48,7 @@ export interface ComponentPolicyStates {
     subscriptionId: string,
     resourceGroupName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupResponse>;
   /**
    * Queries component policy states for the resource.
@@ -60,7 +60,7 @@ export interface ComponentPolicyStates {
   listQueryResultsForResource(
     resourceId: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForResourceOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForResourceResponse>;
   /**
    * Queries component policy states for the subscription level policy definition.
@@ -74,7 +74,7 @@ export interface ComponentPolicyStates {
     subscriptionId: string,
     policyDefinitionName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams
+    options?: ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams,
   ): Promise<ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse>;
   /**
    * Queries component policy states for the subscription level policy assignment.
@@ -88,10 +88,8 @@ export interface ComponentPolicyStates {
     subscriptionId: string,
     policyAssignmentName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse
-  >;
+    options?: ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams,
+  ): Promise<ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentResponse>;
   /**
    * Queries component policy states for the resource group level policy assignment.
    * @param subscriptionId Microsoft Azure subscription ID.
@@ -106,8 +104,6 @@ export interface ComponentPolicyStates {
     resourceGroupName: string,
     policyAssignmentName: string,
     componentPolicyStatesResource: ComponentPolicyStatesResource,
-    options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams
-  ): Promise<
-    ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse
-  >;
+    options?: ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams,
+  ): Promise<ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentResponse>;
 }
