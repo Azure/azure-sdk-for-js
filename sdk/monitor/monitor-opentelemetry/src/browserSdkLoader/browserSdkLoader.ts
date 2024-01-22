@@ -9,7 +9,7 @@ import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
-import { IBrowserSdkLoaderConfig } from "../shared/types";
+import { BrowserSdkLoaderConfig } from "../shared/types";
 
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
@@ -19,7 +19,7 @@ export class BrowserSdkLoader {
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _browserSdkLoaderIkey?: string;
-  private _clientBrowserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
+  private _clientBrowserSdkLoaderConfig?: BrowserSdkLoaderConfig;
   private _clientBrowserSdkLoaderSrc?: string;
 
   constructor(config: InternalConfig) {
@@ -105,12 +105,12 @@ export class BrowserSdkLoader {
   //      config3: 1,
   //      ...
   //}});
-  private _getClientBrowserSdkLoaderConfigStr(config?: IBrowserSdkLoaderConfig) {
+  private _getClientBrowserSdkLoaderConfigStr(config?: BrowserSdkLoaderConfig) {
     let configStr = "";
     try {
       if (!!config && Object.keys(config).length > 0) {
         for (let key in config) {
-          const value = config[key as keyof IBrowserSdkLoaderConfig];
+          const value = config[key as keyof BrowserSdkLoaderConfig];
           let entry = "";
           // NOTE: users should convert object/function to string themselves
           // Type "function" and "object" will be skipped!

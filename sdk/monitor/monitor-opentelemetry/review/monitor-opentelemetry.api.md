@@ -20,15 +20,7 @@ export interface AzureMonitorOpenTelemetryOptions {
 }
 
 // @public
-export interface BrowserSdkLoaderOptions {
-    config?: IBrowserSdkLoaderConfig;
-    connectionString?: string;
-    enabled?: boolean;
-    src?: string;
-}
-
-// @public
-export interface IBrowserSdkLoaderConfig {
+export interface BrowserSdkLoaderConfig {
     cfg: string;
     crossOrigin?: string;
     ld?: number;
@@ -39,8 +31,17 @@ export interface IBrowserSdkLoaderConfig {
 }
 
 // @public
+export interface BrowserSdkLoaderOptions {
+    config?: BrowserSdkLoaderConfig;
+    connectionString?: string;
+    enabled?: boolean;
+    src?: string;
+}
+
+// @public
 export interface InstrumentationOptions {
     azureSdk?: InstrumentationConfig;
+    bunyan?: InstrumentationConfig;
     http?: InstrumentationConfig;
     mongoDb?: InstrumentationConfig;
     mySql?: InstrumentationConfig;
