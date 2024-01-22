@@ -22,13 +22,6 @@
 
 /design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
-################
-# Automation
-################
-
-# Git Hub integration and bot rules
-/.github/ @jsquire @ronniegeraghty
-
 ###########
 # SDK
 ###########
@@ -170,6 +163,12 @@
 
 # PRLabel: %OpenAI
 /sdk/openai/ @deyaaeldeen @minhanh-phan
+
+# PRLabel: %Image Analysis
+/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
+
+# ServiceLabel: %Image Analysis %Service Attention
+#/<NotInRepo>/ @rhurey @dargilco
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen

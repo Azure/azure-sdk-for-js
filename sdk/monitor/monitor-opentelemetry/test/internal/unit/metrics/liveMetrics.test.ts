@@ -9,7 +9,7 @@ import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
 import { InternalConfig } from "../../../../src/shared";
-import { QuickPulseMetricNames } from "../../../../src/metrics/quickpulse/types";
+import { QuickPulseOpenTelemetryMetricNames } from "../../../../src/metrics/quickpulse/types";
 
 describe("#LiveMetrics", () => {
   let exportStub: sinon.SinonStub;
@@ -103,7 +103,10 @@ describe("#LiveMetrics", () => {
     const metrics = scopeMetrics[0].metrics;
     assert.strictEqual(metrics.length, 9, "metrics count");
 
-    assert.strictEqual(metrics[0].descriptor.name, QuickPulseMetricNames.REQUEST_DURATION);
+    assert.strictEqual(
+      metrics[0].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
+    );
     assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
     assert.strictEqual(
       (metrics[0].dataPoints[0].value as Histogram).count,
@@ -125,7 +128,10 @@ describe("#LiveMetrics", () => {
       197930864,
       "REQUEST_DURATION dataPoint sum",
     );
-    assert.strictEqual(metrics[1].descriptor.name, QuickPulseMetricNames.DEPENDENCY_DURATION);
+    assert.strictEqual(
+      metrics[1].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
+    );
     assert.strictEqual(metrics[1].dataPoints.length, 1, "dataPoints count");
     assert.strictEqual(
       (metrics[1].dataPoints[0].value as Histogram).count,
@@ -147,25 +153,43 @@ describe("#LiveMetrics", () => {
       15045678,
       "DEPENDENCY_DURATION dataPoint sum",
     );
-    assert.strictEqual(metrics[2].descriptor.name, QuickPulseMetricNames.REQUEST_RATE);
+    assert.strictEqual(metrics[2].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
     assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[2].dataPoints[0].value > 0, "REQUEST_RATE value");
-    assert.strictEqual(metrics[3].descriptor.name, QuickPulseMetricNames.REQUEST_FAILURE_RATE);
+    assert.strictEqual(
+      metrics[3].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
+    );
     assert.strictEqual(metrics[3].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[3].dataPoints[0].value > 0, "REQUEST_FAILURE_RATE value");
-    assert.strictEqual(metrics[4].descriptor.name, QuickPulseMetricNames.DEPENDENCY_RATE);
+    assert.strictEqual(
+      metrics[4].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
+    );
     assert.strictEqual(metrics[4].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[4].dataPoints[0].value > 0, "DEPENDENCY_RATE value");
-    assert.strictEqual(metrics[5].descriptor.name, QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE);
+    assert.strictEqual(
+      metrics[5].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
+    );
     assert.strictEqual(metrics[5].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[5].dataPoints[0].value > 0, "DEPENDENCY_FAILURE_RATE value");
-    assert.strictEqual(metrics[6].descriptor.name, QuickPulseMetricNames.COMMITTED_BYTES);
+    assert.strictEqual(
+      metrics[6].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
+    );
     assert.strictEqual(metrics[6].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[6].dataPoints[0].value > 0, "COMMITTED_BYTES dataPoint value");
-    assert.strictEqual(metrics[7].descriptor.name, QuickPulseMetricNames.PROCESSOR_TIME);
+    assert.strictEqual(
+      metrics[7].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
+    );
     assert.strictEqual(metrics[7].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[7].dataPoints[0].value > 0, "PROCESSOR_TIME dataPoint value");
-    assert.strictEqual(metrics[8].descriptor.name, QuickPulseMetricNames.EXCEPTION_RATE);
+    assert.strictEqual(
+      metrics[8].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
+    );
     assert.strictEqual(metrics[8].dataPoints.length, 1, "dataPoints count");
     assert.ok(metrics[5].dataPoints[0].value > 0, "EXCEPTION_RATE value");
   });
