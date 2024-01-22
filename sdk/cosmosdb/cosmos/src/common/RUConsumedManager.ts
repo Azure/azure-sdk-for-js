@@ -25,17 +25,13 @@ export class RUConsumedManager {
     });
   }
 
-  setRUConsumed(newValue: number): void {
-    this.semaphore.take(() => {
-      this.ruConsumed = newValue;
-      this.semaphore.leave();
-    });
-  }
-
-  addToRUConsumed(value: number): void {
-    this.semaphore.take(() => {
-      this.ruConsumed += value;
-      this.semaphore.leave();
+  addToRUConsumed(value: number): Promise<void> {
+    return new Promise((resolve) => {
+      this.semaphore.take(() => {
+        this.ruConsumed += value;
+        resolve();
+        this.semaphore.leave();
+      });
     });
   }
 }
