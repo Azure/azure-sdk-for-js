@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 import { createStream } from "../../src/utils.js";
-import { Context } from "mocha";
 
 describe("createStream", () => {
   const createIter = async function* (): AsyncGenerator<number> {
@@ -32,7 +31,7 @@ describe("createStream", () => {
     assert.isTrue(canceled);
   });
 
-  it("creates disposable stream", async function (this: Context) {
+  it("creates disposable stream", async function () {
     let disposed = false;
     {
       await using stream = createStream(createIter(), async () => {
