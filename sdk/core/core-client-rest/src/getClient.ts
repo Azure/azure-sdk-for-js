@@ -14,6 +14,7 @@ import {
 } from "./common";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
+import { logger } from "./log";
 
 /**
  * Creates a client with a default pipeline
@@ -59,9 +60,13 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
+  const endpointUrl = endpoint ?? clientOptions.endpoint ?? clientOptions.baseUrl;
+  if (clientOptions.baseUrl && endpointUrl === clientOptions.baseUrl) {
+    logger.warning("The baseUrl parameter is deprecated. Please use endpoint instead.");
+  }
   const client = (path: string, ...args: Array<any>) => {
     const getUrl = (requestOptions: RequestParameters) =>
-      buildRequestUrl(endpoint, path, args, { allowInsecureConnection, ...requestOptions });
+      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
