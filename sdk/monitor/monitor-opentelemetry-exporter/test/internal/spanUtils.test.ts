@@ -245,7 +245,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -286,7 +286,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
     });
