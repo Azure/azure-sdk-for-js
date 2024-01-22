@@ -1,5 +1,11 @@
 # Release History
 
+## 4.0.1-beta.2 (2024-01-22)
+
+### Bugs Fixed
+- The earlier release version 4.0.1-beta.1 encountered compatibility issues with certain browser environments due to the disablement of SharedArrayBuffer. This version resolves that issue.
+
+
 ## 4.0.1-beta.1 (2024-01-17)
   
 ### Features Added
