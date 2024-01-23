@@ -10,10 +10,6 @@
 - Add Bunyan Log Instrumentation.
 - Implement Live Metrics.
 
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 - Add performance tests to pipeline.
