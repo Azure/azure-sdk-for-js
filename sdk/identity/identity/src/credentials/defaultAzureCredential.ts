@@ -30,7 +30,7 @@ const logger = credentialLogger("DefaultAzureCredential");
  *
  * @internal
  */
-function createDefaultManagedIdentityCredential(
+export function createDefaultManagedIdentityCredential(
   options?: DefaultAzureCredentialOptions,
 ): TokenCredential {
   const managedIdentityClientId =
@@ -159,7 +159,9 @@ function createDefaultAzurePowershellCredential(
  *
  * @internal
  */
-function createEnvironmentCredential(options: DefaultAzureCredentialOptions = {}): TokenCredential {
+export function createEnvironmentCredential(
+  options: DefaultAzureCredentialOptions = {},
+): TokenCredential {
   return new EnvironmentCredential(options);
 }
 
