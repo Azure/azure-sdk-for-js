@@ -317,7 +317,7 @@ az login --scope https://test.windows.net/.default`;
       stdout = `
         {
           "accessToken": "token",
-          "expires_on": "${testData.expires_on.inputValue}"
+          "expires_on": ${testData.expires_on.inputValue}
         }`;
       stderr = "";
       const credential = new AzureCliCredential();
@@ -342,7 +342,7 @@ az login --scope https://test.windows.net/.default`;
         {
           "accessToken": "token",
           "expiresOn": "${testData.expiresOn.inputValue}",
-          "expires_on": "${testData.expires_on.inputValue}"
+          "expires_on": ${testData.expires_on.inputValue}
         }`;
       stderr = "";
       const credential = new AzureCliCredential();
