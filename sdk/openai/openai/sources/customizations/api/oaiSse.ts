@@ -30,5 +30,5 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
     },
   });
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillStream(eventStream.pipeThrough(jsonParser), () => eventStream.cancel());
+  return polyfillStream(eventStream.pipeThrough(jsonParser));
 }
