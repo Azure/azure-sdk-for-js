@@ -31,7 +31,10 @@ const logger = credentialLogger("DefaultAzureCredential");
  * @internal
  */
 export function createDefaultManagedIdentityCredential(
-  options?: DefaultAzureCredentialOptions,
+  options?:
+    | DefaultAzureCredentialOptions
+    | DefaultAzureCredentialResourceIdOptions
+    | DefaultAzureCredentialClientIdOptions,
 ): TokenCredential {
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
@@ -83,7 +86,7 @@ export function createDefaultManagedIdentityCredential(
  * @internal
  */
 function createDefaultWorkloadIdentityCredential(
-  options?: DefaultAzureCredentialOptions,
+  options?: DefaultAzureCredentialOptions | DefaultAzureCredentialClientIdOptions,
 ): TokenCredential {
   const managedIdentityClientId =
     (options as DefaultAzureCredentialClientIdOptions)?.managedIdentityClientId ??
