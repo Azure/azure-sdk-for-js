@@ -38,8 +38,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run unit-test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
-    "unit-test:browser": "playwright install && vitest -c vitest.browser.config.mts",
-    "unit-test:node": "vitest",
+    "unit-test:browser": "dev-tool run test:vitest --no-test-proxy=true --browser=true",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
