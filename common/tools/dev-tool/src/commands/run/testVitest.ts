@@ -6,6 +6,8 @@ import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
 
+const log = createPrinter("test:vitest");
+
 export const commandInfo = makeCommandInfo(
   "test:vitest",
   "runs tests using vitest with the default and the provided options; starts the proxy-tool in record and playback modes",
@@ -16,7 +18,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to disable launching test-proxy",
     },
-    "browser": {
+    browser: {
       shortName: "br",
       kind: "boolean",
       default: false,
@@ -25,24 +27,38 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
+async function playwrightInstall(): Promise<void> {
+  const { result } = concurrently([
+    {
+      command: "npx playwright install",
+      name: "playwright install",
+    },
+  ]);
+
+  await result;
+  log.info("playwright browsers installed");
+}
+
 export default leafCommand(commandInfo, async (options) => {
-  const args = options["browser"] ? "-c vitest.browser.config.mts": "";
+  if (options["browser"]) {
+    await playwrightInstall();
+  }
+
+  const args = options["browser"] ? "-c vitest.browser.config.mts" : "";
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
-  const vitestArgs = updatedArgs?.length
-    ? updatedArgs.join(" ")
-    : '';
+  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
   const command = {
     command: `vitest ${args} ${vitestArgs}`,
-    name: "vi-tests",
+    name: "vitest",
   };
 
   if (!options["no-test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 
-  createPrinter("test-info").info("Running vitest without test-proxy");
+  log.info("Running vitest without test-proxy");
   await concurrently([command]).result;
   return true;
 });
