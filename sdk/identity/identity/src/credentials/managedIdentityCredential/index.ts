@@ -2,29 +2,29 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+
+import { IdentityClient } from "../../client/identityClient";
+import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import {
   AuthenticationError,
   AuthenticationRequiredError,
   CredentialUnavailableError,
 } from "../../errors";
-import { MSI, MSIToken } from "./models";
-import { MsalResult, MsalToken } from "../../msal/types";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
-
-import { DeveloperSignOnClientId } from "../../constants";
-import { IdentityClient } from "../../client/identityClient";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { appServiceMsi2017 } from "./appServiceMsi2017";
-import { appServiceMsi2019 } from "./appServiceMsi2019";
-import { arcMsi } from "./arcMsi";
-import { cloudShellMsi } from "./cloudShellMsi";
-import { fabricMsi } from "./fabricMsi";
-import { getLogLevel } from "@azure/logger";
-import { getMSALLogLevel } from "../../msal/utils";
-import { imdsMsi } from "./imdsMsi";
-import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { tracingClient } from "../../util/tracing";
+import { cloudShellMsi } from "./cloudShellMsi";
+import { imdsMsi } from "./imdsMsi";
+import { MSI, MSIToken } from "./models";
+import { arcMsi } from "./arcMsi";
+import { tokenExchangeMsi } from "./tokenExchangeMsi";
+import { fabricMsi } from "./fabricMsi";
+import { appServiceMsi2019 } from "./appServiceMsi2019";
+import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
+import { DeveloperSignOnClientId } from "../../constants";
+import { MsalResult, MsalToken } from "../../msal/types";
+import { getMSALLogLevel } from "../../msal/utils";
+import { getLogLevel } from "@azure/logger";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 
@@ -84,7 +84,7 @@ export class ManagedIdentityCredential implements TokenCredential {
    *
    * @param options - Options for configuring the client which makes the access token request.
    */
-  constructor(options?: ManagedIdentityCredentialClientIdOptions); // TODO: how is this different from the previous
+  constructor(options?: ManagedIdentityCredentialClientIdOptions);
   /**
    * Creates an instance of ManagedIdentityCredential with Resource Id
    *
@@ -390,6 +390,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   /**
    * Ensures the validity of the MSAL token
+   * @internal
    */
   private ensureValidMsalToken(
     scopes: string | string[],
