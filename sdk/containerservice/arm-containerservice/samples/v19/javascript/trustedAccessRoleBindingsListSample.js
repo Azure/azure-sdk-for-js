@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List trusted access role bindings.
  *
  * @summary List trusted access role bindings.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/TrustedAccessRoleBindings_List.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/TrustedAccessRoleBindings_List.json
  */
 async function listTrustedAccessRoleBindings() {
   const subscriptionId =

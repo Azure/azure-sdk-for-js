@@ -4,9 +4,9 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@typespec/ts-http-runtime": ["./src/index"]
+      "@typespec/ts-http-runtime": ["./src/index"],
     },
-    "lib": ["dom", "dom.iterable"]
+    "lib": ["dom", "dom.iterable"],
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
 }
