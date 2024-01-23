@@ -478,7 +478,7 @@ export interface ServiceBusReceiver {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
     // Warning: (ae-forgotten-export) The symbol "BatchDeleteMessagesOptions" needs to be exported by the entry point index.d.ts
-    batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<void>;
+    batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<number>;
     close(): Promise<void>;
     completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
     deadLetterMessage(message: ServiceBusReceivedMessage, options?: DeadLetterOptions & {

@@ -925,12 +925,19 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
   }
 
+  /**
+   * Batch-delete messages.
+   *
+   * @param messageCount - number of messages to delete in a batch.
+   * @param enqueueTimeUtcOlderThan - Delete messages whose enqueue time (UTC) are older than this.
+   * @returns number of messages deleted.
+   */
   async batchDeleteMessages(
     messageCount: number,
     enqueueTimeUtcOlderThan?: Date,
     sessionId?: string,
     options: OperationOptionsBase & SendManagementRequestOptions = {},
-  ): Promise<void> {
+  ): Promise<number> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messageCount", messageCount);
     throwTypeErrorIfParameterTypeMismatch(
       this._context.connectionId,
@@ -946,9 +953,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       const messageBody: any = {};
       messageBody[Constants.messageCount] = types.wrap_int(messageCount!);
-      if (enqueueTimeUtcOlderThan) {
-        messageBody[Constants.enqueuedTimeUtc] = enqueueTimeUtcOlderThan;
-      }
+      messageBody[Constants.enqueuedTimeUtc] = enqueueTimeUtcOlderThan ?? new Date();
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
       }
@@ -966,10 +971,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           updatedOptions?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-
       receiverLogger.verbose("%s batch delete request body: %O.", this.logPrefix, request.body);
 
-      await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      const result = await this._makeManagementRequest(request, receiverLogger, updatedOptions);
+      if (result.application_properties!.statusCode === 200) {
+        return result.body["message-count"];
+      }
+
+      return 0;
     } catch (err: any) {
       const error = translateServiceBusError(err) as MessagingError;
       receiverLogger.logError(

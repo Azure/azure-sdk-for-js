@@ -146,8 +146,9 @@ export interface ServiceBusReceiver {
    * @param messageCount - Number of messages to delete.
    * @param options - Options that allow to specify messages older than a time,
    *                        or an abortSignal to abort the operation.
+   * @returns number of messages that have been deleted.
    */
-  batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<void>;
+  batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<number>;
 
   /**
    * Path of the entity for which the receiver has been created.
@@ -467,11 +468,11 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   async batchDeleteMessages(
     messageCount: number,
     options?: BatchDeleteMessagesOptions,
-  ): Promise<void> {
+  ): Promise<number> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const batchDeleteMessagesOperationPromise = async (): Promise<void> => {
-      await this._context
+    const batchDeleteMessagesOperationPromise = (): Promise<number> => {
+      return this._context
         .getManagementClient(this.entityPath)
         .batchDeleteMessages(messageCount, options?.enqueuedTimeUtcOlderThan, undefined, {
           ...options,
@@ -480,14 +481,14 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
           timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
-    const config: RetryConfig<void> = {
+    const config: RetryConfig<number> = {
       operation: batchDeleteMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal,
     };
-    return retry<void>(config);
+    return retry<number>(config);
   }
 
   // ManagementClient methods # Begin
