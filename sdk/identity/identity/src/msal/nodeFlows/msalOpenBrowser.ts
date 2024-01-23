@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
 import { MsalNode, MsalNodeOptions, hasNativeBroker } from "./msalNodeCommon";
-import { credentialLogger } from "../../util/logging";
+
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { credentialLogger } from "../../util/logging";
 import open from "open";
 
 /**

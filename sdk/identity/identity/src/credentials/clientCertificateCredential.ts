@@ -6,6 +6,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { MsalClientCertificate } from "../msal/nodeFlows/msalClientCertificate";
 import { MsalFlow } from "../msal/flows";
@@ -132,6 +133,7 @@ export class ClientCertificateCredential implements TokenCredential {
           }
         : certificatePathOrConfiguration),
     };
+    console.log({ configuration });
     const certificate: string | undefined = (configuration as ClientCertificatePEMCertificate)
       .certificate;
     const certificatePath: string | undefined = (

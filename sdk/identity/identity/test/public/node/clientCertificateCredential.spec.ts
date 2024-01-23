@@ -4,8 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -61,7 +63,9 @@ describe("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with sendCertificateChain", async function (this: Context) {
+  it.only("authenticates with sendCertificateChain", async function (this: Context) {
+    console.dir(env);
+    console.log(env.IDENTITY_SP_CLIENT_ID, env.IDENTITY_SP_TENANT_ID, env.IDENTITY_SP_CERT_SNI_PEM);
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
