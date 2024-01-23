@@ -15,26 +15,20 @@ export interface SubmitToolOutputsActionOutput extends RequiredActionOutput {
   submit_tool_outputs: SubmitToolOutputsDetailsOutput;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionOutput {
-  type: string;
-  function?: FunctionDefinitionOutput;
-}
-
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutput {
+export interface CodeInterpreterToolDefinitionOutput {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinitionOutput extends ToolDefinitionOutput {
+export interface RetrievalToolDefinitionOutput {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinitionOutput extends ToolDefinitionOutput {
+export interface FunctionToolDefinitionOutput {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -52,3 +46,9 @@ export interface ListResponseOfOutput<T> {
   /** A value indicating whether there are additional values available not captured in this list. */
   has_more: boolean;
 }
+
+/** An abstract representation of an input tool definition that an assistant can use. */
+export type ToolDefinitionOutput =
+  | CodeInterpreterToolDefinitionOutput 
+  | RetrievalToolDefinitionOutput 
+  | FunctionToolDefinitionOutput;

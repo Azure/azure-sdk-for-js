@@ -343,22 +343,14 @@ export interface SubmitToolOutputsDetailsOutput {
 }
 
 /**
- * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
- * be fulfilled and have its outputs submitted before the model can continue.
- */
-export interface ToolCallOutputParent {
-  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
-  id: string;
-  type: string;
-}
-
-/**
  * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpreter tool, that
  * represents submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface CodeInterpreterToolCallOutput extends ToolCallOutputParent {
+export interface CodeInterpreterToolCallOutput {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The details of the tool call to the code interpreter tool. */
   code_interpreter: CodeInterpreterToolCallDetailsOutput;
 }
@@ -404,9 +396,11 @@ export interface CodeInterpreterImageReferenceOutput {
  * A tool call to a retrieval tool, issued by the model in evaluation of a configured retrieval tool, that represents
  * submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface RetrievalToolCallOutput extends ToolCallOutputParent {
+export interface RetrievalToolCallOutput {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The key/value pairs produced by the retrieval tool. */
   retrieval: TypeSpecRecordOutput;
 }
@@ -415,9 +409,11 @@ export interface RetrievalToolCallOutput extends ToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * given function inputs and submitted function outputs needed or already fulfilled by the tool for the model to continue.
  */
-export interface FunctionToolCallOutput extends ToolCallOutputParent {
+export interface FunctionToolCallOutput {
   /** The object type, which is always 'function'. */
   type: "function";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The detailed information about the function called by the model. */
   function: FunctionToolCallDetailsOutput;
 }
@@ -594,7 +590,6 @@ export type RequiredActionOutput =
  * be fulfilled and have its outputs submitted before the model can continue.
  */
 export type ToolCallOutput =
-  | ToolCallOutputParent
   | CodeInterpreterToolCallOutput
   | RetrievalToolCallOutput
   | FunctionToolCallOutput;

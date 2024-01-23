@@ -195,7 +195,7 @@ export interface AssistantThreadsRetrieveThreadOptions extends OperationOptions 
 export { AzureKeyCredential }
 
 // @public
-export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutput {
+export interface CodeInterpreterImageOutput {
     image: CodeInterpreterImageReference;
     type: "image";
 }
@@ -206,14 +206,15 @@ export interface CodeInterpreterImageReference {
 }
 
 // @public
-export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutput {
+export interface CodeInterpreterLogOutput {
     logs: string;
     type: "logs";
 }
 
 // @public
-export interface CodeInterpreterToolCall extends ToolCall {
+export interface CodeInterpreterToolCall {
     codeInterpreter: CodeInterpreterToolCallDetails;
+    id: string;
     type: "code_interpreter";
 }
 
@@ -224,11 +225,7 @@ export interface CodeInterpreterToolCallDetails {
 }
 
 // @public
-export interface CodeInterpreterToolCallOutput {
-    image?: CodeInterpreterImageReference;
-    logs?: string;
-    type: string;
-}
+export type CodeInterpreterToolCallOutput = CodeInterpreterImageOutput | CodeInterpreterLogOutput;
 
 // @public
 export interface CodeInterpreterToolDefinition {
@@ -308,8 +305,9 @@ export interface FunctionDefinition {
 }
 
 // @public
-export interface FunctionToolCall extends ToolCall {
+export interface FunctionToolCall {
     function: FunctionToolCallDetails;
+    id: string;
     type: "function";
 }
 
@@ -436,7 +434,8 @@ export interface RequiredAction {
 }
 
 // @public
-export interface RetrievalToolCall extends ToolCall {
+export interface RetrievalToolCall {
+    id: string;
     retrieval: Record<string, string>;
     type: "retrieval";
 }
@@ -694,13 +693,7 @@ export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions 
 }
 
 // @public
-export interface ToolCall {
-    codeInterpreter?: CodeInterpreterToolCallDetails;
-    function?: FunctionToolCallDetails;
-    id: string;
-    retrieval?: Record<string, string>;
-    type: string;
-}
+export type ToolCall = FunctionToolCall | CodeInterpreterToolCall | RetrievalToolCall;
 
 // @public
 export interface ToolDefinition {

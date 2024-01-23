@@ -28,7 +28,7 @@ export function _uploadFileSend(
   purpose: FilePurpose,
   options: FilesUploadFileOptions = { requestOptions: {} }
 ): StreamableMethod<UploadFile200Response> {
-  const azurePath = context.isAzure ? "beta" : "";
+  const azurePath = "";
   return context.path("{azurePath}/files", azurePath).post({
     ...operationOptionsToRequestParameters(options),
     contentType: (options.contentType as any) ?? "multipart/form-data",
@@ -44,7 +44,7 @@ export function _deleteFileSend(
   fileId: string,
   options: FilesDeleteFileOptions = { requestOptions: {} }
 ): StreamableMethod<DeleteFile200Response> {
-  const azurePath = context.isAzure ? "beta" : "";
+  const azurePath = "";
   return context
     .path("{azurePath}/files/{fileId}", azurePath, fileId)
     .delete({ ...operationOptionsToRequestParameters(options) });
@@ -55,7 +55,7 @@ export function _retrieveFileSend(
   fileId: string,
   options: FilesRetrieveFileOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveFile200Response> {
-  const azurePath = context.isAzure ? "beta" : "";
+  const azurePath = "";
   return context
     .path("{azurePath}/files/{fileId}", azurePath, fileId)
     .get({ ...operationOptionsToRequestParameters(options) });
@@ -66,7 +66,7 @@ export function _retrieveFileContentSend(
   fileId: string,
   options: FilesRetrieveFileContentOptions = { requestOptions: {} }
 ): StreamableMethod<RetrieveFileContent200Response> {
-  const azurePath = context.isAzure ? "beta" : "";
+  const azurePath = "";
   return context
     .path("{azurePath}/files/{fileId}/content", azurePath, fileId)
     .get({ ...operationOptionsToRequestParameters(options) });
@@ -76,7 +76,7 @@ export function _listFilesSend(
   context: Client,
   options: FilesListFilesOptions = { requestOptions: {} }
 ): StreamableMethod<ListFiles200Response> {
-  const azurePath = context.isAzure ? "beta" : "";
+  const azurePath = "";
   return context.path("{azurePath}/files", azurePath).get({
     ...operationOptionsToRequestParameters(options),
     queryParameters: { purpose: options?.purpose },

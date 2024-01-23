@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { ThreadRun, ListResponseOf } from "../../models/models.js";
+import { camelCaseKeys } from "../util.js";
 import { _listRunsSend } from "../../../generated/src/api/threadRuns/index.js";
 import {
   AssistantsContext as Client,
@@ -13,11 +14,69 @@ import {
   SubmitRunToolOutputs200Response,
 } from "../../../generated/src/rest/index.js";
 import { ThreadRunsListRunsOptions } from "../../../generated/src/models/options.js";
+import { ToolCallOutput } from "../../../generated/src/rest/outputModels.js";
+import { ToolCall } from "../../../generated/src/models/models.js";
 import {
   operationOptionsToRequestParameters,
   createRestError,
   StreamableMethod,
 } from "@azure-rest/core-client";
+
+function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
+  const { id } = toolCallOutput;
+  const toolCall: { id: string, type: string, function: any, retrieval: any, codeInterpreter: any } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {}};
+  switch (toolCallOutput.type) {
+    case "function":
+      toolCall.type = toolCallOutput.type as "function";
+      toolCall.function = toolCallOutput.function;
+      break;
+    case "retrieval":
+      toolCall.type = toolCallOutput.type as "retrieval";
+      toolCall.retrieval = toolCallOutput.retrieval;
+      break;
+    case "code_interpreter":
+      toolCall.type = toolCallOutput.type as "code_interpreter";
+      toolCall.codeInterpreter = toolCallOutput.code_interpreter;
+      break;
+    default:
+      throw new Error(`Unknown tool call type: ${toolCall.type}`);
+  }
+
+  return toolCall as ToolCall;
+}
+
+export async function _createRunDeserialize(result: CreateRun200Response): Promise<ThreadRun> {
+  if (result.status !== "200") {
+    throw createRestError(result);
+  }
+  const { required_action, last_error, created_at, expires_at, started_at, completed_at, cancelled_at, failed_at, ...rest } = result.body;
+
+  return {
+    ...camelCaseKeys(rest),
+    requiredAction: !required_action
+      ? undefined
+      : {
+          type: required_action?.["type"],
+          submitToolOutputs: !required_action?.submit_tool_outputs?.["tool_calls"]
+            ? undefined
+            : {
+                toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+              },
+        },
+    lastError: !last_error
+      ? undefined
+      : {
+          code: last_error?.["code"],
+          message: last_error?.["message"],
+        },
+    createdAt: new Date(created_at),
+    expiresAt: expires_at === null ? null : new Date(expires_at),
+    startedAt: started_at === null ? null : new Date(started_at),
+    completedAt: completed_at === null ? null : new Date(completed_at),
+    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
+    failedAt: failed_at === null ? null : new Date(failed_at),
+  };
+}
 
 export async function _listRunsDeserialize(
   result: ListRuns200Response
@@ -95,48 +154,6 @@ export async function listRuns(
   return _listRunsDeserialize(result);
 }
 
-export async function _createRunDeserialize(result: CreateRun200Response): Promise<ThreadRun> {
-  if (result.status !== "200") {
-    throw createRestError(result);
-  }
-
-  return {
-    id: result.body["id"],
-    threadId: result.body["thread_id"],
-    assistantId: result.body["assistant_id"],
-    status: result.body["status"],
-    requiredAction: !result.body.required_action
-      ? undefined
-      : {
-          type: result.body.required_action?.["type"],
-          submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
-            ? undefined
-            : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
-              },
-        },
-    lastError: !result.body.last_error
-      ? undefined
-      : {
-          code: result.body.last_error?.["code"],
-          message: result.body.last_error?.["message"],
-        },
-    model: result.body["model"],
-    instructions: result.body["instructions"],
-    tools: result.body["tools"],
-    fileIds: result.body["file_ids"],
-    metadata: result.body["metadata"],
-    createdAt: new Date(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
-    completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
-    cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
-  };
-}
-
 export async function _retrieveRunDeserialize(result: RetrieveRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
@@ -154,7 +171,7 @@ export async function _retrieveRunDeserialize(result: RetrieveRun200Response): P
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
               },
         },
     lastError: !result.body.last_error
@@ -198,7 +215,7 @@ export async function _submitRunToolOutputsDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
               },
         },
     lastError: !result.body.last_error
@@ -242,7 +259,7 @@ export async function _createThreadAndRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
               },
         },
     lastError: !result.body.last_error
@@ -284,7 +301,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.["tool_calls"],
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
               },
         },
     lastError: !result.body.last_error

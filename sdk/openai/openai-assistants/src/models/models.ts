@@ -303,29 +303,14 @@ export interface SubmitToolOutputsDetails {
 }
 
 /**
- * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
- * be fulfilled and have its outputs submitted before the model can continue.
- */
-export interface ToolCall {
-  /** the discriminator possible values code_interpreter, retrieval, function */
-  type: string;
-  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
-  id: string;
-/** The key/value pairs produced by the retrieval tool. */
-  retrieval?: Record<string, string>;
-  /** The detailed information about the function called by the model. */
-  function?: FunctionToolCallDetails;
-  /** The details of the tool call to the code interpreter tool. */
-  codeInterpreter?: CodeInterpreterToolCallDetails;
-}
-
-/**
  * A tool call to a code interpreter tool, issued by the model in evaluation of a configured code interpreter tool, that
  * represents submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface CodeInterpreterToolCall extends ToolCall {
+export interface CodeInterpreterToolCall {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The details of the tool call to the code interpreter tool. */
   codeInterpreter: CodeInterpreterToolCallDetails;
 }
@@ -338,18 +323,8 @@ export interface CodeInterpreterToolCallDetails {
   outputs: CodeInterpreterToolCallOutput[];
 }
 
-/** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterToolCallOutput {
-  /** the discriminator possible values logs, image */
-  type: string;
-/** The serialized log output emitted by the code interpreter. */
-  logs?: string;
-  /** Referential information for the image associated with this output. */
-  image?: CodeInterpreterImageReference;
-}
-
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutput {
+export interface CodeInterpreterLogOutput {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -357,7 +332,7 @@ export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutput 
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutput {
+export interface CodeInterpreterImageOutput {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -374,9 +349,11 @@ export interface CodeInterpreterImageReference {
  * A tool call to a retrieval tool, issued by the model in evaluation of a configured retrieval tool, that represents
  * submitted output needed or already fulfilled by the tool for the model to continue.
  */
-export interface RetrievalToolCall extends ToolCall {
+export interface RetrievalToolCall {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The key/value pairs produced by the retrieval tool. */
   retrieval: Record<string, string>;
 }
@@ -385,9 +362,11 @@ export interface RetrievalToolCall extends ToolCall {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * given function inputs and submitted function outputs needed or already fulfilled by the tool for the model to continue.
  */
-export interface FunctionToolCall extends ToolCall {
+export interface FunctionToolCall {
   /** The object type, which is always 'function'. */
   type: "function";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The detailed information about the function called by the model. */
   function: FunctionToolCallDetails;
 }
@@ -624,3 +603,15 @@ export type ToolDefinitionParent =
   | CodeInterpreterToolDefinition 
   | RetrievalToolDefinition 
   | FunctionToolDefinition;
+/**
+ * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
+ * be fulfilled and have its outputs submitted before the model can continue.
+ */
+export type ToolCall =
+  | FunctionToolCall
+  | CodeInterpreterToolCall 
+  | RetrievalToolCall; 
+/** An abstract representation of an emitted output from a code interpreter tool. */
+export type CodeInterpreterToolCallOutput =
+  | CodeInterpreterImageOutput 
+  | CodeInterpreterLogOutput;
