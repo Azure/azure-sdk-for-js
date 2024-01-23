@@ -345,6 +345,63 @@ describe("OpenAI", function () {
               authMethod,
             );
           });
+
+          it("calls a specific tool if its name is specified", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [{ role: "user", content: "What's the weather like in Boston?" }],
+                    {
+                      toolChoice: { type: "function", function: { name: getCurrentWeather.name } },
+                      tools: [
+                        { type: "function", function: getCurrentWeather },
+                        {
+                          type: "function",
+                          function: {
+                            name: "get_current_weather2",
+                            description: "Get the current weather in a given location in the US",
+                            parameters: {
+                              type: "object",
+                              properties: {
+                                location: {
+                                  type: "string",
+                                  description: "The city and state, e.g. San Francisco, CA",
+                                },
+                                unit: {
+                                  type: "string",
+                                  enum: ["celsius", "fahrenheit"],
+                                },
+                              },
+                              required: ["location"],
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: true });
+                  assert.equal(
+                    res.choices[0].message?.toolCalls[0].function.name,
+                    getCurrentWeather.name,
+                  );
+                  assert.isUndefined(res.choices[0].message?.functionCall);
+                },
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
         });
 
         describe("streamChatCompletions", function () {
