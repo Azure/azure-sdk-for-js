@@ -19,7 +19,7 @@ import {
   createRetry,
 } from "./util.js";
 import { describe, it, assert, SuiteCollector } from "vitest";
-import { matrix } from "@azure/test-utils";
+import { matrix } from "../matrix.js";
 
 export function buildSseTests(
   rtName: string,

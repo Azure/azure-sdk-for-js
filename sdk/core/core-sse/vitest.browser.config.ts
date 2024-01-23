@@ -5,6 +5,9 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
+    env: {
+      "TEST_MODE": "playback",
+    },
     reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
