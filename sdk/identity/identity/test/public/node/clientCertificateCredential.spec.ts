@@ -64,8 +64,7 @@ describe("ClientCertificateCredential", function () {
   });
 
   it.only("authenticates with sendCertificateChain", async function (this: Context) {
-    console.dir(env);
-    console.log(env.IDENTITY_SP_CLIENT_ID, env.IDENTITY_SP_TENANT_ID, env.IDENTITY_SP_CERT_SNI_PEM);
+    console.log(fs.readFileSync(certificatePath, { encoding: "utf-8" }));
     if (isPlaybackMode()) {
       // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
       // This assertion could be provided as parameters, but we don't have that in the public API yet,
