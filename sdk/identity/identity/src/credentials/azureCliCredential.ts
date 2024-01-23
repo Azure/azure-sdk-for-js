@@ -196,7 +196,7 @@ export class AzureCliCredential implements TokenCredential {
     const token = response.accessToken;
     // if available, expires_on will be a number representing seconds since epoch.
     // ensure it's a number or NaN
-    const expiresOnTimestamp = Number.parseInt(response.expires_on) * 1000;
+    let expiresOnTimestamp = Number.parseInt(response.expires_on) * 1000;
     if (!isNaN(expiresOnTimestamp)) {
       logger.getToken.info("expires_on is available and is valid, using it");
       return {
@@ -206,9 +206,18 @@ export class AzureCliCredential implements TokenCredential {
     }
 
     // fallback to the older expiresOn - an RFC3339 date string
+    expiresOnTimestamp = new Date(response.expiresOn).getTime();
+
+    // ensure expiresOn is well-formatted
+    if (isNaN(expiresOnTimestamp)) {
+      throw new CredentialUnavailableError(
+        `Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got: "${response.expiresOn}"`,
+      );
+    }
+
     return {
       token,
-      expiresOnTimestamp: new Date(response.expiresOn).getTime(),
+      expiresOnTimestamp,
     };
   }
 }

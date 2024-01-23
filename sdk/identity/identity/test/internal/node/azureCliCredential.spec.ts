@@ -362,5 +362,20 @@ az login --scope https://test.windows.net/.default`;
       const actualToken = await credential.getToken("https://service/.default");
       assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
     });
+
+    it("throws when both are invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "not-a-date",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default"),
+        /Expected "expiresOn" to be a RFC3339 date string. Got: "not-a-date"$/,
+      );
+    });
   });
 });
