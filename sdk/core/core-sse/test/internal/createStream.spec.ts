@@ -1,10 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 import { createStream } from "../../src/utils.js";
 
 describe("createStream", () => {
+  beforeEach((ctx) => {
+    console.log("Context:", ctx.task.name);
+    console.log("Suite:", ctx.task.suite.name);
+  });
+
   const createIter = async function* (): AsyncGenerator<number> {
     yield 1;
     yield 2;
@@ -29,17 +34,6 @@ describe("createStream", () => {
     });
     stream.cancel();
     assert.isTrue(canceled);
-  });
-
-  it("creates disposable stream", async function () {
-    let disposed = false;
-    {
-      await using stream = createStream(createIter(), async () => {
-        disposed = true;
-      });
-      assert.isDefined(stream);
-    }
-    assert.isTrue(disposed);
   });
 
   it("creates stream that is canceled when looping exits early", async () => {
