@@ -75,7 +75,6 @@ export {
   MessageImageFileDetails,
   MessageRole,
   MessageTextAnnotation,
-  MessageTextAnnotationParent,
   MessageTextContent,
   MessageTextDetails,
   MessageTextFileCitationDetails,

@@ -169,22 +169,16 @@ export interface MessageTextDetails {
   annotations: MessageTextAnnotation[];
 }
 
-/** An abstract representation of an annotation to text thread message content. */
-export interface MessageTextAnnotationParent {
-  /** the discriminator possible values: file_citation, file_path */
-  type: string;
+/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
+export interface MessageFileCitationTextAnnotation {
+  /** The object type, which is always 'file_citation'. */
+  type: "file_citation";
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
   startIndex: number;
   /** The last text index associated with this text annotation. */
   endIndex: number;
-}
-
-/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
-export interface MessageFileCitationTextAnnotation extends MessageTextAnnotationParent {
-  /** The object type, which is always 'file_citation'. */
-  type: "file_citation";
   /**
    * A citation within the message that points to a specific quote from a specific file.
    * Generated when the assistant uses the "retrieval" tool to search files.
@@ -201,9 +195,15 @@ export interface MessageTextFileCitationDetails {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface MessageFilePathTextAnnotation extends MessageTextAnnotationParent {
+export interface MessageFilePathTextAnnotation {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** The first text index associated with this text annotation. */
+  startIndex: number;
+  /** The last text index associated with this text annotation. */
+  endIndex: number;
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
   filePath: MessageFilePathDetails;
 }
@@ -453,18 +453,8 @@ export interface RunStep {
   metadata?: Record<string, string>;
 }
 
-/** An abstract representation of the details for a run step. */
-export interface RunStepDetails {
-  /** the discriminator possible values: message_creation, tool_calls */
-  type: RunStepType;
-/** A list tool call details for this run step. */
-  toolCalls?: ToolCall[];
-  /** Information about the message creation associated with this run step. */
-  messageCreation?: RunStepMessageCreationReference;
-}
-
 /** The detailed information associated with a message creation run step. */
-export interface RunStepMessageCreationDetails extends RunStepDetails {
+export interface RunStepMessageCreationDetails {
   /** The object type, which is always 'message_creation'. */
   type: "message_creation";
   /** Information about the message creation associated with this run step. */
@@ -478,7 +468,7 @@ export interface RunStepMessageCreationReference {
 }
 
 /** The detailed information associated with a run step calling tools. */
-export interface RunStepToolCallDetails extends RunStepDetails {
+export interface RunStepToolCallDetails {
   /** The object type, which is always 'tool_calls'. */
   type: "tool_calls";
   /** A list tool call details for this run step. */
@@ -592,8 +582,7 @@ export type ListSortOrder = string;
 /** Base type for MessageTextAnnotation */
 export type MessageTextAnnotation =
   | MessageFileCitationTextAnnotation
-  | MessageFilePathTextAnnotation
-  | MessageTextAnnotationParent;
+  | MessageFilePathTextAnnotation;
 /** Base type for MessageContentParent */
 export type MessageContentParent =
   | MessageTextContent 
@@ -615,3 +604,7 @@ export type ToolCall =
 export type CodeInterpreterToolCallOutput =
   | CodeInterpreterImageOutput 
   | CodeInterpreterLogOutput;
+/** An abstract representation of the details for a run step. */
+export type RunStepDetails =
+  | RunStepMessageCreationDetails 
+  | RunStepToolCallDetails;

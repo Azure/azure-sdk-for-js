@@ -433,13 +433,8 @@ export interface RunStepOutput {
   metadata?: TypeSpecRecordOutput;
 }
 
-/** An abstract representation of the details for a run step. */
-export interface RunStepDetailsOutputParent {
-  type: string;
-}
-
 /** The detailed information associated with a message creation run step. */
-export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
+export interface RunStepMessageCreationDetailsOutput {
   /** The object type, which is always 'message_creation'. */
   type: "message_creation";
   /** Information about the message creation associated with this run step. */
@@ -453,7 +448,7 @@ export interface RunStepMessageCreationReferenceOutput {
 }
 
 /** The detailed information associated with a run step calling tools. */
-export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
+export interface RunStepToolCallDetailsOutput {
   /** The object type, which is always 'tool_calls'. */
   type: "tool_calls";
   /** A list tool call details for this run step. */
@@ -519,7 +514,6 @@ export type CodeInterpreterToolCallOutputOutput =
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of the details for a run step. */
 export type RunStepDetailsOutput =
-  | RunStepDetailsOutputParent
   | RunStepMessageCreationDetailsOutput
   | RunStepToolCallDetailsOutput;
 /** An abstract representation of an input tool definition that an assistant can use. */

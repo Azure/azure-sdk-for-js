@@ -143,21 +143,16 @@ export interface MessageTextDetails {
   annotations: Array<MessageTextAnnotation>;
 }
 
-/** An abstract representation of an annotation to text thread message content. */
-export interface MessageTextAnnotationParent {
+/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
+export interface MessageFileCitationTextAnnotation {
+  /** The object type, which is always 'file_citation'. */
+  type: "file_citation";
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
   start_index: number;
   /** The last text index associated with this text annotation. */
   end_index: number;
-  type: string;
-}
-
-/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
-export interface MessageFileCitationTextAnnotation extends MessageTextAnnotationParent {
-  /** The object type, which is always 'file_citation'. */
-  type: "file_citation";
   /**
    * A citation within the message that points to a specific quote from a specific file.
    * Generated when the assistant uses the "retrieval" tool to search files.
@@ -174,9 +169,15 @@ export interface MessageTextFileCitationDetails {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface MessageFilePathTextAnnotation extends MessageTextAnnotationParent {
+export interface MessageFilePathTextAnnotation {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** The first text index associated with this text annotation. */
+  start_index: number;
+  /** The last text index associated with this text annotation. */
+  end_index: number;
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
   file_path: MessageFilePathDetails;
 }
@@ -241,6 +242,5 @@ export type ToolDefinition =
 export type MessageContent = MessageTextContent | MessageImageFileContent;
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotation =
-  | MessageTextAnnotationParent
   | MessageFileCitationTextAnnotation
   | MessageFilePathTextAnnotation;

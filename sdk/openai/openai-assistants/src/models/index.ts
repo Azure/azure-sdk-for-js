@@ -28,7 +28,6 @@ export {
   MessageContentParent,
   MessageTextContent,
   MessageTextDetails,
-  MessageTextAnnotationParent,
   MessageFileCitationTextAnnotation,
   MessageTextFileCitationDetails,
   MessageFilePathTextAnnotation,

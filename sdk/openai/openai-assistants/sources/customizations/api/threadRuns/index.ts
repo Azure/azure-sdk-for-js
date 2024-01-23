@@ -14,36 +14,12 @@ import {
   SubmitRunToolOutputs200Response,
 } from "../../../generated/src/rest/index.js";
 import { ThreadRunsListRunsOptions } from "../../../generated/src/models/options.js";
-import { ToolCallOutput } from "../../../generated/src/rest/outputModels.js";
-import { ToolCall } from "../../../generated/src/models/models.js";
+import { parseToolCallOutput } from "../../models/helpers.js";
 import {
   operationOptionsToRequestParameters,
   createRestError,
   StreamableMethod,
 } from "@azure-rest/core-client";
-
-function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
-  const { id } = toolCallOutput;
-  const toolCall: { id: string, type: string, function: any, retrieval: any, codeInterpreter: any } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {}};
-  switch (toolCallOutput.type) {
-    case "function":
-      toolCall.type = toolCallOutput.type as "function";
-      toolCall.function = toolCallOutput.function;
-      break;
-    case "retrieval":
-      toolCall.type = toolCallOutput.type as "retrieval";
-      toolCall.retrieval = toolCallOutput.retrieval;
-      break;
-    case "code_interpreter":
-      toolCall.type = toolCallOutput.type as "code_interpreter";
-      toolCall.codeInterpreter = toolCallOutput.code_interpreter;
-      break;
-    default:
-      throw new Error(`Unknown tool call type: ${toolCall.type}`);
-  }
-
-  return toolCall as ToolCall;
-}
 
 export async function _createRunDeserialize(result: CreateRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {

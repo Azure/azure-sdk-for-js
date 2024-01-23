@@ -19,8 +19,8 @@ import {
   ListResponseOf,
   ThreadRun,
   ToolOutput,
-  ToolCall,
 } from "../../models/models.js";
+import { parseToolCallOutput } from "../../models/helpers.js";
 import {
   ThreadRunsCancelRunOptions,
   ThreadRunsCreateRunOptions,
@@ -39,7 +39,6 @@ import {
   ModifyRun200Response,
   RetrieveRun200Response,
   SubmitRunToolOutputs200Response,
-  ToolCallOutput,
 } from "../../rest/index.js";
 import { camelCaseKeys } from "../util.js";
 
@@ -355,29 +354,6 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
     cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
     failedAt: failed_at === null ? null : new Date(failed_at),
   };
-}
-
-function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
-  const { id } = toolCallOutput;
-  const toolCall: { id: string, type: string, function: any, retrieval: any, codeInterpreter: any } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {}};
-  switch (toolCallOutput.type) {
-    case "function":
-      toolCall.type = toolCallOutput.type as "function";
-      toolCall.function = toolCallOutput.function;
-      break;
-    case "retrieval":
-      toolCall.type = toolCallOutput.type as "retrieval";
-      toolCall.retrieval = toolCallOutput.retrieval;
-      break;
-    case "code_interpreter":
-      toolCall.type = toolCallOutput.type as "code_interpreter";
-      toolCall.codeInterpreter = toolCallOutput.code_interpreter;
-      break;
-    default:
-      throw new Error(`Unknown tool call type: ${toolCall.type}`);
-  }
-
-  return toolCall as ToolCall;
 }
 
 export async function _retrieveRunDeserialize(result: RetrieveRun200Response): Promise<ThreadRun> {

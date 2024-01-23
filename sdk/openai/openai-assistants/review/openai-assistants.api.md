@@ -360,8 +360,11 @@ export interface MessageFile {
 }
 
 // @public
-export interface MessageFileCitationTextAnnotation extends MessageTextAnnotationParent {
+export interface MessageFileCitationTextAnnotation {
+    endIndex: number;
     fileCitation: MessageTextFileCitationDetails;
+    startIndex: number;
+    text: string;
     type: "file_citation";
 }
 
@@ -371,8 +374,11 @@ export interface MessageFilePathDetails {
 }
 
 // @public
-export interface MessageFilePathTextAnnotation extends MessageTextAnnotationParent {
+export interface MessageFilePathTextAnnotation {
+    endIndex: number;
     filePath: MessageFilePathDetails;
+    startIndex: number;
+    text: string;
     type: "file_path";
 }
 
@@ -391,15 +397,7 @@ export interface MessageImageFileDetails {
 export type MessageRole = string;
 
 // @public
-export type MessageTextAnnotation = MessageFileCitationTextAnnotation | MessageFilePathTextAnnotation | MessageTextAnnotationParent;
-
-// @public
-export interface MessageTextAnnotationParent {
-    endIndex: number;
-    startIndex: number;
-    text: string;
-    type: string;
-}
+export type MessageTextAnnotation = MessageFileCitationTextAnnotation | MessageFilePathTextAnnotation;
 
 // @public
 export interface MessageTextContent {
@@ -479,11 +477,7 @@ export interface RunStep {
 }
 
 // @public
-export interface RunStepDetails {
-    messageCreation?: RunStepMessageCreationReference;
-    toolCalls?: ToolCall[];
-    type: RunStepType;
-}
+export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
 
 // @public
 export interface RunStepError {
@@ -501,7 +495,7 @@ export interface RunStepError {
 export type RunStepErrorCode = string;
 
 // @public
-export interface RunStepMessageCreationDetails extends RunStepDetails {
+export interface RunStepMessageCreationDetails {
     messageCreation: RunStepMessageCreationReference;
     type: "message_creation";
 }
@@ -535,7 +529,7 @@ export interface RunStepsRetrieveRunStepOptions extends OperationOptions {
 export type RunStepStatus = string;
 
 // @public
-export interface RunStepToolCallDetails extends RunStepDetails {
+export interface RunStepToolCallDetails {
     toolCalls: ToolCall[];
     type: "tool_calls";
 }

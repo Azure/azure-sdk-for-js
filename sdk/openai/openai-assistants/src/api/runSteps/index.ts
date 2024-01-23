@@ -14,7 +14,9 @@ import {
   createRestError,
   operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { ListResponseOf, RunStep } from "../../models/models.js";
+import { camelCaseKeys } from "../util.js";
+import { parseToolCallOutput } from "../../models/helpers.js";
+import { ListResponseOf, RunStep, RunStepDetails, ToolCall } from "../../models/models.js";
 import {
   RunStepsListRunStepsOptions,
   RunStepsRetrieveRunStepOptions,
@@ -23,6 +25,8 @@ import {
   AssistantsContext as Client,
   ListRunSteps200Response,
   RetrieveRunStep200Response,
+  RunStepDetailsOutput,
+  RunStepOutput,
 } from "../../rest/index.js";
 
 export function _retrieveRunStepSend(
@@ -43,31 +47,39 @@ export async function _retrieveRunStepDeserialize(
   if (result.status !== "200") {
     throw createRestError(result);
   }
+  const { step_details, last_error, created_at, expired_at, completed_at, cancelled_at, failed_at, ...rest } = result.body;
 
   return {
-    id: result.body["id"],
-    type: result.body["type"],
-    assistantId: result.body["assistant_id"],
-    threadId: result.body["thread_id"],
-    runId: result.body["run_id"],
-    status: result.body["status"],
-    stepDetails: { type: result.body.step_details["type"] },
+    ...camelCaseKeys(rest),
+    stepDetails: parseRunStepDetails(step_details),
     lastError:
-      result.body.last_error === null
+      last_error === null
         ? null
         : {
-            code: result.body.last_error["code"],
-            message: result.body.last_error["message"],
+            code: last_error["code"],
+            message: last_error["message"],
           },
-    createdAt: new Date(result.body["created_at"]),
-    expiredAt: result.body["expired_at"] === null ? null : new Date(result.body["expired_at"]),
-    completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
-    cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
-    metadata: result.body["metadata"],
+    createdAt: new Date(created_at),
+    expiredAt: expired_at === null ? null : new Date(expired_at),
+    completedAt: completed_at === null ? null : new Date(completed_at),
+    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
+    failedAt: failed_at === null ? null : new Date(failed_at),
   };
+}
+
+function parseRunStepDetails(runStepDetailsOutput: RunStepDetailsOutput): RunStepDetails {
+  const { type } = runStepDetailsOutput;
+  const details = { type, messageCreation: {}, toolCalls: [] as ToolCall[] };
+  switch (type) {
+    case "message_creation":
+      details.messageCreation = runStepDetailsOutput["message_creation"];
+      break;
+    case "tool_calls":
+      details.toolCalls = runStepDetailsOutput["tool_calls"].map(parseToolCallOutput);
+      break;
+  }
+
+  return details as RunStepDetails;
 }
 
 /** Gets a single run step from a thread run. */
@@ -107,29 +119,29 @@ export async function _listRunStepsDeserialize(
   }
 
   return {
-    data: result.body["data"].map((p) => ({
-      type: p["type"],
-      id: p["id"],
-      assistantId: p["assistant_id"],
-      threadId: p["thread_id"],
-      runId: p["run_id"],
-      status: p["status"],
-      stepDetails: { type: p.step_details["type"] },
-      lastError:
-        p.last_error === null
-          ? null
-          : { code: p.last_error["code"], message: p.last_error["message"] },
-      createdAt: new Date(p["created_at"]),
-      expiredAt: p["expired_at"] === null ? null : new Date(p["expired_at"]),
-      completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
-      cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
-      failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
-      metadata: p["metadata"],
-    })),
+    data: result.body["data"].map(parseRunStepOutput),
     firstId: result.body["first_id"],
     lastId: result.body["last_id"],
     hasMore: result.body["has_more"],
   };
+}
+
+function parseRunStepOutput(runStepOutput: RunStepOutput): RunStep {
+  const { step_details, last_error, created_at, expired_at, completed_at, cancelled_at, failed_at, ...rest } = runStepOutput;
+
+  return {
+    ...camelCaseKeys(rest),
+    stepDetails: parseRunStepDetails(step_details),
+    lastError:
+      last_error === null
+        ? null
+        : { code: last_error["code"], message: last_error["message"] },
+    createdAt: new Date(created_at),
+    expiredAt: expired_at === null ? null : new Date(expired_at),
+    completedAt: completed_at === null ? null : new Date(completed_at),
+    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
+    failedAt: failed_at === null ? null : new Date(failed_at),
+  } as RunStep;
 }
 
 /** Returns a list of run steps associated an assistant thread run. */
