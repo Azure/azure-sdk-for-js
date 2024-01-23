@@ -101,7 +101,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@azure/identity": "^3.3.0",
-    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.18",
+    "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.19",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
