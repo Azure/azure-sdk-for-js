@@ -25,7 +25,6 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   const jsonParser = new TransformStream<EventMessage, TEvent>({
     transform: async (chunk, controller) => {
       if (chunk.data === "[DONE]") {
-        controller.terminate();
         return eventStream[Symbol.asyncDispose]();
       }
       controller.enqueue(
