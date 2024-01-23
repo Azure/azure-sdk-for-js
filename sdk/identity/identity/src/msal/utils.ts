@@ -3,14 +3,14 @@
 
 import * as msalCommon from "@azure/msal-node";
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
+import { AuthenticationRecord, MsalAccountInfo, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogLevel } from "@azure/logger";
+import { GetTokenOptions } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 
 export interface ILoggerCallback {
@@ -139,24 +139,6 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
       // default msal logging level should be Info
       return msalCommon.LogLevel.Info;
   }
-}
-
-/**
- * Handles the MSAL authentication result.
- * If the result has an account, we update the local account reference.
- * If the token received is invalid, an error will be thrown depending on what's missing.
- */
-export function handleMsalResult(
-  scopes: string | string[],
-  result?: MsalResult,
-  getTokenOptions?: GetTokenOptions,
-): AccessToken {
-  ensureValidMsalToken(scopes, result, getTokenOptions);
-  logger.getToken.info(formatSuccess(scopes));
-  return {
-    token: result!.accessToken!,
-    expiresOnTimestamp: result!.expiresOn!.getTime(),
-  };
 }
 
 /**

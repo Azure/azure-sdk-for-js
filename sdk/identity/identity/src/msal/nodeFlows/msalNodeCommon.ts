@@ -4,16 +4,17 @@
 import * as msalNode from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AppType, AuthenticationRecord } from "../types";
+import { AppType, AuthenticationRecord, MsalResult } from "../types";
 import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   defaultLoggerCallback,
+  ensureValidMsalToken,
   getAuthority,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
-  handleMsalResult,
   msalToPublic,
   publicToMsal,
 } from "../utils";
@@ -27,7 +28,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../errors";
 import { BrokerOptions } from "./brokerOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CredentialLogger } from "../../util/logging";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
@@ -452,7 +452,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
           silentRequest,
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
-      return handleMsalResult(scopes, response || undefined);
+      return this.handleResult(scopes, response || undefined);
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -508,5 +508,26 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);
       return this.doGetToken(scopes, options);
     }
+  }
+
+  /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+  protected handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions,
+  ): AccessToken {
+    if (result?.account) {
+      this.account = msalToPublic(this.clientId, result.account);
+    }
+    ensureValidMsalToken(scopes, result, getTokenOptions);
+    this.logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
   }
 }

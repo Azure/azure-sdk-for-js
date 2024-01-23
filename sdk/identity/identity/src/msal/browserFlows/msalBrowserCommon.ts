@@ -3,20 +3,20 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AuthenticationRecord, MsalResult } from "../types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
+import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
-import { getAuthority, getKnownAuthorities } from "../utils";
+import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 
-import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CredentialLogger } from "../../util/logging";
 import { DefaultTenantId } from "../../constants";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
@@ -197,5 +197,26 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
       );
       return this.doGetToken(scopes);
     });
+  }
+
+  /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+  protected handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions,
+  ): AccessToken {
+    if (result?.account) {
+      this.account = msalToPublic(this.clientId, result.account);
+    }
+    ensureValidMsalToken(scopes, result, getTokenOptions);
+    this.logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
   }
 }

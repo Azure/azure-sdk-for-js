@@ -8,7 +8,6 @@ import {
   defaultLoggerCallback,
   getMSALLogLevel,
   handleMsalError,
-  handleMsalResult,
   msalToPublic,
   publicToMsal,
 } from "../utils";
@@ -205,7 +204,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.logger.info("Attempting to acquire token silently");
       const app = await this.getApp();
       const response = await app.acquireTokenSilent(parameters);
-      return handleMsalResult(scopes, response);
+      return this.handleResult(scopes, response);
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -246,7 +245,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         await app.acquireTokenRedirect(parameters);
         return { token: "", expiresOnTimestamp: 0 };
       case "popup":
-        return handleMsalResult(scopes, await app.acquireTokenPopup(parameters));
+        return this.handleResult(scopes, await app.acquireTokenPopup(parameters));
     }
   }
 }

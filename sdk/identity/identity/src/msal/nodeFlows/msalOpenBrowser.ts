@@ -4,11 +4,11 @@
 import * as msalNode from "@azure/msal-node";
 
 import { MsalNode, MsalNodeOptions, hasNativeBroker } from "./msalNodeCommon";
-import { handleMsalError, handleMsalResult } from "../utils";
 
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { credentialLogger } from "../../util/logging";
+import { handleMsalError } from "../utils";
 import open from "open";
 
 /**
@@ -94,7 +94,7 @@ export class MsalOpenBrowser extends MsalNode {
       if (result.fromNativeBroker) {
         this.logger.verbose(`This result is returned from native broker`);
       }
-      return handleMsalResult(scopes, result || undefined);
+      return this.handleResult(scopes, result || undefined);
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
