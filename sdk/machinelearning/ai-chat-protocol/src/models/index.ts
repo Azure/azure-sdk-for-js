@@ -12,7 +12,7 @@
 export {
   ChatChoice,
   ChatCompletion,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatCompletionOptions,
   ChatMessage,
   ChatMessageDelta,

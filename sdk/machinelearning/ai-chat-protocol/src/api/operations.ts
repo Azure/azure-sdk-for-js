@@ -10,18 +10,11 @@
  */
 
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import {
-  ChatCompletion,
-  ChatCompletionChunk,
-  ChatCompletionOptions,
-  ChatMessage,
-} from "../models/models.js";
-import { CompletionOptions, CreateOptions } from "../models/options.js";
-import {
-  ChatProtocolContext as Client,
-  Create200Response,
-  CreateStreaming200Response,
-} from "../rest/index.js";
+import { ChatCompletionDelta, ChatCompletionOptions, CreateOptions } from "../models/index.js";
+import { ChatCompletion, ChatMessage } from "../models/models.js";
+import { CompletionOptions } from "../models/options.js";
+import { ChatProtocolContext as Client } from "../rest/clientDefinitions.js";
+import { Create200Response, CreateStreaming200Response } from "../rest/index.js";
 import { streamJSONLines } from "./streaming.js";
 
 export async function _createDeserialize(result: Create200Response): Promise<ChatCompletion> {
@@ -30,7 +23,7 @@ export async function _createDeserialize(result: Create200Response): Promise<Cha
   }
 
   return {
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    choices: result.body["choices"].map((p) => ({
       index: p["index"],
       message: p.message as any,
       sessionState: p["sessionState"],
@@ -56,7 +49,7 @@ export function createStreaming(
   context: Client,
   messages: ChatMessage[],
   options: CompletionOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletionChunk> {
+): AsyncIterable<ChatCompletionDelta> {
   const result = _createStreamingSend(context, messages, options);
   return streamJSONLines(result, _createStreamingDeserialize);
 }
@@ -94,7 +87,7 @@ function _createStreamingSend(
   });
 }
 
-function _createStreamingDeserialize(body: any): ChatCompletionChunk {
+function _createStreamingDeserialize(body: any): ChatCompletionDelta {
   return {
     choices: (body["choices"] ?? []).map((p: any) => ({
       index: p["index"],

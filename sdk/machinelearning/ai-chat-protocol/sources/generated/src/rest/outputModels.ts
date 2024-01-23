@@ -28,7 +28,7 @@ export interface TextChatMessageOutput extends ChatMessageOutputParent {
 }
 
 /** A single response to a streaming completion request. */
-export interface ChatCompletionChunkOutput {
+export interface ChatCompletionDeltaOutput {
   /** The collection of choice deltas received in this chunk. */
   choices: Array<ChoiceDeltaOutput>;
 }

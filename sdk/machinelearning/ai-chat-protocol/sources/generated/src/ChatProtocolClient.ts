@@ -5,7 +5,7 @@ import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   StreamingChatCompletionOptions,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatCompletionOptions,
   ChatCompletion,
 } from "./models/models.js";
@@ -40,7 +40,7 @@ export class ChatProtocolClient {
     operationRoute: string,
     body: StreamingChatCompletionOptions,
     options: CreateStreamingOptions = { requestOptions: {} }
-  ): Promise<ChatCompletionChunk> {
+  ): Promise<ChatCompletionDelta> {
     return createStreaming(this._client, operationRoute, body, options);
   }
 

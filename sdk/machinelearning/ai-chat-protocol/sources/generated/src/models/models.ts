@@ -44,7 +44,7 @@ export type MessageKind = string;
 export type ChatRole = string;
 
 /** A single response to a streaming completion request. */
-export interface ChatCompletionChunk {
+export interface ChatCompletionDelta {
   /** The collection of choice deltas received in this chunk. */
   choices: ChoiceDelta[];
 }

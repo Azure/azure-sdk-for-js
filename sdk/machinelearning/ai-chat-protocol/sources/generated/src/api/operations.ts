@@ -3,7 +3,7 @@
 
 import {
   StreamingChatCompletionOptions,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatCompletionOptions,
   ChatCompletion,
 } from "../models/models.js";
@@ -29,18 +29,18 @@ export function _createStreamingSend(
       sessionState: body["sessionState"],
       context: body["context"],
     },
-  });
+  }) as StreamableMethod<CreateStreaming200Response>;
 }
 
 export async function _createStreamingDeserialize(
   result: CreateStreaming200Response
-): Promise<ChatCompletionChunk> {
+): Promise<ChatCompletionDelta> {
   if (result.status !== "200") {
     throw result.body;
   }
 
   return {
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    choices: result.body["choices"].map((p) => ({
       index: p["index"],
       delta: {
         kind: p.delta["kind"],
@@ -60,7 +60,7 @@ export async function createStreaming(
   operationRoute: string,
   body: StreamingChatCompletionOptions,
   options: CreateStreamingOptions = { requestOptions: {} }
-): Promise<ChatCompletionChunk> {
+): Promise<ChatCompletionDelta> {
   const result = await _createStreamingSend(context, operationRoute, body, options);
   return _createStreamingDeserialize(result);
 }
@@ -79,7 +79,7 @@ export function _createSend(
       sessionState: body["sessionState"],
       context: body["context"],
     },
-  });
+  }) as StreamableMethod<Create200Response>;
 }
 
 export async function _createDeserialize(result: Create200Response): Promise<ChatCompletion> {
@@ -88,7 +88,7 @@ export async function _createDeserialize(result: Create200Response): Promise<Cha
   }
 
   return {
-    choices: (result.body["choices"] ?? []).map((p) => ({
+    choices: result.body["choices"].map((p) => ({
       index: p["index"],
       message: p.message as any,
       sessionState: p["sessionState"],

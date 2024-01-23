@@ -11,7 +11,7 @@
 
 import { getClient } from "@azure-rest/core-client";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { ChatProtocolClientOptions } from "../ChatProtocolClient.js";
+import { ChatProtocolClientOptions } from "../api/ChatProtocolContext.js";
 import { logger } from "../logger.js";
 import { ChatProtocolContext } from "./clientDefinitions.js";
 

@@ -11,20 +11,16 @@
 
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import {
-  ChatProtocolClientOptions,
-  ChatProtocolContext,
-  create,
-  createChatProtocol,
-  createStreaming,
-} from "./api/index.js";
+import { ChatProtocolClientOptions, createChatProtocol } from "./api/index.js";
+import { create, createStreaming } from "./api/operations.js";
 import {
   ChatCompletion,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatMessage,
   ChatCompletionOptions as GeneratedChatCompletionOptions,
 } from "./models/models.js";
 import { CompletionOptions } from "./models/options.js";
+import { ChatProtocolContext } from "./rest/clientDefinitions.js";
 
 export { ChatProtocolClientOptions } from "./api/ChatProtocolContext.js";
 
@@ -44,15 +40,15 @@ export class ChatProtocolClient {
   }
 
   /** Creates a new streaming chat completion. */
-  createStreaming(
+  getCompletionsStreaming(
     messages: ChatMessage[],
     options: CompletionOptions = { requestOptions: {} }
-  ): AsyncIterable<ChatCompletionChunk> {
+  ): AsyncIterable<ChatCompletionDelta> {
     return createStreaming(this._client, messages, options);
   }
 
   /** Creates a new chat completion. */
-  create(
+  getCompletions(
     messages: ChatMessage[],
     options: CompletionOptions = { requestOptions: {} }
   ): Promise<ChatCompletion> {

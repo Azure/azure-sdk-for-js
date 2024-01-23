@@ -5,7 +5,7 @@ import { create } from "../generated/src/api/operations.js";
 import {
   ChatCompletion,
   ChatCompletionOptions as GeneratedChatCompletionOptions,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatMessage,
 } from "../generated/src/models/models.js";
 import { ChatProtocolContext } from "./rest/clientDefinitions.js";
@@ -14,16 +14,19 @@ import { CompletionOptions } from "./models/options.js";
 
 export class ChatProtocolClient {
   private _client: ChatProtocolContext;
+
   /** Creates a new streaming chat completion. */
-  createStreaming(
+  // @azsdk-rename(createStreaming)
+  getCompletionsStreaming(
     messages: ChatMessage[],
     options: CompletionOptions = { requestOptions: {} }
-  ): AsyncIterable<ChatCompletionChunk> {
+  ): AsyncIterable<ChatCompletionDelta> {
     return createStreaming(this._client, messages, options);
   }
 
   /** Creates a new chat completion. */
-  create(
+  // @azsdk-rename(create)
+  getCompletions(
     messages: ChatMessage[],
     options: CompletionOptions = { requestOptions: {} }
   ): Promise<ChatCompletion> {

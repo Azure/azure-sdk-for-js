@@ -1,5 +1,5 @@
 import {
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChatCompletionOptions,
   CreateOptions,
 } from "../../generated/src/models/index.js";
@@ -28,7 +28,7 @@ function _createStreamingSend(
   });
 }
 
-function _createStreamingDeserialize(body: any): ChatCompletionChunk {
+function _createStreamingDeserialize(body: any): ChatCompletionDelta {
   return {
     choices: (body["choices"] ?? []).map((p: any) => ({
       index: p["index"],
@@ -49,7 +49,7 @@ export function createStreaming(
   context: Client,
   messages: ChatMessage[],
   options: CompletionOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletionChunk> {
+): AsyncIterable<ChatCompletionDelta> {
   const result = _createStreamingSend(context, messages, options);
   return streamJSONLines(result, _createStreamingDeserialize);
 }

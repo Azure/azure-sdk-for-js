@@ -25,7 +25,7 @@ export interface ChatCompletion {
 }
 
 // @public
-export interface ChatCompletionChunk {
+export interface ChatCompletionDelta {
     choices: ChoiceDelta[];
 }
 
@@ -60,8 +60,8 @@ export interface ChatMessageParent {
 // @public (undocumented)
 export class ChatProtocolClient {
     constructor(endpoint: string, credential: KeyCredential | TokenCredential, options?: ChatProtocolClientOptions);
-    create(messages: ChatMessage[], options?: CompletionOptions): Promise<ChatCompletion>;
-    createStreaming(messages: ChatMessage[], options?: CompletionOptions): AsyncIterable<ChatCompletionChunk>;
+    getCompletions(messages: ChatMessage[], options?: CompletionOptions): Promise<ChatCompletion>;
+    getCompletionsStreaming(messages: ChatMessage[], options?: CompletionOptions): AsyncIterable<ChatCompletionDelta>;
     readonly pipeline: Pipeline;
 }
 

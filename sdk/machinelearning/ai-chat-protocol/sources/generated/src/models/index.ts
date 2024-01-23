@@ -6,7 +6,7 @@ export {
   ChatMessage,
   MessageKind,
   ChatRole,
-  ChatCompletionChunk,
+  ChatCompletionDelta,
   ChoiceDelta,
   ChatMessageDelta,
   FinishReason,
