@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Fix a bug where `toolChoice` field in the input options to chat completion methods wasn't defined correctly.
+- Fix a bug where the service returns undefined `choices` in chat completion methods.
 
 ### Other Changes
 
