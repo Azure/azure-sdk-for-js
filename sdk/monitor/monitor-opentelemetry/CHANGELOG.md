@@ -6,7 +6,6 @@
 
 - Implement browser SDK loader.
 - Use OpenTelemetry resource detectors for App Service, Functions, and VM.
-- Add support for detecting WCF depdendency type.
 - Add Bunyan Log Instrumentation.
 - Implement Live Metrics.
 
@@ -14,11 +13,8 @@
 
 - Add performance tests to pipeline.
 - Update OpenTelemetry dependencies.
-- Update Statsbeat attach type values.
-- Stop sending Statsbeat if an invalid iKey is used.
 - Integrate with the Azure SDK internal logger.
 - Set synthetic flags on Standard Metrics.
-- Update generated files.
 
 ## 1.1.1 (2023-11-09)
 
