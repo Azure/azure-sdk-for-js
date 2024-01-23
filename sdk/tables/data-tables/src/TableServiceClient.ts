@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import "@azure/core-paging";
-
 import {
   GetPropertiesResponse,
   GetStatisticsResponse,
