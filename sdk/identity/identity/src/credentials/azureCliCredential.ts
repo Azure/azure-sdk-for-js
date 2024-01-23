@@ -196,7 +196,7 @@ export class AzureCliCredential implements TokenCredential {
     const token = response.accessToken;
     // if available, expires_on will be a number representing seconds since epoch.
     // ensure it's a number or NaN
-    let expiresOnTimestamp = Number.parseInt(response.expires_on) * 1000;
+    let expiresOnTimestamp = Number.parseInt(response.expires_on, 10) * 1000;
     if (!isNaN(expiresOnTimestamp)) {
       logger.getToken.info("expires_on is available and is valid, using it");
       return {
