@@ -23293,7 +23293,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-NyW4KwCAIBSEyDUkuu/SyZuMMRGznnRuJu/44EpZf+ogctI3wE0J2DY7HAKq6tZtDjvzo6Aw7huHHezwDDgUTg==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-ES4hhVv24FGj5RGko8MsVsR12t3HyGl2SQBr0yEaCWCR41lb40M+4yOv6fMDBGKwpmm3DrKO04v0N+yl7kHleQ==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -23302,6 +23302,8 @@ packages:
       '@types/fs-extra': 8.1.5
       '@types/mocha': 10.0.6
       '@types/node': 18.19.3
+      '@vitest/browser': 1.2.1(playwright@1.41.0)(vitest@1.2.1)
+      '@vitest/coverage-istanbul': 1.2.1(vitest@1.2.1)
       c8: 8.0.1
       chai: 4.3.10
       concurrently: 8.2.2
@@ -23325,13 +23327,27 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
+      vitest: 1.2.1(@types/node@18.19.3)(@vitest/browser@1.2.1)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
       - '@swc/core'
       - '@swc/wasm'
+      - '@vitest/ui'
       - bufferutil
       - debug
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - playwright
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/test-utils-perf.tgz:

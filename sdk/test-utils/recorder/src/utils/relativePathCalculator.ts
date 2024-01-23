@@ -18,7 +18,7 @@ function toSafePath(filePath: string): string {
 /**
  * Determines the path of the package being tested relative to the repository root.
  */
-function relativePackagePath() {
+function relativePackagePath(): string {
   const currentPath = process.cwd(); // Gives the current working directory
 
   let rootPath = undefined;

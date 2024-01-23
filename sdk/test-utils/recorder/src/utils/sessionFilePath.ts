@@ -5,8 +5,9 @@ import { isNode } from "@azure/core-util";
 import { generateTestRecordingFilePath } from "./filePathGenerator.js";
 import { relativeRecordingsPath } from "./relativePathCalculator.js";
 import { RecorderError } from "./utils.js";
+import { TestInfo, isMochaTest, isVitestTestContext } from "../testInfo.js";
 
-export function sessionFilePath(testContext: Mocha.Test): string {
+export function sessionFilePath(testContext: TestInfo): string {
   // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
   return `${relativeRecordingsPath()}/${recordingFilePath(testContext)}`;
 }
@@ -16,18 +17,36 @@ export function sessionFilePath(testContext: Mocha.Test): string {
  *
  *  `{node|browsers}/<describe-block-title>/recording_<test-title>.json`
  */
-export function recordingFilePath(testContext: Mocha.Test): string {
-  if (!testContext.parent) {
+export function recordingFilePath(testContext: TestInfo): string {
+  if (isMochaTest(testContext)) {
+    if (!testContext.parent) {
+      throw new RecorderError(
+        `Test ${testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+      );
+    }
+
+    return generateTestRecordingFilePath(
+      isNode ? "node" : "browsers",
+      testContext.parent.fullTitle(),
+      testContext.title,
+    );
+  } else if (isVitestTestContext(testContext)) {
+    if (!testContext.task.suite) {
+      throw new RecorderError(
+        `Test ${testContext.task.name} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+      );
+    }
+
+    return generateTestRecordingFilePath(
+      isNode ? "node" : "browsers",
+      testContext.task.suite.name,
+      testContext.task.name,
+    );
+  } else {
     throw new RecorderError(
-      `Test ${testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+      `Test ${testContext} is not a Mocha test or Vitest test context, so a file path for its recording could not be generated.`,
     );
   }
-
-  return generateTestRecordingFilePath(
-    isNode ? "node" : "browsers",
-    testContext.parent.fullTitle(),
-    testContext.title,
-  );
 }
 
 export function assetsJsonPath(): string {

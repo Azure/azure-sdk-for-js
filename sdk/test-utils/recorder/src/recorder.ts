@@ -20,7 +20,6 @@ import {
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils.js";
-import { Test } from "mocha";
 import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath.js";
 import { SanitizerOptions } from "./utils/utils.js";
 import { paths } from "./utils/paths.js";
@@ -35,6 +34,7 @@ import { isNode } from "@azure/core-util";
 import { env } from "./utils/env.js";
 import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { TestInfo } from "./testInfo.js";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -53,7 +53,7 @@ export class Recorder {
   private assetsJson?: string;
   private variables: Record<string, string>;
 
-  constructor(private testContext?: Test | undefined) {
+  constructor(private testContext?: TestInfo | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
@@ -395,7 +395,7 @@ export class Recorder {
     }
 
     if (ensureExistence(this.httpClient, "this.httpClient")) {
-      return await transformsInfo(this.httpClient, Recorder.url, this.recordingId!);
+      return transformsInfo(this.httpClient, Recorder.url, this.recordingId!);
     }
 
     throw new RecorderError("Expected httpClient to be defined");

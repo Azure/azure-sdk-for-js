@@ -76,20 +76,28 @@ export default leafCommand(commandInfo, async (options) => {
 
   const info = await resolveProject(process.cwd());
 
-  if (!info.packageJson.module) {
-    log.error(info.name, "does not specify a `module` field.");
+  let moduleField = info.packageJson.module;
+  if (!moduleField) {
+    const defaultExport = info.packageJson.exports?.["."]?.import as any;
+    if (defaultExport) {
+      moduleField = defaultExport?.default;
+    }
+  }
+
+  if (!moduleField) {
+    log.error(info.name, "does not specify a `module` field or `exports` top level field.");
     return false;
   }
 
   const basePath = path
-    .relative(process.cwd(), path.dirname(path.parse(info.packageJson.module).dir))
+    .relative(process.cwd(), path.dirname(path.parse(moduleField).dir))
     .split(path.sep)
     .join("/");
 
   if (options.production) {
     const baseConfig: rollup.RollupOptions = {
       // Use the package's module field if it has one
-      input: info.packageJson.module,
+      input: moduleField,
       external: [
         ...nodeBuiltins,
         ...Object.keys(info.packageJson.dependencies),
