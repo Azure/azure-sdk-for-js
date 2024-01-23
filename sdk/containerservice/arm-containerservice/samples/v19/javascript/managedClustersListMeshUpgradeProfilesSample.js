@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists available upgrades for all service meshes in a specific cluster.
  *
  * @summary Lists available upgrades for all service meshes in a specific cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersList_MeshUpgradeProfiles.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersList_MeshUpgradeProfiles.json
  */
 async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInACluster() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function listsVersionCompatibilityAndUpgradeProfileForAllServiceMeshesInAC
   const resArray = new Array();
   for await (let item of client.managedClusters.listMeshUpgradeProfiles(
     resourceGroupName,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

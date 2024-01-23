@@ -18,7 +18,7 @@ describe("MessageSender unit tests", () => {
       "serviceBusClientId",
       createConnectionContextForTests(),
       "entityPath",
-      retryOptions
+      retryOptions,
     );
 
     let openCalled = 0;
@@ -50,7 +50,7 @@ describe("MessageSender unit tests", () => {
         name: "ServiceBusError",
         code: "GeneralError",
         message: "Link failed to initialize, cannot get max message size.",
-      }
+      },
     );
 
     assert.equal(openCalled, retryOptions.maxRetries + 1);
@@ -67,7 +67,7 @@ describe("MessageSender unit tests", () => {
       "serviceBusClientId",
       createConnectionContextForTests(),
       "entityPath",
-      retryOptions
+      retryOptions,
     );
 
     let openCalled = 0;
@@ -100,7 +100,7 @@ describe("MessageSender unit tests", () => {
       "serviceBusClientId",
       createConnectionContextForTests(),
       "entityPath",
-      retryOptions
+      retryOptions,
     );
     messageSender["_logPrefix"] = "fakeSenderForSendRetry"; // prevent uuid in error message
 

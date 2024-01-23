@@ -93,7 +93,7 @@ export const msalPersistencePlatforms: Partial<Record<NodeJS.Platform, MsalPersi
   win32: ({ name = defaultMsalValues.tokenCache.name } = {}): Promise<Persistence> =>
     FilePersistenceWithDataProtection.create(
       getPersistencePath(name),
-      DataProtectionScope.CurrentUser
+      DataProtectionScope.CurrentUser,
     ),
 
   darwin: async (options: MsalPersistenceOptions = {}): Promise<Persistence> => {

@@ -46,7 +46,7 @@ async function attachedDatabaseConfigurationsCreateOrUpdate() {
     resourceGroupName,
     clusterName,
     attachedDatabaseConfigurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

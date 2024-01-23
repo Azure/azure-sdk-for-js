@@ -31,11 +31,11 @@
 //     });
 
 //     const proxyPort = 8989;
-//     const agent = new ProxyAgent(`http://127.0.0.1:${8989}`) as any;
+//     const agent = new ProxyAgent(`http://localhost:${8989}`) as any;
 
 //     it("nativeApi Client Should successfully execute request", async function() {
 //       return new Promise((resolve) => {
-//         proxy.listen(proxyPort, "127.0.0.1", async () => {
+//         proxy.listen(proxyPort, "localhost", async () => {
 //           try {
 //             const client = new CosmosClient({
 //               endpoint,
@@ -58,7 +58,7 @@
 //     it("nativeApi Client Should execute request in error while the proxy setting is not correct", async function(this: Context) {
 //       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 //       return new Promise((resolve, reject) => {
-//         proxy.listen(proxyPort + 1, "127.0.0.1", async () => {
+//         proxy.listen(proxyPort + 1, "localhost", async () => {
 //           try {
 //             const client = new CosmosClient({
 //               endpoint,

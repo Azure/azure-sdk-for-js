@@ -32,7 +32,7 @@ export async function main() {
             `Short Code Cots listing failed.
             Status code cost: ${res.status}; 
             Error: ${res.bodyAsText}; 
-            CV: ${res.headers.get("MS-CV")}`
+            CV: ${res.headers.get("MS-CV")}`,
           );
         }
       },

@@ -21,7 +21,7 @@ const cluKey = process.env.AZURE_CONVERSATIONS_KEY || "<api-key>";
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   cluEndpoint,
-  new AzureKeyCredential(cluKey)
+  new AzureKeyCredential(cluKey),
 );
 
 export async function main() {

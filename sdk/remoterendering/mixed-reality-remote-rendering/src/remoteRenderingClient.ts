@@ -190,7 +190,7 @@ export class RemoteRenderingClient {
     accountId: string,
     accountDomain: string,
     credential: AzureKeyCredential,
-    options?: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions,
   );
 
   /**
@@ -206,7 +206,7 @@ export class RemoteRenderingClient {
     accountId: string,
     accountDomain: string,
     credential: TokenCredential,
-    options?: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions,
   );
 
   /**
@@ -221,7 +221,7 @@ export class RemoteRenderingClient {
     endpoint: string,
     accountId: string,
     credential: AccessToken,
-    options?: RemoteRenderingClientOptions
+    options?: RemoteRenderingClientOptions,
   );
 
   constructor(endpoint: string, accountId: string, ...args: Array<any>) {
@@ -258,7 +258,7 @@ export class RemoteRenderingClient {
         accountId,
         accountDomain,
         credential,
-        stsOptions
+        stsOptions,
       );
       if (args.length === 3) {
         options = args[2];
@@ -324,7 +324,7 @@ export class RemoteRenderingClient {
   public async beginConversion(
     conversionId: string,
     assetConversionSettings: AssetConversionSettings,
-    options?: BeginConversionOptions
+    options?: BeginConversionOptions,
   ): Promise<AssetConversionPollerLike>;
 
   /**
@@ -332,13 +332,13 @@ export class RemoteRenderingClient {
    * @param options - The options parameters, carrying a resumeFrom value.
    */
   public async beginConversion(
-    options: ResumeBeginConversionOptions
+    options: ResumeBeginConversionOptions,
   ): Promise<AssetConversionPollerLike>;
 
   public async beginConversion(
     conversionIdOrResumeOptions: string | ResumeBeginConversionOptions,
     assetConversionSettings?: AssetConversionSettings,
-    options?: BeginConversionOptions
+    options?: BeginConversionOptions,
   ): Promise<AssetConversionPollerLike> {
     let conversionId: string;
     let settings: AssetConversionSettings;
@@ -353,14 +353,14 @@ export class RemoteRenderingClient {
         this.operations,
         conversionIdOrResumeOptions.resumeFrom,
         "RemoteRenderingClient-GetConversionPoller",
-        options
+        options,
       );
 
       return new AssetConversionPoller(
         this.accountId,
         this.operations,
         assetConversion,
-        conversionIdOrResumeOptions
+        conversionIdOrResumeOptions,
       );
     }
 
@@ -376,20 +376,20 @@ export class RemoteRenderingClient {
             this.accountId,
             conversionId,
             { settings: settings },
-            updatedOptions
+            updatedOptions,
           );
 
         const poller = new AssetConversionPoller(
           this.accountId,
           this.operations,
           assetConversionFromConversion(conversion),
-          operationOptions
+          operationOptions,
         );
 
         await poller.poll();
 
         return poller;
-      }
+      },
     );
   }
 
@@ -400,19 +400,19 @@ export class RemoteRenderingClient {
    */
   public async getConversion(
     conversionId: string,
-    options?: GetConversionOptions
+    options?: GetConversionOptions,
   ): Promise<AssetConversion> {
     return getConversionInternal(
       this.accountId,
       this.operations,
       conversionId,
       "RemoteRenderingClient-GetConversion",
-      options
+      options,
     );
   }
 
   private async *getAllConversionsPagingPage(
-    options?: OperationOptions
+    options?: OperationOptions,
   ): AsyncIterableIterator<AssetConversion[]> {
     let result = await this.operations.listConversions(this.accountId, options);
     let assetConversionResult = Array.from(result.conversions).map(assetConversionFromConversion);
@@ -422,7 +422,7 @@ export class RemoteRenderingClient {
       result = await this.operations.listConversionsNext(
         this.accountId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       assetConversionResult = Array.from(result.conversions).map(assetConversionFromConversion);
@@ -431,7 +431,7 @@ export class RemoteRenderingClient {
   }
 
   private async *getAllConversionsPagingAll(
-    options?: OperationOptions
+    options?: OperationOptions,
   ): AsyncIterableIterator<AssetConversion> {
     for await (const page of this.getAllConversionsPagingPage(options)) {
       yield* page;
@@ -443,13 +443,13 @@ export class RemoteRenderingClient {
    * @param options - The options parameters.
    */
   public listConversions(
-    options?: ListConversionsOptions
+    options?: ListConversionsOptions,
   ): PagedAsyncIterableIterator<AssetConversion> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "RemoteRenderingClient-ListConversion",
       {
         ...options,
-      }
+      },
     );
     try {
       const iter = this.getAllConversionsPagingAll(updatedOptions);
@@ -486,7 +486,7 @@ export class RemoteRenderingClient {
   public async beginSession(
     sessionId: string,
     settings: RenderingSessionSettings,
-    options?: BeginSessionOptions
+    options?: BeginSessionOptions,
   ): Promise<RenderingSessionPollerLike>;
 
   /**
@@ -494,13 +494,13 @@ export class RemoteRenderingClient {
    * @param options - The options parameters, carrying a resumeFrom value.
    */
   public async beginSession(
-    options: ResumeBeginSessionOptions
+    options: ResumeBeginSessionOptions,
   ): Promise<RenderingSessionPollerLike>;
 
   public async beginSession(
     sessionIdOrResumeOptions: string | ResumeBeginSessionOptions,
     renderingSessionSettings?: RenderingSessionSettings,
-    options?: BeginSessionOptions
+    options?: BeginSessionOptions,
   ): Promise<RenderingSessionPollerLike> {
     let sessionId: string;
     let settings: RenderingSessionSettings;
@@ -515,13 +515,13 @@ export class RemoteRenderingClient {
         this.operations,
         sessionIdOrResumeOptions.resumeFrom,
         "RemoteRenderingClient-GetSessionPoller",
-        sessionIdOrResumeOptions
+        sessionIdOrResumeOptions,
       );
       return new RenderingSessionPoller(
         this.accountId,
         this.operations,
         renderingSession,
-        sessionIdOrResumeOptions
+        sessionIdOrResumeOptions,
       );
     }
 
@@ -539,14 +539,14 @@ export class RemoteRenderingClient {
           this.accountId,
           this.operations,
           renderingSessionFromSessionProperties(sessionProperties),
-          operationOptions
+          operationOptions,
         );
 
         // Do I want this?
         await poller.poll();
 
         return poller;
-      }
+      },
     );
   }
 
@@ -559,14 +559,14 @@ export class RemoteRenderingClient {
    */
   public async getSession(
     sessionId: string,
-    options?: GetSessionOptions
+    options?: GetSessionOptions,
   ): Promise<RenderingSession> {
     return getSessionInternal(
       this.accountId,
       this.operations,
       sessionId,
       "RemoteRenderingClient-GetSession",
-      options
+      options,
     );
   }
 
@@ -581,7 +581,7 @@ export class RemoteRenderingClient {
   public async updateSession(
     sessionId: string,
     settings: UpdateSessionSettings,
-    options?: UpdateSessionOptions
+    options?: UpdateSessionOptions,
   ): Promise<RenderingSession> {
     return tracingClient.withSpan(
       "RemoteRenderingClient-UpdateSession",
@@ -594,10 +594,10 @@ export class RemoteRenderingClient {
           this.accountId,
           sessionId,
           settings,
-          updatedOptions
+          updatedOptions,
         );
         return renderingSessionFromSessionProperties(sessionProperties);
-      }
+      },
     );
   }
 
@@ -614,12 +614,12 @@ export class RemoteRenderingClient {
       this.operations,
       sessionId,
       "RemoteRenderingClient-EndSession",
-      options
+      options,
     );
   }
 
   private async *getAllSessionsPagingPage(
-    options?: OperationOptions
+    options?: OperationOptions,
   ): AsyncIterableIterator<RenderingSession[]> {
     let result = await this.operations.listSessions(this.accountId, options);
     let sessions = Array.from(result.sessions).map(renderingSessionFromSessionProperties);
@@ -634,7 +634,7 @@ export class RemoteRenderingClient {
   }
 
   private async *getAllSessionsPagingAll(
-    options?: OperationOptions
+    options?: OperationOptions,
   ): AsyncIterableIterator<RenderingSession> {
     for await (const page of this.getAllSessionsPagingPage(options)) {
       yield* page;
@@ -650,7 +650,7 @@ export class RemoteRenderingClient {
       "RemoteRenderingClient-ListConversion",
       {
         ...options,
-      }
+      },
     );
     try {
       const iter = this.getAllSessionsPagingAll(updatedOptions);

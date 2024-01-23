@@ -102,7 +102,7 @@ async function createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -207,7 +207,7 @@ async function createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -282,7 +282,7 @@ async function createACustomImageScaleSetFromAnUnmanagedGeneralizedOSImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -367,7 +367,7 @@ async function createAPlatformImageScaleSetWithUnmanagedOSDisks() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -442,7 +442,7 @@ async function createAScaleSetFromACustomImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -517,7 +517,7 @@ async function createAScaleSetFromAGeneralizedSharedImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -587,7 +587,7 @@ async function createAScaleSetFromASpecializedSharedImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -685,7 +685,7 @@ async function createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty()
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -781,7 +781,7 @@ async function createAScaleSetWithApplicationProfile() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -864,7 +864,7 @@ async function createAScaleSetWithDiskControllerType() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -958,7 +958,7 @@ async function createAScaleSetWithDiskEncryptionSetResourceInOSDiskAndDataDisk()
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1054,7 +1054,7 @@ async function createAScaleSetWithFpgaNetworkInterfaces() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1138,7 +1138,7 @@ async function createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() 
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1223,7 +1223,7 @@ async function createAScaleSetWithSecurityTypeAsConfidentialVM() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1305,7 +1305,7 @@ async function createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1388,7 +1388,7 @@ async function createAScaleSetWithAMarketplaceImagePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1471,7 +1471,7 @@ async function createAScaleSetWithAnAzureApplicationGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1563,7 +1563,7 @@ async function createAScaleSetWithAnAzureLoadBalancer() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1642,7 +1642,7 @@ async function createAScaleSetWithAutomaticRepairsEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1726,7 +1726,7 @@ async function createAScaleSetWithBootDiagnostics() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1809,7 +1809,7 @@ async function createAScaleSetWithEmptyDataDisksOnEachVM() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1893,7 +1893,7 @@ async function createAScaleSetWithEphemeralOSDisksUsingPlacementProperty() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -1977,7 +1977,7 @@ async function createAScaleSetWithEphemeralOSDisks() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2076,7 +2076,7 @@ async function createAScaleSetWithExtensionTimeBudget() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2155,7 +2155,7 @@ async function createAScaleSetWithManagedBootDiagnostics() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2233,7 +2233,7 @@ async function createAScaleSetWithPasswordAuthentication() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2311,7 +2311,7 @@ async function createAScaleSetWithPremiumStorage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2396,7 +2396,7 @@ async function createAScaleSetWithPriorityMixPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2475,7 +2475,7 @@ async function createAScaleSetWithScaleInPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2557,7 +2557,7 @@ async function createAScaleSetWithSpotRestorePolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2646,7 +2646,7 @@ async function createAScaleSetWithSshAuthentication() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2730,7 +2730,7 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2809,7 +2809,7 @@ async function createAScaleSetWithUserData() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2893,7 +2893,7 @@ async function createAScaleSetWithVirtualMachinesInDifferentZones() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -2975,7 +2975,7 @@ async function createAScaleSetWithVMSizeProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -3058,7 +3058,7 @@ async function createOrUpdateAScaleSetWithCapacityReservation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -47,7 +47,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
     credential = new ClientSecretCredential(
       env.AZURE_TENANT_ID || "tenant",
       env.AZURE_CLIENT_ID || "client",
-      env.AZURE_CLIENT_SECRET || "secret"
+      env.AZURE_CLIENT_SECRET || "secret",
     );
     sandbox = createSandbox();
   });

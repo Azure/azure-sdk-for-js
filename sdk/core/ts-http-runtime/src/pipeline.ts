@@ -170,7 +170,7 @@ class HttpPipeline implements Pipeline {
           return policy.sendRequest(req, next);
         };
       },
-      (req: PipelineRequest) => httpClient.sendRequest(req)
+      (req: PipelineRequest) => httpClient.sendRequest(req),
     );
 
     return pipeline(request);

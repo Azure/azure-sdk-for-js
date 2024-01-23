@@ -14,9 +14,8 @@ import {
 } from "../public/utils/testutils2";
 const assert = chai.assert;
 
-type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends Promise<infer U>
-  ? U
-  : never;
+type UnpackReturnType<T extends (...args: any) => any> =
+  ReturnType<T> extends Promise<infer U> ? U : never;
 
 const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
 
@@ -73,7 +72,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const parsed = parseServiceBusConnectionString(serviceBusConnectionString);
         const client = new ServiceBusClient(
           parsed.fullyQualifiedNamespace,
-          new AzureNamedKeyCredential(parsed.sharedAccessKeyName!, parsed.sharedAccessKey!)
+          new AzureNamedKeyCredential(parsed.sharedAccessKeyName!, parsed.sharedAccessKey!),
         );
 
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
@@ -122,12 +121,12 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         sharedAccessSignature = await getSharedAccessSignature(
           serviceBusConnectionString,
           entities.queue ?? `${entities.topic!}`,
-          endpoint.replace(/\/+$/, "")
+          endpoint.replace(/\/+$/, ""),
         );
         sasConnectionString = await getSasConnectionString(
           serviceBusConnectionString,
           entities.queue ?? `${entities.topic!}`,
-          endpoint.replace(/\/+$/, "")
+          endpoint.replace(/\/+$/, ""),
         );
       });
 
@@ -173,7 +172,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
         const parsed = parseServiceBusConnectionString(sasConnectionString);
         const client = new ServiceBusClient(
           parsed.fullyQualifiedNamespace,
-          new AzureSASCredential(sharedAccessSignature)
+          new AzureSASCredential(sharedAccessSignature),
         );
 
         const sender = tempClient.createSender(entities.queue ?? entities.topic!);
@@ -209,7 +208,7 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       async function getSharedAccessSignature(
         connectionString: string,
         path: string,
-        fqdn: string
+        fqdn: string,
       ): Promise<string> {
         const parsed = parseServiceBusConnectionString(connectionString) as {
           sharedAccessKeyName: string;
@@ -221,12 +220,12 @@ const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars(
       async function getSasConnectionString(
         connectionString: string,
         path: string,
-        fqdn: string
+        fqdn: string,
       ): Promise<string> {
         const sas = await getSharedAccessSignature(connectionString, path, fqdn);
 
         return `Endpoint=${fqdn};SharedAccessSignature=${sas}`;
       }
     });
-  }
+  },
 );

@@ -10,7 +10,7 @@ describe("Serializer (browser specific)", function () {
       const file = new File(
         ["In ancient times, cats were worshiped as gods. They have never forgotten this."],
         "cats.txt",
-        { type: "text/plain" }
+        { type: "text/plain" },
       );
 
       const serializer = createSerializer();

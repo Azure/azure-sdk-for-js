@@ -167,7 +167,7 @@ describe("resolver - node", function () {
         for (let i = 0; i < scenario.dtmis.length; i++) {
           myStub.onCall(i).callsFake((request: PipelineRequest) => {
             expect(request.url, "URL not formatted for request correctly.").to.deep.equal(
-              scenario.dtmis[i].expectedUri
+              scenario.dtmis[i].expectedUri,
             );
             const pipelineResponse: any = {
               request: request,

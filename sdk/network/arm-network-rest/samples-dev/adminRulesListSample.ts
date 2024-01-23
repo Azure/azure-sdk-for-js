@@ -36,7 +36,7 @@ async function listSecurityAdminRules() {
       resourceGroupName,
       networkManagerName,
       configurationName,
-      ruleCollectionName
+      ruleCollectionName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

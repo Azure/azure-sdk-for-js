@@ -524,13 +524,13 @@ function x64Hash128(bytes: Buffer, seed?: number) {
   const h1Buff = Buffer.from(
     ("00000000" + (h1[0] >>> 0).toString(16)).slice(-8) +
       ("00000000" + (h1[1] >>> 0).toString(16)).slice(-8),
-    "hex"
+    "hex",
   );
   const h1Reversed = reverse(h1Buff).toString("hex");
   const h2Buff = Buffer.from(
     ("00000000" + (h2[0] >>> 0).toString(16)).slice(-8) +
       ("00000000" + (h2[1] >>> 0).toString(16)).slice(-8),
-    "hex"
+    "hex",
   );
   const h2Reversed = reverse(h2Buff).toString("hex");
   return h1Reversed + h2Reversed;

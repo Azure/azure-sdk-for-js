@@ -13,7 +13,7 @@ import { TextAuthoringClient } from "./clientDefinitions";
 export default function createAuthoringClient(
   Endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): TextAuthoringClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/language`;
   options.apiVersion = options.apiVersion ?? "2022-10-01-preview";

@@ -31,6 +31,7 @@ import {
   CompletionsOptions,
   Embeddings,
   EmbeddingsOptions,
+  EventStream,
   ImageGenerations,
 } from "../../../models/models.js";
 import {
@@ -85,7 +86,7 @@ export function _getAudioTranscriptionAsPlainTextSend(
   body: AudioTranscriptionOptions,
   options: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
 > {
@@ -108,7 +109,7 @@ export function _getAudioTranscriptionAsPlainTextSend(
 export async function _getAudioTranscriptionAsPlainTextDeserialize(
   result:
     | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsPlainTextDefaultResponse
+    | GetAudioTranscriptionAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -127,7 +128,7 @@ export async function getAudioTranscriptionAsPlainText(
   body: AudioTranscriptionOptions,
   options: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<string> {
   const result = await _getAudioTranscriptionAsPlainTextSend(context, deploymentId, body, options);
   return _getAudioTranscriptionAsPlainTextDeserialize(result);
@@ -139,7 +140,7 @@ export function _getAudioTranscriptionAsResponseObjectSend(
   body: AudioTranscriptionOptions,
   options: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   | GetAudioTranscriptionAsResponseObject200Response
   | GetAudioTranscriptionAsResponseObjectDefaultResponse
@@ -165,7 +166,7 @@ export function _getAudioTranscriptionAsResponseObjectSend(
 export async function _getAudioTranscriptionAsResponseObjectDeserialize(
   result:
     | GetAudioTranscriptionAsResponseObject200Response
-    | GetAudioTranscriptionAsResponseObjectDefaultResponse
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse,
 ): Promise<AudioTranscription> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -203,13 +204,13 @@ export async function getAudioTranscriptionAsResponseObject(
   body: AudioTranscriptionOptions,
   options: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<AudioTranscription> {
   const result = await _getAudioTranscriptionAsResponseObjectSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranscriptionAsResponseObjectDeserialize(result);
 }
@@ -220,7 +221,7 @@ export function _getAudioTranslationAsPlainTextSend(
   body: AudioTranslationOptions,
   options: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
 > {
@@ -240,7 +241,7 @@ export function _getAudioTranslationAsPlainTextSend(
 }
 
 export async function _getAudioTranslationAsPlainTextDeserialize(
-  result: GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
+  result: GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -256,7 +257,7 @@ export async function getAudioTranslationAsPlainText(
   body: AudioTranslationOptions,
   options: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<string> {
   const result = await _getAudioTranslationAsPlainTextSend(context, deploymentId, body, options);
   return _getAudioTranslationAsPlainTextDeserialize(result);
@@ -268,7 +269,7 @@ export function _getAudioTranslationAsResponseObjectSend(
   body: AudioTranslationOptions,
   options: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   | GetAudioTranslationAsResponseObject200Response
   | GetAudioTranslationAsResponseObjectDefaultResponse
@@ -293,7 +294,7 @@ export function _getAudioTranslationAsResponseObjectSend(
 export async function _getAudioTranslationAsResponseObjectDeserialize(
   result:
     | GetAudioTranslationAsResponseObject200Response
-    | GetAudioTranslationAsResponseObjectDefaultResponse
+    | GetAudioTranslationAsResponseObjectDefaultResponse,
 ): Promise<AudioTranslation> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -328,13 +329,13 @@ export async function getAudioTranslationAsResponseObject(
   body: AudioTranslationOptions,
   options: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<AudioTranslation> {
   const result = await _getAudioTranslationAsResponseObjectSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranslationAsResponseObjectDeserialize(result);
 }
@@ -343,7 +344,7 @@ export function _getCompletionsSend(
   context: Client,
   deploymentId: string,
   body: CompletionsOptions,
-  options: ClientOpenAIClientGetCompletionsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
@@ -376,7 +377,7 @@ export async function getCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} }
+  options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = await _getCompletionsSend(
@@ -386,13 +387,13 @@ export async function getCompletions(
       prompt,
       ...rest,
     },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return _getCompletionsDeserialize(response);
 }
 
 export async function _getCompletionsDeserialize(
-  result: GetCompletions200Response | GetCompletionsDefaultResponse
+  result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -401,7 +402,7 @@ export async function _getCompletionsDeserialize(
 }
 
 export async function _getChatCompletionsDeserialize(
-  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -413,7 +414,7 @@ export function _getImageGenerationsSend(
   context: Client,
   deploymentId: string,
   body: GeneratedImageGenerationOptions,
-  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} },
 ): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/images/generations", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
@@ -431,7 +432,7 @@ export function _getImageGenerationsSend(
 }
 
 export async function _getImageGenerationsDeserialize(
-  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -452,7 +453,7 @@ export async function getImageGenerations(
   context: Client,
   deploymentId: string,
   body: GeneratedImageGenerationOptions,
-  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
   const result = await _getImageGenerationsSend(context, deploymentId, body, options);
   return _getImageGenerationsDeserialize(result);
@@ -462,7 +463,7 @@ export function _getEmbeddingsSend(
   context: Client,
   deploymentId: string,
   body: EmbeddingsOptions,
-  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} },
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
@@ -471,7 +472,7 @@ export function _getEmbeddingsSend(
 }
 
 export async function _getEmbeddingsDeserialize(
-  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
+  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -494,18 +495,18 @@ export async function getEmbeddings(
   context: Client,
   deploymentId: string,
   body: EmbeddingsOptions,
-  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
   const result = await _getEmbeddingsSend(context, deploymentId, body, options);
   return _getEmbeddingsDeserialize(result);
 }
 
-export function listCompletions(
+export function streamCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<Completions, "usage">> {
+  options: GetCompletionsOptions = { requestOptions: {} },
+): Promise<EventStream<Omit<Completions, "usage">>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
@@ -515,7 +516,7 @@ export function listCompletions(
       ...rest,
       stream: true,
     },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return getOaiSSEs(response, getCompletionsResult);
 }
@@ -524,24 +525,24 @@ export async function getImages(
   context: Client,
   deploymentName: string,
   prompt: string,
-  options: GetImagesOptions = { requestOptions: {} }
+  options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const result = await _getImageGenerationsSend(
     context,
     deploymentName,
     { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return _getImageGenerationsDeserialize(result);
 }
 
-export function listChatCompletions(
+export function streamChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletions> {
+  options: GetChatCompletionsOptions = { requestOptions: {} },
+): Promise<EventStream<ChatCompletions>> {
   const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,
@@ -558,7 +559,7 @@ export async function getChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} },
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
   return _getChatCompletionsDeserialize(result);
@@ -575,7 +576,7 @@ export async function getAudioTranslation(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
-  options?: GetAudioTranslationOptions
+  options?: GetAudioTranslationOptions,
 ): Promise<AudioResultSimpleJson>;
 /**
  * Returns the translation of an audio file.
@@ -591,14 +592,14 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   format: Format,
-  options?: GetAudioTranslationOptions
+  options?: GetAudioTranslationOptions,
 ): Promise<AudioResult<Format>>;
 export async function getAudioTranslation<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
   formatOrOptions?: Format | GetAudioTranslationOptions,
-  inputOptions?: GetAudioTranslationOptions
+  inputOptions?: GetAudioTranslationOptions,
 ): Promise<AudioResult<Format>> {
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -617,7 +618,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
       body: {
         ...snakeCaseKeys(rest),
         file: createFile(fileContent, "placeholder.wav"),
-        response_format,
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -641,7 +642,7 @@ export async function getAudioTranscription(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
-  options?: GetAudioTranscriptionOptions
+  options?: GetAudioTranscriptionOptions,
 ): Promise<AudioResultSimpleJson>;
 /**
  * Returns the transcription of an audio file.
@@ -657,14 +658,14 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   format: Format,
-  options?: GetAudioTranscriptionOptions
+  options?: GetAudioTranscriptionOptions,
 ): Promise<AudioResult<Format>>;
 export async function getAudioTranscription<Format extends AudioResultFormat>(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
   formatOrOptions?: Format | GetAudioTranscriptionOptions,
-  inputOptions?: GetAudioTranscriptionOptions
+  inputOptions?: GetAudioTranscriptionOptions,
 ): Promise<AudioResult<Format>> {
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -683,7 +684,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
       body: {
         ...snakeCaseKeys(rest),
         file: createFile(fileContent, "placeholder.wav"),
-        response_format,
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -699,7 +700,7 @@ function _getChatCompletionsSendX(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} }
+  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} },
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -735,7 +736,7 @@ function _getChatCompletionsSendX(
           ...rest,
           ...azure,
         },
-        coreOptions
+        coreOptions,
       )
     : _getChatCompletionsSend(context, deploymentName, { messages, ...rest }, coreOptions);
 }
@@ -744,7 +745,7 @@ function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
   deploymentName: string,
   body: GeneratedChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -757,7 +758,7 @@ function _getChatCompletionsWithAzureExtensionsSend(
       body: {
         ...snakeCaseKeys(rest),
         dataSources: dataSources?.map(
-          ({ type, ...opts }) => ({ type, parameters: opts } as AzureChatExtensionConfiguration)
+          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
         ),
         functions,
         function_call: functionCall,
@@ -789,7 +790,7 @@ function _getChatCompletionsSend(
   context: Client,
   deploymentName: string,
   body: GeneratedChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   const { functions, functionCall, messages, ...rest } = body;
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentName).post({
@@ -811,7 +812,7 @@ export async function getChatCompletionsWithAzureExtensions(
   _context: Client,
   _deploymentId: string,
   _body: ChatCompletionsOptions,
-  _options: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions = {}
+  _options: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions = {},
 ): Promise<ChatCompletions> {
   return {} as any;
 }

@@ -44,7 +44,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
         false,
         "peekLock",
         false,
-        false
+        false,
       );
 
       assert.equal(sbMessage.lockToken, expectedLockToken, "Unexpected lock token found");
@@ -57,7 +57,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
         false,
         "receiveAndDelete",
         false,
-        false
+        false,
       );
 
       assert.equal(!!sbMessage.lockToken, false, "Unexpected lock token found");
@@ -115,18 +115,24 @@ describe("ServiceBusMessageImpl unit tests", () => {
       false,
       "peekLock",
       false,
-      false
+      false,
     );
 
     it("headers match", () => {
       assert.equal(sbMessage._rawAmqpMessage.header?.firstAcquirer, amqpMessage.first_acquirer);
-      assert.equal(sbMessage._rawAmqpMessage.header?.timeToLive, amqpMessage.ttl);
+      assert.equal(
+        sbMessage._rawAmqpMessage.header?.timeToLive,
+        amqpMessage.absolute_expiry_time!.getTime() - amqpMessage.creation_time!.getTime(),
+      );
       assert.equal(sbMessage._rawAmqpMessage.header?.durable, amqpMessage.durable);
       assert.equal(sbMessage._rawAmqpMessage.header?.priority, amqpMessage.priority);
       assert.equal(sbMessage._rawAmqpMessage.header?.deliveryCount, amqpMessage.delivery_count);
 
       assert.equal(sbMessage.deliveryCount, amqpMessage.delivery_count);
-      assert.equal(sbMessage.timeToLive, amqpMessage.ttl);
+      assert.equal(
+        sbMessage.timeToLive,
+        amqpMessage.absolute_expiry_time!.getTime() - amqpMessage.creation_time!.getTime(),
+      );
     });
 
     it("message annotations match", () => {
@@ -139,7 +145,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
           assert.equal(
             sbMessage._rawAmqpMessage.messageAnnotations[key],
             message_annotations[key],
-            `Unexpected value for key: ${key}`
+            `Unexpected value for key: ${key}`,
           );
         }
       }
@@ -147,7 +153,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
       assert.equal(
         sbMessage.partitionKey,
         message_annotations[Constants.partitionKey],
-        "Unexpected Partition Key"
+        "Unexpected Partition Key",
       );
 
       // assert.equal(
@@ -167,7 +173,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
           assert.equal(
             sbMessage._rawAmqpMessage.deliveryAnnotations[key],
             delivery_annotations[key],
-            `Unexpected value for key: ${key}`
+            `Unexpected value for key: ${key}`,
           );
         }
       }
@@ -181,20 +187,20 @@ describe("ServiceBusMessageImpl unit tests", () => {
       assert.equal(sbMessage._rawAmqpMessage.properties?.contentType, amqpMessage.content_type);
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.contentEncoding,
-        amqpMessage.content_encoding
+        amqpMessage.content_encoding,
       );
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.absoluteExpiryTime,
-        amqpMessage.absolute_expiry_time?.getTime()
+        amqpMessage.absolute_expiry_time?.getTime(),
       );
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.creationTime,
-        amqpMessage.creation_time!.getTime()
+        amqpMessage.creation_time!.getTime(),
       );
       assert.equal(sbMessage._rawAmqpMessage.properties?.groupId, amqpMessage.group_id);
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.replyToGroupId,
-        amqpMessage.reply_to_group_id
+        amqpMessage.reply_to_group_id,
       );
       assert.equal(sbMessage._rawAmqpMessage.properties?.groupSequence, amqpMessage.group_sequence);
       assert.equal(sbMessage._rawAmqpMessage.properties?.subject, amqpMessage.subject);
@@ -208,7 +214,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
       assert.equal(sbMessage._rawAmqpMessage.properties?.groupId, sbMessage.sessionId);
       assert.equal(
         sbMessage._rawAmqpMessage.properties?.replyToGroupId,
-        sbMessage.replyToSessionId
+        sbMessage.replyToSessionId,
       );
       assert.equal(sbMessage._rawAmqpMessage.properties?.subject, sbMessage.subject);
       assert.deepEqual(sbMessage.applicationProperties, {
@@ -320,7 +326,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
         it(testInput.title, async function (): Promise<void> {
           assert.throws(
             () => toRheaMessage(testInput.message, defaultDataTransformer),
-            testInput.expectedErrorMessage
+            testInput.expectedErrorMessage,
           );
         });
       });
@@ -345,7 +351,7 @@ describe("ServiceBusMessageImpl unit tests", () => {
 
           assert.throws(
             () => batch.tryAddMessage(testInput.message),
-            testInput.expectedErrorMessage
+            testInput.expectedErrorMessage,
           );
         });
       });

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Checks ADU resource name availability.
  *
  * @summary Checks ADU resource name availability.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_AlreadyExists.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/CheckNameAvailability_AlreadyExists.json
  */
 async function checkNameAvailabilityAlreadyExists() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function checkNameAvailabilityAlreadyExists() {
  * This sample demonstrates how to Checks ADU resource name availability.
  *
  * @summary Checks ADU resource name availability.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/CheckNameAvailability_Available.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/CheckNameAvailability_Available.json
  */
 async function checkNameAvailabilityAvailable() {
   const subscriptionId =

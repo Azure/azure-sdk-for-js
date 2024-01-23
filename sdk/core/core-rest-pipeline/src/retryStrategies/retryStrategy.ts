@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AzureLogger } from "@azure/logger";
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
+import type { AzureLogger } from "@azure/logger";
+import type { PipelineResponse } from "../interfaces";
+import type { RestError } from "../restError";
 
 /**
  * Information provided to the retry strategy about the current progress of the retry policy.

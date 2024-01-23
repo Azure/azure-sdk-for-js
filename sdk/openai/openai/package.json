@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "1.0.0-beta.9",
+  "version": "1.0.0-beta.11",
   "description": "An isomorphic client library for Azure OpenAI.",
   "sdk-type": "client",
   "main": "dist/index.cjs",
@@ -37,7 +37,7 @@
       }
     ]
   },
-  "types": "types/openai.d.ts",
+  "types": "openai.shims.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
@@ -46,11 +46,11 @@
     "bundle": "tsc -p . && dev-tool run bundle",
     "build": "npm run clean && npm run bundle && api-extractor run --local",
     "build:test": "npm run bundle",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "npm run unit-test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/public/{,!(browser)/**/}/*.spec.js\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -68,6 +68,7 @@
     "dist/",
     "dist-esm/src/",
     "types/openai.d.ts",
+    "openai.shims.d.ts",
     "types/src",
     "README.md",
     "CHANGELOG.md",
@@ -126,17 +127,16 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "c8": "^8.0.0",
-    "prettier": "^2.5.1",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0"
+    "typescript": "~5.3.3"
   },
   "dependencies": {
-    "@azure-rest/core-client": "^1.1.4",
+    "@azure-rest/core-client": "^1.1.7",
     "@azure/core-util": "^1.4.0",
     "@azure/core-auth": "^1.4.0",
-    "@azure/core-sse": "^1.0.0",
+    "@azure/core-sse": "^2.0.0",
     "@azure/core-rest-pipeline": "^1.13.0",
     "@azure/logger": "^1.0.3",
     "tslib": "^2.4.0"

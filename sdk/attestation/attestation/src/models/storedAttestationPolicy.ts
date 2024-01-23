@@ -29,7 +29,7 @@ export class StoredAttestationPolicy {
     return TypeDeserializer.serialize(
       this,
       { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
-      Mappers.StoredAttestationPolicy
+      Mappers.StoredAttestationPolicy,
     );
   }
 
@@ -43,7 +43,7 @@ export class StoredAttestationPolicy {
     return TypeDeserializer.deserialize(
       value,
       { StoredAttestationPolicy: Mappers.StoredAttestationPolicy },
-      "StoredAttestationPolicy"
+      "StoredAttestationPolicy",
     ) as StoredAttestationPolicy;
   }
 

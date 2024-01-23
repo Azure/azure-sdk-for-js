@@ -40,7 +40,7 @@ async function createRoute() {
       subscriptionId,
       resourceGroupName,
       routeTableName,
-      routeName
+      routeName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

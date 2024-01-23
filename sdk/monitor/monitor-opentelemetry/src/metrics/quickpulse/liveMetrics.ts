@@ -22,14 +22,14 @@ import { LogRecord } from "@opentelemetry/sdk-logs";
 import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
-  ExceptionDocumentIngress,
+  Exception,
   MonitoringDataPoint,
   PingOptionalParams,
   PingResponse,
   PostResponse,
-  RemoteDependencyDocumentIngress,
-  RequestDocumentIngress,
-  TraceDocumentIngress,
+  RemoteDependency,
+  Request,
+  Trace,
 } from "../../generated";
 import {
   getCloudRole,
@@ -42,7 +42,7 @@ import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickPulseMetricNames, QuickpulseExporterOptions } from "./types";
+import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 
 const POST_INTERVAL = 1000;
@@ -120,7 +120,7 @@ export class LiveMetrics {
       streamId: streamId,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString
+      this.config.azureMonitorExporterOptions.connectionString,
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -237,58 +237,61 @@ export class LiveMetrics {
     this.meter = this.meterProvider.getMeter("AzureMonitorLiveMetricsMeter");
 
     this.requestDurationHistogram = this.meter.createHistogram(
-      QuickPulseMetricNames.REQUEST_DURATION,
+      QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyDurationHistogram = this.meter.createHistogram(
-      QuickPulseMetricNames.DEPENDENCY_DURATION,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
-    this.requestRateGauge = this.meter.createObservableGauge(QuickPulseMetricNames.REQUEST_RATE, {
-      valueType: ValueType.DOUBLE,
-    });
-    this.requestFailedRateGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.REQUEST_FAILURE_RATE,
+    this.requestRateGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.REQUEST_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
+    );
+    this.requestFailedRateGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
+      {
+        valueType: ValueType.DOUBLE,
+      },
     );
     this.dependencyRateGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.DEPENDENCY_RATE,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.dependencyFailedRateGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.memoryCommitedGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.COMMITTED_BYTES,
+      QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
       {
         valueType: ValueType.INT,
-      }
+      },
     );
 
     this.processorTimeGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.PROCESSOR_TIME,
+      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this.exceptionsRateGauge = this.meter.createObservableGauge(
-      QuickPulseMetricNames.EXCEPTION_RATE,
+      QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this.requestRateGauge.addCallback(this.getRequestRate.bind(this));
@@ -344,8 +347,7 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       // Add document and calculate metrics
-      let document: RequestDocumentIngress | RemoteDependencyDocumentIngress =
-        getSpanDocument(span);
+      let document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
       const statusCode = String(span.attributes["http.status_code"]);
@@ -383,7 +385,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      let document: TraceDocumentIngress | ExceptionDocumentIngress = getLogDocument(logRecord);
+      let document: Trace | Exception = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;

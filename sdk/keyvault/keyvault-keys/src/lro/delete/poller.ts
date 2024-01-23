@@ -25,7 +25,7 @@ export class DeleteKeyPoller extends KeyVaultKeyPoller<DeleteKeyPollOperationSta
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

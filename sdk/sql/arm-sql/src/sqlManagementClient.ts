@@ -155,11 +155,11 @@ import {
   DatabaseSqlVulnerabilityAssessmentScanResultImpl,
   DatabaseSqlVulnerabilityAssessmentScansImpl,
   DatabaseSqlVulnerabilityAssessmentsSettingsImpl,
-  ServersImpl,
   FailoverGroupsImpl,
   InstancePoolsImpl,
   LongTermRetentionBackupsImpl,
-  LongTermRetentionPoliciesImpl
+  LongTermRetentionPoliciesImpl,
+  ServersImpl
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -307,11 +307,11 @@ import {
   DatabaseSqlVulnerabilityAssessmentScanResult,
   DatabaseSqlVulnerabilityAssessmentScans,
   DatabaseSqlVulnerabilityAssessmentsSettings,
-  Servers,
   FailoverGroups,
   InstancePools,
   LongTermRetentionBackups,
-  LongTermRetentionPolicies
+  LongTermRetentionPolicies,
+  Servers
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -346,7 +346,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-sql/10.1.0-beta.4`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -680,11 +680,11 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.databaseSqlVulnerabilityAssessmentsSettings = new DatabaseSqlVulnerabilityAssessmentsSettingsImpl(
       this
     );
-    this.servers = new ServersImpl(this);
     this.failoverGroups = new FailoverGroupsImpl(this);
     this.instancePools = new InstancePoolsImpl(this);
     this.longTermRetentionBackups = new LongTermRetentionBackupsImpl(this);
     this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
+    this.servers = new ServersImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -832,9 +832,9 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   databaseSqlVulnerabilityAssessmentScanResult: DatabaseSqlVulnerabilityAssessmentScanResult;
   databaseSqlVulnerabilityAssessmentScans: DatabaseSqlVulnerabilityAssessmentScans;
   databaseSqlVulnerabilityAssessmentsSettings: DatabaseSqlVulnerabilityAssessmentsSettings;
-  servers: Servers;
   failoverGroups: FailoverGroups;
   instancePools: InstancePools;
   longTermRetentionBackups: LongTermRetentionBackups;
   longTermRetentionPolicies: LongTermRetentionPolicies;
+  servers: Servers;
 }

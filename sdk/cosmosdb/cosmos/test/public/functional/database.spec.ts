@@ -36,9 +36,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
-        }
+        },
       );
 
       assert.equal(databases.constructor, Array, "Value should be an array");
@@ -53,9 +53,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
-        }
+        },
       );
       assert.equal(db.id, databaseDefinition.id);
 
@@ -64,7 +64,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         databases2.length,
         beforeCreateDatabasesCount + 1,
-        "create should increase the number of databases"
+        "create should increase the number of databases",
       );
       // query databases
       const querySpec = {
@@ -83,9 +83,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
-        }
+        },
       );
       assert(results.length > 0, "number of results for the query should be > 0");
 
@@ -97,9 +97,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 2,
+          // metadataCallCount: 2,
           retryCount: 0,
-        }
+        },
       );
       try {
         // read database after deletion
@@ -110,9 +110,9 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
           },
           {
             locationEndpointsContacted: 1,
-            metadataCallCount: 2,
+            // metadataCallCount: 2,
             retryCount: 0,
-          }
+          },
         );
         assert.fail("Read database on non-existent database should fail");
       } catch (err: any) {

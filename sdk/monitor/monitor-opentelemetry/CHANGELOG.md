@@ -1,16 +1,20 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.2.0 (2024-01-23)
 
 ### Features Added
 
+- Implement browser SDK loader.
 - Use OpenTelemetry resource detectors for App Service, Functions, and VM.
-
-### Breaking Changes
-
-### Bugs Fixed
+- Add Bunyan Log Instrumentation.
+- Implement Live Metrics.
 
 ### Other Changes
+
+- Add performance tests to pipeline.
+- Update OpenTelemetry dependencies.
+- Integrate with the Azure SDK internal logger.
+- Set synthetic flags on Standard Metrics.
 
 ## 1.1.1 (2023-11-09)
 

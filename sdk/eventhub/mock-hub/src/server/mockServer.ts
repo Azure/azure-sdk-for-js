@@ -385,10 +385,10 @@ export class MockServer extends EventEmitter {
   private _sendMessage = (
     context: EventContext,
     outgoingMessage: Message,
-    toLinkName?: string
+    toLinkName?: string,
   ): void => {
     const sender = context.connection.find_sender(
-      (s: Sender) => s.name === toLinkName || s.target.address === toLinkName
+      (s: Sender) => s.name === toLinkName || s.target.address === toLinkName,
     );
     if (sender) {
       sender.send(outgoingMessage);

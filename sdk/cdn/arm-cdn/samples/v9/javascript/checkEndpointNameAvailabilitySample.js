@@ -30,7 +30,7 @@ async function checkEndpointNameAvailability() {
   const client = new CdnManagementClient(credential, subscriptionId);
   const result = await client.checkEndpointNameAvailability(
     resourceGroupName,
-    checkEndpointNameAvailabilityInput
+    checkEndpointNameAvailabilityInput,
   );
   console.log(result);
 }

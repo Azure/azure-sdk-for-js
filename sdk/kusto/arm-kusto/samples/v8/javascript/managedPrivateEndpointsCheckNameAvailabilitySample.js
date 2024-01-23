@@ -32,7 +32,7 @@ async function kustoManagedPrivateEndpointsCheckNameAvailability() {
   const result = await client.managedPrivateEndpoints.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

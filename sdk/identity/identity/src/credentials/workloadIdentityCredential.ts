@@ -63,13 +63,13 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
       );
       this.client = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.readFileContents.bind(this),
-        options
+        options,
       );
     }
   }
@@ -84,7 +84,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and federatedTokenFilePath are required parameters. 
@@ -106,7 +106,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     if (!this.federatedTokenFilePath) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`
+        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`,
       );
     }
     if (!this.azureFederatedTokenFileContent) {
@@ -114,7 +114,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       const value = file.trim();
       if (!value) {
         throw new CredentialUnavailableError(
-          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`
+          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`,
         );
       } else {
         this.azureFederatedTokenFileContent = value;

@@ -29,7 +29,7 @@ async function endpointsListResourceUsage() {
   for await (let item of client.endpoints.listResourceUsage(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

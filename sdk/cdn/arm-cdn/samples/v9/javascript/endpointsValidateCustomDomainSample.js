@@ -32,7 +32,7 @@ async function endpointsValidateCustomDomain() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainProperties
+    customDomainProperties,
   );
   console.log(result);
 }

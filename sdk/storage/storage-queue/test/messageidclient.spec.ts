@@ -47,7 +47,7 @@ describe("QueueClient messageId methods", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -85,7 +85,7 @@ describe("QueueClient messageId methods", () => {
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
-      10
+      10,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -119,7 +119,7 @@ describe("QueueClient messageId methods", () => {
       eResult.messageId,
       eResult.popReceipt,
       newMessage,
-      10
+      10,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -152,7 +152,7 @@ describe("QueueClient messageId methods", () => {
     const uResult = await queueClient.updateMessage(
       eResult.messageId,
       eResult.popReceipt,
-      newMessage
+      newMessage,
     );
     assert.ok(uResult.version);
     assert.ok(uResult.nextVisibleOn);
@@ -187,8 +187,8 @@ describe("QueueClient messageId methods", () => {
     assert.ok(error);
     assert.ok(
       error.message.includes(
-        "The request body is too large and exceeds the maximum permissible limit."
-      )
+        "The request body is too large and exceeds the maximum permissible limit.",
+      ),
     );
   });
 
@@ -208,7 +208,7 @@ describe("QueueClient messageId methods", () => {
     const newClient = new QueueClient(
       extractConnectionStringParts(getSASConnectionStringFromEnvironment(recorder)).url +
         "/" +
-        queueName
+        queueName,
     );
     assert.equal(newClient.name, queueName, "Queue name is not the same as the one provided.");
   });

@@ -122,7 +122,7 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface ListProjects {
   /** Lists the existing projects. */
   get(
-    options?: TextAnalysisAuthoringListProjectsParameters
+    options?: TextAnalysisAuthoringListProjectsParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringListProjects200Response | TextAnalysisAuthoringListProjectsDefaultResponse
   >;
@@ -131,7 +131,7 @@ export interface ListProjects {
 export interface CreateProject {
   /** Creates a new project or updates an existing one. */
   patch(
-    options: TextAnalysisAuthoringCreateProjectParameters
+    options: TextAnalysisAuthoringCreateProjectParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringCreateProject200Response
     | TextAnalysisAuthoringCreateProject201Response
@@ -139,13 +139,13 @@ export interface CreateProject {
   >;
   /** Gets the details of a project. */
   get(
-    options?: TextAnalysisAuthoringGetProjectParameters
+    options?: TextAnalysisAuthoringGetProjectParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringGetProject200Response | TextAnalysisAuthoringGetProjectDefaultResponse
   >;
   /** Deletes a project. */
   delete(
-    options?: TextAnalysisAuthoringDeleteProjectParameters
+    options?: TextAnalysisAuthoringDeleteProjectParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringDeleteProject202Response
     | TextAnalysisAuthoringDeleteProjectDefaultResponse
@@ -155,7 +155,7 @@ export interface CreateProject {
 export interface Export {
   /** Triggers a job to export a project's data. */
   post(
-    options: TextAnalysisAuthoringExportParameters
+    options: TextAnalysisAuthoringExportParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringExport202Response | TextAnalysisAuthoringExportDefaultResponse
   >;
@@ -164,7 +164,7 @@ export interface Export {
 export interface Import {
   /** Triggers a job to import a project. If a project with the same name already exists, the data of that project is replaced. */
   post(
-    options: TextAnalysisAuthoringImportParameters
+    options: TextAnalysisAuthoringImportParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringImport202Response | TextAnalysisAuthoringImportDefaultResponse
   >;
@@ -173,7 +173,7 @@ export interface Import {
 export interface Train {
   /** Triggers a training job for a project. */
   post(
-    options: TextAnalysisAuthoringTrainParameters
+    options: TextAnalysisAuthoringTrainParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringTrain202Response | TextAnalysisAuthoringTrainDefaultResponse
   >;
@@ -182,7 +182,7 @@ export interface Train {
 export interface ListDeployments {
   /** Lists the deployments belonging to a project. */
   get(
-    options?: TextAnalysisAuthoringListDeploymentsParameters
+    options?: TextAnalysisAuthoringListDeploymentsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListDeployments200Response
     | TextAnalysisAuthoringListDeploymentsDefaultResponse
@@ -192,7 +192,7 @@ export interface ListDeployments {
 export interface SwapDeployments {
   /** Swaps two existing deployments with each other. */
   post(
-    options: TextAnalysisAuthoringSwapDeploymentsParameters
+    options: TextAnalysisAuthoringSwapDeploymentsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringSwapDeployments202Response
     | TextAnalysisAuthoringSwapDeploymentsDefaultResponse
@@ -202,21 +202,21 @@ export interface SwapDeployments {
 export interface GetDeployment {
   /** Gets the details of a deployment. */
   get(
-    options?: TextAnalysisAuthoringGetDeploymentParameters
+    options?: TextAnalysisAuthoringGetDeploymentParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetDeployment200Response
     | TextAnalysisAuthoringGetDeploymentDefaultResponse
   >;
   /** Creates a new deployment or replaces an existing one. */
   put(
-    options: TextAnalysisAuthoringDeployProjectParameters
+    options: TextAnalysisAuthoringDeployProjectParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringDeployProject202Response
     | TextAnalysisAuthoringDeployProjectDefaultResponse
   >;
   /** Deletes a project deployment. */
   delete(
-    options?: TextAnalysisAuthoringDeleteDeploymentParameters
+    options?: TextAnalysisAuthoringDeleteDeploymentParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringDeleteDeployment202Response
     | TextAnalysisAuthoringDeleteDeploymentDefaultResponse
@@ -226,7 +226,7 @@ export interface GetDeployment {
 export interface DeleteDeploymentFromResources {
   /** Deletes a project deployment from the specified assigned resources. */
   post(
-    options: TextAnalysisAuthoringDeleteDeploymentFromResourcesParameters
+    options: TextAnalysisAuthoringDeleteDeploymentFromResourcesParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringDeleteDeploymentFromResources202Response
     | TextAnalysisAuthoringDeleteDeploymentFromResourcesDefaultResponse
@@ -236,7 +236,7 @@ export interface DeleteDeploymentFromResources {
 export interface GetDeploymentDeleteFromResourcesStatus {
   /** Gets the status of an existing delete deployment from specific resources job. */
   get(
-    options?: TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusParameters
+    options?: TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatus200Response
     | TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusDefaultResponse
@@ -246,7 +246,7 @@ export interface GetDeploymentDeleteFromResourcesStatus {
 export interface GetDeploymentStatus {
   /** Gets the status of an existing deployment job. */
   get(
-    options?: TextAnalysisAuthoringGetDeploymentStatusParameters
+    options?: TextAnalysisAuthoringGetDeploymentStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetDeploymentStatus200Response
     | TextAnalysisAuthoringGetDeploymentStatusDefaultResponse
@@ -256,7 +256,7 @@ export interface GetDeploymentStatus {
 export interface GetSwapDeploymentsStatus {
   /** Gets the status of an existing swap deployment job. */
   get(
-    options?: TextAnalysisAuthoringGetSwapDeploymentsStatusParameters
+    options?: TextAnalysisAuthoringGetSwapDeploymentsStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetSwapDeploymentsStatus200Response
     | TextAnalysisAuthoringGetSwapDeploymentsStatusDefaultResponse
@@ -266,7 +266,7 @@ export interface GetSwapDeploymentsStatus {
 export interface GetExportStatus {
   /** Gets the status of an export job. Once job completes, returns the project metadata, and assets. */
   get(
-    options?: TextAnalysisAuthoringGetExportStatusParameters
+    options?: TextAnalysisAuthoringGetExportStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetExportStatus200Response
     | TextAnalysisAuthoringGetExportStatusDefaultResponse
@@ -276,7 +276,7 @@ export interface GetExportStatus {
 export interface GetImportStatus {
   /** Gets the status for an import. */
   get(
-    options?: TextAnalysisAuthoringGetImportStatusParameters
+    options?: TextAnalysisAuthoringGetImportStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetImportStatus200Response
     | TextAnalysisAuthoringGetImportStatusDefaultResponse
@@ -286,7 +286,7 @@ export interface GetImportStatus {
 export interface ListTrainedModels {
   /** Lists the trained models belonging to a project. */
   get(
-    options?: TextAnalysisAuthoringListTrainedModelsParameters
+    options?: TextAnalysisAuthoringListTrainedModelsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListTrainedModels200Response
     | TextAnalysisAuthoringListTrainedModelsDefaultResponse
@@ -296,14 +296,14 @@ export interface ListTrainedModels {
 export interface GetTrainedModel {
   /** Gets the details of a trained model. */
   get(
-    options?: TextAnalysisAuthoringGetTrainedModelParameters
+    options?: TextAnalysisAuthoringGetTrainedModelParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetTrainedModel200Response
     | TextAnalysisAuthoringGetTrainedModelDefaultResponse
   >;
   /** Deletes an existing trained model. */
   delete(
-    options?: TextAnalysisAuthoringDeleteTrainedModelParameters
+    options?: TextAnalysisAuthoringDeleteTrainedModelParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringDeleteTrainedModel204Response
     | TextAnalysisAuthoringDeleteTrainedModelDefaultResponse
@@ -313,7 +313,7 @@ export interface GetTrainedModel {
 export interface LoadSnapshot {
   /** Restores the snapshot of this trained model to be the current working directory of the project. */
   post(
-    options?: TextAnalysisAuthoringLoadSnapshotParameters
+    options?: TextAnalysisAuthoringLoadSnapshotParameters,
   ): StreamableMethod<
     TextAnalysisAuthoringLoadSnapshot202Response | TextAnalysisAuthoringLoadSnapshotDefaultResponse
   >;
@@ -322,7 +322,7 @@ export interface LoadSnapshot {
 export interface GetModelEvaluationResults {
   /** Gets the detailed results of the evaluation for a trained model. This includes the raw inference results for the data included in the evaluation process. */
   get(
-    options: TextAnalysisAuthoringGetModelEvaluationResultsParameters
+    options: TextAnalysisAuthoringGetModelEvaluationResultsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetModelEvaluationResults200Response
     | TextAnalysisAuthoringGetModelEvaluationResultsDefaultResponse
@@ -332,7 +332,7 @@ export interface GetModelEvaluationResults {
 export interface GetModelEvaluationSummary {
   /** Gets the evaluation summary of a trained model. The summary includes high level performance measurements of the model e.g., F1, Precision, Recall, etc. */
   get(
-    options?: TextAnalysisAuthoringGetModelEvaluationSummaryParameters
+    options?: TextAnalysisAuthoringGetModelEvaluationSummaryParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetModelEvaluationSummary200Response
     | TextAnalysisAuthoringGetModelEvaluationSummaryDefaultResponse
@@ -342,7 +342,7 @@ export interface GetModelEvaluationSummary {
 export interface GetLoadSnapshotStatus {
   /** Gets the status for loading a snapshot. */
   get(
-    options?: TextAnalysisAuthoringGetLoadSnapshotStatusParameters
+    options?: TextAnalysisAuthoringGetLoadSnapshotStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetLoadSnapshotStatus200Response
     | TextAnalysisAuthoringGetLoadSnapshotStatusDefaultResponse
@@ -352,7 +352,7 @@ export interface GetLoadSnapshotStatus {
 export interface ListDeploymentResources {
   /** Lists the deployments resources assigned to the project. */
   get(
-    options?: TextAnalysisAuthoringListDeploymentResourcesParameters
+    options?: TextAnalysisAuthoringListDeploymentResourcesParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListDeploymentResources200Response
     | TextAnalysisAuthoringListDeploymentResourcesDefaultResponse
@@ -362,7 +362,7 @@ export interface ListDeploymentResources {
 export interface AssignDeploymentResources {
   /** Assign new Azure resources to a project to allow deploying new deployments to them. This API is available only via AAD authentication and not supported via subscription key authentication. For more details about AAD authentication, check here: https://learn.microsoft.com/en-us/azure/cognitive-services/authentication?tabs=powershell#authenticate-with-azure-active-directory */
   post(
-    options: TextAnalysisAuthoringAssignDeploymentResourcesParameters
+    options: TextAnalysisAuthoringAssignDeploymentResourcesParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringAssignDeploymentResources202Response
     | TextAnalysisAuthoringAssignDeploymentResourcesDefaultResponse
@@ -372,7 +372,7 @@ export interface AssignDeploymentResources {
 export interface UnassignDeploymentResources {
   /** Unassign resources from a project. This disallows deploying new deployments to these resources, and deletes existing deployments assigned to them. */
   post(
-    options: TextAnalysisAuthoringUnassignDeploymentResourcesParameters
+    options: TextAnalysisAuthoringUnassignDeploymentResourcesParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringUnassignDeploymentResources202Response
     | TextAnalysisAuthoringUnassignDeploymentResourcesDefaultResponse
@@ -382,7 +382,7 @@ export interface UnassignDeploymentResources {
 export interface GetAssignDeploymentResourcesStatus {
   /** Gets the status of an existing assign deployment resources job. */
   get(
-    options?: TextAnalysisAuthoringGetAssignDeploymentResourcesStatusParameters
+    options?: TextAnalysisAuthoringGetAssignDeploymentResourcesStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetAssignDeploymentResourcesStatus200Response
     | TextAnalysisAuthoringGetAssignDeploymentResourcesStatusDefaultResponse
@@ -392,7 +392,7 @@ export interface GetAssignDeploymentResourcesStatus {
 export interface GetUnassignDeploymentResourcesStatus {
   /** Gets the status of an existing unassign deployment resources job. */
   get(
-    options?: TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusParameters
+    options?: TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetUnassignDeploymentResourcesStatus200Response
     | TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusDefaultResponse
@@ -402,7 +402,7 @@ export interface GetUnassignDeploymentResourcesStatus {
 export interface ListTrainingJobs {
   /** Lists the non-expired training jobs created for a project. */
   get(
-    options?: TextAnalysisAuthoringListTrainingJobsParameters
+    options?: TextAnalysisAuthoringListTrainingJobsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListTrainingJobs200Response
     | TextAnalysisAuthoringListTrainingJobsDefaultResponse
@@ -412,7 +412,7 @@ export interface ListTrainingJobs {
 export interface GetTrainingStatus {
   /** Gets the status for a training job. */
   get(
-    options?: TextAnalysisAuthoringGetTrainingStatusParameters
+    options?: TextAnalysisAuthoringGetTrainingStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetTrainingStatus200Response
     | TextAnalysisAuthoringGetTrainingStatusDefaultResponse
@@ -422,7 +422,7 @@ export interface GetTrainingStatus {
 export interface CancelTrainingJob {
   /** Triggers a cancellation for a running training job. */
   post(
-    options?: TextAnalysisAuthoringCancelTrainingJobParameters
+    options?: TextAnalysisAuthoringCancelTrainingJobParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringCancelTrainingJob202Response
     | TextAnalysisAuthoringCancelTrainingJobDefaultResponse
@@ -432,7 +432,7 @@ export interface CancelTrainingJob {
 export interface GetProjectDeletionStatus {
   /** Gets the status for a project deletion job. */
   get(
-    options?: TextAnalysisAuthoringGetProjectDeletionStatusParameters
+    options?: TextAnalysisAuthoringGetProjectDeletionStatusParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetProjectDeletionStatus200Response
     | TextAnalysisAuthoringGetProjectDeletionStatusDefaultResponse
@@ -442,7 +442,7 @@ export interface GetProjectDeletionStatus {
 export interface ListAssignedResourceDeployments {
   /** Lists the deployments to which an Azure resource is assigned. This doesn't return deployments belonging to projects owned by this resource. It only returns deployments belonging to projects owned by other resources. */
   get(
-    options?: TextAnalysisAuthoringListAssignedResourceDeploymentsParameters
+    options?: TextAnalysisAuthoringListAssignedResourceDeploymentsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListAssignedResourceDeployments200Response
     | TextAnalysisAuthoringListAssignedResourceDeploymentsDefaultResponse
@@ -452,7 +452,7 @@ export interface ListAssignedResourceDeployments {
 export interface GetSupportedLanguages {
   /** Lists the supported languages. */
   get(
-    options?: TextAnalysisAuthoringGetSupportedLanguagesParameters
+    options?: TextAnalysisAuthoringGetSupportedLanguagesParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringGetSupportedLanguages200Response
     | TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse
@@ -462,7 +462,7 @@ export interface GetSupportedLanguages {
 export interface ListTrainingConfigVersions {
   /** Lists the support training config version for a given project type. */
   get(
-    options: TextAnalysisAuthoringListTrainingConfigVersionsParameters
+    options: TextAnalysisAuthoringListTrainingConfigVersionsParameters,
   ): StreamableMethod<
     | TextAnalysisAuthoringListTrainingConfigVersions200Response
     | TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse
@@ -483,151 +483,151 @@ export interface Routes {
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments",
-    projectName: string
+    projectName: string,
   ): ListDeployments;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/:swap' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/:swap",
-    projectName: string
+    projectName: string,
   ): SwapDeployments;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/\{deploymentName\}' has methods for the following verbs: get, put, delete */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}",
     projectName: string,
-    deploymentName: string
+    deploymentName: string,
   ): GetDeployment;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/\{deploymentName\}/:delete-from-resources' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}/:delete-from-resources",
     projectName: string,
-    deploymentName: string
+    deploymentName: string,
   ): DeleteDeploymentFromResources;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/\{deploymentName\}/delete-from-resources/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}/delete-from-resources/jobs/{jobId}",
     projectName: string,
     deploymentName: string,
-    jobId: string
+    jobId: string,
   ): GetDeploymentDeleteFromResourcesStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/\{deploymentName\}/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}/jobs/{jobId}",
     projectName: string,
     deploymentName: string,
-    jobId: string
+    jobId: string,
   ): GetDeploymentStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/deployments/swap/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/deployments/swap/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetSwapDeploymentsStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/export/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/export/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetExportStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/import/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/import/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetImportStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models",
-    projectName: string
+    projectName: string,
   ): ListTrainedModels;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models/\{trainedModelLabel\}' has methods for the following verbs: get, delete */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}",
     projectName: string,
-    trainedModelLabel: string
+    trainedModelLabel: string,
   ): GetTrainedModel;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models/\{trainedModelLabel\}/:load-snapshot' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/:load-snapshot",
     projectName: string,
-    trainedModelLabel: string
+    trainedModelLabel: string,
   ): LoadSnapshot;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models/\{trainedModelLabel\}/evaluation/result' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/evaluation/result",
     projectName: string,
-    trainedModelLabel: string
+    trainedModelLabel: string,
   ): GetModelEvaluationResults;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models/\{trainedModelLabel\}/evaluation/summary-result' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/evaluation/summary-result",
     projectName: string,
-    trainedModelLabel: string
+    trainedModelLabel: string,
   ): GetModelEvaluationSummary;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/models/\{trainedModelLabel\}/load-snapshot/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/load-snapshot/jobs/{jobId}",
     projectName: string,
     trainedModelLabel: string,
-    jobId: string
+    jobId: string,
   ): GetLoadSnapshotStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/resources' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/resources",
-    projectName: string
+    projectName: string,
   ): ListDeploymentResources;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/resources/:assign' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/resources/:assign",
-    projectName: string
+    projectName: string,
   ): AssignDeploymentResources;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/resources/:unassign' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/resources/:unassign",
-    projectName: string
+    projectName: string,
   ): UnassignDeploymentResources;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/resources/assign/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/resources/assign/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetAssignDeploymentResourcesStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/resources/unassign/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/resources/unassign/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetUnassignDeploymentResourcesStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/train/jobs' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/train/jobs",
-    projectName: string
+    projectName: string,
   ): ListTrainingJobs;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/train/jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/{projectName}/train/jobs/{jobId}",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): GetTrainingStatus;
   /** Resource for '/authoring/analyze-text/projects/\{projectName\}/train/jobs/\{jobId\}/:cancel' has methods for the following verbs: post */
   (
     path: "/authoring/analyze-text/projects/{projectName}/train/jobs/{jobId}/:cancel",
     projectName: string,
-    jobId: string
+    jobId: string,
   ): CancelTrainingJob;
   /** Resource for '/authoring/analyze-text/projects/global/deletion-jobs/\{jobId\}' has methods for the following verbs: get */
   (
     path: "/authoring/analyze-text/projects/global/deletion-jobs/{jobId}",
-    jobId: string
+    jobId: string,
   ): GetProjectDeletionStatus;
   /** Resource for '/authoring/analyze-text/projects/global/deployments/resources' has methods for the following verbs: get */
   (
-    path: "/authoring/analyze-text/projects/global/deployments/resources"
+    path: "/authoring/analyze-text/projects/global/deployments/resources",
   ): ListAssignedResourceDeployments;
   /** Resource for '/authoring/analyze-text/projects/global/languages' has methods for the following verbs: get */
   (path: "/authoring/analyze-text/projects/global/languages"): GetSupportedLanguages;
   /** Resource for '/authoring/analyze-text/projects/global/training-config-versions' has methods for the following verbs: get */
   (
-    path: "/authoring/analyze-text/projects/global/training-config-versions"
+    path: "/authoring/analyze-text/projects/global/training-config-versions",
   ): ListTrainingConfigVersions;
 }
 

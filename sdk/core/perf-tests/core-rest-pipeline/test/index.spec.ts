@@ -10,7 +10,7 @@ const perfProgram = createPerfProgram(
   CoreRestPipelineTest,
   FetchTest,
   HttpRequestTest,
-  UndiciRequestTest
+  UndiciRequestTest,
 );
 
 perfProgram.run();

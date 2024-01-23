@@ -47,7 +47,7 @@ export function _policyResultFromGenerated(rawJson: unknown): PolicyResult {
   const policyResult: GeneratedPolicyResult = TypeDeserializer.deserialize(
     rawJson,
     { PolicyResult: Mappers.PolicyResult, JsonWebKey: Mappers.JsonWebKey },
-    "PolicyResult"
+    "PolicyResult",
   ) as GeneratedPolicyResult;
   return {
     policyResolution: policyResult.policyResolution,

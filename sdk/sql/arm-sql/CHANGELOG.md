@@ -1,6 +1,16 @@
 # Release History
-    
-## 10.1.0-beta.3 (2023-12-05)
+
+## 10.1.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 10.1.0-beta.3 (2023-12-18)
     
 **Features**
 
@@ -35,6 +45,7 @@
   - Added Type Alias JobPrivateEndpointsListByAgentResponse
   - Added Type Alias LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
   - Added Type Alias LongTermRetentionBackupsChangeAccessTierResponse
+  - Added Type Alias MinimalTlsVersion
   - Interface Database has a new optional parameter encryptionProtectorAutoRotation
   - Interface Database has a new optional parameter freeLimitExhaustionBehavior
   - Interface Database has a new optional parameter useFreeLimit
@@ -59,6 +70,8 @@
   - Interface InstancePoolUpdate has a new optional parameter vCores
   - Interface LongTermRetentionBackup has a new optional parameter backupStorageAccessTier
   - Interface LongTermRetentionBackup has a new optional parameter isBackupImmutable
+  - Interface LongTermRetentionPolicy has a new optional parameter backupStorageAccessTier
+  - Interface LongTermRetentionPolicy has a new optional parameter makeBackupsImmutable
   - Interface ManagedDatabase has a new optional parameter isLedgerOn
   - Interface ManagedDatabaseUpdate has a new optional parameter isLedgerOn
   - Interface PrivateEndpointConnection has a new optional parameter groupIds
@@ -67,6 +80,9 @@
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
   - Added Enum KnownBackupStorageAccessTier
   - Added Enum KnownFreeLimitExhaustionBehavior
+  - Added Enum KnownMinimalTlsVersion
+  - Type of parameter minimalTlsVersion of interface Server is changed from string to MinimalTlsVersion
+  - Type of parameter minimalTlsVersion of interface ServerUpdate is changed from string to MinimalTlsVersion
     
     
 ## 10.1.0-beta.2 (2023-09-20)
@@ -100,6 +116,7 @@
   - Interface ServerUpdate has a new optional parameter isIPv6Enabled
   - Interface SqlVulnerabilityAssessmentScanRecord has a new optional parameter lastScanTime
   - Added Enum KnownFreeLimitExhaustionBehavior
+
 
 ## 10.1.0-beta.1 (2023-07-28)
 

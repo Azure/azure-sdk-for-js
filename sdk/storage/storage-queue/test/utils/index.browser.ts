@@ -11,7 +11,7 @@ export * from "./testutils.common";
 export function getGenericQSU(
   recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): QueueServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -23,7 +23,7 @@ export function getGenericQSU(
 
   if (!accountName || !accountSAS) {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`,
     );
   }
 
@@ -59,7 +59,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.blobBody!;
   return blobToString(blob);

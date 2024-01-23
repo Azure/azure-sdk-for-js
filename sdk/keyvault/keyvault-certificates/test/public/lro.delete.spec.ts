@@ -35,12 +35,12 @@ describe("Certificates client - lro - delete", () => {
 
   it("can wait until a certificate is deleted", async function (this: Context) {
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -64,12 +64,12 @@ describe("Certificates client - lro - delete", () => {
   it("can resume from a stopped poller", async function (this: Context) {
     this.retries(5);
     const certificateName = testClient.formatName(
-      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`
+      `${certificatePrefix}-${this!.test!.title}-${certificateSuffix}`,
     );
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       DefaultCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const poller = await client.beginDeleteCertificate(certificateName, testPollerProperties);

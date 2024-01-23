@@ -29,7 +29,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     public state: DeleteSecretPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a secret is not supported." });
   }
@@ -45,7 +45,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       async (updatedOptions) => {
         const response = await this.client.deleteSecret(this.vaultUrl, name, updatedOptions);
         return getSecretFromSecretBundle(response);
-      }
+      },
     );
   }
 
@@ -55,7 +55,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
    */
   private getDeletedSecret(
     name: string,
-    options: GetDeletedSecretOptions = {}
+    options: GetDeletedSecretOptions = {},
   ): Promise<DeletedSecret> {
     return tracingClient.withSpan(
       "DeleteSecretPoller.getDeletedSecret",
@@ -63,7 +63,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
       async (updatedOptions) => {
         const response = await this.client.getDeletedSecret(this.vaultUrl, name, updatedOptions);
         return getSecretFromSecretBundle(response);
-      }
+      },
     );
   }
 
@@ -74,7 +74,7 @@ export class DeleteSecretPollOperation extends KeyVaultSecretPollOperation<
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: DeleteSecretPollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<DeleteSecretPollOperation> {
     const state = this.state;
     const { name } = state;

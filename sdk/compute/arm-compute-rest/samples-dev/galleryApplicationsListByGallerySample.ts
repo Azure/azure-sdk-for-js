@@ -32,7 +32,7 @@ async function listGalleryApplicationsInAGallery() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications",
       subscriptionId,
       resourceGroupName,
-      galleryName
+      galleryName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

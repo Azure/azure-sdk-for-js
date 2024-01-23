@@ -24,7 +24,7 @@ export async function main() {
 
   if (!proxyInfo) {
     console.error(
-      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }

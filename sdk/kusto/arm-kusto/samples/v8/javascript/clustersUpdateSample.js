@@ -32,7 +32,7 @@ async function kustoClustersUpdate() {
     resourceGroupName,
     clusterName,
     parameters,
-    options
+    options,
   );
   console.log(result);
 }

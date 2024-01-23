@@ -84,6 +84,13 @@ export const ServicesProperties: coreClient.CompositeMapper = {
           name: "Composite",
           className: "ServiceAcrConfigurationInfo"
         }
+      },
+      importConfiguration: {
+        serializedName: "importConfiguration",
+        type: {
+          name: "Composite",
+          className: "ServiceImportConfigurationInfo"
+        }
       }
     }
   }
@@ -126,6 +133,17 @@ export const ServiceCosmosDbConfigurationInfo: coreClient.CompositeMapper = {
       },
       keyVaultKeyUri: {
         serializedName: "keyVaultKeyUri",
+        type: {
+          name: "String"
+        }
+      },
+      crossTenantCmkApplicationId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^(([0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}){1})+$"
+          )
+        },
+        serializedName: "crossTenantCmkApplicationId",
         type: {
           name: "String"
         }
@@ -365,6 +383,33 @@ export const ServiceOciArtifactEntry: coreClient.CompositeMapper = {
         serializedName: "digest",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceImportConfigurationInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ServiceImportConfigurationInfo",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -891,6 +936,100 @@ export const DicomServiceAuthenticationConfiguration: coreClient.CompositeMapper
   }
 };
 
+export const CorsConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CorsConfiguration",
+    modelProperties: {
+      origins: {
+        serializedName: "origins",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(?:(?:(?:[hH][tT][tT][pP](?:[sS]|))\\:\\/\\/(?:[a-zA-Z0-9-]+[.]?)+(?:\\:[0-9]{1,5})?|[*]))$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      headers: {
+        serializedName: "headers",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      methods: {
+        serializedName: "methods",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      maxAge: {
+        constraints: {
+          InclusiveMaximum: 99999,
+          InclusiveMinimum: 0
+        },
+        serializedName: "maxAge",
+        type: {
+          name: "Number"
+        }
+      },
+      allowCredentials: {
+        serializedName: "allowCredentials",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const Encryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Encryption",
+    modelProperties: {
+      customerManagedKeyEncryption: {
+        serializedName: "customerManagedKeyEncryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionCustomerManagedKeyEncryption"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionCustomerManagedKeyEncryption: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EncryptionCustomerManagedKeyEncryption",
+    modelProperties: {
+      keyEncryptionKeyUrl: {
+        serializedName: "keyEncryptionKeyUrl",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceManagedIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1109,27 +1248,6 @@ export const FhirServiceCollection: coreClient.CompositeMapper = {
   }
 };
 
-export const FhirServiceAccessPolicyEntry: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "FhirServiceAccessPolicyEntry",
-    modelProperties: {
-      objectId: {
-        constraints: {
-          Pattern: new RegExp(
-            "^(([0-9A-Fa-f]{8}[-]?(?:[0-9A-Fa-f]{4}[-]?){3}[0-9A-Fa-f]{12}){1})+$"
-          )
-        },
-        serializedName: "objectId",
-        required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const FhirServiceAcrConfiguration: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1283,6 +1401,48 @@ export const ResourceVersionPolicyConfiguration: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const FhirServiceImportConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FhirServiceImportConfiguration",
+    modelProperties: {
+      integrationDataStore: {
+        serializedName: "integrationDataStore",
+        type: {
+          name: "String"
+        }
+      },
+      initialImportMode: {
+        serializedName: "initialImportMode",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const ImplementationGuidesConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImplementationGuidesConfiguration",
+    modelProperties: {
+      usCoreMissingData: {
+        serializedName: "usCoreMissingData",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -1550,6 +1710,12 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           name: "Boolean"
         }
       },
+      metricFilterPattern: {
+        serializedName: "metricFilterPattern",
+        type: {
+          name: "String"
+        }
+      },
       dimensions: {
         serializedName: "dimensions",
         type: {
@@ -1562,8 +1728,32 @@ export const MetricSpecification: coreClient.CompositeMapper = {
           }
         }
       },
+      isInternal: {
+        serializedName: "isInternal",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sourceMdmAccount: {
+        serializedName: "sourceMdmAccount",
+        type: {
+          name: "String"
+        }
+      },
       sourceMdmNamespace: {
         serializedName: "sourceMdmNamespace",
+        type: {
+          name: "String"
+        }
+      },
+      enableRegionalMdmAccount: {
+        serializedName: "enableRegionalMdmAccount",
+        type: {
+          name: "Boolean"
+        }
+      },
+      resourceIdDimensionNameOverride: {
+        serializedName: "resourceIdDimensionNameOverride",
         type: {
           name: "String"
         }
@@ -1864,6 +2054,13 @@ export const DicomService: coreClient.CompositeMapper = {
           className: "DicomServiceAuthenticationConfiguration"
         }
       },
+      corsConfiguration: {
+        serializedName: "properties.corsConfiguration",
+        type: {
+          name: "Composite",
+          className: "CorsConfiguration"
+        }
+      },
       serviceUrl: {
         serializedName: "properties.serviceUrl",
         readOnly: true,
@@ -1888,6 +2085,20 @@ export const DicomService: coreClient.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      eventState: {
+        serializedName: "properties.eventState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
         }
       }
     }
@@ -1960,18 +2171,6 @@ export const FhirService: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      accessPolicies: {
-        serializedName: "properties.accessPolicies",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FhirServiceAccessPolicyEntry"
-            }
-          }
-        }
-      },
       acrConfiguration: {
         serializedName: "properties.acrConfiguration",
         type: {
@@ -2031,6 +2230,27 @@ export const FhirService: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ResourceVersionPolicyConfiguration"
+        }
+      },
+      importConfiguration: {
+        serializedName: "properties.importConfiguration",
+        type: {
+          name: "Composite",
+          className: "FhirServiceImportConfiguration"
+        }
+      },
+      implementationGuidesConfiguration: {
+        serializedName: "properties.implementationGuidesConfiguration",
+        type: {
+          name: "Composite",
+          className: "ImplementationGuidesConfiguration"
+        }
+      },
+      encryption: {
+        serializedName: "properties.encryption",
+        type: {
+          name: "Composite",
+          className: "Encryption"
         }
       }
     }

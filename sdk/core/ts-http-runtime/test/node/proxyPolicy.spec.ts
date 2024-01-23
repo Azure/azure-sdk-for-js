@@ -183,7 +183,7 @@ describe("proxyPolicy (node)", function () {
     };
     const options = getProxyAgentOptions(
       proxySettings,
-      createPipelineRequest({ url: "https://example.org" })
+      createPipelineRequest({ url: "https://example.org" }),
     );
     assert.strictEqual(options.auth, "user:pass");
   });
@@ -196,7 +196,7 @@ describe("proxyPolicy (node)", function () {
     };
     const options = getProxyAgentOptions(
       proxySettings,
-      createPipelineRequest({ url: "https://example.org" })
+      createPipelineRequest({ url: "https://example.org" }),
     );
     assert.strictEqual(options.auth, "user");
   });
