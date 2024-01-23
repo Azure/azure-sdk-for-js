@@ -783,18 +783,30 @@ describe("Batching Receiver", () => {
     );
 
     it.only(
-      noSessionTestClientType + ": batchDeleteMessages request on the receiver",
+      TestClientType.PartitionedQueue + ": batchDeleteMessages request on the receiver",
       async function (): Promise<void> {
-        await beforeEachTest(noSessionTestClientType, "receiveAndDelete");
-        const testMessages = entityNames.usesSessions
-          ? TestMessage.getSessionSample()
-          : TestMessage.getSample();
+        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
+        const testMessage = TestMessage.getSample();
 
-        await sender.sendMessages(testMessages);
+        await sender.sendMessages([testMessage, testMessage, testMessage]);
 
-        await receiver.batchDeleteMessages(1);
+        await receiver.batchDeleteMessages(2);
 
-        await testPeekMsgsLength(receiver, 0);
+        await testPeekMsgsLength(receiver, 1);
+      },
+    );
+
+    it.skip(
+      TestClientType.PartitionedQueueWithSessions + ": batchDeleteMessages request on the receiver",
+      async function (): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions, "receiveAndDelete");
+        const testMessage = TestMessage.getSessionSample();
+
+        await sender.sendMessages([testMessage, testMessage, testMessage]);
+
+        await receiver.batchDeleteMessages(2);
+
+        await testPeekMsgsLength(receiver, 1);
       },
     );
 
