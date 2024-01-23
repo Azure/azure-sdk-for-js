@@ -349,5 +349,18 @@ az login --scope https://test.windows.net/.default`;
       const actualToken = await credential.getToken("https://service/.default");
       assert.equal(actualToken.expiresOnTimestamp, testData.expires_on.expected);
     });
+
+    it("uses expiresOn when expires_on is invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
+    });
   });
 });
