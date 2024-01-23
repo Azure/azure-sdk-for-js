@@ -28,6 +28,7 @@ export enum DependencyTypes {
   Sql = "SQL",
   Http = "Http",
   Grpc = "GRPC",
+  Wcf = "WCF Service",
 }
 
 export const AzureMonitorSampleRate = "_MS.sampleRate";

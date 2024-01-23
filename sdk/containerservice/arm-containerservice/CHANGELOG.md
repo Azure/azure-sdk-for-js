@@ -1,15 +1,12 @@
 # Release History
+    
+## 19.7.0 (2024-01-18)
+    
+**Features**
 
-## 19.6.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AgentPoolUpgradeSettings has a new optional parameter nodeSoakDurationInMinutes
+    
+    
 ## 19.6.0 (2023-12-21)
     
 **Features**

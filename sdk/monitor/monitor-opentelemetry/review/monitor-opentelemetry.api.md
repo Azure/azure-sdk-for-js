@@ -20,22 +20,9 @@ export interface AzureMonitorOpenTelemetryOptions {
 }
 
 // @public
-export interface BrowserSdkLoaderConfig {
-    cfg: string;
-    crossOrigin?: string;
-    ld?: number;
-    name?: string;
-    onInit?: string;
-    src: string;
-    useXhr?: boolean;
-}
-
-// @public
 export interface BrowserSdkLoaderOptions {
-    config?: BrowserSdkLoaderConfig;
     connectionString?: string;
     enabled?: boolean;
-    src?: string;
 }
 
 // @public

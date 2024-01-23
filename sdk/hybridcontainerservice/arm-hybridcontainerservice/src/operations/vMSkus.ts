@@ -35,8 +35,8 @@ export class VMSkusImpl implements VMSkus {
   }
 
   /**
-   * Lists the supported VM SKUs from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * Lists the supported VM skus for the specified custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -105,8 +105,8 @@ export class VMSkusImpl implements VMSkus {
   }
 
   /**
-   * Lists the supported VM SKUs from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * Lists the supported VM skus for the specified custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */
@@ -122,7 +122,7 @@ export class VMSkusImpl implements VMSkus {
 
   /**
    * ListNext
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
