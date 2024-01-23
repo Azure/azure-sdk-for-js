@@ -239,20 +239,18 @@ export namespace ConnectionContext {
           if (this.connection.isOpen()) {
             // Close all the senders.
             await Promise.all(
-              Object.keys(connectionContext.senders).map(
-                (name) =>
-                  connectionContext.senders[name]?.close().catch(() => {
-                    /* error already logged, swallow it here */
-                  }),
+              Object.keys(connectionContext.senders).map((name) =>
+                connectionContext.senders[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                }),
               ),
             );
             // Close all the receivers.
             await Promise.all(
-              Object.keys(connectionContext.receivers).map(
-                (name) =>
-                  connectionContext.receivers[name]?.close().catch(() => {
-                    /* error already logged, swallow it here */
-                  }),
+              Object.keys(connectionContext.receivers).map((name) =>
+                connectionContext.receivers[name]?.close().catch(() => {
+                  /* error already logged, swallow it here */
+                }),
               ),
             );
             // Close the cbs session;
@@ -344,20 +342,18 @@ export namespace ConnectionContext {
         // Close all senders and receivers to ensure clean up of timers & other resources.
         if (state.numSenders || state.numReceivers) {
           await Promise.all(
-            Object.keys(connectionContext.senders).map(
-              (name) =>
-                connectionContext.senders[name]?.close().catch(() => {
-                  /* error already logged, swallow it here */
-                }),
+            Object.keys(connectionContext.senders).map((name) =>
+              connectionContext.senders[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              }),
             ),
           );
 
           await Promise.all(
-            Object.keys(connectionContext.receivers).map(
-              (name) =>
-                connectionContext.receivers[name]?.close().catch(() => {
-                  /* error already logged, swallow it here */
-                }),
+            Object.keys(connectionContext.receivers).map((name) =>
+              connectionContext.receivers[name]?.close().catch(() => {
+                /* error already logged, swallow it here */
+              }),
             ),
           );
         }
