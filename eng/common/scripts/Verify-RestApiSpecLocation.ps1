@@ -48,6 +48,8 @@ if (-not $GitHubPat) {
   exit 1
 }
 
+Write-Host "The spec used to release SDK should be from the main branch of Azure/azure-rest-api-specs repository."
+Write-Host "ServiceDir:$ServiceDirectory, PackageName:$PackageName, ArtifactLocation:$ArtifactLocation, PackageInfoDirectory:$PackageInfoDirectory."
 Install-ModuleIfNotInstalled "powershell-yaml" "0.4.1" | Import-Module
 
 # This function is used to verify the 'require' and 'input-file' settings in autorest.md point to the main branch of Azure/azure-rest-api-specs repository
@@ -98,7 +100,7 @@ function Verify-CommitFromMainBranch([string]$commit, [string]$configFilePath) {
   try {
     $searchResult = Search-GitHubCommit -AuthToken $GitHubPat -CommitHash $commit -RepoOwner "Azure" -RepoName "azure-rest-api-specs"
     if ($searchResult.total_count -lt 1) {
-      LogError "Commit $commit doesn't exist in 'main' branch of Azure/azure-rest-api-specs repository. ServiceDir:$ServiceDirectory, PackageName:$PackageName, please check the config file:$configFilePath."
+      LogError "Commit $commit doesn't exist in 'main' branch of Azure/azure-rest-api-specs repository. ServiceDir:$ServiceDirectory, PackageName:$PackageName, please check the config file:$configFilePath. The spec used to release SDK should be from the main branch of Azure/azure-rest-api-specs repository."
       exit 1
     }
     else {
@@ -106,7 +108,7 @@ function Verify-CommitFromMainBranch([string]$commit, [string]$configFilePath) {
     }
   }
   catch {
-    LogError "ServiceDir:$ServiceDirectory, PackageName:$PackageName, Config file:$configFilePath. Failed to search commit $commit with exception:`n$_ "
+    LogError "ServiceDir:$ServiceDirectory, PackageName:$PackageName, Config file:$configFilePath. The spec used to release SDK should be from the main branch of Azure/azure-rest-api-specs repository. Failed to search commit $commit with exception:`n$_ "
     exit 1
   }
 }
