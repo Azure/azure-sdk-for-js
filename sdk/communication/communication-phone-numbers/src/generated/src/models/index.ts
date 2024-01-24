@@ -161,88 +161,10 @@ export interface PhoneNumberSearchResult {
   searchExpiresBy: Date;
 }
 
-export interface PhoneNumbersBrowseRequest {
-  /** Represents the number type of the offering. */
-  phoneNumberType: PhoneNumberType;
-  /** Capabilities of a phone number. */
-  capabilities?: PhoneNumberCapabilitiesRequest;
-  /** Represents the assignment type of the offering. Also known as the use case. */
-  assignmentType?: PhoneNumberAssignmentType;
-  /** The phone number prefix to match. If specified, the search will be limited to phone numbers that start with the any of the given prefixes. */
-  phoneNumberPrefixes?: string[];
-}
-
-/** Capabilities of a phone number. */
-export interface PhoneNumberCapabilitiesRequest {
-  /** Capability value for calling. */
-  calling?: PhoneNumberCapabilityType;
-  /** Capability value for SMS. */
-  sms?: PhoneNumberCapabilityType;
-}
-
-export interface PhoneNumbersBrowseResult {
-  /** The phone numbers that are available for purchase. */
-  phoneNumbers: AvailablePhoneNumber[];
-}
-
-/** Represents a phone number available in inventory */
-export interface AvailablePhoneNumber {
-  /**
-   * The id of the phone number.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id: string;
-  /** The ISO 3166-2 country code, e.g. US. */
-  countryCode: string;
-  /**
-   * The phone number in E.164 format, e.g. +11234567890.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly phoneNumber: string;
-  /** Capabilities of a phone number. */
-  capabilities: PhoneNumberCapabilities;
-  /** Represents the number type of the offering. */
-  phoneNumberType: PhoneNumberType;
-  /** Represents the assignment type of the offering. Also known as the use case. */
-  assignmentType: PhoneNumberAssignmentType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly cost: AvailablePhoneNumberCost;
-}
-
 /** The phone number search purchase request. */
 export interface PhoneNumberPurchaseRequest {
   /** The search id. */
   searchId?: string;
-  /** The consent to not resell numbers. */
-  consentToNotResellNumbers?: boolean;
-}
-
-export interface PhoneNumbersReservations {
-  /** Represents a list of phone numbers. */
-  reservations: PhoneNumbersReservation[];
-  /** Represents the URL link to the next page of phone number results. */
-  nextLink?: string;
-}
-
-export interface PhoneNumbersReservation {
-  /**
-   * The id of the reservation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id: string;
-  /**
-   * The time at which the reservation will expire. If a reservation is not purchased before this time, all of the reserved phone numbers will be released and made available for others to purchase.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiresAt: Date;
-  /** Dictionary of <AvailablePhoneNumber> */
-  phoneNumbers: { [propertyName: string]: AvailablePhoneNumber };
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly status: ReservationStatus;
-}
-
-/** The phone number search purchase request. */
-export interface PhoneNumbersReservationPurchaseRequest {
   /** The consent to not resell numbers. */
   consentToNotResellNumbers?: boolean;
 }
@@ -265,6 +187,14 @@ export interface PhoneNumberOperation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly lastActionDateTime?: Date;
+}
+
+/** Capabilities of a phone number. */
+export interface PhoneNumberCapabilitiesRequest {
+  /** Capability value for calling. */
+  calling?: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms?: PhoneNumberCapabilityType;
 }
 
 /** Represents a purchased phone number. */
@@ -336,6 +266,30 @@ export interface OperatorDetails {
   mobileCountryCode?: string;
 }
 
+/** Represents a phone number available in inventory */
+export interface AvailablePhoneNumber {
+  /**
+   * The id of the phone number.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id: string;
+  /** The ISO 3166-2 country code, e.g. US. */
+  countryCode: string;
+  /**
+   * The phone number in E.164 format, e.g. +11234567890.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly phoneNumber: string;
+  /** Capabilities of a phone number. */
+  capabilities: PhoneNumberCapabilities;
+  /** Represents the number type of the offering. */
+  phoneNumberType: PhoneNumberType;
+  /** Represents the assignment type of the offering. Also known as the use case. */
+  assignmentType: PhoneNumberAssignmentType;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly cost: AvailablePhoneNumberCost;
+}
+
 export interface AvailablePhoneNumberCost extends PhoneNumberCost {}
 
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
@@ -358,16 +312,6 @@ export interface PhoneNumbersPurchasePhoneNumbersHeaders {
   operationId?: string;
   /** The purchase operation id. */
   purchaseId?: string;
-}
-
-/** Defines headers for PhoneNumbers_startReservationPurchase operation. */
-export interface PhoneNumbersStartReservationPurchaseHeaders {
-  /** URL to query for status of the operation. */
-  operationLocation?: string;
-  /** The operation id. */
-  operationId?: string;
-  /** The reservation purchase operation id. */
-  reservationPurchaseId?: string;
 }
 
 /** Defines headers for PhoneNumbers_getOperation operation. */
@@ -408,12 +352,6 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
-/** Defines values for ReservationStatus. */
-export type ReservationStatus =
-  | "active"
-  | "submitted"
-  | "completed"
-  | "expired";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
@@ -512,22 +450,8 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the searchAvailablePhoneNumbers operation. */
-export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearchAvailablePhoneNumbersHeaders &
-  PhoneNumberSearchResult;
-
-/** Optional parameters. */
-export interface PhoneNumbersBrowseAvailableNumbersOptionalParams
-  extends coreClient.OperationOptions {
-  /** Capabilities of a phone number. */
-  capabilities?: PhoneNumberCapabilitiesRequest;
-  /** Represents the assignment type of the offering. Also known as the use case. */
-  assignmentType?: PhoneNumberAssignmentType;
-  /** The phone number prefix to match. If specified, the search will be limited to phone numbers that start with the any of the given prefixes. */
-  phoneNumberPrefixes?: string[];
-}
-
-/** Contains response data for the browseAvailableNumbers operation. */
-export type PhoneNumbersBrowseAvailableNumbersResponse = PhoneNumbersBrowseResult;
+export type PhoneNumbersSearchAvailablePhoneNumbersResponse =
+  PhoneNumbersSearchAvailablePhoneNumbersHeaders & PhoneNumberSearchResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetSearchResultOptionalParams
@@ -550,58 +474,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the purchasePhoneNumbers operation. */
-export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders;
-
-/** Optional parameters. */
-export interface PhoneNumbersGetReservationsOptionalParams
-  extends coreClient.OperationOptions {
-  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
-  skip?: number;
-  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
-  top?: number;
-}
-
-/** Contains response data for the getReservations operation. */
-export type PhoneNumbersGetReservationsResponse = PhoneNumbersReservations;
-
-/** Optional parameters. */
-export interface PhoneNumbersCreateReservationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createReservation operation. */
-export type PhoneNumbersCreateReservationResponse = PhoneNumbersReservation;
-
-/** Optional parameters. */
-export interface PhoneNumbersUpdateReservationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the updateReservation operation. */
-export type PhoneNumbersUpdateReservationResponse = PhoneNumbersReservation;
-
-/** Optional parameters. */
-export interface PhoneNumbersGetReservationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getReservation operation. */
-export type PhoneNumbersGetReservationResponse = PhoneNumbersReservation;
-
-/** Optional parameters. */
-export interface PhoneNumbersDeleteReservationOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Optional parameters. */
-export interface PhoneNumbersStartReservationPurchaseOptionalParams
-  extends coreClient.OperationOptions {
-  /** The consent to not resell numbers. */
-  consentToNotResellNumbers?: boolean;
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the startReservationPurchase operation. */
-export type PhoneNumbersStartReservationPurchaseResponse = PhoneNumbersStartReservationPurchaseHeaders;
+export type PhoneNumbersPurchasePhoneNumbersResponse =
+  PhoneNumbersPurchasePhoneNumbersHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetOperationOptionalParams
@@ -629,8 +503,8 @@ export interface PhoneNumbersUpdateCapabilitiesOptionalParams
 }
 
 /** Contains response data for the updateCapabilities operation. */
-export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
-  PurchasedPhoneNumber;
+export type PhoneNumbersUpdateCapabilitiesResponse =
+  PhoneNumbersUpdateCapabilitiesHeaders & PurchasedPhoneNumber;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetByNumberOptionalParams
@@ -649,7 +523,8 @@ export interface PhoneNumbersReleasePhoneNumberOptionalParams
 }
 
 /** Contains response data for the releasePhoneNumber operation. */
-export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNumberHeaders;
+export type PhoneNumbersReleasePhoneNumberResponse =
+  PhoneNumbersReleasePhoneNumberHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersOptionalParams
@@ -671,7 +546,8 @@ export interface PhoneNumbersOperatorInformationSearchOptionalParams
 }
 
 /** Contains response data for the operatorInformationSearch operation. */
-export type PhoneNumbersOperatorInformationSearchResponse = OperatorInformationResult;
+export type PhoneNumbersOperatorInformationSearchResponse =
+  OperatorInformationResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams
@@ -691,7 +567,8 @@ export interface PhoneNumbersListAvailableCountriesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableCountriesNext operation. */
-export type PhoneNumbersListAvailableCountriesNextResponse = PhoneNumberCountries;
+export type PhoneNumbersListAvailableCountriesNextResponse =
+  PhoneNumberCountries;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
@@ -701,7 +578,8 @@ export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableLocalitiesNext operation. */
-export type PhoneNumbersListAvailableLocalitiesNextResponse = PhoneNumberLocalities;
+export type PhoneNumbersListAvailableLocalitiesNextResponse =
+  PhoneNumberLocalities;
 
 /** Optional parameters. */
 export interface PhoneNumbersListOfferingsNextOptionalParams
@@ -712,13 +590,6 @@ export interface PhoneNumbersListOfferingsNextOptionalParams
 
 /** Contains response data for the listOfferingsNext operation. */
 export type PhoneNumbersListOfferingsNextResponse = OfferingsResponse;
-
-/** Optional parameters. */
-export interface PhoneNumbersGetReservationsNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getReservationsNext operation. */
-export type PhoneNumbersGetReservationsNextResponse = PhoneNumbersReservations;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams
