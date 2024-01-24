@@ -266,32 +266,6 @@ export interface OperatorDetails {
   mobileCountryCode?: string;
 }
 
-/** Represents a phone number available in inventory */
-export interface AvailablePhoneNumber {
-  /**
-   * The id of the phone number.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id: string;
-  /** The ISO 3166-2 country code, e.g. US. */
-  countryCode: string;
-  /**
-   * The phone number in E.164 format, e.g. +11234567890.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly phoneNumber: string;
-  /** Capabilities of a phone number. */
-  capabilities: PhoneNumberCapabilities;
-  /** Represents the number type of the offering. */
-  phoneNumberType: PhoneNumberType;
-  /** Represents the assignment type of the offering. Also known as the use case. */
-  assignmentType: PhoneNumberAssignmentType;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly cost: AvailablePhoneNumberCost;
-}
-
-export interface AvailablePhoneNumberCost extends PhoneNumberCost {}
-
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
 export interface PhoneNumbersSearchAvailablePhoneNumbersHeaders {
   /** URL to retrieve the final result after operation completes. */
