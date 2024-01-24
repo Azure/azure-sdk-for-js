@@ -14,7 +14,6 @@ import {
 } from "./common";
 import { sendRequest } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
-import { logger } from "./log";
 
 /**
  * Creates a client with a default pipeline

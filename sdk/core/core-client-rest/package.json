@@ -60,7 +60,6 @@
     "@azure/core-util": "^1.0.0",
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-tracing": "^1.0.1",
-    "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
