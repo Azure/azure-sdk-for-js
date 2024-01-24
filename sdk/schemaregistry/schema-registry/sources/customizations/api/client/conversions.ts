@@ -16,9 +16,7 @@ type GeneratedSchemaIdResponse =
 /**
  * Union of generated client's responses that return schema definition.
  */
-type GeneratedSchemaResponse =
-  | GetSchemaById200Response
-  | GetSchemaByVersion200Response;
+type GeneratedSchemaResponse = GetSchemaById200Response | GetSchemaByVersion200Response;
 
 /**
  * Converts generated client's response to SchemaIdentityResponse.

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Client } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
 import { isUnexpected } from "../../isUnexpected";

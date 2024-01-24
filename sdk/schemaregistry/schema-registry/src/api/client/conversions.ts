@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Schema, SchemaProperties } from "../../models/models";
 import {
   GetSchemaById200Response,
@@ -5,6 +8,11 @@ import {
   GetSchemaIdByContent204Response,
   RegisterSchema204Response,
 } from "../../responses";
+
+const textPlain = "text/plain";
+const charsetutf8 = "charset=utf-8";
+const customContentType = `${textPlain}; ${charsetutf8}`;
+const customFormat = "Custom";
 
 /**
  * Union of generated client's response that return schema ID
@@ -16,9 +24,7 @@ type GeneratedSchemaIdResponse =
 /**
  * Union of generated client's responses that return schema definition.
  */
-type GeneratedSchemaResponse =
-  | GetSchemaById200Response
-  | GetSchemaByVersion200Response;
+type GeneratedSchemaResponse = GetSchemaById200Response | GetSchemaByVersion200Response;
 
 /**
  * Converts generated client's response to SchemaIdentityResponse.
@@ -74,8 +80,3 @@ function mapContentTypeToFormat(contentType: string): string {
     throw new Error(`Unrecognized response's content-type: ${contentType}`);
   }
 }
-
-const textPlain = "text/plain";
-const charsetutf8 = "charset=utf-8";
-const customContentType = `${textPlain}; ${charsetutf8}`;
-const customFormat = "Custom";
