@@ -8,7 +8,9 @@ import { ErrorResponse } from "../../request";
  */
 export class ChangeFeedRetentionTimeSpan {
   private retentionInMinutes: number;
-
+  /**
+   * @internal
+   */
   constructor(minutes: number) {
     if (typeof minutes !== "number") {
       throw new ErrorResponse("ChangeFeedRetentionTimeSpan must be a number.");
@@ -21,11 +23,15 @@ export class ChangeFeedRetentionTimeSpan {
     }
     this.retentionInMinutes = minutes;
   }
-
+  /**
+   * Specifies the retention window in minutes for which processing the change feed with allVersionsAndDeletes mode will be available.
+   */
   static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan {
     return new ChangeFeedRetentionTimeSpan(minutes);
   }
-
+  /**
+   * @internal
+   */
   public getRetentionInMinutes(): number {
     return this.retentionInMinutes;
   }

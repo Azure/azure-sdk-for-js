@@ -136,11 +136,7 @@ export class ChangeFeedResponse<T> {
 
 // @public (undocumented)
 export class ChangeFeedRetentionTimeSpan {
-    constructor(minutes: number);
-    // (undocumented)
     static fromMinutes(minutes: number): ChangeFeedRetentionTimeSpan;
-    // (undocumented)
-    getRetentionInMinutes(): number;
 }
 
 // @public
