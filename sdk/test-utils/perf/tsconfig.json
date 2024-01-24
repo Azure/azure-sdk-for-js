@@ -12,5 +12,5 @@
     "esm": true
   },
   "exclude": ["node_modules", "./samples/*"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"],
 }

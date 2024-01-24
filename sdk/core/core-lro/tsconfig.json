@@ -8,9 +8,6 @@
       "@azure/core-lro": ["./src/index"]
     },
   },
-  "ts-node": {
-    "esm": true
-  },
   "exclude": ["node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"],
 }

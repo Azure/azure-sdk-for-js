@@ -235,7 +235,9 @@ export interface ChatCompletionsJsonResponseFormat {
 
 // @public
 export interface ChatCompletionsNamedFunctionToolSelection {
-    name: string;
+    function: {
+        name: string;
+    };
     type: "function";
 }
 
@@ -500,7 +502,7 @@ export interface EmbeddingsUsage {
 }
 
 // @public
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {
 }
 
 // @public

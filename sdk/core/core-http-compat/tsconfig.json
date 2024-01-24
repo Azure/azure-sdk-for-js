@@ -7,9 +7,6 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "ts-node": {
-    "esm": true
-  },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

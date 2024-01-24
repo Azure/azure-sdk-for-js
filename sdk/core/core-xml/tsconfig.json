@@ -8,6 +8,6 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.{mts,ts}", "test/**/*.ts", "samples-dev/**/*.ts"],
   "exclude": ["node_modules", "temp", "browser", "dist", "dist-test"]
 }

@@ -5,9 +5,9 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ESNext",
-    "lib": ["ESNext", "DOM"]
+    "lib": ["ESNext", "DOM"],
   },
   "compileOnSave": true,
   "exclude": ["node_modules"],
-  "include": ["./test/**/*.ts"]
+  "include": ["./test/**/*.ts"],
 }
