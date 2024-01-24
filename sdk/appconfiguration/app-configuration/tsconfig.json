@@ -5,8 +5,8 @@
     "outDir": "./dist-esm",
     "downlevelIteration": true,
     "paths": {
-      "@azure/app-configuration": ["./src/index"],
-    },
+      "@azure/app-configuration": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
