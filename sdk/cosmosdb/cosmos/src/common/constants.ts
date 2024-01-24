@@ -260,7 +260,7 @@ export const Constants = {
     MaximumExclusiveEffectivePartitionKey: "FF",
   },
   // Changefeed AllVersionsAndDeletesMode formatting version
-  AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15"
+  AllVersionsAndDeletesChangeFeedWireFormatVersion: "2021-09-15",
 };
 
 /**

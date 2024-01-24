@@ -119,7 +119,8 @@ export async function getHeaders({
   if (options.useAllVersionsAndDeleteFeed) {
     // headers required for reading feed in allVersionsAndDeletes mode
     headers[Constants.HttpHeaders.A_IM] = ChangeFeedMode.AllVersionsAndDeletes;
-    headers[Constants.HttpHeaders.ChangeFeedWireFormatVersion] = Constants.AllVersionsAndDeletesChangeFeedWireFormatVersion;
+    headers[Constants.HttpHeaders.ChangeFeedWireFormatVersion] =
+      Constants.AllVersionsAndDeletesChangeFeedWireFormatVersion;
   }
 
   if (options.useIncrementalFeed) {
