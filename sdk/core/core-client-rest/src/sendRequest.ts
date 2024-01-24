@@ -10,6 +10,7 @@ import {
   PipelineResponse,
   RequestBodyType,
   RestError,
+  createFile,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
@@ -174,7 +175,7 @@ function processFormData(formData?: FormDataMap) {
     if (item instanceof Uint8Array) {
       // Some RLCs take a Uint8Array for the parameter, whereas FormDataMap expects
       // a File or a Blob, so we need to wrap it.
-      processedFormData[element] = new Blob([item]);
+      processedFormData[element] = createFile(item, "blob");
     } else {
       processedFormData[element] = item;
     }

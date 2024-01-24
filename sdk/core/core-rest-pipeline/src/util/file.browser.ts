@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBlob, isNodeReadableStream } from "./typeGuards";
+import { isBlob } from "./typeGuards";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -60,7 +60,7 @@ export type FileWithRawContent = File & {
  * @internal
  */
 export function hasRawContent(x: any): x is FileWithRawContent {
-  return isBlob(x) && typeof (x as any).__rawContent === "function";
+  return isBlob(x) && typeof (x as any).__content === "function";
 }
 
 /**
@@ -92,14 +92,7 @@ export function createFileFromStream(
     webkitRelativePath: options.webkitRelativePath ?? "",
     size: options.size ?? -1,
     name,
-    stream: () => {
-      const s = stream();
-      if (isNodeReadableStream(s)) {
-        throw new Error("Not supported: a Node stream was provided.");
-      }
-
-      return s;
-    },
+    stream,
     __rawContent: stream,
   } as File;
 }
@@ -120,15 +113,5 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  return {
-    ...unimplementedMethods,
-    type: options.type ?? "",
-    lastModified: options.lastModified ?? new Date().getTime(),
-    webkitRelativePath: options.webkitRelativePath ?? "",
-    size: content.byteLength,
-    name,
-    arrayBuffer: async () => content.buffer,
-    stream: () => new Blob([content]).stream(),
-    __rawContent: () => content,
-  } as File;
+  return new File([content], name, options);
 }
