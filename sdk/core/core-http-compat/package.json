@@ -64,7 +64,6 @@
     "playwright": "^1.41.0",
     "prettier": "^3.2.4",
     "rimraf": "^5.0.5",
-    "sinon": "^17.0.0",
     "tshy": "^1.11.0",
     "typescript": "~5.2.0",
     "vitest": "^1.2.1"
@@ -87,5 +86,36 @@
       "deno",
       "react-native"
     ]
-  }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts"
 }
