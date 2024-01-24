@@ -93,7 +93,7 @@ export enum ChangeFeedMode {
     // (undocumented)
     AllVersionsAndDeletes = "Full-Fidelity Feed",
     // (undocumented)
-    LatestVersion = "Incremental feed"
+    LatestVersion = "Incremental Feed"
 }
 
 // @public
@@ -582,6 +582,7 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
 };
 
 // @public
