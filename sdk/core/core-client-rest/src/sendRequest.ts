@@ -125,7 +125,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
-  if (!contentType && typeof body === "string") {
+  if ((!contentType || contentType.includes("serialization")) && typeof body === "string") {
     return { body };
   }
 
