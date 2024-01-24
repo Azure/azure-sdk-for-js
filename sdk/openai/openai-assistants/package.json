@@ -88,8 +88,9 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-credential": "^1.0.1",
+    "@azure/arm-cognitiveservices": "^7.5.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^3.3.0",

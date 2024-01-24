@@ -12,6 +12,8 @@ import {
 } from "@azure/core-rest-pipeline";
 import { randomUUID } from "@azure/core-util";
 import { KeyCredential } from "@azure/core-auth";
+import { CognitiveServicesManagementClient } from "@azure/arm-cognitiveservices";
+import { createTestCredential } from "@azure-tools/test-credential";
 import { AuthMethod } from "./recordedClient.js";
 import {
   Recorder,
@@ -110,7 +112,6 @@ async function listDeployments(
   void rgName;
   void accountName;
   void recorder;
-  /*
   const mgmtClient = new CognitiveServicesManagementClient(
     createTestCredential(),
     subId,
@@ -122,8 +123,6 @@ async function listDeployments(
       deployments.push(deploymentName);
     }
   }
-  console.log(`Available deployments (${deployments.length}): ${deployments.join(", ")}`);
-  */
   return deployments;
 }
 
