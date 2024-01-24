@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -19,23 +19,34 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Wed, 22 Nov 2023 10:41:24 GMT",
-        "x-ms-useragent": "fake-useragent"
+        "x-ms-date": "Wed, 24 Jan 2024 11:19:19 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "25",
+        "Content-Length": "149",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:41:23 GMT",
-        "MS-CV": "gp4i1W\u002BYlUCW/eJ\u002B/9iA5Q.0",
+        "Date": "Wed, 24 Jan 2024 11:19:19 GMT",
+        "MS-CV": "Tgo0GsBvBEiKtbfLUav7sQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "009pdZQAAAABsoPtC0QRwTbHqfeex1TK1UFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0N/KwZQAAAADdwu3MuyLXSLpP7t0XyMmCRlJBMjMxMDUwNDE4MDE3ADlmYzdiNTE5LWE4Y2MtNGY4OS05MzVlLWM5MTQ4YWUwOWU4MQ==",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "206ms"
+        "X-Processing-Time": "232ms"
       },
       "ResponseBody": {
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
+          },
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
         "trunks": {},
         "routes": []
       }

@@ -1,34 +1,47 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "108",
+        "Connection": "keep-alive",
+        "Content-Length": "216",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:04:38 GMT",
-        "MS-CV": "H\u002B6\u002BsyXN9kaits9GwV5Yaw.0",
+        "Date": "Wed, 24 Jan 2024 11:14:11 GMT",
+        "MS-CV": "clS82SBINU2kTGcR1Rk37A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0N9JdZQAAAAAygSoY6L4LRYukjoMJdNqtUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111411Z-6205fv69690cx6pe0dzdzyue2800000006d0000000000c43",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "233ms"
+        "X-Processing-Time": "204ms"
       },
       "ResponseBody": {
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
+          },
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
         "trunks": {
-          "test30d978675a92449cbb1bf043d1fd8aea.sanitized.sbc.test": {
-            "sipSignalingPort": 4567
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 4567,
+            "enabled": true
           }
         },
         "routes": []
@@ -36,9 +49,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test800a40a373f043508a7f689d380500fa.sanitized.sbc.test",
-    "fqdn-2": "test49f91d3de1b5471f89bbbfff008ccd20.sanitized.sbc.test",
-    "fqdn-3": "testc843866b5ede4315b0c5741867ab2782.sanitized.sbc.test",
-    "fqdn-4": "test17f67e6a389f45dc9f8b4314dbe201e2.sanitized.sbc.test"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test",
+    "fqdn-3": "test3.sanitized.sbc.test",
+    "fqdn-4": "test4.sanitized.sbc.test"
   }
 }

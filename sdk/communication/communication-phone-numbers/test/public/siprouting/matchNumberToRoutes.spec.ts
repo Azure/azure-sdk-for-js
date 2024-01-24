@@ -82,7 +82,7 @@ matrix([[false, true]], async function (useAad) {
       const configuration = { [domain]: { domainName: domain, enabled: true } };
       const matchedRoutes = await client.matchNumberToRoutes(
         "+72345678901",
-        configuration as SipRoutingTestRoutesWithNumberOperationParams
+        configuration as SipRoutingTestRoutesWithNumberOperationParams,
       );
 
       assert.isArray(matchedRoutes);
@@ -92,7 +92,7 @@ matrix([[false, true]], async function (useAad) {
     it("return empty array for empty options", async function () {
       const matchedRoutes = await client.matchNumberToRoutes(
         "+72345678901",
-        {} as SipRoutingTestRoutesWithNumberOperationParams
+        {} as SipRoutingTestRoutesWithNumberOperationParams,
       );
 
       assert.isArray(matchedRoutes);

@@ -188,7 +188,7 @@ export class SipRoutingClient {
         }
 
         throw { code: "NotFound", message: "Not Found" } as SipRoutingError;
-      }
+      },
     );
   }
 
@@ -218,7 +218,7 @@ export class SipRoutingClient {
    */
   public async setDomains(
     domains: SipDomain[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<SipDomain[]> {
     return tracingClient.withSpan(
       "SipRoutingClient-setDomains",
@@ -227,7 +227,7 @@ export class SipRoutingClient {
         const update: SipConfigurationUpdate = { domains: transformDomainsIntoRestModel(domains) };
         let config = await this.client.sipRouting.get(updatedOptions);
         const storedDomains = transformDomainsFromRestModel(config.domains).map(
-          (domain) => domain.domainName
+          (domain) => domain.domainName,
         );
         const setDomains = domains.map((domain) => domain.domainName);
         storedDomains.forEach((storedDomain) => {
@@ -247,7 +247,7 @@ export class SipRoutingClient {
         }
 
         return transformDomainsFromRestModel(config.domains);
-      }
+      },
     );
   }
 
@@ -267,7 +267,7 @@ export class SipRoutingClient {
       };
       const config = await this.client.sipRouting.update(payload);
       const storedDomains = transformDomainsFromRestModel(config.domains).find(
-        (value: SipDomain) => value.domainName === domain.domainName
+        (value: SipDomain) => value.domainName === domain.domainName,
       );
       if (storedDomains) {
         return storedDomains;
@@ -378,7 +378,7 @@ export class SipRoutingClient {
           ...update,
         };
         await this.client.sipRouting.update(payload);
-      }
+      },
     );
   }
 
@@ -409,7 +409,7 @@ export class SipRoutingClient {
 
   public async matchNumberToRoutes(
     phoneNumber: string,
-    options: SipRoutingTestRoutesWithNumberOperationParams
+    options: SipRoutingTestRoutesWithNumberOperationParams,
   ): Promise<SipTrunkRoute[]> {
     const config = await this.client.sipRouting.get(options);
     const apiResult = await this.client.sipRouting.testRoutesWithNumber(phoneNumber, config);
@@ -459,7 +459,7 @@ export class SipRoutingClient {
   }
 
   private async *listDomainsPagingAll(
-    options?: ListSipDomainsOptions
+    options?: ListSipDomainsOptions,
   ): AsyncIterableIterator<SipDomain> {
     for await (const page of this.listDomainsPagingPage(options)) {
       yield* page;
@@ -474,7 +474,7 @@ export class SipRoutingClient {
   }
 
   private async *listDomainsPagingPage(
-    options: ListSipDomainsOptions = {}
+    options: ListSipDomainsOptions = {},
   ): AsyncIterableIterator<SipDomain[]> {
     const apiResult = await this.getDomainsInternal(options as OperationOptions);
     yield apiResult;

@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,9 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "248",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "routes": [
@@ -32,23 +31,38 @@
       },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "427",
+        "Connection": "keep-alive",
+        "Content-Length": "519",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:05:34 GMT",
-        "MS-CV": "zg12bdK1mk6AhJCtQIgkOg.0",
+        "Date": "Wed, 24 Jan 2024 11:15:55 GMT",
+        "MS-CV": "E3QU/PLASUuhSpE604xrfw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0btJdZQAAAAC3jI7vPL8aQrl3Yh/wAeosUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111555Z-h62m52ndcp17ddh6rr8gwzsz240000000660000000006rdc",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "421ms"
+        "X-Processing-Time": "376ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "test24b37489a7bc4afaa82456d9b158260e.sanitized.sbc.test": {
-            "sipSignalingPort": 8239
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
           },
-          "test12bf05b8761d418e835e169030148c6e.sanitized.sbc.test": {
-            "sipSignalingPort": 7348
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.sanitized.sbc.test": {
+            "sipSignalingPort": 8239,
+            "enabled": true
+          },
+          "test2.sanitized.sbc.test": {
+            "sipSignalingPort": 7348,
+            "enabled": true
           }
         },
         "routes": [
@@ -68,37 +82,51 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "427",
+        "Connection": "keep-alive",
+        "Content-Length": "519",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:05:34 GMT",
-        "MS-CV": "TG1L9q6z0k6eY2cvgN1I\u002Bw.0",
+        "Date": "Wed, 24 Jan 2024 11:15:55 GMT",
+        "MS-CV": "3jSPl8fPaU68XU0d7j8bww.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0btJdZQAAAAB\u002BtEx7MKhJS7bZvu2Uk3pIUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111555Z-h62m52ndcp17ddh6rr8gwzsz240000000660000000006rds",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "242ms"
+        "X-Processing-Time": "231ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "test24b37489a7bc4afaa82456d9b158260e.sanitized.sbc.test": {
-            "sipSignalingPort": 8239
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
           },
-          "test12bf05b8761d418e835e169030148c6e.sanitized.sbc.test": {
-            "sipSignalingPort": 7348
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test1.sanitized.sbc.test": {
+            "sipSignalingPort": 8239,
+            "enabled": true
+          },
+          "test2.sanitized.sbc.test": {
+            "sipSignalingPort": 7348,
+            "enabled": true
           }
         },
         "routes": [
@@ -118,50 +146,66 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "Content-Length": "306",
+        "Content-Length": "212",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
         "trunks": {
-          "testf34129b5e53540bf8941388024f42d31.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
           },
-          "testba5ec28de38942d9ad2051c85f26b71b.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
           },
-          "test24b37489a7bc4afaa82456d9b158260e.sanitized.sbc.test": null,
-          "test12bf05b8761d418e835e169030148c6e.sanitized.sbc.test": null
+          "test1.sanitized.sbc.test": null,
+          "test2.sanitized.sbc.test": null
         }
       },
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "427",
+        "Connection": "keep-alive",
+        "Content-Length": "519",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:05:35 GMT",
-        "MS-CV": "sMW6qfd7sUWIv2364kR70g.0",
+        "Date": "Wed, 24 Jan 2024 11:15:56 GMT",
+        "MS-CV": "CWjq3JVHekiFUHkLB4POQA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0btJdZQAAAAAj5TeITwJWRKWM06reQOGQUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111556Z-h62m52ndcp17ddh6rr8gwzsz240000000660000000006re6",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "792ms"
+        "X-Processing-Time": "517ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "testf34129b5e53540bf8941388024f42d31.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
           },
-          "testba5ec28de38942d9ad2051c85f26b71b.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
+          },
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
           }
         },
         "routes": [
@@ -181,37 +225,51 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "427",
+        "Connection": "keep-alive",
+        "Content-Length": "519",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:05:35 GMT",
-        "MS-CV": "e5BQoR2Rg0ujI4kJ6m5AWA.0",
+        "Date": "Wed, 24 Jan 2024 11:15:56 GMT",
+        "MS-CV": "t0kS4o4PTkirK\u002BSz7kdXDw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0b9JdZQAAAAC2XodQx2LJRIe4aZwoySM\u002BUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111556Z-h62m52ndcp17ddh6rr8gwzsz240000000660000000006reh",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "256ms"
+        "X-Processing-Time": "236ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "testf34129b5e53540bf8941388024f42d31.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
           },
-          "testba5ec28de38942d9ad2051c85f26b71b.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
+          },
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
           }
         },
         "routes": [
@@ -231,37 +289,51 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/sip?api-version=2023-03-01",
+      "RequestUri": "https://endpoint/sip?api-version=2023-04-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-alpha.20230820.1 core-rest-pipeline/1.13.1 Node/v18.15.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
+        "Accept-Ranges": "bytes",
         "api-supported-versions": "2023-03-01, 2023-04-01-preview",
-        "Content-Length": "427",
+        "Connection": "keep-alive",
+        "Content-Length": "519",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:05:36 GMT",
-        "MS-CV": "JV65aHhhtEC0juIVOjIfxA.0",
+        "Date": "Wed, 24 Jan 2024 11:15:57 GMT",
+        "MS-CV": "0XDv\u002Bqd\u002BYEa/erUKo7I1bQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0b9JdZQAAAACrFFQBhi47SovwFBQijyUTUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "x-azure-ref": "20240124T111556Z-h62m52ndcp17ddh6rr8gwzsz240000000660000000006req",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "239ms"
+        "X-Processing-Time": "223ms"
       },
       "ResponseBody": {
-        "trunks": {
-          "testf34129b5e53540bf8941388024f42d31.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+        "domains": {
+          "nostojic.test.domain": {
+            "enabled": true
           },
-          "testba5ec28de38942d9ad2051c85f26b71b.sanitized.sbc.test": {
-            "sipSignalingPort": 5678
+          "sanitized.sbc.test": {
+            "enabled": true
+          },
+          "testdomain.com": {
+            "enabled": true
+          }
+        },
+        "trunks": {
+          "test3.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
+          },
+          "test4.sanitized.sbc.test": {
+            "sipSignalingPort": 5678,
+            "enabled": true
           }
         },
         "routes": [
@@ -282,9 +354,9 @@
     }
   ],
   "Variables": {
-    "fqdn-1": "test9feb9ae254a14906abac4111cca8a54e.sanitized.sbc.test",
-    "fqdn-2": "testf109d5a7342346a18e4513b7861ea14f.sanitized.sbc.test",
-    "fqdn-3": "testf34129b5e53540bf8941388024f42d31.sanitized.sbc.test",
-    "fqdn-4": "testba5ec28de38942d9ad2051c85f26b71b.sanitized.sbc.test"
+    "fqdn-1": "test1.sanitized.sbc.test",
+    "fqdn-2": "test2.sanitized.sbc.test",
+    "fqdn-3": "test3.sanitized.sbc.test",
+    "fqdn-4": "test4.sanitized.sbc.test"
   }
 }

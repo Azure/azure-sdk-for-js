@@ -86,14 +86,14 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 
 export async function createRecordedClient(
   context: Context,
-  mockedAPI: boolean = false
+  mockedAPI: boolean = false,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new PhoneNumbersClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({ additionalPolicies: policies }),
   );
 
   // casting is a workaround to enable min-max testing
@@ -110,7 +110,7 @@ export function createMockToken(): TokenCredential {
 
 export async function createRecordedClientWithToken(
   context: Context,
-  mockedAPI: boolean = false
+  mockedAPI: boolean = false,
 ): Promise<RecordedClient<PhoneNumbersClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
@@ -129,7 +129,7 @@ export async function createRecordedClientWithToken(
   const client = new PhoneNumbersClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({ additionalPolicies: policies }),
   );
 
   // casting is a workaround to enable min-max testing

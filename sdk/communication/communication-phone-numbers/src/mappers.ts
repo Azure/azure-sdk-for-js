@@ -50,7 +50,7 @@ export function transformIntoRestModel(trunks: SipTrunk[]): {
  * Transforming SIP domains REST model to SDK model
  */
 export function transformDomainsFromRestModel(
-  domains: { [propertyName: string]: RestSipDomain } | undefined
+  domains: { [propertyName: string]: RestSipDomain } | undefined,
 ): SipDomain[] {
   const result: SipDomain[] = [];
 

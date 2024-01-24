@@ -77,7 +77,7 @@ export async function main(): Promise<void> {
   const trunks = await client.listTrunks();
   for await (const trunk of trunks) {
     console.log(
-      `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`
+      `Trunk ${trunk.fqdn}:${trunk.sipSignalingPort} with property enabled:${trunk.enabled}`,
     );
   }
 

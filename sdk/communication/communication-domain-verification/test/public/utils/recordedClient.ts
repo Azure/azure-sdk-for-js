@@ -3,21 +3,13 @@
 
 import * as dotenv from "dotenv";
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-  isPlaybackMode,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { TokenCredential } from "@azure/identity";
 import { parseConnectionString } from "@azure/communication-common";
 import { Context, Test } from "mocha";
 import { isNode } from "@azure/test-utils";
 import { DomainVerificationClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
-import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config({ path: __dirname });
@@ -76,31 +68,27 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedClient(
-  context: Context,
-  mockedAPI: boolean = false
+  context: Context
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
-  const policies = getAdditionalPolicies(mockedAPI);
 
   return {
     client: new DomainVerificationClient(
       env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-      recorder.configureClientOptions({ additionalPolicies: policies })
+      recorder.configureClientOptions({})
     ),
     recorder,
   };
 }
 
 export async function createRecordedClientWithToken(
-  context: Context,
-  mockedAPI: boolean = false
+  context: Context
 ): Promise<RecordedClient<DomainVerificationClient>> {
   const recorder = await createRecorder(context.currentTest);
   let credential: TokenCredential;
-  const policies = getAdditionalPolicies(mockedAPI);
 
   const endpoint = parseConnectionString(
-    assertEnvironmentVariable("COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING")
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
   ).endpoint;
 
   if (isPlaybackMode()) {
@@ -112,19 +100,8 @@ export async function createRecordedClientWithToken(
   const client = new DomainVerificationClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({})
   );
 
   return { client, recorder };
-}
-
-export function getAdditionalPolicies(mockedApi: boolean): AdditionalPolicyConfig[] {
-  const additionalPolicies: AdditionalPolicyConfig[] = [
-    {
-      policy: createMSUserAgentPolicy(mockedApi),
-      position: "perRetry",
-    },
-  ];
-
-  return additionalPolicies;
 }

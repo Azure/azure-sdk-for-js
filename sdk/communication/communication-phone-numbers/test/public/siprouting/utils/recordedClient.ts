@@ -19,6 +19,7 @@ import { isNode } from "@azure/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { AdditionalPolicyConfig } from "@azure/core-client";
 
 if (isNode) {
   dotenv.config();
@@ -85,14 +86,14 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 
 export async function createRecordedClient(
   context: Context,
-  mockedAPI: boolean = false
+  mockedAPI: boolean = false,
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
 
   const client = new SipRoutingClient(
     assertEnvironmentVariable("COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING"),
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({ additionalPolicies: policies }),
   );
 
   return { client, recorder };
@@ -108,7 +109,7 @@ export function createMockToken(): TokenCredential {
 
 export async function createRecordedClientWithToken(
   context: Context,
-  mockedAPI: boolean = false
+  mockedAPI: boolean = false,
 ): Promise<RecordedClient<SipRoutingClient>> {
   const recorder = await createRecorder(context.currentTest);
   const policies = getAdditionalPolicies(mockedAPI);
@@ -127,7 +128,7 @@ export async function createRecordedClientWithToken(
   const client = new SipRoutingClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({ additionalPolicies: policies })
+    recorder.configureClientOptions({ additionalPolicies: policies }),
   );
 
   // casting is a workaround to enable min-max testing
@@ -144,11 +145,9 @@ export async function clearSipConfiguration(): Promise<void> {
   await client.setDomains(verifiedDomains);
 }
 
-let fqdnNumber = 1;let domainNumber = 1;
+let fqdnNumber = 1;
+let domainNumber = 1;
 export function getUniqueFqdn(recorder: Recorder, domain = ""): string {
-  const id = randomUUID().replace(/-/g, "");
-  return recorder.variable(`fqdn-${fqdnNumber++}`, `test${id}.${getAzureTestDomain()}`);
-
   fqdnNumber++;
   const fqdn =
     domain.length > 0 ? `test${fqdnNumber}.` + domain : `test${fqdnNumber}.` + getAzureTestDomain();
@@ -166,7 +165,7 @@ export function resetUniqueFqdns(): void {
 
 export async function listAllTrunks(
   client: SipRoutingClient,
-  includeHealth?: boolean
+  includeHealth?: boolean,
 ): Promise<SipTrunk[]> {
   const result = [];
   for await (const trunk of client.listTrunks({ includeHealth })) {

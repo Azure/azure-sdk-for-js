@@ -465,6 +465,16 @@ export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers;
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams
   extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
+  /** Filter by assignmentType, e.g. User, Application. */
+  assignmentType?: PhoneNumberAssignmentType;
+  /** The name of locality or town in which to search for the area code. This is required if the number type is Geographic. */
+  locality?: string;
+  /** The name of the state or province in which to search for the area code. */
+  administrativeDivision?: string;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -475,6 +485,10 @@ export type PhoneNumbersListAreaCodesNextResponse = PhoneNumberAreaCodes;
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableCountriesNextOptionalParams
   extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -485,6 +499,12 @@ export type PhoneNumbersListAvailableCountriesNextResponse = PhoneNumberCountrie
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
   extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
+  /** An optional parameter for the name of the state or province in which to search for the area code. */
+  administrativeDivision?: string;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
 }
@@ -495,8 +515,16 @@ export type PhoneNumbersListAvailableLocalitiesNextResponse = PhoneNumberLocalit
 /** Optional parameters. */
 export interface PhoneNumbersListOfferingsNextOptionalParams
   extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  maxPageSize?: number;
+  /** Filter by assignmentType, e.g. Person, Application. */
+  assignmentType?: PhoneNumberAssignmentType;
   /** The locale to display in the localized fields in the response. e.g. 'en-US' */
   acceptLanguage?: string;
+  /** Filter by numberType, e.g. Geographic, TollFree. */
+  phoneNumberType?: PhoneNumberType;
 }
 
 /** Contains response data for the listOfferingsNext operation. */
@@ -504,7 +532,12 @@ export type PhoneNumbersListOfferingsNextResponse = OfferingsResponse;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** An optional parameter for how many entries to skip, for pagination purposes. The default value is 0. */
+  skip?: number;
+  /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
+  top?: number;
+}
 
 /** Contains response data for the listPhoneNumbersNext operation. */
 export type PhoneNumbersListPhoneNumbersNextResponse = PurchasedPhoneNumbers;

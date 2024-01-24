@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import {
+  bearerTokenAuthenticationPolicy, bearerTokenAuthenticationPolicyName, PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest
@@ -22,7 +23,8 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
 
   /**
    * Initializes a new instance of the PhoneNumbersClient class.
-   * @param endpoint The communication resource, for example https://resourcename.communication.azure.com
+   * @param endpoint The communication resource, for example
+   *                 https://resourcename.communication.azure.com.
    * @param options The parameter options
    */
   constructor(endpoint: string, options?: PhoneNumbersClientOptionalParams) {
@@ -50,23 +52,23 @@ export class PhoneNumbersClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
     };
     super(optionsWithDefaults);
 
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: PipelinePolicy[] = options.pipeline.getOrderedPolicies();
       const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          bearerTokenAuthenticationPolicyName
       );
       if (!bearerTokenAuthenticationPolicyFound) {
         this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+          name: bearerTokenAuthenticationPolicyName
         });
         this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
+          bearerTokenAuthenticationPolicy({
             scopes: `${optionsWithDefaults.baseUri}/.default`,
             challengeCallbacks: {
               authorizeRequestOnChallenge:

@@ -7,37 +7,35 @@
  */
 
 import { tracingClient } from "../tracing";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { PhoneNumbersClient } from "../phoneNumbersClient";
 import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { createLroSpec } from "../lroImpl";
+import { LroImpl } from "../lroImpl";
 import {
   PhoneNumberAreaCode,
-  PhoneNumbersListAreaCodesNextOptionalParams,
   PhoneNumberType,
+  PhoneNumbersListAreaCodesNextOptionalParams,
   PhoneNumbersListAreaCodesOptionalParams,
-  PhoneNumbersListAreaCodesResponse,
   PhoneNumberCountry,
   PhoneNumbersListAvailableCountriesNextOptionalParams,
   PhoneNumbersListAvailableCountriesOptionalParams,
-  PhoneNumbersListAvailableCountriesResponse,
   PhoneNumberLocality,
   PhoneNumbersListAvailableLocalitiesNextOptionalParams,
   PhoneNumbersListAvailableLocalitiesOptionalParams,
-  PhoneNumbersListAvailableLocalitiesResponse,
   PhoneNumberOffering,
   PhoneNumbersListOfferingsNextOptionalParams,
   PhoneNumbersListOfferingsOptionalParams,
-  PhoneNumbersListOfferingsResponse,
   PurchasedPhoneNumber,
   PhoneNumbersListPhoneNumbersNextOptionalParams,
   PhoneNumbersListPhoneNumbersOptionalParams,
-  PhoneNumbersListPhoneNumbersResponse,
+  PhoneNumbersListAreaCodesResponse,
+  PhoneNumbersListAvailableCountriesResponse,
+  PhoneNumbersListAvailableLocalitiesResponse,
+  PhoneNumbersListOfferingsResponse,
   PhoneNumberAssignmentType,
   PhoneNumberCapabilities,
   PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
@@ -55,6 +53,7 @@ import {
   PhoneNumbersGetByNumberResponse,
   PhoneNumbersReleasePhoneNumberOptionalParams,
   PhoneNumbersReleasePhoneNumberResponse,
+  PhoneNumbersListPhoneNumbersResponse,
   PhoneNumbersListAreaCodesNextResponse,
   PhoneNumbersListAvailableCountriesNextResponse,
   PhoneNumbersListAvailableLocalitiesNextResponse,
@@ -98,15 +97,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
+      byPage: () => {
         return this.listAreaCodesPagingPage(
           countryCode,
           phoneNumberType,
-          options,
-          settings
+          options
         );
       }
     };
@@ -115,28 +110,24 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   private async *listAreaCodesPagingPage(
     countryCode: string,
     phoneNumberType: PhoneNumberType,
-    options?: PhoneNumbersListAreaCodesOptionalParams,
-    settings?: PageSettings
+    options?: PhoneNumbersListAreaCodesOptionalParams
   ): AsyncIterableIterator<PhoneNumberAreaCode[]> {
-    let result: PhoneNumbersListAreaCodesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAreaCodes(countryCode, phoneNumberType, options);
-      let page = result.areaCodes || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAreaCodes(
+      countryCode,
+      phoneNumberType,
+      options
+    );
+    yield result.areaCodes || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAreaCodesNext(
         countryCode,
+        phoneNumberType,
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      let page = result.areaCodes || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.areaCodes || [];
     }
   }
 
@@ -169,37 +160,25 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAvailableCountriesPagingPage(options, settings);
+      byPage: () => {
+        return this.listAvailableCountriesPagingPage(options);
       }
     };
   }
 
   private async *listAvailableCountriesPagingPage(
-    options?: PhoneNumbersListAvailableCountriesOptionalParams,
-    settings?: PageSettings
+    options?: PhoneNumbersListAvailableCountriesOptionalParams
   ): AsyncIterableIterator<PhoneNumberCountry[]> {
-    let result: PhoneNumbersListAvailableCountriesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAvailableCountries(options);
-      let page = result.countries || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAvailableCountries(options);
+    yield result.countries || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAvailableCountriesNext(
         continuationToken,
         options
       );
       continuationToken = result.nextLink;
-      let page = result.countries || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.countries || [];
     }
   }
 
@@ -228,33 +207,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listAvailableLocalitiesPagingPage(
-          countryCode,
-          options,
-          settings
-        );
+      byPage: () => {
+        return this.listAvailableLocalitiesPagingPage(countryCode, options);
       }
     };
   }
 
   private async *listAvailableLocalitiesPagingPage(
     countryCode: string,
-    options?: PhoneNumbersListAvailableLocalitiesOptionalParams,
-    settings?: PageSettings
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
   ): AsyncIterableIterator<PhoneNumberLocality[]> {
-    let result: PhoneNumbersListAvailableLocalitiesResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listAvailableLocalities(countryCode, options);
-      let page = result.phoneNumberLocalities || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listAvailableLocalities(countryCode, options);
+    yield result.phoneNumberLocalities || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listAvailableLocalitiesNext(
         countryCode,
@@ -262,9 +227,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.phoneNumberLocalities || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.phoneNumberLocalities || [];
     }
   }
 
@@ -297,29 +260,19 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listOfferingsPagingPage(countryCode, options, settings);
+      byPage: () => {
+        return this.listOfferingsPagingPage(countryCode, options);
       }
     };
   }
 
   private async *listOfferingsPagingPage(
     countryCode: string,
-    options?: PhoneNumbersListOfferingsOptionalParams,
-    settings?: PageSettings
+    options?: PhoneNumbersListOfferingsOptionalParams
   ): AsyncIterableIterator<PhoneNumberOffering[]> {
-    let result: PhoneNumbersListOfferingsResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listOfferings(countryCode, options);
-      let page = result.phoneNumberOfferings || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listOfferings(countryCode, options);
+    yield result.phoneNumberOfferings || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listOfferingsNext(
         countryCode,
@@ -327,9 +280,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         options
       );
       continuationToken = result.nextLink;
-      let page = result.phoneNumberOfferings || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.phoneNumberOfferings || [];
     }
   }
 
@@ -360,34 +311,22 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPhoneNumbersPagingPage(options, settings);
+      byPage: () => {
+        return this.listPhoneNumbersPagingPage(options);
       }
     };
   }
 
   private async *listPhoneNumbersPagingPage(
-    options?: PhoneNumbersListPhoneNumbersOptionalParams,
-    settings?: PageSettings
+    options?: PhoneNumbersListPhoneNumbersOptionalParams
   ): AsyncIterableIterator<PurchasedPhoneNumber[]> {
-    let result: PhoneNumbersListPhoneNumbersResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listPhoneNumbers(options);
-      let page = result.phoneNumbers || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
+    let result = await this._listPhoneNumbers(options);
+    yield result.phoneNumbers || [];
+    let continuationToken = result.nextLink;
     while (continuationToken) {
       result = await this._listPhoneNumbersNext(continuationToken, options);
       continuationToken = result.nextLink;
-      let page = result.phoneNumbers || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
+      yield result.phoneNumbers || [];
     }
   }
 
@@ -518,7 +457,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         }
       );
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -551,17 +490,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        countryCode,
-        phoneNumberType,
-        assignmentType,
-        capabilities,
-        options
-      },
-      spec: searchAvailablePhoneNumbersOperationSpec
-    });
+    const lro = new LroImpl(
+      sendOperation,
+      { countryCode, phoneNumberType, assignmentType, capabilities, options },
+      searchAvailablePhoneNumbersOperationSpec
+    );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -644,7 +577,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         }
       );
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -677,11 +610,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { options },
-      spec: purchasePhoneNumbersOperationSpec
-    });
+    const lro = new LroImpl(
+      sendOperation,
+      { options },
+      purchasePhoneNumbersOperationSpec
+    );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -772,7 +705,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         }
       );
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -805,11 +738,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { phoneNumber, options },
-      spec: updateCapabilitiesOperationSpec
-    });
+    const lro = new LroImpl(
+      sendOperation,
+      { phoneNumber, options },
+      updateCapabilitiesOperationSpec
+    );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
@@ -883,7 +816,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
         }
       );
     };
-    const sendOperationFn = async (
+    const sendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -916,11 +849,11 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       };
     };
 
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: { phoneNumber, options },
-      spec: releasePhoneNumberOperationSpec
-    });
+    const lro = new LroImpl(
+      sendOperation,
+      { phoneNumber, options },
+      releasePhoneNumberOperationSpec
+    );
     const poller = new LroEngine(lro, {
       resumeFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
@@ -964,11 +897,13 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   /**
    * ListAreaCodesNext
    * @param countryCode The ISO 3166-2 country code, e.g. US.
+   * @param phoneNumberType Filter by numberType, e.g. Geographic, TollFree.
    * @param nextLink The nextLink from the previous successful call to the ListAreaCodes method.
    * @param options The options parameters.
    */
   private async _listAreaCodesNext(
     countryCode: string,
+    phoneNumberType: PhoneNumberType,
     nextLink: string,
     options?: PhoneNumbersListAreaCodesNextOptionalParams
   ): Promise<PhoneNumbersListAreaCodesNextResponse> {
@@ -977,7 +912,7 @@ export class PhoneNumbersImpl implements PhoneNumbers {
       options ?? {},
       async (options) => {
         return this.client.sendOperationRequest(
-          { countryCode, nextLink, options },
+          { countryCode, phoneNumberType, nextLink, options },
           listAreaCodesNextOperationSpec
         ) as Promise<PhoneNumbersListAreaCodesNextResponse>;
       }
@@ -1382,6 +1317,15 @@ const listAreaCodesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  queryParameters: [
+    Parameters.phoneNumberType,
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.locality,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
@@ -1401,6 +1345,11 @@ const listAvailableCountriesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.apiVersion
+  ],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept, Parameters.acceptLanguage],
   serializer
@@ -1416,6 +1365,12 @@ const listAvailableLocalitiesNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.administrativeDivision,
+    Parameters.apiVersion
+  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
@@ -1435,6 +1390,13 @@ const listOfferingsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  queryParameters: [
+    Parameters.skip,
+    Parameters.maxPageSize,
+    Parameters.assignmentType,
+    Parameters.apiVersion,
+    Parameters.phoneNumberType1
+  ],
   urlParameters: [
     Parameters.endpoint,
     Parameters.countryCode,
@@ -1454,6 +1416,7 @@ const listPhoneNumbersNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
+  queryParameters: [Parameters.skip, Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
   serializer

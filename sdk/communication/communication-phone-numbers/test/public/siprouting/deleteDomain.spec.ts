@@ -60,7 +60,7 @@ matrix([[true, false]], async function (useAad) {
       await client.setDomain(domain);
       await client.deleteDomain(firstDomain);
       assert.notExists(
-        (await listAllDomains(client)).find((value) => value.domainName === domain.domainName)
+        (await listAllDomains(client)).find((value) => value.domainName === domain.domainName),
       );
     });
 

@@ -60,7 +60,7 @@
     "review/*"
   ],
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -76,6 +76,7 @@
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0",
+    "@azure/core-util": "^1.6.1",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
@@ -85,16 +86,16 @@
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^3.3.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
-    "@types/mocha": "^7.0.2",
-    "@types/sinon": "^9.0.4",
-    "@types/node": "^14.0.0",
+    "@types/mocha": "^10.0.0",
+    "@types/sinon": "^17.0.0",
+    "@types/node": "^18.0.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "dotenv": "^8.2.0",
+    "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "karma-chrome-launcher": "^3.0.0",
@@ -109,13 +110,15 @@
     "karma-sourcemap-loader": "^0.3.8",
     "karma": "^6.2.0",
     "mocha-junit-reporter": "^2.0.0",
-    "mocha": "^7.1.1",
+    "mocha": "^10.0.0",
     "nyc": "^15.0.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "sinon": "^9.0.2",
-    "typescript": "~4.6.0",
-    "@azure/core-tracing": "1.0.2"
+    "sinon": "^17.0.0",
+    "typescript": "~5.2.0",
+    "@azure/core-tracing": "1.0.2",
+    "ts-node": "^10.0.0",
+    "esm": "^3.2.18"
   },
   "browser": {
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
