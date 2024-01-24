@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { isNode } from "@azure/core-util";
 import { isBlob, isNodeReadableStream } from "./typeGuards";
 
 /**
@@ -50,17 +51,47 @@ const unimplementedMethods = {
 };
 
 /**
+ * Private symbol used as key on objects created using createFile containing the
+ * original source of the file object.
+ *
+ * This is used in Node to access the original Node stream without using Blob#stream, which
+ * returns a web stream. This is done to avoid a couple of bugs to do with Blob#stream and
+ * Readable#to/fromWeb in Node versions we support:
+ * - https://github.com/nodejs/node/issues/42694 (fixed in Node 18.14)
+ * - https://github.com/nodejs/node/issues/48916 (fixed in Node 20.6)
+ *
+ * Once these versions are no longer supported, we may be able to stop doing this.
+ *
  * @internal
  */
-export type FileWithRawContent = File & {
-  __rawContent(): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
-};
+const rawContent: unique symbol = Symbol("rawContent");
 
 /**
+ * Type signature of a blob-like object with a raw content property.
+ */
+type BlobWithRawContent = Blob & {
+  [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
+};
+
+function hasRawContent(x: Blob): x is BlobWithRawContent {
+  return isBlob(x) && typeof (x as BlobWithRawContent)[rawContent] === "function";
+}
+
+/**
+ * Extract the raw content from a given blob-like object. If the input was created using createFile
+ * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
+ * Returns undefined for true instances of Blob and File.
+ *
  * @internal
  */
-export function hasRawContent(x: any): x is FileWithRawContent {
-  return isBlob(x) && typeof (x as any).__rawContent === "function";
+export function getRawContent(
+  blob: Blob,
+): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | undefined {
+  if (hasRawContent(blob)) {
+    return blob[rawContent]();
+  } else {
+    return blob.stream();
+  }
 }
 
 /**
@@ -95,13 +126,15 @@ export function createFileFromStream(
     stream: () => {
       const s = stream();
       if (isNodeReadableStream(s)) {
-        throw new Error("Not supported: a Node stream was provided.");
+        throw new Error(
+          "Not supported: a Node stream was provided as input to createFileFromStream.",
+        );
       }
 
       return s;
     },
-    __rawContent: stream,
-  } as File;
+    [rawContent]: stream,
+  } as File & BlobWithRawContent;
 }
 
 /**
@@ -120,15 +153,19 @@ export function createFile(
   name: string,
   options: CreateFileOptions = {},
 ): File {
-  return {
-    ...unimplementedMethods,
-    type: options.type ?? "",
-    lastModified: options.lastModified ?? new Date().getTime(),
-    webkitRelativePath: options.webkitRelativePath ?? "",
-    size: content.byteLength,
-    name,
-    arrayBuffer: async () => content.buffer,
-    stream: () => new Blob([content]).stream(),
-    __rawContent: () => content,
-  } as File;
+  if (isNode) {
+    return {
+      ...unimplementedMethods,
+      type: options.type ?? "",
+      lastModified: options.lastModified ?? new Date().getTime(),
+      webkitRelativePath: options.webkitRelativePath ?? "",
+      size: content.byteLength,
+      name,
+      arrayBuffer: async () => content.buffer,
+      stream: () => new Blob([content]).stream(),
+      [rawContent]: () => content,
+    } as File & BlobWithRawContent;
+  } else {
+    return new File([content], name, options);
+  }
 }
