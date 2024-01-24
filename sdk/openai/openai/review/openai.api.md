@@ -235,7 +235,9 @@ export interface ChatCompletionsJsonResponseFormat {
 
 // @public
 export interface ChatCompletionsNamedFunctionToolSelection {
-    name: string;
+    function: {
+        name: string;
+    };
     type: "function";
 }
 

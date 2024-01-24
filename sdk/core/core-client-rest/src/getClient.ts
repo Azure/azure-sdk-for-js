@@ -60,10 +60,7 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
-  const endpointUrl = endpoint ?? clientOptions.endpoint ?? clientOptions.baseUrl;
-  if (clientOptions.baseUrl && endpointUrl === clientOptions.baseUrl) {
-    logger.warning("The baseUrl parameter is deprecated. Please use endpoint instead.");
-  }
+  const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>) => {
     const getUrl = (requestOptions: RequestParameters) =>
       buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });

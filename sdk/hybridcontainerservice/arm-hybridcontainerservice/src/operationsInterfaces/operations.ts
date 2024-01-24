@@ -12,7 +12,10 @@ import { Operation, OperationsListOptionalParams } from "../models";
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Operations. */
 export interface Operations {
-  /** @param options The options parameters. */
+  /**
+   * Lists the supported operations
+   * @param options The options parameters.
+   */
   list(
     options?: OperationsListOptionalParams
   ): PagedAsyncIterableIterator<Operation>;
