@@ -8,5 +8,5 @@
     "rootDir": "."
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.{mts,ts}", "./test/**/*.ts"]
 }

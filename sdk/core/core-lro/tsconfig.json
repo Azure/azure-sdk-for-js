@@ -9,5 +9,5 @@
     },
   },
   "exclude": ["node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"],
+  "include": ["./src/**/*.{mts,ts}", "./test/**/*.ts"],
 }

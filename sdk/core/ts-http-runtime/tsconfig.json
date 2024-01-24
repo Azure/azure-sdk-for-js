@@ -9,8 +9,5 @@
     },
     "lib": ["dom", "dom.iterable"],
   },
-  "include": [
-    "src/**/*.{ts,mts}",
-    "test/**/*.ts"
-  ]
+  "include": [ "./src/**/*.{mts,ts}", "test/**/*.ts" ]
 }
