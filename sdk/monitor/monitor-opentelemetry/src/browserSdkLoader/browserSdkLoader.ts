@@ -9,7 +9,6 @@ import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
-import { IBrowserSdkLoaderConfig } from "../shared/types";
 
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
@@ -19,8 +18,6 @@ export class BrowserSdkLoader {
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _browserSdkLoaderIkey?: string;
-  private _clientBrowserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
-  private _clientBrowserSdkLoaderSrc?: string;
 
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
@@ -42,8 +39,6 @@ export class BrowserSdkLoader {
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientBrowserSdkLoaderConfig = config.browserSdkLoaderOptions?.config;
-    this._clientBrowserSdkLoaderSrc = config.browserSdkLoaderOptions?.src;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -83,51 +78,11 @@ export class BrowserSdkLoader {
    * @returns The string to inject into the web page
    */
   private _getBrowserSdkLoaderReplacedStr() {
-    let configStr = this._getClientBrowserSdkLoaderConfigStr(this._clientBrowserSdkLoaderConfig);
     let osStr = prefixHelper.getOsPrefix();
     let rpStr = prefixHelper.getResourceProvider();
-    let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
+    let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
     let replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
-    if (this._clientBrowserSdkLoaderSrc) {
-      return replacedSdkLoader.replace(
-        `${BROWSER_SDK_LOADER_DEFAULT_SOURCE}.2.min.js`,
-        this._clientBrowserSdkLoaderSrc,
-      );
-    }
     return replacedSdkLoader;
-  }
-
-  // Do not use string replace here, because double quote should be kept.
-  // we want to transfer all values of config to the sdk loader in the following way:
-  // cfg: {
-  //      config1: "config1 string value",
-  //      config2: true,
-  //      config3: 1,
-  //      ...
-  //}});
-  private _getClientBrowserSdkLoaderConfigStr(config?: IBrowserSdkLoaderConfig) {
-    let configStr = "";
-    try {
-      if (!!config && Object.keys(config).length > 0) {
-        for (let key in config) {
-          const value = config[key as keyof IBrowserSdkLoaderConfig];
-          let entry = "";
-          // NOTE: users should convert object/function to string themselves
-          // Type "function" and "object" will be skipped!
-          if (typeof value === "string") {
-            entry = ` ${key}: \"${value}\",\r\n`;
-            configStr += entry;
-          }
-        }
-      }
-    } catch (e) {
-      // if has any errors here, web Instrumentation will be disabled.
-      this.dispose();
-      Logger.getInstance().info(
-        "Parse client web instrumentation error. Browser SDK Loader is disabled",
-      );
-    }
-    return configStr;
   }
 
   private _initialize() {

@@ -33,8 +33,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run unit-test:node && npm run integration-test:node",
     "test": "npm run test:node && npm run test:browser",
-    "unit-test:browser": "vitest -c vitest.browser.config.mts",
-    "unit-test:node": "vitest",
+    "unit-test:browser": "dev-tool run test:vitest --no-test-proxy=true --browser=true",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -70,12 +70,12 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.1.0",
+    "@vitest/browser": "^1.2.1",
     "eslint": "^8.0.0",
     "playwright": "^1.39.0",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
-    "vitest": "^1.1.0"
+    "vitest": "^1.2.1"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"

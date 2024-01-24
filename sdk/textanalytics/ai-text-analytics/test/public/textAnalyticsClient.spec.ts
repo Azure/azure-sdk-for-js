@@ -192,38 +192,37 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           assertAllSuccess(results);
           const documentSentiment: AnalyzeSentimentSuccessResult =
             results[0] as AnalyzeSentimentSuccessResult;
-          documentSentiment.sentences.map(
-            (sentence) =>
-              sentence.opinions?.map((opinion) => {
-                const Target = opinion.target;
-                assert.equal("design", Target.text);
-                assert.equal("positive", Target.sentiment);
-                assert.isAtLeast(Target.confidenceScores.positive, 0);
-                assert.isAtLeast(Target.confidenceScores.negative, 0);
-                assert.equal(Target.offset, 32);
-                assert.equal(Target.length, 6);
-                assert.equal(Target.text.length, Target.length);
+          documentSentiment.sentences.map((sentence) =>
+            sentence.opinions?.map((opinion) => {
+              const Target = opinion.target;
+              assert.equal("design", Target.text);
+              assert.equal("positive", Target.sentiment);
+              assert.isAtLeast(Target.confidenceScores.positive, 0);
+              assert.isAtLeast(Target.confidenceScores.negative, 0);
+              assert.equal(Target.offset, 32);
+              assert.equal(Target.length, 6);
+              assert.equal(Target.text.length, Target.length);
 
-                const sleekAssessment = opinion.assessments[0];
-                assert.equal("sleek", sleekAssessment.text);
-                assert.equal("positive", sleekAssessment.sentiment);
-                assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
-                assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
-                assert.isFalse(sleekAssessment.isNegated);
-                assert.equal(sleekAssessment.offset, 9);
-                assert.equal(sleekAssessment.length, 5);
-                assert.equal(sleekAssessment.text.length, sleekAssessment.length);
+              const sleekAssessment = opinion.assessments[0];
+              assert.equal("sleek", sleekAssessment.text);
+              assert.equal("positive", sleekAssessment.sentiment);
+              assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+              assert.isAtLeast(sleekAssessment.confidenceScores.positive, 0);
+              assert.isFalse(sleekAssessment.isNegated);
+              assert.equal(sleekAssessment.offset, 9);
+              assert.equal(sleekAssessment.length, 5);
+              assert.equal(sleekAssessment.text.length, sleekAssessment.length);
 
-                const beautifulAssessment = opinion.assessments[1];
-                assert.equal("beautiful", beautifulAssessment.text);
-                assert.equal("positive", beautifulAssessment.sentiment);
-                assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
-                assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
-                assert.isFalse(beautifulAssessment.isNegated);
-                assert.equal(beautifulAssessment.offset, 53);
-                assert.equal(beautifulAssessment.length, 9);
-                assert.equal(beautifulAssessment.text.length, beautifulAssessment.length);
-              }),
+              const beautifulAssessment = opinion.assessments[1];
+              assert.equal("beautiful", beautifulAssessment.text);
+              assert.equal("positive", beautifulAssessment.sentiment);
+              assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
+              assert.isAtLeast(beautifulAssessment.confidenceScores.positive, 0);
+              assert.isFalse(beautifulAssessment.isNegated);
+              assert.equal(beautifulAssessment.offset, 53);
+              assert.equal(beautifulAssessment.length, 9);
+              assert.equal(beautifulAssessment.text.length, beautifulAssessment.length);
+            }),
           );
         });
 

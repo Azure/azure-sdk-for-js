@@ -15,9 +15,9 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
@@ -30,11 +30,11 @@ export const body: OperationParameter = {
       element: {
         type: {
           name: "Composite",
-          className: "TelemetryItem"
-        }
-      }
-    }
-  }
+          className: "TelemetryItem",
+        },
+      },
+    },
+  },
 };
 
 export const accept: OperationParameter = {
@@ -44,9 +44,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const host: OperationURLParameter = {
@@ -55,8 +55,8 @@ export const host: OperationURLParameter = {
     serializedName: "Host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };

@@ -94,6 +94,7 @@
     "mkdirp",
     "mongodb",
     "MPNS",
+    "msal",
     "MSRC",
     "nise",
     "northcentralus",
