@@ -10,6 +10,7 @@
 
 - Fix a bug where `toolChoice` field in the input options to chat completion methods wasn't defined correctly.
 - Fix a bug where the service returns undefined `choices` in chat completion methods.
+- Fix a bug in chat completion methods where the returned stream was causing an error in Bun.
 
 ### Other Changes
 
