@@ -378,7 +378,7 @@ export interface AppConfigurationGetRevisionsNextHeaders {
 /** Known values of {@link ApiVersion20231001} that the service accepts. */
 export enum KnownApiVersion20231001 {
   /** Api Version '2023-10-01' */
-  TwoThousandTwentyThree1001 = "2023-10-01"
+  TwoThousandTwentyThree1001 = "2023-10-01",
 }
 
 /**
@@ -407,7 +407,7 @@ export enum KnownKeyValueFields {
   /** Locked */
   Locked = "locked",
   /** Etag */
-  Etag = "etag"
+  Etag = "etag",
 }
 
 /**
@@ -449,7 +449,7 @@ export enum KnownSnapshotFields {
   /** Tags */
   Tags = "tags",
   /** Etag */
-  Etag = "etag"
+  Etag = "etag",
 }
 
 /**
@@ -480,7 +480,7 @@ export enum KnownSnapshotStatus {
   /** Archived */
   Archived = "archived",
   /** Failed */
-  Failed = "failed"
+  Failed = "failed",
 }
 
 /**
@@ -504,7 +504,7 @@ export enum KnownConfigurationSnapshotStatus {
   /** Archived */
   Archived = "archived",
   /** Failed */
-  Failed = "failed"
+  Failed = "failed",
 }
 
 /**
@@ -524,7 +524,7 @@ export enum KnownSnapshotComposition {
   /** Key */
   Key = "key",
   /** KeyLabel */
-  KeyLabel = "key_label"
+  KeyLabel = "key_label",
 }
 
 /**
@@ -540,7 +540,7 @@ export type SnapshotComposition = string;
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {
   /** Name */
-  Name = "name"
+  Name = "name",
 }
 
 /**
