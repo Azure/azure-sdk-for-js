@@ -941,7 +941,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messageCount", messageCount);
     throwTypeErrorIfParameterTypeMismatch(
       this._context.connectionId,
-      "maxMessageCount",
+      "messageCount",
       messageCount,
       "number",
     );
@@ -952,7 +952,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
     try {
       const messageBody: any = {};
-      messageBody[Constants.messageCount] = types.wrap_int(messageCount!);
+      messageBody[Constants.messageCount] = types.wrap_int(messageCount);
       messageBody[Constants.enqueuedTimeUtc] = enqueueTimeUtcOlderThan ?? new Date();
       if (isDefined(sessionId)) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
