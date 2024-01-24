@@ -33,7 +33,7 @@ async function getNetworkVirtualApplianceSite() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      siteName
+      siteName,
     )
     .get(options);
   console.log(result);

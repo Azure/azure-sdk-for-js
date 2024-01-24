@@ -34,7 +34,7 @@ async function restartDedicatedHost() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

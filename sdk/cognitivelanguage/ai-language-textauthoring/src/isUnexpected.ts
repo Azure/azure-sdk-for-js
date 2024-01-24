@@ -143,182 +143,182 @@ const responseMap: Record<string, string[]> = {
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListProjects200Response
-    | TextAnalysisAuthoringListProjectsDefaultResponse
+    | TextAnalysisAuthoringListProjectsDefaultResponse,
 ): response is TextAnalysisAuthoringListProjectsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringCreateProject200Response
     | TextAnalysisAuthoringCreateProject201Response
-    | TextAnalysisAuthoringCreateProjectDefaultResponse
+    | TextAnalysisAuthoringCreateProjectDefaultResponse,
 ): response is TextAnalysisAuthoringCreateProjectDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetProject200Response
-    | TextAnalysisAuthoringGetProjectDefaultResponse
+    | TextAnalysisAuthoringGetProjectDefaultResponse,
 ): response is TextAnalysisAuthoringGetProjectDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringDeleteProject202Response
-    | TextAnalysisAuthoringDeleteProjectDefaultResponse
+    | TextAnalysisAuthoringDeleteProjectDefaultResponse,
 ): response is TextAnalysisAuthoringDeleteProjectDefaultResponse;
 export function isUnexpected(
-  response: TextAnalysisAuthoringExport202Response | TextAnalysisAuthoringExportDefaultResponse
+  response: TextAnalysisAuthoringExport202Response | TextAnalysisAuthoringExportDefaultResponse,
 ): response is TextAnalysisAuthoringExportDefaultResponse;
 export function isUnexpected(
-  response: TextAnalysisAuthoringImport202Response | TextAnalysisAuthoringImportDefaultResponse
+  response: TextAnalysisAuthoringImport202Response | TextAnalysisAuthoringImportDefaultResponse,
 ): response is TextAnalysisAuthoringImportDefaultResponse;
 export function isUnexpected(
-  response: TextAnalysisAuthoringTrain202Response | TextAnalysisAuthoringTrainDefaultResponse
+  response: TextAnalysisAuthoringTrain202Response | TextAnalysisAuthoringTrainDefaultResponse,
 ): response is TextAnalysisAuthoringTrainDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListDeployments200Response
-    | TextAnalysisAuthoringListDeploymentsDefaultResponse
+    | TextAnalysisAuthoringListDeploymentsDefaultResponse,
 ): response is TextAnalysisAuthoringListDeploymentsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringSwapDeployments202Response
-    | TextAnalysisAuthoringSwapDeploymentsDefaultResponse
+    | TextAnalysisAuthoringSwapDeploymentsDefaultResponse,
 ): response is TextAnalysisAuthoringSwapDeploymentsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetDeployment200Response
-    | TextAnalysisAuthoringGetDeploymentDefaultResponse
+    | TextAnalysisAuthoringGetDeploymentDefaultResponse,
 ): response is TextAnalysisAuthoringGetDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringDeployProject202Response
-    | TextAnalysisAuthoringDeployProjectDefaultResponse
+    | TextAnalysisAuthoringDeployProjectDefaultResponse,
 ): response is TextAnalysisAuthoringDeployProjectDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringDeleteDeployment202Response
-    | TextAnalysisAuthoringDeleteDeploymentDefaultResponse
+    | TextAnalysisAuthoringDeleteDeploymentDefaultResponse,
 ): response is TextAnalysisAuthoringDeleteDeploymentDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringDeleteDeploymentFromResources202Response
-    | TextAnalysisAuthoringDeleteDeploymentFromResourcesDefaultResponse
+    | TextAnalysisAuthoringDeleteDeploymentFromResourcesDefaultResponse,
 ): response is TextAnalysisAuthoringDeleteDeploymentFromResourcesDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatus200Response
-    | TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusDefaultResponse
+    | TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetDeploymentDeleteFromResourcesStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetDeploymentStatus200Response
-    | TextAnalysisAuthoringGetDeploymentStatusDefaultResponse
+    | TextAnalysisAuthoringGetDeploymentStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetDeploymentStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetSwapDeploymentsStatus200Response
-    | TextAnalysisAuthoringGetSwapDeploymentsStatusDefaultResponse
+    | TextAnalysisAuthoringGetSwapDeploymentsStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetSwapDeploymentsStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetExportStatus200Response
-    | TextAnalysisAuthoringGetExportStatusDefaultResponse
+    | TextAnalysisAuthoringGetExportStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetExportStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetImportStatus200Response
-    | TextAnalysisAuthoringGetImportStatusDefaultResponse
+    | TextAnalysisAuthoringGetImportStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetImportStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListTrainedModels200Response
-    | TextAnalysisAuthoringListTrainedModelsDefaultResponse
+    | TextAnalysisAuthoringListTrainedModelsDefaultResponse,
 ): response is TextAnalysisAuthoringListTrainedModelsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetTrainedModel200Response
-    | TextAnalysisAuthoringGetTrainedModelDefaultResponse
+    | TextAnalysisAuthoringGetTrainedModelDefaultResponse,
 ): response is TextAnalysisAuthoringGetTrainedModelDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringDeleteTrainedModel204Response
-    | TextAnalysisAuthoringDeleteTrainedModelDefaultResponse
+    | TextAnalysisAuthoringDeleteTrainedModelDefaultResponse,
 ): response is TextAnalysisAuthoringDeleteTrainedModelDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringLoadSnapshot202Response
-    | TextAnalysisAuthoringLoadSnapshotDefaultResponse
+    | TextAnalysisAuthoringLoadSnapshotDefaultResponse,
 ): response is TextAnalysisAuthoringLoadSnapshotDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetModelEvaluationResults200Response
-    | TextAnalysisAuthoringGetModelEvaluationResultsDefaultResponse
+    | TextAnalysisAuthoringGetModelEvaluationResultsDefaultResponse,
 ): response is TextAnalysisAuthoringGetModelEvaluationResultsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetModelEvaluationSummary200Response
-    | TextAnalysisAuthoringGetModelEvaluationSummaryDefaultResponse
+    | TextAnalysisAuthoringGetModelEvaluationSummaryDefaultResponse,
 ): response is TextAnalysisAuthoringGetModelEvaluationSummaryDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetLoadSnapshotStatus200Response
-    | TextAnalysisAuthoringGetLoadSnapshotStatusDefaultResponse
+    | TextAnalysisAuthoringGetLoadSnapshotStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetLoadSnapshotStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListDeploymentResources200Response
-    | TextAnalysisAuthoringListDeploymentResourcesDefaultResponse
+    | TextAnalysisAuthoringListDeploymentResourcesDefaultResponse,
 ): response is TextAnalysisAuthoringListDeploymentResourcesDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringAssignDeploymentResources202Response
-    | TextAnalysisAuthoringAssignDeploymentResourcesDefaultResponse
+    | TextAnalysisAuthoringAssignDeploymentResourcesDefaultResponse,
 ): response is TextAnalysisAuthoringAssignDeploymentResourcesDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringUnassignDeploymentResources202Response
-    | TextAnalysisAuthoringUnassignDeploymentResourcesDefaultResponse
+    | TextAnalysisAuthoringUnassignDeploymentResourcesDefaultResponse,
 ): response is TextAnalysisAuthoringUnassignDeploymentResourcesDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetAssignDeploymentResourcesStatus200Response
-    | TextAnalysisAuthoringGetAssignDeploymentResourcesStatusDefaultResponse
+    | TextAnalysisAuthoringGetAssignDeploymentResourcesStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetAssignDeploymentResourcesStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetUnassignDeploymentResourcesStatus200Response
-    | TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusDefaultResponse
+    | TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetUnassignDeploymentResourcesStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListTrainingJobs200Response
-    | TextAnalysisAuthoringListTrainingJobsDefaultResponse
+    | TextAnalysisAuthoringListTrainingJobsDefaultResponse,
 ): response is TextAnalysisAuthoringListTrainingJobsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetTrainingStatus200Response
-    | TextAnalysisAuthoringGetTrainingStatusDefaultResponse
+    | TextAnalysisAuthoringGetTrainingStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetTrainingStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringCancelTrainingJob202Response
-    | TextAnalysisAuthoringCancelTrainingJobDefaultResponse
+    | TextAnalysisAuthoringCancelTrainingJobDefaultResponse,
 ): response is TextAnalysisAuthoringCancelTrainingJobDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetProjectDeletionStatus200Response
-    | TextAnalysisAuthoringGetProjectDeletionStatusDefaultResponse
+    | TextAnalysisAuthoringGetProjectDeletionStatusDefaultResponse,
 ): response is TextAnalysisAuthoringGetProjectDeletionStatusDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListAssignedResourceDeployments200Response
-    | TextAnalysisAuthoringListAssignedResourceDeploymentsDefaultResponse
+    | TextAnalysisAuthoringListAssignedResourceDeploymentsDefaultResponse,
 ): response is TextAnalysisAuthoringListAssignedResourceDeploymentsDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringGetSupportedLanguages200Response
-    | TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse
+    | TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse,
 ): response is TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse;
 export function isUnexpected(
   response:
     | TextAnalysisAuthoringListTrainingConfigVersions200Response
-    | TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse
+    | TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
 ): response is TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse;
 export function isUnexpected(
   response:
@@ -396,7 +396,7 @@ export function isUnexpected(
     | TextAnalysisAuthoringGetSupportedLanguages200Response
     | TextAnalysisAuthoringGetSupportedLanguagesDefaultResponse
     | TextAnalysisAuthoringListTrainingConfigVersions200Response
-    | TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse
+    | TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
 ): response is
   | TextAnalysisAuthoringListProjectsDefaultResponse
   | TextAnalysisAuthoringCreateProjectDefaultResponse

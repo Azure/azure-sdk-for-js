@@ -32,7 +32,7 @@ async function deleteDDoSCustomPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ddosCustomPolicies/{ddosCustomPolicyName}",
       subscriptionId,
       resourceGroupName,
-      ddosCustomPolicyName
+      ddosCustomPolicyName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

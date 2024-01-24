@@ -52,7 +52,7 @@ async function createNetworkInterface() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -103,7 +103,7 @@ async function createNetworkInterfaceWithGatewayLoadBalancerConsumerConfigured()
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}",
       subscriptionId,
       resourceGroupName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

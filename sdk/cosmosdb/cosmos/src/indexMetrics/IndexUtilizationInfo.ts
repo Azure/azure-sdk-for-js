@@ -10,12 +10,12 @@ export class IndexUtilizationInfo {
     public readonly UtilizedSingleIndexes: SingleIndexUtilizationEntity[],
     public readonly PotentialSingleIndexes: SingleIndexUtilizationEntity[],
     public readonly UtilizedCompositeIndexes: CompositeIndexUtilizationEntity[],
-    public readonly PotentialCompositeIndexes: CompositeIndexUtilizationEntity[]
+    public readonly PotentialCompositeIndexes: CompositeIndexUtilizationEntity[],
   ) {}
 
   public static tryCreateFromDelimitedBase64String(
     delimitedString: string,
-    out: { result?: IndexUtilizationInfo }
+    out: { result?: IndexUtilizationInfo },
   ): boolean {
     if (delimitedString == null) {
       out.result = IndexUtilizationInfo.Empty;
@@ -24,13 +24,13 @@ export class IndexUtilizationInfo {
 
     return IndexUtilizationInfo.tryCreateFromDelimitedString(
       Buffer.from(delimitedString, "base64").toString(),
-      out
+      out,
     );
   }
 
   public static tryCreateFromDelimitedString(
     delimitedString: string,
-    out: { result?: IndexUtilizationInfo }
+    out: { result?: IndexUtilizationInfo },
   ): boolean {
     if (delimitedString == null) {
       out.result = IndexUtilizationInfo.Empty;
@@ -48,7 +48,7 @@ export class IndexUtilizationInfo {
 
   public static createFromString(
     delimitedString: string,
-    isBase64Encoded: boolean
+    isBase64Encoded: boolean,
   ): IndexUtilizationInfo {
     const result: { result?: IndexUtilizationInfo } = { result: undefined };
 

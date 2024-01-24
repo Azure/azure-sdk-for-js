@@ -174,7 +174,7 @@ describe("[AAD] Attestation Client", function () {
     // Set the policy on the instance to a known value.
     await adminClient.setPolicy(
       KnownAttestationType.Tpm,
-      "version=1.0; authorizationrules{=> permit();}; issuancerules{};"
+      "version=1.0; authorizationrules{=> permit();}; issuancerules{};",
     );
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
@@ -204,7 +204,7 @@ describe("[AAD] Attestation Client", function () {
         runTimeJson: binaryRuntimeData,
       }),
       "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson"
+      "Expected to throw since you can't specify both runtimeData and runtimeJson",
     );
 
     {
@@ -212,7 +212,7 @@ describe("[AAD] Attestation Client", function () {
         base64url.decodeString(_openEnclaveReport),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
@@ -228,7 +228,7 @@ describe("[AAD] Attestation Client", function () {
         base64url.decodeString(_openEnclaveReport),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
@@ -257,7 +257,7 @@ describe("[AAD] Attestation Client", function () {
         runTimeJson: binaryRuntimeData,
       }),
       "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson"
+      "Expected to throw since you can't specify both runtimeData and runtimeJson",
     );
 
     {
@@ -268,7 +268,7 @@ describe("[AAD] Attestation Client", function () {
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
@@ -286,7 +286,7 @@ describe("[AAD] Attestation Client", function () {
         base64url.decodeString(_openEnclaveReport).subarray(0x10),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);

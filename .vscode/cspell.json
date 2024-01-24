@@ -94,6 +94,7 @@
     "mkdirp",
     "mongodb",
     "MPNS",
+    "msal",
     "MSRC",
     "nise",
     "northcentralus",
@@ -299,6 +300,7 @@
         "Ssml",
         "answeredby",
         "playsourcacheid",
+        "playsourcecacheid",
         "sipx",
         "sipuui"
       ]

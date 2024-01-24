@@ -2,35 +2,40 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { getLogLevel } from "@azure/logger";
+import { AppType, AuthenticationRecord, MsalResult } from "../types";
+import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import { CredentialLogger, formatSuccess } from "../../util/logging";
+import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
-  MsalBaseUtilities,
   defaultLoggerCallback,
+  ensureValidMsalToken,
   getAuthority,
   getKnownAuthorities,
+  getMSALLogLevel,
+  handleMsalError,
   msalToPublic,
   publicToMsal,
-  getMSALLogLevel,
 } from "../utils";
-import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
+
 import { AbortSignalLike } from "@azure/abort-controller";
-import { AppType, AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
+import { BrokerOptions } from "./brokerOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import { NativeBrokerPluginControl } from "../../plugins/provider";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
-import { NativeBrokerPluginControl } from "../../plugins/provider";
-import { BrokerOptions } from "./brokerOptions";
+import { getLogLevel } from "@azure/logger";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
@@ -114,7 +119,7 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
  *
  * @internal
  */
-export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
+export abstract class MsalNode implements MsalFlow {
   private app: {
     public?: msalNode.PublicClientApplication;
     confidential?: msalNode.ConfidentialClientApplication;
@@ -123,6 +128,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     public?: msalNode.PublicClientApplication;
     confidential?: msalNode.ConfidentialClientApplication;
   } = {};
+  private account?: AuthenticationRecord;
   protected msalConfig: msalNode.Configuration;
   protected clientId: string;
   protected tenantId: string;
@@ -137,6 +143,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected enableMsaPassthrough?: boolean;
   protected parentWindowHandle?: Uint8Array;
   protected enableBroker?: boolean;
+  protected logger: CredentialLogger;
 
   /**
    * MSAL currently caches the tokens depending on the claims used to retrieve them.
@@ -147,11 +154,11 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
 
   protected getAssertion: (() => Promise<string>) | undefined;
   constructor(options: MsalNodeOptions) {
-    super(options);
+    this.logger = options.logger;
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.tokenCredentialOptions?.additionallyAllowedTenants
+      options?.tokenCredentialOptions?.additionallyAllowedTenants,
     );
     this.clientId = this.msalConfig.auth.clientId;
     if (options?.getAssertion) {
@@ -180,7 +187,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" ")
+        ].join(" "),
       );
     }
 
@@ -192,7 +199,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" ")
+        ].join(" "),
       );
     }
 
@@ -227,7 +234,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
         knownAuthorities: getKnownAuthorities(
           tenantId,
           authority,
-          options.disableInstanceDiscovery
+          options.disableInstanceDiscovery,
         ),
         clientCapabilities,
       },
@@ -244,18 +251,18 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   }
   protected getApp(
     appType: "publicFirst" | "confidentialFirst",
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
   protected getApp(appType: "public", enableCae?: boolean): msalNode.PublicClientApplication;
 
   protected getApp(
     appType: "confidential",
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication;
 
   protected getApp(
     appType: AppType,
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     const app = enableCae ? this.caeApp : this.app;
     if (appType === "publicFirst") {
@@ -306,7 +313,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
         );
       }
     }
@@ -334,7 +341,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
     } else {
       if (this.requiresConfidential) {
         throw new Error(
-          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion."
+          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
         );
       }
     }
@@ -346,7 +353,7 @@ export abstract class MsalNode extends MsalBaseUtilities implements MsalFlow {
   protected withCancellation(
     promise: Promise<msalNode.AuthenticationResult | null>,
     abortSignal?: AbortSignalLike,
-    onCancel?: () => void
+    onCancel?: () => void,
   ): Promise<msalNode.AuthenticationResult | null> {
     return new Promise((resolve, reject) => {
       promise
@@ -396,7 +403,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   async getTokenSilent(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
     await this.getActiveAccount(options?.enableCae);
     if (!this.account) {
@@ -424,7 +431,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
         );
       }
       if (this.enableMsaPassthrough) {
@@ -443,11 +450,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
         (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
-          silentRequest
+          silentRequest,
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
-      return this.handleResult(scopes, this.clientId, response || undefined);
+      return this.handleResult(scopes, response || undefined);
     } catch (err: any) {
-      throw this.handleError(scopes, err, options);
+      throw handleMsalError(scopes, err, options);
     }
   }
 
@@ -462,7 +469,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async getToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {}
+    options: CredentialFlowGetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId =
       processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
@@ -470,7 +477,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     options.authority = getAuthority(tenantId, this.authorityHost);
 
-    options.correlationId = options?.correlationId || this.generateUuid();
+    options.correlationId = options?.correlationId || randomUUID();
     await this.init(options);
 
     try {
@@ -501,5 +508,26 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       this.logger.info(`Silent authentication failed, falling back to interactive method.`);
       return this.doGetToken(scopes, options);
     }
+  }
+
+  /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+  protected handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions,
+  ): AccessToken {
+    if (result?.account) {
+      this.account = msalToPublic(this.clientId, result.account);
+    }
+    ensureValidMsalToken(scopes, result, getTokenOptions);
+    this.logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
   }
 }

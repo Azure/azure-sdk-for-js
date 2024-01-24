@@ -340,7 +340,7 @@ describe("Transformations", () => {
       assert.deepEqualExcludingEvery(
         keyRotationTransformations.propertiesToGenerated(publicPolicy),
         expected,
-        ["created", "updated"] as any
+        ["created", "updated"] as any,
       );
     });
   });

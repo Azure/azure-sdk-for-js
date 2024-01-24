@@ -3,7 +3,7 @@ import * as fs from "fs-extra";
 
 export async function runWithCpuProfile(
   functionToProfile: () => Promise<void>,
-  profileFilePath: string
+  profileFilePath: string,
 ) {
   const session = new Session();
   session.connect();

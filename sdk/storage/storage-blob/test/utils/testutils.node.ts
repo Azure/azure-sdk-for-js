@@ -18,7 +18,7 @@ const pipeline = util.promisify(stream.pipeline);
  */
 export async function readStreamToLocalFileWithLogs(
   rs: NodeJS.ReadableStream,
-  file: string
+  file: string,
 ): Promise<void> {
   const ws = fs.createWriteStream(file);
 

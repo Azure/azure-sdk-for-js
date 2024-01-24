@@ -39,7 +39,7 @@ describe("[Mocked] RoomsClient", async function () {
     assert.deepEqual(createRoomsResult.validUntil, mockCreateRoomsResult.validUntil);
     assert.deepEqual(
       createRoomsResult.pstnDialOutEnabled,
-      mockCreateRoomsResult.pstnDialOutEnabled
+      mockCreateRoomsResult.pstnDialOutEnabled,
     );
 
     const request = spy.getCall(0).args[0];
@@ -65,15 +65,15 @@ describe("[Mocked] RoomsClient", async function () {
     assert.equal(createRoomsResult.id, mockCreateRoomsWithPstnDialOutEnabledResult.id);
     assert.deepEqual(
       createRoomsResult.validFrom,
-      mockCreateRoomsWithPstnDialOutEnabledResult.validFrom
+      mockCreateRoomsWithPstnDialOutEnabledResult.validFrom,
     );
     assert.deepEqual(
       createRoomsResult.validUntil,
-      mockCreateRoomsWithPstnDialOutEnabledResult.validUntil
+      mockCreateRoomsWithPstnDialOutEnabledResult.validUntil,
     );
     assert.deepEqual(
       createRoomsResult.pstnDialOutEnabled,
-      mockCreateRoomsWithPstnDialOutEnabledResult.pstnDialOutEnabled
+      mockCreateRoomsWithPstnDialOutEnabledResult.pstnDialOutEnabled,
     );
 
     const request = spy.getCall(0).args[0];
@@ -176,7 +176,7 @@ describe("[Mocked] RoomsClient", async function () {
       assert.isDefined(roomModel);
       assert.isNotEmpty(roomModel);
       assert.isTrue(
-        mockListRoomsResultWithoutNextLink.value.some((room) => room.id === roomModel.id)
+        mockListRoomsResultWithoutNextLink.value.some((room) => room.id === roomModel.id),
       );
     }
   });

@@ -44,7 +44,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     parent: DiagnosticNodeInternal,
     data: Partial<DiagnosticDataValue> = {},
     startTimeUTCInMs: number = getCurrentTimestampInMs(),
-    ctx: CosmosDiagnosticContext = new CosmosDiagnosticContext()
+    ctx: CosmosDiagnosticContext = new CosmosDiagnosticContext(),
   ) {
     this.id = v4();
     this.nodeType = type;
@@ -90,7 +90,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     requestContext: RequestContext,
     pipelineResponse: PipelineResponse,
     substatus: number,
-    url: string
+    url: string,
   ): void {
     const responseHeaders = pipelineResponse.headers.toJSON();
     const gatewayRequest = {
@@ -139,7 +139,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     retryAttemptNumber: number,
     statusCode: number,
     substatusCode: number,
-    responseHeaders: CosmosHeaders
+    responseHeaders: CosmosHeaders,
   ): void {
     this.addData({ failedAttempty: true });
     const requestPayloadLengthInBytes = calculateRequestPayloadLength(requestContext);
@@ -155,7 +155,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         operationType: requestContext.operationType,
         resourceType: requestContext.resourceType,
       },
-      retryAttemptNumber
+      retryAttemptNumber,
     );
     let requestData: any = {
       OperationType: requestContext.operationType,
@@ -190,7 +190,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public addData(
     data: Partial<DiagnosticDataValue>,
     msg?: string,
-    level: CosmosDbDiagnosticLevel = this.diagnosticLevel
+    level: CosmosDbDiagnosticLevel = this.diagnosticLevel,
   ): void {
     if (level !== CosmosDbDiagnosticLevel.info) {
       this.data = { ...this.data, ...data };
@@ -208,7 +208,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public addChildNode(
     child: DiagnosticNodeInternal,
     level: CosmosDbDiagnosticLevel,
-    metadataType?: MetadataLookUpType
+    metadataType?: MetadataLookUpType,
   ): DiagnosticNodeInternal {
     this.diagnosticCtx.mergeDiagnostics(child.diagnosticCtx, metadataType);
     if (allowTracing(level, this.diagnosticLevel)) {
@@ -224,7 +224,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
   public initializeChildNode(
     type: DiagnosticNodeType,
     level: CosmosDbDiagnosticLevel,
-    data: Partial<DiagnosticDataValue> = {}
+    data: Partial<DiagnosticDataValue> = {},
   ): DiagnosticNodeInternal {
     if (allowTracing(level, this.diagnosticLevel)) {
       const child = new DiagnosticNodeInternal(
@@ -233,7 +233,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
         this,
         data,
         getCurrentTimestampInMs(),
-        this.diagnosticCtx
+        this.diagnosticCtx,
       );
       this.children.push(child);
       return child;
@@ -284,7 +284,7 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
     const cosmosDiagnostic = new CosmosDiagnostics(
       this.diagnosticCtx.getClientSideStats(),
       diagnostiNode,
-      clientConfig
+      clientConfig,
     );
     return cosmosDiagnostic;
   }

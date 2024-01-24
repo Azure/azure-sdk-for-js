@@ -59,12 +59,12 @@ describe("Streaming with sessions", () => {
     await serviceBusClient.test.afterEach();
   }
   async function beforeEachTest(
-    receiveMode?: "peekLock" | "receiveAndDelete"
+    receiveMode?: "peekLock" | "receiveAndDelete",
   ): Promise<EntityName> {
     await createReceiverForTests(receiveMode);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     deadLetterReceiver = serviceBusClient.test.createDeadLetterReceiver(entityNames);
@@ -76,7 +76,7 @@ describe("Streaming with sessions", () => {
 
   async function createReceiverForTests(
     receiveMode?: "peekLock" | "receiveAndDelete",
-    sessionId: string = TestMessage.sessionId
+    sessionId: string = TestMessage.sessionId,
   ): Promise<void> {
     receiver = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
@@ -90,15 +90,15 @@ describe("Streaming with sessions", () => {
               sessionId,
               {
                 receiveMode: "receiveAndDelete",
-              }
+              },
             )
         : entityNames.queue
-        ? await serviceBusClient.acceptSession(entityNames.queue, sessionId)
-        : await serviceBusClient.acceptSession(
-            entityNames.topic!,
-            entityNames.subscription!,
-            sessionId
-          )
+          ? await serviceBusClient.acceptSession(entityNames.queue, sessionId)
+          : await serviceBusClient.acceptSession(
+              entityNames.topic!,
+              entityNames.subscription!,
+              sessionId,
+            ),
     );
   }
 
@@ -113,7 +113,7 @@ describe("Streaming with sessions", () => {
 
       const actualReceiver = await serviceBusClient.test.acceptSessionWithPeekLock(
         entityNames,
-        TestMessage.sessionId
+        TestMessage.sessionId,
       );
       const { subscriber, messages } = await singleMessagePromise(actualReceiver);
 
@@ -146,7 +146,7 @@ describe("Streaming with sessions", () => {
       finalMessage.body.should.equal(".close test - second message, after closing");
 
       await serviceBusClient.test.afterEach();
-    }
+    },
   );
 
   describe(testClientType + ": Sessions Streaming - Misc Tests", function (): void {
@@ -170,7 +170,7 @@ describe("Streaming with sessions", () => {
           should.equal(
             msg.messageId,
             testMessage.messageId,
-            "MessageId is different than expected"
+            "MessageId is different than expected",
           );
           return Promise.resolve();
         },
@@ -179,14 +179,14 @@ describe("Streaming with sessions", () => {
 
       const msgsCheck = await checkWithTimeout(
         () =>
-          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true
+          receivedMsgs.length === 1 && getDeliveryProperty(receivedMsgs[0]).remote_settled === true,
       );
       should.equal(
         msgsCheck,
         true,
         receivedMsgs.length !== 1
           ? `Expected 1, received ${receivedMsgs.length} messages`
-          : "Message didn't get auto-completed in time"
+          : "Message didn't get auto-completed in time",
       );
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
@@ -205,13 +205,13 @@ describe("Streaming with sessions", () => {
             should.equal(
               msg.messageId,
               testMessage.messageId,
-              "MessageId is different than expected"
+              "MessageId is different than expected",
             );
             return Promise.resolve();
           },
           processError,
         },
-        { autoCompleteMessages: false }
+        { autoCompleteMessages: false },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -248,14 +248,14 @@ describe("Streaming with sessions", () => {
             should.equal(
               msg.messageId,
               testMessage.messageId,
-              "MessageId is different than expected"
+              "MessageId is different than expected",
             );
             await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -298,7 +298,7 @@ describe("Streaming with sessions", () => {
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
 
       await messageAbandonedPromise;
@@ -311,7 +311,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         receivedMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(receivedMsgs[0].deliveryCount, 1, "DeliveryCount is different than expected");
       await receiver.completeMessage(receivedMsgs[0] as ServiceBusReceivedMessage);
@@ -348,14 +348,14 @@ describe("Streaming with sessions", () => {
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
 
       const sequenceNumCheck = await checkWithTimeout(() => sequenceNum !== 0);
       should.equal(
         sequenceNumCheck,
         true,
-        "Either the message is not received or observed an unexpected SequenceNumber."
+        "Either the message is not received or observed an unexpected SequenceNumber.",
       );
 
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
@@ -369,7 +369,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         deferredMsg.messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(deferredMsg.deliveryCount, 1, "DeliveryCount is different than expected");
 
@@ -407,7 +407,7 @@ describe("Streaming with sessions", () => {
           },
           processError,
         },
-        { autoCompleteMessages: autoComplete }
+        { autoCompleteMessages: autoComplete },
       );
 
       const msgsCheck = await checkWithTimeout(() => msgCount === 1);
@@ -423,7 +423,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         deadLetterMsgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
 
       await receiver.completeMessage(deadLetterMsgs[0]);
@@ -448,7 +448,7 @@ describe("Streaming with sessions", () => {
       let errorMessage;
       const expectedErrorMessage = getAlreadyReceivingErrorMsg(
         receiver.entityPath,
-        TestMessage.sessionId
+        TestMessage.sessionId,
       );
       receiver.subscribe({
         async processMessage(msg: ServiceBusReceivedMessage) {
@@ -470,7 +470,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         errorMessage,
         expectedErrorMessage,
-        "Unexpected error message for registerMessageHandler"
+        "Unexpected error message for registerMessageHandler",
       );
       should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -483,7 +483,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         errorMessage,
         expectedErrorMessage,
-        "Unexpected error message for receiveMessages"
+        "Unexpected error message for receiveMessages",
       );
     }
 
@@ -493,7 +493,7 @@ describe("Streaming with sessions", () => {
       async function (): Promise<void> {
         await beforeEachTest();
         await testMultipleReceiveCalls();
-      }
+      },
     );
   });
 
@@ -529,14 +529,14 @@ describe("Streaming with sessions", () => {
         const msgsCheck = await checkWithTimeout(
           () =>
             receivedMsgs.length === 1 &&
-            getDeliveryProperty(receivedMsgs[0]).remote_settled === true
+            getDeliveryProperty(receivedMsgs[0]).remote_settled === true,
         );
         should.equal(
           msgsCheck,
           true,
           receivedMsgs.length !== 1
             ? `Expected 1, received ${receivedMsgs.length} messages`
-            : "Message didn't get auto-completed in time"
+            : "Message didn't get auto-completed in time",
         );
         should.equal(unexpectedError, undefined, unexpectedError && unexpectedError.message);
 
@@ -544,12 +544,12 @@ describe("Streaming with sessions", () => {
         should.equal(
           receivedMsgs[0].body,
           testMessage.body,
-          "MessageBody is different than expected"
+          "MessageBody is different than expected",
         );
         should.equal(
           receivedMsgs[0].messageId,
           testMessage.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
 
         await testPeekMsgsLength(receiver, 0);
@@ -582,7 +582,7 @@ describe("Streaming with sessions", () => {
       it("deadLetter() throws error(with sessions)", async function (): Promise<void> {
         await testSettlement(DispositionType.deadletter);
       });
-    }
+    },
   );
 
   describe("Sessions Streaming - User Error", function (): void {
@@ -613,7 +613,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         unexpectedError && unexpectedError.message,
         errorMessage,
-        "User error did not surface."
+        "User error did not surface.",
       );
       should.equal(receivedMsgs.length, 1, "Unexpected number of messages");
     }
@@ -623,7 +623,7 @@ describe("Streaming with sessions", () => {
       async function (): Promise<void> {
         await beforeEachTest();
         await testUserError();
-      }
+      },
     );
   });
   describe(testClientType + ": Sessions Streaming - maxConcurrentCalls", function (): void {
@@ -666,7 +666,7 @@ describe("Streaming with sessions", () => {
             },
             {
               maxConcurrentCalls,
-            }
+            },
           );
 
           const actualCredits = await addCreditPromise;
@@ -717,7 +717,7 @@ describe("Streaming with sessions", () => {
         },
         {
           autoCompleteMessages: false,
-        }
+        },
       );
       await receiver.close();
 
@@ -725,7 +725,7 @@ describe("Streaming with sessions", () => {
       should.equal(
         receivedMsgs.length,
         0,
-        `Expected 0 messages, but received ${receivedMsgs.length}`
+        `Expected 0 messages, but received ${receivedMsgs.length}`,
       );
       receiver = await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNamesParam);
       await testPeekMsgsLength(receiver, totalNumOfMessages);
@@ -736,7 +736,7 @@ describe("Streaming with sessions", () => {
       async function (): Promise<void> {
         const entity = await beforeEachTest();
         await testReceiveMessages(entity);
-      }
+      },
     );
 
     it(
@@ -744,7 +744,7 @@ describe("Streaming with sessions", () => {
       async function (): Promise<void> {
         const entity = await beforeEachTest("receiveAndDelete");
         await testReceiveMessages(entity);
-      }
+      },
     );
   });
 });

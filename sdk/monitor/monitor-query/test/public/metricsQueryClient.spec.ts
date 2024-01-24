@@ -43,7 +43,7 @@ describe("MetricsClient live tests", function () {
       const resultQuery = await metricsQueryClient.queryResource(
         resourceId,
         [result.value.name || ""],
-        {}
+        {},
       );
       assert(resultQuery);
       assert(resultQuery.granularity);
@@ -89,7 +89,7 @@ describe("MetricsClient live tests", function () {
       {
         timespan: { duration: Durations.oneDay },
         metricNamespace: firstResult.namespace,
-      }
+      },
     );
 
     assert.ok(individualMetricWithNamespace);

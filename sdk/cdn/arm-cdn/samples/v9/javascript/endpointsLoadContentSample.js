@@ -30,7 +30,7 @@ async function endpointsLoadContent() {
     resourceGroupName,
     profileName,
     endpointName,
-    contentFilePaths
+    contentFilePaths,
   );
   console.log(result);
 }

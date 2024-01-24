@@ -6,13 +6,6 @@
   "main": "dist/index.js",
   "module": "dist-esm/index.js",
   "types": "types/latest/maps-common.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "types/3.1/maps-common.d.ts"
-      ]
-    }
-  },
   "browser": {},
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -21,13 +14,12 @@
     "build:nodebrowser": "dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "build": "tsc -p . && npm run build:nodebrowser && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log coverage coverage-browser",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "echo skipped",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -47,7 +39,6 @@
     "dist/",
     "dist-esm/",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -82,9 +73,7 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
-    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "typescript": "~5.2.0",
     "ts-node": "^10.0.0",

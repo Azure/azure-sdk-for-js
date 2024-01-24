@@ -1,21 +1,19 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
   "module": "dist-esm/src/index.js",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/src types/3.1",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -30,19 +28,11 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "types": "./types/src/index.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/src/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "files": [
     "dist/",
     "dist-esm/src/",
     "shims-public.d.ts",
     "types/src",
-    "types/3.1",
     "README.md",
     "LICENSE"
   ],
@@ -80,7 +70,6 @@
     "@types/node": "^18.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
@@ -93,7 +82,6 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "c8": "^8.0.0",
-    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.2.0"

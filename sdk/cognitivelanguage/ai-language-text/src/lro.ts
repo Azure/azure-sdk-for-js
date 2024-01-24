@@ -49,7 +49,7 @@ const jobStatusOperationSpec: OperationSpec = {
 
 function addOnResponse<TOptions extends OperationOptions>(
   options: TOptions,
-  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void
+  cb: (rawResponse: FullOperationResponse, response: unknown, error: unknown) => void,
 ): TOptions {
   return {
     ...options,
@@ -69,13 +69,13 @@ function logWarnHeader(rawResponse: FullOperationResponse) {
 
 async function getRawResponse<TOptions extends OperationOptions, TResponse>(
   getResponse: (options: TOptions) => Promise<TResponse>,
-  options: TOptions
+  options: TOptions,
 ): Promise<LroResponse<TResponse>> {
   let rawResponse: FullOperationResponse;
   const flatResponse = await getResponse(
     addOnResponse(options, (response) => {
       rawResponse = response;
-    })
+    }),
   );
   return {
     flatResponse,
@@ -107,11 +107,11 @@ async function sendRequest<TOptions extends OperationOptions>(settings: {
               ...spec,
               path,
               httpMethod,
-            }
+            },
           ),
-        finalOptions
-      )
-    )
+        finalOptions,
+      ),
+    ),
   );
 }
 
@@ -139,7 +139,7 @@ function createSendPollRequest<TOptions extends OperationOptions>(settings: {
         spanStr,
         spec: jobStatusOperationSpec,
         tracing,
-      })
+      }),
     );
   };
 }
@@ -178,7 +178,7 @@ export function createAnalyzeBatchLro(settings: {
             ...commonOptions,
             ...initialRequestOptions,
           },
-          logWarnHeader
+          logWarnHeader,
         ),
         async (finalOptions) =>
           throwError(
@@ -192,11 +192,11 @@ export function createAnalyzeBatchLro(settings: {
                     },
                     displayName: initialRequestOptions.displayName,
                   },
-                  paramOptions
+                  paramOptions,
                 ),
-              finalOptions
-            )
-          )
+              finalOptions,
+            ),
+          ),
       );
     },
     sendPollRequest: createSendPollRequest({
@@ -217,7 +217,7 @@ export function getDocIDsFromState(serializedState: string): string[] {
     return docIds;
   } catch (e) {
     logger.error(
-      `Document IDs are not found in the LRO's state. The results may not be ordered correctly.`
+      `Document IDs are not found in the LRO's state. The results may not be ordered correctly.`,
     );
     return [];
   }
@@ -329,9 +329,9 @@ export function createPollerWithCancellation(settings: {
         throwError(
           getRawResponse(
             (paramOptions) => client.analyzeText.cancelJob(id, paramOptions),
-            finalOptions
-          )
-        )
+            finalOptions,
+          ),
+        ),
       );
     },
   };

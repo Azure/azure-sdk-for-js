@@ -4,7 +4,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { OperationOptions } from "@azure/core-client";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import {
@@ -108,7 +107,7 @@ export interface RegistryArtifact {
    * @param options -
    */
   getManifestProperties(
-    options?: GetManifestPropertiesOptions
+    options?: GetManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties>;
   /**
    * Updates the properties of the artifact's manifest.
@@ -128,7 +127,7 @@ export interface RegistryArtifact {
    * @param options -
    */
   updateManifestProperties(
-    options: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties>;
   /**
    * Retrieves the properties of the specified tag.
@@ -156,7 +155,7 @@ export interface RegistryArtifact {
    */
   updateTagProperties(
     tag: string,
-    options: UpdateTagPropertiesOptions
+    options: UpdateTagPropertiesOptions,
   ): Promise<ArtifactTagProperties>;
   /**
    * Returns an async iterable iterator to list the tags that uniquely identify this artifact and the properties of each.
@@ -202,7 +201,7 @@ export interface RegistryArtifact {
    * @param options -
    */
   listTagProperties(
-    options?: ListTagPropertiesOptions
+    options?: ListTagPropertiesOptions,
   ): PagedAsyncIterableIterator<ArtifactTagProperties>;
 }
 
@@ -239,7 +238,7 @@ export class RegistryArtifactImpl {
     registryEndpoint: string,
     repositoryName: string,
     private tagOrDigest: string,
-    client: GeneratedClient
+    client: GeneratedClient,
   ) {
     this.registryEndpoint = registryEndpoint;
     this.repositoryName = repositoryName;
@@ -284,9 +283,9 @@ export class RegistryArtifactImpl {
         await this.client.containerRegistry.deleteManifest(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -305,7 +304,7 @@ export class RegistryArtifactImpl {
       options,
       async (updatedOptions) => {
         await this.client.containerRegistry.deleteTag(this.repositoryName, tag, updatedOptions);
-      }
+      },
     );
   }
 
@@ -314,7 +313,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async getManifestProperties(
-    options: GetManifestPropertiesOptions = {}
+    options: GetManifestPropertiesOptions = {},
   ): Promise<ArtifactManifestProperties> {
     return tracingClient.withSpan(
       "RegistryArtifactImpl.getManifestProperties",
@@ -323,14 +322,14 @@ export class RegistryArtifactImpl {
         const result = await this.client.containerRegistry.getManifestProperties(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
         return toArtifactManifestProperties(
           result,
           this.repositoryName,
-          result.registryLoginServer!
+          result.registryLoginServer!,
         );
-      }
+      },
     );
   }
 
@@ -352,7 +351,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public async updateManifestProperties(
-    options: UpdateManifestPropertiesOptions
+    options: UpdateManifestPropertiesOptions,
   ): Promise<ArtifactManifestProperties> {
     return tracingClient.withSpan(
       "RegistryArtifactImpl.updateManifestProperties",
@@ -369,14 +368,14 @@ export class RegistryArtifactImpl {
         const result = await this.client.containerRegistry.updateManifestProperties(
           this.repositoryName,
           await this.getDigest(),
-          updatedOptions
+          updatedOptions,
         );
         return toArtifactManifestProperties(
           result,
           this.repositoryName,
-          result.registryLoginServer!
+          result.registryLoginServer!,
         );
-      }
+      },
     );
   }
 
@@ -387,7 +386,7 @@ export class RegistryArtifactImpl {
    */
   public async getTagProperties(
     tag: string,
-    options: GetTagPropertiesOptions = {}
+    options: GetTagPropertiesOptions = {},
   ): Promise<ArtifactTagProperties> {
     if (!tag) {
       throw new Error("invalid tag");
@@ -400,9 +399,9 @@ export class RegistryArtifactImpl {
         return this.client.containerRegistry.getTagProperties(
           this.repositoryName,
           tag,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -426,7 +425,7 @@ export class RegistryArtifactImpl {
    */
   public async updateTagProperties(
     tag: string,
-    options: UpdateTagPropertiesOptions
+    options: UpdateTagPropertiesOptions,
   ): Promise<ArtifactTagProperties> {
     if (!tag) {
       throw new Error("invalid tag");
@@ -447,9 +446,9 @@ export class RegistryArtifactImpl {
         return this.client.containerRegistry.updateTagAttributes(
           this.repositoryName,
           tag,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -497,7 +496,7 @@ export class RegistryArtifactImpl {
    * @param options -
    */
   public listTagProperties(
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): PagedAsyncIterableIterator<ArtifactTagProperties, TagPageResponse> {
     const iter = this.listTagsItems(options);
 
@@ -513,7 +512,7 @@ export class RegistryArtifactImpl {
   }
 
   private async *listTagsItems(
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): AsyncIterableIterator<ArtifactTagProperties> {
     for await (const page of this.listTagsPage({}, options)) {
       yield* page;
@@ -522,7 +521,7 @@ export class RegistryArtifactImpl {
 
   private async *listTagsPage(
     continuationState: PageSettings,
-    options: ListTagPropertiesOptions = {}
+    options: ListTagPropertiesOptions = {},
   ): AsyncIterableIterator<TagPageResponse> {
     const orderby = toServiceTagOrderBy(options.order);
     if (!continuationState.continuationToken) {
@@ -533,7 +532,7 @@ export class RegistryArtifactImpl {
       };
       const currentPage = await this.client.containerRegistry.getTags(
         this.repositoryName,
-        optionsComplete
+        optionsComplete,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {
@@ -554,7 +553,7 @@ export class RegistryArtifactImpl {
       const currentPage = await this.client.containerRegistry.getTagsNext(
         this.repositoryName,
         continuationState.continuationToken,
-        options
+        options,
       );
       continuationState.continuationToken = extractNextLink(currentPage.link);
       if (currentPage.tagAttributeBases) {

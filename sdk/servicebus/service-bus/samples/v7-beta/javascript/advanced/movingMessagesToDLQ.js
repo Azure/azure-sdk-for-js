@@ -57,7 +57,7 @@ async function receiveMessage() {
   if (messages.length) {
     console.log(
       ">>>>> Deadletter the one message received from the main queue - ",
-      messages[0].body
+      messages[0].body,
     );
     // Deadletter the message received
     await receiver.deadLetterMessage(messages[0], {

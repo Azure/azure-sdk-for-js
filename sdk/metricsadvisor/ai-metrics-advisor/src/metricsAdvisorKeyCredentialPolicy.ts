@@ -89,7 +89,7 @@ export class MetricsAdvisorKeyCredential {
  * using an `MetricsAdvisorKeyCredential`
  */
 export function createMetricsAdvisorKeyCredentialPolicy(
-  credential: MetricsAdvisorKeyCredential
+  credential: MetricsAdvisorKeyCredential,
 ): PipelinePolicy {
   return {
     name: "metricsAdvisorKeyCredentialPolicy",

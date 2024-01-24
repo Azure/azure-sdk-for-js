@@ -101,7 +101,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         error?.message.startsWith(`Error "Error: Unclosed root tag`)
       ) {
         logger.info(
-          "RetryPolicy: Incomplete XML response likely due to service timeout, will retry."
+          "RetryPolicy: Incomplete XML response likely due to service timeout, will retry.",
         );
         return true;
       }
@@ -133,7 +133,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         case StorageRetryPolicyType.EXPONENTIAL:
           delayTimeInMs = Math.min(
             (Math.pow(2, attempt - 1) - 1) * retryDelayInMs,
-            maxRetryDelayInMs
+            maxRetryDelayInMs,
           );
           break;
         case StorageRetryPolicyType.FIXED:
@@ -155,7 +155,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         request.url = setURLParameter(
           request.url,
           URLConstants.Parameters.TIMEOUT,
-          String(Math.floor(tryTimeoutInMs / 1000))
+          String(Math.floor(tryTimeoutInMs / 1000)),
         );
       }
       const primaryUrl = request.url;
@@ -176,7 +176,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
         error = undefined;
         try {
           logger.info(
-            `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`
+            `RetryPolicy: =====> Try=${attempt} ${isPrimaryRetry ? "Primary" : "Secondary"}`,
           );
           response = await next(request);
           secondaryHas404 = secondaryHas404 || (!isPrimaryRetry && response.status === 404);
@@ -194,7 +194,7 @@ export function storageRetryPolicy(options: StorageRetryOptions = {}): PipelineP
           await delay(
             calculateDelay(isPrimaryRetry, attempt),
             request.abortSignal,
-            RETRY_ABORT_ERROR
+            RETRY_ABORT_ERROR,
           );
         }
         attempt++;

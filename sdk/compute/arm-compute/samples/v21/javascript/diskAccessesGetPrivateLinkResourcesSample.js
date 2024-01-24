@@ -26,7 +26,7 @@ async function listAllPossiblePrivateLinkResourcesUnderDiskAccessResource() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.diskAccesses.getPrivateLinkResources(
     resourceGroupName,
-    diskAccessName
+    diskAccessName,
   );
   console.log(result);
 }

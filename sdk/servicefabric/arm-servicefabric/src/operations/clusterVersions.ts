@@ -14,7 +14,7 @@ import { ServiceFabricManagementClient } from "../serviceFabricManagementClient"
 import {
   ClusterVersionsGetOptionalParams,
   ClusterVersionsGetResponse,
-  Enum14,
+  ClusterVersionsEnvironment,
   ClusterVersionsGetByEnvironmentOptionalParams,
   ClusterVersionsGetByEnvironmentResponse,
   ClusterVersionsListOptionalParams,
@@ -61,7 +61,7 @@ export class ClusterVersionsImpl implements ClusterVersions {
    */
   getByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     clusterVersion: string,
     options?: ClusterVersionsGetByEnvironmentOptionalParams
   ): Promise<ClusterVersionsGetByEnvironmentResponse> {
@@ -94,7 +94,7 @@ export class ClusterVersionsImpl implements ClusterVersions {
    */
   listByEnvironment(
     location: string,
-    environment: Enum14,
+    environment: ClusterVersionsEnvironment,
     options?: ClusterVersionsListByEnvironmentOptionalParams
   ): Promise<ClusterVersionsListByEnvironmentResponse> {
     return this.client.sendOperationRequest(

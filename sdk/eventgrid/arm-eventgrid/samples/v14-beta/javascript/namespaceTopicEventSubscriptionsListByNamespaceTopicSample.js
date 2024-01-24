@@ -30,7 +30,7 @@ async function namespaceTopicEventSubscriptionsListByNamespaceTopic() {
   for await (let item of client.namespaceTopicEventSubscriptions.listByNamespaceTopic(
     resourceGroupName,
     namespaceName,
-    topicName
+    topicName,
   )) {
     resArray.push(item);
   }

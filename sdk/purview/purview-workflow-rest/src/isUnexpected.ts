@@ -50,46 +50,46 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ListWorkflows200Response | ListWorkflowsDefaultResponse
+  response: ListWorkflows200Response | ListWorkflowsDefaultResponse,
 ): response is ListWorkflowsDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflow200Response | GetWorkflowDefaultResponse
+  response: GetWorkflow200Response | GetWorkflowDefaultResponse,
 ): response is GetWorkflowDefaultResponse;
 export function isUnexpected(
-  response: CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse
+  response: CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse,
 ): response is CreateOrReplaceWorkflowDefaultResponse;
 export function isUnexpected(
-  response: DeleteWorkflow204Response | DeleteWorkflowDefaultResponse
+  response: DeleteWorkflow204Response | DeleteWorkflowDefaultResponse,
 ): response is DeleteWorkflowDefaultResponse;
 export function isUnexpected(
-  response: SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse
+  response: SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse,
 ): response is SubmitUserRequestsDefaultResponse;
 export function isUnexpected(
-  response: ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse
+  response: ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse,
 ): response is ListWorkflowRunsDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflowRun200Response | GetWorkflowRunDefaultResponse
+  response: GetWorkflowRun200Response | GetWorkflowRunDefaultResponse,
 ): response is GetWorkflowRunDefaultResponse;
 export function isUnexpected(
-  response: CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse
+  response: CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse,
 ): response is CancelWorkflowRunDefaultResponse;
 export function isUnexpected(
-  response: ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse
+  response: ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse,
 ): response is ListWorkflowTasksDefaultResponse;
 export function isUnexpected(
-  response: GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse
+  response: GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse,
 ): response is GetWorkflowTaskDefaultResponse;
 export function isUnexpected(
-  response: ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse
+  response: ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse,
 ): response is ApproveApprovalTaskDefaultResponse;
 export function isUnexpected(
-  response: RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse
+  response: RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse,
 ): response is RejectApprovalTaskDefaultResponse;
 export function isUnexpected(
-  response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse
+  response: ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse,
 ): response is ReassignWorkflowTaskDefaultResponse;
 export function isUnexpected(
-  response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse
+  response: UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse,
 ): response is UpdateTaskStatusDefaultResponse;
 export function isUnexpected(
   response:
@@ -120,7 +120,7 @@ export function isUnexpected(
     | ReassignWorkflowTask200Response
     | ReassignWorkflowTaskDefaultResponse
     | UpdateTaskStatus200Response
-    | UpdateTaskStatusDefaultResponse
+    | UpdateTaskStatusDefaultResponse,
 ): response is
   | ListWorkflowsDefaultResponse
   | GetWorkflowDefaultResponse
@@ -177,7 +177,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

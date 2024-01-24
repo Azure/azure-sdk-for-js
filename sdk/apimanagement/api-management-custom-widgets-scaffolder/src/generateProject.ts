@@ -27,7 +27,7 @@ const templateSuffix = ".mustache";
 export async function generateProject(
   widgetConfig: WidgetConfig,
   deploymentConfig: ServiceInformation,
-  options: Options = {}
+  options: Options = {},
 ): Promise<void> {
   const { openUrl, configAdvancedTenantId, configAdvancedRedirectUri } = options;
   const openUrlParsed = openUrl ? new URL(openUrl) : null;

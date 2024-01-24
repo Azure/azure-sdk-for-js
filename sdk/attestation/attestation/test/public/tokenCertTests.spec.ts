@@ -73,7 +73,7 @@ describe("TokenCertTests", function () {
 
   async function getMetadataConfigTest(
     client: AttestationClient,
-    instanceUrl: string
+    instanceUrl: string,
   ): Promise<void> {
     const openIdMetadata = await client.getOpenIdMetadata();
     assert.isDefined(openIdMetadata["response_types_supported"]);

@@ -38,7 +38,7 @@ matrix([[true, false]], async function (useAad: boolean) {
     function tokenExpirationWithinAllowedDeviation(
       expectedTokenExpiration: number,
       tokenExpiresIn: Date,
-      allowedDeviation: number
+      allowedDeviation: number,
     ) {
       const timeNow = Date.now();
       const expiration = tokenExpiresIn.getTime();
@@ -70,7 +70,7 @@ matrix([[true, false]], async function (useAad: boolean) {
             tokenExpirationWithinAllowedDeviation(
               input.tokenExpiresInMinutes,
               expiresOn,
-              TOKEN_EXPIRATION_ALLOWED_DEVIATION
+              TOKEN_EXPIRATION_ALLOWED_DEVIATION,
             );
           assert.isTrue(
             withinAllowedDeviation,
@@ -79,10 +79,10 @@ matrix([[true, false]], async function (useAad: boolean) {
             }% deviation. Expected minutes: ${input.tokenExpiresInMinutes}, actual minutes: ${
               // to round to max 2 decimal places
               Math.round((tokenExpirationInMinutes + Number.EPSILON) * 100) / 100
-            }.`
+            }.`,
           );
         }
-      })
+      }),
     );
 
     [
@@ -102,7 +102,7 @@ matrix([[true, false]], async function (useAad: boolean) {
             tokenExpirationWithinAllowedDeviation(
               input.tokenExpiresInMinutes,
               expiresOn,
-              TOKEN_EXPIRATION_ALLOWED_DEVIATION
+              TOKEN_EXPIRATION_ALLOWED_DEVIATION,
             );
           assert.isTrue(
             withinAllowedDeviation,
@@ -111,10 +111,10 @@ matrix([[true, false]], async function (useAad: boolean) {
             }% deviation. Expected minutes: ${input.tokenExpiresInMinutes}, actual minutes: ${
               // to round to max 2 decimal places
               Math.round((tokenExpirationInMinutes + Number.EPSILON) * 100) / 100
-            }.`
+            }.`,
           );
         }
-      })
+      }),
     );
 
     [
@@ -132,7 +132,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         } catch (e: any) {
           assert.equal(e.statusCode, 400);
         }
-      })
+      }),
     );
 
     [
@@ -149,7 +149,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         } catch (e: any) {
           assert.equal(e.statusCode, 400);
         }
-      })
+      }),
     );
   });
 });

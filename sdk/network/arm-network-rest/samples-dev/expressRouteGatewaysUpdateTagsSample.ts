@@ -33,7 +33,7 @@ async function expressRouteGatewayUpdate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       subscriptionId,
       resourceGroupName,
-      expressRouteGatewayName
+      expressRouteGatewayName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

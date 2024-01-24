@@ -30,7 +30,7 @@ async function originGroupsGet() {
     resourceGroupName,
     profileName,
     endpointName,
-    originGroupName
+    originGroupName,
   );
   console.log(result);
 }

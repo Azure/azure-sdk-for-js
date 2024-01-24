@@ -52,7 +52,7 @@ export async function main() {
       adminClient,
       created.id,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     const metricId = created.schema.metrics[0].id!;
@@ -72,7 +72,7 @@ export async function main() {
       client,
       alertConfig.id!,
       new Date(Date.UTC(2020, 8, 1)),
-      new Date(Date.UTC(2020, 8, 12))
+      new Date(Date.UTC(2020, 8, 12)),
     );
 
     if (alerts.length > 1) {
@@ -90,7 +90,7 @@ export async function main() {
 async function createDataFeed(
   adminClient: MetricsAdvisorAdministrationClient,
   sqlServerConnectionString: string,
-  sqlServerQuery: string
+  sqlServerQuery: string,
 ): Promise<MetricsAdvisorDataFeed> {
   console.log("Creating Datafeed...");
   const dataFeed: DataFeedDescriptor = {
@@ -150,7 +150,7 @@ async function checkIngestionStatus(
   adminClient: MetricsAdvisorAdministrationClient,
   datafeedId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ) {
   // This shows how to use for-await-of syntax to list status
   console.log("Checking ingestion status...");
@@ -162,7 +162,7 @@ async function checkIngestionStatus(
 
 async function configureAnomalyDetectionConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
+  metricId: string,
 ) {
   console.log(`Creating an anomaly detection configuration on metric '${metricId}'...`);
   const anomalyConfig: Omit<AnomalyDetectionConfiguration, "id"> = {
@@ -204,7 +204,7 @@ async function createWebhookHook(adminClient: MetricsAdvisorAdministrationClient
 async function configureAlertConfiguration(
   adminClient: MetricsAdvisorAdministrationClient,
   detectionConfigId: string,
-  hookIds: string[]
+  hookIds: string[],
 ) {
   console.log("Creating a new alerting configuration...");
   const anomalyAlert: Omit<AnomalyAlertConfiguration, "id"> = {
@@ -239,7 +239,7 @@ async function queryAlerts(
   client: MetricsAdvisorClient,
   alertConfigId: string,
   startTime: Date,
-  endTime: Date
+  endTime: Date,
 ) {
   console.log(`Listing alerts for alert configuration '${alertConfigId}'`);
   // This shows how to use `for-await-of` syntax to list alerts
@@ -275,12 +275,12 @@ async function queryAlerts(
 
 async function queryAnomaliesByAlert(client: MetricsAdvisorClient, alert: AnomalyAlert) {
   console.log(
-    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`
+    `Listing anomalies for alert configuration '${alert.alertConfigId}' and alert '${alert.id}'`,
   );
   const listIterator = client.listAnomaliesForAlert(alert);
   for await (const anomaly of listIterator) {
     console.log(
-      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`
+      `  Anomaly ${anomaly.severity} ${anomaly.status} ${anomaly.seriesKey.dimension} ${anomaly.timestamp}`,
     );
   }
 }

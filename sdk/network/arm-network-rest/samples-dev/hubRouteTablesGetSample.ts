@@ -33,7 +33,7 @@ async function routeTableGet() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routeTableName
+      routeTableName,
     )
     .get(options);
   console.log(result);

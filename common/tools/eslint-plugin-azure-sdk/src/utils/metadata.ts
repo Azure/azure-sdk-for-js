@@ -13,7 +13,7 @@ export const getRuleMetaData = (
   ruleName: string,
   ruleDescription: string,
   fix?: "code" | "whitespace",
-  schema?: JSONSchema4 | JSONSchema4[]
+  schema?: JSONSchema4 | JSONSchema4[],
 ): Rule.RuleMetaData => {
   const required = {
     type: "suggestion",

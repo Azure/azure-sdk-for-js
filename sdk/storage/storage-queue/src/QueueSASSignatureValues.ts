@@ -78,14 +78,14 @@ export interface QueueSASSignatureValues {
  */
 export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   if (
     !queueSASSignatureValues.identifier &&
     !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Queue SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -97,7 +97,7 @@ export function generateQueueSASQueryParameters(
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (queueSASSignatureValues.permissions) {
     verifiedPermissions = QueueSASPermissions.parse(
-      queueSASSignatureValues.permissions.toString()
+      queueSASSignatureValues.permissions.toString(),
     ).toString();
   }
 
@@ -129,7 +129,7 @@ export function generateQueueSASQueryParameters(
     queueSASSignatureValues.startsOn,
     queueSASSignatureValues.expiresOn,
     queueSASSignatureValues.ipRange,
-    queueSASSignatureValues.identifier
+    queueSASSignatureValues.identifier,
   );
 }
 

@@ -36,7 +36,7 @@ export const testEnv = new Proxy(envSetupForPlayback, {
 export async function createClientAndStartRecorder(
   recorder: Recorder,
   additionalPolicies?: AdditionalPolicyConfig[],
-  retryOptions?: ExponentialRetryPolicyOptions
+  retryOptions?: ExponentialRetryPolicyOptions,
 ): Promise<RecorderAndLogsClient> {
   await recorder.start(recorderOptions);
   const client = new LogsIngestionClient(
@@ -45,7 +45,7 @@ export async function createClientAndStartRecorder(
     recorder.configureClientOptions({
       retryOptions,
       additionalPolicies,
-    })
+    }),
   );
   return {
     client,

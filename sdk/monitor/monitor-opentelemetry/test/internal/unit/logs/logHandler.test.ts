@@ -11,6 +11,7 @@ import { LogHandler } from "../../../../src/logs";
 import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 
 describe("LogHandler", () => {
   let sandbox: sinon.SinonSandbox;
@@ -34,7 +35,7 @@ describe("LogHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(logs);
-        })
+        }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
     loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());
@@ -100,54 +101,97 @@ describe("LogHandler", () => {
             done(error);
           });
       });
+    });
 
-      it("Exception standard metrics processed", (done) => {
-        // Generate exception Log record
-        const logRecord: APILogRecord = {
-          attributes: {
-            "exception.type": "TestError",
-          },
-          body: "testErrorRecord",
-        };
-        logs.getLogger("testLogger").emit(logRecord);
-        (logs.getLoggerProvider() as LoggerProvider)
-          .forceFlush()
-          .then(() => {
-            let result = exportStub.args;
-            assert.strictEqual(result.length, 1);
-            assert.strictEqual(
-              result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Exceptions', Ver:'1.1')"
-            );
-            done();
-          })
-          .catch((error: Error) => {
-            done(error);
-          });
-      });
+    it("Exception standard metrics processed", (done) => {
+      // Generate exception Log record
+      const logRecord: APILogRecord = {
+        attributes: {
+          "exception.type": "TestError",
+        },
+        body: "testErrorRecord",
+      };
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
+        .then(() => {
+          let result = exportStub.args;
+          assert.strictEqual(result.length, 1);
+          assert.strictEqual(
+            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
+            "(Name:'Exceptions', Ver:'1.1')",
+          );
+          done();
+        })
+        .catch((error: Error) => {
+          done(error);
+        });
+    });
 
-      it("Trace standard metrics processed", (done) => {
-        // Generate Log record
-        const logRecord: APILogRecord = {
-          attributes: {},
-          body: "testRecord",
-        };
-        logs.getLogger("testLogger").emit(logRecord);
-        (logs.getLoggerProvider() as LoggerProvider)
-          .forceFlush()
-          .then(() => {
-            let result = exportStub.args;
-            assert.strictEqual(result.length, 1);
-            assert.strictEqual(
-              result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
-              "(Name:'Traces', Ver:'1.1')"
-            );
-            done();
-          })
-          .catch((error: Error) => {
-            done(error);
-          });
-      });
+    it("Trace standard metrics processed", (done) => {
+      // Generate Log record
+      const logRecord: APILogRecord = {
+        attributes: {},
+        body: "testRecord",
+      };
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
+        .then(() => {
+          let result = exportStub.args;
+          assert.strictEqual(result.length, 1);
+          assert.strictEqual(
+            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
+            "(Name:'Traces', Ver:'1.1')",
+          );
+          done();
+        })
+        .catch((error: Error) => {
+          done(error);
+        });
+    });
+
+    it("Trace standard metrics synthetic processed", (done) => {
+      // Generate Log record
+      const logRecord: APILogRecord = {
+        attributes: {
+          // Shows that the record is synthetic
+          [SemanticAttributes.HTTP_USER_AGENT]: "AlwaysOn",
+        },
+        body: "testRecord",
+      };
+      logs.getLogger("testLogger").emit(logRecord);
+      (logs.getLoggerProvider() as LoggerProvider)
+        .forceFlush()
+        .then(() => {
+          let result = exportStub.args;
+          assert.strictEqual(result.length, 1);
+          assert.strictEqual(
+            result[0][0][0].attributes["_MS.ProcessedByMetricExtractors"],
+            "(Name:'Traces', Ver:'1.1')",
+          );
+          assert.strictEqual(result[0][0][0].attributes["operation/synthetic"], "True");
+          done();
+        })
+        .catch((error: Error) => {
+          done(error);
+        });
+    });
+
+    it("Instrumentations", () => {
+      let config = new InternalConfig();
+      config.azureMonitorExporterOptions.connectionString =
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
+      config.instrumentationOptions.bunyan = {
+        enabled: true,
+      };
+      let logHandler = new LogHandler(config, metricHandler);
+      assert.ok(logHandler.getInstrumentations().length > 0, "Log instrumentations not added");
+      assert.strictEqual(
+        logHandler.getInstrumentations()[0].instrumentationName,
+        "@opentelemetry/instrumentation-bunyan",
+        "Bunyan instrumentation not added",
+      );
     });
   });
 });

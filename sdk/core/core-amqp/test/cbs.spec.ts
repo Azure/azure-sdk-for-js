@@ -49,7 +49,7 @@ describe("CbsClient", function () {
             }, 0);
           });
         },
-        { abortSignal: undefined, timeoutInMs: undefined }
+        { abortSignal: undefined, timeoutInMs: undefined },
       );
 
       try {
@@ -95,7 +95,7 @@ describe("CbsClient", function () {
         assert.ok(isError(err));
         assert.equal(
           (err as Error).message,
-          "Attempted to negotiate a claim but the CBS link does not exist."
+          "Attempted to negotiate a claim but the CBS link does not exist.",
         );
       }
     });

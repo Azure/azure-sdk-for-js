@@ -37,7 +37,7 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval",
       subscriptionId,
-      location
+      location,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -46,5 +46,5 @@ async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProvider
 }
 
 exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals().catch(
-  console.error
+  console.error,
 );

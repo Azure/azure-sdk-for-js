@@ -33,7 +33,7 @@ async function getVirtualRouterPeering() {
       subscriptionId,
       resourceGroupName,
       virtualRouterName,
-      peeringName
+      peeringName,
     )
     .get(options);
   console.log(result);

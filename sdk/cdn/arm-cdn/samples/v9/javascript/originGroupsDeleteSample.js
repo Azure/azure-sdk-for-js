@@ -30,7 +30,7 @@ async function originGroupsDelete() {
     resourceGroupName,
     profileName,
     endpointName,
-    originGroupName
+    originGroupName,
   );
   console.log(result);
 }

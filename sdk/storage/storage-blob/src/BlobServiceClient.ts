@@ -355,7 +355,7 @@ export class BlobServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ): BlobServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -363,7 +363,7 @@ export class BlobServiceClient extends StorageClient {
       if (isNode) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
-          extractedCreds.accountKey
+          extractedCreds.accountKey,
         );
 
         if (!options.proxyOptions) {
@@ -380,7 +380,7 @@ export class BlobServiceClient extends StorageClient {
       return new BlobServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
-        "Connection string must be either an Account connection string or a SAS connection string"
+        "Connection string must be either an Account connection string or a SAS connection string",
       );
     }
   }
@@ -424,7 +424,7 @@ export class BlobServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of BlobServiceClient.
@@ -445,7 +445,7 @@ export class BlobServiceClient extends StorageClient {
       | PipelineLike,
     // Legacy, no fix for eslint error without breaking. Disable it for this interface.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     let pipeline: PipelineLike;
     if (isPipelineLike(credentialOrPipeline)) {
@@ -479,7 +479,7 @@ export class BlobServiceClient extends StorageClient {
   public getContainerClient(containerName: string): ContainerClient {
     return new ContainerClient(
       appendToURLPath(this.url, encodeURIComponent(containerName)),
-      this.pipeline
+      this.pipeline,
     );
   }
 
@@ -492,7 +492,7 @@ export class BlobServiceClient extends StorageClient {
    */
   public async createContainer(
     containerName: string,
-    options: ContainerCreateOptions = {}
+    options: ContainerCreateOptions = {},
   ): Promise<{
     containerClient: ContainerClient;
     containerCreateResponse: ContainerCreateResponse;
@@ -507,7 +507,7 @@ export class BlobServiceClient extends StorageClient {
           containerClient,
           containerCreateResponse,
         };
-      }
+      },
     );
   }
 
@@ -520,7 +520,7 @@ export class BlobServiceClient extends StorageClient {
    */
   public async deleteContainer(
     containerName: string,
-    options: ContainerDeleteMethodOptions = {}
+    options: ContainerDeleteMethodOptions = {},
   ): Promise<ContainerDeleteResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-deleteContainer",
@@ -528,7 +528,7 @@ export class BlobServiceClient extends StorageClient {
       async (updatedOptions) => {
         const containerClient = this.getContainerClient(containerName);
         return containerClient.delete(updatedOptions);
-      }
+      },
     );
   }
 
@@ -544,7 +544,7 @@ export class BlobServiceClient extends StorageClient {
   public async undeleteContainer(
     deletedContainerName: string,
     deletedContainerVersion: string,
-    options: ServiceUndeleteContainerOptions = {}
+    options: ServiceUndeleteContainerOptions = {},
   ): Promise<{
     containerClient: ContainerClient;
     containerUndeleteResponse: ContainerUndeleteResponse;
@@ -554,7 +554,7 @@ export class BlobServiceClient extends StorageClient {
       options,
       async (updatedOptions) => {
         const containerClient = this.getContainerClient(
-          options.destinationContainerName || deletedContainerName
+          options.destinationContainerName || deletedContainerName,
         );
         // Hack to access a protected member.
         const containerContext = containerClient["storageClientContext"].container;
@@ -566,10 +566,10 @@ export class BlobServiceClient extends StorageClient {
             deletedContainerName,
             deletedContainerVersion,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
         return { containerClient, containerUndeleteResponse };
-      }
+      },
     );
   }
 
@@ -585,7 +585,7 @@ export class BlobServiceClient extends StorageClient {
   private async renameContainer(
     sourceContainerName: string,
     destinationContainerName: string,
-    options: ServiceRenameContainerOptions = {}
+    options: ServiceRenameContainerOptions = {},
   ): Promise<{
     containerClient: ContainerClient;
     containerRenameResponse: ContainerRenameResponse;
@@ -604,10 +604,10 @@ export class BlobServiceClient extends StorageClient {
           await containerContext.rename(sourceContainerName, {
             ...updatedOptions,
             sourceLeaseId: options.sourceCondition?.leaseId,
-          })
+          }),
         );
         return { containerClient, containerRenameResponse };
-      }
+      },
     );
   }
 
@@ -620,7 +620,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns Response data for the Service Get Properties operation.
    */
   public async getProperties(
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceGetPropertiesResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-getProperties",
@@ -630,9 +630,9 @@ export class BlobServiceClient extends StorageClient {
           await this.serviceContext.getProperties({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -647,7 +647,7 @@ export class BlobServiceClient extends StorageClient {
    */
   public async setProperties(
     properties: BlobServiceProperties,
-    options: ServiceSetPropertiesOptions = {}
+    options: ServiceSetPropertiesOptions = {},
   ): Promise<ServiceSetPropertiesResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-setProperties",
@@ -657,9 +657,9 @@ export class BlobServiceClient extends StorageClient {
           await this.serviceContext.setProperties(properties, {
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -673,7 +673,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns Response data for the Service Get Statistics operation.
    */
   public async getStatistics(
-    options: ServiceGetStatisticsOptions = {}
+    options: ServiceGetStatisticsOptions = {},
   ): Promise<ServiceGetStatisticsResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-getStatistics",
@@ -683,9 +683,9 @@ export class BlobServiceClient extends StorageClient {
           await this.serviceContext.getStatistics({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -700,7 +700,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns Response data for the Service Get Account Info operation.
    */
   public async getAccountInfo(
-    options: ServiceGetAccountInfoOptions = {}
+    options: ServiceGetAccountInfoOptions = {},
   ): Promise<ServiceGetAccountInfoResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-getAccountInfo",
@@ -710,9 +710,9 @@ export class BlobServiceClient extends StorageClient {
           await this.serviceContext.getAccountInfo({
             abortSignal: options.abortSignal,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -732,7 +732,7 @@ export class BlobServiceClient extends StorageClient {
    */
   private async listContainersSegment(
     marker?: string,
-    options: ServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {},
   ): Promise<ServiceListContainersSegmentResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-listContainersSegment",
@@ -748,9 +748,9 @@ export class BlobServiceClient extends StorageClient {
             ...options,
             include: typeof options.include === "string" ? [options.include] : options.include,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -775,7 +775,7 @@ export class BlobServiceClient extends StorageClient {
   private async findBlobsByTagsSegment(
     tagFilterSqlExpression: string,
     marker?: string,
-    options: ServiceFindBlobsByTagsSegmentOptions = {}
+    options: ServiceFindBlobsByTagsSegmentOptions = {},
   ): Promise<ServiceFindBlobsByTagsSegmentResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-findBlobsByTagsSegment",
@@ -792,7 +792,7 @@ export class BlobServiceClient extends StorageClient {
             marker,
             maxPageSize: options.maxPageSize,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         const wrappedResponse: ServiceFindBlobsByTagsSegmentResponse = {
@@ -807,7 +807,7 @@ export class BlobServiceClient extends StorageClient {
           }),
         };
         return wrappedResponse;
-      }
+      },
     );
   }
 
@@ -830,7 +830,7 @@ export class BlobServiceClient extends StorageClient {
   private async *findBlobsByTagsSegments(
     tagFilterSqlExpression: string,
     marker?: string,
-    options: ServiceFindBlobsByTagsSegmentOptions = {}
+    options: ServiceFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<ServiceFindBlobsByTagsSegmentResponse> {
     let response;
     if (!!marker || marker === undefined) {
@@ -854,13 +854,13 @@ export class BlobServiceClient extends StorageClient {
    */
   private async *findBlobsByTagsItems(
     tagFilterSqlExpression: string,
-    options: ServiceFindBlobsByTagsSegmentOptions = {}
+    options: ServiceFindBlobsByTagsSegmentOptions = {},
   ): AsyncIterableIterator<FilterBlobItem> {
     let marker: string | undefined;
     for await (const segment of this.findBlobsByTagsSegments(
       tagFilterSqlExpression,
       marker,
-      options
+      options,
     )) {
       yield* segment.blobs;
     }
@@ -947,7 +947,7 @@ export class BlobServiceClient extends StorageClient {
    */
   public findBlobsByTags(
     tagFilterSqlExpression: string,
-    options: ServiceFindBlobByTagsOptions = {}
+    options: ServiceFindBlobByTagsOptions = {},
   ): PagedAsyncIterableIterator<FilterBlobItem, ServiceFindBlobsByTagsSegmentResponse> {
     // AsyncIterableIterator to iterate over blobs
     const listSegmentOptions: ServiceFindBlobsByTagsSegmentOptions = {
@@ -994,7 +994,7 @@ export class BlobServiceClient extends StorageClient {
    */
   private async *listSegments(
     marker?: string,
-    options: ServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {},
   ): AsyncIterableIterator<ServiceListContainersSegmentResponse> {
     let listContainersSegmentResponse;
     if (!!marker || marker === undefined) {
@@ -1014,7 +1014,7 @@ export class BlobServiceClient extends StorageClient {
    * @param options - Options to list containers operation.
    */
   private async *listItems(
-    options: ServiceListContainersSegmentOptions = {}
+    options: ServiceListContainersSegmentOptions = {},
   ): AsyncIterableIterator<ContainerItem> {
     let marker: string | undefined;
     for await (const segment of this.listSegments(marker, options)) {
@@ -1097,7 +1097,7 @@ export class BlobServiceClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listContainers(
-    options: ServiceListContainersOptions = {}
+    options: ServiceListContainersOptions = {},
   ): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -1160,7 +1160,7 @@ export class BlobServiceClient extends StorageClient {
   public async getUserDelegationKey(
     startsOn: Date,
     expiresOn: Date,
-    options: ServiceGetUserDelegationKeyOptions = {}
+    options: ServiceGetUserDelegationKeyOptions = {},
   ): Promise<ServiceGetUserDelegationKeyResponse> {
     return tracingClient.withSpan(
       "BlobServiceClient-getUserDelegationKey",
@@ -1179,8 +1179,8 @@ export class BlobServiceClient extends StorageClient {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
-          )
+            },
+          ),
         );
 
         const userDelegationKey = {
@@ -1204,7 +1204,7 @@ export class BlobServiceClient extends StorageClient {
         };
 
         return res;
-      }
+      },
     );
   }
 
@@ -1237,11 +1237,11 @@ export class BlobServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
+    options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -1258,7 +1258,7 @@ export class BlobServiceClient extends StorageClient {
         services: AccountSASServices.parse("b").toString(),
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);

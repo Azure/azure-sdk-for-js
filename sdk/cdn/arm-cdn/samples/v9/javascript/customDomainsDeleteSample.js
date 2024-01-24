@@ -30,7 +30,7 @@ async function customDomainsDelete() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

@@ -18,11 +18,10 @@ export interface OpenAIClientOptions extends ClientOptions {}
 
 export { OpenAIContext } from "../rest/index.js";
 
-/** Azure OpenAI APIs for completions and search */
 export function createOpenAI(
   endpoint: string,
   credential: KeyCredential | TokenCredential,
-  options: OpenAIClientOptions = {}
+  options: OpenAIClientOptions = {},
 ): OpenAIContext {
   const clientContext = getClient(endpoint, credential, options);
   return clientContext;
