@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how batchDeleteMessages() method can be used to delete messages in batch.
@@ -33,20 +33,30 @@ const messages: ServiceBusMessage[] = [
 
 export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
-
-  const sender = sbClient.createSender(queueName);
-  await sender.sendMessages(messages);
-
-  // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
-  const queueReceiver = sbClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" });
-
   try {
-    const peekedMessages = await queueReceiver.peekMessages(10);
+    const sender = sbClient.createSender(queueName);
+    await sender.sendMessages(messages);
+
+    // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
+    const queueReceiver = sbClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" });
+
+    let peekedMessages = await queueReceiver.peekMessages(10);
     console.log(`Peeked messages: ${peekedMessages.length}.`);
 
-    const deletedCount = await queueReceiver.batchDeleteMessages(10);
+    let deletedCount = await queueReceiver.batchDeleteMessages(10);
 
     console.log(`${deletedCount} messages has been deleted.`);
+
+    // Sending the same messages again
+    await sender.sendMessages(messages);
+    peekedMessages = await queueReceiver.peekMessages(10);
+    console.log(`Peeked messages (2): ${peekedMessages.length}.`);
+
+    // This time specifying a filter on messages to batch-delete
+    deletedCount = await queueReceiver.batchDeleteMessages(10, {
+      enqueuedTimeUtcOlderThan: new Date(1970, 1, 1),
+    });
+    console.log(`${deletedCount} messages has been deleted this time.`); // Should be 0
 
     await queueReceiver.close();
   } finally {
