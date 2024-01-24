@@ -12,9 +12,17 @@ import {
 } from "../../../src";
 import { Container, ContainerDefinition } from "../../../src";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
-import { getTestContainer, removeAllDatabases, testForDiagnostics } from "../common/TestHelpers";
+import {
+  getTestContainer,
+  removeAllDatabases,
+  testForDiagnostics,
+  changeFeedAllVersionsInsertItems,
+  changeFeedAllVersionsUpsertItems,
+  changeFeedAllVersionsDeleteItems,
+} from "../common/TestHelpers";
 import { FeedRangeInternal } from "../../../src/client/ChangeFeed/FeedRange";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
+import { StatusCodes } from "../../../src/common/statusCodes";
 
 describe("Change Feed Iterator", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
@@ -462,12 +470,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
       containerDef,
       throughput
     );
-    for (let i = 1; i < 6; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
+    await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
   it("startFromBeginning is not supported", async function () {
     try {
@@ -479,9 +482,14 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
 
       while (iterator.hasMoreResults) {
         await iterator.readNext();
+        assert.fail("Should have failed");
       }
     } catch (err: any) {
-      assert.strictEqual(err.code, 400);
+      assert.strictEqual(err.code, StatusCodes.BadRequest);
+      assert.strictEqual(
+        true,
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+      );
       return;
     }
   });
@@ -498,18 +506,13 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     while (iterator.hasMoreResults) {
       const res = await iterator.readNext();
       // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
     }
     // add new documents to the container
-    for (let i = 6; i < 11; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
+    await changeFeedAllVersionsInsertItems(container, 6, 10);
 
     let counter = 0;
     const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
@@ -521,7 +524,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
 
     while (iterator2.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -534,12 +537,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     assert.strictEqual(counter, 20, "20 results should be fetched");
 
     // update documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
-    }
+    await changeFeedAllVersionsUpsertItems(container, 1, 5, 20);
 
     const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -551,7 +549,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     counter = 0;
     while (iterator3.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -564,12 +562,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     assert.strictEqual(counter, 20, "20 results should be fetched");
 
     // delete documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.item(`sample1+${i}`, "sample1").delete();
-      await container.item(`sample1+${i}`, "sample2").delete();
-      await container.item(`sample1+${i}`, "sample3").delete();
-      await container.item(`sample1+${i}`, "sample4").delete();
-    }
+    await changeFeedAllVersionsDeleteItems(container, 1, 5);
 
     const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -581,7 +574,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
     counter = 0;
     while (iterator4.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -614,12 +607,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
       containerDef,
       throughput
     );
-    for (let i = 1; i < 6; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
+    await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
   it("startFromBeginning is not supported", async function () {
     try {
@@ -632,9 +620,14 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
 
       while (iterator.hasMoreResults) {
         await iterator.readNext();
+        assert.fail("Should have failed");
       }
     } catch (err: any) {
-      assert.strictEqual(err.code, 400);
+      assert.strictEqual(err.code, StatusCodes.BadRequest);
+      assert.strictEqual(
+        true,
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+      );
       return;
     }
   });
@@ -652,19 +645,13 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     while (iterator.hasMoreResults) {
       const res = await iterator.readNext();
       // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
     }
     // add new documents to the container
-    for (let i = 6; i < 11; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
-
+    await changeFeedAllVersionsInsertItems(container, 6, 10);
     let counter = 0;
     const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -675,7 +662,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
 
     while (iterator2.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -688,12 +675,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     assert.strictEqual(counter, 5, "5 results should be fetched");
 
     // update documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
-    }
+    await changeFeedAllVersionsUpsertItems(container, 1, 5, 20);
 
     const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -705,7 +687,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     counter = 0;
     while (iterator3.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -718,12 +700,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     assert.strictEqual(counter, 5, "5 results should be fetched");
 
     // delete documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.item(`sample1+${i}`, "sample1").delete();
-      await container.item(`sample1+${i}`, "sample2").delete();
-      await container.item(`sample1+${i}`, "sample3").delete();
-      await container.item(`sample1+${i}`, "sample4").delete();
-    }
+    await changeFeedAllVersionsDeleteItems(container, 1, 5);
 
     const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -735,7 +712,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
     counter = 0;
     while (iterator4.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -768,12 +745,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
       containerDef,
       throughput
     );
-    for (let i = 1; i < 6; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
+    await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
   it("startFromBeginning is not supported", async function () {
     try {
@@ -785,9 +757,14 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
 
       while (iterator.hasMoreResults) {
         await iterator.readNext();
+        assert.fail("Should have failed");
       }
     } catch (err: any) {
-      assert.strictEqual(err.code, 400);
+      assert.strictEqual(err.code, StatusCodes.BadRequest);
+      assert.strictEqual(
+        true,
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+      );
       return;
     }
   });
@@ -804,18 +781,13 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     while (iterator.hasMoreResults) {
       const res = await iterator.readNext();
       // intially there will be no results as no new changes since creation of iterator. This is just to get the continuation token for next iterator.
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
     }
     // add new documents to the container
-    for (let i = 6; i < 11; i++) {
-      await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample2", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample3", key: i });
-      await container.items.create({ id: `sample1+${i}`, name: "sample4", key: i });
-    }
+    await changeFeedAllVersionsInsertItems(container, 6, 10);
 
     let counter = 0;
     const changeFeedIteratorOptions2: ChangeFeedIteratorOptions = {
@@ -827,7 +799,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
 
     while (iterator2.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -840,12 +812,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     assert.strictEqual(counter, 5, "5 results should be fetched");
 
     // update documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample2", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample3", key: 20 });
-      await container.items.upsert({ id: `sample1+${i}`, name: "sample4", key: 20 });
-    }
+    await changeFeedAllVersionsUpsertItems(container, 1, 5, 20);
 
     const changeFeedIteratorOptions3: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -857,7 +824,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     counter = 0;
     while (iterator3.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
@@ -870,12 +837,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     assert.strictEqual(counter, 5, "5 results should be fetched");
 
     // delete documents in the container
-    for (let i = 1; i < 6; i++) {
-      await container.item(`sample1+${i}`, "sample1").delete();
-      await container.item(`sample1+${i}`, "sample2").delete();
-      await container.item(`sample1+${i}`, "sample3").delete();
-      await container.item(`sample1+${i}`, "sample4").delete();
-    }
+    await changeFeedAllVersionsDeleteItems(container, 1, 5);
 
     const changeFeedIteratorOptions4: ChangeFeedIteratorOptions = {
       maxItemCount: 5,
@@ -887,7 +849,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
     counter = 0;
     while (iterator4.hasMoreResults) {
       const res = await iterator.readNext();
-      if (res.statusCode === 304) {
+      if (res.statusCode === StatusCodes.NotModified) {
         continuationToken = res.continuationToken;
         break;
       }
