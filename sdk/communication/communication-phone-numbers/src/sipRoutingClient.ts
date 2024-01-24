@@ -352,7 +352,7 @@ export class SipRoutingClient {
       try {
         const config = await this.client.sipRouting.update(payload);
         const storedTrunk = transformFromRestModel(config.trunks).find(
-            (value: SipTrunk) => value.fqdn === trunk.fqdn,
+          (value: SipTrunk) => value.fqdn === trunk.fqdn,
         );
 
         if (storedTrunk) {
