@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ThreadMessage, ListResponseOf } from "../../models/models.js";
-import { MessageContent, MessageFile } from "../../../generated/src/models/models.js";
+import { MessageContent, ThreadMessage, ListResponseOf } from "../../models/models.js";
+import { MessageContentOutput } from "../../rest/outputModels.js";
+import { MessageFile } from "../../../generated/src/models/models.js";
 import {
   _listMessagesSend,
   _listMessageFilesSend,
@@ -25,6 +26,21 @@ import {
   ThreadMessagesRetrieveMessageOptions,
   ThreadMessagesListMessageFilesOptions,
 } from "../../../generated/src/models/options.js";
+
+function parseMessageContentOutput(messageContentOutput: MessageContentOutput): MessageContent {
+  const messageContent = { type: "", text: {}, imageFile: {} };
+  switch(messageContentOutput.type) {
+    case "image_file":
+      messageContent.type = "image_file";
+      messageContent.imageFile = messageContentOutput.image_file;
+      break;
+    case "text":
+      messageContent.type = "text";
+      messageContent.text = messageContentOutput.text;
+      break;
+  }
+  return messageContent as MessageContent;
+}
 
 export async function listMessages(
   context: Client,
@@ -99,14 +115,7 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -127,16 +136,7 @@ export async function _listMessagesDeserialize(
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
-      content: (p["content"] ?? []).map(
-        (item) =>
-          ({
-            type: item["type"],
-            text: item["text"] || undefined,
-            fileIds: item["file_ids"] || undefined,
-            metadata: item["metadata"] || undefined,
-            imageFile: item["image_file"] || undefined,
-          } as MessageContent)
-      ),
+      content: (p["content"] ?? []).map(parseMessageContentOutput),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       metadata: p["metadata"],
@@ -159,16 +159,7 @@ export async function _retrieveMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          fileIds: p["file_ids"] || undefined,
-          metadata: p["metadata"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -187,16 +178,7 @@ export async function _modifyMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          fileIds: p["file_ids"] || undefined,
-          metadata: p["metadata"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],

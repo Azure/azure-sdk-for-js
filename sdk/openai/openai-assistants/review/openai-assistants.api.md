@@ -233,6 +233,11 @@ export interface CodeInterpreterToolDefinition {
 }
 
 // @public
+export interface CodeInterpreterToolDefinition {
+    type: "code_interpreter";
+}
+
+// @public
 export interface CreateAndRunThreadOptions {
     assistantId: string;
     instructions?: string;
@@ -305,6 +310,13 @@ export interface FunctionDefinition {
 }
 
 // @public
+export interface FunctionDefinition {
+    description: string;
+    name: string;
+    parameters: unknown;
+}
+
+// @public
 export interface FunctionToolCall {
     function: FunctionToolCallDetails;
     id: string;
@@ -316,6 +328,12 @@ export interface FunctionToolCallDetails {
     arguments: string;
     name: string;
     output?: string | null;
+}
+
+// @public
+export interface FunctionToolDefinition {
+    function: FunctionDefinition;
+    type: "function";
 }
 
 // @public
@@ -435,6 +453,11 @@ export interface RequiredAction {
 export interface RetrievalToolCall {
     id: string;
     retrieval: Record<string, string>;
+    type: "retrieval";
+}
+
+// @public
+export interface RetrievalToolDefinition {
     type: "retrieval";
 }
 
@@ -690,14 +713,7 @@ export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions 
 export type ToolCall = FunctionToolCall | CodeInterpreterToolCall | RetrievalToolCall;
 
 // @public
-export interface ToolDefinition {
-    // (undocumented)
-    function?: FunctionDefinition;
-    type: string;
-}
-
-// @public
-export type ToolDefinitionParent = CodeInterpreterToolDefinition | RetrievalToolDefinition | FunctionToolDefinition;
+export type ToolDefinition = CodeInterpreterToolDefinition | RetrievalToolDefinition | FunctionToolDefinition;
 
 // @public
 export interface ToolOutput {

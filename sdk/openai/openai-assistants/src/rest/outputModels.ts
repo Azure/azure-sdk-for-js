@@ -135,17 +135,8 @@ export interface ThreadMessageOutput {
   metadata?: TypeSpecRecordOutput;
 }
 
-/** An abstract representation of a single item of thread message content. */
-export interface MessageContentOutput {
-  type: string;
-/** The text and associated annotations for this thread message content item. */
-  text?: MessageTextDetailsOutput;
-  /** The image file for this thread message content item. */
-  image_file?: MessageImageFileDetailsOutput;
-}
-
 /** A representation of a textual item of thread message content. */
-export interface MessageTextContentOutput extends MessageContentOutput {
+export interface MessageTextContentOutput {
   /** The object type, which is always 'text'. */
   type: "text";
   /** The text and associated annotations for this thread message content item. */
@@ -205,7 +196,7 @@ export interface MessageFilePathDetailsOutput {
 }
 
 /** A representation of image file content in a thread message. */
-export interface MessageImageFileContentOutput extends MessageContentOutput {
+export interface MessageImageFileContentOutput {
   /** The object type, which is always 'image_file'. */
   type: "image_file";
   /** The image file for this thread message content item. */
@@ -529,3 +520,7 @@ export type ToolCallOutput =
   | FunctionToolCallOutput
   | CodeInterpreterToolCallOutput
   | RetrievalToolCallOutput;
+/** An abstract representation of a single item of thread message content. */
+export type MessageContentOutput =
+  | MessageTextContentOutput
+  | MessageImageFileContentOutput;

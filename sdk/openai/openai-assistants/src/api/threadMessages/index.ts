@@ -34,6 +34,7 @@ import {
   CreateMessage200Response,
   ListMessageFiles200Response,
   ListMessages200Response,
+  MessageContentOutput,
   ModifyMessage200Response,
   RetrieveMessage200Response,
   RetrieveMessageFile200Response,
@@ -236,14 +237,7 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -264,14 +258,7 @@ export async function _listMessagesDeserialize(
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
-      content: (p["content"] ?? []).map(
-        (item) =>
-          ({
-            type: item["type"],
-            text: item["text"] || undefined,
-            imageFile: item["image_file"] || undefined,
-          } as MessageContent)
-      ),
+      content: (p["content"] ?? []).map(parseMessageContentOutput),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       metadata: p["metadata"],
@@ -280,6 +267,21 @@ export async function _listMessagesDeserialize(
     lastId: result.body["last_id"],
     hasMore: result.body["has_more"],
   };
+}
+
+function parseMessageContentOutput(messageContentOutput: MessageContentOutput): MessageContent {
+  const messageContent = { type: "", text: {}, imageFile: {} };
+  switch(messageContentOutput.type) {
+    case "image_file":
+      messageContent.type = "image_file";
+      messageContent.imageFile = messageContentOutput.image_file;
+      break;
+    case "text":
+      messageContent.type = "text";
+      messageContent.text = messageContentOutput.text;
+      break;
+  }
+  return messageContent as MessageContent;
 }
 
 export async function _retrieveMessageDeserialize(
@@ -294,14 +296,7 @@ export async function _retrieveMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],
@@ -320,14 +315,7 @@ export async function _modifyMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: (result.body["content"] ?? []).map(
-      (p) =>
-        ({
-          type: p["type"],
-          text: p["text"] || undefined,
-          imageFile: p["image_file"] || undefined,
-        } as MessageContent)
-    ),
+    content: (result.body["content"] ?? []).map(parseMessageContentOutput),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     metadata: result.body["metadata"],

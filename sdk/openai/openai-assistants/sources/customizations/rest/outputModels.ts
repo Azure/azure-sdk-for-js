@@ -5,6 +5,8 @@ import {
   FunctionDefinitionOutput,
   RequiredActionOutput,
   SubmitToolOutputsDetailsOutput,
+  MessageImageFileContentOutput,
+  MessageTextContentOutput
 } from "../../generated/src/rest/outputModels.js";
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
@@ -52,3 +54,7 @@ export type ToolDefinitionOutput =
   | CodeInterpreterToolDefinitionOutput 
   | RetrievalToolDefinitionOutput 
   | FunctionToolDefinitionOutput;
+/** An abstract representation of a single item of thread message content. */
+export type MessageContentOutput =
+  | MessageTextContentOutput
+  | MessageImageFileContentOutput;

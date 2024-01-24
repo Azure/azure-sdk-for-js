@@ -7,7 +7,7 @@ import { assertAssistantEquality } from "./utils/asserts.js";
 import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient.js";
 import { getModels } from "./utils/utils.js";
 import { Context } from "mocha";
-import { AssistantsClient } from "../../src/index.js";
+import { AssistantsClient, ToolDefinition } from "../../src/index.js";
 
 describe("OpenAIAssistants", () => {
   let recorder: Recorder;
@@ -30,7 +30,7 @@ describe("OpenAIAssistants", () => {
     describe(`[${authMethod}] Client`, () => {
       let client: AssistantsClient;
       const codeAssistant = {
-        tools: [{ type: "code_interpreter" }],
+        tools: [{ type: "code_interpreter" } as ToolDefinition],
         model: "gpt-4-1106-preview",
         name: "JS CI Math Tutor",
         description: "Math Tutor for Math Problems",
@@ -369,7 +369,7 @@ describe("OpenAIAssistants", () => {
             model: "gpt-4-1106-preview",
             name: "JS SDK Test Assistant - Nickname",
             instructions,
-            tools: [getUserFavoriteCityTool, getCityNicknameTool],
+            tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
           };
           const assistant = await client.assistants.createAssistant(functionAssistant);
           assert.isNotNull(assistant.id);
@@ -381,7 +381,7 @@ describe("OpenAIAssistants", () => {
           assert.isNotNull(message.id);
           assert.equal(message.threadId, thread.id);
           let run = await client.threadRuns.createRun(thread.id, assistant.id, {
-            tools: [getUserFavoriteCityTool, getCityNicknameTool],
+            tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
             requestOptions: { timeout: 10000 },
           });
           const runId = run.id;

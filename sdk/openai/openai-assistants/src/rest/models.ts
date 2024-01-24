@@ -26,25 +26,20 @@ export interface AssistantCreationOptions {
   metadata?: TypeSpecRecord;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionParent {
-  type: string;
-}
-
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+export interface CodeInterpreterToolDefinition {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinition extends ToolDefinitionParent {
+export interface RetrievalToolDefinition {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinition extends ToolDefinitionParent {
+export interface FunctionToolDefinition {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -234,7 +229,6 @@ export interface CreateAndRunThreadOptions {
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
-  | ToolDefinitionParent
   | CodeInterpreterToolDefinition
   | RetrievalToolDefinition
   | FunctionToolDefinition;

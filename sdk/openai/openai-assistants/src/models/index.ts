@@ -11,7 +11,7 @@
 
 export {
   AssistantCreationOptions,
-  ToolDefinitionParent,
+  ToolDefinition,
   CodeInterpreterToolDefinition,
   RetrievalToolDefinition,
   FunctionToolDefinition,
@@ -65,7 +65,6 @@ export {
   InputFile,
   FileDeletionStatus,
   ListSortOrder,
-  ToolDefinition,
   MessageContent,
   MessageTextAnnotation,
   ToolCall,

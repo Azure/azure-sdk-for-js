@@ -113,6 +113,5 @@ export {
   ThreadRunsSubmitRunToolOutputsOptions,
   ToolCall,
   ToolDefinition,
-  ToolDefinitionParent,
   ToolOutput,
 } from "./models/index.js";
