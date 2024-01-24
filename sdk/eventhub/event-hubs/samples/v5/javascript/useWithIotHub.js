@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to use the EventHubConsumerClient to receive messages from an IoT Hub.
