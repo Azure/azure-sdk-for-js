@@ -35,16 +35,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      apiKeyHeaderName:
-        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options,
-  ) as ImageAnalysisClient;
+  const client = getClient(baseUrl, credentials, options) as ImageAnalysisClient;
 
   return client;
 }
