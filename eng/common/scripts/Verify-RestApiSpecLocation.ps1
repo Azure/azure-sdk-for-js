@@ -206,7 +206,7 @@ function Verify-PackageVersion() {
         # Ignore the validation if the package is not GA version
         if ($version.IsPrerelease) {
           Write-Host "ServiceDir:$ServiceDirectory, Package $PackageName is marked with version $version, the version is a prerelease version and the validation of spec location is ignored."
-          exit 0
+          #exit 0
         }
         $continueValidation = $true
       }
