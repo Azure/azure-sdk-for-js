@@ -45,7 +45,7 @@
 /sdk/core/core-lro/ @deyaaeldeen @joheredi
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi
+/sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi @maorleger
 
 # Service teams
 # PRLabel: %App Configuration
@@ -112,7 +112,7 @@
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs @Azure/azure-sdk-write-identity
+/sdk/identity/ @KarishmaGhiya @maorleger @witemple-msft @schaabs @Azure/azure-sdk-write-identity
 
 # PRLabel: %Iot
 /sdk/iot/ @xirzec
@@ -121,7 +121,7 @@
 /sdk/keyvault/ @timovv @Azure/azsdk-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/ @joheredi @mpodwysocki
+/sdk/instrumentation/ @maorleger @joheredi @mpodwysocki
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru

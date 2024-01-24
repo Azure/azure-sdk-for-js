@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import Sinon, { createSandbox } from "sinon";
+
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
 import { GetTokenOptions } from "@azure/core-auth";
 import { assert } from "@azure/test-utils";
@@ -298,5 +299,83 @@ az login --scope https://test.windows.net/.default`;
     const credential = new AzureCliCredential();
     const actualToken = await credential.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
+  });
+
+  describe("expiresOnTimestamp", function () {
+    const testData = {
+      expires_on: {
+        inputValue: 1705963934,
+        expected: 1705963934000,
+      },
+      expiresOn: {
+        inputValue: "1999-01-22 14:52:14.000000",
+        expected: new Date("1999-01-22 14:52:14.000000").getTime(),
+      },
+    };
+
+    it("uses expires_on when provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expires_on": ${testData.expires_on.inputValue}
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expires_on.expected);
+    });
+
+    it("uses expiresOn when expires_on is empty", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
+    });
+
+    it("prefers expires_on when both expires_on and expiresOn are provided", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}",
+          "expires_on": ${testData.expires_on.inputValue}
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expires_on.expected);
+    });
+
+    it("uses expiresOn when expires_on is invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "${testData.expiresOn.inputValue}",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      const actualToken = await credential.getToken("https://service/.default");
+      assert.equal(actualToken.expiresOnTimestamp, testData.expiresOn.expected);
+    });
+
+    it("throws when both are invalid", async function () {
+      stdout = `
+        {
+          "accessToken": "token",
+          "expiresOn": "not-a-date",
+          "expires_on": "not-a-number"
+        }`;
+      stderr = "";
+      const credential = new AzureCliCredential();
+      await assert.isRejected(
+        credential.getToken("https://service/.default"),
+        /Expected "expiresOn" to be a RFC3339 date string. Got: "not-a-date"$/,
+      );
+    });
   });
 });
