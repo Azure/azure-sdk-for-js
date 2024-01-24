@@ -4,7 +4,7 @@
 import { sendRequest } from "../src/sendRequest";
 import { assert } from "chai";
 import {
-    FormDataValue,
+  FormDataValue,
   Pipeline,
   PipelineResponse,
   RestError,
@@ -111,8 +111,12 @@ describe("sendRequest", () => {
     });
 
     it("should handle request body as FormData with multiple file and text fields", async () => {
-      const file1 = createFile(stringToUint8Array("File 1", "utf-8"), "file1.txt", { type: "text/plain" });
-      const file2 = createFile(new Uint8Array([1,2,3]), "file1.txt", { type: "application/octet-stream" });
+      const file1 = createFile(stringToUint8Array("File 1", "utf-8"), "file1.txt", {
+        type: "text/plain",
+      });
+      const file2 = createFile(new Uint8Array([1, 2, 3]), "file1.txt", {
+        type: "application/octet-stream",
+      });
       const file3 = new Blob([stringToUint8Array("{}", "utf-8")], { type: "application/json" });
       const text = "Hello";
 
@@ -122,14 +126,19 @@ describe("sendRequest", () => {
         assert.strictEqual((request.formData?.fileArray1 as FormDataValue[])[1], file2);
         assert.strictEqual((request.formData?.fileArray2 as FormDataValue[])[0], file2);
         assert.strictEqual((request.formData?.fileArray2 as FormDataValue[])[1], file3);
-        assert.strictEqual((request.formData?.standaloneFile) as FormDataValue, file3);
+        assert.strictEqual(request.formData?.standaloneFile as FormDataValue, file3);
         assert.strictEqual(request.formData?.text as string, "Hello");
 
         return { headers: createHttpHeaders() } as PipelineResponse;
       };
 
       await sendRequest("POST", mockBaseUrl, mockPipeline, {
-        body: { fileArray1: [file1, file2], fileArray2: [file2, file3], standaloneFile: file3, text },
+        body: {
+          fileArray1: [file1, file2],
+          fileArray2: [file2, file3],
+          standaloneFile: file3,
+          text,
+        },
         contentType: "multipart/form-data",
       });
     });
