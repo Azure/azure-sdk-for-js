@@ -782,17 +782,24 @@ describe("Batching Receiver", () => {
       },
     );
 
+    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
     it.only(
       TestClientType.PartitionedQueue + ": batchDeleteMessages request on the receiver",
       async function (): Promise<void> {
         await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
-        const testMessage = TestMessage.getSample();
 
-        await sender.sendMessages([testMessage, testMessage, testMessage]);
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
 
-        await receiver.batchDeleteMessages(2);
+        await testPeekMsgsLength(receiver, numMessages);
 
-        await testPeekMsgsLength(receiver, 1);
+        await receiver.batchDeleteMessages(numMessages);
+
+        await testPeekMsgsLength(receiver, 0);
       },
     );
 
@@ -801,12 +808,21 @@ describe("Batching Receiver", () => {
       async function (): Promise<void> {
         await beforeEachTest(TestClientType.PartitionedQueueWithSessions, "receiveAndDelete");
         const testMessage = TestMessage.getSessionSample();
+        testMessage.timeToLive = 24 * 60 * 60 * 1000;
 
-        await sender.sendMessages([testMessage, testMessage, testMessage]);
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
 
-        await receiver.batchDeleteMessages(2);
+        const peeked = await receiver.peekMessages(numMessages + 1);
+        assert.equal(peeked.length, numMessages);
 
-        await testPeekMsgsLength(receiver, 1);
+        await receiver.batchDeleteMessages(numMessages);
+
+        await testPeekMsgsLength(receiver, 0);
       },
     );
 
