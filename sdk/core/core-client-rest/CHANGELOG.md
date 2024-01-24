@@ -4,7 +4,6 @@
 
 ### Features Added
 
-- Add logger in core-client-rest libraries.
 - Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
 
 ### Breaking Changes
