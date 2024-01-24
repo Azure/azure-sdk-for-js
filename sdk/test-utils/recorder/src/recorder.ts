@@ -20,7 +20,6 @@ import {
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils";
-import { Test as MochaTest } from "mocha";
 import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
@@ -35,11 +34,7 @@ import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
-
-
-interface VitestContext {
-  currentTestName?: string;
-}
+import { isMochaTest, isVitestTestContext, TestInfo } from "./testInfo";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -59,10 +54,7 @@ export class Recorder {
   private variables: Record<string, string>;
 
   constructor(
-    private testContext?:
-      | MochaTest
-      | VitestContext
-      | undefined,
+    private testContext?: TestInfo
   ) {
     if (!this.testContext) {
       throw new Error(
@@ -74,35 +66,30 @@ export class Recorder {
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
         let context:
-          | MochaTest
-          | {
+          {
               suiteTitle: string;
               testTitle: string;
             };
-        if (this.testContext instanceof MochaTest) {
+        if (isMochaTest(this.testContext)) {
           if (!this.testContext.parent) {
             throw new RecorderError(
-              `Test ${this.testContext.title} is not inside a describe block, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+              `The parent of test '${this.testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
             );
           }
           context = {
             suiteTitle: this.testContext.parent.fullTitle(),
             testTitle: this.testContext.title,
           };
-        } else {
-          if (!this.testContext.currentTestName) {
+        } else if(isVitestTestContext(this.testContext)) {
+          if (!this.testContext.task.name || !this.testContext.task.suite.name) {
             throw new RecorderError(`Unable to determine the recording file path. Unexpected empty Vitest context`);
           }
-          // vitest format:
-          //   ""fileName.ts > suite title [> nested suite title ]* > test title""
-          const parts = this.testContext.currentTestName.split(" > ");
-          if (parts.length < 3) {
-            throw new RecorderError(`Unable to determine the recording file path. Unexpected Vitest currentTestname`);
-          }
           context = {
-            suiteTitle: parts.slice(1, parts.length - 1).join("_").trim(),
-            testTitle: parts[parts.length - 1].trim(),
+            suiteTitle: this.testContext.task.suite.name,
+            testTitle: this.testContext.task.name,
           };
+        } else {
+          throw new RecorderError(`Unrecognized test info: ${this.testContext}`);
         }
 
         this.sessionFile = sessionFilePath(context);
