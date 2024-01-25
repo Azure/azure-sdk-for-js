@@ -16545,7 +16545,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-/t5+gAFX7WNnDoRlihKRasQqe3dZTJFmAK05+VInGiAjkhmKuh6wuNBXtnDfXAe94AfQZNzT6d2exR0jrsv0oA==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-dJne6G4cmjed5Wy6pIexgmSwyoo1vreEUAsTMd9dxTTpTffvlBwbHrCNZuWiDvqEcJw1vsDTz2H5HhzARrLLvw==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -16553,6 +16553,7 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
