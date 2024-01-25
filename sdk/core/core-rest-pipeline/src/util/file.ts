@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-util";
-import { isBlob, isNodeReadableStream } from "./typeGuards";
+import { isNodeReadableStream } from "./typeGuards";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -69,12 +69,12 @@ const rawContent: unique symbol = Symbol("rawContent");
 /**
  * Type signature of a blob-like object with a raw content property.
  */
-type BlobWithRawContent = Blob & {
+type RawContent = Blob & {
   [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
 };
 
-function hasRawContent(x: unknown): x is BlobWithRawContent {
-  return isBlob(x) && typeof (x as BlobWithRawContent)[rawContent] === "function";
+function hasRawContent(x: unknown): x is RawContent {
+  return typeof (x as RawContent)[rawContent] === "function";
 }
 
 /**
@@ -134,7 +134,7 @@ export function createFileFromStream(
       return s;
     },
     [rawContent]: stream,
-  } as File & BlobWithRawContent;
+  } as File & RawContent;
 }
 
 /**
@@ -164,7 +164,7 @@ export function createFile(
       arrayBuffer: async () => content.buffer,
       stream: () => new Blob([content]).stream(),
       [rawContent]: () => content,
-    } as File & BlobWithRawContent;
+    } as File & RawContent;
   } else {
     return new File([content], name, options);
   }
