@@ -5,7 +5,7 @@
     "moduleResolution": "NodeNext",
     "rootDir": ".",
     "paths": {
-      "@azure/core-lro": ["./src/index"]
+      "@azure/core-lro": ["./src/index"],
     },
   },
   "exclude": ["node_modules", "./samples/**/*.ts"],

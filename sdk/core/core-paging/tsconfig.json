@@ -2,12 +2,12 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/core-paging": ["./src/index"]
+      "@azure/core-paging": ["./src/index"],
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./samples-dev/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./samples-dev/**/*.ts"],
 }

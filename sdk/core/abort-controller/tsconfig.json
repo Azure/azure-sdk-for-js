@@ -2,11 +2,11 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/abort-controller": ["./src/index.js"]
+      "@azure/abort-controller": ["./src/index.js"],
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
   "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"],

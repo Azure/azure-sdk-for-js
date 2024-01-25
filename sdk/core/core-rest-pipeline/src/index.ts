@@ -6,7 +6,7 @@ declare global {
   interface Blob {}
   interface File {}
   interface ReadableStream<R = any> {}
-  interface TransformStream<I = any, O = any>  {}
+  interface TransformStream<I = any, O = any> {}
 }
 
 export type {

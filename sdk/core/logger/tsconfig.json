@@ -4,8 +4,8 @@
     "downlevelIteration": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"],
 }

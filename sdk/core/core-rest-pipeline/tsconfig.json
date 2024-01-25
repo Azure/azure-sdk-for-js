@@ -7,12 +7,8 @@
     "lib": ["dom", "dom.iterable"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
-  "include": [
-    "./src/**/*.ts", "./src/**/*.mts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts", "./samples-dev/**/*.ts"],
 }

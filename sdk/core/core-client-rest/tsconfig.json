@@ -3,11 +3,11 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "ts-node": {
-    "esm": true
+    "esm": true,
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"],
 }
