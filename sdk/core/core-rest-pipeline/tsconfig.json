@@ -11,7 +11,7 @@
   },
   "exclude": ["node_modules", "types/**", "./samples/**/*.ts"],
   "include": [
-    "./src/**/*.{ts,mts}",
+    "./src/**/*.ts", "./src/**/*.mts",
     "./test/**/*.ts",
     "./samples-dev/**/*.ts"
   ]
