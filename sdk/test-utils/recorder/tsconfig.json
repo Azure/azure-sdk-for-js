@@ -6,10 +6,10 @@
     "lib": ["dom"],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "rootDir": ".",
   },
   "ts-node": {
-    "esm": true
+    "esm": true,
   },
   "include": ["./src/**/*.ts", "./test/**/*.ts"],
 }
