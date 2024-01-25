@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how to use RuleManager to create, list, and delete subscription-level rules.

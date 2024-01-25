@@ -79,16 +79,19 @@ export function getChatCompletionsResult(
       prompt_filter_results,
       prompt_annotations,
     }),
-    choices: choices.map(({ content_filter_results, delta, message, ...choice }) => ({
-      ...camelCaseKeys(choice),
-      ...(!delta ? {} : { delta: parseMessage(delta) }),
-      ...(!message ? {} : { message: parseMessage(message) }),
-      ...(!content_filter_results
-        ? {}
-        : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
-    })),
+    choices: !choices
+      ? []
+      : choices.map(({ content_filter_results, delta, message, ...choice }) => ({
+          ...camelCaseKeys(choice),
+          ...(!delta ? {} : { delta: parseMessage(delta) }),
+          ...(!message ? {} : { message: parseMessage(message) }),
+          ...(!content_filter_results
+            ? {}
+            : {
+                contentFilterResults:
+                  parseContentFilterResultsForChoiceOutput(content_filter_results),
+              }),
+        })),
   };
 }
 

@@ -1,15 +1,50 @@
 # Release History
+    
+## 15.6.0 (2023-12-25)
+    
+**Features**
 
-## 15.6.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface ComputedProperty
+  - Added Interface ResourceRestoreParameters
+  - Added Interface RestoreParametersBase
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountCreateUpdateParameters has a new optional parameter enableBurstCapacity
+  - Interface DatabaseAccountGetResults has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountGetResults has a new optional parameter enableBurstCapacity
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter customerManagedKeyStatus
+  - Interface DatabaseAccountUpdateParameters has a new optional parameter enableBurstCapacity
+  - Interface GremlinDatabaseResource has a new optional parameter createMode
+  - Interface GremlinDatabaseResource has a new optional parameter restoreParameters
+  - Interface GremlinGraphResource has a new optional parameter createMode
+  - Interface GremlinGraphResource has a new optional parameter restoreParameters
+  - Interface MongoDBCollectionResource has a new optional parameter createMode
+  - Interface MongoDBCollectionResource has a new optional parameter restoreParameters
+  - Interface MongoDBDatabaseResource has a new optional parameter createMode
+  - Interface MongoDBDatabaseResource has a new optional parameter restoreParameters
+  - Interface RestorableGremlinDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableGremlinDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableGremlinGraphPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableGremlinGraphPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableMongodbCollectionPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableMongodbCollectionPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableMongodbDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableMongodbDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableSqlContainerPropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableSqlContainerPropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableSqlDatabasePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableSqlDatabasePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface RestorableTablePropertiesResource has a new optional parameter canUndelete
+  - Interface RestorableTablePropertiesResource has a new optional parameter canUndeleteReason
+  - Interface SqlContainerResource has a new optional parameter computedProperties
+  - Interface SqlContainerResource has a new optional parameter createMode
+  - Interface SqlContainerResource has a new optional parameter restoreParameters
+  - Interface SqlDatabaseResource has a new optional parameter createMode
+  - Interface SqlDatabaseResource has a new optional parameter restoreParameters
+  - Interface TableResource has a new optional parameter createMode
+  - Interface TableResource has a new optional parameter restoreParameters
+  - Enum KnownOperationType has a new value Recreate
+    
+    
 ## 15.6.0-beta.1 (2023-11-21)
     
 **Features**
@@ -295,8 +330,8 @@
   - Added Enum KnownThroughputPolicyType
   - Enum KnownCreateMode has a new value PointInTimeRestore
   - Enum KnownOperationType has a new value Recreate
-    
-    
+
+  
 ## 15.5.0 (2023-05-11)
     
 **Features**
