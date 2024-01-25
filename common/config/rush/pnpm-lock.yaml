@@ -14755,19 +14755,20 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-VHitX3x9QP9/AVA1T1eWRiTrCN6h5qIhk1kVkLxje+WdNwPxB2AwFe4tTxxU5rkQZgu53pUNCsSLSyeTwrXQ+g==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-hdaBqyxDusvZFiMgaDXohmkOTxnwaiQq0yKcyCfhZ9hRoA1eJjaq7epr64R0smll6IecJldbyTxyafO6BT9wPA==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
