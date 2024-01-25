@@ -126,7 +126,7 @@
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-client": "^1.6.2",
-    "@azure/core-http-compat": "^2.0.0",
+    "@azure/core-http-compat": "^2.0.2",
     "@azure/core-lro": "^2.2.0",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-rest-pipeline": "^1.10.1",
