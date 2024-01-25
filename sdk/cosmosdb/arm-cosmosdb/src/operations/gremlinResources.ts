@@ -1754,8 +1754,8 @@ const getGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1785,8 +1785,8 @@ const createUpdateGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1816,8 +1816,8 @@ const deleteGremlinGraphOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   serializer
 };
@@ -1836,8 +1836,8 @@ const getGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1867,8 +1867,8 @@ const updateGremlinGraphThroughputOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
@@ -1901,8 +1901,8 @@ const migrateGremlinGraphToAutoscaleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1934,8 +1934,8 @@ const migrateGremlinGraphToManualThroughputOperationSpec: coreClient.OperationSp
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -1968,8 +1968,8 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
-    Parameters.graphName,
-    Parameters.databaseName
+    Parameters.databaseName,
+    Parameters.graphName
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
