@@ -1,6 +1,6 @@
 /**
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT Licence.  
+  Licensed under the MIT License.  
   
   This sample demonstrates a strategy for creating and sending
   batches of events to Event Hubs.
