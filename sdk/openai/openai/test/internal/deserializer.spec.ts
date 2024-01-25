@@ -595,5 +595,48 @@ describe("deserializers", () => {
         usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
       });
     });
+
+    it("should deserialize in chat completions result without choices", () => {
+      const body = {
+        id: "123",
+        created,
+        prompt_filter_results: [
+          {
+            prompt_index: 0,
+            content_filter_results: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+                details: [],
+              },
+            },
+          },
+        ],
+        usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
+        system_fingerprint: "123",
+      };
+
+      const result = getChatCompletionsResult(body as any);
+
+      assert.deepStrictEqual(result, {
+        id: "123",
+        systemFingerprint: "123",
+        created: new Date("2022-01-01T00:00:00.000Z"),
+        promptFilterResults: [
+          {
+            promptIndex: 0,
+            contentFilterResults: {
+              error: {
+                code: "content_filter_error",
+                message: "The contents are not filtered",
+                details: [],
+              },
+            },
+          },
+        ],
+        choices: [],
+        usage: { completionTokens: 135, promptTokens: 68, totalTokens: 203 },
+      });
+    });
   });
 });
