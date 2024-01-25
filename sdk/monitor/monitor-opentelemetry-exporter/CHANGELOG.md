@@ -2,6 +2,10 @@
 
 ## 1.0.0-beta.19 ()
 
+### Features Added
+
+- Capture WCF as an RPC dependency type.
+
 ### Other Changes
 
 - Statsbeat will stop being exported when user iKey is invalid.

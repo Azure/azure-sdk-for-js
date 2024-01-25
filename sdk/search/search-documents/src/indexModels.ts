@@ -856,11 +856,10 @@ export type SelectArray<TFields = never> = [string] extends [TFields]
  * If `TModel` is an untyped object, an untyped string array
  * Otherwise, the slash-delimited fields of `TModel`.
  */
-export type SearchFieldArray<TModel extends object = object> = (<T>() => T extends TModel
-  ? true
-  : false) extends <T>() => T extends object ? true : false
-  ? readonly string[]
-  : readonly SelectFields<TModel>[];
+export type SearchFieldArray<TModel extends object = object> =
+  (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+    ? readonly string[]
+    : readonly SelectFields<TModel>[];
 
 export type UnionToIntersection<Union> =
   // Distribute members of U into parameter position of a union of functions
@@ -921,70 +920,69 @@ export type SelectFields<TModel extends object> =
  * Deeply pick fields of T using valid Cognitive Search OData $select
  * paths.
  */
-export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> = (<
-  T,
->() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
-  ? // Picking from an untyped object should return `object`
-    TModel
-  : // If paths is any or never, yield the original type
-    (<T>() => T extends TFields ? true : false) extends <T>() => T extends any ? true : false
-    ? TModel
-    : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+export type SearchPick<TModel extends object, TFields extends SelectFields<TModel>> =
+  (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+    ? // Picking from an untyped object should return `object`
+      TModel
+    : // If paths is any or never, yield the original type
+      (<T>() => T extends TFields ? true : false) extends <T>() => T extends any ? true : false
       ? TModel
-      : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
-        UnionToIntersection<
-          // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
-          // Fortunately, template literal types are not greedy, so we can infer the field name easily.
-          TFields extends `${infer FieldName}/${infer RestPaths}`
-            ? // Symbols and numbers are invalid types for field names
-              FieldName extends keyof TModel & string
-              ? NonNullable<TModel[FieldName]> extends Array<infer Elem>
-                ? Elem extends object
-                  ? // Extends clause is necessary to refine the constraint of RestPaths
-                    RestPaths extends SelectFields<Elem>
-                    ? // Narrow the type of every element in the array
+      : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+        ? TModel
+        : // We're going to get a union of individual interfaces for each field in T that's selected, so convert that to an intersection.
+          UnionToIntersection<
+            // Paths is a union or single string type, so if it's a union it will be _distributed_ over this conditional.
+            // Fortunately, template literal types are not greedy, so we can infer the field name easily.
+            TFields extends `${infer FieldName}/${infer RestPaths}`
+              ? // Symbols and numbers are invalid types for field names
+                FieldName extends keyof TModel & string
+                ? NonNullable<TModel[FieldName]> extends Array<infer Elem>
+                  ? Elem extends object
+                    ? // Extends clause is necessary to refine the constraint of RestPaths
+                      RestPaths extends SelectFields<Elem>
+                      ? // Narrow the type of every element in the array
+                        {
+                          [Key in keyof TModel as Key & FieldName]: Array<
+                            SearchPick<Elem, RestPaths>
+                          >;
+                        }
+                      : // Unreachable by construction
+                        never
+                    : // Don't recur on arrays of non-object types
+                      never
+                  : NonNullable<TModel[FieldName]> extends object
+                    ? // Recur :)
                       {
-                        [Key in keyof TModel as Key & FieldName]: Array<
-                          SearchPick<Elem, RestPaths>
-                        >;
+                        [Key in keyof TModel as Key & FieldName]: RestPaths extends SelectFields<
+                          TModel[Key] & {
+                            // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
+                          }
+                        >
+                          ?
+                              | SearchPick<
+                                  TModel[Key] & {
+                                    // Ditto
+                                  },
+                                  RestPaths
+                                >
+                              | Extract<TModel[Key], null>
+                          : // Unreachable by construction
+                            never;
                       }
                     : // Unreachable by construction
                       never
-                  : // Don't recur on arrays of non-object types
-                    never
-                : NonNullable<TModel[FieldName]> extends object
-                  ? // Recur :)
-                    {
-                      [Key in keyof TModel as Key & FieldName]: RestPaths extends SelectFields<
-                        TModel[Key] & {
-                          // This empty intersection fixes `T[Key]` not being narrowed to an object type in older versions of TS
-                        }
-                      >
-                        ?
-                            | SearchPick<
-                                TModel[Key] & {
-                                  // Ditto
-                                },
-                                RestPaths
-                              >
-                            | Extract<TModel[Key], null>
-                        : // Unreachable by construction
-                          never;
-                    }
-                  : // Unreachable by construction
-                    never
-              : // Ignore symbols and numbers
-                never
-            : // Otherwise, capture the paths that are simple keys of T itself
-              TFields extends keyof TModel
-              ? Pick<TModel, TFields> | Extract<TModel, null>
-              : never
-        > & {
-          // This useless intersection actually prevents the TypeScript language server from
-          // expanding the definition of SearchPick<TModel, Paths> in IntelliSense. Since we're
-          // sure the type always yields an object, this intersection does not alter the type
-          // at all, only the display string of the type.
-        };
+                : // Ignore symbols and numbers
+                  never
+              : // Otherwise, capture the paths that are simple keys of T itself
+                TFields extends keyof TModel
+                ? Pick<TModel, TFields> | Extract<TModel, null>
+                : never
+          > & {
+            // This useless intersection actually prevents the TypeScript language server from
+            // expanding the definition of SearchPick<TModel, Paths> in IntelliSense. Since we're
+            // sure the type always yields an object, this intersection does not alter the type
+            // at all, only the display string of the type.
+          };
 
 export type ExtractDocumentKey<TModel> = {
   [K in keyof TModel as TModel[K] extends string | undefined ? K : never]: TModel[K];
@@ -1023,23 +1021,24 @@ export type NarrowedModel<
 export type SuggestNarrowedModel<
   TModel extends object,
   TFields extends SelectFields<TModel> = SelectFields<TModel>,
-> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false
-  ? TModel
-  : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+> =
+  (<T>() => T extends TModel ? true : false) extends <T>() => T extends never ? true : false
     ? TModel
-    : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
-      ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
-        // service by default
-        keyof ExtractDocumentKey<TModel> extends never
-        ? // Return the original model if none of the properties are non-nullable
-          TModel
-        : ExtractDocumentKey<TModel>
-      : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
-        // here
-        TFields extends SelectFields<TModel>
-        ? NarrowedModel<TModel, TFields>
-        : // Unreachable by construction
-          never;
+    : (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false
+      ? TModel
+      : (<T>() => T extends TFields ? true : false) extends <T>() => T extends never ? true : false
+        ? // Filter nullable (i.e. non-key) properties from the model, as they're not returned by the
+          // service by default
+          keyof ExtractDocumentKey<TModel> extends never
+          ? // Return the original model if none of the properties are non-nullable
+            TModel
+          : ExtractDocumentKey<TModel>
+        : // TFields isn't narrowed to exclude null by the first condition, so it needs to be narrowed
+          // here
+          TFields extends SelectFields<TModel>
+          ? NarrowedModel<TModel, TFields>
+          : // Unreachable by construction
+            never;
 
 /** Description of fields that were sent to the semantic enrichment process, as well as how they were used */
 export interface QueryResultDocumentSemanticField {

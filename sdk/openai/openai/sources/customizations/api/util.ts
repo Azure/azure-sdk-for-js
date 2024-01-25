@@ -8,14 +8,14 @@ type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
   ? `${T extends Capitalize<T> ? "_" : ""}${Lowercase<T>}${SnakeCase<U>}`
   : S;
 
-type MapCamelCaseKeysOverCollections<T> = T extends Array<infer X>
-  ? Array<MapCamelCaseKeysOverCollections<X>>
-  : CamelCaseKeys<T>;
-type MapSnakeCaseKeysOverCollections<T> = T extends Array<infer X>
-  ? Array<MapSnakeCaseKeysOverCollections<X>>
-  : // : T extends (infer X | infer Y)
-    // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
-    SnakeCaseKeys<T>;
+type MapCamelCaseKeysOverCollections<T> =
+  T extends Array<infer X> ? Array<MapCamelCaseKeysOverCollections<X>> : CamelCaseKeys<T>;
+type MapSnakeCaseKeysOverCollections<T> =
+  T extends Array<infer X>
+    ? Array<MapSnakeCaseKeysOverCollections<X>>
+    : // : T extends (infer X | infer Y)
+      // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
+      SnakeCaseKeys<T>;
 type CamelCaseKeys<T> = {
   [K in keyof T as CamelCase<K & string>]: MapCamelCaseKeysOverCollections<T[K]>;
 };

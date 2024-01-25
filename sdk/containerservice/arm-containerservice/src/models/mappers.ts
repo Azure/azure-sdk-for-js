@@ -806,6 +806,16 @@ export const AgentPoolUpgradeSettings: coreClient.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      nodeSoakDurationInMinutes: {
+        constraints: {
+          InclusiveMaximum: 30,
+          InclusiveMinimum: 0
+        },
+        serializedName: "nodeSoakDurationInMinutes",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
