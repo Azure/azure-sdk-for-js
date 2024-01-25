@@ -1,12 +1,16 @@
 # Release History
 
-## 4.0.2 (Unreleased)
+## 4.1.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- `AzureCliCredential`: Added support for the new response field which represents token expiration timestamp as time zone agnostic value. ([#28333](https://github.com/Azure/azure-sdk-for-js/pull/28333))
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- `new DefaultAzureCredential()` will no longer throw when one of the credentials in the chain fails to instantiate. Any creation errors will be logged when `getToken` is called. [#28264](https://github.com/Azure/azure-sdk-for-js/pull/28264)
 
 ### Other Changes
 

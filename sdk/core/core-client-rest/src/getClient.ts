@@ -17,23 +17,23 @@ import { buildRequestUrl } from "./urlHelpers";
 
 /**
  * Creates a client with a default pipeline
- * @param baseUrl - Base endpoint for the client
+ * @param endpoint - Base endpoint for the client
  * @param options - Client options
  */
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 /**
  * Creates a client with a default pipeline
- * @param baseUrl - Base endpoint for the client
+ * @param endpoint - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
  */
 export function getClient(
-  baseUrl: string,
+  endpoint: string,
   credentials?: TokenCredential | KeyCredential,
   options?: ClientOptions,
 ): Client;
 export function getClient(
-  baseUrl: string,
+  endpoint: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
   clientOptions: ClientOptions = {},
 ): Client {
@@ -46,7 +46,7 @@ export function getClient(
     }
   }
 
-  const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
+  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
       // Sign happens after Retry and is commonly needed to occur
@@ -59,9 +59,10 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
+  const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>) => {
     const getUrl = (requestOptions: RequestParameters) =>
-      buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
+      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
