@@ -463,9 +463,6 @@
   - Added function getContinuationToken
   - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
   - Interface DeploymentsListNextOptionalParams no longer has parameter version
-
-**Breaking Changes**
-
   - Class AppPlatformManagementClient has a new signature
   - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
         [propertyName: string]: {
@@ -474,11 +471,6 @@
     } to {
         [propertyName: string]: Record<string, unknown>;
     }
-  - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
-        [propertyName: string]: Record<string, unknown>;
-    } to {
-        [propertyName: string]: string;
-    }
   - Type of parameter addonConfigs of interface DeploymentSettings is changed from {
         [propertyName: string]: {
             [propertyName: string]: Record<string, unknown>;
@@ -486,6 +478,14 @@
     } to {
         [propertyName: string]: Record<string, unknown>;
     }
+**Breaking Changes**
+
+  - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: string;
+    }
+  
     
     
 ## 3.0.0-beta.1 (2023-03-28)

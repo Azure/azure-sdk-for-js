@@ -1389,6 +1389,28 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/identity@4.0.1:
+    resolution: {integrity: sha512-yRdgF03SFLqUMZZ1gKWt0cs0fvrDIkq2bJ6Oidqcoo5uM85YMBnXWMzYKK30XqIT76lkFyAaoAAy5knXhrG4Lw==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.5.0
+      '@azure/core-client': 1.7.3
+      '@azure/core-rest-pipeline': 1.13.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.6.1
+      '@azure/logger': 1.0.4
+      '@azure/msal-browser': 3.7.0
+      '@azure/msal-node': 2.6.1
+      events: 3.3.0
+      jws: 4.0.0
+      open: 8.4.2
+      stoppable: 1.1.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/keyvault-certificates@4.7.0:
     resolution: {integrity: sha512-W3v9Fj48ik2gaRiY7ra4F92hjnWM3H4oT25xy4pGl/z3zHeUB0YZTXitFiSnj4fxMTbPEx3gdmjfIjf3FIq/Yw==}
     engines: {node: '>=14.0.0'}
@@ -18990,11 +19012,12 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-vaSdjHvqLWX13s+liyvm+mqvr3xlM/QJ6JPDjR2DF6KPGhZMJ4whz+BK2mdYfJEl4no123WwjOrry21OGb+wtQ==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-4lKwgrExKUuvjZnhzIq2riwFEj4n9ujpvh+acC61FZv9tu6fF125yvN9tGqCfCvQPEPm49V3+v9PfNnWVyh1fw==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
       '@azure/msal-node': 2.6.1
       '@azure/msal-node-extensions': 1.0.9
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
@@ -19019,10 +19042,11 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-6Zq3Uvudk88zWFQdLdrU42cVOhcMeY9bHQr1ayRFfEXAHLAsf7lWbKyguAYasVfnOiXcx5Zhqv9bScaRqjV/dA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-UYIzOMOuf3e0NgaUFSZENvp5YZImMB3LLBrGMYvgDyb+0PVcKLffpGB/mm6ur8VkSvZxGQcAAKn3OiT6M7+LuA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
+      '@azure/identity': 4.0.1
       '@azure/msal-node': 2.6.1
       '@azure/msal-node-extensions': 1.0.8
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
@@ -19908,7 +19932,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-yw/Tt0+VmjmkJDX84v7nznrwMyA7NEJ4BVoLxmDnP3J9B6/GJfRRnjWv1sl6IiiupZrqQzZnXhFLnS7pagb3Eg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-90cLfp/kSBBNmOg2nYr4i2E3O4yeM3t3C6/mnpuVql6wCSp2il3sjnvCD591GsRX0J6gWm9xNjthFN4Uz2U83Q==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19956,7 +19980,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-3sUQt+V8suL5Fw5sx178t0ErHnh7W0nOdYWBR7y6LSJXnPPh5C0ZP29cMDFSZqtaO+oIhX5IwmCd1qPijyNVDg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-GPAIFVc/AwP/VRMEPIQJCf2rM3ZuLCg2Z0bsuokPAiRa1CNj9CM3LJGJk+D1RvIVycKIJTjmVZzT14zJZ5keMw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
