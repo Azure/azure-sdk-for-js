@@ -146,6 +146,6 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
+  "main": "dist/index.js",
   "types": "./dist/commonjs/index.d.ts"
 }
