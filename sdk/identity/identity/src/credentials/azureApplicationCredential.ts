@@ -30,8 +30,8 @@ export class AzureApplicationCredential extends ChainedTokenCredential {
    */
   constructor(options?: AzureApplicationCredentialOptions) {
     const credentialFunctions = [
-      createDefaultManagedIdentityCredential,
       createEnvironmentCredential,
+      createDefaultManagedIdentityCredential,
     ];
     super(...credentialFunctions.map((createCredentialFn) => createCredentialFn(options)));
   }
