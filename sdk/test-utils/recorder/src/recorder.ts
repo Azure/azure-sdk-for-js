@@ -34,7 +34,56 @@ import { isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
-import { isMochaTest, isVitestTestContext, TestInfo } from "./testInfo";
+import { isMochaTest, isVitestTestContext, TestInfo, VitestSuite } from "./testInfo";
+
+/**
+ * Caculates session file path and JSON assets path from test context
+ *
+ * @internal
+ */
+export function calculatePaths(testContext: TestInfo): {
+  sessionFile: string;
+  assetsJson: string;
+} {
+  let context: {
+    suiteTitle: string;
+    testTitle: string;
+  };
+  if (isMochaTest(testContext)) {
+    if (!testContext.parent) {
+      throw new RecorderError(
+        `The parent of test '${testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+      );
+    }
+    context = {
+      suiteTitle: testContext.parent.fullTitle(),
+      testTitle: testContext.title,
+    };
+  } else if (isVitestTestContext(testContext)) {
+    if (!testContext.task.name || !testContext.task.suite.name) {
+      throw new RecorderError(
+        `Unable to determine the recording file path. Unexpected empty Vitest context`,
+      );
+    }
+    const suites: string[] = [];
+    let p: VitestSuite | undefined = testContext.task.suite;
+    while (p?.name) {
+      suites.push(p.name);
+      p = p.suite;
+    }
+
+    context = {
+      suiteTitle: suites.reverse().join("_"),
+      testTitle: testContext.task.name,
+    };
+  } else {
+    throw new RecorderError(`Unrecognized test info: ${testContext}`);
+  }
+
+  const sessionFile = sessionFilePath(context);
+  const assetsJson = assetsJsonPath();
+  return { sessionFile, assetsJson };
+}
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -53,9 +102,7 @@ export class Recorder {
   private assetsJson?: string;
   private variables: Record<string, string>;
 
-  constructor(
-    private testContext?: TestInfo
-  ) {
+  constructor(private testContext?: TestInfo) {
     if (!this.testContext) {
       throw new Error(
         "Unable to determine the recording file path, testContext provided is not defined.",
@@ -64,37 +111,11 @@ export class Recorder {
 
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
+      const { sessionFile, assetsJson } = calculatePaths(this.testContext);
+      this.sessionFile = sessionFile;
+      this.assetsJson = assetsJson;
+
       if (this.testContext) {
-        let context:
-          {
-              suiteTitle: string;
-              testTitle: string;
-            };
-        if (isMochaTest(this.testContext)) {
-          if (!this.testContext.parent) {
-            throw new RecorderError(
-              `The parent of test '${this.testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
-            );
-          }
-          context = {
-            suiteTitle: this.testContext.parent.fullTitle(),
-            testTitle: this.testContext.title,
-          };
-        } else if(isVitestTestContext(this.testContext)) {
-          if (!this.testContext.task.name || !this.testContext.task.suite.name) {
-            throw new RecorderError(`Unable to determine the recording file path. Unexpected empty Vitest context`);
-          }
-          context = {
-            suiteTitle: this.testContext.task.suite.name,
-            testTitle: this.testContext.task.name,
-          };
-        } else {
-          throw new RecorderError(`Unrecognized test info: ${this.testContext}`);
-        }
-
-        this.sessionFile = sessionFilePath(context);
-        this.assetsJson = assetsJsonPath();
-
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
       }

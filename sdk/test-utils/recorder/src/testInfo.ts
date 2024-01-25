@@ -37,10 +37,15 @@ export interface VitestTestContext {
   task: VitestTask;
 }
 
+export interface VitestTaskBase {
+  name: string;
+  suite?: VitestSuite;
+}
+
 /**
  * Represents a Vitest Test Context Task
  */
-export interface VitestTask {
+export interface VitestTask extends VitestTaskBase {
   /**
    * The Vitest Context Task Name.
    */
@@ -54,7 +59,7 @@ export interface VitestTask {
 /**
  * Represents a Vitest Test Suite.
  */
-export interface VitestSuite {
+export interface VitestSuite extends VitestTaskBase {
   /**
    * The Vitest Context Task Suite Name.
    */
