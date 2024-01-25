@@ -20,7 +20,7 @@ import {
   RecorderStartOptions,
   RecordingStateManager,
 } from "./utils/utils";
-import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
+import { assetsJsonPath, sessionFilePath, TestContext } from "./utils/sessionFilePath";
 import { SanitizerOptions } from "./utils/utils";
 import { paths } from "./utils/paths";
 import { addSanitizers, transformsInfo } from "./sanitizer";
@@ -41,21 +41,14 @@ import { isMochaTest, isVitestTestContext, TestInfo, VitestSuite } from "./testI
  *
  * @internal
  */
-export function calculatePaths(testContext: TestInfo): {
-  sessionFile: string;
-  assetsJson: string;
-} {
-  let context: {
-    suiteTitle: string;
-    testTitle: string;
-  };
+export function calculatePaths(testContext: TestInfo): TestContext {
   if (isMochaTest(testContext)) {
     if (!testContext.parent) {
       throw new RecorderError(
         `The parent of test '${testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
       );
     }
-    context = {
+    return {
       suiteTitle: testContext.parent.fullTitle(),
       testTitle: testContext.title,
     };
@@ -72,17 +65,13 @@ export function calculatePaths(testContext: TestInfo): {
       p = p.suite;
     }
 
-    context = {
+    return {
       suiteTitle: suites.reverse().join("_"),
       testTitle: testContext.task.name,
     };
   } else {
     throw new RecorderError(`Unrecognized test info: ${testContext}`);
   }
-
-  const sessionFile = sessionFilePath(context);
-  const assetsJson = assetsJsonPath();
-  return { sessionFile, assetsJson };
 }
 
 /**
@@ -111,9 +100,10 @@ export class Recorder {
 
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
-      const { sessionFile, assetsJson } = calculatePaths(this.testContext);
-      this.sessionFile = sessionFile;
-      this.assetsJson = assetsJson;
+      const context = calculatePaths(this.testContext);
+
+      this.sessionFile = sessionFilePath(context);
+      this.assetsJson = assetsJsonPath();
 
       if (this.testContext) {
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
