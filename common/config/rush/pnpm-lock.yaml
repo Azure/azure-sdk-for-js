@@ -21929,7 +21929,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-jJ1d9Jpdv4BvATHEujlqSIyn1+mzCz10Y3vZG53DE6FsJqpEBUU3kJBypWqUey71IFkiWHJWuO6UiZec2b+Maw==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-ifTTCeDbxxk1eUYjD5owM55THLaWa2qkGd+Q6+IH4D+Dt4nlQwesH9woEiv1QUsPaRsLjHtIBvIZoXeUoorLCQ==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -22582,7 +22582,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-se/wknONUR6YJ/DC/ZeqMml6ADKwudJUOBQ3jda4VmA0fIKpM3DFGqQK7UdmPWnzAuGecbXb5mM4UaVBK82Hrw==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-+SzWtUXcRxuyG8v77Hv1rH4SIUw4vj3ZmbgBvF8w9LfSKWmqR60LTyAD3XIFEPH05vcGNJUAgZI+UbCD8l/YKQ==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -22597,8 +22597,9 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.8
       node-fetch: 3.3.2
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
+      tshy: 1.11.0
       tslib: 2.6.2
       typescript: 5.2.2
     transitivePeerDependencies:
