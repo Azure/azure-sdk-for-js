@@ -69,9 +69,9 @@ const rawContent: unique symbol = Symbol("rawContent");
 /**
  * Type signature of a blob-like object with a raw content property.
  */
-type RawContent = Blob & {
+interface RawContent {
   [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
-};
+}
 
 function hasRawContent(x: unknown): x is RawContent {
   return typeof (x as RawContent)[rawContent] === "function";
