@@ -3,6 +3,9 @@
 
 import {
   FunctionDefinitionOutput,
+  FunctionToolCallOutput,
+  CodeInterpreterToolCallOutput,
+  RetrievalToolCallOutput,
   RequiredActionOutput,
   SubmitToolOutputsDetailsOutput,
   MessageImageFileContentOutput,
@@ -58,3 +61,11 @@ export type ToolDefinitionOutput =
 export type MessageContentOutput =
   | MessageTextContentOutput
   | MessageImageFileContentOutput;
+/**
+ * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
+ * be fulfilled and have its outputs submitted before the model can continue.
+ */
+export type ToolCallOutput =
+  | FunctionToolCallOutput
+  | CodeInterpreterToolCallOutput
+  | RetrievalToolCallOutput;

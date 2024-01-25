@@ -4,230 +4,220 @@
 import {
   CreateAssistantParameters,
   ListAssistantsParameters,
-  RetrieveAssistantParameters,
-  ModifyAssistantParameters,
+  GetAssistantParameters,
+  UpdateAssistantParameters,
   DeleteAssistantParameters,
   CreateAssistantFileParameters,
   ListAssistantFilesParameters,
-  RetrieveAssistantFileParameters,
+  GetAssistantFileParameters,
   DeleteAssistantFileParameters,
   CreateThreadParameters,
-  RetrieveThreadParameters,
-  ModifyThreadParameters,
+  GetThreadParameters,
+  UpdateThreadParameters,
   DeleteThreadParameters,
   CreateMessageParameters,
   ListMessagesParameters,
-  RetrieveMessageParameters,
-  ModifyMessageParameters,
+  GetMessageParameters,
+  UpdateMessageParameters,
   ListMessageFilesParameters,
-  RetrieveMessageFileParameters,
+  GetMessageFileParameters,
   CreateRunParameters,
   ListRunsParameters,
-  RetrieveRunParameters,
-  ModifyRunParameters,
-  SubmitRunToolOutputsParameters,
+  GetRunParameters,
+  UpdateRunParameters,
+  SubmitToolOutputsToRunParameters,
   CancelRunParameters,
   CreateThreadAndRunParameters,
-  RetrieveRunStepParameters,
+  GetRunStepParameters,
   ListRunStepsParameters,
   ListFilesParameters,
   UploadFileParameters,
   DeleteFileParameters,
-  RetrieveFileParameters,
-  RetrieveFileContentParameters,
+  GetFileParameters,
 } from "./parameters.js";
 import {
   CreateAssistant200Response,
   ListAssistants200Response,
-  RetrieveAssistant200Response,
-  ModifyAssistant200Response,
+  GetAssistant200Response,
+  UpdateAssistant200Response,
   DeleteAssistant200Response,
   CreateAssistantFile200Response,
   ListAssistantFiles200Response,
-  RetrieveAssistantFile200Response,
+  GetAssistantFile200Response,
   DeleteAssistantFile200Response,
   CreateThread200Response,
-  RetrieveThread200Response,
-  ModifyThread200Response,
+  GetThread200Response,
+  UpdateThread200Response,
   DeleteThread200Response,
   CreateMessage200Response,
   ListMessages200Response,
-  RetrieveMessage200Response,
-  ModifyMessage200Response,
+  GetMessage200Response,
+  UpdateMessage200Response,
   ListMessageFiles200Response,
-  RetrieveMessageFile200Response,
+  GetMessageFile200Response,
   CreateRun200Response,
   ListRuns200Response,
-  RetrieveRun200Response,
-  ModifyRun200Response,
-  SubmitRunToolOutputs200Response,
+  GetRun200Response,
+  UpdateRun200Response,
+  SubmitToolOutputsToRun200Response,
   CancelRun200Response,
   CreateThreadAndRun200Response,
-  RetrieveRunStep200Response,
+  GetRunStep200Response,
   ListRunSteps200Response,
   ListFiles200Response,
   UploadFile200Response,
   DeleteFile200Response,
-  RetrieveFile200Response,
-  RetrieveFileContent200Response,
+  GetFile200Response,
 } from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface CreateAssistant {
   /** Creates a new assistant. */
   post(
-    options?: CreateAssistantParameters
+    options?: CreateAssistantParameters,
   ): StreamableMethod<CreateAssistant200Response>;
   /** Gets a list of assistants that were previously created. */
   get(
-    options?: ListAssistantsParameters
+    options?: ListAssistantsParameters,
   ): StreamableMethod<ListAssistants200Response>;
 }
 
-export interface RetrieveAssistant {
+export interface GetAssistant {
   /** Retrieves an existing assistant. */
   get(
-    options?: RetrieveAssistantParameters
-  ): StreamableMethod<RetrieveAssistant200Response>;
+    options?: GetAssistantParameters,
+  ): StreamableMethod<GetAssistant200Response>;
   /** Modifies an existing assistant. */
   post(
-    options: ModifyAssistantParameters
-  ): StreamableMethod<ModifyAssistant200Response>;
+    options?: UpdateAssistantParameters,
+  ): StreamableMethod<UpdateAssistant200Response>;
   /** Deletes an assistant. */
   delete(
-    options?: DeleteAssistantParameters
+    options?: DeleteAssistantParameters,
   ): StreamableMethod<DeleteAssistant200Response>;
 }
 
 export interface CreateAssistantFile {
   /** Attaches a previously uploaded file to an assistant for use by tools that can read files. */
   post(
-    options?: CreateAssistantFileParameters
+    options?: CreateAssistantFileParameters,
   ): StreamableMethod<CreateAssistantFile200Response>;
   /** Gets a list of files attached to a specific assistant, as used by tools that can read files. */
   get(
-    options?: ListAssistantFilesParameters
+    options?: ListAssistantFilesParameters,
   ): StreamableMethod<ListAssistantFiles200Response>;
 }
 
-export interface RetrieveAssistantFile {
+export interface GetAssistantFile {
   /** Retrieves a file attached to an assistant. */
   get(
-    options?: RetrieveAssistantFileParameters
-  ): StreamableMethod<RetrieveAssistantFile200Response>;
+    options?: GetAssistantFileParameters,
+  ): StreamableMethod<GetAssistantFile200Response>;
   /**
    * Unlinks a previously attached file from an assistant, rendering it unavailable for use by tools that can read
    * files.
    */
   delete(
-    options?: DeleteAssistantFileParameters
+    options?: DeleteAssistantFileParameters,
   ): StreamableMethod<DeleteAssistantFile200Response>;
 }
 
 export interface CreateThread {
   /** Creates a new thread. Threads contain messages and can be run by assistants. */
   post(
-    options?: CreateThreadParameters
+    options?: CreateThreadParameters,
   ): StreamableMethod<CreateThread200Response>;
 }
 
-export interface RetrieveThread {
+export interface GetThread {
   /** Gets information about an existing thread. */
-  get(
-    options?: RetrieveThreadParameters
-  ): StreamableMethod<RetrieveThread200Response>;
+  get(options?: GetThreadParameters): StreamableMethod<GetThread200Response>;
   /** Modifies an existing thread. */
   post(
-    options?: ModifyThreadParameters
-  ): StreamableMethod<ModifyThread200Response>;
+    options?: UpdateThreadParameters,
+  ): StreamableMethod<UpdateThread200Response>;
   /** Deletes an existing thread. */
   delete(
-    options?: DeleteThreadParameters
+    options?: DeleteThreadParameters,
   ): StreamableMethod<DeleteThread200Response>;
 }
 
 export interface CreateMessage {
   /** Creates a new message on a specified thread. */
   post(
-    options?: CreateMessageParameters
+    options?: CreateMessageParameters,
   ): StreamableMethod<CreateMessage200Response>;
   /** Gets a list of messages that exist on a thread. */
   get(
-    options?: ListMessagesParameters
+    options?: ListMessagesParameters,
   ): StreamableMethod<ListMessages200Response>;
 }
 
-export interface RetrieveMessage {
+export interface GetMessage {
   /** Gets an existing message from an existing thread. */
-  get(
-    options?: RetrieveMessageParameters
-  ): StreamableMethod<RetrieveMessage200Response>;
+  get(options?: GetMessageParameters): StreamableMethod<GetMessage200Response>;
   /** Modifies an existing message on an existing thread. */
   post(
-    options?: ModifyMessageParameters
-  ): StreamableMethod<ModifyMessage200Response>;
+    options?: UpdateMessageParameters,
+  ): StreamableMethod<UpdateMessage200Response>;
 }
 
 export interface ListMessageFiles {
   /** Gets a list of previously uploaded files associated with a message from a thread. */
   get(
-    options?: ListMessageFilesParameters
+    options?: ListMessageFilesParameters,
   ): StreamableMethod<ListMessageFiles200Response>;
 }
 
-export interface RetrieveMessageFile {
+export interface GetMessageFile {
   /** Gets information about a file attachment to a message within a thread. */
   get(
-    options?: RetrieveMessageFileParameters
-  ): StreamableMethod<RetrieveMessageFile200Response>;
+    options?: GetMessageFileParameters,
+  ): StreamableMethod<GetMessageFile200Response>;
 }
 
 export interface CreateRun {
   /** Creates a new run for an assistant thread. */
-  post(options?: CreateRunParameters): StreamableMethod<CreateRun200Response>;
+  post(options: CreateRunParameters): StreamableMethod<CreateRun200Response>;
   /** Gets a list of runs for a specified thread. */
   get(options?: ListRunsParameters): StreamableMethod<ListRuns200Response>;
 }
 
-export interface RetrieveRun {
+export interface GetRun {
   /** Gets an existing run from an existing thread. */
-  get(
-    options?: RetrieveRunParameters
-  ): StreamableMethod<RetrieveRun200Response>;
+  get(options?: GetRunParameters): StreamableMethod<GetRun200Response>;
   /** Modifies an existing thread run. */
-  post(options?: ModifyRunParameters): StreamableMethod<ModifyRun200Response>;
+  post(options?: UpdateRunParameters): StreamableMethod<UpdateRun200Response>;
 }
 
-export interface SubmitRunToolOutputs {
+export interface SubmitToolOutputsToRun {
   /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
   post(
-    options?: SubmitRunToolOutputsParameters
-  ): StreamableMethod<SubmitRunToolOutputs200Response>;
+    options?: SubmitToolOutputsToRunParameters,
+  ): StreamableMethod<SubmitToolOutputsToRun200Response>;
 }
 
 export interface CancelRun {
-  /** Cancels a thread run. */
+  /** Cancels a run of an in progress thread. */
   post(options?: CancelRunParameters): StreamableMethod<CancelRun200Response>;
 }
 
 export interface CreateThreadAndRun {
   /** Creates a new assistant thread and immediately starts a run using that new thread. */
   post(
-    options?: CreateThreadAndRunParameters
+    options?: CreateThreadAndRunParameters,
   ): StreamableMethod<CreateThreadAndRun200Response>;
 }
 
-export interface RetrieveRunStep {
+export interface GetRunStep {
   /** Gets a single run step from a thread run. */
-  get(
-    options?: RetrieveRunStepParameters
-  ): StreamableMethod<RetrieveRunStep200Response>;
+  get(options?: GetRunStepParameters): StreamableMethod<GetRunStep200Response>;
 }
 
 export interface ListRunSteps {
   /** Gets a list of run steps from a thread run. */
   get(
-    options?: ListRunStepsParameters
+    options?: ListRunStepsParameters,
   ): StreamableMethod<ListRunSteps200Response>;
 }
 
@@ -241,81 +231,72 @@ export interface ListFiles {
 export interface DeleteFile {
   /** Delete a previously uploaded file. */
   delete(
-    options?: DeleteFileParameters
+    options?: DeleteFileParameters,
   ): StreamableMethod<DeleteFile200Response>;
   /** Returns information about a specific file. Does not retrieve file content. */
-  get(
-    options?: RetrieveFileParameters
-  ): StreamableMethod<RetrieveFile200Response>;
-}
-
-export interface RetrieveFileContent {
-  /** Returns the contents of a specified file. */
-  get(
-    options?: RetrieveFileContentParameters
-  ): StreamableMethod<RetrieveFileContent200Response>;
+  get(options?: GetFileParameters): StreamableMethod<GetFile200Response>;
 }
 
 export interface Routes {
   /** Resource for '/assistants' has methods for the following verbs: post, get */
   (path: "/assistants"): CreateAssistant;
   /** Resource for '/assistants/\{assistantId\}' has methods for the following verbs: get, post, delete */
-  (path: "/assistants/{assistantId}", assistantId: string): RetrieveAssistant;
+  (path: "/assistants/{assistantId}", assistantId: string): GetAssistant;
   /** Resource for '/assistants/\{assistantId\}/files' has methods for the following verbs: post, get */
   (
     path: "/assistants/{assistantId}/files",
-    assistantId: string
+    assistantId: string,
   ): CreateAssistantFile;
   /** Resource for '/assistants/\{assistantId\}/files/\{fileId\}' has methods for the following verbs: get, delete */
   (
     path: "/assistants/{assistantId}/files/{fileId}",
     assistantId: string,
-    fileId: string
-  ): RetrieveAssistantFile;
+    fileId: string,
+  ): GetAssistantFile;
   /** Resource for '/threads' has methods for the following verbs: post */
   (path: "/threads"): CreateThread;
   /** Resource for '/threads/\{threadId\}' has methods for the following verbs: get, post, delete */
-  (path: "/threads/{threadId}", threadId: string): RetrieveThread;
+  (path: "/threads/{threadId}", threadId: string): GetThread;
   /** Resource for '/threads/\{threadId\}/messages' has methods for the following verbs: post, get */
   (path: "/threads/{threadId}/messages", threadId: string): CreateMessage;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}' has methods for the following verbs: get, post */
   (
     path: "/threads/{threadId}/messages/{messageId}",
     threadId: string,
-    messageId: string
-  ): RetrieveMessage;
+    messageId: string,
+  ): GetMessage;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files",
     threadId: string,
-    messageId: string
+    messageId: string,
   ): ListMessageFiles;
   /** Resource for '/threads/\{threadId\}/messages/\{messageId\}/files/\{fileId\}' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/messages/{messageId}/files/{fileId}",
     threadId: string,
     messageId: string,
-    fileId: string
-  ): RetrieveMessageFile;
+    fileId: string,
+  ): GetMessageFile;
   /** Resource for '/threads/\{threadId\}/runs' has methods for the following verbs: post, get */
   (path: "/threads/{threadId}/runs", threadId: string): CreateRun;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}' has methods for the following verbs: get, post */
   (
     path: "/threads/{threadId}/runs/{runId}",
     threadId: string,
-    runId: string
-  ): RetrieveRun;
+    runId: string,
+  ): GetRun;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/submit_tool_outputs' has methods for the following verbs: post */
   (
     path: "/threads/{threadId}/runs/{runId}/submit_tool_outputs",
     threadId: string,
-    runId: string
-  ): SubmitRunToolOutputs;
+    runId: string,
+  ): SubmitToolOutputsToRun;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/cancel' has methods for the following verbs: post */
   (
     path: "/threads/{threadId}/runs/{runId}/cancel",
     threadId: string,
-    runId: string
+    runId: string,
   ): CancelRun;
   /** Resource for '/threads/runs' has methods for the following verbs: post */
   (path: "/threads/runs"): CreateThreadAndRun;
@@ -324,20 +305,18 @@ export interface Routes {
     path: "/threads/{threadId}/runs/{runId}/steps/{stepId}",
     threadId: string,
     runId: string,
-    stepId: string
-  ): RetrieveRunStep;
+    stepId: string,
+  ): GetRunStep;
   /** Resource for '/threads/\{threadId\}/runs/\{runId\}/steps' has methods for the following verbs: get */
   (
     path: "/threads/{threadId}/runs/{runId}/steps",
     threadId: string,
-    runId: string
+    runId: string,
   ): ListRunSteps;
   /** Resource for '/files' has methods for the following verbs: get, post */
   (path: "/files"): ListFiles;
   /** Resource for '/files/\{fileId\}' has methods for the following verbs: delete, get */
   (path: "/files/{fileId}", fileId: string): DeleteFile;
-  /** Resource for '/files/\{fileId\}/content' has methods for the following verbs: get */
-  (path: "/files/{fileId}/content", fileId: string): RetrieveFileContent;
 }
 
 export type AssistantsContext = Client & {

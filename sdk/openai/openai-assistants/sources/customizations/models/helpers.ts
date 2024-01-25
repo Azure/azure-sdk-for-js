@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ToolCall } from "../../generated/src/models/models.js";
-import { ToolCallOutput } from "../../generated/src/rest/outputModels.js";
+import { ToolCallOutput } from "../rest/outputModels.js";
 
 export function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
   const { id } = toolCallOutput;

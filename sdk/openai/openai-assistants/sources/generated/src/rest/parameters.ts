@@ -4,10 +4,10 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AssistantCreationOptions,
-  AssistantModificationOptions,
+  UpdateAssistantOptions,
   AssistantThreadCreationOptions,
   TypeSpecRecord,
-  ToolDefinition,
+  CreateRunOptions,
   ToolOutput,
   CreateAndRunThreadOptions,
 } from "./models.js";
@@ -25,7 +25,7 @@ export interface ListAssistantsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -40,14 +40,13 @@ export interface ListAssistantsQueryParam {
 
 export type ListAssistantsParameters = ListAssistantsQueryParam &
   RequestParameters;
-export type RetrieveAssistantParameters = RequestParameters;
+export type GetAssistantParameters = RequestParameters;
 
-export interface ModifyAssistantBodyParam {
-  /** The details of the modification to perform on the specified assistant. */
-  body: AssistantModificationOptions;
+export interface UpdateAssistantBodyParam {
+  body?: UpdateAssistantOptions;
 }
 
-export type ModifyAssistantParameters = ModifyAssistantBodyParam &
+export type UpdateAssistantParameters = UpdateAssistantBodyParam &
   RequestParameters;
 export type DeleteAssistantParameters = RequestParameters;
 
@@ -64,7 +63,7 @@ export interface ListAssistantFilesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -79,7 +78,7 @@ export interface ListAssistantFilesQueryParam {
 
 export type ListAssistantFilesParameters = ListAssistantFilesQueryParam &
   RequestParameters;
-export type RetrieveAssistantFileParameters = RequestParameters;
+export type GetAssistantFileParameters = RequestParameters;
 export type DeleteAssistantFileParameters = RequestParameters;
 
 export interface CreateThreadBodyParam {
@@ -87,13 +86,13 @@ export interface CreateThreadBodyParam {
 }
 
 export type CreateThreadParameters = CreateThreadBodyParam & RequestParameters;
-export type RetrieveThreadParameters = RequestParameters;
+export type GetThreadParameters = RequestParameters;
 
-export interface ModifyThreadBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateThreadBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
-export type ModifyThreadParameters = ModifyThreadBodyParam & RequestParameters;
+export type UpdateThreadParameters = UpdateThreadBodyParam & RequestParameters;
 export type DeleteThreadParameters = RequestParameters;
 
 export interface CreateMessageBodyParam {
@@ -101,7 +100,7 @@ export interface CreateMessageBodyParam {
     role: string;
     content: string;
     file_ids?: string[];
-    metadata?: TypeSpecRecord;
+    metadata?: TypeSpecRecord | null;
   };
 }
 
@@ -114,7 +113,7 @@ export interface ListMessagesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -128,13 +127,13 @@ export interface ListMessagesQueryParam {
 }
 
 export type ListMessagesParameters = ListMessagesQueryParam & RequestParameters;
-export type RetrieveMessageParameters = RequestParameters;
+export type GetMessageParameters = RequestParameters;
 
-export interface ModifyMessageBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateMessageBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
-export type ModifyMessageParameters = ModifyMessageBodyParam &
+export type UpdateMessageParameters = UpdateMessageBodyParam &
   RequestParameters;
 
 export interface ListMessageFilesQueryParamProperties {
@@ -143,7 +142,7 @@ export interface ListMessageFilesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -158,16 +157,11 @@ export interface ListMessageFilesQueryParam {
 
 export type ListMessageFilesParameters = ListMessageFilesQueryParam &
   RequestParameters;
-export type RetrieveMessageFileParameters = RequestParameters;
+export type GetMessageFileParameters = RequestParameters;
 
 export interface CreateRunBodyParam {
-  body?: {
-    assistant_id: assistant_id;
-    model?: string;
-    instructions?: string;
-    tools?: Array<ToolDefinition>;
-    metadata?: TypeSpecRecord;
-  };
+  /** The details for the run to create. */
+  body: CreateRunOptions;
 }
 
 export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
@@ -178,7 +172,7 @@ export interface ListRunsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -192,19 +186,19 @@ export interface ListRunsQueryParam {
 }
 
 export type ListRunsParameters = ListRunsQueryParam & RequestParameters;
-export type RetrieveRunParameters = RequestParameters;
+export type GetRunParameters = RequestParameters;
 
-export interface ModifyRunBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateRunBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
-export type ModifyRunParameters = ModifyRunBodyParam & RequestParameters;
+export type UpdateRunParameters = UpdateRunBodyParam & RequestParameters;
 
-export interface SubmitRunToolOutputsBodyParam {
+export interface SubmitToolOutputsToRunBodyParam {
   body?: { tool_outputs: Array<ToolOutput> };
 }
 
-export type SubmitRunToolOutputsParameters = SubmitRunToolOutputsBodyParam &
+export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam &
   RequestParameters;
 export type CancelRunParameters = RequestParameters;
 
@@ -214,7 +208,7 @@ export interface CreateThreadAndRunBodyParam {
 
 export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &
   RequestParameters;
-export type RetrieveRunStepParameters = RequestParameters;
+export type GetRunStepParameters = RequestParameters;
 
 export interface ListRunStepsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
@@ -222,7 +216,7 @@ export interface ListRunStepsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -241,7 +235,7 @@ export interface ListFilesQueryParamProperties {
   /**
    * A value that, when provided, limits list results to files matching the corresponding purpose.
    *
-   * Possible values: fine-tune, fine-tune-results, assistants, assistants_output
+   * Possible values: "fine-tune", "fine-tune-results", "assistants", "assistants_output"
    */
   purpose?: string;
 }
@@ -265,5 +259,4 @@ export type UploadFileParameters = UploadFileMediaTypesParam &
   UploadFileBodyParam &
   RequestParameters;
 export type DeleteFileParameters = RequestParameters;
-export type RetrieveFileParameters = RequestParameters;
-export type RetrieveFileContentParameters = RequestParameters;
+export type GetFileParameters = RequestParameters;

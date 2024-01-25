@@ -5,7 +5,7 @@ import { ListResponseOfOutput } from "./outputModels.js";
 import {
   AssistantOutput,
   MessageFileOutput,
-  FileOutput,
+  OpenAIFileOutput,
   ThreadRunOutput,
   AssistantFileOutput,
   ThreadMessageOutput,
@@ -28,7 +28,7 @@ export interface ListAssistantFiles200Response extends HttpResponse {
 /** The request has succeeded. */
 export interface ListFiles200Response extends HttpResponse {
   status: "200";
-  body: ListResponseOfOutput<FileOutput>;
+  body: ListResponseOfOutput<OpenAIFileOutput>;
 }
 
 /** The request has succeeded. */

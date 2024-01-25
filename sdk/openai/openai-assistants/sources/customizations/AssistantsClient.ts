@@ -3,20 +3,6 @@
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
-import { AssistantsOperations } from "./classic/assistants/index.js";
-import { getAssistantsOperations } from "../generated/src/classic/assistants/index.js";
-import {
-  getAssistantThreadsOperations,
-  AssistantThreadsOperations,
-} from "../generated/src/classic/assistantThreads/index.js";
-import { ThreadMessagesOperations } from "./classic/threadMessages/index.js";
-import { getThreadMessagesOperations } from "../generated/src/classic/threadMessages/index.js";
-import { ThreadRunsOperations } from "./classic/threadRuns/index.js";
-import { getThreadRunsOperations } from "../generated/src/classic/threadRuns/index.js";
-import { getRunStepsOperations } from "../generated/src/classic/runSteps/index.js";
-import { RunStepsOperations } from "./classic/runSteps/index.js";
-import { FilesOperations } from "./classic/files/index.js";
-import { getFilesOperations } from "../generated/src/classic/files/index.js";
 import { AssistantsClientOptions } from "../generated/src/index.js";
 import { AssistantsContext } from "../generated/src/rest/index.js";
 import { createAssistants } from "../generated/src/api/AssistantsContext.js";
@@ -138,24 +124,6 @@ export class AssistantsClient {
           }),
     });
     this.pipeline = this._client.pipeline;
-    this.assistants = getAssistantsOperations(this._client);
-    this.assistantThreads = getAssistantThreadsOperations(this._client);
-    this.threadMessages = getThreadMessagesOperations(this._client);
-    this.threadRuns = getThreadRunsOperations(this._client);
-    this.runSteps = getRunStepsOperations(this._client);
-    this.files = getFilesOperations(this._client);
   }
 
-  /** The operation groups for Assistants */
-  public readonly assistants: AssistantsOperations;
-  /** The operation groups for AssistantThreads */
-  public readonly assistantThreads: AssistantThreadsOperations;
-  /** The operation groups for ThreadMessages */
-  public readonly threadMessages: ThreadMessagesOperations;
-  /** The operation groups for ThreadRuns */
-  public readonly threadRuns: ThreadRunsOperations;
-  /** The operation groups for RunSteps */
-  public readonly runSteps: RunStepsOperations;
-  /** The operation groups for Files */
-  public readonly files: FilesOperations;
 }

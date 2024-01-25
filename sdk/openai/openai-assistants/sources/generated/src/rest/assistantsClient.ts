@@ -15,10 +15,10 @@ import { AssistantsContext } from "./clientDefinitions.js";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): AssistantsContext {
   const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-  options.apiVersion = options.apiVersion ?? "2023-11-06-beta";
+options.apiVersion = options.apiVersion ?? "2023-11-06-beta";
   const userAgentInfo = `azsdk-js-openai-assistants-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -41,6 +41,8 @@ export default function createClient(
   };
 
   const client = getClient(baseUrl, credentials, options) as AssistantsContext;
+
+  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
 
   return client;
 }

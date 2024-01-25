@@ -15,7 +15,7 @@ import {
   ThreadRunOutput,
   RunStepOutput,
   FileListResponseOutput,
-  FileOutput,
+  OpenAIFileOutput,
   FileDeletionStatusOutput,
 } from "./outputModels.js";
 
@@ -32,13 +32,13 @@ export interface ListAssistants200Response extends HttpResponse {
 }
 
 /** The requested assistant instance. */
-export interface RetrieveAssistant200Response extends HttpResponse {
+export interface GetAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantOutput;
 }
 
 /** The updated assistant instance. */
-export interface ModifyAssistant200Response extends HttpResponse {
+export interface UpdateAssistant200Response extends HttpResponse {
   status: "200";
   body: AssistantOutput;
 }
@@ -62,7 +62,7 @@ export interface ListAssistantFiles200Response extends HttpResponse {
 }
 
 /** A representation of the attached file. */
-export interface RetrieveAssistantFile200Response extends HttpResponse {
+export interface GetAssistantFile200Response extends HttpResponse {
   status: "200";
   body: AssistantFileOutput;
 }
@@ -80,13 +80,13 @@ export interface CreateThread200Response extends HttpResponse {
 }
 
 /** Information about the requested thread. */
-export interface RetrieveThread200Response extends HttpResponse {
+export interface GetThread200Response extends HttpResponse {
   status: "200";
   body: AssistantThreadOutput;
 }
 
 /** Information about the modified thread. */
-export interface ModifyThread200Response extends HttpResponse {
+export interface UpdateThread200Response extends HttpResponse {
   status: "200";
   body: AssistantThreadOutput;
 }
@@ -110,13 +110,13 @@ export interface ListMessages200Response extends HttpResponse {
 }
 
 /** A representation of the requested message. */
-export interface RetrieveMessage200Response extends HttpResponse {
+export interface GetMessage200Response extends HttpResponse {
   status: "200";
   body: ThreadMessageOutput;
 }
 
 /** A representation of the modified message. */
-export interface ModifyMessage200Response extends HttpResponse {
+export interface UpdateMessage200Response extends HttpResponse {
   status: "200";
   body: ThreadMessageOutput;
 }
@@ -128,7 +128,7 @@ export interface ListMessageFiles200Response extends HttpResponse {
 }
 
 /** The requested file information. */
-export interface RetrieveMessageFile200Response extends HttpResponse {
+export interface GetMessageFile200Response extends HttpResponse {
   status: "200";
   body: MessageFileOutput;
 }
@@ -146,19 +146,19 @@ export interface ListRuns200Response extends HttpResponse {
 }
 
 /** The requested information about the specified thread run. */
-export interface RetrieveRun200Response extends HttpResponse {
+export interface GetRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
 /** Information about the modified run. */
-export interface ModifyRun200Response extends HttpResponse {
+export interface UpdateRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
 /** Updated information about the run. */
-export interface SubmitRunToolOutputs200Response extends HttpResponse {
+export interface SubmitToolOutputsToRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
@@ -176,7 +176,7 @@ export interface CreateThreadAndRun200Response extends HttpResponse {
 }
 
 /** Information about the requested run step. */
-export interface RetrieveRunStep200Response extends HttpResponse {
+export interface GetRunStep200Response extends HttpResponse {
   status: "200";
   body: RunStepOutput;
 }
@@ -196,7 +196,7 @@ export interface ListFiles200Response extends HttpResponse {
 /** A representation of the uploaded file. */
 export interface UploadFile200Response extends HttpResponse {
   status: "200";
-  body: FileOutput;
+  body: OpenAIFileOutput;
 }
 
 /** The request has succeeded. */
@@ -206,13 +206,7 @@ export interface DeleteFile200Response extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface RetrieveFile200Response extends HttpResponse {
+export interface GetFile200Response extends HttpResponse {
   status: "200";
-  body: FileOutput;
-}
-
-/** The request has succeeded. */
-export interface RetrieveFileContent200Response extends HttpResponse {
-  status: "200";
-  body: string;
+  body: OpenAIFileOutput;
 }
