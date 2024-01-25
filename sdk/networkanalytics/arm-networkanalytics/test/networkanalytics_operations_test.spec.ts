@@ -73,14 +73,14 @@ describe("NetworkAnalytics test", () => {
       {
         location,
         properties: {
-          majorVersion: "1.0.0",
+          majorVersion: "1",
           product: "MCC",
           publisher: "Microsoft"
         }
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-  }).timeout(3600000);
+  }).timeout(7200000);
 
   it("dataProducts get test", async function () {
     const res = await client.dataProducts.get(

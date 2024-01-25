@@ -46,7 +46,7 @@ async function dataProductsUpdateMaximumSetGen() {
   const result = await client.dataProducts.beginUpdateAndWait(
     resourceGroupName,
     dataProductName,
-    properties
+    properties,
   );
   console.log(result);
 }
@@ -69,7 +69,7 @@ async function dataProductsUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSe
   const result = await client.dataProducts.beginUpdateAndWait(
     resourceGroupName,
     dataProductName,
-    properties
+    properties,
   );
   console.log(result);
 }

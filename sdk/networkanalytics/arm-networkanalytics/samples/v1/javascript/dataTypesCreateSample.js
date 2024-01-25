@@ -13,54 +13,66 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Delete data type resource.
+ * This sample demonstrates how to Create data type resource.
  *
- * @summary Delete data type resource.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Delete_MaximumSet_Gen.json
+ * @summary Create data type resource.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Create_MaximumSet_Gen.json
  */
-async function dataTypesDeleteMaximumSetGen() {
+async function dataTypesCreateMaximumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
+  const resource = {
+    properties: {
+      databaseCacheRetention: 23,
+      databaseRetention: 6,
+      provisioningState: "Succeeded",
+      state: "STARTED",
+      storageOutputRetention: 27,
+    },
+  };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.beginDeleteAndWait(
+  const result = await client.dataTypes.beginCreateAndWait(
     resourceGroupName,
     dataProductName,
-    dataTypeName
+    dataTypeName,
+    resource,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Delete data type resource.
+ * This sample demonstrates how to Create data type resource.
  *
- * @summary Delete data type resource.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Delete_MinimumSet_Gen.json
+ * @summary Create data type resource.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Create_MinimumSet_Gen.json
  */
-async function dataTypesDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
+async function dataTypesCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
+  const resource = {};
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.beginDeleteAndWait(
+  const result = await client.dataTypes.beginCreateAndWait(
     resourceGroupName,
     dataProductName,
-    dataTypeName
+    dataTypeName,
+    resource,
   );
   console.log(result);
 }
 
 async function main() {
-  dataTypesDeleteMaximumSetGen();
-  dataTypesDeleteMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  dataTypesCreateMaximumSetGen();
+  dataTypesCreateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);

@@ -1,4 +1,4 @@
-# client library samples for TypeScript (Beta)
+# client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for in some common scenarios.
 
@@ -77,28 +77,28 @@ npx cross-env NETWORKANALYTICS_SUBSCRIPTION_ID="<networkanalytics subscription i
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[dataproductsadduserrolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsAddUserRoleSample.ts
-[dataproductscatalogsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsCatalogsGetSample.ts
-[dataproductscatalogslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsCatalogsListByResourceGroupSample.ts
-[dataproductscatalogslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsCatalogsListBySubscriptionSample.ts
-[dataproductscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsCreateSample.ts
-[dataproductsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsDeleteSample.ts
-[dataproductsgeneratestorageaccountsastokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsGenerateStorageAccountSasTokenSample.ts
-[dataproductsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsGetSample.ts
-[dataproductslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsListByResourceGroupSample.ts
-[dataproductslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsListBySubscriptionSample.ts
-[dataproductslistrolesassignmentssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsListRolesAssignmentsSample.ts
-[dataproductsremoveuserrolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsRemoveUserRoleSample.ts
-[dataproductsrotatekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsRotateKeySample.ts
-[dataproductsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataProductsUpdateSample.ts
-[datatypescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesCreateSample.ts
-[datatypesdeletedatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesDeleteDataSample.ts
-[datatypesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesDeleteSample.ts
-[datatypesgeneratestoragecontainersastokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesGenerateStorageContainerSasTokenSample.ts
-[datatypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesGetSample.ts
-[datatypeslistbydataproductsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesListByDataProductSample.ts
-[datatypesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/dataTypesUpdateSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1-beta/typescript/src/operationsListSample.ts
+[dataproductsadduserrolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsAddUserRoleSample.ts
+[dataproductscatalogsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsCatalogsGetSample.ts
+[dataproductscatalogslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsCatalogsListByResourceGroupSample.ts
+[dataproductscatalogslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsCatalogsListBySubscriptionSample.ts
+[dataproductscreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsCreateSample.ts
+[dataproductsdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsDeleteSample.ts
+[dataproductsgeneratestorageaccountsastokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsGenerateStorageAccountSasTokenSample.ts
+[dataproductsgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsGetSample.ts
+[dataproductslistbyresourcegroupsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsListByResourceGroupSample.ts
+[dataproductslistbysubscriptionsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsListBySubscriptionSample.ts
+[dataproductslistrolesassignmentssample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsListRolesAssignmentsSample.ts
+[dataproductsremoveuserrolesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsRemoveUserRoleSample.ts
+[dataproductsrotatekeysample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsRotateKeySample.ts
+[dataproductsupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataProductsUpdateSample.ts
+[datatypescreatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesCreateSample.ts
+[datatypesdeletedatasample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesDeleteDataSample.ts
+[datatypesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesDeleteSample.ts
+[datatypesgeneratestoragecontainersastokensample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesGenerateStorageContainerSasTokenSample.ts
+[datatypesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesGetSample.ts
+[datatypeslistbydataproductsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesListByDataProductSample.ts
+[datatypesupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/dataTypesUpdateSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/networkanalytics/arm-networkanalytics/samples/v1/typescript/src/operationsListSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkanalytics/arm-networkanalytics/README.md

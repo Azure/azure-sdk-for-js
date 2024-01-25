@@ -13,65 +13,54 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Update data type resource.
+ * This sample demonstrates how to List user roles associated with the data product.
  *
- * @summary Update data type resource.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Update_MaximumSet_Gen.json
+ * @summary List user roles associated with the data product.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataProducts_ListRolesAssignments_MaximumSet_Gen.json
  */
-async function dataTypesUpdateMaximumSetGen() {
+async function dataProductsListRolesAssignmentsMaximumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
-  const dataTypeName = "datatypename";
-  const properties = {
-    properties: {
-      databaseCacheRetention: 16,
-      databaseRetention: 9,
-      state: "STARTED",
-      storageOutputRetention: 30,
-    },
-  };
+  const body = {};
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.beginUpdateAndWait(
+  const result = await client.dataProducts.listRolesAssignments(
     resourceGroupName,
     dataProductName,
-    dataTypeName,
-    properties
+    body,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Update data type resource.
+ * This sample demonstrates how to List user roles associated with the data product.
  *
- * @summary Update data type resource.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Update_MinimumSet_Gen.json
+ * @summary List user roles associated with the data product.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataProducts_ListRolesAssignments_MinimumSet_Gen.json
  */
-async function dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
+async function dataProductsListRolesAssignmentsMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
-  const dataTypeName = "datatypename";
-  const properties = {};
+  const body = {};
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.beginUpdateAndWait(
+  const result = await client.dataProducts.listRolesAssignments(
     resourceGroupName,
     dataProductName,
-    dataTypeName,
-    properties
+    body,
   );
   console.log(result);
 }
 
 async function main() {
-  dataTypesUpdateMaximumSetGen();
-  dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  dataProductsListRolesAssignmentsMaximumSetGen();
+  dataProductsListRolesAssignmentsMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);
