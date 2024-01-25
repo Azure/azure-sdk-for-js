@@ -218,7 +218,7 @@ describe("ClientCertificateCredential (internal)", function () {
       assert.strictEqual(result.x5c, result.certificateContents);
     });
 
-    it("omits the x5c value if when sendCertificateChain is false", async function () {
+    it("omits the x5c value when sendCertificateChain is false", async function () {
       const result = await parseCertificate(
         {
           certificatePath,
