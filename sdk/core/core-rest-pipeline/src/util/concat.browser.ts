@@ -28,7 +28,8 @@ async function toBlobPart(
   // using getRawContent.
   const rawContent = getRawContent(source);
 
-  if (!rawContent || isNodeReadableStream(rawContent)) {
+  // Shouldn't happen but guard for it anyway
+  if (isNodeReadableStream(rawContent)) {
     throw new Error(
       "Encountered unexpected type. In the browser, `concat` supports Web ReadableStream, Blob, Uint8Array, and files created using `createFile` only.",
     );
@@ -39,7 +40,9 @@ async function toBlobPart(
 
 type ConcatSource = ReadableStream<Uint8Array> | Blob | Uint8Array;
 
-export async function concat(sources: (ConcatSource | (() => ConcatSource))[]): Promise<Blob> {
+export async function concat(
+  sources: (ConcatSource | (() => ConcatSource))[],
+): Promise<(() => NodeJS.ReadableStream) | Blob> {
   const parts = [];
   for (const source of sources) {
     parts.push(await toBlobPart(typeof source === "function" ? source() : source));

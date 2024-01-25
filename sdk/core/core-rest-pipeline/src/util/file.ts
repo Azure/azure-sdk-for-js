@@ -73,20 +73,20 @@ type BlobWithRawContent = Blob & {
   [rawContent](): Uint8Array | NodeJS.ReadableStream | ReadableStream<Uint8Array>;
 };
 
-function hasRawContent(x: Blob): x is BlobWithRawContent {
+function hasRawContent(x: unknown): x is BlobWithRawContent {
   return isBlob(x) && typeof (x as BlobWithRawContent)[rawContent] === "function";
 }
 
 /**
  * Extract the raw content from a given blob-like object. If the input was created using createFile
  * or createFileFromStream, the exact content passed into createFile/createFileFromStream will be used.
- * Returns undefined for true instances of Blob and File.
+ * For true instances of Blob and File, returns the blob's content as a Web ReadableStream<Uint8Array>.
  *
  * @internal
  */
 export function getRawContent(
   blob: Blob,
-): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array | undefined {
+): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
   if (hasRawContent(blob)) {
     return blob[rawContent]();
   } else {

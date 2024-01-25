@@ -51,8 +51,7 @@ function toStream(
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
   } else if (isBlob(source)) {
-    const rawContent = getRawContent(source);
-    return rawContent ? toStream(rawContent) : ensureNodeStream(source.stream());
+    return toStream(getRawContent(source));
   } else {
     return ensureNodeStream(source);
   }
@@ -62,7 +61,7 @@ type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Ar
 
 export async function concat(
   sources: (ConcatSource | (() => ConcatSource))[],
-): Promise<() => NodeJS.ReadableStream> {
+): Promise<(() => NodeJS.ReadableStream) | Blob> {
   return function () {
     const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
 
