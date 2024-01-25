@@ -33,7 +33,7 @@ describe("[Browser] Streams", () => {
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
     if (vi.isFakeTimers()) {
       vi.useRealTimers();
