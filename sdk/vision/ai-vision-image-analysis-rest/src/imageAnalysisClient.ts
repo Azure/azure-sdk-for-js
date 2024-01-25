@@ -20,8 +20,7 @@ export default function createClient(
 ): ImageAnalysisClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";
-
-  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -35,11 +34,16 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as ImageAnalysisClient;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as ImageAnalysisClient;
 
   return client;
 }
