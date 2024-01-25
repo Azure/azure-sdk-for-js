@@ -700,7 +700,7 @@
 /sdk/storageimportexport/arm-storageimportexport/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
-/sdk/storagesync/arm-storagesync/ @qiaozha @MaryGao
+/sdk/storagesync/arm-storagesync/ @MaryGao @qiaozha
 
 # PRLabel: %Mgmt
 /sdk/storsimple1200series/arm-storsimple1200series/ @qiaozha @MaryGao
