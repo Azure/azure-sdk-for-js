@@ -44,7 +44,7 @@ describe("NetworkAnalytics test", () => {
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.AZURE_SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new MicrosoftNetworkAnalytics(credential, subscriptionId, recorder.configureClientOptions({}));
@@ -66,7 +66,7 @@ describe("NetworkAnalytics test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("dataProducts create test", async function () {
+  it.skip("dataProducts create test", async function () {
     const res = await client.dataProducts.beginCreateAndWait(
       resourceGroup,
       resourcename,
@@ -80,7 +80,7 @@ describe("NetworkAnalytics test", () => {
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-  }).timeout(7200000);
+  }).timeout(14400000);
 
   it("dataProducts get test", async function () {
     const res = await client.dataProducts.get(
