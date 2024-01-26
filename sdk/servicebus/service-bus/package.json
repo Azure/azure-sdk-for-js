@@ -160,7 +160,7 @@
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "uuid": "^8.3.0",
     "ws": "^8.0.0",
     "sinon": "^17.0.0",

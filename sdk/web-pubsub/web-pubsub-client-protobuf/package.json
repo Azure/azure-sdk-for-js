@@ -103,7 +103,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "@azure/web-pubsub": "^1.1.0",
     "@azure/test-utils": "^1.0.0",
     "mock-socket": "^9.1.5",

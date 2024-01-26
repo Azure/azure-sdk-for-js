@@ -140,7 +140,7 @@ export enum ConditionErrorNameMapper {
     "amqp:invalid-field" = "InvalidFieldError",
     "amqp:link:detach-forced" = "DetachForcedError",
     "amqp:link:message-size-exceeded" = "MessageTooLargeError",
-    "amqp:link:redirect" = "LinkRedirectError",
+    "amqp:link:redirect" = "LinkRedirectError",// Retryable
     "amqp:link:stolen" = "ReceiverDisconnectedError",
     "amqp:link:transfer-limit-exceeded" = "TransferLimitExceededError",
     "amqp:not-allowed" = "InvalidOperationError",
@@ -149,7 +149,7 @@ export enum ConditionErrorNameMapper {
     "amqp:precondition-failed" = "PreconditionFailedError",
     "amqp:resource-deleted" = "ResourceDeletedError",
     "amqp:resource-limit-exceeded" = "QuotaExceededError",
-    "amqp:resource-locked" = "ResourceLockedError",
+    "amqp:resource-locked" = "ResourceLockedError",// Retryable
     "amqp:session:errant-link" = "ErrantLinkError",
     "amqp:session:handle-in-use" = "HandleInUseError",
     "amqp:session:unattached-handle" = "UnattachedHandleError",
@@ -160,8 +160,8 @@ export enum ConditionErrorNameMapper {
     "com.microsoft:address-already-in-use" = "AddressAlreadyInUseError",
     "com.microsoft:argument-error" = "ArgumentError",
     "com.microsoft:argument-out-of-range" = "ArgumentOutOfRangeError",
-    "com.microsoft:auth-failed" = "UnauthorizedError",
-    "com.microsoft:entity-already-exists" = "MessagingEntityAlreadyExistsError",
+    "com.microsoft:auth-failed" = "UnauthorizedError",// Retryable
+    "com.microsoft:entity-already-exists" = "MessagingEntityAlreadyExistsError",// Retryable
     "com.microsoft:entity-disabled" = "MessagingEntityDisabledError",
     "com.microsoft:message-lock-lost" = "MessageLockLostError",
     "com.microsoft:message-not-found" = "MessageNotFoundError",
@@ -169,14 +169,14 @@ export enum ConditionErrorNameMapper {
     "com.microsoft:no-matching-subscription" = "NoMatchingSubscriptionError",
     "com.microsoft:operation-cancelled" = "OperationCancelledError",
     "com.microsoft:partition-not-owned" = "PartitionNotOwnedError",
-    "com.microsoft:precondition-failed" = "PreconditionFailedError",
+    "com.microsoft:precondition-failed" = "PreconditionFailedError",// Retryable
     "com.microsoft:publisher-revoked" = "PublisherRevokedError",
     "com.microsoft:relay-not-found" = "RelayNotFoundError",
-    "com.microsoft:server-busy" = "ServerBusyError",
+    "com.microsoft:server-busy" = "ServerBusyError",// Retryable
     "com.microsoft:session-cannot-be-locked" = "SessionCannotBeLockedError",
-    "com.microsoft:session-lock-lost" = "SessionLockLostError",
-    "com.microsoft:store-lock-lost" = "StoreLockLostError",
-    "com.microsoft:timeout" = "ServiceUnavailableError",
+    "com.microsoft:session-lock-lost" = "SessionLockLostError",// Retryable
+    "com.microsoft:store-lock-lost" = "StoreLockLostError",// Retryable
+    "com.microsoft:timeout" = "ServiceUnavailableError",// Retryable
     "system:error" = "SystemError"
 }
 
@@ -385,7 +385,7 @@ export enum ErrorNameConditionMapper {
     ErrantLinkError = "amqp:session:errant-link",
     FrameSizeTooSmallError = "amqp:frame-size-too-small",
     FramingError = "amqp:connection:framing-error",
-    HandleInUseError = "amqp:session:handle-in-use",
+    HandleInUseError = "amqp:session:handle-in-use",// Retryable
     IllegalStateError = "amqp:illegal-state",
     InternalServerError = "amqp:internal-error",
     InvalidFieldError = "amqp:invalid-field",
@@ -393,7 +393,7 @@ export enum ErrorNameConditionMapper {
     LinkRedirectError = "amqp:link:redirect",
     MessageLockLostError = "com.microsoft:message-lock-lost",
     MessageNotFoundError = "com.microsoft:message-not-found",
-    MessageTooLargeError = "amqp:link:message-size-exceeded",
+    MessageTooLargeError = "amqp:link:message-size-exceeded",// Retryable
     MessageWaitTimeout = "com.microsoft:message-wait-timeout",
     MessagingEntityAlreadyExistsError = "com.microsoft:entity-already-exists",
     MessagingEntityDisabledError = "com.microsoft:entity-disabled",
@@ -403,8 +403,8 @@ export enum ErrorNameConditionMapper {
     PartitionNotOwnedError = "com.microsoft:partition-not-owned",
     PreconditionFailedError = "amqp:precondition-failed",
     PublisherRevokedError = "com.microsoft:publisher-revoked",
-    QuotaExceededError = "amqp:resource-limit-exceeded",
-    ReceiverDisconnectedError = "amqp:link:stolen",
+    QuotaExceededError = "amqp:resource-limit-exceeded",// Retryable
+    ReceiverDisconnectedError = "amqp:link:stolen",// Retryable
     RelayNotFoundError = "com.microsoft:relay-not-found",
     ResourceDeletedError = "amqp:resource-deleted",
     ResourceLockedError = "amqp:resource-locked",
@@ -412,14 +412,14 @@ export enum ErrorNameConditionMapper {
     SenderNotReadyError = "client.sender:link-not-ready",
     ServerBusyError = "com.microsoft:server-busy",
     ServiceCommunicationError = "amqp:not-found",
-    ServiceUnavailableError = "com.microsoft:timeout",
+    ServiceUnavailableError = "com.microsoft:timeout",// Retryable
     SessionCannotBeLockedError = "com.microsoft:session-cannot-be-locked",
     SessionLockLostError = "com.microsoft:session-lock-lost",
-    SessionWindowViolationError = "amqp:session:window-violation",
+    SessionWindowViolationError = "amqp:session:window-violation",// Retryable
     StoreLockLostError = "com.microsoft:store-lock-lost",
-    SystemError = "system:error",
-    TransferLimitExceededError = "amqp:link:transfer-limit-exceeded",
-    UnattachedHandleError = "amqp:session:unattached-handle",
+    SystemError = "system:error",// Retryable
+    TransferLimitExceededError = "amqp:link:transfer-limit-exceeded",// Retryable
+    UnattachedHandleError = "amqp:session:unattached-handle",// Retryable
     UnauthorizedError = "amqp:unauthorized-access"
 }
 

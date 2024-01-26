@@ -108,8 +108,8 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     );
 
     this.commonProperties = {
-      os: super.os,
-      rp: super.resourceProvider,
+      os: this.os,
+      rp: this.resourceProvider,
       cikey: this.cikey,
       runtimeVersion: this.runtimeVersion,
       language: this.language,

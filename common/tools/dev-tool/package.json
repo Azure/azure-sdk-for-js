@@ -64,7 +64,7 @@
     "strip-json-comments": "^5.0.1",
     "ts-node": "^10.9.1",
     "tslib": "^2.2.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "yaml": "^2.3.4",
     "ts-morph": "^21.0.0"
   },
