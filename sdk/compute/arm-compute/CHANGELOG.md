@@ -1,15 +1,15 @@
 # Release History
+    
+## 21.4.0 (2023-12-28)
+    
+**Features**
 
-## 21.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Type Alias ProvisionedBandwidthCopyOption
+  - Interface CreationData has a new optional parameter provisionedBandwidthCopySpeed
+  - Added Enum KnownProvisionedBandwidthCopyOption
+  - Enum KnownDiskSecurityTypes has a new value ConfidentialVMNonPersistedTPM
+    
+    
 ## 21.3.0 (2023-12-08)
     
 **Features**
