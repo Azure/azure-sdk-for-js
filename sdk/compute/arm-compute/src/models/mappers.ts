@@ -7900,6 +7900,12 @@ export const CreationData: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      provisionedBandwidthCopySpeed: {
+        serializedName: "provisionedBandwidthCopySpeed",
+        type: {
+          name: "String"
+        }
       }
     }
   }

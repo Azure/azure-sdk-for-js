@@ -9,9 +9,13 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
+  SupportedApmType,
+  ServicesListSupportedApmTypesOptionalParams,
   ServiceResource,
   ServicesListBySubscriptionOptionalParams,
   ServicesListOptionalParams,
+  SupportedServerVersion,
+  ServicesListSupportedServerVersionsOptionalParams,
   ServicesGetOptionalParams,
   ServicesGetResponse,
   ServicesCreateOrUpdateOptionalParams,
@@ -29,6 +33,13 @@ import {
   ServicesEnableTestEndpointResponse,
   ServicesStopOptionalParams,
   ServicesStartOptionalParams,
+  ServicesFlushVnetDnsSettingOptionalParams,
+  ServicesFlushVnetDnsSettingResponse,
+  ServicesListGloballyEnabledApmsOptionalParams,
+  ServicesListGloballyEnabledApmsResponse,
+  ApmReference,
+  ServicesEnableApmGloballyOptionalParams,
+  ServicesDisableApmGloballyOptionalParams,
   NameAvailabilityParameters,
   ServicesCheckNameAvailabilityOptionalParams,
   ServicesCheckNameAvailabilityResponse
@@ -37,6 +48,18 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
 export interface Services {
+  /**
+   * List supported APM types for a Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  listSupportedApmTypes(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ServicesListSupportedApmTypesOptionalParams
+  ): PagedAsyncIterableIterator<SupportedApmType>;
   /**
    * Handles requests to list all resources in a subscription.
    * @param options The options parameters.
@@ -54,6 +77,18 @@ export interface Services {
     resourceGroupName: string,
     options?: ServicesListOptionalParams
   ): PagedAsyncIterableIterator<ServiceResource>;
+  /**
+   * Lists all of the available server versions supported by Microsoft.AppPlatform provider.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  listSupportedServerVersions(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ServicesListSupportedServerVersionsOptionalParams
+  ): PagedAsyncIterableIterator<SupportedServerVersion>;
   /**
    * Get a Service and its properties.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -253,6 +288,103 @@ export interface Services {
     resourceGroupName: string,
     serviceName: string,
     options?: ServicesStartOptionalParams
+  ): Promise<void>;
+  /**
+   * Flush Virtual Network DNS settings for a VNET injected Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  beginFlushVnetDnsSetting(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ServicesFlushVnetDnsSettingOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ServicesFlushVnetDnsSettingResponse>,
+      ServicesFlushVnetDnsSettingResponse
+    >
+  >;
+  /**
+   * Flush Virtual Network DNS settings for a VNET injected Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  beginFlushVnetDnsSettingAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ServicesFlushVnetDnsSettingOptionalParams
+  ): Promise<ServicesFlushVnetDnsSettingResponse>;
+  /**
+   * List globally enabled APMs for a Service.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param options The options parameters.
+   */
+  listGloballyEnabledApms(
+    resourceGroupName: string,
+    serviceName: string,
+    options?: ServicesListGloballyEnabledApmsOptionalParams
+  ): Promise<ServicesListGloballyEnabledApmsResponse>;
+  /**
+   * Enable an APM globally.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apm The target APM for the enable operation
+   * @param options The options parameters.
+   */
+  beginEnableApmGlobally(
+    resourceGroupName: string,
+    serviceName: string,
+    apm: ApmReference,
+    options?: ServicesEnableApmGloballyOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Enable an APM globally.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apm The target APM for the enable operation
+   * @param options The options parameters.
+   */
+  beginEnableApmGloballyAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    apm: ApmReference,
+    options?: ServicesEnableApmGloballyOptionalParams
+  ): Promise<void>;
+  /**
+   * Disable an APM globally.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apm The target APM for the disable operation
+   * @param options The options parameters.
+   */
+  beginDisableApmGlobally(
+    resourceGroupName: string,
+    serviceName: string,
+    apm: ApmReference,
+    options?: ServicesDisableApmGloballyOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Disable an APM globally.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param apm The target APM for the disable operation
+   * @param options The options parameters.
+   */
+  beginDisableApmGloballyAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    apm: ApmReference,
+    options?: ServicesDisableApmGloballyOptionalParams
   ): Promise<void>;
   /**
    * Checks that the resource name is valid and is not already in use.
