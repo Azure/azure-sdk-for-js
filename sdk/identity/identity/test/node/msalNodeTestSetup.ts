@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreUtil from "@azure/core-util";
-
 import {
   AuthenticationResult,
   ConfidentialClientApplication,
@@ -13,6 +11,7 @@ import Sinon, { createSandbox } from "sinon";
 import { PlaybackTenantId } from "../msalTestUtils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
+import * as utils from "../../src/msal/utils";
 
 export type MsalTestCleanup = () => Promise<void>;
 
@@ -46,7 +45,7 @@ export async function msalNodeTestSetup(
 
   const sandbox = createSandbox();
 
-  const stub = sandbox.stub(coreUtil, "randomUUID");
+  const stub = sandbox.stub(utils, "randomUUID");
   stub.returns(playbackValues.correlationId);
 
   if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
