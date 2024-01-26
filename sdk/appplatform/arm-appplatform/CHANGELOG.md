@@ -464,20 +464,13 @@
   - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
   - Interface DeploymentsListNextOptionalParams no longer has parameter version
   - Class AppPlatformManagementClient has a new signature
-  - Type of parameter addonConfigs of interface AppResourceProperties is changed from {
-        [propertyName: string]: {
-            [propertyName: string]: Record<string, unknown>;
-        };
-    } to {
+  - Type of parameter addonConfigs of interface AppResourceProperties is changed to {
         [propertyName: string]: Record<string, unknown>;
     }
-  - Type of parameter addonConfigs of interface DeploymentSettings is changed from {
-        [propertyName: string]: {
-            [propertyName: string]: Record<string, unknown>;
-        };
-    } to {
+  - Type of parameter addonConfigs of interface DeploymentSettings is changed to {
         [propertyName: string]: Record<string, unknown>;
     }
+
 **Breaking Changes**
 
   - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
