@@ -6,24 +6,15 @@
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-auth.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
-  },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build:types": "downlevel-dts types/latest/ types/3.1/",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -41,7 +32,6 @@
     "dist/",
     "dist-esm/src/",
     "types/latest/core-auth.d.ts",
-    "types/3.1",
     "README.md",
     "LICENSE"
   ],
@@ -57,12 +47,12 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-auth/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.1.0",
     "tslib": "^2.2.0"
   },
@@ -72,17 +62,14 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
-    "downlevel-dts": "^0.10.0",
     "eslint": "^8.0.0",
     "inherits": "^2.0.3",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "prettier": "^2.5.1",
     "rimraf": "^3.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
     "ts-node": "^10.0.0"
   },

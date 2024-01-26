@@ -23,19 +23,19 @@ export async function handleEnvSetup(
   httpClient: HttpClient,
   url: string,
   recordingId: string,
-  envSetupForPlayback: Record<string, string>
+  envSetupForPlayback: Record<string, string>,
 ): Promise<void> {
   if (envSetupForPlayback) {
     if (isPlaybackMode()) {
       // Loads the "fake" environment variables in `process.env` or `window.__env__` based on the runtime
       logger.verbose(
-        "[handleEnvSetup] Playback mode: updating environment variables to their fake values"
+        "[handleEnvSetup] Playback mode: updating environment variables to their fake values",
       );
       setEnvironmentVariables(envSetupForPlayback);
     } else if (isRecordMode()) {
       logger.verbose(
         "[handleEnvSetup] Record mode: adding sanitizers to remove environment variables set in envSetupForPlayback:",
-        envSetupForPlayback
+        envSetupForPlayback,
       );
 
       // If the env variables are present in the recordings as plain strings, they will be replaced with the provided values in record mode

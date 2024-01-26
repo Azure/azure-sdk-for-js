@@ -51,7 +51,7 @@ async function updateVMExtension() {
       subscriptionId,
       resourceGroupName,
       vmName,
-      vmExtensionName
+      vmExtensionName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

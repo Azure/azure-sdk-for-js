@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from United States Internal Revenue Service Form 1098-E (2021-current).
  */
 export const PrebuiltTaxUs1098EModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltTaxUs1098EResult>;
 
 export interface PrebuiltTaxUs1098EResult extends fr.AnalyzeResultCommon {

@@ -155,6 +155,7 @@ export enum ConditionErrorNameMapper {
     "amqp:session:unattached-handle" = "UnattachedHandleError",
     "amqp:session:window-violation" = "SessionWindowViolationError",
     "amqp:unauthorized-access" = "UnauthorizedError",
+    "client.sender:link-not-ready" = "SenderNotReadyError",
     "client.sender:not-enough-link-credit" = "SenderBusyError",
     "com.microsoft:address-already-in-use" = "AddressAlreadyInUseError",
     "com.microsoft:argument-error" = "ArgumentError",
@@ -300,6 +301,7 @@ export const Constants: {
     readonly maxDurationValue: 922337203685477;
     readonly minDurationValue: -922337203685477;
     readonly maxAbsoluteExpiryTime: number;
+    readonly maxUint32Value: 4294967295;
     readonly aadTokenValidityMarginInMs: 5000;
     readonly connectionReconnectDelay: 300;
     readonly defaultMaxRetries: 3;
@@ -407,6 +409,7 @@ export enum ErrorNameConditionMapper {
     ResourceDeletedError = "amqp:resource-deleted",
     ResourceLockedError = "amqp:resource-locked",
     SenderBusyError = "client.sender:not-enough-link-credit",
+    SenderNotReadyError = "client.sender:link-not-ready",
     ServerBusyError = "com.microsoft:server-busy",
     ServiceCommunicationError = "amqp:not-found",
     ServiceUnavailableError = "com.microsoft:timeout",

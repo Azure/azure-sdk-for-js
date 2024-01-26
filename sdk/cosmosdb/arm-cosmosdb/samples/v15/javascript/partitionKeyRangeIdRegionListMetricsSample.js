@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given partition key range id and region.
  *
  * @summary Retrieves the metrics determined by the given filter for the given partition key range id and region.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBPKeyRangeIdRegionGetMetrics.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBPKeyRangeIdRegionGetMetrics.json
  */
 async function cosmosDbDatabaseAccountRegionGetMetrics() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -38,7 +38,7 @@ async function cosmosDbDatabaseAccountRegionGetMetrics() {
     databaseRid,
     collectionRid,
     partitionKeyRangeId,
-    filter
+    filter,
   )) {
     resArray.push(item);
   }

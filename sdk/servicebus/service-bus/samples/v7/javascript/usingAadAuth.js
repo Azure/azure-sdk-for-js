@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how to create a namespace using AAD token credentials
@@ -43,7 +43,7 @@ async function main() {
     clientId === "<azure client id>"
   ) {
     console.log(
-      `Required environment variables are missing. Please ensure AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_CLIENT_ID have been set.`
+      `Required environment variables are missing. Please ensure AZURE_TENANT_ID, AZURE_CLIENT_SECRET and AZURE_CLIENT_ID have been set.`,
     );
     process.exit(1);
   }

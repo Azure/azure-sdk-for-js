@@ -5,13 +5,13 @@ import * as fs from "fs";
 import * as jwt from "jsonwebtoken";
 import * as net from "net";
 import * as tls from "tls";
-import * as uuid from "uuid";
 import ms from "ms";
+import { randomUUID } from "@azure/core-util";
 
 export async function createJWTTokenFromCertificate(
   authorityHost: string,
   clientId: string,
-  certificatePath: string
+  certificatePath: string,
 ): Promise<string> {
   console.log("client ID =", clientId);
   const privateKeyPemCert = fs.readFileSync(certificatePath);
@@ -30,7 +30,7 @@ export async function createJWTTokenFromCertificate(
     },
     algorithm: "RS256",
     audience: audience,
-    jwtid: uuid.v4(),
+    jwtid: randomUUID(),
     expiresIn: ms("1 h"),
     subject: clientId,
     issuer: clientId,

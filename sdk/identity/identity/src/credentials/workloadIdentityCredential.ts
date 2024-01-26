@@ -32,10 +32,10 @@ const logger = credentialLogger(credentialName);
  * Identity authentication, you can avoid the need to manage and rotate service principals or managed identities for
  * each application on each VM. Additionally, because SACs are created automatically and managed by Azure, you don't
  * need to worry about storing and securing sensitive credentials themselves.
- * The WorkloadIdentityCredential supports Azure workload identity authentication on Azure Kubernetes and acquires
+ * The WorkloadIdentityCredential supports Microsoft Entra Workload ID authentication on Azure Kubernetes and acquires
  * a token using the SACs available in the Azure Kubernetes environment.
- * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Azure Active Directory
- * Workload Identity</a> for more information.
+ * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Microsoft Entra
+ * Workload ID</a> for more information.
  */
 export class WorkloadIdentityCredential implements TokenCredential {
   private client: ClientAssertionCredential | undefined;
@@ -44,7 +44,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private federatedTokenFilePath: string | undefined;
 
   /**
-   * WorkloadIdentityCredential supports Azure workload identity on Kubernetes.
+   * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
    *
    * @param options - The identity client options to use for authentication.
    */
@@ -63,19 +63,19 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     if (clientId && tenantId && this.federatedTokenFilePath) {
       logger.info(
-        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`
+        `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and federated token path: [REDACTED]`,
       );
       this.client = new ClientAssertionCredential(
         tenantId,
         clientId,
         this.readFileContents.bind(this),
-        options
+        options,
       );
     }
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -84,7 +84,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.client) {
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and federatedTokenFilePath are required parameters. 
@@ -106,7 +106,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     }
     if (!this.federatedTokenFilePath) {
       throw new CredentialUnavailableError(
-        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`
+        `${credentialName}: is unavailable. Invalid file path provided ${this.federatedTokenFilePath}.`,
       );
     }
     if (!this.azureFederatedTokenFileContent) {
@@ -114,7 +114,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
       const value = file.trim();
       if (!value) {
         throw new CredentialUnavailableError(
-          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`
+          `${credentialName}: is unavailable. No content on the file ${this.federatedTokenFilePath}.`,
         );
       } else {
         this.azureFederatedTokenFileContent = value;

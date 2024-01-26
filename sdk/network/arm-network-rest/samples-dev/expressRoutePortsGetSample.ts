@@ -31,7 +31,7 @@ async function expressRoutePortGet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}",
       subscriptionId,
       resourceGroupName,
-      expressRoutePortName
+      expressRoutePortName,
     )
     .get(options);
   console.log(result);

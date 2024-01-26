@@ -34,7 +34,7 @@ async function checkPrivateLinkServiceVisibility() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/checkPrivateLinkServiceVisibility",
       subscriptionId,
-      location
+      location,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

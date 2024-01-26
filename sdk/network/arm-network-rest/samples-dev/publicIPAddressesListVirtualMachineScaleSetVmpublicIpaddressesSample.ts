@@ -38,7 +38,7 @@ async function listVmssvmPublicIP() {
       virtualMachineScaleSetName,
       virtualmachineIndex,
       networkInterfaceName,
-      ipConfigurationName
+      ipConfigurationName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

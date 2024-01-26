@@ -6,7 +6,7 @@ import { GetTokenOptions } from "@azure/core-auth";
 /**
  * See the official documentation for more details:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
+ * https://learn.microsoft.com/en-us/azure/active-directory/develop/v1-protocols-oauth-code#error-response-1
  *
  * NOTE: This documentation is for v1 OAuth support but the same error
  * response details still apply to v2.
@@ -138,7 +138,7 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`,
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -220,7 +220,7 @@ export class AuthenticationRequiredError extends Error {
     /**
      * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
      */
-    options: AuthenticationRequiredErrorOptions
+    options: AuthenticationRequiredErrorOptions,
   ) {
     super(options.message);
     this.scopes = options.scopes;

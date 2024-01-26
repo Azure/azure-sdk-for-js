@@ -13,15 +13,8 @@
     "process": false
   },
   "types": "./types/latest/storage-blob-changefeed.d.ts",
-  "typesVersions": {
-    "<3.6": {
-      "*": [
-        "./types/3.1/storage-blob-changefeed.d.ts"
-      ]
-    }
-  },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -29,14 +22,13 @@
     "build:samples": "echo Obsolete.",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:test": "npm run build:es6 && dev-tool run bundle --browser-test=false",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
     "extract-api": "tsc -p . && api-extractor run --local",
     "execute:samples": "dev-tool samples run samples-dev",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-blob-changefeed/test/**/*.spec.js'",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -59,7 +51,6 @@
     "dist-esm/storage-blob-changefeed/src/",
     "dist-esm/storage-internal-avro/src/",
     "types/latest/storage-blob-changefeed.d.ts",
-    "types/3.1/storage-blob-changefeed.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -91,7 +82,7 @@
     ]
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.12.0",
+    "@azure/storage-blob": "^12.23.0-beta.1",
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.4.0",
     "@azure/core-http-compat": "^2.0.0",
@@ -111,12 +102,11 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
-    "downlevel-dts": "^0.10.0",
     "es6-promise": "^4.2.5",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
@@ -133,16 +123,14 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
+    "c8": "^8.0.0",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "util": "^0.12.1",
-    "sinon": "^15.0.0"
+    "sinon": "^17.0.0"
   },
   "//sampleConfiguration": {
     "skipFolder": true,

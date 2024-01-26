@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the connection info for the notebook workspace
  *
  * @summary Retrieves the connection info for the notebook workspace
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
  */
 async function cosmosDbNotebookWorkspaceListConnectionInfo() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function cosmosDbNotebookWorkspaceListConnectionInfo() {
   const result = await client.notebookWorkspaces.listConnectionInfo(
     resourceGroupName,
     accountName,
-    notebookWorkspaceName
+    notebookWorkspaceName,
   );
   console.log(result);
 }

@@ -9,7 +9,7 @@ import {
 } from "./onBehalfOfCredentialOptions";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { MsalFlow } from "../msal/flows";
@@ -23,7 +23,7 @@ const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Azure Active Directory using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
   private tenantId: string;
@@ -31,7 +31,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   private msalFlow: MsalFlow;
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
-   * needed to authenticate against Azure Active Directory with path to a PEM certificate,
+   * needed to authenticate against Microsoft Entra ID with path to a PEM certificate,
    * and an user assertion.
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
@@ -53,11 +53,11 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialCertificateOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
   /**
    * Creates an instance of the {@link OnBehalfOfCredential} with the details
-   * needed to authenticate against Azure Active Directory with a client
+   * needed to authenticate against Microsoft Entra ID with a client
    * secret and an user assertion.
    *
    * Example using the `KeyClient` from [\@azure/keyvault-keys](https://www.npmjs.com/package/\@azure/keyvault-keys):
@@ -79,7 +79,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   constructor(
     options: OnBehalfOfCredentialSecretOptions &
       MultiTenantTokenCredentialOptions &
-      CredentialPersistenceOptions
+      CredentialPersistenceOptions,
   );
 
   constructor(private options: OnBehalfOfCredentialOptions) {
@@ -93,13 +93,13 @@ export class OnBehalfOfCredential implements TokenCredential {
     } = options;
     if (!tenantId || !clientId || !(clientSecret || certificatePath) || !userAssertionToken) {
       throw new Error(
-        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`
+        `${credentialName}: tenantId, clientId, clientSecret (or certificatePath) and userAssertionToken are required parameters.`,
       );
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      additionallyAllowedTenantIds
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      additionallyAllowedTenantIds,
     );
 
     this.msalFlow = new MsalOnBehalfOf({
@@ -110,7 +110,7 @@ export class OnBehalfOfCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -122,7 +122,7 @@ export class OnBehalfOfCredential implements TokenCredential {
         this.tenantId,
         newOptions,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       );
 
       const arrayScopes = ensureScopes(scopes);

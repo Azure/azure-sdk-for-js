@@ -50,7 +50,7 @@ async function createPacketCapture() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      packetCaptureName
+      packetCaptureName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

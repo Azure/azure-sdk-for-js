@@ -75,7 +75,7 @@ describe("CommunicationService test", () => {
     for await (let item of client.communicationServices.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);//have existing resource when testing in this release time
+    assert.equal(resArray.length, 1);
   });
 
   it("communicationService delete test", async function () {
@@ -84,6 +84,6 @@ describe("CommunicationService test", () => {
     for await (let item of client.communicationServices.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 1);//have existing resource when testing in this release time
+    assert.equal(resArray.length, 0);
   });
 });

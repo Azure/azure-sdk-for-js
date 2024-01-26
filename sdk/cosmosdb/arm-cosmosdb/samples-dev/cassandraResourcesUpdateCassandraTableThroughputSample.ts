@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Cassandra table
  *
  * @summary Update RUs per second of an Azure Cosmos DB Cassandra table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBCassandraTableThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBCassandraTableThroughputUpdate.json
  */
 async function cosmosDbCassandraTableThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

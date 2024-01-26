@@ -86,7 +86,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
     assert.ok(
       authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
   });
 
@@ -123,7 +123,7 @@ describe("ManagedIdentityCredential", function () {
       oid: "HIDDEN",
     };
     const base64AccessTokenData = Buffer.from(JSON.stringify(accessTokenData), "utf8").toString(
-      "base64"
+      "base64",
     );
 
     const authDetails = await testContext.sendCredentialRequests({
@@ -157,7 +157,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(authRequest.url.startsWith(imdsHost), "URL does not start with expected host");
     assert.ok(
       authRequest.url.indexOf(`api-version=${imdsApiVersion}`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
     const expectedMessage = `azure:identity:info ManagedIdentityCredential => getToken() => SUCCESS. Scopes: https://service/.default.`;
     assert.equal((spy.getCall(spy.callCount - 2).args[0] as any as string).trim(), expectedMessage);
@@ -202,7 +202,7 @@ describe("ManagedIdentityCredential", function () {
     });
     assert.ok(
       error!.message!.indexOf("No MSI credential available") > -1,
-      "Failed to match the expected error"
+      "Failed to match the expected error",
     );
   });
 
@@ -218,7 +218,6 @@ describe("ManagedIdentityCredential", function () {
         { error: new RestError(errorMessage, { statusCode: 500 }) },
       ],
     });
-    console.log(error?.message);
     assert.ok(error?.message.startsWith(errorMessage));
   });
 
@@ -260,6 +259,42 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error!.message!.indexOf("No managed identity endpoint found.") > -1);
   });
 
+  it("returns expected error when the Docker Desktop IMDS responds for unreachable network", async function () {
+    const netError: RestError = new RestError(
+      "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.",
+      {
+        statusCode: 403,
+      },
+    );
+
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential(),
+      insecureResponses: [
+        createResponse(200), // IMDS Endpoint ping
+        { error: netError },
+      ],
+    });
+
+    assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
+    assert(error!.name, "CredentialUnavailableError");
+  });
+
+  it("IMDS MSI returns error on 403", async function () {
+    const { error } = await testContext.sendCredentialRequests({
+      scopes: ["scopes"],
+      credential: new ManagedIdentityCredential("errclient"),
+      insecureResponses: [
+        createResponse(403, {
+          message:
+            "connecting to 169.254.169.254:80: connecting to 169.254.169.254:80: dial tcp 169.254.169.254:80: connectex: A socket operation was attempted to an unreachable network.",
+        }),
+      ],
+    });
+
+    assert.ok(error!.message.indexOf("No MSI credential available") > -1);
+    assert(error!.name, "CredentialUnavailableError");
+  });
   it("IMDS MSI retries and succeeds on 404", async function () {
     const { result, error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
@@ -295,8 +330,8 @@ describe("ManagedIdentityCredential", function () {
 
     assert.ok(
       error!.message!.indexOf(
-        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
-      ) > -1
+        `Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
+      ) > -1,
     );
   });
 
@@ -356,7 +391,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error?.message);
     assert.equal(
       error?.message.split("\n")[0],
-      "ManagedIdentityCredential authentication failed. Status code: 503"
+      "ManagedIdentityCredential authentication failed. Status code: 503",
     );
   });
 
@@ -378,7 +413,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error?.message);
     assert.equal(
       error?.message.split("\n")[0],
-      "ManagedIdentityCredential authentication failed. Status code: 500"
+      "ManagedIdentityCredential authentication failed. Status code: 500",
     );
   });
 
@@ -406,7 +441,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error?.message);
     assert.equal(
       error?.message.split("\n")[0],
-      "ManagedIdentityCredential authentication failed. Status code: 503"
+      "ManagedIdentityCredential authentication failed. Status code: 503",
     );
   });
 
@@ -434,7 +469,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(error?.message);
     assert.equal(
       error?.message.split("\n")[0],
-      "ManagedIdentityCredential authentication failed. Status code: 503"
+      "ManagedIdentityCredential authentication failed. Status code: 503",
     );
   });
 
@@ -444,7 +479,7 @@ describe("ManagedIdentityCredential", function () {
     assert.ok(
       await imdsMsi.isAvailable({
         scopes: "https://endpoint/.default",
-      })
+      }),
     );
   });
 
@@ -468,7 +503,7 @@ describe("ManagedIdentityCredential", function () {
     const imdsPingRequest = authDetails.requests[0];
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&msi_res_id=resource-id"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&msi_res_id=resource-id",
     );
   });
 
@@ -491,7 +526,7 @@ describe("ManagedIdentityCredential", function () {
 
     assert.equal(
       imdsPingRequest.url,
-      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client"
+      "http://10.0.0.1/metadata/identity/oauth2/token?resource=https%3A%2F%2Fservice&api-version=2018-02-01&client_id=client",
     );
   });
 
@@ -506,7 +541,7 @@ describe("ManagedIdentityCredential", function () {
         createResponse(200),
         // Retries until exhaustion
         ...Array(DEFAULT_CLIENT_MAX_RETRY_COUNT + 1).fill(
-          createResponse(503, {}, { "Retry-After": "2" })
+          createResponse(503, {}, { "Retry-After": "2" }),
         ),
       ],
     });
@@ -552,12 +587,12 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.MSI_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
     assert.equal(authRequest.headers.secret, process.env.MSI_SECRET);
     assert.ok(
       authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
@@ -590,12 +625,12 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
     assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
     assert.ok(
       authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
@@ -628,12 +663,12 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.get("mi_res_id")!), "RESOURCE-ID");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
     assert.equal(authRequest.headers["X-IDENTITY-HEADER"], process.env.IDENTITY_HEADER);
     assert.ok(
       authRequest.url.indexOf(`api-version=2019-08-01`) > -1,
-      "URL does not have expected version"
+      "URL does not have expected version",
     );
     if (authDetails.result?.token) {
       assert.equal(authDetails.result.expiresOnTimestamp, 1624157878000);
@@ -751,7 +786,7 @@ describe("ManagedIdentityCredential", function () {
             {},
             {
               "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
-            }
+            },
           ),
           createResponse(200, {
             access_token: "token",
@@ -769,7 +804,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       // Authorization request, which comes after getting the file path, for now at least.
@@ -781,7 +816,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
@@ -820,7 +855,7 @@ describe("ManagedIdentityCredential", function () {
             {},
             {
               "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
-            }
+            },
           ),
           createResponse(200, {
             access_token: "token",
@@ -839,7 +874,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       // Authorization request, which comes after getting the file path, for now at least.
@@ -853,7 +888,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
@@ -892,7 +927,7 @@ describe("ManagedIdentityCredential", function () {
             {},
             {
               "www-authenticate": `we don't pay much attention about this format=${tempFile}`,
-            }
+            },
           ),
           createResponse(200, {
             access_token: "token",
@@ -911,7 +946,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         validationRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       // Authorization request, which comes after getting the file path, for now at least.
@@ -925,7 +960,7 @@ describe("ManagedIdentityCredential", function () {
 
       assert.ok(
         authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-        "URL does not start with expected host and path"
+        "URL does not start with expected host and path",
       );
 
       assert.equal(authRequest.headers.Authorization, `Basic ${key}`);
@@ -970,7 +1005,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
 
     assert.equal(authRequest.headers.secret, process.env.IDENTITY_HEADER);
@@ -1012,7 +1047,7 @@ describe("ManagedIdentityCredential", function () {
     assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
     assert.ok(
       authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
-      "URL does not start with expected host and path"
+      "URL does not start with expected host and path",
     );
 
     assert.equal(authRequest.headers.secret, process.env.IDENTITY_HEADER);

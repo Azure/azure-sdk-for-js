@@ -304,7 +304,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {},
       });
-      sender["retryTimer"] = "foo" as unknown as NodeJS.Timer;
+      sender["retryTimer"] = "foo" as unknown as NodeJS.Timeout;
       const response = successfulBreezeResponse(1);
       scope.reply(200, JSON.stringify(response));
 
@@ -424,7 +424,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "bearerTokenAuthenticationPolicy";
-        })
+        }),
       );
     });
 
@@ -458,7 +458,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
-        })
+        }),
       );
     });
   });

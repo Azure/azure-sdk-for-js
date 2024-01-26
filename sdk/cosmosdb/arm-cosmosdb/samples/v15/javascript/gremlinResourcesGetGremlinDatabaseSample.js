@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinDatabaseGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBGremlinDatabaseGet.json
  */
 async function cosmosDbGremlinDatabaseGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function cosmosDbGremlinDatabaseGet() {
   const result = await client.gremlinResources.getGremlinDatabase(
     resourceGroupName,
     accountName,
-    databaseName
+    databaseName,
   );
   console.log(result);
 }

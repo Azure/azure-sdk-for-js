@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": " client library samples for JavaScript",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,6 @@
   "dependencies": {
     "@azure/arm-batch": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.0.1"
+    "@azure/identity": "^3.3.0"
   }
 }

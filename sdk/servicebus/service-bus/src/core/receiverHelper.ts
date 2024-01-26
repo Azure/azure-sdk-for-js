@@ -17,7 +17,7 @@ export class ReceiverHelper {
   private _isSuspended: boolean = true;
 
   constructor(
-    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string }
+    private _getCurrentReceiver: () => { receiver: Receiver | undefined; logPrefix: string },
   ) {}
 
   private _getCurrentReceiverOrError():
@@ -85,7 +85,7 @@ export class ReceiverHelper {
     }
 
     logger.verbose(
-      `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`
+      `${logPrefix} User has requested to stop receiving new messages, attempting to drain.`,
     );
 
     return this.drain();
@@ -123,7 +123,7 @@ export class ReceiverHelper {
     }
 
     logger.verbose(
-      `${logPrefix} Receiver is starting drain. Remaining credits; ${receiver.credit}`
+      `${logPrefix} Receiver is starting drain. Remaining credits; ${receiver.credit}`,
     );
 
     const drainPromise = new Promise<void>((resolve) => {

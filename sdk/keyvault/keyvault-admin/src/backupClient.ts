@@ -70,7 +70,7 @@ export class KeyVaultBackupClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    options: KeyVaultBackupClientOptions = {}
+    options: KeyVaultBackupClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
 
@@ -96,7 +96,7 @@ export class KeyVaultBackupClient {
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
         challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      })
+      }),
     );
   }
 
@@ -128,13 +128,13 @@ export class KeyVaultBackupClient {
    * ```
    * Starts a full backup operation.
    * @param blobStorageUri - The URL of the blob storage resource, including the path to the container where the backup will end up being stored.
-   * @param sasToken - The SAS token.
+   * @param sasToken - The SAS token. If no SAS token is provided, user-assigned Managed Identity will be used to access the blob storage resource.
    * @param options - The optional parameters.
    */
   public async beginBackup(
     blobStorageUri: string,
-    sasToken: string,
-    options: KeyVaultBeginBackupOptions = {}
+    sasToken?: string,
+    options: KeyVaultBeginBackupOptions = {},
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
     const poller = new KeyVaultBackupPoller({
       blobStorageUri,
@@ -181,13 +181,13 @@ export class KeyVaultBackupClient {
    * ```
    * Starts a full restore operation.
    * @param folderUri - The URL of the blob storage resource where the previous successful full backup was stored.
-   * @param sasToken - The SAS token.
+   * @param sasToken - The SAS token. If no SAS token is provided, user-assigned Managed Identity will be used to access the blob storage resource.
    * @param options - The optional parameters.
    */
   public async beginRestore(
     folderUri: string,
-    sasToken: string,
-    options: KeyVaultBeginRestoreOptions = {}
+    sasToken?: string,
+    options: KeyVaultBeginRestoreOptions = {},
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
     const poller = new KeyVaultRestorePoller({
       ...mappings.folderUriParts(folderUri),
@@ -235,14 +235,14 @@ export class KeyVaultBackupClient {
    * Creates a new role assignment.
    * @param keyName - The name of the key that wants to be restored.
    * @param folderUri - The URL of the blob storage resource, with the folder name of the blob where the previous successful full backup was stored.
-   * @param sasToken - The SAS token.
+   * @param sasToken - The SAS token. If no SAS token is provided, user-assigned Managed Identity will be used to access the blob storage resource.
    * @param options - The optional parameters.
    */
   public async beginSelectiveKeyRestore(
     keyName: string,
     folderUri: string,
-    sasToken: string,
-    options: KeyVaultBeginSelectiveKeyRestoreOptions = {}
+    sasToken?: string,
+    options: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ): Promise<
     PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
   > {

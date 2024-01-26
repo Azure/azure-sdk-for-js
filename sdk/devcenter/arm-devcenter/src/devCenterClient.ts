@@ -30,6 +30,9 @@ import {
   OperationStatusesImpl,
   UsagesImpl,
   CheckNameAvailabilityImpl,
+  CatalogDevBoxDefinitionsImpl,
+  CustomizationTasksImpl,
+  EnvironmentDefinitionsImpl,
   SkusImpl,
   PoolsImpl,
   SchedulesImpl,
@@ -51,6 +54,9 @@ import {
   OperationStatuses,
   Usages,
   CheckNameAvailability,
+  CatalogDevBoxDefinitions,
+  CustomizationTasks,
+  EnvironmentDefinitions,
   Skus,
   Pools,
   Schedules,
@@ -90,7 +96,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-devcenter/1.0.1`;
+    const packageDetails = `azsdk-js-arm-devcenter/1.1.0-beta.2`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -143,7 +149,7 @@ export class DevCenterClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-04-01";
+    this.apiVersion = options.apiVersion || "2023-10-01-preview";
     this.devCenters = new DevCentersImpl(this);
     this.projects = new ProjectsImpl(this);
     this.attachedNetworks = new AttachedNetworksImpl(this);
@@ -161,6 +167,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
     this.operationStatuses = new OperationStatusesImpl(this);
     this.usages = new UsagesImpl(this);
     this.checkNameAvailability = new CheckNameAvailabilityImpl(this);
+    this.catalogDevBoxDefinitions = new CatalogDevBoxDefinitionsImpl(this);
+    this.customizationTasks = new CustomizationTasksImpl(this);
+    this.environmentDefinitions = new EnvironmentDefinitionsImpl(this);
     this.skus = new SkusImpl(this);
     this.pools = new PoolsImpl(this);
     this.schedules = new SchedulesImpl(this);
@@ -211,6 +220,9 @@ export class DevCenterClient extends coreClient.ServiceClient {
   operationStatuses: OperationStatuses;
   usages: Usages;
   checkNameAvailability: CheckNameAvailability;
+  catalogDevBoxDefinitions: CatalogDevBoxDefinitions;
+  customizationTasks: CustomizationTasks;
+  environmentDefinitions: EnvironmentDefinitions;
   skus: Skus;
   pools: Pools;
   schedules: Schedules;

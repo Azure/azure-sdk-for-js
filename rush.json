@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.106.0",
+  "rushVersion": "5.112.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.7.5",
+  "pnpmVersion": "8.11.0",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -34,7 +34,7 @@
    * Specify a SemVer range to ensure developers use a NodeJS version that is appropriate
    * for your repo.
    */
-  "nodeSupportedVersionRange": ">=14.0.0",
+  "nodeSupportedVersionRange": ">=18.0.0",
   /**
    * Odd-numbered major versions of Node.js are experimental.  Even-numbered releases
    * spend six months in a stabilization period before the first Long Term Support (LTS) version.
@@ -311,6 +311,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/ai-document-intelligence",
+      "projectFolder": "sdk/documentintelligence/ai-document-intelligence-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-administration",
       "projectFolder": "sdk/purview/purview-administration-rest",
       "versionPolicyName": "client"
@@ -343,6 +348,11 @@
     {
       "packageName": "@azure-rest/ai-translation-text",
       "projectFolder": "sdk/translation/ai-translation-text-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/defender-easm",
+      "projectFolder": "sdk/easm/defender-easm-rest",
       "versionPolicyName": "client"
     },
     {
@@ -521,14 +531,13 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-http",
-      "projectFolder": "sdk/core/core-http",
-      "decoupledLocalDependencies": ["@azure/core-tracing"],
+      "packageName": "@azure/core-rest-pipeline",
+      "projectFolder": "sdk/core/core-rest-pipeline",
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-rest-pipeline",
-      "projectFolder": "sdk/core/core-rest-pipeline",
+      "packageName": "@typespec/ts-http-runtime",
+      "projectFolder": "sdk/core/ts-http-runtime",
       "versionPolicyName": "core"
     },
     {
@@ -625,6 +634,11 @@
     {
       "packageName": "@azure/identity-cache-persistence",
       "projectFolder": "sdk/identity/identity-cache-persistence",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/identity-broker",
+      "projectFolder": "sdk/identity/identity-broker",
       "versionPolicyName": "client"
     },
     {
@@ -805,6 +819,11 @@
     {
       "packageName": "@azure-tool/eslint-plugin-azure-sdk-helper",
       "projectFolder": "common/tools/eslint-plugin-azure-sdk-helper",
+      "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure-tools/vite-plugin-browser-test-map",
+      "projectFolder": "common/tools/vite-plugin-browser-test-map",
       "versionPolicyName": "utility"
     },
     {
@@ -2118,8 +2137,28 @@
       "versionPolicyName": "test"
     },
     {
+      "packageName": "@azure/arm-recoveryservicesdatareplication",
+      "projectFolder": "sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-playwrighttesting",
       "projectFolder": "sdk/playwrighttesting/arm-playwrighttesting",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-networkanalytics",
+      "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
       "versionPolicyName": "management"
     }
   ]

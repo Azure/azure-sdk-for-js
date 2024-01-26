@@ -58,7 +58,7 @@ describe("Message session unit tests", () => {
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
               skipConvertingDate: false,
-            }
+            },
           );
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
@@ -74,7 +74,7 @@ describe("Message session unit tests", () => {
           const messages = await receivePromise;
           assert.deepEqual(
             messages.map((m) => m.body),
-            ["the message"]
+            ["the message"],
           );
         }).timeout(5 * 1000);
 
@@ -91,7 +91,7 @@ describe("Message session unit tests", () => {
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
               skipConvertingDate: false,
-            }
+            },
           );
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
@@ -124,7 +124,7 @@ describe("Message session unit tests", () => {
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
                 skipConvertingDate: false,
-              }
+              },
             );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
@@ -153,9 +153,9 @@ describe("Message session unit tests", () => {
             const messages = await receivePromise;
             assert.deepEqual(
               messages.map((m) => m.body),
-              ["the first message", "the second message"]
+              ["the first message", "the second message"],
             );
-          }
+          },
         ).timeout(5 * 1000);
 
         // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
@@ -173,7 +173,7 @@ describe("Message session unit tests", () => {
               retryOptions: undefined,
               skipParsingBodyAsJson: false,
               skipConvertingDate: false,
-            }
+            },
           );
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
@@ -207,7 +207,7 @@ describe("Message session unit tests", () => {
           const messages = await receivePromise;
           assert.deepEqual(
             messages.map((m) => m.body),
-            ["the first message", "the second message"]
+            ["the first message", "the second message"],
           );
         }).timeout(5 * 1000);
 
@@ -228,7 +228,7 @@ describe("Message session unit tests", () => {
                 retryOptions: undefined,
                 skipParsingBodyAsJson: false,
                 skipConvertingDate: false,
-              }
+              },
             );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver, clock);
@@ -239,7 +239,7 @@ describe("Message session unit tests", () => {
 
             receiver["_batchingReceiverLite"]["_getRemainingWaitTimeInMsFn"] = (
               maxWaitTimeInMs: number,
-              maxTimeAfterFirstMessageMs: number
+              maxTimeAfterFirstMessageMs: number,
             ) => {
               // sanity check that the timeouts are passed in correctly....
               assert.equal(maxWaitTimeInMs, bigTimeout + 1);
@@ -271,14 +271,14 @@ describe("Message session unit tests", () => {
             assert.equal(messages.length, 1);
 
             assert.isTrue(wasCalled);
-          }
+          },
         ).timeout(5 * 1000);
       });
     });
 
     function setupFakeReceiver(
       batchingReceiver: MessageSession,
-      clockParam?: ReturnType<typeof sinon.useFakeTimers>
+      clockParam?: ReturnType<typeof sinon.useFakeTimers>,
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
@@ -394,14 +394,14 @@ describe("Message session unit tests", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       closeables.push(messageSession);
 
       processCreditErrorSpy = sinon.spy(
         messageSession as any as { processCreditError: (err: any) => void },
-        "processCreditError"
+        "processCreditError",
       );
     });
 
@@ -417,7 +417,7 @@ describe("Message session unit tests", () => {
             errorArgs = args;
             resolve();
           },
-          {}
+          {},
         );
       });
 
@@ -440,7 +440,7 @@ describe("Message session unit tests", () => {
           errorSource: "processMessageCallback",
           entityPath: "entity path",
           fullyQualifiedNamespace: "fakeHost",
-        }
+        },
       );
     });
 
@@ -461,7 +461,7 @@ describe("Message session unit tests", () => {
             errorArgs = args;
             resolve();
           },
-          {}
+          {},
         );
       });
 
@@ -485,12 +485,12 @@ describe("Message session unit tests", () => {
           errorSource: "processMessageCallback",
           entityPath: "entity path",
           fullyQualifiedNamespace: "fakeHost",
-        }
+        },
       );
 
       assert.isTrue(
         addCreditWasCalled,
-        "Error thrown should have come from the call to addCredit()"
+        "Error thrown should have come from the call to addCredit()",
       );
 
       assert.isTrue(processCreditErrorSpy.called);
@@ -509,13 +509,13 @@ describe("Message session unit tests", () => {
         async (_message) => {
           /* empty body */
         },
-        (errorArgs) => {
+        async (errorArgs) => {
           errors.push({
             message: errorArgs.error.message,
             code: (errorArgs.error as ServiceBusError).code,
           });
         },
-        {}
+        {},
       );
 
       assert.deepEqual(errors, [
@@ -530,7 +530,7 @@ describe("Message session unit tests", () => {
 
     it("processCreditError doesn't log or forward AbortError's", () => {
       let onErrorCalled = false;
-      messageSession["_onError"] = (_err) => {
+      messageSession["_onError"] = async (_err) => {
         onErrorCalled = true;
       };
 
@@ -542,7 +542,7 @@ describe("Message session unit tests", () => {
 
     it("processCreditError forwards non-retryable errors", () => {
       let err: ServiceBusError | Error | undefined;
-      messageSession["_onError"] = (errArgs) => {
+      messageSession["_onError"] = async (errArgs) => {
         err = errArgs.error;
       };
 
@@ -564,7 +564,7 @@ describe("Message session unit tests", () => {
           name: "ServiceBusError",
           code: "SessionLockLost",
           retryable: false,
-        }
+        },
       );
     });
   });

@@ -13,6 +13,7 @@ import LRUCache from "lru-cache";
 import LRUCacheOptions = LRUCache.Options;
 import { isMessageContent } from "./utility";
 import { logger } from "./logger";
+import { DateType } from "./logicalTypes/dateType";
 
 type AVSCSerializer = avro.Type;
 
@@ -76,12 +77,12 @@ export class AvroSerializer<MessageT = MessageContent> {
     const entry = await this.getSchemaByDefinition(schema);
     const buffer = wrapError(
       () => entry.serializer.toBuffer(value),
-      `Avro serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
+      `Avro serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`,
     );
     const data = new Uint8Array(
       buffer.buffer,
       buffer.byteOffset,
-      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT
+      buffer.byteLength / Uint8Array.BYTES_PER_ELEMENT,
     );
     const contentType = `${avroMimeType}+${entry.id}`;
     return this.messageAdapter
@@ -96,7 +97,7 @@ export class AvroSerializer<MessageT = MessageContent> {
          */
         ({
           data,
-          contentType: contentType,
+          contentType,
         } as MessageContent as unknown as MessageT);
   }
 
@@ -120,16 +121,16 @@ export class AvroSerializer<MessageT = MessageContent> {
       const readerSchemaSerializer = getSerializerForSchema(readerSchema);
       const resolver = wrapError(
         () => readerSchemaSerializer.createResolver(writerSchemaSerializer),
-        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee 'cause' for more details.`
+        `Avro reader schema is incompatible with the writer schema (schema ID: (${writerSchemaId})):\n\n\treader schema: ${readerSchema}\n\nSee 'cause' for more details.`,
       );
       return wrapError(
         () => readerSchemaSerializer.fromBuffer(buffer, resolver, true),
-        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee 'cause' for more details. Writer schema ID: ${writerSchemaId}`
+        `Avro deserialization with reader schema failed: \n\treader schema: ${readerSchema}\nSee 'cause' for more details. Writer schema ID: ${writerSchemaId}`,
       );
     } else {
       return wrapError(
         () => writerSchemaSerializer.fromBuffer(buffer),
-        `Avro deserialization failed with schema ID (${writerSchemaId}). See 'cause' for more details.`
+        `Avro deserialization failed with schema ID (${writerSchemaId}). See 'cause' for more details.`,
       );
     }
   }
@@ -147,7 +148,7 @@ export class AvroSerializer<MessageT = MessageContent> {
 
     if (!schemaResponse.properties.format.match(/^avro$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'avro'.`,
       );
     }
 
@@ -168,7 +169,7 @@ export class AvroSerializer<MessageT = MessageContent> {
 
     if (!this.schemaGroup) {
       throw new Error(
-        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
+        "Schema group must have been specified in the constructor options when the client was created in order to serialize.",
       );
     }
 
@@ -189,7 +190,7 @@ export class AvroSerializer<MessageT = MessageContent> {
         if ((e as any).statusCode === 404) {
           throw errorWithCause(
             `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
-            e as Error
+            e as Error,
           );
         } else {
           throw e;
@@ -205,7 +206,7 @@ export class AvroSerializer<MessageT = MessageContent> {
     this.cacheBySchemaDefinition.set(schema, entry);
     this.cacheById.set(id, serializer);
     logger.verbose(
-      `Cache entry added or updated. Total number of entries: ${this.cacheBySchemaDefinition.size}; Total schema length ${this.cacheBySchemaDefinition.calculatedSize}`
+      `Cache entry added or updated. Total number of entries: ${this.cacheBySchemaDefinition.size}; Total schema length ${this.cacheBySchemaDefinition.calculatedSize}`,
     );
     return entry;
   }
@@ -218,7 +219,7 @@ function getSchemaId(contentType: string): string {
   }
   if (contentTypeParts[0] !== avroMimeType) {
     throw new Error(
-      `Received content of type ${contentTypeParts[0]} but an avro serializer may only be used on content that is of '${avroMimeType}' type`
+      `Received content of type ${contentTypeParts[0]} but an avro serializer may only be used on content that is of '${avroMimeType}' type`,
     );
   }
   return contentTypeParts[1];
@@ -226,7 +227,7 @@ function getSchemaId(contentType: string): string {
 
 function convertMessage<MessageT>(
   message: MessageT,
-  adapter?: MessageAdapter<MessageT>
+  adapter?: MessageAdapter<MessageT>,
 ): MessageContent {
   const messageConsumer = adapter?.consume;
   if (messageConsumer) {
@@ -235,15 +236,19 @@ function convertMessage<MessageT>(
     return message;
   } else {
     throw new Error(
-      `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`
+      `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`,
     );
   }
 }
 
 function getSerializerForSchema(schema: string): AVSCSerializer {
   return wrapError(
-    () => avro.Type.forSchema(JSON.parse(schema), { omitRecordMethods: true }),
-    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
+    () =>
+      avro.Type.forSchema(JSON.parse(schema), {
+        omitRecordMethods: true,
+        logicalTypes: { "timestamp-millis": DateType },
+      }),
+    `Parsing Avro schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`,
   );
 }
 
@@ -264,6 +269,6 @@ function errorWithCause(message: string, cause: Error): Error {
     // see https://medium.com/ovrsea/power-up-your-node-js-debugging-and-error-handling-with-the-new-error-cause-feature-4136c563126a
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    { cause }
+    { cause },
   );
 }

@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ContainerServiceClient } from "../containerServiceClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   TrustedAccessRoleBinding,
   TrustedAccessRoleBindingsListNextOptionalParams,
   TrustedAccessRoleBindingsListOptionalParams,
@@ -23,6 +29,7 @@ import {
   TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   TrustedAccessRoleBindingsCreateOrUpdateResponse,
   TrustedAccessRoleBindingsDeleteOptionalParams,
+  TrustedAccessRoleBindingsDeleteResponse,
   TrustedAccessRoleBindingsListNextResponse
 } from "../models";
 
@@ -165,23 +172,102 @@ export class TrustedAccessRoleBindingsImpl
    * @param trustedAccessRoleBinding A trusted access role binding
    * @param options The options parameters.
    */
-  createOrUpdate(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
     trustedAccessRoleBinding: TrustedAccessRoleBinding,
     options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
-  ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
+      TrustedAccessRoleBindingsCreateOrUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         trustedAccessRoleBindingName,
         trustedAccessRoleBinding,
         options
       },
-      createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TrustedAccessRoleBindingsCreateOrUpdateResponse,
+      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Create or update a trusted access role binding
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param options The options parameters.
+   */
+  async beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    trustedAccessRoleBindingName: string,
+    trustedAccessRoleBinding: TrustedAccessRoleBinding,
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  ): Promise<TrustedAccessRoleBindingsCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
+      resourceGroupName,
+      resourceName,
+      trustedAccessRoleBindingName,
+      trustedAccessRoleBinding,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -191,21 +277,97 @@ export class TrustedAccessRoleBindingsImpl
    * @param trustedAccessRoleBindingName The name of trusted access role binding.
    * @param options The options parameters.
    */
-  delete(
+  async beginDelete(
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
     options?: TrustedAccessRoleBindingsDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrustedAccessRoleBindingsDeleteResponse>,
+      TrustedAccessRoleBindingsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<TrustedAccessRoleBindingsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         resourceName,
         trustedAccessRoleBindingName,
         options
       },
-      deleteOperationSpec
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      TrustedAccessRoleBindingsDeleteResponse,
+      OperationState<TrustedAccessRoleBindingsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a trusted access role binding.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    trustedAccessRoleBindingName: string,
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams
+  ): Promise<TrustedAccessRoleBindingsDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      resourceName,
+      trustedAccessRoleBindingName,
+      options
     );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -286,8 +448,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     201: {
       bodyMapper: Mappers.TrustedAccessRoleBinding
     },
+    202: {
+      bodyMapper: Mappers.TrustedAccessRoleBinding
+    },
+    204: {
+      bodyMapper: Mappers.TrustedAccessRoleBinding
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.trustedAccessRoleBinding,
@@ -308,10 +476,20 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.TrustedAccessRoleBindingsDeleteHeaders
+    },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

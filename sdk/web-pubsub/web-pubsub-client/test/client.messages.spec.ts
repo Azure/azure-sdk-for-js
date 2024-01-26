@@ -11,9 +11,7 @@ import {
   LeaveGroupMessage,
   LeaveGroupOptions,
   SendEventMessage,
-  SendEventOptions,
   SendToGroupMessage,
-  SendToGroupOptions,
   ServerDataMessage,
 } from "../src/models";
 import { WebPubSubClient } from "../src/webPubSubClient";
@@ -93,7 +91,7 @@ describe("WebPubSubClient", function () {
           .callsFake((_) => Promise.resolve());
         client.sendToGroup("groupName", "xyz", "text", {
           fireAndForget: true,
-        } as SendToGroupOptions);
+        });
         mock.verify();
       });
     });
@@ -114,7 +112,7 @@ describe("WebPubSubClient", function () {
             noEcho: false,
           } as SendToGroupMessage)
           .callsFake((_) => Promise.resolve());
-        client.sendToGroup("groupName", "xyz", "text", { ackId: 2233 } as SendToGroupOptions);
+        client.sendToGroup("groupName", "xyz", "text", { ackId: 2233 });
         mock.verify();
       });
     });
@@ -156,7 +154,7 @@ describe("WebPubSubClient", function () {
             noEcho: true,
           } as SendToGroupMessage)
           .callsFake((_) => Promise.resolve());
-        client.sendToGroup("groupName", "xyz", "text", { noEcho: true } as SendToGroupOptions);
+        client.sendToGroup("groupName", "xyz", "text", { noEcho: true });
         mock.verify();
       });
     });
@@ -196,7 +194,7 @@ describe("WebPubSubClient", function () {
             data: "xyz",
           } as SendEventMessage)
           .callsFake((_) => Promise.resolve());
-        client.sendEvent("eventName", "xyz", "text", { ackId: 12345 } as SendEventOptions);
+        client.sendEvent("eventName", "xyz", "text", { ackId: 12345 });
         mock.verify();
       });
     });
@@ -216,9 +214,8 @@ describe("WebPubSubClient", function () {
           } as SendEventMessage)
           .callsFake((_) => Promise.resolve());
         client.sendEvent("eventName", "xyz", "text", {
-          ackId: 12345,
           fireAndForget: true,
-        } as SendEventOptions);
+        });
         mock.verify();
       });
     });
@@ -236,7 +233,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           connectionId: "connId",
           userId: "user",
-        })
+        }),
       );
     });
 
@@ -251,7 +248,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           connectionId: "connId",
           message: undefined,
-        })
+        }),
       );
     });
 
@@ -272,7 +269,7 @@ describe("WebPubSubClient", function () {
             kind: "disconnected",
             message: "internal server error",
           } as DisconnectedMessage,
-        })
+        }),
       );
     });
 
@@ -291,7 +288,7 @@ describe("WebPubSubClient", function () {
       assert.isTrue(
         callback.calledWith({
           message: { kind: "groupData", group: "groupName", dataType: "text", data: "xyz" },
-        })
+        }),
       );
     });
 
@@ -309,7 +306,7 @@ describe("WebPubSubClient", function () {
       assert.isTrue(
         callback.calledWith({
           message: { kind: "serverData", dataType: "text", data: "xyz" },
-        })
+        }),
       );
     });
 
@@ -335,7 +332,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           group: "groupName",
           error: err,
-        })
+        }),
       );
     });
   });

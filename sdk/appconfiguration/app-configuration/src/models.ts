@@ -15,50 +15,7 @@ import {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {
-  /**
-   * The version of the App Configuration REST API to call.
-   *
-   * Default: AppConfigurationApiVersion.Latest ("2022-11-01-preview")
-   */
-  apiVersion?: AppConfigurationApiVersion;
-}
-
-/**
- * Valid values of the App Configuration service REST API version.
- */
-export type AppConfigurationApiVersion =
-  (typeof AppConfigurationApiVersion)[keyof typeof AppConfigurationApiVersion];
-
-/**
- * Supported and common values of AppConfigurationApiVersion.
- */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AppConfigurationApiVersion = {
-  /**
-   * The newest version of the service known to be supported by the client (default).
-   *
-   * If using a beta package version, this will be identical to the latest preview version. Otherwise, it will be
-   * identical to the latest stable version.
-   */
-  Latest: "2022-11-01-preview",
-
-  /**
-   * The newest stable version of the service known to be supported by the package. This will be a Generally Available
-   * (GA) version, even if the package version is a beta.
-   */
-  Stable: "1.0",
-
-  /**
-   * App Configuration API version "1.0" (GA).
-   */
-  "1.0": "1.0",
-
-  /**
-   * App Configuration API version 2022-11-01-preview.
-   */
-  "2022-11-01-preview": "2022-11-01-preview",
-} as const;
+export interface AppConfigurationClientOptions extends CommonClientOptions {}
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -84,7 +41,7 @@ export interface ConfigurationSettingId {
  * Necessary fields for updating or creating a new configuration setting
  */
 export type ConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingId & {
   /**
    * The content type of the setting's value
@@ -114,7 +71,7 @@ export type ConfigurationSettingParam<
  * its etag, whether it is currently readOnly and when it was last modified.
  */
 export type ConfigurationSetting<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T> & {
   /**
    * Whether or not the setting is read-only
@@ -161,14 +118,14 @@ export interface HttpResponseField<HeadersT> {
  * Parameters for adding a new configuration setting
  */
 export type AddConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**
  * Parameters for creating or updating a new configuration setting
  */
 export type SetConfigurationSettingParam<
-  T extends string | FeatureFlagValue | SecretReferenceValue = string
+  T extends string | FeatureFlagValue | SecretReferenceValue = string,
 > = ConfigurationSettingParam<T>;
 
 /**

@@ -61,7 +61,7 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
 
   if (!requestUrl.hostname.endsWith(`.${scopeAsUrl.hostname}`)) {
     throw new Error(
-      `The challenge resource '${scopeAsUrl.hostname}' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.`
+      `The challenge resource '${scopeAsUrl.hostname}' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.`,
     );
   }
 }
@@ -80,7 +80,7 @@ function verifyChallengeResource(scope: string, request: PipelineRequest): void 
  *
  */
 export function createKeyVaultChallengeCallbacks(
-  options: CreateChallengeCallbacksOptions = {}
+  options: CreateChallengeCallbacksOptions = {},
 ): ChallengeCallbacks {
   const { disableChallengeResourceVerification } = options;
   let challengeState: ChallengeState = { status: "none" };

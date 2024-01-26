@@ -33,7 +33,7 @@ export interface KeyVaultBackupPollOperationState
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
 }
 
 /**
@@ -47,7 +47,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     public state: KeyVaultBackupPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: KeyVaultBeginBackupOptions = {}
+    private requestOptions: KeyVaultBeginBackupOptions = {},
   ) {
     super(state, { cancelMessage: "Cancelling a full Key Vault backup is not supported." });
   }
@@ -57,7 +57,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
    */
   private fullBackup(options: FullBackupOptionalParams): Promise<FullBackupResponse> {
     return tracingClient.withSpan("KeyVaultBackupPoller.fullBackup", options, (updatedOptions) =>
-      this.client.fullBackup(this.vaultUrl, updatedOptions)
+      this.client.fullBackup(this.vaultUrl, updatedOptions),
     );
   }
 
@@ -66,12 +66,12 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
    */
   private fullBackupStatus(
     jobId: string,
-    options: KeyVaultBeginBackupOptions
+    options: KeyVaultBeginBackupOptions,
   ): Promise<FullBackupStatusResponse> {
     return tracingClient.withSpan(
       "KeyVaultBackupPoller.fullBackupStatus",
       options,
-      (updatedOptions) => this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions)
+      (updatedOptions) => this.client.fullBackupStatus(this.vaultUrl, jobId, updatedOptions),
     );
   }
 
@@ -82,7 +82,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: KeyVaultBackupPollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<KeyVaultBackupPollOperation> {
     const state = this.state;
     const { blobStorageUri, sasToken } = state;
@@ -96,7 +96,8 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
         ...this.requestOptions,
         azureStorageBlobContainerUri: {
           storageResourceUri: blobStorageUri!,
-          token: sasToken!,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
         },
       });
 
@@ -125,7 +126,7 @@ export class KeyVaultBackupPollOperation extends KeyVaultAdminPollOperation<
     } = serviceOperation;
     if (!startTime) {
       throw new Error(
-        `Missing "startTime" from the full backup operation. Full backup did not start successfully.`
+        `Missing "startTime" from the full backup operation. Full backup did not start successfully.`,
       );
     }
 

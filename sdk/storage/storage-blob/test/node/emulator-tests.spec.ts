@@ -29,7 +29,7 @@ describe("Emulator Tests", () => {
       this.skip();
     }
     blobServiceClient = BlobServiceClient.fromConnectionString(
-      getConnectionStringFromEnvironment()
+      getConnectionStringFromEnvironment(),
     );
     containerName = getUniqueName("container");
     blobName = getUniqueName("blob");
@@ -56,7 +56,7 @@ describe("Emulator Tests", () => {
     assert.equal(
       containerName,
       newClient.containerName,
-      "Container name didn't match with the provided one."
+      "Container name didn't match with the provided one.",
     );
     assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     const result = await newClient.getProperties();
@@ -76,13 +76,13 @@ describe("Emulator Tests", () => {
     const newClient = new BlockBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
 
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name didn't match with the provided one."
+      "Container name didn't match with the provided one.",
     );
     assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     const body: string = "randomstring";
@@ -103,7 +103,7 @@ describe("Emulator Tests", () => {
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name didn't match with the provided one."
+      "Container name didn't match with the provided one.",
     );
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -124,7 +124,7 @@ describe("Emulator Tests", () => {
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name didn't match with the provided one."
+      "Container name didn't match with the provided one.",
     );
     assert.ok(result.etag!.length > 0);
     assert.ok(result.lastModified);
@@ -135,13 +135,13 @@ describe("Emulator Tests", () => {
     const newClient = new PageBlobClient(
       getConnectionStringFromEnvironment(),
       containerName,
-      blobName
+      blobName,
     );
 
     assert.equal(
       newClient.containerName,
       containerName,
-      "Container name didn't match with the provided one."
+      "Container name didn't match with the provided one.",
     );
     assert.equal(newClient.name, blobName, "Blob name didn't match with the provided one.");
     await newClient.create(512);

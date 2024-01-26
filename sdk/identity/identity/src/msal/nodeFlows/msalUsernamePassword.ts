@@ -2,9 +2,12 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
+
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
+
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
+import { handleMsalError } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through username and password.
@@ -31,7 +34,7 @@ export class MsalUsernamePassword extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
     try {
       const requestOptions: msalNode.UsernamePasswordRequest = {
@@ -43,11 +46,11 @@ export class MsalUsernamePassword extends MsalNode {
         claims: options?.claims,
       };
       const result = await this.getApp("public", options?.enableCae).acquireTokenByUsernamePassword(
-        requestOptions
+        requestOptions,
       );
-      return this.handleResult(scopes, this.clientId, result || undefined);
+      return this.handleResult(scopes, result || undefined);
     } catch (error: any) {
-      throw this.handleError(scopes, error, options);
+      throw handleMsalError(scopes, error, options);
     }
   }
 }

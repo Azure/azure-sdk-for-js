@@ -15,10 +15,18 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
+  /** Enable Live Metrics feature */
+  enableLiveMetrics?: boolean;
+  /** Enable Standard Metrics feature */
+  enableStandardMetrics?: boolean;
   /**
    * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
    */
   instrumentationOptions?: InstrumentationOptions;
+  /**
+   * Application Insights Web Instrumentation options (enabled, connectionString, src, config)
+   */
+  browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
 }
 
 /**
@@ -39,4 +47,16 @@ export interface InstrumentationOptions {
   redis?: InstrumentationConfig;
   /** Redis4 Instrumentation Config */
   redis4?: InstrumentationConfig;
+  /** Bunyan Instrumentation Config */
+  bunyan?: InstrumentationConfig;
+}
+
+/**
+ * Application Insights Web Instrumentation Configuration interface
+ */
+export interface BrowserSdkLoaderOptions {
+  /** Browser SDK Loader Enable */
+  enabled?: boolean;
+  /** Browser SDK Loader Connection String */
+  connectionString?: string;
 }

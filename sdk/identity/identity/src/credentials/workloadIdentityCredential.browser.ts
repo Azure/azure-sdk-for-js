@@ -5,13 +5,13 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "WorkloadIdentityCredential is not supported in the browser."
+  "WorkloadIdentityCredential is not supported in the browser.",
 );
 const logger = credentialLogger("WorkloadIdentityCredential");
 
 /**
- * WorkloadIdentityCredential supports Azure workload identity authentication on Kubernetes.
- * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Azure Active Directory Workload Identity</a>
+ * WorkloadIdentityCredential supports Microsoft Entra Workload ID authentication on Kubernetes.
+ * Refer to <a href="https://learn.microsoft.com/azure/aks/workload-identity-overview">Microsoft Entra Workload ID</a>
  * for more information.
  */
 export class WorkloadIdentityCredential implements TokenCredential {

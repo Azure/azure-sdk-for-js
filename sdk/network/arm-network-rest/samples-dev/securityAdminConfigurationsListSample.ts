@@ -32,7 +32,7 @@ async function listSecurityAdminConfigurationsInANetworkManager() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

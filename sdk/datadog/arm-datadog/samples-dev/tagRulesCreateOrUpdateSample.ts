@@ -8,28 +8,59 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import {
+  MonitoringTagRules,
+  TagRulesCreateOrUpdateOptionalParams,
+  MicrosoftDatadogClient
+} from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Create or update a tag rule set for a given monitor resource.
  *
  * @summary Create or update a tag rule set for a given monitor resource.
- * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/TagRules_CreateOrUpdate.json
+ * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2023-01-01/examples/TagRules_CreateOrUpdate.json
  */
 async function tagRulesCreateOrUpdate() {
-  const subscriptionId = "00000000-0000-0000-0000-000000000000";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["DATADOG_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
+  const body: MonitoringTagRules = {
+    properties: {
+      automuting: true,
+      logRules: {
+        filteringTags: [
+          { name: "Environment", action: "Include", value: "Prod" },
+          { name: "Environment", action: "Exclude", value: "Dev" }
+        ],
+        sendAadLogs: false,
+        sendResourceLogs: true,
+        sendSubscriptionLogs: true
+      },
+      metricRules: { filteringTags: [] }
+    }
+  };
+  const options: TagRulesCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.tagRules.createOrUpdate(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
+    options
   );
   console.log(result);
 }
 
-tagRulesCreateOrUpdate().catch(console.error);
+async function main() {
+  tagRulesCreateOrUpdate();
+}
+
+main().catch(console.error);

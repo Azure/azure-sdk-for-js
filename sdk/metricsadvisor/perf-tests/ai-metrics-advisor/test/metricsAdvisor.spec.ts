@@ -17,8 +17,8 @@ export abstract class MetricsAdvisorTest<TOptions> extends PerfTest<TOptions> {
       getEnvVar("METRICS_ADVISOR_ENDPOINT"),
       new MetricsAdvisorKeyCredential(
         getEnvVar("METRICS_ADVISOR_SUBSCRIPTION_KEY"),
-        getEnvVar("METRICS_ADVISOR_API_KEY")
-      )
+        getEnvVar("METRICS_ADVISOR_API_KEY"),
+      ),
     );
   }
 }

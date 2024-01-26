@@ -37,7 +37,7 @@ describe("getRegistration", () => {
 
     registration = (await createRegistration(
       context,
-      registration
+      registration,
     )) as AppleRegistrationDescription;
     registrationId = registration.registrationId!;
   });

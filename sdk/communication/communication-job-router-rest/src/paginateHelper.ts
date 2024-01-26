@@ -1,16 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  getPagedAsyncIterator,
-  PagedAsyncIterableIterator,
-  PagedResult,
-} from "@azure/core-paging";
-import {
-  Client,
-  createRestError,
-  PathUncheckedResponse,
-} from "@azure-rest/core-client";
+import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { Client, createRestError, PathUncheckedResponse } from "@azure-rest/core-client";
 
 /**
  * Helper type to extract the type of an array
@@ -22,7 +14,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
  */
 export type GetPage<TPage> = (
   pageLink: string,
-  maxPageSize?: number
+  maxPageSize?: number,
 ) => Promise<{
   page: TPage;
   nextPageLink?: string;
@@ -61,7 +53,7 @@ export type PaginateReturn<TResult> = TResult extends {
 export function paginate<TResponse extends PathUncheckedResponse>(
   client: Client,
   initialResponse: TResponse,
-  options: PagingOptions<TResponse> = {}
+  options: PagingOptions<TResponse> = {},
 ): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
   // Extract element type from initial response
   type TElement = PaginateReturn<TResponse>;
@@ -75,9 +67,7 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-            const result = firstRun
-              ? initialResponse
-              : await client.pathUnchecked(pageLink).get();
+            const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
             firstRun = false;
             checkPagingRequest(result);
             const nextLink = getNextLink(result.body, nextLinkName);
@@ -103,9 +93,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
-    throw new Error(
-      `Body Property ${nextLinkName} should be a string or undefined`
-    );
+    throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
   }
 
   return nextLink;
@@ -122,7 +110,7 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
   // type of elements in the page in PaginateReturn
   if (!Array.isArray(value)) {
     throw new Error(
-      `Couldn't paginate response\n Body doesn't contain an array property with name: ${itemName}`
+      `Couldn't paginate response\n Body doesn't contain an array property with name: ${itemName}`,
     );
   }
 
@@ -133,22 +121,11 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
  * Checks if a request failed
  */
 function checkPagingRequest(response: PathUncheckedResponse): void {
-  const Http2xxStatusCodes = [
-    "200",
-    "201",
-    "202",
-    "203",
-    "204",
-    "205",
-    "206",
-    "207",
-    "208",
-    "226",
-  ];
+  const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,
-      response
+      response,
     );
   }
 }

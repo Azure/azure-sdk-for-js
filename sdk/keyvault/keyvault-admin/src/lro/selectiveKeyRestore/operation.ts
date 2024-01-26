@@ -46,7 +46,7 @@ export interface KeyVaultSelectiveKeyRestorePollOperationState
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
 }
 
 /**
@@ -60,7 +60,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     public state: KeyVaultSelectiveKeyRestorePollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private requestOptions: KeyVaultBeginSelectiveKeyRestoreOptions = {}
+    private requestOptions: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ) {
     super(state, { cancelMessage: "Cancelling a selective Key Vault restore is not supported." });
   }
@@ -70,13 +70,13 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
    */
   private selectiveRestore(
     keyName: string,
-    options: SelectiveKeyRestoreOperationOptionalParams
+    options: SelectiveKeyRestoreOperationOptionalParams,
   ): Promise<SelectiveKeyRestoreOperationResponse> {
     return tracingClient.withSpan(
       "KeyVaultSelectiveKeyRestorePoller.selectiveRestore",
       options,
       (updatedOptions) =>
-        this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions)
+        this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions),
     );
   }
 
@@ -87,7 +87,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     return tracingClient.withSpan(
       "KeyVaultSelectiveKeyRestorePoller.restoreStatus",
       options,
-      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions)
+      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions),
     );
   }
 
@@ -98,7 +98,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: KeyVaultSelectiveKeyRestorePollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<KeyVaultSelectiveKeyRestorePollOperation> {
     const state = this.state;
     const { keyName, folderUri, sasToken, folderName } = state;
@@ -115,6 +115,7 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
           sasTokenParameters: {
             storageResourceUri: folderUri,
             token: sasToken,
+            useManagedIdentity: sasToken === undefined,
           },
         },
       });

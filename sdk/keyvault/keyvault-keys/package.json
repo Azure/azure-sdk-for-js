@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-keys",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "4.7.3",
+  "version": "4.8.0-beta.2",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's keys.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-keys/README.md",
@@ -23,7 +23,7 @@
   "module": "dist-esm/keyvault-keys/src/index.js",
   "types": "./types/keyvault-keys.d.ts",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "files": [
     "types/keyvault-keys.d.ts",
@@ -43,7 +43,6 @@
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js 2>&1",
     "build:samples": "echo Obsolete.",
     "build:node": "tsc -p . && npm run bundle",
     "build:browser": "tsc -p . && npm run bundle",
@@ -51,11 +50,11 @@
     "build:test": "tsc -p . && npm run bundle",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && api-extractor run --local",
     "bundle": "dev-tool run bundle",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/**/*.spec.js'",
@@ -124,8 +123,8 @@
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
-    "@types/node": "^14.0.0",
-    "@types/sinon": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
     "dayjs": "^1.10.7",
     "dotenv": "^16.0.0",
@@ -143,14 +142,12 @@
     "karma-mocha-reporter": "^2.2.5",
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^2.0.0",
-    "nyc": "^15.0.0",
-    "prettier": "^2.5.1",
+    "c8": "^8.0.0",
     "puppeteer": "^19.2.2",
     "rimraf": "^3.0.0",
-    "sinon": "^15.0.0",
+    "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
-    "typescript": "~5.0.0",
+    "typescript": "~5.2.0",
     "ts-node": "^10.0.0"
   }
 }

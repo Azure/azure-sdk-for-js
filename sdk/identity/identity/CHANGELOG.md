@@ -1,15 +1,70 @@
 # Release History
 
-## 3.3.1 (Unreleased)
+## 4.1.0-beta.1 (Unreleased)
 
 ### Features Added
+
+- `AzureCliCredential`: Added support for the new response field which represents token expiration timestamp as time zone agnostic value. ([#28333](https://github.com/Azure/azure-sdk-for-js/pull/28333))
 
 ### Breaking Changes
 
 ### Bugs Fixed
-- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior.  ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
-- Fixed browser bundling for Azure Developer CLI credential 
+
+- `new DefaultAzureCredential()` will no longer throw when one of the credentials in the chain fails to instantiate. Any creation errors will be logged when `getToken` is called. [#28264](https://github.com/Azure/azure-sdk-for-js/pull/28264)
+
 ### Other Changes
+
+## 4.0.1 (2024-01-18)
+
+### Bugs Fixed
+- Initialize Public Client Application in the Interactive Browser Credential, as required by @azure/msal-browser v3 fixed in [#28292](https://github.com/Azure/azure-sdk-for-js/pull/28292). 
+
+## 3.4.1 (2023-11-13)
+
+### Bugs Fixed
+
+- Fixed regressions introduced by 3.4.0 [#27761](https://github.com/Azure/azure-sdk-for-js/pull/27761)
+
+## 4.0.0 (2023-11-07)
+
+### Features Added
+- All the features shipped as part of 4.0.0-beta.1 will be GA with this version. The most important features being the browser customization for success/ error messages and the support of brokered authentication on Windows OS, such as WAM.
+
+### Breaking Changes
+- Starting with v4.0.0 of `@azure/identity`, Node.js v20 will be supported and Node.js v16 will no longer be supported.
+
+## 3.4.0 (2023-11-07)
+
+## Features Added
+
+- Upgraded version of @azure/msal-node to v2.5.0 to support all versions of Node.js - Node 16, Node 18 and Node 20.
+
+## 4.0.0-beta.1 (2023-10-26)
+
+### Features Added
+- Added `brokerOptions` in `InteractiveBrowserCredential` for authentication broker support such as WAM. This feature works along with the new `@azure/identity-broker` plugin package. Note that this feature is only available in node.
+- Added support for MSA passthrough in the `brokerOptions` of `InteractiveBrowserCredential`. Note this is only available for legacy 1st party applications.
+- Added `BrowserCustomizationOptions` for success and error messages in the `InteractiveBrowserCredential`.
+
+### Breaking Changes
+- The `redirectUri` is no longer a required option for `InteractiveBrowserCredential` on Node.js. There's no API change, but this is a behavior change.
+
+## 3.3.2 (2023-10-17)
+
+### Bugs Fixed
+- Ensure `AzurePowershellCredential` calls PowerShell with the `-NoProfile`  and "-NonInteractive" flag to avoid loading user profiles for more consistent behavior. ([#27023](https://github.com/Azure/azure-sdk-for-js/pull/27023))
+- Fixed browser bundling for Azure Developer CLI credential. ([Identity] update mapping for browser for azd (#27097))
+- `ManagedIdentityCredential` will fall through to the next credential in the chain in the case that Docker Desktop returns a 403 response when attempting to access the IMDS endpoint.([#27050](https://github.com/Azure/azure-sdk-for-js/pull/27050))
+
+### Other Changes
+- The default IMDS probe request timeout in `ManagedIdentityCredential` has been increased to 1 second from 0.3 seconds to reduce the likelihood of false negatives.
+- Fixed links to documentation.
+- Further improvements to tenant and scope validation.
+
+## 3.3.1 (2023-10-10)
+
+### Bug Fixes
+- Bug fixes for developer credentials
 
 ## 3.3.0 (2023-08-14)
 
@@ -73,7 +128,7 @@
 
 ### Features Added
 
-- Added support to disable instance discovery on AAD credentials.
+- Added support to disable instance discovery on Microsoft Entra credentials.
 - Added `AzureDeveloperCliCredential` [#24180](https://github.com/Azure/azure-sdk-for-js/pull/24180) and added it to the `DefaultAzureCredential` [#24826](https://github.com/Azure/azure-sdk-for-js/pull/24826) auth flow
 - Added support for `WokloadIdentityCredential`[#24830](https://github.com/Azure/azure-sdk-for-js/pull/24830), added it to `DefaultAzureCredential` auth flow and replaced the in-house implementation of `Token Exchange MSI` in `ManagedIdentity` with `WorkloadIdentityCredential`.
 
@@ -149,7 +204,7 @@
 ### Features Added
 
 - Added support in `EnvironmentCredential` to read a certificate password from an environment variable `AZURE_CLIENT_CERTIFICATE_PASSWORD`
-- Added samples for supporting AAD authentication in Azure Redis Cache
+- Added samples for supporting Microsoft Entra authentication in Azure Redis Cache
 
 ### Breaking Changes
 
@@ -689,7 +744,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with Microsoft Entra ID ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))

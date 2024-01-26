@@ -70,7 +70,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     it("autocomplete returns zero results for invalid query", async function () {
       const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete(
         "garbxyz",
-        "sg"
+        "sg",
       );
       assert.isTrue(autoCompleteResult.results.length === 0);
     });
@@ -152,16 +152,16 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         for await (const result of selectResults.results) {
           assert.doesNotHaveAnyKeys(
             result.document,
-            hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key))
+            hotelKeys.filter((key) => !["hotelId", "address", "rooms"].includes(key)),
           );
           assert.doesNotHaveAnyKeys(
             result.document.address,
-            addressKeys.filter((key) => key !== "city")
+            addressKeys.filter((key) => key !== "city"),
           );
           for (const room of result.document.rooms!) {
             assert.doesNotHaveAnyKeys(
               room,
-              roomKeys.filter((key) => key !== "type")
+              roomKeys.filter((key) => key !== "type"),
             );
             break;
           }
@@ -213,7 +213,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       const suggestResult = await searchClient.suggest("WiFi", "sg");
       assert.equal(suggestResult.results.length, 1);
       assert.isTrue(
-        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels")
+        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels"),
       );
     });
 
@@ -226,11 +226,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       const getDocumentResult = await searchClient.getDocument("8");
       assert.equal(
         getDocumentResult.description,
-        "Has some road noise and is next to the very police station. Bathrooms had morel coverings."
+        "Has some road noise and is next to the very police station. Bathrooms had morel coverings.",
       );
       assert.equal(
         getDocumentResult.descriptionFr,
-        "Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles."
+        "Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles.",
       );
       assert.equal(getDocumentResult.hotelId, "8");
     });
@@ -379,7 +379,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
   });
 
-  onVersions({ minVer: "2023-07-01-Preview" }).describe(
+  onVersions({ minVer: "2023-10-01-Preview" }).describe(
     "SearchClient tests",
     function (this: Suite) {
       let recorder: Recorder;
@@ -473,7 +473,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
                 },
               },
             ],
-            result.documentDebugInfo
+            result.documentDebugInfo,
           );
         }
       });
@@ -492,7 +492,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         for await (const result of searchResults.results) {
           resultIds.push(result.document.hotelId);
         }
-        assert.deepEqual(["1", "5", "4"], resultIds);
+        assert.deepEqual(["3", "9", "1"], resultIds);
       });
 
       it("search with semantic error handling", async function () {
@@ -518,13 +518,20 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
         const embeddings = await openAIClient.getEmbeddings(
           env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-          ["What are the most luxurious hotels?"]
+          ["What are the most luxurious hotels?"],
         );
 
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectors: [{ value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] }],
+          vectorQueries: [
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
+          ],
           top: 3,
           select: ["hotelId"],
         });
@@ -543,15 +550,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
         const embeddings = await openAIClient.getEmbeddings(
           env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
-          ["What are the most luxurious hotels?"]
+          ["What are the most luxurious hotels?"],
         );
 
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectors: [
-            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
-            { value: embedding, kNearestNeighborsCount: 3, fields: ["vectorDescription"] },
+          vectorQueries: [
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
+            {
+              kind: "vector",
+              vector: embedding,
+              kNearestNeighborsCount: 3,
+              fields: ["vectorDescription"],
+            },
           ],
           top: 3,
           select: ["hotelId"],
@@ -563,7 +580,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
         assert.deepEqual(["1", "3", "4"], resultIds);
       });
-    }
+    },
   );
 });
 
@@ -590,8 +607,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
       it("defaults to the current apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential);
-        assert.equal("2023-07-01-Preview", client.serviceVersion);
-        assert.equal("2023-07-01-Preview", client.apiVersion);
+        assert.equal("2023-10-01-Preview", client.serviceVersion);
+        assert.equal("2023-10-01-Preview", client.apiVersion);
       });
     });
   });

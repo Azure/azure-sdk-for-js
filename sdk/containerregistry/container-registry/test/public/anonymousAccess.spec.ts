@@ -37,7 +37,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         recorder,
         {
           anonymous: true,
-        }
+        },
       );
     });
 
@@ -54,7 +54,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       }
       assert.isTrue(
         results.indexOf(repositoryName) !== -1,
-        `Expecting '${repositoryName}' in the list`
+        `Expecting '${repositoryName}' in the list`,
       );
     });
 

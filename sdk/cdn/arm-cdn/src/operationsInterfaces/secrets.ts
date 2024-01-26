@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Secret,
   SecretsListByProfileOptionalParams,
@@ -63,7 +63,10 @@ export interface Secrets {
     secret: Secret,
     options?: SecretsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<SecretsCreateResponse>, SecretsCreateResponse>
+    SimplePollerLike<
+      OperationState<SecretsCreateResponse>,
+      SecretsCreateResponse
+    >
   >;
   /**
    * Creates a new Secret within the specified profile.
@@ -94,7 +97,7 @@ export interface Secrets {
     profileName: string,
     secretName: string,
     options?: SecretsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing Secret within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

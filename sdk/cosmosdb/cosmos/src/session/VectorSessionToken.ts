@@ -19,7 +19,7 @@ export class VectorSessionToken {
     private readonly version: number,
     private readonly globalLsn: number,
     private readonly localLsnByregion: Map<number, string>,
-    private readonly sessionToken?: string
+    private readonly sessionToken?: string,
   ) {
     if (!this.sessionToken) {
       const regionAndLocalLsn = [];
@@ -37,7 +37,7 @@ export class VectorSessionToken {
 
   public static create(sessionToken: string): VectorSessionToken | null {
     const [versionStr, globalLsnStr, ...regionSegments] = sessionToken.split(
-      VectorSessionToken.SEGMENT_SEPARATOR
+      VectorSessionToken.SEGMENT_SEPARATOR,
     );
 
     const version = parseInt(versionStr, 10);
@@ -50,7 +50,7 @@ export class VectorSessionToken {
     const lsnByRegion = new Map<number, string>();
     for (const regionSegment of regionSegments) {
       const [regionIdStr, localLsnStr] = regionSegment.split(
-        VectorSessionToken.REGION_PROGRESS_SEPARATOR
+        VectorSessionToken.REGION_PROGRESS_SEPARATOR,
       );
 
       if (!regionIdStr || !localLsnStr) {
@@ -93,13 +93,13 @@ export class VectorSessionToken {
       this.localLsnByregion.size !== other.localLsnByregion.size
     ) {
       throw new Error(
-        `Compared session tokens ${this.sessionToken} and ${other.sessionToken} have unexpected regions`
+        `Compared session tokens ${this.sessionToken} and ${other.sessionToken} have unexpected regions`,
       );
     }
 
     const [higherVersionSessionToken, lowerVersionSessionToken]: [
       VectorSessionToken,
-      VectorSessionToken
+      VectorSessionToken,
     ] = this.version < other.version ? [other, this] : [this, other];
 
     const highestLocalLsnByRegion = new Map<number, string>();
@@ -110,7 +110,7 @@ export class VectorSessionToken {
         highestLocalLsnByRegion.set(regionId, max(highLocalLsn, lowLocalLsn));
       } else if (this.version === other.version) {
         throw new Error(
-          `Compared session tokens have unexpected regions. Session 1: ${this.sessionToken} - Session 2: ${this.sessionToken}`
+          `Compared session tokens have unexpected regions. Session 1: ${this.sessionToken} - Session 2: ${this.sessionToken}`,
         );
       } else {
         highestLocalLsnByRegion.set(regionId, highLocalLsn);
@@ -120,7 +120,7 @@ export class VectorSessionToken {
     return new VectorSessionToken(
       Math.max(this.version, other.version),
       Math.max(this.globalLsn, other.globalLsn),
-      highestLocalLsnByRegion
+      highestLocalLsnByRegion,
     );
   }
 

@@ -212,7 +212,7 @@ export interface StoragePipelineOptions {
  */
 export function newPipeline(
   credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): Pipeline {
   if (!credential) {
     credential = new AnonymousCredential();
@@ -223,7 +223,7 @@ export function newPipeline(
 }
 
 function processDownlevelPipeline(
-  pipeline: PipelineLike
+  pipeline: PipelineLike,
 ): { wrappedPolicies: PipelinePolicy; afterRetry: boolean } | undefined {
   const knownFactoryFunctions = [
     isAnonymousCredential,
@@ -305,7 +305,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
     if (downlevelResults) {
       corePipeline.addPolicy(
         downlevelResults.wrappedPolicies,
-        downlevelResults.afterRetry ? { afterPhase: "Retry" } : undefined
+        downlevelResults.afterRetry ? { afterPhase: "Retry" } : undefined,
       );
     }
     const credential = getCredentialFromPipeline(pipeline);
@@ -316,7 +316,7 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
           scopes: restOptions.audience ?? StorageOAuthScopes,
           challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
         }),
-        { phase: "Sign" }
+        { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
       corePipeline.addPolicy(
@@ -324,20 +324,21 @@ export function getCoreClientOptions(pipeline: PipelineLike): ExtendedServiceCli
           accountName: credential.accountName,
           accountKey: (credential as any).accountKey,
         }),
-        { phase: "Sign" }
+        { phase: "Sign" },
       );
     }
     (pipeline as any)._corePipeline = corePipeline;
   }
   return {
     ...restOptions,
+    allowInsecureConnection: true,
     httpClient,
     pipeline: corePipeline,
   };
 }
 
 export function getCredentialFromPipeline(
-  pipeline: PipelineLike
+  pipeline: PipelineLike,
 ): StorageSharedKeyCredential | AnonymousCredential | TokenCredential {
   // see if we squirreled one away on the type itself
   if ((pipeline as any)._credential) {
@@ -358,7 +359,7 @@ export function getCredentialFromPipeline(
 }
 
 function isStorageSharedKeyCredential(
-  factory: RequestPolicyFactory
+  factory: RequestPolicyFactory,
 ): factory is StorageSharedKeyCredential {
   if (factory instanceof StorageSharedKeyCredential) {
     return true;
@@ -378,7 +379,7 @@ function isCoreHttpBearerTokenFactory(factory: RequestPolicyFactory): boolean {
 }
 
 function isStorageBrowserPolicyFactory(
-  factory: RequestPolicyFactory
+  factory: RequestPolicyFactory,
 ): factory is StorageBrowserPolicyFactory {
   if (factory instanceof StorageBrowserPolicyFactory) {
     return true;
@@ -387,7 +388,7 @@ function isStorageBrowserPolicyFactory(
 }
 
 function isStorageRetryPolicyFactory(
-  factory: RequestPolicyFactory
+  factory: RequestPolicyFactory,
 ): factory is StorageRetryPolicyFactory {
   if (factory instanceof StorageRetryPolicyFactory) {
     return true;

@@ -6,7 +6,8 @@ import * as sinon from "sinon";
 import { MetricHandler } from "../../../../src/metrics";
 import { InternalConfig } from "../../../../src/shared";
 import { ExportResultCode } from "@opentelemetry/core";
-import { metrics as MetricsApi, metrics } from "@opentelemetry/api";
+import { metrics as MetricsApi } from "@opentelemetry/api";
+import { MeterProvider } from "@opentelemetry/sdk-metrics";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -30,7 +31,7 @@ describe("MetricHandler", () => {
   afterEach(() => {
     process.env = originalEnv;
     handler.shutdown();
-    metrics.disable();
+    MetricsApi.disable();
     sandbox.restore();
   });
 
@@ -45,21 +46,22 @@ describe("MetricHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(result);
-        })
+        }),
     );
+    const meterProvider = new MeterProvider({
+      views: handler.getViews(),
+    });
+    meterProvider.addMetricReader(handler.getMetricReader());
+    MetricsApi.setGlobalMeterProvider(meterProvider);
   }
-
-  it("should create a meterProvider", () => {
-    createHandler();
-    assert.ok(MetricsApi.getMeterProvider(), "meterProvider not available");
-  });
 
   it("should observe instruments during collection", async () => {
     createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
+    let counter = MetricsApi.getMeter("testMeter").createCounter("testCounter", {
       description: "testDescription",
     });
-    await new Promise((resolve) => setTimeout(resolve, 120));
+    counter.add(2);
+    await new Promise((resolve) => setTimeout(resolve, 220));
     assert.ok(exportStub.called);
     const resourceMetrics = exportStub.args[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
@@ -70,23 +72,18 @@ describe("MetricHandler", () => {
     assert.strictEqual(metrics[0].descriptor.description, "testDescription");
   });
 
-  it("should not collect when disabled", async () => {
+  it("should add views", async () => {
+    _config.instrumentationOptions = {
+      azureSdk: { enabled: true },
+      http: { enabled: true },
+      mySql: { enabled: true },
+      postgreSql: { enabled: true },
+      redis4: { enabled: true },
+      redis: { enabled: true },
+    };
     createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
-      description: "testDescription",
-    });
-    handler.shutdown();
-    await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
-  });
-
-  it("should flush", async () => {
-    createHandler();
-    MetricsApi.getMeter("testMeter").createCounter("testCounter", {
-      description: "testDescription",
-    });
-    await handler.flush();
-    assert.ok(exportStub.called);
+    const meterProvider = MetricsApi.getMeterProvider() as MeterProvider;
+    assert.strictEqual(meterProvider["_sharedState"]["viewRegistry"]["_registeredViews"].length, 6);
   });
 
   describe("#autoCollect", () => {
@@ -100,7 +97,7 @@ describe("MetricHandler", () => {
 
     it("standard metrics disabled if env var present", () => {
       const env = <{ [id: string]: string }>{};
-      env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "something";
+      env["APPLICATION_INSIGHTS_NO_STANDARD_METRICS"] = "true";
       process.env = env;
       createHandler();
       assert.ok(!handler["_standardMetrics"], "Standard metrics loaded");

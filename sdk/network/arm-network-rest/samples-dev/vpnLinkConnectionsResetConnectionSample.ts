@@ -36,7 +36,7 @@ async function resetVpnLinkConnection() {
       resourceGroupName,
       gatewayName,
       connectionName,
-      linkConnectionName
+      linkConnectionName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing Azure Cosmos DB database account.
  *
  * @summary Updates the properties of an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBDatabaseAccountPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountPatch.json
  */
 async function cosmosDbDatabaseAccountPatch() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function cosmosDbDatabaseAccountPatch() {
       periodicModeProperties: {
         backupIntervalInMinutes: 240,
         backupRetentionIntervalInHours: 720,
-        backupStorageRedundancy: "Geo"
+        backupStorageRedundancy: "Local"
       }
     },
     capacity: { totalThroughputLimit: 2000 },
@@ -44,7 +44,6 @@ async function cosmosDbDatabaseAccountPatch() {
       maxStalenessPrefix: 200
     },
     defaultIdentity: "FirstPartyIdentity",
-    diagnosticLogSettings: { enableFullTextQuery: "True" },
     enableAnalyticalStorage: true,
     enableBurstCapacity: true,
     enableFreeTier: false,

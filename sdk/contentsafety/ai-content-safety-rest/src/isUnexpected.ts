@@ -15,10 +15,10 @@ import {
   DeleteTextBlocklistDefaultResponse,
   ListTextBlocklists200Response,
   ListTextBlocklistsDefaultResponse,
-  AddBlockItems200Response,
-  AddBlockItemsDefaultResponse,
-  RemoveBlockItems204Response,
-  RemoveBlockItemsDefaultResponse,
+  AddOrUpdateBlocklistItems200Response,
+  AddOrUpdateBlocklistItemsDefaultResponse,
+  RemoveBlocklistItems204Response,
+  RemoveBlocklistItemsDefaultResponse,
   GetTextBlocklistItem200Response,
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
@@ -32,44 +32,44 @@ const responseMap: Record<string, string[]> = {
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
   "GET /text/blocklists": ["200"],
-  "POST /text/blocklists/{blocklistName}:addBlockItems": ["200"],
-  "POST /text/blocklists/{blocklistName}:removeBlockItems": ["204"],
-  "GET /text/blocklists/{blocklistName}/blockItems/{blockItemId}": ["200"],
-  "GET /text/blocklists/{blocklistName}/blockItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:addOrUpdateBlocklistItems": ["200"],
+  "POST /text/blocklists/{blocklistName}:removeBlocklistItems": ["204"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems/{blocklistItemId}": ["200"],
+  "GET /text/blocklists/{blocklistName}/blocklistItems": ["200"],
 };
 
 export function isUnexpected(
-  response: AnalyzeText200Response | AnalyzeTextDefaultResponse
+  response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
 ): response is AnalyzeTextDefaultResponse;
 export function isUnexpected(
-  response: AnalyzeImage200Response | AnalyzeImageDefaultResponse
+  response: AnalyzeImage200Response | AnalyzeImageDefaultResponse,
 ): response is AnalyzeImageDefaultResponse;
 export function isUnexpected(
-  response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse
+  response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse,
 ): response is GetTextBlocklistDefaultResponse;
 export function isUnexpected(
   response:
     | CreateOrUpdateTextBlocklist200Response
     | CreateOrUpdateTextBlocklist201Response
-    | CreateOrUpdateTextBlocklistDefaultResponse
+    | CreateOrUpdateTextBlocklistDefaultResponse,
 ): response is CreateOrUpdateTextBlocklistDefaultResponse;
 export function isUnexpected(
-  response: DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse
+  response: DeleteTextBlocklist204Response | DeleteTextBlocklistDefaultResponse,
 ): response is DeleteTextBlocklistDefaultResponse;
 export function isUnexpected(
-  response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse
+  response: ListTextBlocklists200Response | ListTextBlocklistsDefaultResponse,
 ): response is ListTextBlocklistsDefaultResponse;
 export function isUnexpected(
-  response: AddBlockItems200Response | AddBlockItemsDefaultResponse
-): response is AddBlockItemsDefaultResponse;
+  response: AddOrUpdateBlocklistItems200Response | AddOrUpdateBlocklistItemsDefaultResponse,
+): response is AddOrUpdateBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: RemoveBlockItems204Response | RemoveBlockItemsDefaultResponse
-): response is RemoveBlockItemsDefaultResponse;
+  response: RemoveBlocklistItems204Response | RemoveBlocklistItemsDefaultResponse,
+): response is RemoveBlocklistItemsDefaultResponse;
 export function isUnexpected(
-  response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse
+  response: GetTextBlocklistItem200Response | GetTextBlocklistItemDefaultResponse,
 ): response is GetTextBlocklistItemDefaultResponse;
 export function isUnexpected(
-  response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse
+  response: ListTextBlocklistItems200Response | ListTextBlocklistItemsDefaultResponse,
 ): response is ListTextBlocklistItemsDefaultResponse;
 export function isUnexpected(
   response:
@@ -86,14 +86,14 @@ export function isUnexpected(
     | DeleteTextBlocklistDefaultResponse
     | ListTextBlocklists200Response
     | ListTextBlocklistsDefaultResponse
-    | AddBlockItems200Response
-    | AddBlockItemsDefaultResponse
-    | RemoveBlockItems204Response
-    | RemoveBlockItemsDefaultResponse
+    | AddOrUpdateBlocklistItems200Response
+    | AddOrUpdateBlocklistItemsDefaultResponse
+    | RemoveBlocklistItems204Response
+    | RemoveBlocklistItemsDefaultResponse
     | GetTextBlocklistItem200Response
     | GetTextBlocklistItemDefaultResponse
     | ListTextBlocklistItems200Response
-    | ListTextBlocklistItemsDefaultResponse
+    | ListTextBlocklistItemsDefaultResponse,
 ): response is
   | AnalyzeTextDefaultResponse
   | AnalyzeImageDefaultResponse
@@ -101,8 +101,8 @@ export function isUnexpected(
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
   | ListTextBlocklistsDefaultResponse
-  | AddBlockItemsDefaultResponse
-  | RemoveBlockItemsDefaultResponse
+  | AddOrUpdateBlocklistItemsDefaultResponse
+  | RemoveBlocklistItemsDefaultResponse
   | GetTextBlocklistItemDefaultResponse
   | ListTextBlocklistItemsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
@@ -146,7 +146,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Check the availability of name for resource
  *
  * @summary Check the availability of name for resource
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/CheckNameAvailabilityLocationBased.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/CheckNameAvailabilityLocationBased.json
  */
 async function nameAvailability() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function nameAvailability() {
   const client = new PostgreSQLManagementFlexibleServerClient(credential, subscriptionId);
   const result = await client.checkNameAvailabilityWithLocation.execute(
     locationName,
-    nameAvailabilityRequest
+    nameAvailabilityRequest,
   );
   console.log(result);
 }

@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 4.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,29 @@
 
 ### Other Changes
 
+## 4.0.0 (2023-10-31)
+    
+**Features**
+
+  - Added Interface EventHubConfiguration
+  - Added Interface NASRerouteConfiguration
+  - Added Interface SignalingConfiguration
+  - Interface PacketCapture has a new optional parameter outputFiles
+  - Interface PacketCoreControlPlane has a new optional parameter controlPlaneAccessVirtualIpv4Addresses
+  - Interface PacketCoreControlPlane has a new optional parameter eventHub
+  - Interface PacketCoreControlPlane has a new optional parameter signaling
+  - Interface PacketCoreDataPlane has a new optional parameter userPlaneAccessVirtualIpv4Addresses
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value ControlPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value PublicLandMobileNetworkIdentifierHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessInterfaceHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneAccessVirtualIpv4AddressesHasChanged
+  - Enum KnownInstallationReason has a new value UserPlaneDataInterfaceHasChanged
+    
+**Breaking Changes**
+
+  - Parameter totalBytesPerSession has a more constraining minimum value
+    
 ## 3.0.0 (2023-07-05)
     
 **Features**

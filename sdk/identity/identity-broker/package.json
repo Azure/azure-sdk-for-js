@@ -1,0 +1,98 @@
+{
+  "name": "@azure/identity-broker",
+  "version": "1.0.1",
+  "sdk-type": "client",
+  "description": "A native plugin for Azure Identity credentials to enable broker authentication such as WAM",
+  "main": "dist/index.js",
+  "module": "dist-esm/identity-broker/src/index.js",
+  "types": "./types/identity-broker.d.ts",
+  "scripts": {
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo skipped",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "build": "npm run extract-api && tsc -p . && dev-tool run bundle",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf dist dist-esm types \"*.tgz\" \"*.log\"",
+    "execute:samples": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test --ext .ts,.javascript,.js",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "files": [
+    "dist/",
+    "dist-esm/identity/src",
+    "dist-esm/identity-broker/src",
+    "types/identity-broker.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": [
+    "azure",
+    "cloud",
+    "azure",
+    "azure-active-directory",
+    "WAM",
+    "MSA support"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-broker/README.md",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/core-auth": "^1.4.0",
+    "@azure/identity": "^4.0.0",
+    "@azure/msal-node": "^2.5.1",
+    "@azure/msal-node-extensions": "^1.0.7",
+    "tslib": "^2.2.0"
+  },
+  "devDependencies": {
+    "@azure/logger": "^1.0.4",
+    "@azure/core-util": "^1.6.0",
+    "@azure/abort-controller": "^1.1.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/test-utils": "^1.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@microsoft/api-extractor": "^7.35.1",
+    "@types/mocha": "^10.0.0",
+    "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
+    "@types/wtfnode": "0.7.2",
+    "cross-env": "^7.0.2",
+    "eslint": "^8.0.0",
+    "mocha": "^10.0.0",
+    "puppeteer": "^20.5.0",
+    "rimraf": "^5.0.1",
+    "typescript": "~5.0.0",
+    "sinon": "^17.0.0",
+    "wtfnode": "0.9.1"
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Identity Brokered Auth Plugin",
+    "productSlugs": [
+      "azure",
+      "azure-active-directory"
+    ],
+    "requiredResources": {
+      "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app"
+    }
+  }
+}

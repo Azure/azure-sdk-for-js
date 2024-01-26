@@ -18,10 +18,10 @@ import {
 import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import * as fs from "fs";
-import { v4 as uuidv4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { CallAutomationApiClient } from "./generated/src";
-import { createCommunicationAuthPolicy } from "@azure/communication-common";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**
  * CallRecording class represents call recording related APIs.
@@ -34,11 +34,13 @@ export class CallRecording {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: CallAutomationApiClientOptionalParams
+    options?: CallAutomationApiClientOptionalParams,
   ) {
-    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
-    const authPolicy = createCommunicationAuthPolicy(credential);
-    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
+    this.callAutomationApiClient = createCustomCallAutomationApiClient(
+      credential,
+      options,
+      endpoint,
+    );
 
     this.callRecordingImpl = new CallRecordingImpl(this.callAutomationApiClient);
     this.contentDownloader = new ContentDownloaderImpl(this.callAutomationApiClient);
@@ -58,6 +60,7 @@ export class CallRecording {
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
+    startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];
@@ -73,7 +76,7 @@ export class CallRecording {
       startCallRecordingRequest.audioChannelParticipantOrdering = [];
       options.audioChannelParticipantOrdering.forEach((identifier) => {
         startCallRecordingRequest.audioChannelParticipantOrdering?.push(
-          communicationIdentifierModelConverter(identifier)
+          communicationIdentifierModelConverter(identifier),
         );
       });
     }
@@ -89,11 +92,11 @@ export class CallRecording {
     const optionsInternal = {
       ...options,
       repeatabilityFirstSent: new Date(),
-      repeatabilityRequestID: uuidv4(),
+      repeatabilityRequestID: randomUUID(),
     };
     const response = await this.callRecordingImpl.startRecording(
       startCallRecordingRequest,
-      optionsInternal
+      optionsInternal,
     );
 
     const result: RecordingStateResult = {
@@ -111,7 +114,7 @@ export class CallRecording {
    */
   public async getState(
     recordingId: string,
-    options: GetRecordingPropertiesOptions = {}
+    options: GetRecordingPropertiesOptions = {},
   ): Promise<RecordingStateResult> {
     const response = await this.callRecordingImpl.getRecordingProperties(recordingId, options);
 
@@ -157,7 +160,7 @@ export class CallRecording {
    */
   public async delete(
     recordingLocationUrl: string,
-    options: DeleteRecordingOptions = {}
+    options: DeleteRecordingOptions = {},
   ): Promise<void> {
     await this.contentDownloader.deleteRecording(recordingLocationUrl, options);
   }
@@ -169,7 +172,7 @@ export class CallRecording {
    */
   public async downloadStreaming(
     sourceLocationUrl: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<NodeJS.ReadableStream> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
@@ -189,12 +192,17 @@ export class CallRecording {
   public async downloadToStream(
     sourceLocationUrl: string,
     destinationStream: NodeJS.WritableStream,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
       recordingStream.pipe(destinationStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        destinationStream.on("finish", resolve);
+        destinationStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }
@@ -209,12 +217,18 @@ export class CallRecording {
   public async downloadToPath(
     sourceLocationUrl: string,
     destinationPath: string,
-    options: DownloadRecordingOptions = {}
+    options: DownloadRecordingOptions = {},
   ): Promise<void> {
     const result = this.contentDownloader.download(sourceLocationUrl, options);
     const recordingStream = (await result).readableStreamBody;
     if (recordingStream) {
-      recordingStream.pipe(fs.createWriteStream(destinationPath));
+      const writeFileStream = fs.createWriteStream(destinationPath);
+      recordingStream.pipe(writeFileStream);
+      const finish = new Promise<void>((resolve, reject) => {
+        writeFileStream.on("finish", resolve);
+        writeFileStream.on("error", reject);
+      });
+      await finish;
     } else {
       throw Error("failed to get stream");
     }

@@ -1,5 +1,68 @@
 # Release History
 
+## 5.1.1 (2024-01-22)
+
+### Features Added
+
+- Removed the System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+
+These system events will be added in the future.
+
+## 5.1.0 (2024-01-16)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.Storage.StorageTaskAssignmentQueued`
+  - `Microsoft.Storage.StorageTaskAssignmentCompleted`
+
+## 5.0.0 (2023-11-07)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ResourceNotifications.Resources.CreatedOrUpdated`
+  - `Microsoft.ResourceNotifications.Resources.Deleted`
+
+### Breaking Changes
+
+- In `ResourceNotificationsResourceUpdatedDetails` interface, the data type of property `tags` has been changed from `string` to object. Please refer [PR #27679](https://github.com/Azure/azure-sdk-for-js/pull/27679/) for further details.
+
+## 4.15.0 (2023-10-12)
+
+### Features Added
+
+- Added new System Events:
+
+  - `Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged`
+  - `Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated`
+  - `Microsoft.Communication.RouterWorkerDeregistered`
+  - `Microsoft.Communication.RouterWorkerRegistered`
+  - `Microsoft.Communication.RouterJobCancelled`
+  - `Microsoft.Communication.RouterJobClassificationFailed`
+  - `Microsoft.Communication.RouterJobClassified`
+  - `Microsoft.Communication.RouterJobClosed`
+  - `Microsoft.Communication.RouterJobCompleted`
+  - `Microsoft.Communication.RouterJobDeleted`
+  - `Microsoft.Communication.RouterJobExceptionTriggered`
+  - `Microsoft.Communication.RouterJobQueued`
+  - `Microsoft.Communication.RouterJobReceived`
+  - `Microsoft.Communication.RouterJobSchedulingFailed`
+  - `Microsoft.Communication.RouterJobUnassigned`
+  - `Microsoft.Communication.RouterJobWaitingForActivation`
+  - `Microsoft.Communication.RouterJobWorkerSelectorsExpire`
+  - `Microsoft.Communication.RouterWorkerDeleted`
+  - `Microsoft.Communication.RouterWorkerOfferAccepted`
+  - `Microsoft.Communication.RouterWorkerOfferDeclined`
+  - `Microsoft.Communication.RouterWorkerOfferExpired`
+  - `Microsoft.Communication.RouterWorkerOfferIssued`
+  - `Microsoft.Communication.RouterWorkerOfferRevoked`
+
 ## 4.14.0 (2023-09-14)
 
 ### Features Added

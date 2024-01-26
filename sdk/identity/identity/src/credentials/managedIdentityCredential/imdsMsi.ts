@@ -5,6 +5,7 @@ import { delay, isError } from "@azure/core-util";
 import { GetTokenOptions } from "@azure/core-auth";
 import {
   PipelineRequestOptions,
+  PipelineResponse,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
@@ -28,7 +29,7 @@ function prepareRequestOptions(
   options?: {
     skipQuery?: boolean;
     skipMetadataHeader?: boolean;
-  }
+  },
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -125,41 +126,53 @@ export const imdsMsi: MSI = {
         // returned quickly from the endpoint, proving its availability.
         const request = createPipelineRequest(requestOptions);
 
-        // Default to 300 if the default of 0 is used.
+        // Default to 1000 if the default of 0 is used.
         // Negative values can still be used to disable the timeout.
-        request.timeout = options.requestOptions?.timeout || 300;
+        request.timeout = options.requestOptions?.timeout || 1000;
 
         // This MSI uses the imdsEndpoint to get the token, which only uses http://
         request.allowInsecureConnection = true;
-
+        let response: PipelineResponse;
         try {
           logger.info(`${msiName}: Pinging the Azure IMDS endpoint`);
-          await identityClient.sendRequest(request);
+          response = await identityClient.sendRequest(request);
         } catch (err: unknown) {
           // If the request failed, or Node.js was unable to establish a connection,
           // or the host was down, we'll assume the IMDS endpoint isn't available.
           if (isError(err)) {
             logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
+          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+          // rather than just timing out, as expected.
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           return false;
         }
-
+        if (response.status === 403) {
+          if (
+            response.bodyAsText?.includes(
+              "A socket operation was attempted to an unreachable network",
+            )
+          ) {
+            logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
+            logger.info(`${msiName}: ${response.bodyAsText}`);
+            return false;
+          }
+        }
         // If we received any response, the endpoint is available
         logger.info(`${msiName}: The Azure IMDS endpoint is available`);
         return true;
-      }
+      },
     );
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST) {
       logger.info(
-        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`
+        `${msiName}: Using the Azure IMDS endpoint coming from the environment variable AZURE_POD_IDENTITY_AUTHORITY_HOST=${process.env.AZURE_POD_IDENTITY_AUTHORITY_HOST}.`,
       );
     } else {
       logger.info(`${msiName}: Using the default Azure IMDS endpoint ${imdsHost}.`);
@@ -188,7 +201,7 @@ export const imdsMsi: MSI = {
 
     throw new AuthenticationError(
       404,
-      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`
+      `${msiName}: Failed to retrieve IMDS token after ${imdsMsiRetryConfig.maxRetries} retries.`,
     );
   },
 };

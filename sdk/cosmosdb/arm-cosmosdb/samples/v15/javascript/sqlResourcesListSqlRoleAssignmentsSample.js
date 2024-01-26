@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
  *
  * @summary Retrieves the list of all Azure Cosmos DB SQL Role Assignments.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlRoleAssignmentList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlRoleAssignmentList.json
  */
 async function cosmosDbSqlRoleAssignmentList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
@@ -27,7 +27,7 @@ async function cosmosDbSqlRoleAssignmentList() {
   const resArray = new Array();
   for await (let item of client.sqlResources.listSqlRoleAssignments(
     resourceGroupName,
-    accountName
+    accountName,
   )) {
     resArray.push(item);
   }

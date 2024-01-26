@@ -51,7 +51,7 @@ const apiVersionPolicy = {
 export default function createClient(
   endpoint: undefined | string,
   credential: undefined | TranslatorCredential | KeyCredential | TokenCredential = undefined,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): TextTranslationClient {
   let serviceEndpoint: string;
   if (!endpoint) {
@@ -81,12 +81,12 @@ export default function createClient(
 
   if (isTranslatorKeyCredential(credential)) {
     const mtAuthneticationPolicy = new TranslatorAuthenticationPolicy(
-      credential as TranslatorCredential
+      credential as TranslatorCredential,
     );
     client.pipeline.addPolicy(mtAuthneticationPolicy);
   } else if (isKeyCredential(credential)) {
     const mtKeyAuthenticationPolicy = new TranslatorAzureKeyAuthenticationPolicy(
-      credential as AzureKeyCredential
+      credential as AzureKeyCredential,
     );
     client.pipeline.addPolicy(mtKeyAuthenticationPolicy);
   } else if (credential) {
@@ -94,7 +94,7 @@ export default function createClient(
       coreRestPipeline.bearerTokenAuthenticationPolicy({
         credential: credential as TokenCredential,
         scopes: DEFAULT_SCOPE,
-      })
+      }),
     );
   }
 

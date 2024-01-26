@@ -56,7 +56,7 @@ async function dedicatedHostsUpdateMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -88,7 +88,7 @@ async function dedicatedHostsUpdateMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

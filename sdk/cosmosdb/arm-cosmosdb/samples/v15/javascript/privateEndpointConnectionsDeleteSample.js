@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a private endpoint connection with a given name.
  *
  * @summary Deletes a private endpoint connection with a given name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBPrivateEndpointConnectionDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBPrivateEndpointConnectionDelete.json
  */
 async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deletesAPrivateEndpointConnectionWithAGivenName() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

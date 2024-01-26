@@ -32,7 +32,7 @@ async function listConnectionMonitors() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs",
       subscriptionId,
       resourceGroupName,
-      networkWatcherName
+      networkWatcherName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

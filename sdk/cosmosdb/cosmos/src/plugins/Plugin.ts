@@ -52,7 +52,7 @@ export interface PluginConfig {
 export type Plugin<T> = (
   context: RequestContext,
   diagnosticNode: DiagnosticNodeInternal,
-  next: Next<T>
+  next: Next<T>,
 ) => Promise<Response<T>>;
 
 /**
@@ -69,7 +69,7 @@ export async function executePlugins(
   diagnosticNode: DiagnosticNodeInternal,
   requestContext: RequestContext,
   next: Plugin<any>,
-  on: PluginOn
+  on: PluginOn,
 ): Promise<Response<any>> {
   if (!requestContext.plugins) {
     return next(requestContext, diagnosticNode, undefined);

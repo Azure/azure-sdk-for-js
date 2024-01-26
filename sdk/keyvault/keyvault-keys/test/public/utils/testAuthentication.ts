@@ -61,7 +61,7 @@ export async function authenticate(version: string, recorder: Recorder): Promise
     recorder.configureClientOptions({
       serviceVersion: version,
       disableChallengeResourceVerification: !isLiveMode(),
-    })
+    }),
   );
   const testClient = new TestClient(client);
 
@@ -72,7 +72,7 @@ export async function authenticate(version: string, recorder: Recorder): Promise
       credential,
       recorder.configureClientOptions({
         disableChallengeResourceVerification: !isLiveMode(),
-      })
+      }),
     );
   }
 

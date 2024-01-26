@@ -45,7 +45,7 @@ export interface GetYearsPathsOptions extends CommonOptions {
 
 export async function getYearsPaths(
   containerClient: ContainerClient,
-  options: GetYearsPathsOptions = {}
+  options: GetYearsPathsOptions = {},
 ): Promise<number[]> {
   return tracingClient.withSpan("getYearsPaths", options, async (updatedOptions) => {
     const years: number[] = [];
@@ -79,7 +79,7 @@ export async function getSegmentsInYear(
   year: number,
   startTime?: Date,
   endTime?: Date,
-  options: GetSegmentsInYearOptions = {}
+  options: GetSegmentsInYearOptions = {},
 ): Promise<string[]> {
   return tracingClient.withSpan("getSegmentsInYear", options, async (updatedOptions) => {
     const segments: string[] = [];

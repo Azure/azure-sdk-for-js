@@ -84,12 +84,6 @@
     },
     {
       "commandKind": "bulk",
-      "name": "lint:fix",
-      "summary": "Fix linting errors for projects",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "lint",
       "summary": "Lint projects",
       "enableParallelism": true
@@ -163,6 +157,13 @@
       "enableParallelism": true,
       "ignoreMissingScript": true
     },
+    {
+      "commandKind": "bulk",
+      "name": "lint:fix",
+      "summary": "Fix linting errors for projects",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
     // Global Commands
     {
       "commandKind": "global",
@@ -200,9 +201,7 @@
       "parameterKind": "flag",
       "longName": "--sync-peers",
       "description": "Also sync peer dependency versions with those in the working directory.",
-      "associatedCommands": [
-        "sync-versions"
-      ]
+      "associatedCommands": ["sync-versions"]
     }
   ]
 }

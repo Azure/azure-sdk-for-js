@@ -80,11 +80,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(
           statsbeat["getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(statsbeat["getShortHost"]("https://dc.services.visualstudio.com"), "dc");
         assert.strictEqual(statsbeat["getShortHost"]("https://www.test.com"), "test");
@@ -98,16 +98,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
         // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["attach"], "sdk");
+        assert.strictEqual(statsbeat["attach"], "Manual");
         assert.strictEqual(
           statsbeat["cikey"],
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
         );
         assert.strictEqual(statsbeat["language"], "node");
         assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
           statsbeat["endpointUrl"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
         );
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
@@ -174,6 +174,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "appsvc");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "Test Website/testhome");
             done();
           })
           .catch((error: Error) => {
@@ -191,6 +192,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "functions");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testhost");
             done();
           })
           .catch((error: Error) => {
@@ -210,6 +212,25 @@ describe("#AzureMonitorStatsbeatExporter", () => {
           .then(() => {
             process.env = originalEnv;
             assert.strictEqual(statsbeat["resourceProvider"], "vm");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "undefined/undefined");
+            done();
+          })
+          .catch((error: Error) => {
+            done(error);
+          });
+      });
+
+      it("should determine if the rp is AKS", (done) => {
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv["AKS_ARM_NAMESPACE_ID"] = "testaks";
+        const originalEnv = process.env;
+        process.env = newEnv;
+
+        statsbeat["getResourceProvider"]()
+          .then(() => {
+            process.env = originalEnv;
+            assert.strictEqual(statsbeat["resourceProvider"], "aks");
+            assert.strictEqual(statsbeat["resourceIdentifier"], "testaks");
             done();
           })
           .catch((error: Error) => {
@@ -264,9 +285,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
       it("should track duration", async () => {
         const mockExport = sandbox.stub(statsbeat["networkAzureExporter"], "export");
         statsbeat.countSuccess(100);
-        statsbeat.countSuccess(100);
-        statsbeat.countSuccess(200);
-        statsbeat.countSuccess(200);
+        statsbeat.countRetry(206);
+        statsbeat.countFailure(200, 500);
+        statsbeat.countThrottle(402);
+        statsbeat.countException({ name: "Statsbeat", message: "Statsbeat Exception" });
 
         await new Promise((resolve) => setTimeout(resolve, 120));
         assert.ok(mockExport.called);
@@ -355,7 +377,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const longIntervalStatsbeat = getInstance(options);
         const mockExport = sandbox.stub(
           longIntervalStatsbeat["longIntervalAzureExporter"],
-          "export"
+          "export",
         );
 
         await new Promise((resolve) => setTimeout(resolve, 120));
@@ -367,6 +389,10 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metrics.length, 2, "Metrics count");
         assert.strictEqual(metrics[0].descriptor.name, StatsbeatCounter.FEATURE);
         assert.strictEqual(metrics[1].descriptor.name, StatsbeatCounter.ATTACH);
+        // Instrumentation statsbeat
+        assert.strictEqual(metrics[0].dataPoints[0].attributes.type, 1);
+        // Feature statsbeat
+        assert.strictEqual(metrics[0].dataPoints[1].attributes.type, 0);
 
         // Clean up env variables
         delete process.env.STATSBEAT_INSTRUMENTATIONS;

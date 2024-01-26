@@ -10,6 +10,7 @@ import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
   throwIfNotValidServiceBusMessage,
+  throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
 } from "./util/errors";
@@ -72,7 +73,7 @@ export interface ServiceBusSender {
       | ServiceBusMessageBatch
       | AmqpAnnotatedMessage
       | AmqpAnnotatedMessage[],
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
 
   /**
@@ -124,7 +125,7 @@ export interface ServiceBusSender {
       | AmqpAnnotatedMessage
       | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<Long[]>;
 
   /**
@@ -136,7 +137,7 @@ export interface ServiceBusSender {
    */
   cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
   /**
    * Path of the entity for which the sender has been created.
@@ -176,7 +177,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     private _context: ConnectionContext,
     private _entityPath: string,
     retryOptions: RetryOptions = {},
-    identifier?: string
+    identifier?: string,
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
@@ -206,7 +207,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       | ServiceBusMessageBatch
       | AmqpAnnotatedMessage
       | AmqpAnnotatedMessage[],
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
@@ -220,7 +221,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         options ?? {},
         this.entityPath,
         this._context.config.host,
-        "publish"
+        "publish",
       );
       const spanLinks: TracingSpanLink[] = spanContext ? [{ tracingContext: spanContext }] : [];
       return tracingClient.withSpan(
@@ -232,9 +233,9 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           ...toSpanOptions(
             { entityPath: this.entityPath, host: this._context.config.host },
             "publish",
-            "client"
+            "client",
           ),
-        }
+        },
       );
     }
 
@@ -251,7 +252,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
           // this is too big - throw an error
           throw new ServiceBusError(
             "Messages were too big to fit in a single batch. Remove some messages and try again or create your own batch using createBatch(), which gives more fine-grained control.",
-            "MessageSizeExceeded"
+            "MessageSizeExceeded",
           );
         }
       }
@@ -272,9 +273,9 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
         ...toSpanOptions(
           { entityPath: this.entityPath, host: this._context.config.host },
           "publish",
-          "client"
+          "client",
         ),
-      }
+      },
     );
   }
 
@@ -290,13 +291,19 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       | AmqpAnnotatedMessage
       | AmqpAnnotatedMessage[],
     scheduledEnqueueTimeUtc: Date,
-    options: OperationOptionsBase = {}
+    options: OperationOptionsBase = {},
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "scheduledEnqueueTimeUtc",
-      scheduledEnqueueTimeUtc
+      scheduledEnqueueTimeUtc,
+    );
+    throwTypeErrorIfNotInstanceOfParameterType(
+      this._context.connectionId,
+      "scheduledEnqueueTimeUtc",
+      scheduledEnqueueTimeUtc,
+      Date,
     );
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
@@ -327,18 +334,18 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   async cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptionsBase = {}
+    options: OperationOptionsBase = {},
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
       this._context.connectionId,
       "sequenceNumbers",
-      sequenceNumbers
+      sequenceNumbers,
     );
     throwTypeErrorIfParameterNotLong(
       this._context.connectionId,
       "sequenceNumbers",
-      sequenceNumbers
+      sequenceNumbers,
     );
 
     const sequenceNumbersToCancel = Array.isArray(sequenceNumbers)
@@ -394,7 +401,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
  * @internal
  */
 export function isServiceBusMessageBatch(
-  messageBatchOrAnything: unknown
+  messageBatchOrAnything: unknown,
 ): messageBatchOrAnything is ServiceBusMessageBatch {
   if (messageBatchOrAnything == null) {
     return false;

@@ -32,7 +32,7 @@ async function updateVirtualNetworkTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}",
       subscriptionId,
       resourceGroupName,
-      ipAllocationName
+      ipAllocationName,
     )
     .patch(options);
   console.log(result);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL container
  *
  * @summary Create or update an Azure Cosmos DB SQL container
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlContainerCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlContainerCreateUpdate.json
  */
 async function cosmosDbSqlContainerCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -39,6 +39,7 @@ async function cosmosDbSqlContainerCreateUpdate() {
         ],
         policyFormatVersion: 2,
       },
+      computedProperties: [{ name: "cp_lowerName", query: "SELECT VALUE LOWER(c.name) FROM c" }],
       conflictResolutionPolicy: {
         conflictResolutionPath: "/path",
         mode: "LastWriterWins",
@@ -71,7 +72,7 @@ async function cosmosDbSqlContainerCreateUpdate() {
     accountName,
     databaseName,
     containerName,
-    createUpdateSqlContainerParameters
+    createUpdateSqlContainerParameters,
   );
   console.log(result);
 }

@@ -44,7 +44,7 @@ async function virtualNetworkGatewayNatRulePut() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkGatewayName,
-      natRuleName
+      natRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -33,7 +33,7 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<WebSiteManagementClient> {
   const credential = createTestCredential();
   return WebSiteClient(credential, recorder.configureClientOptions({ ...options }));

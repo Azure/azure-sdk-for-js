@@ -5,12 +5,12 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "EnvironmentCredential is not supported in the browser."
+  "EnvironmentCredential is not supported in the browser.",
 );
 const logger = credentialLogger("EnvironmentCredential");
 
 /**
- * Enables authentication to Azure Active Directory using client secret
+ * Enables authentication to Microsoft Entra ID using client secret
  * details configured in environment variables
  */
 export class EnvironmentCredential implements TokenCredential {

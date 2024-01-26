@@ -15,7 +15,7 @@ import {
   WorkloadIdentityCredential,
   WorkloadIdentityCredentialOptions,
 } from "../../../src";
-import { AuthenticationResult } from "@azure/msal-common";
+import { AuthenticationResult } from "@azure/msal-node";
 import sinon from "sinon";
 
 describe("WorkloadIdentityCredential", function () {
@@ -90,7 +90,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId,
           tenantId,
           tokenFilePath,
-        }
+        },
       );
     } catch (e) {
       console.log(e);
@@ -115,7 +115,7 @@ describe("WorkloadIdentityCredential", function () {
           clientId: "workloadIdentityClientId",
           tenantId,
           tokenFilePath,
-        }
+        },
       );
     } catch (e) {
       console.log(e);
@@ -128,7 +128,7 @@ describe("WorkloadIdentityCredential", function () {
 async function validateWorkloadIdentityCredential(
   credential: WorkloadIdentityCredential,
   token: AccessToken,
-  options: { clientId: string; tenantId: string; tokenFilePath: string }
+  options: { clientId: string; tenantId: string; tokenFilePath: string },
 ) {
   const {
     clientId: expectedClientId,

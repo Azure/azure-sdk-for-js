@@ -35,7 +35,7 @@ export async function assertThrowsAbortError(cb: () => Promise<any>): Promise<vo
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4", "7.5-preview.1"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
@@ -58,7 +58,7 @@ export function getServiceVersion(): NonNullable<CertificateClientOptions["servi
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: CertificateClientOptions["serviceVersion"]
+  serviceVersion?: CertificateClientOptions["serviceVersion"],
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

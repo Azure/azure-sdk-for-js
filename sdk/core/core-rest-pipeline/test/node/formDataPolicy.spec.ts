@@ -1,105 +1,131 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import {
-  PipelineResponse,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-  formDataPolicy,
-} from "../../src";
+import { assert, describe, it } from "vitest";
+import { createHttpHeaders } from "../../src/httpHeaders";
+import type { BodyPart, MultipartRequestBody } from "../../src/interfaces";
+import { isBlob } from "../../src/util/typeGuards";
+import { Readable } from "stream";
+import { performRequest } from "../formDataPolicy.spec";
+import { createFile, createFileFromStream } from "../../src/util/file";
+import { ReadableStream } from "stream/web";
 
-describe("formDataPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it("prepares x-www-form-urlencoded form data correctly", async function () {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      headers: createHttpHeaders({
-        "Content-Type": "application/x-www-form-urlencoded",
+describe("formDataPolicy (node-only)", function () {
+  it("can upload a Node ReadableStream", async function () {
+    const result = await performRequest({
+      file: createFileFromStream(() => Readable.from(Buffer.from("aaa")), "file.bin", {
+        type: "text/plain",
       }),
     });
-    request.formData = {
-      service: "registry.azurecr.io",
-      scope: "repository:library/hello-world:metadata_read",
-    };
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
-    };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
 
-    const policy = formDataPolicy();
-
-    const result = await policy.sendRequest(request, next);
-
-    assert.isUndefined(result.request.formData);
-    assert.strictEqual(
-      result.request.body,
-      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`
+    const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+    assert.ok(parts.length === 1, "expected 1 part");
+    assert.deepEqual(
+      parts[0].headers,
+      createHttpHeaders({
+        "Content-Type": "text/plain",
+        "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
+      }),
     );
+    assert.ok(isBlob(parts[0].body));
+
+    const buffers: Buffer[] = [];
+    for await (const part of (parts[0].body as Blob).stream() as ReadableStream<Uint8Array>) {
+      buffers.push(part as Buffer);
+    }
+
+    const content = Buffer.concat(buffers);
+    assert.deepEqual([...content], [...Buffer.from("aaa")]);
   });
 
-  it("prepares x-www-form-urlencoded form data correctly for array value", async function () {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      headers: createHttpHeaders({
-        "Content-Type": "application/x-www-form-urlencoded",
-      }),
-    });
-    request.formData = { a: "va", b: "vb", c: ["vc1", "vc2"] };
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
-    };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
-
-    const policy = formDataPolicy();
-
-    const result = await policy.sendRequest(request, next);
-
+  it("prepares a form with multiple fields correctly", async function () {
+    // add field with spooky unicode characters to ensure encoding is working
+    const result = await performRequest({ a: "va", b: "vb", c: "👻👻" });
     assert.isUndefined(result.request.formData);
-    assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
+    const multipartBody = result.request.multipartBody as any;
+    assert.ok(multipartBody, "expecting multipartBody to be defined");
+    const parts = (multipartBody as any).parts as BodyPart[];
+    const enc = new TextEncoder();
+    assert.ok(parts.length === 3, "need 3 parts");
+    assert.deepEqual(parts[0], {
+      headers: createHttpHeaders({
+        "Content-Disposition": `form-data; name="a"`,
+      }),
+      body: enc.encode("va"),
+    });
+    assert.deepEqual(parts[1], {
+      headers: createHttpHeaders({
+        "Content-Disposition": `form-data; name="b"`,
+      }),
+      body: enc.encode("vb"),
+    });
+    assert.deepEqual(parts[2], {
+      headers: createHttpHeaders({
+        "Content-Disposition": `form-data; name="c"`,
+      }),
+      body: enc.encode("👻👻"),
+    });
   });
 
-  it("prepares multipart/form-data form data correctly", async function () {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
-      headers: createHttpHeaders({
-        "Content-Type": "multipart/form-data",
-      }),
+  describe("file uploads", function () {
+    it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
+      const result = await performRequest({
+        file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
+          type: "application/octet-stream",
+        }),
+      });
+
+      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      assert.ok(parts.length === 1, "expected 1 part");
+      assert.deepEqual(
+        parts[0].headers,
+        createHttpHeaders({
+          "Content-Type": "application/octet-stream",
+          "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
+        }),
+      );
+      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
+      assert.deepEqual([...buf], [1, 2, 3]);
     });
-    request.formData = { a: "va", b: "vb" };
-    const successResponse: PipelineResponse = {
-      headers: createHttpHeaders(),
-      request,
-      status: 200,
-    };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
 
-    const policy = formDataPolicy();
+    it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
+      const result = await performRequest({
+        file: new Blob([new Uint8Array([1, 2, 3])]),
+      });
 
-    const result = await policy.sendRequest(request, next);
+      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      assert.ok(parts.length === 1, "expected 1 part");
+      assert.deepEqual(
+        parts[0].headers,
+        createHttpHeaders({
+          // Content-Type should default to 'application/octet-stream' for binary content (lack of content type is reserved for text content)
+          "Content-Type": "application/octet-stream",
+          "Content-Disposition": `form-data; name="file"; filename="blob"`,
+        }),
+      );
+      const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
+      assert.deepEqual([...buf], [1, 2, 3]);
+    });
 
-    assert.isUndefined(result.request.formData);
-    const body = result.request.body as any;
-    assert.ok(body, "expecting valid body");
-    assert.ok((body as any)["getBuffer"], "expecting valid getBuffer() member");
-    const buffer = (body as any)["getBuffer"]();
-    const text = buffer.toString("utf8");
-    assert.ok(text, "expecting valid text represetntation");
-    assert.match(
-      text,
-      /(-+)(\d+)\r\nContent-Disposition: form-data; name="a"\r\n\r\nva\r\n(-+)(\d+)\r\nContent-Disposition: form-data; name="b"\r\n\r\nvb\r\n(-+)(\d+)--\r\n/
-    );
+    it("can upload a Uint8Array using createFile", async function () {
+      const result = await performRequest({
+        file: createFile(new Uint8Array([0x01, 0x02, 0x03]), "file.bin", {
+          type: "text/plain",
+        }),
+      });
+
+      const parts = (result.request.multipartBody as MultipartRequestBody).parts;
+      assert.ok(parts.length === 1, "expected 1 part");
+      assert.deepEqual(
+        parts[0].headers,
+        createHttpHeaders({
+          "Content-Type": "text/plain",
+          "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
+        }),
+      );
+
+      const content = new Uint8Array(await (parts[0].body as Blob).arrayBuffer());
+      assert.deepEqual([...content], [0x01, 0x02, 0x03]);
+    });
   });
 });

@@ -102,6 +102,16 @@ export type WorkloadProtectableItemUnion =
   | AzureFileShareProtectableItem
   | IaaSVMProtectableItemUnion
   | AzureVmWorkloadProtectableItemUnion;
+export type FetchTieringCostInfoRequestUnion =
+  | FetchTieringCostInfoRequest
+  | FetchTieringCostInfoForRehydrationRequest
+  | FetchTieringCostSavingsInfoForPolicyRequest
+  | FetchTieringCostSavingsInfoForProtectedItemRequest
+  | FetchTieringCostSavingsInfoForVaultRequest;
+export type TieringCostInfoUnion =
+  | TieringCostInfo
+  | TieringCostRehydrationInfo
+  | TieringCostSavingInfo;
 export type SchedulePolicyUnion =
   | SchedulePolicy
   | LogSchedulePolicy
@@ -353,6 +363,10 @@ export interface BackupStatusResponse {
   policyName?: string;
   /** Container registration status */
   registrationStatus?: string;
+  /** Number of protected items */
+  protectedItemsCount?: number;
+  /** Specifies whether the storage account lock has been acquired or not */
+  acquireStorageAccountLock?: AcquireStorageAccountLock;
 }
 
 /** Base class for feature request */
@@ -704,6 +718,11 @@ export interface ProtectedItem {
   policyName?: string;
   /** Soft delete retention period in days */
   softDeleteRetentionPeriodInDays?: number;
+  /**
+   * ID of the vault which protects this item
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vaultId?: string;
 }
 
 /** Base class for backup copies. Workload-specific backup copies are derived from this class. */
@@ -795,6 +814,14 @@ export interface OperationWorkerResponse {
   statusCode?: HttpStatusCode;
   /** HTTP headers associated with this operation. */
   headers?: { [propertyName: string]: string[] };
+}
+
+/** Base class for validate operation request. */
+export interface ValidateOperationRequestResource {
+  /** Recovery point ID. */
+  id: string;
+  /** ValidateOperationRequestResource properties */
+  properties: ValidateOperationRequestUnion;
 }
 
 /** Base class for validate operation request. */
@@ -1026,7 +1053,7 @@ export interface ListRecoveryPointsRecommendedForMoveRequest {
 }
 
 export interface ResourceGuardProxyBase {
-  resourceGuardResourceId?: string;
+  resourceGuardResourceId: string;
   resourceGuardOperationDetails?: ResourceGuardOperationDetail[];
   lastUpdatedTime?: string;
   description?: string;
@@ -1047,6 +1074,29 @@ export interface UnlockDeleteRequest {
 export interface UnlockDeleteResponse {
   /** This is the time when unlock delete privileges will get expired. */
   unlockDeleteExpiryTime?: string;
+}
+
+/**
+ * Base class for tiering cost request.
+ * Specific cost request types are derived from this class.
+ */
+export interface FetchTieringCostInfoRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType:
+    | "FetchTieringCostInfoForRehydrationRequest"
+    | "FetchTieringCostSavingsInfoForPolicyRequest"
+    | "FetchTieringCostSavingsInfoForProtectedItemRequest"
+    | "FetchTieringCostSavingsInfoForVaultRequest";
+  /** Source tier for the request */
+  sourceTierType: RecoveryPointTierType;
+  /** target tier for the request */
+  targetTierType: RecoveryPointTierType;
+}
+
+/** Base class for tiering cost response */
+export interface TieringCostInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "TieringCostRehydrationInfo" | "TieringCostSavingInfo";
 }
 
 /** KPI Resource Health Details */
@@ -1156,6 +1206,8 @@ export interface SubProtectionPolicy {
    * Tiering policy specifies the criteria to move RP to the target tier.
    */
   tieringPolicy?: { [propertyName: string]: TieringPolicy };
+  /** Snapshot Backup related fields for WorkloadType SaPHanaSystem */
+  snapshotBackupAdditionalDetails?: SnapshotBackupAdditionalDetails;
 }
 
 /** Base class for backup schedule. */
@@ -1196,6 +1248,39 @@ export interface TieringPolicy {
    * Used only if TieringMode is set to TierAfter
    */
   durationType?: RetentionDurationType;
+}
+
+/** Snapshot Backup related fields for WorkloadType SaPHanaSystem */
+export interface SnapshotBackupAdditionalDetails {
+  instantRpRetentionRangeInDays?: number;
+  instantRPDetails?: string;
+  /** User assigned managed identity details */
+  userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
+}
+
+/** User assigned managed identity details */
+export interface UserAssignedManagedIdentityDetails {
+  /** The ARM id of the assigned identity. */
+  identityArmId?: string;
+  /** The name of the assigned identity. */
+  identityName?: string;
+  /** User assigned managed identity properties */
+  userAssignedIdentityProperties?: UserAssignedIdentityProperties;
+}
+
+/** User assigned managed identity properties */
+export interface UserAssignedIdentityProperties {
+  /** The client ID of the assigned identity. */
+  clientId?: string;
+  /** The principal ID of the assigned identity. */
+  principalId?: string;
+}
+
+/** Vault retention policy for AzureFileShare */
+export interface VaultRetentionPolicy {
+  /** Base class for retention policy. */
+  vaultRetention: RetentionPolicyUnion;
+  snapshotRetentionInDays: number;
 }
 
 /** Additional information on Azure IaaS VM specific backup item. */
@@ -1433,6 +1518,12 @@ export interface TargetRestoreInfo {
   databaseName?: string;
   /** Target directory location for restore as files. */
   targetDirectoryForFileRestore?: string;
+}
+
+/** Encapsulates information regarding snapshot recovery for SAP Hana */
+export interface SnapshotRestoreParameters {
+  skipAttachAndMount?: boolean;
+  logPointInTimeForDBRecovery?: string;
 }
 
 /** Extended info class details */
@@ -2673,6 +2764,11 @@ export interface IaasVMRecoveryPoint extends RecoveryPoint {
   recoveryPointProperties?: RecoveryPointProperties;
   /** This flag denotes if any of the disks in the VM are using Private access network setting */
   isPrivateAccessEnabledOnAnyDisk?: boolean;
+  /**
+   * Extended location of the VM recovery point,
+   * should be null if VM is in public cloud
+   */
+  extendedLocation?: ExtendedLocation;
 }
 
 /** AzureFileShare Restore Request */
@@ -2717,6 +2813,18 @@ export interface AzureWorkloadRestoreRequest extends RestoreRequest {
   targetInfo?: TargetRestoreInfo;
   /** Defines whether the current recovery mode is file restore or database restore */
   recoveryMode?: RecoveryMode;
+  /** Defines the Resource group of the Target VM */
+  targetResourceGroupName?: string;
+  /**
+   * User Assigned managed identity details
+   * Currently used for snapshot.
+   */
+  userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
+  /**
+   * Additional details for snapshot recovery
+   * Currently used for snapshot for SAP Hana.
+   */
+  snapshotRestoreParameters?: SnapshotRestoreParameters;
   /**
    * This is the complete ARM Id of the target VM
    * For e.g. /subscriptions/{subId}/resourcegroups/{rg}/provider/Microsoft.Compute/virtualmachines/{vm}
@@ -2822,6 +2930,8 @@ export interface AzureFileShareProtectionPolicy extends ProtectionPolicy {
   schedulePolicy?: SchedulePolicyUnion;
   /** Retention policy with the details on backup copy retention ranges. */
   retentionPolicy?: RetentionPolicyUnion;
+  /** Retention policy with the details on hardened backup copy retention ranges. */
+  vaultRetentionPolicy?: VaultRetentionPolicy;
   /** TimeZone optional input as string. For example: TimeZone = "Pacific Standard Time". */
   timeZone?: string;
 }
@@ -3320,6 +3430,72 @@ export interface AzureVmWorkloadProtectableItem
   isProtectable?: boolean;
 }
 
+/** Request parameters for fetching cost info of rehydration */
+export interface FetchTieringCostInfoForRehydrationRequest
+  extends FetchTieringCostInfoRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "FetchTieringCostInfoForRehydrationRequest";
+  /** Name of the protected item container */
+  containerName: string;
+  /** Name of the protectedItemName */
+  protectedItemName: string;
+  /** ID of the backup copy for rehydration cost info needs to be fetched. */
+  recoveryPointId: string;
+  /** Rehydration Priority */
+  rehydrationPriority: RehydrationPriority;
+}
+
+/** Request parameters for tiering cost info for policy */
+export interface FetchTieringCostSavingsInfoForPolicyRequest
+  extends FetchTieringCostInfoRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "FetchTieringCostSavingsInfoForPolicyRequest";
+  /** Name of the backup policy for which the cost savings information is requested */
+  policyName: string;
+}
+
+/** Request parameters for tiering cost info for protected item */
+export interface FetchTieringCostSavingsInfoForProtectedItemRequest
+  extends FetchTieringCostInfoRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "FetchTieringCostSavingsInfoForProtectedItemRequest";
+  /** Name of the protected item container */
+  containerName: string;
+  /** Name of the protectedItemName */
+  protectedItemName: string;
+}
+
+/** Request parameters for tiering cost info for vault */
+export interface FetchTieringCostSavingsInfoForVaultRequest
+  extends FetchTieringCostInfoRequest {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "FetchTieringCostSavingsInfoForVaultRequest";
+}
+
+/** Response parameters for tiering cost info for rehydration */
+export interface TieringCostRehydrationInfo extends TieringCostInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "TieringCostRehydrationInfo";
+  /** Rehydration size in bytes */
+  rehydrationSizeInBytes: number;
+  /** Source tier to target tier rehydration cost per GB per month */
+  retailRehydrationCostPerGBPerMonth: number;
+}
+
+/** Response parameters for tiering cost info for savings */
+export interface TieringCostSavingInfo extends TieringCostInfo {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  objectType: "TieringCostSavingInfo";
+  /** Source tier size reduction in bytes after moving all the recommended backup points to target tier */
+  sourceTierSizeReductionInBytes: number;
+  /** Target tier size increase in bytes after moving all the recommended backup points to target tier */
+  targetTierSizeIncreaseInBytes: number;
+  /** Source tier retail cost per GB per month */
+  retailSourceTierCostPerGBPerMonth: number;
+  /** Target tier retail cost per GB per month */
+  retailTargetTierCostPerGBPerMonth: number;
+}
+
 /** Azure IaaS VM workload-specific Health Details. */
 export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {}
 
@@ -3761,6 +3937,11 @@ export interface AzureWorkloadSQLPointInTimeRestoreWithRehydrateRequest
   recoveryPointRehydrationInfo?: RecoveryPointRehydrationInfo;
 }
 
+/** Defines headers for FetchTieringCost_post operation. */
+export interface FetchTieringCostPostHeaders {
+  location?: string;
+}
+
 /** Known values of {@link StorageType} that the service accepts. */
 export enum KnownStorageType {
   /** Invalid */
@@ -3976,6 +4157,24 @@ export enum KnownFabricName {
  * **Azure**
  */
 export type FabricName = string;
+
+/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
+export enum KnownAcquireStorageAccountLock {
+  /** Acquire */
+  Acquire = "Acquire",
+  /** NotAcquire */
+  NotAcquire = "NotAcquire"
+}
+
+/**
+ * Defines values for AcquireStorageAccountLock. \
+ * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Acquire** \
+ * **NotAcquire**
+ */
+export type AcquireStorageAccountLock = string;
 
 /** Known values of {@link SupportStatus} that the service accepts. */
 export enum KnownSupportStatus {
@@ -4860,7 +5059,13 @@ export enum KnownRecoveryMode {
   /** FileRecovery */
   FileRecovery = "FileRecovery",
   /** WorkloadRecovery */
-  WorkloadRecovery = "WorkloadRecovery"
+  WorkloadRecovery = "WorkloadRecovery",
+  /** SnapshotAttach */
+  SnapshotAttach = "SnapshotAttach",
+  /** RecoveryUsingSnapshot */
+  RecoveryUsingSnapshot = "RecoveryUsingSnapshot",
+  /** SnapshotAttachAndRecover */
+  SnapshotAttachAndRecover = "SnapshotAttachAndRecover"
 }
 
 /**
@@ -4870,7 +5075,10 @@ export enum KnownRecoveryMode {
  * ### Known values supported by the service
  * **Invalid** \
  * **FileRecovery** \
- * **WorkloadRecovery**
+ * **WorkloadRecovery** \
+ * **SnapshotAttach** \
+ * **RecoveryUsingSnapshot** \
+ * **SnapshotAttachAndRecover**
  */
 export type RecoveryMode = string;
 
@@ -5179,24 +5387,6 @@ export enum KnownOperationType {
  * **Reregister**
  */
 export type OperationType = string;
-
-/** Known values of {@link AcquireStorageAccountLock} that the service accepts. */
-export enum KnownAcquireStorageAccountLock {
-  /** Acquire */
-  Acquire = "Acquire",
-  /** NotAcquire */
-  NotAcquire = "NotAcquire"
-}
-
-/**
- * Defines values for AcquireStorageAccountLock. \
- * {@link KnownAcquireStorageAccountLock} can be used interchangeably with AcquireStorageAccountLock,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Acquire** \
- * **NotAcquire**
- */
-export type AcquireStorageAccountLock = string;
 
 /** Known values of {@link InquiryStatus} that the service accepts. */
 export enum KnownInquiryStatus {
@@ -6067,7 +6257,12 @@ export type ProtectionContainersGetResponse = ProtectionContainerResource;
 
 /** Optional parameters. */
 export interface ProtectionContainersRegisterOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Contains response data for the register operation. */
 export type ProtectionContainersRegisterResponse = ProtectionContainerResource;
@@ -6268,6 +6463,32 @@ export interface ResourceGuardProxyUnlockDeleteOptionalParams
 
 /** Contains response data for the unlockDelete operation. */
 export type ResourceGuardProxyUnlockDeleteResponse = UnlockDeleteResponse;
+
+/** Optional parameters. */
+export interface FetchTieringCostPostOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the post operation. */
+export type FetchTieringCostPostResponse = TieringCostInfoUnion;
+
+/** Optional parameters. */
+export interface GetTieringCostOperationResultGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type GetTieringCostOperationResultGetResponse = TieringCostInfoUnion;
+
+/** Optional parameters. */
+export interface TieringCostOperationStatusGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type TieringCostOperationStatusGetResponse = OperationStatus;
 
 /** Optional parameters. */
 export interface RecoveryServicesBackupClientOptionalParams

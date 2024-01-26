@@ -24,7 +24,7 @@ describe.skip("Evaluation Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -51,7 +51,7 @@ describe.skip("Evaluation Tests", () => {
     evaluation = await getEvaluation(client, evaluationId);
     assert.notEqual(
       evaluation.policyResults?.find((policy) => policy.policySource === "Online"),
-      undefined
+      undefined,
     );
     await deleteEvaluation(client, evaluationId);
   });
@@ -64,7 +64,7 @@ describe.skip("Evaluation Tests", () => {
 
 async function createEvaluation(
   client: PersonalizerClient,
-  evaluationContract: EvaluationContract
+  evaluationContract: EvaluationContract,
 ) {
   return client.path("/evaluations").post({ body: evaluationContract });
 }
@@ -86,7 +86,7 @@ async function isEvaluationFinal(client: PersonalizerClient, evaluationId: strin
 
 async function getEvaluation(
   client: PersonalizerClient,
-  evaluationId: string
+  evaluationId: string,
 ): Promise<EvaluationOutput> {
   const response = await client.path("/evaluations/{evaluationId}", evaluationId).get();
   if (isUnexpected(response)) {

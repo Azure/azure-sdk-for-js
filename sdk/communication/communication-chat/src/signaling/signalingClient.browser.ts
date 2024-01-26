@@ -9,9 +9,10 @@ import { SignalingClientOptions } from "./signalingClient";
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
   logger: AzureLogger,
-  options?: SignalingClientOptions
+  options?: SignalingClientOptions,
 ): SignalingClient | undefined => {
   return new CommunicationSignalingClient(credential, logger, {
     environment: options?.environment ?? undefined,
+    resourceEndpoint: options?.resourceEndpoint ?? undefined,
   });
 };

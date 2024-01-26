@@ -57,20 +57,9 @@ const options: AzureMonitorOpenTelemetryOptions = {
         // Application Insights Connection String
         connectionString:   process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
     },
-    otlpTraceExporterConfig: {
-        enabled: true,
-        url: '<opentelemetry-collector-url>', // url is optional and can be omitted - default is http://localhost:4318/v1/traces
-    },
-    otlpMetricExporterConfig: {
-        enabled: true,
-        url: '<opentelemetry-collector-url>', // url is optional and can be omitted - default is http://localhost:4318/v1/metrics
-    },
-    otlpLogExporterConfig: {
-        enabled: true,
-        url: '<opentelemetry-collector-url>', // url is optional and can be omitted - default is http://localhost:4318/v1/logs
-    },
     samplingRatio: 1,
     instrumentationOptions: {
+      // Instrumentations generating traces
         azureSdk: { enabled: true },
         http: { enabled: true },
         mongoDb: { enabled: true },
@@ -78,6 +67,14 @@ const options: AzureMonitorOpenTelemetryOptions = {
         postgreSql: { enabled: true },
         redis: { enabled: true },
         redis4: { enabled: true },
+        // Instrumentations generating logs
+        bunyan: { enabled: true },
+    },
+    enableLiveMetrics: true,
+    enableStandardMetrics: true,
+    browserSdkLoaderOptions: {
+        enabled: false,
+        connectionString: "",
     },
     resource: resource
 };
@@ -89,13 +86,14 @@ useAzureMonitor(options);
 
 |Property|Description|Default|
 | ------------------------------- |------------------------------------------------------------------------------------------------------------|-------|
-| azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |
-| otlpTraceExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-trace-otlp-http) 
-| otlpMetricExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-exporter-metrics-otlp-http) 
-| otlpLogExporterConfig                     | OTLP Trace Exporter Configuration. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/exporter-logs-otlp-http)                                         | |
+| azureMonitorExporterOptions                     | Azure Monitor OpenTelemetry Exporter Configuration. [More info here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter)                                                | |                                    | |
 | samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out.                       | 1|
-| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false }}|
+| instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }}|
+| browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "", config: {} }
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources)         ||
+| samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. 
+| enableLiveMetrics          | Enable/Disable Live Metrics.
+| enableStandardMetrics      | Enable/Disable Standard Metrics. 
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 
 
@@ -103,7 +101,8 @@ Options could be set using configuration file `applicationinsights.json` located
 ```json
 {
     "samplingRatio": 0.8,
-    "enableAutoCollectStandardMetrics": false,
+    "enableStandardMetrics": true,
+    "enableLiveMetrics": true,
     "instrumentationOptions":{
         "azureSdk": {
             "enabled": false
@@ -141,6 +140,10 @@ The following OpenTelemetry Instrumentation libraries are included as part of Az
 ### Metrics
 - [HTTP/HTTPS](https://github.com/open-telemetry/opentelemetry-js/tree/main/experimental/packages/opentelemetry-instrumentation-http) 
 
+
+### Logs
+- [Bunyan](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node/opentelemetry-instrumentation-bunyan) 
+
 Other OpenTelemetry Instrumentations are available [here](https://github.com/open-telemetry/opentelemetry-js-contrib/tree/main/plugins/node) and could be added using TracerProvider in AzureMonitorOpenTelemetryClient.
 
  ```typescript
@@ -160,6 +163,16 @@ Other OpenTelemetry Instrumentations are available [here](https://github.com/ope
     });
     
 ```
+
+### Application Insights Browser SDK Loader
+
+Application Insights Browser SDK Loader allows you to inject the web SDK into node server responses when the following conditions are true:
+
+* Response has status code `200`.
+* Response method is `GET`.
+* Server response has the `Conent-Type` html header.
+* Server resonse contains both <head> and </head> tags.
+* Response does not contain current /backup web Instrumentation CDN endpoints. (current and backup Web Instrumentation CDN endpoints [here](https://github.com/microsoft/ApplicationInsights-JS#active-public-cdn-endpoints))
 
 
 ## Set the Cloud Role Name and the Cloud Role Instance
@@ -184,7 +197,7 @@ const options: AzureMonitorOpenTelemetryOptions = { resource : customResource }
 useAzureMonitor(options);
 ```
 
-For information on standard attributes for resources, see [Resource Semantic Conventions](https://github.com/open-telemetry/opentelemetry-specification/blob/main/specification/resource/semantic_conventions/README.md).
+For information on standard attributes for resources, see [Resource Semantic Conventions](https://github.com/open-telemetry/semantic-conventions/tree/main/docs/resource).
 
 
 ## Modify telemetry

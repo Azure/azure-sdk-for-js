@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB Mongo Role Definition.
  *
  * @summary Creates or updates an Azure Cosmos DB Mongo Role Definition.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBMongoDBRoleDefinitionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBMongoDBRoleDefinitionCreateUpdate.json
  */
 async function cosmosDbMongoDbroleDefinitionCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "mySubscriptionId";
@@ -40,7 +40,7 @@ async function cosmosDbMongoDbroleDefinitionCreateUpdate() {
     mongoRoleDefinitionId,
     resourceGroupName,
     accountName,
-    createUpdateMongoRoleDefinitionParameters
+    createUpdateMongoRoleDefinitionParameters,
   );
   console.log(result);
 }

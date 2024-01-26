@@ -7,7 +7,6 @@ import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
-import * as dotenv from "dotenv";
 import { parseServiceBusConnectionString } from "../../src";
 import { CreateQueueOptions } from "../../src";
 import { RuleProperties } from "../../src";
@@ -28,12 +27,10 @@ chai.use(chaiExclude);
 const should = chai.should();
 const assert = chai.assert;
 
-dotenv.config();
-
 const env = getEnvVars();
 
 const endpointWithProtocol = parseServiceBusConnectionString(
-  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+  env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
 ).endpoint;
 
 enum EntityType {
@@ -67,7 +64,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     before(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        { serviceVersion: serviceVersion as "2021-05" | "2017-04" }
+        { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
     });
     /**
@@ -91,10 +88,10 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
       it("queue: forwarding", async () => {
         const willForward = await serviceBusClient.test.createTestEntities(
-          TestClientType.PartitionedQueue
+          TestClientType.PartitionedQueue,
         );
         const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
-          TestClientType.UnpartitionedQueue
+          TestClientType.UnpartitionedQueue,
         );
 
         // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
@@ -102,9 +99,8 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         queueProperties.forwardTo = willBeForwardedTo.queue!;
         await serviceBusAtomManagementClient.updateQueue(queueProperties);
 
-        const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(
-          willBeForwardedTo
-        );
+        const receiver =
+          await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
         const sender = await serviceBusClient.test.createSender(willForward);
 
         await sender.sendMessages({
@@ -114,29 +110,28 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         const messages = await receiver.receiveMessages(1);
         assert.deepEqual(
           [{ body: "forwarded message with queues!" }],
-          messages.map((m) => ({ body: m.body }))
+          messages.map((m) => ({ body: m.body })),
         );
       });
 
       it("subscription: forwarding", async () => {
         const willForward = await serviceBusClient.test.createTestEntities(
-          TestClientType.PartitionedSubscription
+          TestClientType.PartitionedSubscription,
         );
         const willBeForwardedTo = await serviceBusClient.test.createTestEntities(
-          TestClientType.UnpartitionedQueue
+          TestClientType.UnpartitionedQueue,
         );
 
         // make it so all messages from `willForward` are forwarded to `willBeForwardedTo`
         const subscriptionProperties = await serviceBusAtomManagementClient.getSubscription(
           willForward.topic!,
-          willForward.subscription!
+          willForward.subscription!,
         );
         subscriptionProperties.forwardTo = willBeForwardedTo.queue!;
         await serviceBusAtomManagementClient.updateSubscription(subscriptionProperties);
 
-        const receiver = await serviceBusClient.test.createReceiveAndDeleteReceiver(
-          willBeForwardedTo
-        );
+        const receiver =
+          await serviceBusClient.test.createReceiveAndDeleteReceiver(willBeForwardedTo);
         const sender = await serviceBusClient.test.createSender(willForward);
 
         await sender.sendMessages({
@@ -146,7 +141,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         const messages = await receiver.receiveMessages(1);
         assert.deepEqual(
           [{ body: "forwarded message with subscriptions!" }],
-          messages.map((m) => ({ body: m.body }))
+          messages.map((m) => ({ body: m.body })),
         );
       });
     });
@@ -157,7 +152,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         assert.deepEqualExcluding(
           namespaceProperties,
           { messagingSku: "Standard", messagingUnits: undefined } as any,
-          ["_response", "createdAt", "modifiedAt", "name"]
+          ["_response", "createdAt", "modifiedAt", "name"],
         );
       });
     });
@@ -175,18 +170,18 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         await recreateSubscription(managementTopic1, managementSubscription1);
         for (let i = 0; i < numberOfEntities; i++) {
           queueNames.push(
-            (await serviceBusAtomManagementClient.createQueue(baseName + "_queue_" + i)).name
+            (await serviceBusAtomManagementClient.createQueue(baseName + "_queue_" + i)).name,
           );
           topicNames.push(
-            (await serviceBusAtomManagementClient.createTopic(baseName + "_topic_" + i)).name
+            (await serviceBusAtomManagementClient.createTopic(baseName + "_topic_" + i)).name,
           );
           subscriptionNames.push(
             (
               await serviceBusAtomManagementClient.createSubscription(
                 managementTopic1,
-                baseName + "_subscription_" + i
+                baseName + "_subscription_" + i,
               )
-            ).subscriptionName
+            ).subscriptionName,
           );
           ruleNames.push(
             (
@@ -194,9 +189,9 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 managementTopic1,
                 managementSubscription1,
                 baseName + "_rule_" + i,
-                { sqlExpression: "1=1" }
+                { sqlExpression: "1=1" },
               )
-            ).name
+            ).name,
           );
         }
       });
@@ -227,7 +222,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         should.equal(
           numberOfReceived,
           receivedNames.length + createdNames.length,
-          "Unexpected number of entities received"
+          "Unexpected number of entities received",
         );
       }
 
@@ -248,7 +243,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             } else if (methodName.includes("Rule")) {
               iterator = (serviceBusAtomManagementClient as any)[methodName](
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
             } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
               iterator = (serviceBusAtomManagementClient as any)[methodName]();
@@ -263,7 +258,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             const iter = getIter();
             for await (const entity of iter) {
               receivedEntities.push(
-                methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+                methodName.includes("Subscription") ? entity.subscriptionName : entity.name,
               );
             }
             verifyEntities(methodName, receivedEntities);
@@ -277,7 +272,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             for await (const response of iter) {
               for (const entity of response) {
                 receivedEntities.push(
-                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name,
                 );
               }
             }
@@ -292,7 +287,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             if (!response.done) {
               for (const entity of response.value) {
                 receivedEntities.push(
-                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name,
                 );
               }
             }
@@ -309,7 +304,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             if (!response.done) {
               for (const entity of response.value) {
                 receivedEntities.push(
-                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+                  methodName.includes("Subscription") ? entity.subscriptionName : entity.name,
                 );
               }
             }
@@ -322,7 +317,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               })) {
                 for (const entity of pageResponse) {
                   receivedEntities.push(
-                    methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+                    methodName.includes("Subscription") ? entity.subscriptionName : entity.name,
                   );
                 }
               }
@@ -341,7 +336,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 should.equal(
                   error.message,
                   `Invalid continuationToken ${token} provided`,
-                  "Unexpected error message"
+                  "Unexpected error message",
                 );
               }
               should.equal(errorWasThrown, true, "Error was not thrown");
@@ -355,57 +350,57 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       if (isNode) {
         it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
           const connectionStringProperties = parseServiceBusConnectionString(
-            env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+            env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
           );
           const host = connectionStringProperties.fullyQualifiedNamespace;
           const endpoint = connectionStringProperties.endpoint;
           const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
             host,
-            new DefaultAzureCredential()
+            new DefaultAzureCredential(),
           );
 
           should.equal(
             (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
             managementQueue1,
-            "Unexpected queue name in the createQueue response"
+            "Unexpected queue name in the createQueue response",
           );
           const createQueue2Response = await serviceBusAdministrationClient.createQueue(
             managementQueue2,
             {
               forwardTo: managementQueue1,
-            }
+            },
           );
           should.equal(
             createQueue2Response.name,
             managementQueue2,
-            "Unexpected queue name in the createQueue response"
+            "Unexpected queue name in the createQueue response",
           );
           should.equal(
             createQueue2Response.forwardTo,
             endpoint + managementQueue1,
-            "Unexpected name in the `forwardTo` field of createQueue response"
+            "Unexpected name in the `forwardTo` field of createQueue response",
           );
           const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
           should.equal(
             getQueueResponse.name,
             managementQueue1,
-            "Unexpected queue name in the getQueue response"
+            "Unexpected queue name in the getQueue response",
           );
           should.equal(
             (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
             managementQueue1,
-            "Unexpected queue name in the updateQueue response"
+            "Unexpected queue name in the updateQueue response",
           );
           should.equal(
             (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
             managementQueue1,
-            "Unexpected queue name in the getQueueRuntimeProperties response"
+            "Unexpected queue name in the getQueueRuntimeProperties response",
           );
           should.equal(
             (await serviceBusAdministrationClient.getNamespaceProperties()).name,
             (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") ||
               [])[1],
-            "Unexpected namespace name in the getNamespaceProperties response"
+            "Unexpected namespace name in the getNamespaceProperties response",
           );
           await serviceBusAdministrationClient.deleteQueue(managementQueue1);
           await serviceBusAdministrationClient.deleteQueue(managementQueue2);
@@ -414,21 +409,21 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
       it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
         const connectionStringProperties = parseServiceBusConnectionString(
-          env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
+          env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
         );
         const host = connectionStringProperties.fullyQualifiedNamespace;
         const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
           host,
           new AzureNamedKeyCredential(
             connectionStringProperties.sharedAccessKeyName!,
-            connectionStringProperties.sharedAccessKey!
-          )
+            connectionStringProperties.sharedAccessKey!,
+          ),
         );
 
         should.equal(
           (await serviceBusAdministrationClient.getNamespaceProperties()).name,
           (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
-          "Unexpected namespace name in the getNamespaceProperties response"
+          "Unexpected namespace name in the getNamespaceProperties response",
         );
       });
     });
@@ -461,13 +456,13 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                   EntityType.RULE,
                   managementRule1,
                   managementTopic1,
-                  managementSubscription1
+                  managementSubscription1,
                 );
                 await createEntity(
                   EntityType.RULE,
                   managementRule2,
                   managementTopic1,
-                  managementSubscription1
+                  managementSubscription1,
                 );
                 break;
               default:
@@ -502,13 +497,13 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               managementTopic1,
               managementSubscription1,
               undefined,
-              1
+              1,
             );
 
             should.equal(
               Array.isArray(topOneEntity),
               true,
-              "Result must be any array for list requests"
+              "Result must be any array for list requests",
             );
             should.equal(topOneEntity.length, 1, "Result must be an empty array");
           });
@@ -517,7 +512,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             const allEntitiesResult = await listEntities(
               entityType,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             const skipEntitiesResult = await listEntities(
@@ -525,19 +520,19 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               managementTopic1,
               managementSubscription1,
               1,
-              undefined
+              undefined,
             );
 
             should.equal(
               Array.isArray(skipEntitiesResult),
               true,
-              "Result must be any array for list requests"
+              "Result must be any array for list requests",
             );
 
             should.equal(
               skipEntitiesResult.length,
               allEntitiesResult.length - 1,
-              "Result array size should be exactly 1 less than all entities"
+              "Result array size should be exactly 1 less than all entities",
             );
           });
 
@@ -545,17 +540,17 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             const response = await listEntities(
               entityType,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             should.equal(
               Array.isArray(response),
               true,
-              "Result must be any array for list requests"
+              "Result must be any array for list requests",
             );
           });
         });
-      }
+      },
     );
 
     [
@@ -599,7 +594,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 EntityType.RULE,
                 managementRule1,
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
               break;
             default:
@@ -629,12 +624,12 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             testCase.entityType,
             testCase.alwaysBeExistingEntity,
             managementTopic1,
-            managementSubscription1
+            managementSubscription1,
           );
           should.equal(
             response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
             testCase.alwaysBeExistingEntity,
-            "Entity name mismatch"
+            "Entity name mismatch",
           );
         });
       });
@@ -720,12 +715,12 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           const response = await getEntityRuntimeProperties(
             testCase.entityType,
             testCase.alwaysBeExistingEntity,
-            managementTopic1
+            managementTopic1,
           );
           should.equal(
             response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
             testCase.alwaysBeExistingEntity,
-            "Entity name mismatch"
+            "Entity name mismatch",
           );
           assert.deepEqualExcluding(response, testCase.output, [
             "_response",
@@ -864,7 +859,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
           const response = await getEntitiesRuntimeProperties(
             testCase.entityType,
-            managementTopic1
+            managementTopic1,
           );
           const name =
             testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
@@ -921,7 +916,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 managementTopic1,
                 managementSubscription1,
                 managementRule1,
-                { sqlExpression: "1=2" }
+                { sqlExpression: "1=2" },
               );
               break;
 
@@ -953,10 +948,10 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               testCase.entityType,
               testCase.alwaysBeExistingEntity,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             ),
             true,
-            "Returned `false` for an existing entity"
+            "Returned `false` for an existing entity",
           );
         });
 
@@ -966,10 +961,10 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               testCase.entityType,
               "non-existing-entity-name",
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             ),
             false,
-            "Returned `true` for a non-existing entity"
+            "Returned `true` for a non-existing entity",
           );
         });
       });
@@ -1016,7 +1011,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 EntityType.RULE,
                 managementRule1,
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
               break;
             default:
@@ -1046,12 +1041,12 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             testCase.entityType,
             testCase.alwaysBeExistingEntity,
             managementTopic1,
-            managementSubscription1
+            managementSubscription1,
           );
           should.equal(
             response[testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
             testCase.alwaysBeExistingEntity,
-            "Entity name mismatch"
+            "Entity name mismatch",
           );
         });
       });
@@ -1101,20 +1096,20 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               entityType,
               newManagementEntity1,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             const response = await deleteEntity(
               entityType,
               newManagementEntity1,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             should.equal(response._response.status, 200);
           });
         });
-      }
+      },
     );
 
     [
@@ -1158,7 +1153,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 EntityType.RULE,
                 managementRule1,
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
               break;
             default:
@@ -1190,7 +1185,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               testCase.entityType,
               testCase.alwaysBeExistingEntity,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
           } catch (err: any) {
             error = err;
@@ -1200,7 +1195,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           should.equal(
             error.code,
             "MessageEntityAlreadyExistsError",
-            `Unexpected error code found.`
+            `Unexpected error code found.`,
           );
           should.equal(
             error.message.startsWith("The messaging entity") ||
@@ -1208,7 +1203,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               error.message.startsWith("SubCode") ||
               error.message.startsWith("No service"),
             true,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
         });
       });
@@ -1257,20 +1252,20 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               entityType,
               newManagementEntity2,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             await deleteEntity(
               entityType,
               newManagementEntity2,
               managementTopic1,
-              managementSubscription1
+              managementSubscription1,
             );
 
             should.equal(
               response[entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name"],
               newManagementEntity2,
-              "Entity name mismatch"
+              "Entity name mismatch",
             );
           });
 
@@ -1281,7 +1276,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 entityType,
                 "notexisting",
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
             } catch (err: any) {
               error = err;
@@ -1294,7 +1289,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 error.message.startsWith("SubCode") ||
                 error.message.startsWith("No service"),
               true,
-              `Unexpected error message found.`
+              `Unexpected error message found.`,
             );
           });
 
@@ -1305,7 +1300,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 entityType,
                 "nonexisting",
                 managementTopic1,
-                managementSubscription1
+                managementSubscription1,
               );
             } catch (err: any) {
               error = err;
@@ -1318,7 +1313,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 error.message.startsWith("SubCode") ||
                 error.message.startsWith("No service"),
               true,
-              `Unexpected error message found.`
+              `Unexpected error message found.`,
             );
           });
 
@@ -1356,7 +1351,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                     entityType,
                     "notexisting",
                     managementTopic1,
-                    managementSubscription1
+                    managementSubscription1,
                   );
                 } catch (err: any) {
                   error = err;
@@ -1374,11 +1369,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 error.message.startsWith("SubCode") ||
                 error.message.startsWith("No service"),
               true,
-              `Unexpected error message found.`
+              `Unexpected error message found.`,
             );
           });
         });
-      }
+      },
     );
 
     // Topic tests
@@ -1448,7 +1443,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             undefined,
             true,
             undefined,
-            testCase.input
+            testCase.input,
           );
 
           should.equal(response.name, managementTopic1, "Topic name mismatch");
@@ -1559,13 +1554,13 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             true,
             undefined,
             undefined,
-            testCase.input
+            testCase.input,
           );
 
           should.equal(
             response.subscriptionName,
             managementSubscription1,
-            "Subscription name mismatch"
+            "Subscription name mismatch",
           );
           assert.deepEqual(response, testCase.output);
 
@@ -1573,7 +1568,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             const ruleResponse = await serviceBusAtomManagementClient.getRule(
               response.topicName,
               response.subscriptionName,
-              testCase.input.defaultRuleOptions.name
+              testCase.input.defaultRuleOptions.name,
             );
             assert.deepEqual(ruleResponse, testCase.input.defaultRuleOptions);
           }
@@ -1649,19 +1644,19 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             true,
             undefined,
             undefined,
-            testCase.input
+            testCase.input,
           );
 
           should.equal(
             response.subscriptionName,
             managementSubscription1,
-            "Subscription name mismatch"
+            "Subscription name mismatch",
           );
           should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
           should.equal(
             response.forwardDeadLetteredMessagesTo,
             testCase.output.forwardDeadLetteredMessagesTo,
-            "forwardDeadLetteredMessagesTo value mismatch"
+            "forwardDeadLetteredMessagesTo value mismatch",
           );
         });
       });
@@ -1778,7 +1773,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             undefined,
             undefined,
             true,
-            testCase.input
+            testCase.input,
           );
 
           should.equal(response.name, managementQueue1, "Queue name mismatch");
@@ -1835,14 +1830,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             undefined,
             undefined,
             true,
-            testCase.input
+            testCase.input,
           );
 
           should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
           should.equal(
             response.forwardDeadLetteredMessagesTo,
             testCase.output.forwardDeadLetteredMessagesTo,
-            "forwardDeadLetteredMessagesTo value mismatch"
+            "forwardDeadLetteredMessagesTo value mismatch",
           );
         });
       });
@@ -1972,7 +1967,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             undefined,
             undefined,
             undefined,
-            testCase.input
+            testCase.input,
           );
           should.equal(response.name, managementRule1, "Rule name mismatch");
           assert.deepEqualExcluding(response, testCase.output, [
@@ -2102,7 +2097,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               undefined,
               undefined,
               true,
-              testCase.input
+              testCase.input,
             );
 
             assert.deepEqualExcluding(response, testCase.output, [
@@ -2204,14 +2199,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               undefined,
               undefined,
               true,
-              testCase.input
+              testCase.input,
             );
 
             should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
             should.equal(
               response.forwardDeadLetteredMessagesTo,
               testCase.output.forwardDeadLetteredMessagesTo,
-              "forwardDeadLetteredMessagesTo value mismatch"
+              "forwardDeadLetteredMessagesTo value mismatch",
             );
           } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
@@ -2271,7 +2266,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               undefined,
               true,
               undefined,
-              testCase.input
+              testCase.input,
             );
 
             assert.deepEqualExcluding(response, testCase.output, [
@@ -2344,7 +2339,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               true,
               undefined,
               undefined,
-              testCase.input
+              testCase.input,
             );
 
             assert.deepEqualExcluding(response, testCase.output, [
@@ -2406,14 +2401,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               true,
               undefined,
               undefined,
-              testCase.input
+              testCase.input,
             );
 
             should.equal(response.forwardTo, testCase.output.forwardTo, "forwardTo value mismatch");
             should.equal(
               response.forwardDeadLetteredMessagesTo,
               testCase.output.forwardDeadLetteredMessagesTo,
-              "forwardDeadLetteredMessagesTo value mismatch"
+              "forwardDeadLetteredMessagesTo value mismatch",
             );
           } catch (err: any) {
             checkForValidErrorScenario(err, testCase.output);
@@ -2431,7 +2426,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           EntityType.RULE,
           managementRule1,
           managementTopic1,
-          managementSubscription1
+          managementSubscription1,
         );
       });
 
@@ -2501,7 +2496,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               undefined,
               undefined,
               undefined,
-              testCase.input
+              testCase.input,
             );
 
             assert.deepEqualExcluding(response, testCase.output, [
@@ -2525,7 +2520,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         should.equal(
           err.message && err.message.startsWith(expectedtestOutput.testErrorMessage),
           true,
-          `Unexpected error message prefix found.`
+          `Unexpected error message prefix found.`,
         );
       }
 
@@ -2534,7 +2529,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         should.equal(
           err.code && err.code.startsWith(expectedtestOutput.testErrorCode),
           true,
-          `Unexpected error code found.`
+          `Unexpected error code found.`,
         );
       }
 
@@ -2553,7 +2548,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       topicOptions?: Omit<CreateTopicOptions, "name">,
       subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
       ruleOptions?: Omit<Required<CreateSubscriptionOptions>["defaultRuleOptions"], "name">,
-      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
+      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient,
     ): Promise<any> {
       if (!overrideOptions) {
         if (queueOptions === undefined) {
@@ -2608,7 +2603,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse = await atomClient.createSubscription(topicPath, entityPath, {
@@ -2619,7 +2614,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
+              "TestError: Topic path AND subscription path must be passed when invoking tests on rules",
             );
           }
           if (!ruleOptions?.filter) {
@@ -2631,14 +2626,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               subscriptionPath,
               entityPath,
               ruleOptions?.filter,
-              ruleOptions?.action
+              ruleOptions?.action,
             );
           } else {
             return atomClient.createRule(
               topicPath,
               subscriptionPath,
               entityPath,
-              ruleOptions?.filter
+              ruleOptions?.filter,
             );
           }
         }
@@ -2651,7 +2646,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       entityPath: string,
       topicPath?: string,
       subscriptionPath?: string,
-      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
+      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
@@ -2665,7 +2660,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse = await atomClient.getSubscription(topicPath, entityPath);
@@ -2674,7 +2669,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
+              "TestError: Topic path AND subscription path must be passed when invoking tests on rules",
             );
           }
           const ruleResponse = await atomClient.getRule(topicPath, subscriptionPath, entityPath);
@@ -2687,31 +2682,29 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     async function getEntityRuntimeProperties(
       testEntityType: EntityType,
       entityPath: string,
-      topicPath?: string
+      topicPath?: string,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
-          const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(
-            entityPath
-          );
+          const queueResponse =
+            await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityPath);
           return queueResponse;
         }
         case EntityType.TOPIC: {
-          const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(
-            entityPath
-          );
+          const topicResponse =
+            await serviceBusAtomManagementClient.getTopicRuntimeProperties(entityPath);
           return topicResponse;
         }
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse =
             await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
               topicPath,
-              entityPath
+              entityPath,
             );
           return subscriptionResponse;
         }
@@ -2721,30 +2714,27 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
     async function getEntitiesRuntimeProperties(
       testEntityType: EntityType,
-      topicPath?: string
+      topicPath?: string,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
-          const queueResponse = await serviceBusAtomManagementClient[
-            "getQueuesRuntimeProperties"
-          ]();
+          const queueResponse =
+            await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
           return queueResponse;
         }
         case EntityType.TOPIC: {
-          const topicResponse = await serviceBusAtomManagementClient[
-            "getTopicsRuntimeProperties"
-          ]();
+          const topicResponse =
+            await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
           return topicResponse;
         }
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
-          const subscriptionResponse = await serviceBusAtomManagementClient[
-            "getSubscriptionsRuntimeProperties"
-          ](topicPath);
+          const subscriptionResponse =
+            await serviceBusAtomManagementClient["getSubscriptionsRuntimeProperties"](topicPath);
           return subscriptionResponse;
         }
       }
@@ -2756,7 +2746,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       entityPath: string,
       topicPath?: string,
       subscriptionPath?: string,
-      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
+      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
@@ -2770,7 +2760,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse = await atomClient.subscriptionExists(topicPath, entityPath);
@@ -2779,7 +2769,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: topic path and subscription path must be passed when invoking tests on rules"
+              "TestError: topic path and subscription path must be passed when invoking tests on rules",
             );
           }
           const ruleResponse = await atomClient.ruleExists(topicPath, subscriptionPath, entityPath);
@@ -2799,7 +2789,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       topicOptions?: Omit<CreateTopicOptions, "name">,
       subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
       ruleOptions?: Omit<RuleProperties, "name">,
-      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
+      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient,
     ): Promise<any> {
       if (!overrideOptions) {
         if (queueOptions === undefined) {
@@ -2863,7 +2853,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const getSubscriptionResponse = await atomClient.getSubscription(topicPath, entityPath);
@@ -2876,7 +2866,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
+              "TestError: Topic path AND subscription path must be passed when invoking tests on rules",
             );
           }
           const getRuleResponse = await atomClient.getRule(topicPath, subscriptionPath, entityPath);
@@ -2894,7 +2884,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       entityPath: string,
       topicPath?: string,
       subscriptionPath?: string,
-      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient
+      atomClient: ServiceBusAdministrationClient = serviceBusAtomManagementClient,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
@@ -2908,7 +2898,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse = await atomClient.deleteSubscription(topicPath, entityPath);
@@ -2917,7 +2907,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
+              "TestError: Topic path AND subscription path must be passed when invoking tests on rules",
             );
           }
           const ruleResponse = await atomClient.deleteRule(topicPath, subscriptionPath, entityPath);
@@ -2932,7 +2922,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       topicPath?: string,
       subscriptionPath?: string,
       skip?: number,
-      maxCount?: number
+      maxCount?: number,
     ): Promise<any> {
       switch (testEntityType) {
         case EntityType.QUEUE: {
@@ -2952,25 +2942,25 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         case EntityType.SUBSCRIPTION: {
           if (!topicPath) {
             throw new Error(
-              "TestError: Topic path must be passed when invoking tests on subscriptions"
+              "TestError: Topic path must be passed when invoking tests on subscriptions",
             );
           }
           const subscriptionResponse = await serviceBusAtomManagementClient["getSubscriptions"](
             topicPath,
-            { skip, maxCount }
+            { skip, maxCount },
           );
           return subscriptionResponse;
         }
         case EntityType.RULE: {
           if (!topicPath || !subscriptionPath) {
             throw new Error(
-              "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
+              "TestError: Topic path AND subscription path must be passed when invoking tests on rules",
             );
           }
           const ruleResponse = await serviceBusAtomManagementClient["getRules"](
             topicPath,
             subscriptionPath,
-            { skip, maxCount }
+            { skip, maxCount },
           );
           return ruleResponse;
         }
@@ -2991,7 +2981,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
 
       function setEntityNameWithMaxSize(
         type: EntityType.QUEUE | EntityType.TOPIC,
-        maxSize?: number
+        maxSize?: number,
       ): void {
         entityNameWithmaxSize = {
           entityName: `${type}-${maxSize}`,
@@ -3004,7 +2994,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       }
 
       async function verifyAndDeleteEntity(
-        type: EntityType.QUEUE | EntityType.TOPIC
+        type: EntityType.QUEUE | EntityType.TOPIC,
       ): Promise<void> {
         assert.equal(
           (
@@ -3013,18 +3003,18 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               entityNameWithmaxSize.entityName,
               undefined,
               undefined,
-              atomClient
+              atomClient,
             )
           ).maxMessageSizeInKilobytes,
           entityNameWithmaxSize.maxSize,
-          "Unexpected size returned with getEntity"
+          "Unexpected size returned with getEntity",
         );
         await deleteEntity(
           type,
           entityNameWithmaxSize.entityName,
           undefined,
           undefined,
-          atomClient
+          atomClient,
         );
       }
 
@@ -3046,11 +3036,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 options,
                 undefined,
                 undefined,
-                atomClient
+                atomClient,
               )
             ).maxMessageSizeInKilobytes,
             options.maxMessageSizeInKilobytes,
-            "Unexpected size returned with createEntity"
+            "Unexpected size returned with createEntity",
           );
           await verifyAndDeleteEntity(type);
         });
@@ -3070,7 +3060,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             undefined,
             undefined,
             undefined,
-            atomClient
+            atomClient,
           );
           assert.equal(
             (
@@ -3084,11 +3074,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
                 options,
                 undefined,
                 undefined,
-                atomClient
+                atomClient,
               )
             ).maxMessageSizeInKilobytes,
             options.maxMessageSizeInKilobytes,
-            "Unexpected size returned with updateEntity"
+            "Unexpected size returned with updateEntity",
           );
           await verifyAndDeleteEntity(type);
         });
@@ -3098,7 +3088,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             type,
             Math.random() > 0.5
               ? Math.ceil(Math.random() * 1023) // < 1024
-              : Math.ceil(102400 + Math.random() * 1024) // > 102400
+              : Math.ceil(102400 + Math.random() * 1024), // > 102400
           );
           const options: CreateQueueOptions | CreateTopicOptions = {
             maxMessageSizeInKilobytes: entityNameWithmaxSize.maxSize,
@@ -3115,7 +3105,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
               options,
               undefined,
               undefined,
-              atomClient
+              atomClient,
             );
           } catch (err: any) {
             error = err;
@@ -3123,7 +3113,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           assert.include(
             error.message,
             "value for 'MaxMessageSizeInKilobytes' must be between 1024 and 102400",
-            "Did not get the error message that says 'MaxMessageSizeInKilobytes' must be between 1024 and 102400"
+            "Did not get the error message that says 'MaxMessageSizeInKilobytes' must be between 1024 and 102400",
           );
         });
       });

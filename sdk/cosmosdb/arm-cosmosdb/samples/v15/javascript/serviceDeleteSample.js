@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDataTransferServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDataTransferServiceDelete.json
  */
 async function dataTransferServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function dataTransferServiceDelete() {
   const result = await client.service.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    serviceName
+    serviceName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function dataTransferServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGraphAPIComputeServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBGraphAPIComputeServiceDelete.json
  */
 async function graphApiComputeServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -49,7 +49,7 @@ async function graphApiComputeServiceDelete() {
   const result = await client.service.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    serviceName
+    serviceName,
   );
   console.log(result);
 }
@@ -58,7 +58,7 @@ async function graphApiComputeServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
  */
 async function materializedViewsBuilderServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -70,7 +70,7 @@ async function materializedViewsBuilderServiceDelete() {
   const result = await client.service.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    serviceName
+    serviceName,
   );
   console.log(result);
 }
@@ -79,7 +79,7 @@ async function materializedViewsBuilderServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlDedicatedGatewayServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlDedicatedGatewayServiceDelete.json
  */
 async function sqlDedicatedGatewayServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -91,7 +91,7 @@ async function sqlDedicatedGatewayServiceDelete() {
   const result = await client.service.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    serviceName
+    serviceName,
   );
   console.log(result);
 }

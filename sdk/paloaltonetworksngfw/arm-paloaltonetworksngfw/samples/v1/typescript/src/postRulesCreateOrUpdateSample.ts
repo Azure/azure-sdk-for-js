@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a PostRulesResource
  *
  * @summary Create a PostRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMaximumSetGen() {
   const globalRulestackName = "lrs1";
@@ -72,7 +72,7 @@ async function postRulesCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a PostRulesResource
  *
  * @summary Create a PostRulesResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PostRules_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PostRules_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function postRulesCreateOrUpdateMinimumSetGen() {
   const globalRulestackName = "lrs1";

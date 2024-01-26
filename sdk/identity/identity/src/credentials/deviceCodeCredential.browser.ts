@@ -9,7 +9,7 @@ const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supporte
 const logger = credentialLogger("DeviceCodeCredential");
 
 /**
- * Enables authentication to Azure Active Directory using a device code
+ * Enables authentication to Microsoft Entra ID using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {

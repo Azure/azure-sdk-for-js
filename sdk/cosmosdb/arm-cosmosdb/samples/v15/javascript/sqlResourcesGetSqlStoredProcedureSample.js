@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
  *
  * @summary Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlStoredProcedureGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlStoredProcedureGet.json
  */
 async function cosmosDbSqlStoredProcedureGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function cosmosDbSqlStoredProcedureGet() {
     accountName,
     databaseName,
     containerName,
-    storedProcedureName
+    storedProcedureName,
   );
   console.log(result);
 }

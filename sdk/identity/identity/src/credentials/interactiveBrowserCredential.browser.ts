@@ -9,7 +9,7 @@ import {
 import { credentialLogger, formatError } from "../util/logging";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { AuthenticationRecord } from "../msal/types";
 import { MSALAuthCode } from "../msal/browserFlows/msalAuthCode";
@@ -21,7 +21,7 @@ import { tracingClient } from "../util/tracing";
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
- * Enables authentication to Azure Active Directory inside of the web browser
+ * Enables authentication to Microsoft Entra ID inside of the web browser
  * using the interactive login flow.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
@@ -32,32 +32,32 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
   /**
    * Creates an instance of the InteractiveBrowserCredential with the
-   * details needed to authenticate against Azure Active Directory with
+   * details needed to authenticate against Microsoft Entra ID with
    * a user identity.
    *
-   * This credential uses the [Authorization Code Flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
+   * This credential uses the [Authorization Code Flow](https://learn.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow).
    * On Node.js, it will open a browser window while it listens for a redirect response from the authentication service.
    * On browsers, it authenticates via popups. The `loginStyle` optional parameter can be set to `redirect` to authenticate by redirecting the user to an Azure secure login page, which then will redirect the user back to the web application where the authentication started.
    *
-   * It's recommended that the AAD Applications used are configured to authenticate using Single Page Applications.
-   * More information here: [link](https://docs.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
+   * It's recommended that the Microsoft Entra Applications used are configured to authenticate using Single Page Applications.
+   * More information here: [link](https://learn.microsoft.com/en-us/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow).
    *
    * @param options - Options for configuring the client which makes the authentication request.
    */
   constructor(
-    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions
+    options: InteractiveBrowserCredentialInBrowserOptions | InteractiveBrowserCredentialNodeOptions,
   ) {
     if (!options?.clientId) {
       const error = new Error(
-        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`"
+        "The parameter `clientId` cannot be left undefined for the `InteractiveBrowserCredential`",
       );
       logger.info(formatError("", error));
       throw error;
     }
 
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
 
     const browserOptions = options as InteractiveBrowserCredentialInBrowserOptions;
@@ -68,7 +68,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const error = new Error(
         `Invalid loginStyle: ${
           browserOptions.loginStyle
-        }. Should be any of the following: ${loginStyles.join(", ")}.`
+        }. Should be any of the following: ${loginStyles.join(", ")}.`,
       );
       logger.info(formatError("", error));
       throw error;
@@ -88,7 +88,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
@@ -107,7 +107,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
         );
         newOptions.tenantId = tenantId;
 
@@ -116,12 +116,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
@@ -132,7 +132,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
@@ -141,7 +141,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
-      }
+      },
     );
   }
 }

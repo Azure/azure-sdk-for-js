@@ -7,14 +7,13 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
   TrackOptionalParams,
-  TrackOperationResponse
+  TrackOperationResponse,
 } from "./models";
 
 export class ApplicationInsightsClient extends coreClient.ServiceClient {
@@ -30,10 +29,10 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: ApplicationInsightsClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.16`;
+    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.19`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -43,34 +42,11 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{Host}/v2.1"
+      endpoint: options.endpoint ?? options.baseUri ?? "{Host}/v2.1",
     };
     super(optionsWithDefaults);
-
-    if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
-      const bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
-        (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
-      );
-      if (!bearerTokenAuthenticationPolicyFound) {
-        this.pipeline.removePolicy({
-          name: coreRestPipeline.bearerTokenAuthenticationPolicyName
-        });
-        this.pipeline.addPolicy(
-          coreRestPipeline.bearerTokenAuthenticationPolicy({
-            scopes: `${optionsWithDefaults.baseUri}/.default`,
-            challengeCallbacks: {
-              authorizeRequestOnChallenge:
-                coreClient.authorizeRequestOnClaimChallenge
-            }
-          })
-        );
-      }
-    }
 
     // Assigning values to Constant parameters
     this.host = options.host || "https://dc.services.visualstudio.com";
@@ -83,7 +59,7 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
    */
   track(
     body: TelemetryItem[],
-    options?: TrackOptionalParams
+    options?: TrackOptionalParams,
   ): Promise<TrackOperationResponse> {
     return this.sendOperationRequest({ body, options }, trackOperationSpec);
   }
@@ -96,35 +72,35 @@ const trackOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
     },
     206: {
-      bodyMapper: Mappers.TrackResponse
+      bodyMapper: Mappers.TrackResponse,
     },
     400: {
       bodyMapper: Mappers.TrackResponse,
-      isError: true
+      isError: true,
     },
     402: {
       bodyMapper: Mappers.TrackResponse,
-      isError: true
+      isError: true,
     },
     429: {
       bodyMapper: Mappers.TrackResponse,
-      isError: true
+      isError: true,
     },
     500: {
       bodyMapper: Mappers.TrackResponse,
-      isError: true
+      isError: true,
     },
     503: {
       bodyMapper: Mappers.TrackResponse,
-      isError: true
-    }
+      isError: true,
+    },
   },
   requestBody: Parameters.body,
   urlParameters: [Parameters.host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };

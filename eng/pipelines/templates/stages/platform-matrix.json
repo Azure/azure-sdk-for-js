@@ -18,9 +18,9 @@
       }
     },
     "NodeTestVersion": [
-      "16.x",
       "18.x",
-      "20.x"
+      "20.x",
+      "21.2.0"
     ],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
@@ -59,10 +59,7 @@
       },
       "TestType": "node",
       "NodeTestVersion": "18.x",
-      "DependencyVersion": [
-        "max",
-        "min"
-      ],
+      "DependencyVersion": ["max", "min"],
       "TestResultsFiles": "**/test-results.xml"
     }
   ]

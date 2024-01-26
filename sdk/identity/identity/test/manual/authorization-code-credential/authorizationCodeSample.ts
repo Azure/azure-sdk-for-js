@@ -15,7 +15,7 @@ config();
 
 // This sample demonstrates how to use the AuthorizationCodeCredential,
 // including the first part of the authorization code flow.  For this
-// sample to work correctly, you must have an Azure Active Directory
+// sample to work correctly, you must have a Microsoft Entra
 // App Configuration configured with a redirect URI that matches the
 // one used in this sample:
 //
@@ -24,10 +24,10 @@ config();
 // The user must also be able to grant access to the app for the resource
 // requested in the specified scopes, Microsoft Graph in this case. If
 // the user cannot grant access to this resource due to administrator
-// settings in the AAD tenant, one of the following errors will be displayed on
+// settings in the Microsoft Entra tenant, one of the following errors will be displayed on
 // the authorization page:
 //
-// https://docs.microsoft.com/en-us/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error
+// https://learn.microsoft.com/azure/active-directory/manage-apps/application-sign-in-unexpected-user-consent-error
 
 const port = process.env.PORT || 8080;
 const tenantId = process.env.AZURE_TENANT_ID;
@@ -74,14 +74,14 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       } else {
         reject(
           new Error(
-            `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
-          )
+            `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`,
+          ),
         );
       }
     });
 
     server = app.listen(port, () =>
-      console.log(`Authorization code redirect server listening on port ${port}`)
+      console.log(`Authorization code redirect server listening on port ${port}`),
     );
   });
 
@@ -110,7 +110,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       // the default authority host: https://login.microsoftonline.com. It is only
       // necessary when a different authority host is used in the initial authorization
       // URI.
-      { authorityHost }
+      { authorityHost },
     );
   } else {
     // NOTE: If there is no client secret, we can construct an auth code credential
@@ -124,7 +124,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       // the default authority host: https://login.microsoftonline.com.  It is only
       // necessary when a different authority host is used in the initial authorization
       // URI.
-      { authorityHost }
+      { authorityHost },
     );
   }
 }

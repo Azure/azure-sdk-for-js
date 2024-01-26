@@ -3,7 +3,7 @@
 
 import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
 import { ensureDir, copy } from "fs-extra";
-import * as path from "path";
+import path from "../pathUtil";
 import {
   Project,
   FunctionDeclaration,
@@ -25,9 +25,9 @@ import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
 
 import { format } from "../prettier";
+import { augmentExports } from "./exports";
 
 let outputProject = new Project();
-let _originalFolderName = "generated";
 
 export async function customize(originalDir: string, customDir: string, outDir: string) {
   // Initialize the state
@@ -35,14 +35,12 @@ export async function customize(originalDir: string, customDir: string, outDir: 
   // Bring everything from original into the output
   await copy(originalDir, outDir);
 
-  if (!directoryExists(customDir)) {
+  if (!(await directoryExists(customDir))) {
     return;
   }
 
-  _originalFolderName = customDir.split("/").pop() ?? _originalFolderName;
-
   // Bring files only present in custom into the output
-  copyFilesInCustom(originalDir, customDir, outDir);
+  await copyFilesInCustom(originalDir, customDir, outDir);
 
   const projectInfo = await resolveProject(process.cwd());
 
@@ -79,6 +77,7 @@ async function copyFilesInCustom(originalDir: string, customDir: string, outDir:
   for (const file of filesToCopy) {
     const sourcePath = file;
     const destPath = file.replace(customDir, outDir);
+    await ensureDir(path.dirname(destPath));
     await copyFile(sourcePath, destPath);
   }
 }
@@ -96,8 +95,8 @@ export async function readFileContent(filepath: string): Promise<string> {
 }
 
 export async function writeFileContent(filepath: string, content: string): Promise<void> {
-  const formattedContent = format(content, "typescript");
-  return await writeFile(filepath, formattedContent);
+  const formattedContent = await format(content, "typescript");
+  await writeFile(filepath, formattedContent);
 }
 
 export function getOriginalDeclarationsMap(sourceFile: SourceFile): CustomDeclarationsMap {
@@ -162,7 +161,7 @@ export async function processFile(customFilePath: string, originalFilePath: stri
 
 export async function processDirectory(customDir: string, originalDir: string): Promise<void> {
   // Note: the originalDir is in reality the output directory but for readability we call it originalDir
-  // since we copied over eveything from the original directory to the output directory avoid
+  // since we copied over everything from the original directory to the output directory avoid
   // overwriting the original files.
   const entries = await readdir(customDir, { withFileTypes: true });
 
@@ -183,19 +182,19 @@ export async function processDirectory(customDir: string, originalDir: string): 
 
 export function mergeModuleDeclarations(
   customContent: { path: string; content: string },
-  originalContent: { path: string; content: string }
+  originalContent: { path: string; content: string },
 ): string {
   const project = new Project({ useInMemoryFileSystem: true });
 
   // Add the custom and out content as in-memory source files
   const customVirtualSourceFile = project.createSourceFile(
     customContent.path,
-    customContent.content
+    customContent.content,
   );
   const originalVirtualSourceFile = outputProject.createSourceFile(
     originalContent.path,
     originalContent.content,
-    { overwrite: true }
+    { overwrite: true },
   );
 
   // Create a map of of all the available customizations in the current file.
@@ -205,79 +204,36 @@ export function mergeModuleDeclarations(
   augmentFunctions(
     customVirtualSourceFile.getFunctions(),
     originalDeclarationsMap.functions,
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentClasses(
     originalDeclarationsMap.classes,
     customVirtualSourceFile.getClasses(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentInterfaces(
     originalDeclarationsMap.interfaces,
     customVirtualSourceFile.getInterfaces(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
   augmentTypeAliases(
     originalDeclarationsMap.typeAliases,
     customVirtualSourceFile.getTypeAliases(),
-    originalVirtualSourceFile
+    originalVirtualSourceFile,
   );
 
-  augmentImports(originalDeclarationsMap.imports, customVirtualSourceFile.getImportDeclarations());
+  augmentImports(
+    originalDeclarationsMap.imports,
+    customVirtualSourceFile.getImportDeclarations(),
+    originalVirtualSourceFile,
+  );
 
-  originalVirtualSourceFile.fixMissingImports();
+  augmentExports(customVirtualSourceFile, originalVirtualSourceFile);
+
   sortSourceFileContents(originalVirtualSourceFile);
-  copyCustomImports(customVirtualSourceFile, originalVirtualSourceFile);
+
   return originalVirtualSourceFile.getFullText();
-}
-
-function isGeneratedImport(importDeclaration: ImportDeclaration) {
-  const regex = new RegExp(`^../(?:../)*${_originalFolderName}(?:/.*)?$`);
-
-  return regex.test(importDeclaration.getModuleSpecifierValue());
-}
-
-function transformGeneratedImport(moduleSpecifier: string) {
-  const regex = new RegExp(`^(../)+(?:../)*${_originalFolderName}(?:/(.*))?$`);
-  return moduleSpecifier.replace(regex, "./$2");
-}
-
-function copyCustomImports(customFile: SourceFile, originalFile: SourceFile) {
-  for (const customImport of customFile.getImportDeclarations()) {
-    if (isGeneratedImport(customImport)) {
-      const newModuleSpecifier = transformGeneratedImport(customImport.getModuleSpecifierValue());
-      customImport.setModuleSpecifier(newModuleSpecifier);
-      originalFile.addImportDeclaration(customImport.getStructure());
-    }
-
-    if (customImport.isModuleSpecifierRelative()) {
-      continue;
-    }
-
-    const originalImport = originalFile.getImportDeclaration(
-      customImport.getModuleSpecifierValue()
-    );
-
-    if (!originalImport) {
-      originalFile.addImportDeclaration(customImport.getStructure());
-    }
-
-    if (originalImport?.getNamespaceImport()) {
-      continue;
-    }
-
-    const originalNamedImports = originalImport?.getNamedImports().map((i) => i.getName()) || [];
-
-    const allImports = new Set<string>(originalNamedImports);
-    for (const customNamedImport of customImport.getNamedImports()) {
-      allImports.add(customNamedImport.getName());
-    }
-
-    originalImport?.removeNamedImports();
-    originalImport?.addNamedImports(Array.from(allImports));
-  }
-  originalFile.organizeImports();
 }

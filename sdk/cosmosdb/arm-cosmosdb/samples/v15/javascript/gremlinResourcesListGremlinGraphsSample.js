@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the Gremlin graph under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the Gremlin graph under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinGraphList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBGremlinGraphList.json
  */
 async function cosmosDbGremlinGraphList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function cosmosDbGremlinGraphList() {
   for await (let item of client.gremlinResources.listGremlinGraphs(
     resourceGroupName,
     accountName,
-    databaseName
+    databaseName,
   )) {
     resArray.push(item);
   }

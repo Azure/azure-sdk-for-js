@@ -2,14 +2,16 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import {
+  checkTenantId,
+  processMultiTenantRequest,
+  resolveAdditionallyAllowedTenantIds,
+} from "../util/tenantIdUtils";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+
 import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
-import {
-  processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
 
@@ -112,9 +114,12 @@ export class AzurePowerShellCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzurePowerShellCredentialOptions) {
-    this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -126,7 +131,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   private async getAzurePowerShellAccessToken(
     resource: string,
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ Token: string; ExpiresOn: string }> {
     // Clone the stack to avoid mutating it while iterating
     for (const powerShellCommand of [...commandStack]) {
@@ -172,7 +177,7 @@ export class AzurePowerShellCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If the authentication cannot be performed through PowerShell, a {@link CredentialUnavailableError} will be thrown.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -180,16 +185,18 @@ export class AzurePowerShellCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       const tenantId = processMultiTenantRequest(
         this.tenantId,
         options,
-        this.additionallyAllowedTenantIds
+        this.additionallyAllowedTenantIds,
       );
       const scope = typeof scopes === "string" ? scopes : scopes[0];
-
+      if (tenantId) {
+        checkTenantId(logger, tenantId);
+      }
       try {
         ensureValidScopeForDevTimeCreds(scope, logger);
         logger.getToken.info(`Using the scope ${scope}`);
@@ -211,7 +218,7 @@ export class AzurePowerShellCredential implements TokenCredential {
           throw error;
         }
         const error = new CredentialUnavailableError(
-          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`
+          `${err}. ${powerShellPublicErrorMessages.troubleshoot}`,
         );
         logger.getToken.info(formatError(scope, error));
         throw error;

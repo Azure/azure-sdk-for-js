@@ -7,7 +7,7 @@ import { env } from "@azure-tools/test-recorder";
 /**
  * The known API versions that we support.
  */
-export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4"] as const;
+export const serviceVersions = ["7.0", "7.1", "7.2", "7.3", "7.4", "7.5-preview.1"] as const;
 
 /**
  * Fetches the service version to test against. This version could be configured as part of CI
@@ -27,7 +27,7 @@ export function getServiceVersion(): string {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: string
+  serviceVersion?: string,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

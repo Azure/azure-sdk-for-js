@@ -31,7 +31,7 @@ async function virtualMachineScaleSetRollingUpgradesGetLatestMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function virtualMachineScaleSetRollingUpgradesGetLatestMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/rollingUpgrades/latest",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .get(options);
   console.log(result);

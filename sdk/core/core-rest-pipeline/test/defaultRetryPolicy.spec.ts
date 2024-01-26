@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
-import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
+import { assert, describe, it, afterEach, vi, expect } from "vitest";
+
+import { RestError, type SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("defaultRetryPolicy", function () {
   afterEach(function () {
-    sinon.restore();
+    vi.useRealTimers();
   });
 
   it("It should throw immediately if the response or error doesn't match anything we were expecting", async () => {
@@ -18,10 +18,10 @@ describe("defaultRetryPolicy", function () {
     const testError = new RestError("Test Error!", { code: "UNEXPECTED" });
 
     const policy = defaultRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
-    const clock = sinon.useFakeTimers();
+    vi.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -29,33 +29,35 @@ describe("defaultRetryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await clock.runAllAsync();
+    await vi.runAllTimersAsync();
     // should be one more than the default retry count
-    assert.strictEqual(next.callCount, 1);
+    expect(next).toHaveBeenCalledOnce();
     assert.isTrue(catchCalled);
   });
 
-  it("It should give up after the default maxRetries is reached", async () => {
-    const request = createPipelineRequest({
-      url: "https://bing.com",
+  ["ETIMEDOUT", "ESOCKETTIMEDOUT", "ECONNREFUSED", "ENOENT", "ENOTFOUND"].forEach((errorCode) => {
+    it(`It should give up after the default maxRetries is reached for ${errorCode} error`, async () => {
+      const request = createPipelineRequest({
+        url: "https://bing.com",
+      });
+      const policy = defaultRetryPolicy();
+      vi.useFakeTimers();
+
+      const testError = new RestError("Test Error!", { code: errorCode });
+
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      next.mockRejectedValue(testError);
+
+      let catchCalled = false;
+      const promise = policy.sendRequest(request, next);
+      promise.catch((e) => {
+        catchCalled = true;
+        assert.strictEqual(e, testError);
+      });
+      await vi.runAllTimersAsync();
+      expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+      assert.isTrue(catchCalled);
     });
-    const testError = new RestError("Test Error!", { code: "ENOENT" });
-
-    const policy = defaultRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
-
-    const clock = sinon.useFakeTimers();
-
-    let catchCalled = false;
-    const promise = policy.sendRequest(request, next);
-    promise.catch((e) => {
-      catchCalled = true;
-      assert.strictEqual(e, testError);
-    });
-    await clock.runAllAsync();
-    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
-    assert.isTrue(catchCalled);
   });
 
   it("It should not retry on RestError with status 416", async () => {
@@ -65,10 +67,10 @@ describe("defaultRetryPolicy", function () {
     const testError = new RestError("Test Error!", { statusCode: 416 });
 
     const policy = defaultRetryPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.rejects(testError);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockRejectedValue(testError);
 
-    await assert.isRejected(policy.sendRequest(request, next), /Test Error/);
-    assert.strictEqual(next.callCount, 1);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(/Test Error/);
+    expect(next).toHaveBeenCalledOnce();
   });
 });

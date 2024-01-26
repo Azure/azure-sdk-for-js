@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Regenerates an access key for the specified Azure Cosmos DB database account.
  *
  * @summary Regenerates an access key for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountRegenerateKey.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountRegenerateKey.json
  */
 async function cosmosDbDatabaseAccountRegenerateKey() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function cosmosDbDatabaseAccountRegenerateKey() {
   const result = await client.databaseAccounts.beginRegenerateKeyAndWait(
     resourceGroupName,
     accountName,
-    keyToRegenerate
+    keyToRegenerate,
   );
   console.log(result);
 }

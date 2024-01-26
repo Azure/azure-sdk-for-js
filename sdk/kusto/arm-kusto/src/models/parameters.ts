@@ -32,6 +32,8 @@ import {
   DatabasePrincipalAssignment as DatabasePrincipalAssignmentMapper,
   Script as ScriptMapper,
   ScriptCheckNameRequest as ScriptCheckNameRequestMapper,
+  SandboxCustomImage as SandboxCustomImageMapper,
+  SandboxCustomImagesCheckNameRequest as SandboxCustomImagesCheckNameRequestMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   DataConnectionValidation as DataConnectionValidationMapper,
   DataConnectionCheckNameRequest as DataConnectionCheckNameRequestMapper,
@@ -108,7 +110,7 @@ export const subscriptionId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-02",
+    defaultValue: "2023-08-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -390,6 +392,30 @@ export const scriptName1: OperationParameter = {
   mapper: ScriptCheckNameRequestMapper
 };
 
+export const sandboxCustomImageName: OperationURLParameter = {
+  parameterPath: "sandboxCustomImageName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^.*$")
+    },
+    serializedName: "sandboxCustomImageName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const parameters9: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: SandboxCustomImageMapper
+};
+
+export const resourceName3: OperationParameter = {
+  parameterPath: "resourceName",
+  mapper: SandboxCustomImagesCheckNameRequestMapper
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -404,7 +430,7 @@ export const privateEndpointConnectionName: OperationURLParameter = {
   }
 };
 
-export const parameters9: OperationParameter = {
+export const parameters10: OperationParameter = {
   parameterPath: "parameters",
   mapper: PrivateEndpointConnectionMapper
 };
@@ -423,7 +449,7 @@ export const privateLinkResourceName: OperationURLParameter = {
   }
 };
 
-export const parameters10: OperationParameter = {
+export const parameters11: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionValidationMapper
 };
@@ -447,7 +473,7 @@ export const dataConnectionName1: OperationURLParameter = {
   }
 };
 
-export const parameters11: OperationParameter = {
+export const parameters12: OperationParameter = {
   parameterPath: "parameters",
   mapper: DataConnectionMapper
 };

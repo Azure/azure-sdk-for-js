@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { DeviceCodeCredentialOptions, DeviceCodeInfo } from "./deviceCodeCredentialOptions";
 import { AuthenticationRecord } from "../msal/types";
@@ -25,7 +25,7 @@ export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo):
 }
 
 /**
- * Enables authentication to Azure Active Directory using a device code
+ * Enables authentication to Microsoft Entra ID using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
 export class DeviceCodeCredential implements TokenCredential {
@@ -36,7 +36,7 @@ export class DeviceCodeCredential implements TokenCredential {
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
-   * to initiate the device code authorization flow with Azure Active Directory.
+   * to initiate the device code authorization flow with Microsoft Entra ID.
    *
    * A message will be logged, giving users a code that they can use to authenticate once they go to https://microsoft.com/devicelogin
    *
@@ -56,8 +56,8 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   constructor(options?: DeviceCodeCredentialOptions) {
     this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
     this.msalFlow = new MsalDeviceCode({
       ...options,
@@ -69,7 +69,7 @@ export class DeviceCodeCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the user provided the option `disableAutomaticAuthentication`,
@@ -89,7 +89,7 @@ export class DeviceCodeCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
@@ -97,12 +97,12 @@ export class DeviceCodeCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * If the token can't be retrieved silently, this method will require user interaction to retrieve the token.
@@ -113,7 +113,7 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
@@ -122,7 +122,7 @@ export class DeviceCodeCredential implements TokenCredential {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
-      }
+      },
     );
   }
 }

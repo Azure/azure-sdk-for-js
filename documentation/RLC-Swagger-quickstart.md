@@ -147,6 +147,20 @@ In order to release your RLC library, we need to add some tests for it to make s
 
 See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md) for information on how to write and run tests for the JavaScript SDK.
 
+1. **Prerequisites** 
+
+    To be able to leverage the asset-sync workflow
+    - Install [Powershell](https://github.com/PowerShell/PowerShell)
+      - Make sure "pwsh" command works at this step (If you follow the above link, "pwsh" is typically added to the system environment variables by default)
+    - Add `dev-tool` to the `devDependencies` in the `package.json`.
+
+    The package you are migrating needs to be using the new version of the recorder that uses the test proxy (`@azure-tools/test-recorder@^3.0.0`).
+
+    Then we need to generate a `assets.json` file. If your package is new or has never been pushed before, you could use below commands:
+    ```shell
+    npx dev-tool test-proxy init # this will generate assets.json file, you will get some info in this file.
+    ```
+
 1. **Write the test**
     
     You could follow the [basic RLC test interaction and recording example](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/Quickstart-on-how-to-write-tests.md#example-1-basic-rlc-test-interaction-and-recording-for-azure-data-plane-service) to write your test step by step. Also you could refer [the test of MapsRouteClient](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-route-rest/test/public) for more cases.
@@ -175,7 +189,35 @@ See the [JavaScript Codegen Quick Start for Test](https://github.com/Azure/azure
     rush build -t ${PACKAGE_NAME}
     SET TEST_MODE=playback&& rushx test # this will run live test and generate a recordings folder, you will need to submit it in the PR.
     ```
+3. **Push recording to assets repo**
 
+    `Notice`:
+      - the tests have to be recorded using the `TEST_MODE=record`, then the recording files will be generate.
+
+      - Before push your recording file, you must confirm that you are able to push recordings to the "azure-sdk-assets" repo, you need write-access to the assets repo.
+      [Permissions to `Azure/azure-sdk-assets`](https://dev.azure.com/azure-sdk/internal/_wiki/wikis/internal.wiki/785/Externalizing-Recordings-(Asset-Sync)?anchor=permissions-to-%60azure/azure-sdk-assets%60)
+
+
+    Here is the command to push: 
+    ```shell
+    npx dev-tool test-proxy push 
+    ```
+
+    After above command finished, you can find your local recording files in `./azure-sdk-for-js/.assets`.
+
+    And if you want to find your recording on `assets repo` , you can get the tag in assets.json in your package root, which is a tag pointing to your recordings in the Azure/azure-sdk-assets repo
+
+    example assets.json from "keyvault-certificates" SDK.
+    ```
+    {
+      "AssetsRepo": "Azure/azure-sdk-assets",
+      "AssetsRepoPrefixPath": "js",
+      "TagPrefix": "js/keyvault/keyvault-certificates",
+      "Tag": "js/keyvault/keyvault-certificates_43821e21b3"
+    }
+    ```
+    And the recordings are located at https://github.com/Azure/azure-sdk-assets/tree/js/keyvault/keyvault-certificates_43821e21b3
+    
 
 # How to write samples
 
