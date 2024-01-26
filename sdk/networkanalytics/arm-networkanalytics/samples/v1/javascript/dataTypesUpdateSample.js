@@ -13,66 +13,65 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Generate sas token for storage container.
+ * This sample demonstrates how to Update data type resource.
  *
- * @summary Generate sas token for storage container.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_GenerateStorageContainerSasToken_MaximumSet_Gen.json
+ * @summary Update data type resource.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Update_MaximumSet_Gen.json
  */
-async function dataTypesGenerateStorageContainerSasTokenMaximumSetGen() {
+async function dataTypesUpdateMaximumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
-  const body = {
-    expiryTimeStamp: new Date("2023-08-24T05:34:58.039Z"),
-    ipAddress: "1.1.1.1",
-    startTimeStamp: new Date("2023-08-24T05:34:58.039Z"),
+  const properties = {
+    properties: {
+      databaseCacheRetention: 16,
+      databaseRetention: 9,
+      state: "STARTED",
+      storageOutputRetention: 30,
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.generateStorageContainerSasToken(
+  const result = await client.dataTypes.beginUpdateAndWait(
     resourceGroupName,
     dataProductName,
     dataTypeName,
-    body
+    properties,
   );
   console.log(result);
 }
 
 /**
- * This sample demonstrates how to Generate sas token for storage container.
+ * This sample demonstrates how to Update data type resource.
  *
- * @summary Generate sas token for storage container.
- * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_GenerateStorageContainerSasToken_MinimumSet_Gen.json
+ * @summary Update data type resource.
+ * x-ms-original-file: specification/networkanalytics/resource-manager/Microsoft.NetworkAnalytics/stable/2023-11-15/examples/DataTypes_Update_MinimumSet_Gen.json
  */
-async function dataTypesGenerateStorageContainerSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
+async function dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen() {
   const subscriptionId =
     process.env["NETWORKANALYTICS_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-00000000000";
   const resourceGroupName =
     process.env["NETWORKANALYTICS_RESOURCE_GROUP"] || "aoiresourceGroupName";
   const dataProductName = "dataproduct01";
   const dataTypeName = "datatypename";
-  const body = {
-    expiryTimeStamp: new Date("2023-08-24T05:35:16.887Z"),
-    ipAddress: "1.1.1.1",
-    startTimeStamp: new Date("2023-08-24T05:35:16.887Z"),
-  };
+  const properties = {};
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftNetworkAnalytics(credential, subscriptionId);
-  const result = await client.dataTypes.generateStorageContainerSasToken(
+  const result = await client.dataTypes.beginUpdateAndWait(
     resourceGroupName,
     dataProductName,
     dataTypeName,
-    body
+    properties,
   );
   console.log(result);
 }
 
 async function main() {
-  dataTypesGenerateStorageContainerSasTokenMaximumSetGen();
-  dataTypesGenerateStorageContainerSasTokenMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
+  dataTypesUpdateMaximumSetGen();
+  dataTypesUpdateMaximumSetGenGeneratedByMinimumSetRuleMinimumSetGen();
 }
 
 main().catch(console.error);
