@@ -4,7 +4,7 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { isNode, isNumber, isString } from "../src/util/utils.js";
+import { isNode, isNumber, isString } from "./util/utils.js";
 import { isError } from "@azure/core-util";
 
 interface Window {
