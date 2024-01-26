@@ -5,7 +5,7 @@ import { ToolCallOutput, RequiredToolCallOutput } from "../rest/outputModels.js"
 import { RequiredToolCall, ToolCall } from "../../generated/src/models/models.js";
 
 export function parseRequiredToolCallOutput(requiredToolCallOutput: RequiredToolCallOutput): RequiredToolCall {
-  return { type: "function", function: requiredToolCallOutput.function } as RequiredToolCall;
+  return { type: "function", id: requiredToolCallOutput.id, function: requiredToolCallOutput.function } as RequiredToolCall;
 }
 
 export function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
