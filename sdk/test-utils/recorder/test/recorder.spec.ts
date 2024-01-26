@@ -22,16 +22,17 @@ describe("Recorder file paths", () => {
   });
 
   it("calculates paths for a vitest test", () => {
-    const vitestTest = {
-      task: {
-        name: "vitest test title",
-        suite: {
-          name: "vitest suite title",
-        },
+    const vitestTest = () => {
+      /* no-op */
+    };
+    (vitestTest as any).task = {
+      name: "vitest test title",
+      suite: {
+        name: "vitest suite title",
       },
     };
 
-    const context = calculatePaths(vitestTest);
+    const context = calculatePaths(vitestTest as any);
     expect(context).to.eql({
       suiteTitle: "vitest suite title",
       testTitle: "vitest test title",
@@ -39,19 +40,20 @@ describe("Recorder file paths", () => {
   });
 
   it("calculates paths for a vitest test with nested suites", () => {
-    const vitestTest = {
-      task: {
-        name: "vitest test title",
+    const vitestTest = () => {
+      /* no-op */
+    };
+    (vitestTest as any).task = {
+      name: "vitest test title",
+      suite: {
+        name: "vitest suite title",
         suite: {
-          name: "vitest suite title",
-          suite: {
-            name: "toplevel suite",
-          },
+          name: "toplevel suite",
         },
       },
     };
 
-    const context = calculatePaths(vitestTest);
+    const context = calculatePaths(vitestTest as any);
     expect(context).to.eql({
       suiteTitle: "toplevel suite_vitest suite title",
       testTitle: "vitest test title",
