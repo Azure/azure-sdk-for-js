@@ -71,12 +71,16 @@ export interface VitestSuite extends VitestTaskBase {
  * @param test - The test to check.
  * @returns true if the given test is a Mocha Test.
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isMochaTest(test: any): test is MochaTest {
-  return test && typeof test.title === "string";
+export function isMochaTest(test: unknown): test is MochaTest {
+  return typeof test === "object" && test != null && "title" in test;
 }
 
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function isVitestTestContext(test: any): test is VitestTestContext {
-  return test && typeof test.task === "object" && typeof test.task.name === "string";
+/**
+ * Determines whether the given test is a Vitest Test.
+ * @param test - The test to check.
+ * @returns true if the given test is a Vitest Test.
+ */
+export function isVitestTestContext(test: unknown): test is VitestTestContext {
+  return typeof test == "function" && "task" in test &&
+    typeof test.task === "object" && test.task != null && "name" in test.task;
 }
