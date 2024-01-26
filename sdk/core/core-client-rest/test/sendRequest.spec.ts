@@ -52,6 +52,36 @@ describe("sendRequest", () => {
       await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "foo" });
     });
 
+    it("should handle request body as string if content type is text/plain", async () => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      const expectedBody = "foo";
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.body, expectedBody);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "foo", contentType: "text/plain" });
+    });
+
+    it("should handle request body as string if header content type is text/plain", async () => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      const expectedBody = "foo";
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.body, expectedBody);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "foo", headers:{ "content-type": "text/plain" }});
+    });
+
+    it("should respect options.contentType if both options.contentType and options.headers['content-type'] are specified", async () => {
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      const expectedBody = "foo";
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.equal(request.body, expectedBody);
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+      await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "foo", contentType: "text/plain", headers:{ "content-type": "application/json" }});
+    });
+
     it("should handle request body as json string without content type", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       const body = '{"key":"value"}';
