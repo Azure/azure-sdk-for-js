@@ -12,9 +12,13 @@ import { DedicatedHsmOperations } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { AzureDedicatedHSMResourceProvider } from "../azureDedicatedHSMResourceProvider";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import { AzureHSMResourceProvider } from "../azureHSMResourceProvider";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DedicatedHsm,
   DedicatedHsmListByResourceGroupNextOptionalParams,
@@ -42,13 +46,13 @@ import {
 /// <reference lib="esnext.asynciterable" />
 /** Class containing DedicatedHsmOperations operations. */
 export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
-  private readonly client: AzureDedicatedHSMResourceProvider;
+  private readonly client: AzureHSMResourceProvider;
 
   /**
    * Initialize a new instance of the class DedicatedHsmOperations class.
    * @param client Reference to the service client
    */
-  constructor(client: AzureDedicatedHSMResourceProvider) {
+  constructor(client: AzureHSMResourceProvider) {
     this.client = client;
   }
 
@@ -274,8 +278,8 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     parameters: DedicatedHsm,
     options?: DedicatedHsmCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHsmCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHsmCreateOrUpdateResponse>,
       DedicatedHsmCreateOrUpdateResponse
     >
   > {
@@ -285,7 +289,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     ): Promise<DedicatedHsmCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -318,13 +322,16 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, parameters, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DedicatedHsmCreateOrUpdateResponse,
+      OperationState<DedicatedHsmCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -364,8 +371,8 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     name: string,
     options?: DedicatedHsmUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DedicatedHsmUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DedicatedHsmUpdateResponse>,
       DedicatedHsmUpdateResponse
     >
   > {
@@ -375,7 +382,7 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     ): Promise<DedicatedHsmUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -408,13 +415,16 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      DedicatedHsmUpdateResponse,
+      OperationState<DedicatedHsmUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -446,14 +456,14 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
     resourceGroupName: string,
     name: string,
     options?: DedicatedHsmDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -486,13 +496,13 @@ export class DedicatedHsmOperationsImpl implements DedicatedHsmOperations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, name, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, name, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -655,14 +665,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.parameters,
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.name
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -691,14 +701,14 @@ const updateOperationSpec: coreClient.OperationSpec = {
     parameterPath: { tags: ["options", "tags"] },
     mapper: { ...Mappers.DedicatedHsmPatchParameters, required: true }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.name,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
+    Parameters.name
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer
 };
@@ -715,11 +725,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.name1
   ],
   headerParameters: [Parameters.accept],
@@ -737,11 +747,11 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.name1
   ],
   headerParameters: [Parameters.accept],
@@ -759,11 +769,11 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -780,7 +790,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion, Parameters.top],
+  queryParameters: [Parameters.apiVersion1, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -797,11 +807,11 @@ const listOutboundNetworkDependenciesEndpointsOperationSpec: coreClient.Operatio
       bodyMapper: Mappers.DedicatedHsmError
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
+    Parameters.resourceGroupName1,
     Parameters.name1
   ],
   headerParameters: [Parameters.accept],
@@ -820,9 +830,9 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -859,10 +869,10 @@ const listOutboundNetworkDependenciesEndpointsNextOperationSpec: coreClient.Oper
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.name1,
-    Parameters.nextLink
+    Parameters.nextLink,
+    Parameters.resourceGroupName1,
+    Parameters.name1
   ],
   headerParameters: [Parameters.accept],
   serializer

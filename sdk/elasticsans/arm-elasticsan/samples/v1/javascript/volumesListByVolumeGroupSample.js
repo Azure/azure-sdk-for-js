@@ -29,7 +29,7 @@ async function volumesListByVolumeGroupMaximumSetGen() {
   for await (let item of client.volumes.listByVolumeGroup(
     resourceGroupName,
     elasticSanName,
-    volumeGroupName
+    volumeGroupName,
   )) {
     resArray.push(item);
   }
@@ -53,7 +53,7 @@ async function volumesListByVolumeGroupMinimumSetGen() {
   for await (let item of client.volumes.listByVolumeGroup(
     resourceGroupName,
     elasticSanName,
-    volumeGroupName
+    volumeGroupName,
   )) {
     resArray.push(item);
   }

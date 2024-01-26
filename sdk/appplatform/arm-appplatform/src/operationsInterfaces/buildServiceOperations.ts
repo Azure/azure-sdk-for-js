@@ -24,6 +24,7 @@ import {
   BuildServiceCreateOrUpdateBuildOptionalParams,
   BuildServiceCreateOrUpdateBuildResponse,
   BuildServiceDeleteBuildOptionalParams,
+  BuildServiceDeleteBuildResponse,
   BuildServiceGetBuildResultOptionalParams,
   BuildServiceGetBuildResultResponse,
   BuildServiceGetBuildResultLogOptionalParams,
@@ -185,7 +186,12 @@ export interface BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     options?: BuildServiceDeleteBuildOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BuildServiceDeleteBuildResponse>,
+      BuildServiceDeleteBuildResponse
+    >
+  >;
   /**
    * delete a KPack build.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -201,7 +207,7 @@ export interface BuildServiceOperations {
     buildServiceName: string,
     buildName: string,
     options?: BuildServiceDeleteBuildOptionalParams
-  ): Promise<void>;
+  ): Promise<BuildServiceDeleteBuildResponse>;
   /**
    * Get a KPack build result.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

@@ -27,12 +27,14 @@ async function elasticSansCreateMaximumSetGen() {
     process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const parameters: ElasticSan = {
-    availabilityZones: ["1"],
-    baseSizeTiB: 5,
-    extendedCapacitySizeTiB: 25,
     location: "France Central",
-    publicNetworkAccess: "Enabled",
-    sku: { name: "Premium_LRS", tier: "Premium" },
+    properties: {
+      availabilityZones: ["1"],
+      baseSizeTiB: 5,
+      extendedCapacitySizeTiB: 25,
+      publicNetworkAccess: "Enabled",
+      sku: { name: "Premium_LRS", tier: "Premium" }
+    },
     tags: { key9316: "ihndtieqibtob" }
   };
   const credential = new DefaultAzureCredential();
@@ -58,10 +60,12 @@ async function elasticSansCreateMinimumSetGen() {
     process.env["ELASTICSANS_RESOURCE_GROUP"] || "resourcegroupname";
   const elasticSanName = "elasticsanname";
   const parameters: ElasticSan = {
-    baseSizeTiB: 15,
-    extendedCapacitySizeTiB: 27,
     location: "France Central",
-    sku: { name: "Premium_LRS" }
+    properties: {
+      baseSizeTiB: 15,
+      extendedCapacitySizeTiB: 27,
+      sku: { name: "Premium_LRS" }
+    }
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);

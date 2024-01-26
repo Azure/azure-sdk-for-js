@@ -8,6 +8,205 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Security domain properties information for Cloud HSM cluster */
+export interface CloudHsmClusterSecurityDomainProperties {
+  /** FIPS state information for security domain */
+  fipsState?: number;
+  /** status of security domain activation */
+  activationStatus?: string;
+}
+
+/** The Cloud HSM Properties */
+export interface CloudHsmProperties {
+  /** FQDN of the Cloud HSM */
+  fqdn?: string;
+  /** The Cloud HSM State */
+  state?: string;
+  /** The Cloud HSM State message */
+  stateMessage?: string;
+}
+
+/** The private endpoint resource. */
+export interface PrivateEndpoint {
+  /**
+   * The ARM identifier for private endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** A collection of information about the state of the connection between service consumer and provider. */
+export interface PrivateLinkServiceConnectionState {
+  /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
+  status?: PrivateEndpointServiceConnectionStatus;
+  /** The reason for approval/rejection of the connection. */
+  description?: string;
+  /** A message indicating if changes on the service provider require any updates on the consumer. */
+  actionsRequired?: string;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Cloud Hsm Cluster restore information */
+export interface RestoreProperties {
+  /** Directory name in Azure Storage Blob where the backup is stored */
+  foldername?: string;
+  /** Azure Blob storage container Uri */
+  azureStorageResourceUri?: string;
+}
+
+/** Cloud Hsm Cluster backup information */
+export interface BackupProperties {
+  /** Azure storage Resource Uri */
+  azureStorageResourceUri?: string;
+  /**
+   * Last Date Time that Customer Enabled Backup was taken
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastBackupDateTime?: Date;
+  /**
+   * Status of last backup
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastBackupStatus?: string;
+}
+
+/** Cloud Hsm Cluster SKU information */
+export interface CloudHsmClusterSku {
+  /** Sku family of the Cloud HSM Cluster */
+  family: CloudHsmClusterSkuFamily;
+  /** Sku name of the Cloud HSM Cluster */
+  name: CloudHsmClusterSkuName;
+  /** Sku capacity */
+  capacity?: number;
+}
+
+/** Managed service identity (system assigned and/or user assigned identities) */
+export interface ManagedServiceIdentity {
+  /**
+   * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly tenantId?: string;
+  /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
+  type: ManagedServiceIdentityType;
+  /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
+  userAssignedIdentities?: {
+    [propertyName: string]: UserAssignedIdentity | null;
+  };
+}
+
+/** User assigned identity properties */
+export interface UserAssignedIdentity {
+  /**
+   * The principal ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly principalId?: string;
+  /**
+   * The client ID of the assigned identity.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly clientId?: string;
+}
+
+/** The Cloud HSM Cluster error details */
+export interface CloudHsmClusterError {
+  /** Error details */
+  error?: CHsmError;
+}
+
+/** Error details */
+export interface CHsmError {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+}
+
+/** Patchable properties of the Cloud HSM Cluster */
+export interface CloudHsmClusterPatchParameters {
+  /** The Cloud HSM Cluster's tags */
+  tags?: { [propertyName: string]: string };
+  /** SKU details */
+  sku?: CloudHsmClusterSku;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** Cloud Hsm Cluster backup information */
+  backupProperties?: BackupProperties;
+}
+
+/** List of Cloud HSM Clusters */
+export interface CloudHsmClusterListResult {
+  /** The list of Cloud HSM Clusters. */
+  value?: CloudHsmCluster[];
+  /** The URL to get the next set of Cloud HSM Clusters. */
+  nextLink?: string;
+}
+
+/** A list of private link resources. */
+export interface PrivateLinkResourceListResult {
+  /** Array of private link resources */
+  value?: PrivateLinkResource[];
+}
+
+/** List of private endpoint connections associated with the specified resource. */
+export interface PrivateEndpointConnectionListResult {
+  /** Array of private endpoint connections. */
+  value?: PrivateEndpointConnection[];
+  /** The URL to get the next set of private endpoint connections. */
+  nextLink?: string;
+}
+
 /** Result of the request to list Dedicated HSM Provider operations. It contains a list of operations. */
 export interface DedicatedHsmOperationListResult {
   /** List of Dedicated HSM Resource Provider operations. */
@@ -23,6 +222,8 @@ export interface DedicatedHsmOperation {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly isDataAction?: boolean;
+  /** The origin of the operation */
+  origin?: string;
   /** The display string. */
   display?: DedicatedHsmOperationDisplay;
 }
@@ -68,7 +269,7 @@ export interface ErrorModel {
 }
 
 /** Metadata pertaining to creation and last modification of dedicated hsm resource. */
-export interface SystemData {
+export interface SystemDataAutoGenerated {
   /** The identity that created dedicated hsm resource. */
   createdBy?: string;
   /** The type of identity that created dedicated hsm resource. */
@@ -109,7 +310,7 @@ export interface NetworkInterface {
 }
 
 /** Dedicated HSM resource */
-export interface Resource {
+export interface DedicatedHsmResource {
   /**
    * The Azure Resource Manager resource ID for the dedicated HSM.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -197,18 +398,45 @@ export interface EndpointDetail {
 /** List of dedicated HSM resources. */
 export interface ResourceListResult {
   /** The list of dedicated HSM resources. */
-  value?: Resource[];
+  value?: DedicatedHsmResource[];
   /** The URL to get the next set of dedicated HSM resources. */
   nextLink?: string;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** A private link resource. */
+export interface PrivateLinkResource extends Resource {
+  /**
+   * The private link resource group id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * The private link resource required member names.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
 /** Resource information with extended details. */
-export interface DedicatedHsm extends Resource {
+export interface DedicatedHsm extends DedicatedHsmResource {
   /**
    * Metadata pertaining to creation and last modification of the resource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly systemData?: SystemData;
+  readonly systemData?: SystemDataAutoGenerated;
   /** Specifies the network interfaces of the dedicated hsm. */
   networkProfile?: NetworkProfile;
   /** Specifies the management network interfaces of the dedicated hsm. */
@@ -226,6 +454,221 @@ export interface DedicatedHsm extends Resource {
    */
   readonly provisioningState?: JsonWebKeyType;
 }
+
+/** The private endpoint connection resource. */
+export interface PrivateEndpointConnection extends ProxyResource {
+  /** Modified whenever there is a change in the state of private endpoint connection. */
+  etag?: string;
+  /** The private endpoint resource. */
+  privateEndpoint?: PrivateEndpoint;
+  /** A collection of information about the state of the connection between service consumer and provider. */
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  /**
+   * The provisioning state of the private endpoint connection resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /**
+   * The group ids for the private endpoint resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+}
+
+/** Cloud HSM Cluster Resource */
+export interface CloudHsmClusterResource extends TrackedResource {
+  /** SKU details */
+  sku?: CloudHsmClusterSku;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+}
+
+/** Resource information with extended details. */
+export interface CloudHsmCluster extends CloudHsmClusterResource {
+  /** The Cloud HSM Cluster's provisioningState */
+  provisioningState?: ProvisioningState;
+  /** The Cloud HSM Cluster's auto-generated Domain Name Label Scope */
+  autoGeneratedDomainNameLabelScope?: string;
+  /** Security domain properties information for Cloud HSM cluster */
+  securityDomain?: CloudHsmClusterSecurityDomainProperties;
+  /** An array of Cloud HSM Cluster's HSMs */
+  hsms?: CloudHsmProperties[];
+  /** The Cloud HSM Cluster public network access */
+  publicNetworkAccess?: string;
+  /** List of private endpoint connection resources */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Cloud HSM Cluster status message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusMessage?: string;
+  /** Cloud Hsm Cluster restore information */
+  restoreProperties?: RestoreProperties;
+  /** Cloud Hsm Cluster backup information */
+  backupProperties?: BackupProperties;
+}
+
+/** Defines headers for CloudHsmClusters_update operation. */
+export interface CloudHsmClustersUpdateHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CloudHsmClusters_delete operation. */
+export interface CloudHsmClustersDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Defines headers for CloudHsmClusterPrivateEndpointConnections_delete operation. */
+export interface CloudHsmClusterPrivateEndpointConnectionsDeleteHeaders {
+  /** The URI to poll for completion status. */
+  location?: string;
+}
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Provisioning */
+  Provisioning = "Provisioning",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for ProvisioningState. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Provisioning** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Deleting** \
+ * **Canceled**
+ */
+export type ProvisioningState = string;
+
+/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export enum KnownPrivateEndpointServiceConnectionStatus {
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected"
+}
+
+/**
+ * Defines values for PrivateEndpointServiceConnectionStatus. \
+ * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateEndpointServiceConnectionStatus = string;
+
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Failed */
+  Failed = "Failed",
+  /** Updating */
+  Updating = "Updating",
+  /** InternalError */
+  InternalError = "InternalError",
+  /** Canceled */
+  Canceled = "Canceled"
+}
+
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Deleting** \
+ * **Failed** \
+ * **Updating** \
+ * **InternalError** \
+ * **Canceled**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key"
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link CloudHsmClusterSkuFamily} that the service accepts. */
+export enum KnownCloudHsmClusterSkuFamily {
+  /** B */
+  B = "B"
+}
+
+/**
+ * Defines values for CloudHsmClusterSkuFamily. \
+ * {@link KnownCloudHsmClusterSkuFamily} can be used interchangeably with CloudHsmClusterSkuFamily,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **B**
+ */
+export type CloudHsmClusterSkuFamily = string;
+
+/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export enum KnownManagedServiceIdentityType {
+  /** None */
+  None = "None",
+  /** SystemAssigned */
+  SystemAssigned = "SystemAssigned",
+  /** UserAssigned */
+  UserAssigned = "UserAssigned",
+  /** SystemAssignedUserAssigned */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+}
+
+/**
+ * Defines values for ManagedServiceIdentityType. \
+ * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **SystemAssigned** \
+ * **UserAssigned** \
+ * **SystemAssigned,UserAssigned**
+ */
+export type ManagedServiceIdentityType = string;
 
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
@@ -316,6 +759,156 @@ export enum KnownSkuName {
  * **payShield10K_LMK2_CPS2500**: The dedicated HSM is a payShield 10K, model PS10-D, 10Gb Ethernet Hardware Platform device with 2 local master keys which supports up to 2500 calls per second.
  */
 export type SkuName = string;
+/** Defines values for CloudHsmClusterSkuName. */
+export type CloudHsmClusterSkuName = "Standard_B1" | "Standard B10";
+
+/** Optional parameters. */
+export interface CloudHsmClustersCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** SKU details */
+  sku?: CloudHsmClusterSku;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** The Cloud HSM Cluster's provisioningState */
+  provisioningState?: ProvisioningState;
+  /** The Cloud HSM Cluster's auto-generated Domain Name Label Scope */
+  autoGeneratedDomainNameLabelScope?: string;
+  /** Security domain properties information for Cloud HSM cluster */
+  securityDomain?: CloudHsmClusterSecurityDomainProperties;
+  /** An array of Cloud HSM Cluster's HSMs */
+  hsms?: CloudHsmProperties[];
+  /** The Cloud HSM Cluster public network access */
+  publicNetworkAccess?: string;
+  /** List of private endpoint connection resources */
+  privateEndpointConnections?: PrivateEndpointConnection[];
+  /** Cloud Hsm Cluster restore information */
+  restoreProperties?: RestoreProperties;
+  /** Cloud Hsm Cluster backup information */
+  backupProperties?: BackupProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type CloudHsmClustersCreateOrUpdateResponse = CloudHsmCluster;
+
+/** Optional parameters. */
+export interface CloudHsmClustersUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The Cloud HSM Cluster's tags */
+  tags?: { [propertyName: string]: string };
+  /** SKU details */
+  sku?: CloudHsmClusterSku;
+  /** Managed service identity (system assigned and/or user assigned identities) */
+  identity?: ManagedServiceIdentity;
+  /** Cloud Hsm Cluster backup information */
+  backupProperties?: BackupProperties;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type CloudHsmClustersUpdateResponse = CloudHsmCluster;
+
+/** Optional parameters. */
+export interface CloudHsmClustersGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CloudHsmClustersGetResponse = CloudHsmCluster;
+
+/** Optional parameters. */
+export interface CloudHsmClustersDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CloudHsmClustersListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {
+  /** The page-continuation token to use with a paged version of this API */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type CloudHsmClustersListByResourceGroupResponse = CloudHsmClusterListResult;
+
+/** Optional parameters. */
+export interface CloudHsmClustersListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {
+  /** The page-continuation token to use with a paged version of this API */
+  skiptoken?: string;
+}
+
+/** Contains response data for the listBySubscription operation. */
+export type CloudHsmClustersListBySubscriptionResponse = CloudHsmClusterListResult;
+
+/** Optional parameters. */
+export interface CloudHsmClustersListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type CloudHsmClustersListByResourceGroupNextResponse = CloudHsmClusterListResult;
+
+/** Optional parameters. */
+export interface CloudHsmClustersListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type CloudHsmClustersListBySubscriptionNextResponse = CloudHsmClusterListResult;
+
+/** Optional parameters. */
+export interface CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCloudHsmCluster operation. */
+export type CloudHsmClusterPrivateLinkResourcesListByCloudHsmClusterResponse = PrivateLinkResourceListResult;
+
+/** Optional parameters. */
+export interface CloudHsmClusterPrivateEndpointConnectionsCreateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the create operation. */
+export type CloudHsmClusterPrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface CloudHsmClusterPrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface CloudHsmClusterPrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type CloudHsmClusterPrivateEndpointConnectionsGetResponse = PrivateEndpointConnection;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCloudHsmCluster operation. */
+export type PrivateEndpointConnectionsListByCloudHsmClusterResponse = PrivateEndpointConnectionListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListByCloudHsmClusterNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByCloudHsmClusterNext operation. */
+export type PrivateEndpointConnectionsListByCloudHsmClusterNextResponse = PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -415,12 +1008,10 @@ export interface DedicatedHsmListOutboundNetworkDependenciesEndpointsNextOptiona
 export type DedicatedHsmListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
-export interface AzureDedicatedHSMResourceProviderOptionalParams
+export interface AzureHSMResourceProviderOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;
-  /** Api Version */
-  apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
 }

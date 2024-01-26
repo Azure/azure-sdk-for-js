@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- `new DefaultAzureCredential()` will no longer throw when one of the credentials in the chain fails to instantiate. Any creation errors will be logged when `getToken` is called. [#28264](https://github.com/Azure/azure-sdk-for-js/pull/28264)
+
 ### Other Changes
 
 ## 4.0.1 (2024-01-18)
