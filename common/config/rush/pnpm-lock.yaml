@@ -13385,7 +13385,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-paB2UTa/ym/LyKRvgueRVSEwKly+RiTM68GLSsEmrlPUFlfTA3OpTjdm7V6HYjYZ9EXB9aHJRAmKAcIAyki58w==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-ibAv6bzBUoVh3FTubLWT3FhDWrDXSDrdwneHt4fiVL0ZPVEmv5mjGEbU0c6QCJdFodZ7NAvAAxGuhv4KAjbxGw==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -13393,10 +13393,12 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.2
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -19930,7 +19932,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-yw/Tt0+VmjmkJDX84v7nznrwMyA7NEJ4BVoLxmDnP3J9B6/GJfRRnjWv1sl6IiiupZrqQzZnXhFLnS7pagb3Eg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-90cLfp/kSBBNmOg2nYr4i2E3O4yeM3t3C6/mnpuVql6wCSp2il3sjnvCD591GsRX0J6gWm9xNjthFN4Uz2U83Q==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19978,7 +19980,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-3sUQt+V8suL5Fw5sx178t0ErHnh7W0nOdYWBR7y6LSJXnPPh5C0ZP29cMDFSZqtaO+oIhX5IwmCd1qPijyNVDg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-GPAIFVc/AwP/VRMEPIQJCf2rM3ZuLCg2Z0bsuokPAiRa1CNj9CM3LJGJk+D1RvIVycKIJTjmVZzT14zJZ5keMw==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:

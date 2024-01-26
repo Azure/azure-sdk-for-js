@@ -21,18 +21,7 @@ export type CreatedByType = string;
 
 // @public
 export interface ElasticSan extends TrackedResource {
-    availabilityZones?: string[];
-    baseSizeTiB: number;
-    extendedCapacitySizeTiB: number;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    readonly provisioningState?: ProvisioningStates;
-    publicNetworkAccess?: PublicNetworkAccess;
-    sku: Sku;
-    readonly totalIops?: number;
-    readonly totalMBps?: number;
-    readonly totalSizeTiB?: number;
-    readonly totalVolumeSizeGiB?: number;
-    readonly volumeGroupCount?: number;
+    properties: ElasticSanProperties;
 }
 
 // @public
@@ -73,6 +62,22 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+}
+
+// @public
+export interface ElasticSanProperties {
+    availabilityZones?: string[];
+    baseSizeTiB: number;
+    extendedCapacitySizeTiB: number;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    readonly provisioningState?: ProvisioningStates;
+    publicNetworkAccess?: PublicNetworkAccess;
+    sku: Sku;
+    readonly totalIops?: number;
+    readonly totalMBps?: number;
+    readonly totalSizeTiB?: number;
+    readonly totalVolumeSizeGiB?: number;
+    readonly volumeGroupCount?: number;
 }
 
 // @public
@@ -161,12 +166,17 @@ export type ElasticSansUpdateResponse = ElasticSan;
 
 // @public
 export interface ElasticSanUpdate {
-    baseSizeTiB?: number;
-    extendedCapacitySizeTiB?: number;
-    publicNetworkAccess?: PublicNetworkAccess;
+    properties?: ElasticSanUpdateProperties;
     tags?: {
         [propertyName: string]: string;
     };
+}
+
+// @public
+export interface ElasticSanUpdateProperties {
+    baseSizeTiB?: number;
+    extendedCapacitySizeTiB?: number;
+    publicNetworkAccess?: PublicNetworkAccess;
 }
 
 // @public
@@ -410,16 +420,21 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
-    groupIds?: string[];
-    privateEndpoint?: PrivateEndpoint;
-    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-    readonly provisioningState?: ProvisioningStates;
+    properties: PrivateEndpointConnectionProperties;
 }
 
 // @public
 export interface PrivateEndpointConnectionListResult {
     readonly nextLink?: string;
     value?: PrivateEndpointConnection[];
+}
+
+// @public
+export interface PrivateEndpointConnectionProperties {
+    groupIds?: string[];
+    privateEndpoint?: PrivateEndpoint;
+    privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
+    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
@@ -472,15 +487,20 @@ export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
 export interface PrivateLinkResource extends Resource {
-    readonly groupId?: string;
-    readonly requiredMembers?: string[];
-    requiredZoneNames?: string[];
+    properties?: PrivateLinkResourceProperties;
 }
 
 // @public
 export interface PrivateLinkResourceListResult {
     readonly nextLink?: string;
     value?: PrivateLinkResource[];
+}
+
+// @public
+export interface PrivateLinkResourceProperties {
+    readonly groupId?: string;
+    readonly requiredMembers?: string[];
+    requiredZoneNames?: string[];
 }
 
 // @public
@@ -575,10 +595,7 @@ export type SkuTier = string;
 
 // @public
 export interface Snapshot extends ProxyResource {
-    creationData: SnapshotCreationData;
-    readonly provisioningState?: ProvisioningStates;
-    readonly sourceVolumeSizeGiB?: number;
-    readonly volumeName?: string;
+    properties: SnapshotProperties;
 }
 
 // @public
@@ -590,6 +607,14 @@ export interface SnapshotCreationData {
 export interface SnapshotList {
     readonly nextLink?: string;
     value?: Snapshot[];
+}
+
+// @public
+export interface SnapshotProperties {
+    creationData: SnapshotCreationData;
+    readonly provisioningState?: ProvisioningStates;
+    readonly sourceVolumeSizeGiB?: number;
+    readonly volumeName?: string;
 }
 
 // @public
@@ -633,12 +658,7 @@ export interface VirtualNetworkRule {
 
 // @public
 export interface Volume extends ProxyResource {
-    creationData?: SourceCreationData;
-    managedBy?: ManagedByInfo;
-    readonly provisioningState?: ProvisioningStates;
-    sizeGiB: number;
-    readonly storageTarget?: IscsiTargetInfo;
-    readonly volumeId?: string;
+    properties: VolumeProperties;
 }
 
 // @public
@@ -646,19 +666,24 @@ export type VolumeCreateOption = string;
 
 // @public
 export interface VolumeGroup extends ProxyResource {
-    encryption?: EncryptionType;
-    encryptionProperties?: EncryptionProperties;
     identity?: Identity;
-    networkAcls?: NetworkRuleSet;
-    readonly privateEndpointConnections?: PrivateEndpointConnection[];
-    protocolType?: StorageTargetType;
-    readonly provisioningState?: ProvisioningStates;
+    properties?: VolumeGroupProperties;
 }
 
 // @public
 export interface VolumeGroupList {
     readonly nextLink?: string;
     value?: VolumeGroup[];
+}
+
+// @public
+export interface VolumeGroupProperties {
+    encryption?: EncryptionType;
+    encryptionProperties?: EncryptionProperties;
+    networkAcls?: NetworkRuleSet;
+    readonly privateEndpointConnections?: PrivateEndpointConnection[];
+    protocolType?: StorageTargetType;
+    readonly provisioningState?: ProvisioningStates;
 }
 
 // @public
@@ -732,9 +757,14 @@ export type VolumeGroupsUpdateResponse = VolumeGroup;
 
 // @public
 export interface VolumeGroupUpdate {
+    identity?: Identity;
+    properties?: VolumeGroupUpdateProperties;
+}
+
+// @public
+export interface VolumeGroupUpdateProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
-    identity?: Identity;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }
@@ -743,6 +773,16 @@ export interface VolumeGroupUpdate {
 export interface VolumeList {
     readonly nextLink?: string;
     value?: Volume[];
+}
+
+// @public
+export interface VolumeProperties {
+    creationData?: SourceCreationData;
+    managedBy?: ManagedByInfo;
+    readonly provisioningState?: ProvisioningStates;
+    sizeGiB: number;
+    readonly storageTarget?: IscsiTargetInfo;
+    readonly volumeId?: string;
 }
 
 // @public
@@ -871,6 +911,11 @@ export type VolumesUpdateResponse = Volume;
 
 // @public
 export interface VolumeUpdate {
+    properties?: VolumeUpdateProperties;
+}
+
+// @public
+export interface VolumeUpdateProperties {
     managedBy?: ManagedByInfo;
     sizeGiB?: number;
 }

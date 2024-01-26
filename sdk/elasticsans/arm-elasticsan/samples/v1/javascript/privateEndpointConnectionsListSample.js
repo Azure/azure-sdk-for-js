@@ -27,7 +27,7 @@ async function privateEndpointConnectionsListMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }
@@ -49,7 +49,7 @@ async function privateEndpointConnectionsListMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.list(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   )) {
     resArray.push(item);
   }
