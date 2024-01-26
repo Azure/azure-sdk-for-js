@@ -11485,7 +11485,7 @@ packages:
     dev: false
 
   file:projects/arm-appplatform.tgz:
-    resolution: {integrity: sha512-+4iYY6oltA/wBq6LpyNyCw8zs1szvmrNOQJ1tBZ88thR3lS9XDxpOsbind8Irym43odq7hRAJxjV7ikUSsCUmA==, tarball: file:projects/arm-appplatform.tgz}
+    resolution: {integrity: sha512-VXvBlA9w2BG5JSkWazIg/SRGCsB8s92lsVEjRllCQCcKCXO/cXs0KTPFfQtbnWxTsI7eyHymO8VE4IycmqEZCg==, tarball: file:projects/arm-appplatform.tgz}
     name: '@rush-temp/arm-appplatform'
     version: 0.0.0
     dependencies:
@@ -11493,13 +11493,15 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.2
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
       tslib: 2.6.2
       typescript: 5.2.2
