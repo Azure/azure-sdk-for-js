@@ -3,8 +3,8 @@
 
 import type * as http from "http";
 import type * as https from "https";
-import { HttpsProxyAgent, type HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, type HttpProxyAgentOptions } from "http-proxy-agent";
+import createHttpsProxyAgent, { type HttpsProxyAgentOptions } from "https-proxy-agent";
+import createHttpProxyAgent, { type HttpProxyAgentOptions } from "http-proxy-agent";
 import type {
   PipelineRequest,
   PipelineResponse,
@@ -183,13 +183,13 @@ function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAg
     if (isInsecure) {
       if (!cachedAgents.httpProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+        cachedAgents.httpProxyAgent = createHttpProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpProxyAgent;
     } else {
       if (!cachedAgents.httpsProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+        cachedAgents.httpsProxyAgent = createHttpsProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpsProxyAgent;
     }
