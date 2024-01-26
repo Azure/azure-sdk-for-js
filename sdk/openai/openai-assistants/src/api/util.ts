@@ -8,6 +8,27 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
+export type SnakeCaseKeys<T> = {
+  [K in keyof T as SnakeCase<K & string>]: MapSnakeCaseKeysOverCollections<T[K]>;
+};
+type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
+  ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
+  : Lowercase<S>;
+type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
+  ? `${T extends Capitalize<T> ? "_" : ""}${Lowercase<T>}${SnakeCase<U>}`
+  : S;
+type MapCamelCaseKeysOverCollections<T> = T extends Array<infer X>
+  ? Array<MapCamelCaseKeysOverCollections<X>>
+  : CamelCaseKeys<T>;
+type MapSnakeCaseKeysOverCollections<T> = T extends Array<infer X>
+  ? Array<MapSnakeCaseKeysOverCollections<X>>
+  : // : T extends (infer X | infer Y)
+    // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
+    SnakeCaseKeys<T>;
+type CamelCaseKeys<T> = {
+  [K in keyof T as CamelCase<K & string>]: MapCamelCaseKeysOverCollections<T[K]>;
+};
+
 export function wrapError<T>(f: () => T, message: string): T {
   try {
     const result = f();
@@ -40,35 +61,13 @@ export function renameKeysToCamelCase(obj: Record<string, any>): Record<string, 
   return obj;
 }
 
-type CamelCase<S extends string> = S extends `${infer P1}_${infer P2}`
-  ? `${Lowercase<P1>}${Capitalize<CamelCase<P2>>}`
-  : Lowercase<S>;
-type SnakeCase<S extends string> = S extends `${infer T}${infer U}`
-  ? `${T extends Capitalize<T> ? "_" : ""}${Lowercase<T>}${SnakeCase<U>}`
-  : S;
-
-type MapCamelCaseKeysOverCollections<T> =
-  T extends Array<infer X> ? Array<MapCamelCaseKeysOverCollections<X>> : CamelCaseKeys<T>;
-type MapSnakeCaseKeysOverCollections<T> =
-  T extends Array<infer X>
-    ? Array<MapSnakeCaseKeysOverCollections<X>>
-    : // : T extends (infer X | infer Y)
-      // ? MapSnakeCaseKeysOverCollections<X> | MapSnakeCaseKeysOverCollections<Y>
-      SnakeCaseKeys<T>;
-type CamelCaseKeys<T> = {
-  [K in keyof T as CamelCase<K & string>]: MapCamelCaseKeysOverCollections<T[K]>;
-};
-export type SnakeCaseKeys<T> = {
-  [K in keyof T as SnakeCase<K & string>]: MapSnakeCaseKeysOverCollections<T[K]>;
-};
-
 export function camelCaseKeys<O extends Record<string, any>>(obj: O): CamelCaseKeys<O> {
   if (typeof obj !== "object" || !obj) return obj;
   if (Array.isArray(obj)) {
     return obj.map((v) =>
       camelCaseKeys<O extends Array<infer X> ? (X extends Record<string, any> ? X : never) : never>(
-        v,
-      ),
+        v
+      )
     ) as CamelCaseKeys<O>;
   } else {
     for (const key of Object.keys(obj)) {
@@ -89,8 +88,8 @@ export function snakeCaseKeys<O extends Record<string, any>>(obj: O): SnakeCaseK
   if (Array.isArray(obj)) {
     return obj.map((v) =>
       snakeCaseKeys<O extends Array<infer X> ? (X extends Record<string, any> ? X : never) : never>(
-        v,
-      ),
+        v
+      )
     ) as SnakeCaseKeys<O>;
   } else {
     for (const key of Object.keys(obj)) {

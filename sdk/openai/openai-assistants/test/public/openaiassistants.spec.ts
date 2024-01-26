@@ -43,64 +43,64 @@ describe("OpenAIAssistants", () => {
       });
 
       describe("all CRUD APIs", function () {
-        it("creates, retrieves, lists, modifies, and deletes an assistant", async function () {
-          const assistantResponse = await client.assistants.createAssistant(codeAssistant);
+        it("creates, gets, lists, modifies, and deletes an assistant", async function () {
+          const assistantResponse = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
-          const getAssistantResponse = await client.assistants.retrieveAssistant(
+          const getAssistantResponse = await client.getAssistant(
             assistantResponse.id
           );
           assertAssistantEquality(codeAssistant, getAssistantResponse);
           codeAssistant.name = "Completely different name";
-          const modifyAssistantResponse = await client.assistants.modifyAssistant(
+          const updateAssistantResponse = await client.updateAssistant(
             assistantResponse.id,
             codeAssistant
           );
-          assertAssistantEquality(codeAssistant, modifyAssistantResponse);
+          assertAssistantEquality(codeAssistant, updateAssistantResponse);
           const listLength = 1;
-          const oneAssistantList = await client.assistants.listAssistants({ limit: listLength });
+          const oneAssistantList = await client.listAssistants({ limit: listLength });
           assert.equal(oneAssistantList.data.length, listLength);
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
 
-          const deleteAssistantResponse = await client.assistants.deleteAssistant(
+          const deleteAssistantResponse = await client.deleteAssistant(
             assistantResponse.id
           );
           assert.equal(deleteAssistantResponse.deleted, true);
         });
 
-        it("creates, retrieves, modifies, and deletes a thread", async function () {
+        it("creates, gets, modifies, and deletes a thread", async function () {
           const metadataValue = "bar";
           const thread = {
             messages: [],
             metadata: { foo: metadataValue },
           };
-          const threadResponse = await client.assistantThreads.createThread(thread);
+          const threadResponse = await client.createThread(thread);
           assert.isNotNull(threadResponse.id);
           assert.equal(threadResponse.metadata?.foo, metadataValue);
-          const getThreadResponse = await client.assistantThreads.retrieveThread(threadResponse.id);
+          const getThreadResponse = await client.getThread(threadResponse.id);
           assert.equal(threadResponse.id, getThreadResponse.id);
           assert.equal(getThreadResponse.metadata?.foo, metadataValue);
 
           const newMetadataValue = "other value";
           thread.metadata.foo = newMetadataValue;
 
-          const modifyThreadResponse = await client.assistantThreads.modifyThread(
+          const updateThreadResponse = await client.updateThread(
             threadResponse.id,
             thread
           );
-          assert.equal(threadResponse.id, modifyThreadResponse.id);
-          assert.equal(modifyThreadResponse.metadata?.foo, newMetadataValue);
-          const deleteThreadResponse = await client.assistantThreads.deleteThread(
+          assert.equal(threadResponse.id, updateThreadResponse.id);
+          assert.equal(updateThreadResponse.metadata?.foo, newMetadataValue);
+          const deleteThreadResponse = await client.deleteThread(
             threadResponse.id
           );
           assert.equal(deleteThreadResponse.deleted, true);
         });
-        it("creates, retrieves, modifies, and lists a message", async function () {
+        it("creates, gets, modifies, and lists a message", async function () {
           const thread = {
             messages: [],
           };
-          const threadResponse = await client.assistantThreads.createThread(thread);
+          const threadResponse = await client.createThread(thread);
           assert.isNotNull(threadResponse.id);
           const role = "user";
           const content = "explain the fibonacci sequence";
@@ -110,38 +110,45 @@ describe("OpenAIAssistants", () => {
             file_ids: [],
             metadata: { foo: metadataValue },
           };
-          const messageResponse = await client.threadMessages.createMessage(
+          const messageResponse = await client.createMessage(
             threadResponse.id,
             role,
             content,
             messageOptions
           );
+
+          let messageContent = messageResponse.content[0];
           assert.isNotNull(messageResponse.id);
           assert.equal(messageResponse.role, role);
-          assert.equal(messageResponse.content[0].text?.value, content);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, content);
+          }
           assert.equal(messageResponse.metadata?.foo, metadataValue);
-          const getMessageResponse = await client.threadMessages.retrieveMessage(
+          const getMessageResponse = await client.getMessage(
             threadResponse.id,
             messageResponse.id || ""
           );
+          messageContent = getMessageResponse.content[0];
           assert.equal(messageResponse.id, getMessageResponse.id);
           assert.equal(getMessageResponse.role, role);
-          assert.equal(getMessageResponse.content[0].text?.value, content);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, content);
+          }
           assert.equal(getMessageResponse.metadata?.foo, metadataValue);
 
           const newMetadataValue = "other value";
           messageOptions.metadata.foo = newMetadataValue;
 
-          const modifyMessageResponse = await client.threadMessages.modifyMessage(
+          const updateMessageResponse = await client.updateMessage(
             threadResponse.id,
             messageResponse.id || "",
             messageOptions
           );
-          assert.equal(messageResponse.id, modifyMessageResponse.id);
-          assert.equal(modifyMessageResponse.metadata?.foo, newMetadataValue);
+          assert.equal(messageResponse.id, updateMessageResponse.id);
+          assert.equal(updateMessageResponse.metadata?.foo, newMetadataValue);
 
           const listLength = 1;
-          const oneMessageList = await client.threadMessages.listMessages(threadResponse.id, {
+          const oneMessageList = await client.listMessages(threadResponse.id, {
             limit: listLength,
           });
           assert.equal(oneMessageList.data.length, listLength);
@@ -149,7 +156,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneMessageList.firstId, oneMessageList.lastId);
           assert.equal(oneMessageList.data[0].id, oneMessageList.firstId);
         });
-        it("uploads, retrieves, and lists a file", async function () {
+        it("uploads, gets, and lists a file", async function () {
           /*
           // move to node only, currently failing in browser
           const filename = "sample_file_for_upload.txt";
@@ -160,12 +167,12 @@ describe("OpenAIAssistants", () => {
           assert.equal(uploadedFile.filename, filename);
           assert.equal(uploadedFile.bytes, uint8.length);
           */
-          const fileList = await client.files.listFiles();
+          const fileList = await client.listFiles();
           assert.isNotEmpty(fileList.data);
           assert.isNotNull(fileList.data[0].id);
         });
-        it("create, lists, retrieves, and cancels a run", async function () {
-          const assistant = await client.assistants.createAssistant({
+        it("create, lists, gets, and cancels a run", async function () {
+          const assistant = await client.createAssistant({
             model: "gpt-4-1106-preview",
             name: "JS CI Math Tutor",
             instructions:
@@ -173,16 +180,19 @@ describe("OpenAIAssistants", () => {
             tools: [{ type: "code_interpreter" }],
           });
           assert.isNotNull(assistant.id);
-          const thread = await client.assistantThreads.createThread({});
+          const thread = await client.createThread({});
           assert.isNotNull(thread.id);
 
           const metadataValue = "bar";
           const metadata = { foo: metadataValue };
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
-          const run = await client.threadRuns.createRun(thread.id, assistant.id, {
-            instructions,
-            metadata,
+          const run = await client.createRun(
+            thread.id,
+            {
+              assistantId: assistant.id,
+              instructions,
+              metadata,
           });
           assert.isNotNull(run.id);
           assert.equal(run.threadId, thread.id);
@@ -190,56 +200,60 @@ describe("OpenAIAssistants", () => {
           assert.equal(run.instructions, instructions);
           assert.equal(run.metadata?.foo, metadataValue);
 
-          const runSteps = await client.runSteps.listRunSteps(thread.id, run.id);
+          const runSteps = await client.listRunSteps(thread.id, run.id);
           // with no messages, there should be no steps
           assert.equal(runSteps.data.length, 0);
           assert.equal(runSteps.firstId, null);
           assert.equal(runSteps.lastId, null);
 
           const listLength = 1;
-          const list = await client.threadRuns.listRuns(thread.id, { limit: listLength });
+          const list = await client.listRuns(thread.id, { limit: listLength });
           assert.equal(list.data.length, listLength);
           assert.equal(list.firstId, list.lastId);
           assert.equal(list.firstId, list.lastId);
           assert.equal(list.data[0].id, list.firstId);
 
-          const cancel = await client.threadRuns.cancelRun(thread.id, run.id);
+          const cancel = await client.cancelRun(thread.id, run.id);
           assert.equal(cancel.id, run.id);
           assert.equal(cancel.threadId, thread.id);
           assert.equal(cancel.assistantId, assistant.id);
           assert.equal(cancel.instructions, instructions);
           assert.equal(cancel.status, "cancelling");
 
-          const getRun = await client.threadRuns.retrieveRun(thread.id, run.id);
+          const getRun = await client.getRun(thread.id, run.id);
           assert.equal(getRun.id, run.id);
           assert.equal(getRun.threadId, thread.id);
           assert.equal(getRun.assistantId, assistant.id);
           assert.equal(getRun.instructions, instructions);
           assert.equal(getRun.metadata?.foo, metadataValue);
 
-          const deleteThreadResponse = await client.assistantThreads.deleteThread(thread.id);
+          const deleteThreadResponse = await client.deleteThread(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
 
-          const deleteAssistantResponse = await client.assistants.deleteAssistant(assistant.id);
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
       });
       describe("user scenarios", function () {
         it("create and run code interpreter scenario", async function () {
-          const assistant = await client.assistants.createAssistant(codeAssistant);
+          const assistant = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);
-          const thread = await client.assistantThreads.createThread({});
+          const thread = await client.createThread({});
           assert.isNotNull(thread.id);
           const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
           const role = "user";
-          const message = await client.threadMessages.createMessage(thread.id, role, question);
+          const message = await client.createMessage(thread.id, role, question);
+
+          const messageContent = message.content[0];
           assert.isNotNull(message.id);
           assert.equal(message.role, role);
-          assert.equal(message.content[0].text?.value, question);
+          if (messageContent.type === "text") {
+            assert.equal(messageContent.text.value, question);
+          }
 
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
-          let run = await client.threadRuns.createRun(thread.id, assistant.id, { instructions });
+          let run = await client.createRun(thread.id, { assistantId: assistant.id, instructions });
           assert.isNotNull(run.id);
           assert.equal(run.threadId, thread.id);
           assert.equal(run.assistantId, assistant.id);
@@ -247,9 +261,9 @@ describe("OpenAIAssistants", () => {
 
           do {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            run = await client.threadRuns.retrieveRun(thread.id, run.id);
+            run = await client.getRun(thread.id, run.id);
             const listLength = 1;
-            const runSteps = await client.runSteps.listRunSteps(thread.id, run.id, {
+            const runSteps = await client.listRunSteps(thread.id, run.id, {
               limit: listLength,
             });
             if (runSteps.data.length > 0) {
@@ -257,7 +271,7 @@ describe("OpenAIAssistants", () => {
               assert.isNotNull(runStep.id);
               assert.equal(runSteps.data.length, listLength);
 
-              const runMessage = await client.runSteps.retrieveRunStep(
+              const runMessage = await client.getRunStep(
                 thread.id,
                 run.id,
                 runStep.id
@@ -270,17 +284,19 @@ describe("OpenAIAssistants", () => {
           } while (run.status === "queued" || run.status === "in_progress");
           assert.equal(run.status, "completed");
 
-          const runMessages = await client.threadMessages.listMessages(thread.id);
+          const runMessages = await client.listMessages(thread.id);
           for (const runMessageDatum of runMessages.data) {
             for (const item of runMessageDatum.content) {
               assert.equal(item.type, "text");
-              assert.isNotEmpty(item.text?.value);
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text.value);
+              }
             }
           }
-          const deleteThreadResponse = await client.assistantThreads.deleteThread(thread.id);
+          const deleteThreadResponse = await client.deleteThread(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
 
-          const deleteAssistantResponse = await client.assistants.deleteAssistant(assistant.id);
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
         it("create and run function scenario for assistant", async function () {
@@ -371,25 +387,29 @@ describe("OpenAIAssistants", () => {
             instructions,
             tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
           };
-          const assistant = await client.assistants.createAssistant(functionAssistant);
+          const assistant = await client.createAssistant(functionAssistant);
           assert.isNotNull(assistant.id);
-          const thread = await client.assistantThreads.createThread({});
+          const thread = await client.createThread({});
           assert.isNotNull(thread.id);
           const content = "What's the nickname of my favorite city?";
           const role = "user";
-          const message = await client.threadMessages.createMessage(thread.id, role, content);
+          const message = await client.createMessage(thread.id, role, content);
           assert.isNotNull(message.id);
           assert.equal(message.threadId, thread.id);
-          let run = await client.threadRuns.createRun(thread.id, assistant.id, {
-            tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
+          let run = await client.createRun(thread.id, {
+            assistantId: assistant.id,
+            tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[]
+          }, 
+          {
             requestOptions: { timeout: 10000 },
           });
+
           const runId = run.id;
           assert.isNotNull(runId);
 
           do {
             await new Promise((resolve) => setTimeout(resolve, 500));
-            run = await client.threadRuns.retrieveRun(thread.id, run.id);
+            run = await client.getRun(thread.id, run.id);
             assert.equal(run.id, runId);
             assert.equal(run.threadId, thread.id);
             assert.equal(run.assistantId, assistant.id);
@@ -407,25 +427,27 @@ describe("OpenAIAssistants", () => {
                   toolOutputs.push(getResolvedToolOutput(toolCall));
                 }
               }
-              run = await client.threadRuns.submitRunToolOutputs(thread.id, run.id, toolOutputs);
+              run = await client.submitToolOutputsToRun(thread.id, run.id, toolOutputs);
             }
           } while (run.status === "queued" || run.status === "in_progress");
 
           assert.equal(favoriteCityCalled, true);
           assert.equal(nicknameCalled, true);
 
-          const runMessages = await client.threadMessages.listMessages(thread.id);
+          const runMessages = await client.listMessages(thread.id);
           for (const runMessageDatum of runMessages.data) {
             for (const item of runMessageDatum.content) {
               assert.equal(item.type, "text");
-              assert.isNotEmpty(item.text?.value);
+              if (item.type === "text") {
+                assert.isNotEmpty(item.text?.value);
+              }
             }
           }
 
-          const deleteThreadResponse = await client.assistantThreads.deleteThread(thread.id);
+          const deleteThreadResponse = await client.deleteThread(thread.id);
           assert.equal(deleteThreadResponse.deleted, true);
 
-          const deleteAssistantResponse = await client.assistants.deleteAssistant(assistant.id);
+          const deleteAssistantResponse = await client.deleteAssistant(assistant.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
       });

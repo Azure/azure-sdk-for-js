@@ -43,7 +43,7 @@ export interface ThreadRun {
   /** The Unix timestamp, in seconds, representing when this failed. */
   failedAt: Date | null;
   /** A set of key/value pairs used to store additional information about the object. */
-  metadata?: Record<string, string>;
+  metadata: Record<string, string> | null;
 }
 
 /** A single message within an assistant thread. */
@@ -65,7 +65,7 @@ export interface ThreadMessage {
   /** The IDs for the files associated with this message. */
   fileIds?: string[];
   /** A set of key/value pairs used to store additional information about the object. */
-  metadata?: Record<string, string>;
+  metadata: Record<string, string> | null;
 }
 
 /** An abstract representation of a single item of thread message content. */
@@ -75,7 +75,7 @@ export interface MessageContent {
   imageFile?: MessageImageFileDetails;
   text?: MessageTextDetails;
   fileIds?: string[];
-  metadata?: Record<string, string>;
+  metadata: Record<string, string> | null;
 }
 
 /** An image reference, as represented in thread message content. */
@@ -106,7 +106,7 @@ export interface AssistantThreadCreationOptions {
     content: string;
   }[];
   /** A set of key/value pairs used to store additional information about the object. */
-  metadata?: Record<string, string>;
+  metadata: Record<string, string> | null;
 }
 
 /** The response data for a requested list of items. */

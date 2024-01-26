@@ -25,6 +25,8 @@ import {
   RunStepDetails,
   ToolCall,
   ListRunsOptions,
+  CreateAndRunThreadOptions,
+  CreateThreadAndRunOptions,
 } from "../../generated/src/models/index.js";
 import {
   _listAssistantsSend,
@@ -62,13 +64,23 @@ import { createFile } from "@azure/core-rest-pipeline";
 import { camelCaseKeys } from "./util.js";
 import { ListRunSteps200Response } from "../rest/responses.js";
 import { MessageContentOutput } from "../rest/outputModels.js";
-import { parseToolCallOutput } from "../models/helpers.js";
+import { parseToolCallOutput, parseRequiredToolCallOutput } from "../models/helpers.js";
 
 export async function _createRunDeserialize(result: CreateRun200Response): Promise<ThreadRun> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
-  const { required_action, last_error, created_at, expires_at, started_at, completed_at, cancelled_at, failed_at, ...rest } = result.body;
+  const {
+    required_action,
+    last_error,
+    created_at,
+    expires_at,
+    started_at,
+    completed_at,
+    cancelled_at,
+    failed_at,
+    ...rest
+  } = result.body;
 
   return {
     ...camelCaseKeys(rest),
@@ -79,7 +91,8 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
           submitToolOutputs: !required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+                toolCalls:
+                  required_action?.submit_tool_outputs?.tool_calls?.map(parseRequiredToolCallOutput),
               },
         },
     lastError: !last_error
@@ -190,7 +203,10 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+                toolCalls:
+                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                    parseRequiredToolCallOutput
+                  ),
               },
         },
     lastError: !result.body.last_error
@@ -234,7 +250,10 @@ export async function _submitToolOutputsToRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+                toolCalls:
+                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                    parseRequiredToolCallOutput
+                  ),
               },
         },
     lastError: !result.body.last_error
@@ -278,7 +297,10 @@ export async function _createThreadAndRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+                toolCalls:
+                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                    parseRequiredToolCallOutput
+                  ),
               },
         },
     lastError: !result.body.last_error
@@ -320,7 +342,10 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(parseToolCallOutput),
+                toolCalls:
+                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                    parseRequiredToolCallOutput
+                  ),
               },
         },
     lastError: !result.body.last_error
@@ -347,7 +372,7 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
 
 function parseMessageContentOutput(messageContentOutput: MessageContentOutput): MessageContent {
   const messageContent = { type: "", text: {}, imageFile: {} };
-  switch(messageContentOutput.type) {
+  switch (messageContentOutput.type) {
     case "image_file":
       messageContent.type = "image_file";
       messageContent.imageFile = messageContentOutput.image_file;
@@ -503,7 +528,6 @@ export async function _updateMessageDeserialize(
   };
 }
 
-
 function parseRunStepDetails(runStepDetailsOutput: RunStepDetailsOutput): RunStepDetails {
   const { type } = runStepDetailsOutput;
   const details = { type, messageCreation: {}, toolCalls: [] as ToolCall[] };
@@ -520,15 +544,22 @@ function parseRunStepDetails(runStepDetailsOutput: RunStepDetailsOutput): RunSte
 }
 
 function parseRunStepOutput(runStepOutput: RunStepOutput): RunStep {
-  const { step_details, last_error, created_at, expired_at, completed_at, cancelled_at, failed_at, ...rest } = runStepOutput;
+  const {
+    step_details,
+    last_error,
+    created_at,
+    expired_at,
+    completed_at,
+    cancelled_at,
+    failed_at,
+    ...rest
+  } = runStepOutput;
 
   return {
     ...camelCaseKeys(rest),
     stepDetails: parseRunStepDetails(step_details),
     lastError:
-      last_error === null
-        ? null
-        : { code: last_error["code"], message: last_error["message"] },
+      last_error === null ? null : { code: last_error["code"], message: last_error["message"] },
     createdAt: new Date(created_at),
     expiredAt: expired_at === null ? null : new Date(expired_at),
     completedAt: completed_at === null ? null : new Date(completed_at),
@@ -552,13 +583,20 @@ export async function _listRunStepsDeserialize(
   };
 }
 
-export async function _getRunStepDeserialize(
-  result: GetRunStep200Response
-): Promise<RunStep> {
+export async function _getRunStepDeserialize(result: GetRunStep200Response): Promise<RunStep> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
-  const { step_details, last_error, created_at, expired_at, completed_at, cancelled_at, failed_at, ...rest } = result.body;
+  const {
+    step_details,
+    last_error,
+    created_at,
+    expired_at,
+    completed_at,
+    cancelled_at,
+    failed_at,
+    ...rest
+  } = result.body;
 
   return {
     ...camelCaseKeys(rest),
@@ -655,7 +693,7 @@ export async function listAssistantFiles(
 export function _createThreadSend(
   context: Client,
   body: AssistantThreadCreationOptions,
-  options: CreateThreadOptions  = { requestOptions: {} }
+  options: CreateThreadOptions = { requestOptions: {} }
 ): StreamableMethod<CreateThread200Response> {
   return context.path("/threads").post({
     ...operationOptionsToRequestParameters(options),
@@ -699,9 +737,7 @@ export async function _uploadFileDeserialize(result: UploadFile200Response): Pro
   };
 }
 
-export async function _getFileDeserialize(
-  result: GetFile200Response
-): Promise<InputFile> {
+export async function _getFileDeserialize(result: GetFile200Response): Promise<InputFile> {
   if (result.status !== "200") {
     throw createRestError(result);
   }
@@ -714,4 +750,3 @@ export async function _getFileDeserialize(
     purpose: result.body["purpose"],
   };
 }
-

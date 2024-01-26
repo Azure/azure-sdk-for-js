@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CodeInterpreterToolDefinition, FunctionToolDefinition, RetrievalToolDefinition } from "../../generated/src/rest";
+import {
+  CodeInterpreterToolDefinition,
+  FunctionToolDefinition,
+  RetrievalToolDefinition,
+} from "../../generated/src/rest";
 
 /** The details used to create a new assistant thread. */
 export interface AssistantThreadCreationOptions {

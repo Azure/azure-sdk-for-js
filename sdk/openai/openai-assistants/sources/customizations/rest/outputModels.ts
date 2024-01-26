@@ -7,9 +7,10 @@ import {
   CodeInterpreterToolCallOutput,
   RetrievalToolCallOutput,
   RequiredActionOutput,
+  RequiredFunctionToolCallOutput,
   SubmitToolOutputsDetailsOutput,
   MessageImageFileContentOutput,
-  MessageTextContentOutput
+  MessageTextContentOutput,
 } from "../../generated/src/rest/outputModels.js";
 
 /** The details for required tool calls that must be submitted for an assistant thread run to continue. */
@@ -54,13 +55,11 @@ export interface ListResponseOfOutput<T> {
 
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinitionOutput =
-  | CodeInterpreterToolDefinitionOutput 
-  | RetrievalToolDefinitionOutput 
+  | CodeInterpreterToolDefinitionOutput
+  | RetrievalToolDefinitionOutput
   | FunctionToolDefinitionOutput;
 /** An abstract representation of a single item of thread message content. */
-export type MessageContentOutput =
-  | MessageTextContentOutput
-  | MessageImageFileContentOutput;
+export type MessageContentOutput = MessageTextContentOutput | MessageImageFileContentOutput;
 /**
  * An abstract representation a tool call, issued by the model in evaluation of a configured tool definition, that must
  * be fulfilled and have its outputs submitted before the model can continue.
@@ -69,3 +68,4 @@ export type ToolCallOutput =
   | FunctionToolCallOutput
   | CodeInterpreterToolCallOutput
   | RetrievalToolCallOutput;
+export type RequiredToolCallOutput = RequiredFunctionToolCallOutput;

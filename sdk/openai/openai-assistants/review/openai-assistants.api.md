@@ -18,7 +18,7 @@ export interface Assistant {
     fileIds: string[];
     id: string;
     instructions: string | null;
-    metadata?: Record<string, string>;
+    metadata?: Record<string, string> | null;
     model: string;
     name: string | null;
     tools: ToolDefinition[];
@@ -26,15 +26,17 @@ export interface Assistant {
 
 // @public
 export interface AssistantCreationOptions {
-    description?: string;
+    description?: string | null;
     fileIds?: string[];
-    instructions?: string;
-    metadata?: Record<string, string>;
+    instructions?: string | null;
+    metadata?: Record<string, string> | null;
     model: string;
-    name?: string;
+    name?: string | null;
     tools?: ToolDefinition[];
 }
 
+// Warning: (ae-forgotten-export) The symbol "DeletionStatus" needs to be exported by the entry point index.d.ts
+//
 // @public
 export interface AssistantDeletionStatus extends DeletionStatus {
 }
@@ -50,108 +52,58 @@ export interface AssistantFile {
 export interface AssistantFileDeletionStatus extends DeletionStatus {
 }
 
-// @public
-export interface AssistantModificationOptions {
-    description?: string;
-    fileIds?: string[];
-    instructions?: string;
-    metadata?: Record<string, string>;
-    model?: string;
-    name?: string;
-    tools?: ToolDefinition[];
-}
-
 // @public (undocumented)
 export class AssistantsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: AssistantsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: AssistantsClientOptions);
     constructor(openAiApiKey: KeyCredential, options?: AssistantsClientOptions);
-    readonly assistants: AssistantsOperations;
-    readonly assistantThreads: AssistantThreadsOperations;
-    readonly files: FilesOperations;
+    cancelRun(threadId: string, runId: string, options?: CancelRunOptions): Promise<ThreadRun>;
+    createAssistant(body: AssistantCreationOptions, options?: CreateAssistantOptions): Promise<Assistant>;
+    createAssistantFile(assistantId: string, fileId: string, options?: CreateAssistantFileOptions): Promise<AssistantFile>;
+    createMessage(threadId: string, role: MessageRole, content: string, options?: CreateMessageOptions): Promise<ThreadMessage>;
+    // Warning: (ae-forgotten-export) The symbol "CreateRunRequestOptions" needs to be exported by the entry point index.d.ts
+    createRun(threadId: string, createRunOptions: CreateRunOptions, options?: CreateRunRequestOptions): Promise<ThreadRun>;
+    createThread(body: AssistantThreadCreationOptions, options?: CreateThreadOptions): Promise<AssistantThread>;
+    createThreadAndRun(body: CreateAndRunThreadOptions, options?: CreateThreadAndRunOptions): Promise<ThreadRun>;
+    deleteAssistant(assistantId: string, options?: DeleteAssistantOptions): Promise<AssistantDeletionStatus>;
+    deleteAssistantFile(assistantId: string, fileId: string, options?: DeleteAssistantFileOptions): Promise<AssistantFileDeletionStatus>;
+    deleteFile(fileId: string, options?: DeleteFileOptions): Promise<FileDeletionStatus>;
+    deleteThread(threadId: string, options?: DeleteThreadOptions): Promise<ThreadDeletionStatus>;
+    getAssistant(assistantId: string, options?: GetAssistantOptions): Promise<Assistant>;
+    getAssistantFile(assistantId: string, fileId: string, options?: GetAssistantFileOptions): Promise<AssistantFile>;
+    getFile(fileId: string, options?: GetFileOptions): Promise<InputFile>;
+    getMessage(threadId: string, messageId: string, options?: GetMessageOptions): Promise<ThreadMessage>;
+    getMessageFile(threadId: string, messageId: string, fileId: string, options?: GetMessageFileOptions): Promise<MessageFile>;
+    getRun(threadId: string, runId: string, options?: GetRunOptions): Promise<ThreadRun>;
+    getRunStep(threadId: string, runId: string, stepId: string, options?: GetRunStepOptions): Promise<RunStep>;
+    getThread(threadId: string, options?: GetThreadOptions): Promise<AssistantThread>;
+    listAssistantFiles(assistantId: string, options?: ListAssistantFilesOptions): Promise<ListResponseOf<AssistantFile>>;
+    // Warning: (ae-forgotten-export) The symbol "ListResponseOf" needs to be exported by the entry point index.d.ts
+    listAssistants(options?: ListAssistantsOptions): Promise<ListResponseOf<Assistant>>;
+    listFiles(options?: ListFilesOptions): Promise<FileListResponse>;
+    listMessageFiles(threadId: string, messageId: string, options?: ListMessageFilesOptions): Promise<ListResponseOf<MessageFile>>;
+    listMessages(threadId: string, options?: ListMessagesOptions): Promise<ListResponseOf<ThreadMessage>>;
+    listRuns(threadId: string, options?: ListRunsOptions): Promise<ListResponseOf<ThreadRun>>;
+    listRunSteps(threadId: string, runId: string, options?: ListRunStepsOptions): Promise<ListResponseOf<RunStep>>;
     readonly pipeline: Pipeline;
-    readonly runSteps: RunStepsOperations;
-    readonly threadMessages: ThreadMessagesOperations;
-    readonly threadRuns: ThreadRunsOperations;
+    submitToolOutputsToRun(threadId: string, runId: string, toolOutputs: ToolOutput[], options?: SubmitToolOutputsToRunOptions): Promise<ThreadRun>;
+    // Warning: (ae-forgotten-export) The symbol "UpdateAssistantRequestOptions" needs to be exported by the entry point index.d.ts
+    updateAssistant(assistantId: string, body: UpdateAssistantOptions, options?: UpdateAssistantRequestOptions): Promise<Assistant>;
+    updateMessage(threadId: string, messageId: string, options?: UpdateMessageOptions): Promise<ThreadMessage>;
+    updateRun(threadId: string, runId: string, options?: UpdateRunOptions): Promise<ThreadRun>;
+    updateThread(threadId: string, options?: UpdateThreadOptions): Promise<AssistantThread>;
+    uploadFile(file: Uint8Array, purpose: FilePurpose, options?: UploadFileOptions): Promise<InputFile>;
 }
 
 // @public (undocumented)
 export interface AssistantsClientOptions extends ClientOptions {
 }
 
-// @public (undocumented)
-export interface AssistantsCreateAssistantFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsCreateAssistantOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsDeleteAssistantFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsDeleteAssistantOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsListAssistantFilesOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface AssistantsListAssistantsOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface AssistantsModifyAssistantOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsOperations {
-    // (undocumented)
-    createAssistant: (body: AssistantCreationOptions, options?: AssistantsCreateAssistantOptions) => Promise<Assistant>;
-    // (undocumented)
-    createAssistantFile: (assistantId: string, fileId: string, options?: AssistantsCreateAssistantFileOptions) => Promise<AssistantFile>;
-    // (undocumented)
-    deleteAssistant: (assistantId: string, options?: AssistantsDeleteAssistantOptions) => Promise<AssistantDeletionStatus>;
-    // (undocumented)
-    deleteAssistantFile: (assistantId: string, fileId: string, options?: AssistantsDeleteAssistantFileOptions) => Promise<AssistantFileDeletionStatus>;
-    // (undocumented)
-    listAssistantFiles: (assistantId: string, options?: AssistantsListAssistantFilesOptions) => Promise<ListResponseOf<AssistantFile>>;
-    // Warning: (ae-forgotten-export) The symbol "ListResponseOf" needs to be exported by the entry point index.d.ts
-    //
-    // (undocumented)
-    listAssistants: (options?: AssistantsListAssistantsOptions) => Promise<ListResponseOf<Assistant>>;
-    // (undocumented)
-    modifyAssistant: (assistantId: string, modificationOptions: AssistantModificationOptions, options?: AssistantsModifyAssistantOptions) => Promise<Assistant>;
-    // (undocumented)
-    retrieveAssistant: (assistantId: string, options?: AssistantsRetrieveAssistantOptions) => Promise<Assistant>;
-    // (undocumented)
-    retrieveAssistantFile: (assistantId: string, fileId: string, options?: AssistantsRetrieveAssistantFileOptions) => Promise<AssistantFile>;
-}
-
-// @public (undocumented)
-export interface AssistantsRetrieveAssistantFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantsRetrieveAssistantOptions extends OperationOptions {
-}
-
 // @public
 export interface AssistantThread {
     createdAt: Date;
     id: string;
-    metadata?: Record<string, string>;
+    metadata: Record<string, string> | null;
 }
 
 // @public
@@ -163,39 +115,16 @@ export interface AssistantThreadCreationOptions {
     metadata?: Record<string, string>;
 }
 
-// @public (undocumented)
-export interface AssistantThreadsCreateThreadOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantThreadsDeleteThreadOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface AssistantThreadsModifyThreadOptions extends OperationOptions {
-    metadata?: Record<string, string>;
-}
-
-// @public (undocumented)
-export interface AssistantThreadsOperations {
-    // (undocumented)
-    createThread: (body: AssistantThreadCreationOptions, options?: AssistantThreadsCreateThreadOptions) => Promise<AssistantThread>;
-    // (undocumented)
-    deleteThread: (threadId: string, options?: AssistantThreadsDeleteThreadOptions) => Promise<ThreadDeletionStatus>;
-    // (undocumented)
-    modifyThread: (threadId: string, options?: AssistantThreadsModifyThreadOptions) => Promise<AssistantThread>;
-    // (undocumented)
-    retrieveThread: (threadId: string, options?: AssistantThreadsRetrieveThreadOptions) => Promise<AssistantThread>;
-}
-
-// @public (undocumented)
-export interface AssistantThreadsRetrieveThreadOptions extends OperationOptions {
-}
-
 export { AzureKeyCredential }
 
+// @public (undocumented)
+export interface CancelRunOptions extends OperationOptions {
+}
+
+// Warning: (ae-forgotten-export) The symbol "CodeInterpreterToolCallOutputParent" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CodeInterpreterImageOutput {
+export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutputParent {
     image: CodeInterpreterImageReference;
     type: "image";
 }
@@ -206,15 +135,16 @@ export interface CodeInterpreterImageReference {
 }
 
 // @public
-export interface CodeInterpreterLogOutput {
+export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutputParent {
     logs: string;
     type: "logs";
 }
 
+// Warning: (ae-forgotten-export) The symbol "ToolCallParent" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CodeInterpreterToolCall {
+export interface CodeInterpreterToolCall extends ToolCallParent {
     codeInterpreter: CodeInterpreterToolCallDetails;
-    id: string;
     type: "code_interpreter";
 }
 
@@ -225,15 +155,12 @@ export interface CodeInterpreterToolCallDetails {
 }
 
 // @public
-export type CodeInterpreterToolCallOutput = CodeInterpreterImageOutput | CodeInterpreterLogOutput;
+export type CodeInterpreterToolCallOutput = CodeInterpreterLogOutput | CodeInterpreterImageOutput | CodeInterpreterToolCallOutputParent;
 
+// Warning: (ae-forgotten-export) The symbol "ToolDefinitionParent" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface CodeInterpreterToolDefinition {
-    type: "code_interpreter";
-}
-
-// @public
-export interface CodeInterpreterToolDefinition {
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
     type: "code_interpreter";
 }
 
@@ -241,15 +168,58 @@ export interface CodeInterpreterToolDefinition {
 export interface CreateAndRunThreadOptions {
     assistantId: string;
     instructions?: string;
-    metadata?: Record<string, string>;
+    metadata?: Record<string, string> | null;
     model?: string;
     thread?: AssistantThreadCreationOptions;
     tools?: ToolDefinition[];
 }
 
+// @public (undocumented)
+export interface CreateAssistantFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface CreateAssistantOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface CreateMessageOptions extends OperationOptions {
+    fileIds?: string[];
+    metadata?: Record<string, string>;
+}
+
 // @public
-export interface DeletionStatus {
-    deleted: boolean;
+export interface CreateRunOptions {
+    additionalInstructions?: string | null;
+    assistantId: string;
+    instructions?: string | null;
+    metadata?: Record<string, string> | null;
+    model?: string | null;
+    tools?: ToolDefinition[] | null;
+}
+
+// @public (undocumented)
+export interface CreateThreadAndRunOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface CreateThreadOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DeleteAssistantFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DeleteAssistantOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DeleteFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface DeleteThreadOptions extends OperationOptions {
 }
 
 // @public
@@ -265,43 +235,6 @@ export interface FileListResponse {
 // @public
 export type FilePurpose = string;
 
-// @public (undocumented)
-export interface FilesDeleteFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface FilesListFilesOptions extends OperationOptions {
-    purpose?: FilePurpose;
-}
-
-// @public (undocumented)
-export interface FilesOperations {
-    // (undocumented)
-    deleteFile: (fileId: string, options?: FilesDeleteFileOptions) => Promise<FileDeletionStatus>;
-    // (undocumented)
-    listFiles: (options?: FilesListFilesOptions) => Promise<FileListResponse>;
-    // (undocumented)
-    retrieveFile: (fileId: string, options?: FilesRetrieveFileOptions) => Promise<InputFile>;
-    // (undocumented)
-    retrieveFileContent: (fileId: string, options?: FilesRetrieveFileContentOptions) => Promise<Uint8Array>;
-    // (undocumented)
-    uploadFile: (file: Uint8Array, purpose: FilePurpose, options?: FilesUploadFileOptions) => Promise<InputFile>;
-}
-
-// @public (undocumented)
-export interface FilesRetrieveFileContentOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface FilesRetrieveFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface FilesUploadFileOptions extends OperationOptions {
-    contentType?: string;
-    filename?: string;
-}
-
 // @public
 export interface FunctionDefinition {
     description: string;
@@ -310,16 +243,8 @@ export interface FunctionDefinition {
 }
 
 // @public
-export interface FunctionDefinition {
-    description: string;
-    name: string;
-    parameters: unknown;
-}
-
-// @public
-export interface FunctionToolCall {
+export interface FunctionToolCall extends ToolCallParent {
     function: FunctionToolCallDetails;
-    id: string;
     type: "function";
 }
 
@@ -327,19 +252,45 @@ export interface FunctionToolCall {
 export interface FunctionToolCallDetails {
     arguments: string;
     name: string;
-    output?: string | null;
+    output: string | null;
 }
 
 // @public
-export interface FunctionToolDefinition {
+export interface FunctionToolDefinition extends ToolDefinitionParent {
     function: FunctionDefinition;
     type: "function";
 }
 
-// @public
-export interface FunctionToolDefinition {
-    function: FunctionDefinition;
-    type: "function";
+// @public (undocumented)
+export interface GetAssistantFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetAssistantOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetMessageFileOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetMessageOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetRunOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetRunStepOptions extends OperationOptions {
+}
+
+// @public (undocumented)
+export interface GetThreadOptions extends OperationOptions {
 }
 
 // @public
@@ -351,53 +302,70 @@ export interface InputFile {
     purpose: FilePurpose;
 }
 
+// @public (undocumented)
+export interface ListAssistantFilesOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListAssistantsOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListFilesOptions extends OperationOptions {
+    purpose?: FilePurpose;
+}
+
+// @public (undocumented)
+export interface ListMessageFilesOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListMessagesOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListRunsOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListRunStepsOptions extends OperationOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
 // @public
 export type ListSortOrder = string;
 
 // @public
-export interface MessageContent {
-    // (undocumented)
-    fileIds?: string[];
-    // (undocumented)
-    imageFile?: MessageImageFileDetails;
-    // (undocumented)
-    metadata?: Record<string, string>;
-    // (undocumented)
-    text?: MessageTextDetails;
-    type: string;
-}
-
-// @public
-export type MessageContentParent = MessageTextContent | MessageImageFileContent;
+export type MessageContent = MessageTextContent | MessageImageFileContent;
 
 // @public
 export interface MessageFile {
     createdAt: Date;
     id: string;
     messageId: string;
-}
-
-// @public
-export interface MessageFileCitationTextAnnotation {
-    endIndex: number;
-    fileCitation: MessageTextFileCitationDetails;
-    startIndex: number;
-    text: string;
-    type: "file_citation";
-}
-
-// @public
-export interface MessageFilePathDetails {
-    fileId: string;
-}
-
-// @public
-export interface MessageFilePathTextAnnotation {
-    endIndex: number;
-    filePath: MessageFilePathDetails;
-    startIndex: number;
-    text: string;
-    type: "file_path";
 }
 
 // @public
@@ -414,8 +382,11 @@ export interface MessageImageFileDetails {
 // @public
 export type MessageRole = string;
 
+// Warning: (ae-forgotten-export) The symbol "MessageTextFileCitationAnnotation" needs to be exported by the entry point index.d.ts
+// Warning: (ae-forgotten-export) The symbol "MessageTextFilePathAnnotation" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type MessageTextAnnotation = MessageFileCitationTextAnnotation | MessageFilePathTextAnnotation;
+export type MessageTextAnnotation = MessageTextFileCitationAnnotation | MessageTextFilePathAnnotation;
 
 // @public
 export interface MessageTextContent {
@@ -450,19 +421,13 @@ export interface RequiredAction {
 }
 
 // @public
-export interface RetrievalToolCall {
-    id: string;
+export interface RetrievalToolCall extends ToolCallParent {
     retrieval: Record<string, string>;
     type: "retrieval";
 }
 
 // @public
-export interface RetrievalToolDefinition {
-    type: "retrieval";
-}
-
-// @public
-export interface RetrievalToolDefinition {
+export interface RetrievalToolDefinition extends ToolDefinitionParent {
     type: "retrieval";
 }
 
@@ -491,7 +456,7 @@ export interface RunStep {
     failedAt: Date | null;
     id: string;
     lastError: RunStepError | null;
-    metadata?: Record<string, string>;
+    metadata?: Record<string, string> | null;
     runId: string;
     status: RunStepStatus;
     stepDetails: RunStepDetails;
@@ -499,8 +464,10 @@ export interface RunStep {
     type: RunStepType;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RunStepDetailsParent" needs to be exported by the entry point index.d.ts
+//
 // @public
-export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
+export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails | RunStepDetailsParent;
 
 // @public
 export interface RunStepError {
@@ -518,7 +485,7 @@ export interface RunStepError {
 export type RunStepErrorCode = string;
 
 // @public
-export interface RunStepMessageCreationDetails {
+export interface RunStepMessageCreationDetails extends RunStepDetailsParent {
     messageCreation: RunStepMessageCreationReference;
     type: "message_creation";
 }
@@ -528,31 +495,11 @@ export interface RunStepMessageCreationReference {
     messageId: string;
 }
 
-// @public (undocumented)
-export interface RunStepsListRunStepsOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface RunStepsOperations {
-    // (undocumented)
-    listRunSteps: (threadId: string, runId: string, options?: RunStepsListRunStepsOptions) => Promise<ListResponseOf<RunStep>>;
-    // (undocumented)
-    retrieveRunStep: (threadId: string, runId: string, stepId: string, options?: RunStepsRetrieveRunStepOptions) => Promise<RunStep>;
-}
-
-// @public (undocumented)
-export interface RunStepsRetrieveRunStepOptions extends OperationOptions {
-}
-
 // @public
 export type RunStepStatus = string;
 
 // @public
-export interface RunStepToolCallDetails {
+export interface RunStepToolCallDetails extends RunStepDetailsParent {
     toolCalls: ToolCall[];
     type: "tool_calls";
 }
@@ -562,7 +509,12 @@ export type RunStepType = string;
 
 // @public
 export interface SubmitToolOutputsDetails {
-    toolCalls: ToolCall[];
+    // Warning: (ae-forgotten-export) The symbol "RequiredToolCall" needs to be exported by the entry point index.d.ts
+    toolCalls: RequiredToolCall[];
+}
+
+// @public (undocumented)
+export interface SubmitToolOutputsToRunOptions extends OperationOptions {
 }
 
 // @public
@@ -576,61 +528,10 @@ export interface ThreadMessage {
     createdAt?: Date;
     fileIds?: string[];
     id?: string;
-    metadata?: Record<string, string>;
+    metadata: Record<string, string> | null;
     role: string;
     runId?: string;
     threadId?: string;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesCreateMessageOptions extends OperationOptions {
-    fileIds?: string[];
-    metadata?: Record<string, string>;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesListMessageFilesOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesListMessagesOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesModifyMessageOptions extends OperationOptions {
-    metadata?: Record<string, string>;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesOperations {
-    // (undocumented)
-    createMessage: (threadId: string, role: string, content: string, options?: ThreadMessagesCreateMessageOptions) => Promise<ThreadMessage>;
-    // (undocumented)
-    listMessageFiles: (threadId: string, messageId: string, options?: ThreadMessagesListMessageFilesOptions) => Promise<ListResponseOf<MessageFile>>;
-    // (undocumented)
-    listMessages: (threadId: string, options?: ThreadMessagesListMessagesOptions) => Promise<ListResponseOf<ThreadMessage>>;
-    // (undocumented)
-    modifyMessage: (threadId: string, messageId: string, options?: ThreadMessagesModifyMessageOptions) => Promise<ThreadMessage>;
-    // (undocumented)
-    retrieveMessage: (threadId: string, messageId: string, options?: ThreadMessagesRetrieveMessageOptions) => Promise<ThreadMessage>;
-    // (undocumented)
-    retrieveMessageFile: (threadId: string, messageId: string, fileId: string, options?: ThreadMessagesRetrieveMessageFileOptions) => Promise<MessageFile>;
-}
-
-// @public (undocumented)
-export interface ThreadMessagesRetrieveMessageFileOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface ThreadMessagesRetrieveMessageOptions extends OperationOptions {
 }
 
 // @public
@@ -644,73 +545,18 @@ export interface ThreadRun {
     fileIds: string[];
     id: string;
     instructions: string;
-    lastError?: RunError;
-    metadata?: Record<string, string>;
+    lastError?: RunError | null;
+    metadata?: Record<string, string> | null;
     model: string;
-    requiredAction?: RequiredAction;
+    requiredAction?: RequiredAction | null;
     startedAt: Date | null;
     status: RunStatus;
     threadId: string;
     tools: ToolDefinition[];
 }
 
-// @public (undocumented)
-export interface ThreadRunsCancelRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface ThreadRunsCreateRunOptions extends OperationOptions {
-    instructions?: string;
-    metadata?: Record<string, string>;
-    model?: string;
-    tools?: ToolDefinition[];
-}
-
-// @public (undocumented)
-export interface ThreadRunsCreateThreadAndRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface ThreadRunsListRunsOptions extends OperationOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: ListSortOrder;
-}
-
-// @public (undocumented)
-export interface ThreadRunsModifyRunOptions extends OperationOptions {
-    metadata?: Record<string, string>;
-}
-
-// @public (undocumented)
-export interface ThreadRunsOperations {
-    // (undocumented)
-    cancelRun: (threadId: string, runId: string, options?: ThreadRunsCancelRunOptions) => Promise<ThreadRun>;
-    // (undocumented)
-    createRun: (threadId: string, assistantId: string, options?: ThreadRunsCreateRunOptions) => Promise<ThreadRun>;
-    // (undocumented)
-    createThreadAndRun: (body: CreateAndRunThreadOptions, options?: ThreadRunsCreateThreadAndRunOptions) => Promise<ThreadRun>;
-    // (undocumented)
-    listRuns: (threadId: string, options?: ThreadRunsListRunsOptions) => Promise<ListResponseOf<ThreadRun>>;
-    // (undocumented)
-    modifyRun: (threadId: string, runId: string, options?: ThreadRunsModifyRunOptions) => Promise<ThreadRun>;
-    // (undocumented)
-    retrieveRun: (threadId: string, runId: string, options?: ThreadRunsRetrieveRunOptions) => Promise<ThreadRun>;
-    // (undocumented)
-    submitRunToolOutputs: (threadId: string, runId: string, toolOutputs: ToolOutput[], options?: ThreadRunsSubmitRunToolOutputsOptions) => Promise<ThreadRun>;
-}
-
-// @public (undocumented)
-export interface ThreadRunsRetrieveRunOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface ThreadRunsSubmitRunToolOutputsOptions extends OperationOptions {
-}
-
 // @public
-export type ToolCall = FunctionToolCall | CodeInterpreterToolCall | RetrievalToolCall;
+export type ToolCall = CodeInterpreterToolCall | RetrievalToolCall | FunctionToolCall | ToolCallParent;
 
 // @public
 export type ToolDefinition = CodeInterpreterToolDefinition | RetrievalToolDefinition | FunctionToolDefinition;
@@ -719,6 +565,38 @@ export type ToolDefinition = CodeInterpreterToolDefinition | RetrievalToolDefini
 export interface ToolOutput {
     output?: string;
     toolCallId?: string;
+}
+
+// @public
+export interface UpdateAssistantOptions {
+    description?: string | null;
+    fileIds?: string[];
+    instructions?: string | null;
+    metadata?: Record<string, string> | null;
+    model?: string;
+    name?: string | null;
+    tools?: ToolDefinition[];
+}
+
+// @public (undocumented)
+export interface UpdateMessageOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+}
+
+// @public (undocumented)
+export interface UpdateRunOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+}
+
+// @public (undocumented)
+export interface UpdateThreadOptions extends OperationOptions {
+    metadata?: Record<string, string>;
+}
+
+// @public (undocumented)
+export interface UploadFileOptions extends OperationOptions {
+    contentType?: string;
+    filename?: string;
 }
 
 // (No @packageDocumentation comment for this package)

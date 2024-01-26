@@ -1,12 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ToolCall } from "../../generated/src/models/models.js";
-import { ToolCallOutput } from "../rest/outputModels.js";
+import { ToolCallOutput, RequiredToolCallOutput } from "../rest/outputModels.js";
+import { RequiredToolCall, ToolCall } from "../../generated/src/models/models.js";
+
+export function parseRequiredToolCallOutput(requiredToolCallOutput: RequiredToolCallOutput): RequiredToolCall {
+  return { type: "function", function: requiredToolCallOutput.function } as RequiredToolCall;
+}
 
 export function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
   const { id } = toolCallOutput;
-  const toolCall: { id: string, type: string, function: any, retrieval: any, codeInterpreter: any } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {}};
+  const toolCall: {
+    id: string;
+    type: string;
+    function: any;
+    retrieval: any;
+    codeInterpreter: any;
+  } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {} };
   switch (toolCallOutput.type) {
     case "function":
       toolCall.type = toolCallOutput.type as "function";

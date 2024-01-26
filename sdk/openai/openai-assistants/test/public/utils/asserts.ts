@@ -4,7 +4,10 @@
 import { assert } from "@azure/test-utils";
 import { Assistant, AssistantCreationOptions } from "../../../src/index.js";
 
-export function assertAssistantEquality(assistant: AssistantCreationOptions, response: Assistant): void {
+export function assertAssistantEquality(
+  assistant: AssistantCreationOptions,
+  response: Assistant
+): void {
   assert.isNotNull(response);
   assert.equal(response.model, assistant.model);
   assert.equal(response.name, assistant.name);

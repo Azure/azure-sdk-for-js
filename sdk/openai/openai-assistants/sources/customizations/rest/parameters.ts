@@ -14,9 +14,10 @@ export interface CreateAssistantFileBodyParam {
 export interface CreateRunBodyParam {
   body?: {
     assistant_id: string;
-    model?: string;
-    instructions?: string;
-    tools?: Array<ToolDefinition>;
-    metadata?: Record<string, string>;
+    model?: string | null;
+    instructions?: string | null;
+    additional_instructions?: string | null;
+    tools?: Array<ToolDefinition> | null;
+    metadata?: Record<string, string> | null;
   };
 }

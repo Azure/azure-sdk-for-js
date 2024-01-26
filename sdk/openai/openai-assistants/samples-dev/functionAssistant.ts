@@ -104,7 +104,7 @@ export async function main() {
     },
   } as const;
 
-  const weatherAssistant = await assistantsClient.assistants.createAssistant({
+  const weatherAssistant = await assistantsClient.createAssistant({
     model: "gpt-4-1106-preview",
     name: "JS SDK Test Assistant - Weather",
     instructions: `You are a weather bot. Use the provided functions to help answer questions.
@@ -143,7 +143,7 @@ export async function main() {
   };
 
   const question = "What's the weather like right now in my favorite city?";
-  let runResponse = await assistantsClient.threadRuns.createThreadAndRun({
+  let runResponse = await assistantsClient.createThreadAndRun({
     assistantId: weatherAssistant.id,
     thread: { messages: [{ role: "user", content: question }] },
     tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool],
@@ -153,7 +153,7 @@ export async function main() {
 
   do {
     await new Promise((r) => setTimeout(r, 500));
-    runResponse = await assistantsClient.threadRuns.retrieveRun(threadId, runResponse.id);
+    runResponse = await assistantsClient.getRun(threadId, runResponse.id);
 
     if (
       runResponse.status === "requires_action" &&
@@ -165,7 +165,7 @@ export async function main() {
         for (const toolCall of runResponse.requiredAction?.submitToolOutputs.toolCalls) {
           toolOutputs.push(getResolvedToolOutput(toolCall));
         }
-        runResponse = await assistantsClient.threadRuns.submitRunToolOutputs(
+        runResponse = await assistantsClient.submitToolOutputsToRun(
           threadId,
           runResponse.id,
           toolOutputs
@@ -174,7 +174,7 @@ export async function main() {
     }
   } while (runResponse.status === "queued" || runResponse.status === "in_progress");
 
-  const runMessages = await assistantsClient.threadMessages.listMessages(threadId);
+  const runMessages = await assistantsClient.listMessages(threadId);
   for (const runMessageDatum of runMessages.data) {
     for (const item of runMessageDatum.content) {
       if (item.type === "text") {

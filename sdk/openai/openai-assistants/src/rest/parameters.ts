@@ -12,12 +12,12 @@
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AssistantCreationOptions,
-  AssistantModificationOptions,
   AssistantThreadCreationOptions,
   CreateAndRunThreadOptions,
   ToolDefinition,
   ToolOutput,
   TypeSpecRecord,
+  UpdateAssistantOptions,
 } from "./models.js";
 
 export interface CreateAssistantBodyParam {
@@ -30,7 +30,7 @@ export interface ListAssistantsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -43,9 +43,8 @@ export interface ListAssistantsQueryParam {
   queryParameters?: ListAssistantsQueryParamProperties;
 }
 
-export interface ModifyAssistantBodyParam {
-  /** The details of the modification to perform on the specified assistant. */
-  body: AssistantModificationOptions;
+export interface UpdateAssistantBodyParam {
+  body?: UpdateAssistantOptions;
 }
 
 export interface CreateAssistantFileBodyParam {
@@ -58,7 +57,7 @@ export interface ListAssistantFilesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -75,8 +74,8 @@ export interface CreateThreadBodyParam {
   body?: AssistantThreadCreationOptions;
 }
 
-export interface ModifyThreadBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateThreadBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
 export interface CreateMessageBodyParam {
@@ -84,7 +83,7 @@ export interface CreateMessageBodyParam {
     role: string;
     content: string;
     file_ids?: string[];
-    metadata?: TypeSpecRecord;
+    metadata?: TypeSpecRecord | null;
   };
 }
 
@@ -94,7 +93,7 @@ export interface ListMessagesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -107,8 +106,8 @@ export interface ListMessagesQueryParam {
   queryParameters?: ListMessagesQueryParamProperties;
 }
 
-export interface ModifyMessageBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateMessageBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
 export interface ListMessageFilesQueryParamProperties {
@@ -117,7 +116,7 @@ export interface ListMessageFilesQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -133,10 +132,11 @@ export interface ListMessageFilesQueryParam {
 export interface CreateRunBodyParam {
   body?: {
     assistant_id: string;
-    model?: string;
-    instructions?: string;
-    tools?: Array<ToolDefinition>;
-    metadata?: Record<string, string>;
+    model?: string | null;
+    instructions?: string | null;
+    additional_instructions?: string | null;
+    tools?: Array<ToolDefinition> | null;
+    metadata?: Record<string, string> | null;
   };
 }
 
@@ -146,7 +146,7 @@ export interface ListRunsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -159,11 +159,11 @@ export interface ListRunsQueryParam {
   queryParameters?: ListRunsQueryParamProperties;
 }
 
-export interface ModifyRunBodyParam {
-  body?: { metadata?: TypeSpecRecord };
+export interface UpdateRunBodyParam {
+  body?: { metadata?: TypeSpecRecord | null };
 }
 
-export interface SubmitRunToolOutputsBodyParam {
+export interface SubmitToolOutputsToRunBodyParam {
   body?: { tool_outputs: Array<ToolOutput> };
 }
 
@@ -177,7 +177,7 @@ export interface ListRunStepsQueryParamProperties {
   /**
    * Sort order by the created_at timestamp of the objects. asc for ascending order and desc for descending order.
    *
-   * Possible values: asc, desc
+   * Possible values: "asc", "desc"
    */
   order?: string;
   /** A cursor for use in pagination. after is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include after=obj_foo in order to fetch the next page of the list. */
@@ -194,7 +194,7 @@ export interface ListFilesQueryParamProperties {
   /**
    * A value that, when provided, limits list results to files matching the corresponding purpose.
    *
-   * Possible values: fine-tune, fine-tune-results, assistants, assistants_output
+   * Possible values: "fine-tune", "fine-tune-results", "assistants", "assistants_output"
    */
   purpose?: string;
 }
@@ -214,36 +214,35 @@ export interface UploadFileMediaTypesParam {
 
 export type CreateAssistantParameters = CreateAssistantBodyParam & RequestParameters;
 export type ListAssistantsParameters = ListAssistantsQueryParam & RequestParameters;
-export type RetrieveAssistantParameters = RequestParameters;
-export type ModifyAssistantParameters = ModifyAssistantBodyParam & RequestParameters;
+export type GetAssistantParameters = RequestParameters;
+export type UpdateAssistantParameters = UpdateAssistantBodyParam & RequestParameters;
 export type DeleteAssistantParameters = RequestParameters;
 export type CreateAssistantFileParameters = CreateAssistantFileBodyParam & RequestParameters;
 export type ListAssistantFilesParameters = ListAssistantFilesQueryParam & RequestParameters;
-export type RetrieveAssistantFileParameters = RequestParameters;
+export type GetAssistantFileParameters = RequestParameters;
 export type DeleteAssistantFileParameters = RequestParameters;
 export type CreateThreadParameters = CreateThreadBodyParam & RequestParameters;
-export type RetrieveThreadParameters = RequestParameters;
-export type ModifyThreadParameters = ModifyThreadBodyParam & RequestParameters;
+export type GetThreadParameters = RequestParameters;
+export type UpdateThreadParameters = UpdateThreadBodyParam & RequestParameters;
 export type DeleteThreadParameters = RequestParameters;
 export type CreateMessageParameters = CreateMessageBodyParam & RequestParameters;
 export type ListMessagesParameters = ListMessagesQueryParam & RequestParameters;
-export type RetrieveMessageParameters = RequestParameters;
-export type ModifyMessageParameters = ModifyMessageBodyParam & RequestParameters;
+export type GetMessageParameters = RequestParameters;
+export type UpdateMessageParameters = UpdateMessageBodyParam & RequestParameters;
 export type ListMessageFilesParameters = ListMessageFilesQueryParam & RequestParameters;
-export type RetrieveMessageFileParameters = RequestParameters;
+export type GetMessageFileParameters = RequestParameters;
 export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
 export type ListRunsParameters = ListRunsQueryParam & RequestParameters;
-export type RetrieveRunParameters = RequestParameters;
-export type ModifyRunParameters = ModifyRunBodyParam & RequestParameters;
-export type SubmitRunToolOutputsParameters = SubmitRunToolOutputsBodyParam & RequestParameters;
+export type GetRunParameters = RequestParameters;
+export type UpdateRunParameters = UpdateRunBodyParam & RequestParameters;
+export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam & RequestParameters;
 export type CancelRunParameters = RequestParameters;
 export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam & RequestParameters;
-export type RetrieveRunStepParameters = RequestParameters;
+export type GetRunStepParameters = RequestParameters;
 export type ListRunStepsParameters = ListRunStepsQueryParam & RequestParameters;
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 export type UploadFileParameters = UploadFileMediaTypesParam &
   UploadFileBodyParam &
   RequestParameters;
 export type DeleteFileParameters = RequestParameters;
-export type RetrieveFileParameters = RequestParameters;
-export type RetrieveFileContentParameters = RequestParameters;
+export type GetFileParameters = RequestParameters;

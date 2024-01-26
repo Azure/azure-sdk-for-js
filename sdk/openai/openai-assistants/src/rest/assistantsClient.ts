@@ -9,9 +9,9 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { ClientOptions, getClient } from "@azure-rest/core-client";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { logger } from "../logger.js";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { AssistantsContext } from "./clientDefinitions.js";
 
 /**
@@ -45,9 +45,5 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
-
-  const client = getClient(baseUrl, credentials, options) as AssistantsContext;
-  client.isAzure = !endpoint.includes("/api.openai.com/v");
-
-  return client;
+  return getClient(baseUrl, credentials, options) as AssistantsContext;
 }
