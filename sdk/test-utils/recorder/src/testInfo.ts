@@ -81,6 +81,11 @@ export function isMochaTest(test: unknown): test is MochaTest {
  * @returns true if the given test is a Vitest Test.
  */
 export function isVitestTestContext(test: unknown): test is VitestTestContext {
-  return typeof test == "function" && "task" in test &&
-    typeof test.task === "object" && test.task != null && "name" in test.task;
+  return (
+    typeof test == "function" &&
+    "task" in test &&
+    typeof test.task === "object" &&
+    test.task != null &&
+    "name" in test.task
+  );
 }
