@@ -14,7 +14,7 @@ import {
   ImageGenerations,
   EmbeddingsOptions,
   Embeddings,
-} from "../../../models/models.js";
+} from "../models/models.js";
 import {
   GetAudioTranscriptionAsPlainText200Response,
   GetAudioTranscriptionAsPlainTextDefaultResponse,
@@ -36,31 +36,30 @@ import {
   GetImageGenerationsDefaultResponse,
   isUnexpected,
   OpenAIContext as Client,
-} from "../../../rest/index.js";
+} from "../rest/index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  createRestError,
 } from "@azure-rest/core-client";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
-  ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions,
-  ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions,
-  ClientOpenAIClientGetAudioTranslationAsPlainTextOptions,
-  ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions,
-  ClientOpenAIClientGetCompletionsOptions,
-  ClientOpenAIClientGetChatCompletionsOptions,
-  ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions,
-  ClientOpenAIClientGetImageGenerationsOptions,
-  ClientOpenAIClientGetEmbeddingsOptions,
-} from "../../../models/options.js";
+  GetAudioTranscriptionAsPlainTextOptions,
+  GetAudioTranscriptionAsResponseObjectOptions,
+  GetAudioTranslationAsPlainTextOptions,
+  GetAudioTranslationAsResponseObjectOptions,
+  GetCompletionsOptions,
+  GetChatCompletionsOptions,
+  GetChatCompletionsWithAzureExtensionsOptions,
+  GetImageGenerationsOptions,
+  GetEmbeddingsOptions,
+} from "../models/options.js";
 
 export function _getAudioTranscriptionAsPlainTextSend(
   context: Client,
   deploymentId: string,
   body: AudioTranscriptionOptions,
-  options: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} },
 ): StreamableMethod<
   | GetAudioTranscriptionAsPlainText200Response
   | GetAudioTranscriptionAsPlainTextDefaultResponse
@@ -87,10 +86,10 @@ export function _getAudioTranscriptionAsPlainTextSend(
 export async function _getAudioTranscriptionAsPlainTextDeserialize(
   result:
     | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsPlainTextDefaultResponse
+    | GetAudioTranscriptionAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return result.body;
@@ -104,15 +103,13 @@ export async function getAudioTranscriptionAsPlainText(
   context: Client,
   deploymentId: string,
   body: AudioTranscriptionOptions,
-  options: ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} },
 ): Promise<string> {
   const result = await _getAudioTranscriptionAsPlainTextSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranscriptionAsPlainTextDeserialize(result);
 }
@@ -121,9 +118,9 @@ export function _getAudioTranscriptionAsResponseObjectSend(
   context: Client,
   deploymentId: string,
   body: AudioTranscriptionOptions,
-  options: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions = {
+  options: GetAudioTranscriptionAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   | GetAudioTranscriptionAsResponseObject200Response
   | GetAudioTranscriptionAsResponseObjectDefaultResponse
@@ -151,10 +148,10 @@ export function _getAudioTranscriptionAsResponseObjectSend(
 export async function _getAudioTranscriptionAsResponseObjectDeserialize(
   result:
     | GetAudioTranscriptionAsResponseObject200Response
-    | GetAudioTranscriptionAsResponseObjectDefaultResponse
+    | GetAudioTranscriptionAsResponseObjectDefaultResponse,
 ): Promise<AudioTranscription> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -187,15 +184,15 @@ export async function getAudioTranscriptionAsResponseObject(
   context: Client,
   deploymentId: string,
   body: AudioTranscriptionOptions,
-  options: ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions = {
+  options: GetAudioTranscriptionAsResponseObjectOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<AudioTranscription> {
   const result = await _getAudioTranscriptionAsResponseObjectSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranscriptionAsResponseObjectDeserialize(result);
 }
@@ -204,9 +201,7 @@ export function _getAudioTranslationAsPlainTextSend(
   context: Client,
   deploymentId: string,
   body: AudioTranslationOptions,
-  options: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} },
 ): StreamableMethod<
   | GetAudioTranslationAsPlainText200Response
   | GetAudioTranslationAsPlainTextDefaultResponse
@@ -232,10 +227,10 @@ export function _getAudioTranslationAsPlainTextSend(
 export async function _getAudioTranslationAsPlainTextDeserialize(
   result:
     | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsPlainTextDefaultResponse
+    | GetAudioTranslationAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return result.body;
@@ -246,15 +241,13 @@ export async function getAudioTranslationAsPlainText(
   context: Client,
   deploymentId: string,
   body: AudioTranslationOptions,
-  options: ClientOpenAIClientGetAudioTranslationAsPlainTextOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} },
 ): Promise<string> {
   const result = await _getAudioTranslationAsPlainTextSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranslationAsPlainTextDeserialize(result);
 }
@@ -263,9 +256,7 @@ export function _getAudioTranslationAsResponseObjectSend(
   context: Client,
   deploymentId: string,
   body: AudioTranslationOptions,
-  options: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranslationAsResponseObjectOptions = { requestOptions: {} },
 ): StreamableMethod<
   | GetAudioTranslationAsResponseObject200Response
   | GetAudioTranslationAsResponseObjectDefaultResponse
@@ -292,10 +283,10 @@ export function _getAudioTranslationAsResponseObjectSend(
 export async function _getAudioTranslationAsResponseObjectDeserialize(
   result:
     | GetAudioTranslationAsResponseObject200Response
-    | GetAudioTranslationAsResponseObjectDefaultResponse
+    | GetAudioTranslationAsResponseObjectDefaultResponse,
 ): Promise<AudioTranslation> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -325,15 +316,13 @@ export async function getAudioTranslationAsResponseObject(
   context: Client,
   deploymentId: string,
   body: AudioTranslationOptions,
-  options: ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions = {
-    requestOptions: {},
-  }
+  options: GetAudioTranslationAsResponseObjectOptions = { requestOptions: {} },
 ): Promise<AudioTranslation> {
   const result = await _getAudioTranslationAsResponseObjectSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getAudioTranslationAsResponseObjectDeserialize(result);
 }
@@ -342,7 +331,7 @@ export function _getCompletionsSend(
   context: Client,
   deploymentId: string,
   body: CompletionsOptions,
-  options: ClientOpenAIClientGetCompletionsOptions = { requestOptions: {} }
+  options: GetCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
   return context
     .path("/deployments/{deploymentId}/completions", deploymentId)
@@ -369,10 +358,10 @@ export function _getCompletionsSend(
 }
 
 export async function _getCompletionsDeserialize(
-  result: GetCompletions200Response | GetCompletionsDefaultResponse
+  result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -382,7 +371,8 @@ export async function _getCompletionsDeserialize(
       ? result.body["prompt_filter_results"]
       : result.body["prompt_filter_results"].map((p) => ({
           promptIndex: p["prompt_index"],
-          contentFilterResults
+          contentFilterResults: !p.content_filter_results
+            ? undefined
             : {
                 sexual: !p.content_filter_results?.sexual
                   ? undefined
@@ -425,7 +415,7 @@ export async function _getCompletionsDeserialize(
                 ]
                   ? p.content_filter_results?.["custom_blocklists"]
                   : p.content_filter_results?.["custom_blocklists"].map(
-                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                      (p) => ({ id: p["id"], filtered: p["filtered"] }),
                     ),
                 error: !p.content_filter_results?.error
                   ? undefined
@@ -547,13 +537,13 @@ export async function getCompletions(
   context: Client,
   deploymentId: string,
   body: CompletionsOptions,
-  options: ClientOpenAIClientGetCompletionsOptions = { requestOptions: {} }
+  options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
   const result = await _getCompletionsSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getCompletionsDeserialize(result);
 }
@@ -562,7 +552,7 @@ export function _getChatCompletionsSend(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<
   GetChatCompletions200Response | GetChatCompletionsDefaultResponse
 > {
@@ -571,7 +561,7 @@ export function _getChatCompletionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body["messages"].map((p) => ({ role: p["role"] })),
+        messages: body["messages"],
         functions: !body["functions"]
           ? body["functions"]
           : body["functions"].map((p) => ({
@@ -591,9 +581,7 @@ export function _getChatCompletionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: !body["dataSources"]
-          ? body["dataSources"]
-          : body["dataSources"].map((p) => ({ type: p["type"] })),
+        dataSources: body["dataSources"],
         enhancements: !body.enhancements
           ? undefined
           : {
@@ -606,26 +594,58 @@ export function _getChatCompletionsSend(
             },
         seed: body["seed"],
         response_format: body["responseFormat"],
-        tools: !body["tools"]
-          ? body["tools"]
-          : body["tools"].map((p) => ({ type: p["type"] })),
+        tools: body["tools"],
         tool_choice: body["toolChoice"],
-      } as any,
+      },
     });
 }
 
 export async function _getChatCompletionsDeserialize(
-  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
     id: result.body["id"],
     created: new Date(result.body["created"]),
     choices: result.body["choices"].map((p) => ({
-      message: !p.message ? undefined : (p.message as any),
+      message: !p.message
+        ? undefined
+        : {
+            role: p.message?.["role"],
+            content: p.message?.["content"],
+            toolCalls: !p.message?.["tool_calls"]
+              ? p.message?.["tool_calls"]
+              : p.message?.["tool_calls"],
+            functionCall: !p.message?.function_call
+              ? undefined
+              : {
+                  name: p.message?.function_call?.["name"],
+                  arguments: p.message?.function_call?.["arguments"],
+                },
+            context: !p.message?.context
+              ? undefined
+              : {
+                  messages: !p.message?.context?.["messages"]
+                    ? p.message?.context?.["messages"]
+                    : p.message?.context?.["messages"].map((p) => ({
+                        role: p["role"],
+                        content: p["content"],
+                        toolCalls: !p["tool_calls"]
+                          ? p["tool_calls"]
+                          : p["tool_calls"],
+                        functionCall: !p.function_call
+                          ? undefined
+                          : {
+                              name: p.function_call?.["name"],
+                              arguments: p.function_call?.["arguments"],
+                            },
+                        context: !p.context ? undefined : (p.context as any),
+                      })),
+                },
+          },
       index: p["index"],
       finishReason: p["finish_reason"],
       finishDetails: !p.finish_details
@@ -638,10 +658,7 @@ export async function _getChatCompletionsDeserialize(
             content: p.delta?.["content"],
             toolCalls: !p.delta?.["tool_calls"]
               ? p.delta?.["tool_calls"]
-              : p.delta?.["tool_calls"].map((p) => ({
-                  type: p["type"],
-                  id: p["id"],
-                })),
+              : p.delta?.["tool_calls"],
             functionCall: !p.delta?.function_call
               ? undefined
               : {
@@ -651,9 +668,22 @@ export async function _getChatCompletionsDeserialize(
             context: !p.delta?.context
               ? undefined
               : {
-                  messages: !p.delta?.context?.messages
-                    ? undefined
-                    : (p.delta?.context?.messages as any),
+                  messages: !p.delta?.context?.["messages"]
+                    ? p.delta?.context?.["messages"]
+                    : p.delta?.context?.["messages"].map((p) => ({
+                        role: p["role"],
+                        content: p["content"],
+                        toolCalls: !p["tool_calls"]
+                          ? p["tool_calls"]
+                          : p["tool_calls"],
+                        functionCall: !p.function_call
+                          ? undefined
+                          : {
+                              name: p.function_call?.["name"],
+                              arguments: p.function_call?.["arguments"],
+                            },
+                        context: !p.context ? undefined : (p.context as any),
+                      })),
                 },
           },
       contentFilterResults: !p.content_filter_results
@@ -733,7 +763,7 @@ export async function _getChatCompletionsDeserialize(
                 },
           },
       enhancements: {
-        grounding: !p.enhancements?.grounding
+        grounding: !p.enhancements.grounding
           ? undefined
           : {
               lines: p.enhancements.grounding?.["lines"].map((p) => ({
@@ -752,7 +782,8 @@ export async function _getChatCompletionsDeserialize(
       ? result.body["prompt_filter_results"]
       : result.body["prompt_filter_results"].map((p) => ({
           promptIndex: p["prompt_index"],
-          contentFilterResults
+          contentFilterResults: !p.content_filter_results
+            ? undefined
             : {
                 sexual: !p.content_filter_results?.sexual
                   ? undefined
@@ -795,7 +826,7 @@ export async function _getChatCompletionsDeserialize(
                 ]
                   ? p.content_filter_results?.["custom_blocklists"]
                   : p.content_filter_results?.["custom_blocklists"].map(
-                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                      (p) => ({ id: p["id"], filtered: p["filtered"] }),
                     ),
                 error: !p.content_filter_results?.error
                   ? undefined
@@ -828,13 +859,13 @@ export async function getChatCompletions(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} },
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getChatCompletionsDeserialize(result);
 }
@@ -843,9 +874,9 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions = {
+  options: GetChatCompletionsWithAzureExtensionsOptions = {
     requestOptions: {},
-  }
+  },
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -853,12 +884,12 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   return context
     .path(
       "/deployments/{deploymentId}/extensions/chat/completions",
-      deploymentId
+      deploymentId,
     )
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body["messages"].map((p) => ({ role: p["role"] })),
+        messages: body["messages"],
         functions: !body["functions"]
           ? body["functions"]
           : body["functions"].map((p) => ({
@@ -878,9 +909,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: !body["dataSources"]
-          ? body["dataSources"]
-          : body["dataSources"].map((p) => ({ type: p["type"] })),
+        dataSources: body["dataSources"],
         enhancements: !body.enhancements
           ? undefined
           : {
@@ -893,28 +922,60 @@ export function _getChatCompletionsWithAzureExtensionsSend(
             },
         seed: body["seed"],
         response_format: body["responseFormat"],
-        tools: !body["tools"]
-          ? body["tools"]
-          : body["tools"].map((p) => ({ type: p["type"] })),
+        tools: body["tools"],
         tool_choice: body["toolChoice"],
-      } as any,
+      },
     });
 }
 
 export async function _getChatCompletionsWithAzureExtensionsDeserialize(
   result:
     | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
+    | GetChatCompletionsWithAzureExtensionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
     id: result.body["id"],
     created: new Date(result.body["created"]),
     choices: result.body["choices"].map((p) => ({
-      message: !p.message ? undefined : (p.message as any),
+      message: !p.message
+        ? undefined
+        : {
+            role: p.message?.["role"],
+            content: p.message?.["content"],
+            toolCalls: !p.message?.["tool_calls"]
+              ? p.message?.["tool_calls"]
+              : p.message?.["tool_calls"],
+            functionCall: !p.message?.function_call
+              ? undefined
+              : {
+                  name: p.message?.function_call?.["name"],
+                  arguments: p.message?.function_call?.["arguments"],
+                },
+            context: !p.message?.context
+              ? undefined
+              : {
+                  messages: !p.message?.context?.["messages"]
+                    ? p.message?.context?.["messages"]
+                    : p.message?.context?.["messages"].map((p) => ({
+                        role: p["role"],
+                        content: p["content"],
+                        toolCalls: !p["tool_calls"]
+                          ? p["tool_calls"]
+                          : p["tool_calls"],
+                        functionCall: !p.function_call
+                          ? undefined
+                          : {
+                              name: p.function_call?.["name"],
+                              arguments: p.function_call?.["arguments"],
+                            },
+                        context: !p.context ? undefined : (p.context as any),
+                      })),
+                },
+          },
       index: p["index"],
       finishReason: p["finish_reason"],
       finishDetails: !p.finish_details
@@ -927,10 +988,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
             content: p.delta?.["content"],
             toolCalls: !p.delta?.["tool_calls"]
               ? p.delta?.["tool_calls"]
-              : p.delta?.["tool_calls"].map((p) => ({
-                  type: p["type"],
-                  id: p["id"],
-                })),
+              : p.delta?.["tool_calls"],
             functionCall: !p.delta?.function_call
               ? undefined
               : {
@@ -940,9 +998,22 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
             context: !p.delta?.context
               ? undefined
               : {
-                  messages: !p.delta?.context?.messages
-                    ? undefined
-                    : (p.delta?.context?.messages as any),
+                  messages: !p.delta?.context?.["messages"]
+                    ? p.delta?.context?.["messages"]
+                    : p.delta?.context?.["messages"].map((p) => ({
+                        role: p["role"],
+                        content: p["content"],
+                        toolCalls: !p["tool_calls"]
+                          ? p["tool_calls"]
+                          : p["tool_calls"],
+                        functionCall: !p.function_call
+                          ? undefined
+                          : {
+                              name: p.function_call?.["name"],
+                              arguments: p.function_call?.["arguments"],
+                            },
+                        context: !p.context ? undefined : (p.context as any),
+                      })),
                 },
           },
       contentFilterResults: !p.content_filter_results
@@ -1022,7 +1093,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                 },
           },
       enhancements: {
-        grounding: !p.enhancements?.grounding
+        grounding: !p.enhancements.grounding
           ? undefined
           : {
               lines: p.enhancements.grounding?.["lines"].map((p) => ({
@@ -1041,7 +1112,8 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
       ? result.body["prompt_filter_results"]
       : result.body["prompt_filter_results"].map((p) => ({
           promptIndex: p["prompt_index"],
-          contentFilterResults
+          contentFilterResults: !p.content_filter_results
+            ? undefined
             : {
                 sexual: !p.content_filter_results?.sexual
                   ? undefined
@@ -1084,7 +1156,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                 ]
                   ? p.content_filter_results?.["custom_blocklists"]
                   : p.content_filter_results?.["custom_blocklists"].map(
-                      (p) => ({ id: p["id"], filtered: p["filtered"] })
+                      (p) => ({ id: p["id"], filtered: p["filtered"] }),
                     ),
                 error: !p.content_filter_results?.error
                   ? undefined
@@ -1117,15 +1189,15 @@ export async function getChatCompletionsWithAzureExtensions(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
-  options: ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions = {
+  options: GetChatCompletionsWithAzureExtensionsOptions = {
     requestOptions: {},
-  }
+  },
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsWithAzureExtensionsSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getChatCompletionsWithAzureExtensionsDeserialize(result);
 }
@@ -1134,7 +1206,7 @@ export function _getImageGenerationsSend(
   context: Client,
   deploymentId: string,
   body: ImageGenerationOptions,
-  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} }
+  options: GetImageGenerationsOptions = { requestOptions: {} },
 ): StreamableMethod<
   GetImageGenerations200Response | GetImageGenerationsDefaultResponse
 > {
@@ -1156,10 +1228,10 @@ export function _getImageGenerationsSend(
 }
 
 export async function _getImageGenerationsDeserialize(
-  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse
+  result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createRestError(result);
   }
 
   return {
@@ -1177,13 +1249,13 @@ export async function getImageGenerations(
   context: Client,
   deploymentId: string,
   body: ImageGenerationOptions,
-  options: ClientOpenAIClientGetImageGenerationsOptions = { requestOptions: {} }
+  options: GetImageGenerationsOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
   const result = await _getImageGenerationsSend(
     context,
     deploymentId,
     body,
-    options
+    options,
   );
   return _getImageGenerationsDeserialize(result);
 }
@@ -1192,7 +1264,7 @@ export function _getEmbeddingsSend(
   context: Client,
   deploymentId: string,
   body: EmbeddingsOptions,
-  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} }
+  options: GetEmbeddingsOptions = { requestOptions: {} },
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
   return context
     .path("/deployments/{deploymentId}/embeddings", deploymentId)
@@ -1203,10 +1275,10 @@ export function _getEmbeddingsSend(
 }
 
 export async function _getEmbeddingsDeserialize(
-  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
+  result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result);
   }
 
   return {
@@ -1226,7 +1298,7 @@ export async function getEmbeddings(
   context: Client,
   deploymentId: string,
   body: EmbeddingsOptions,
-  options: ClientOpenAIClientGetEmbeddingsOptions = { requestOptions: {} }
+  options: GetEmbeddingsOptions = { requestOptions: {} },
 ): Promise<Embeddings> {
   const result = await _getEmbeddingsSend(context, deploymentId, body, options);
   return _getEmbeddingsDeserialize(result);
