@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an existing Azure Cosmos DB Table.
  *
  * @summary Deletes an existing Azure Cosmos DB Table.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBTableDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBTableDelete.json
  */
 async function cosmosDbTableDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

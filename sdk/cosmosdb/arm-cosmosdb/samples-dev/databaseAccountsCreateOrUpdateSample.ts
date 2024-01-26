@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountCreateMax.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBDatabaseAccountCreateMax.json
  */
 async function cosmosDbDatabaseAccountCreateMax() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -48,9 +48,12 @@ async function cosmosDbDatabaseAccountCreateMax() {
     createMode: "Default",
     databaseAccountOfferType: "Standard",
     defaultIdentity: "FirstPartyIdentity",
+    defaultPriorityLevel: "Low",
     enableAnalyticalStorage: true,
     enableBurstCapacity: true,
     enableFreeTier: false,
+    enableMaterializedViews: false,
+    enablePriorityBasedExecution: true,
     identity: {
       type: "SystemAssigned,UserAssigned",
       userAssignedIdentities: {
@@ -102,7 +105,7 @@ async function cosmosDbDatabaseAccountCreateMax() {
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountCreateMin.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBDatabaseAccountCreateMin.json
  */
 async function cosmosDbDatabaseAccountCreateMin() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -134,7 +137,7 @@ async function cosmosDbDatabaseAccountCreateMin() {
  * This sample demonstrates how to Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
  *
  * @summary Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when performing updates on an account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBRestoreDatabaseAccountCreateUpdate.json
  */
 async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -155,6 +158,7 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
     databaseAccountOfferType: "Standard",
     enableAnalyticalStorage: true,
     enableFreeTier: false,
+    enableMaterializedViews: false,
     keyVaultKeyUri: "https://myKeyVault.vault.azure.net",
     kind: "GlobalDocumentDB",
     location: "westus",
@@ -177,7 +181,8 @@ async function cosmosDbRestoreDatabaseAccountCreateUpdateJson() {
       restoreMode: "PointInTime",
       restoreSource:
         "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/westus/restorableDatabaseAccounts/1a97b4bb-f6a0-430e-ade1-638d781830cc",
-      restoreTimestampInUtc: new Date("2021-03-11T22:05:09Z")
+      restoreTimestampInUtc: new Date("2021-03-11T22:05:09Z"),
+      sourceBackupLocation: "westus"
     },
     tags: {}
   };

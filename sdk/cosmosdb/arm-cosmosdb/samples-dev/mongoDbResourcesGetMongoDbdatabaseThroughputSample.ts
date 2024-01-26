@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account with the provided name.
  *
  * @summary Gets the RUs per second of the MongoDB database under an existing Azure Cosmos DB database account with the provided name.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBMongoDBDatabaseThroughputGet.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBMongoDBDatabaseThroughputGet.json
  */
 async function cosmosDbMongoDbdatabaseThroughputGet() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

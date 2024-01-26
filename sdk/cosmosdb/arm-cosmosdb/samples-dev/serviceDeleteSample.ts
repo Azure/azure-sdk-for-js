@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDataTransferServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBDataTransferServiceDelete.json
  */
 async function dataTransferServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -39,7 +39,7 @@ async function dataTransferServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBGraphAPIComputeServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBGraphAPIComputeServiceDelete.json
  */
 async function graphApiComputeServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -60,7 +60,7 @@ async function graphApiComputeServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBMaterializedViewsBuilderServiceDelete.json
  */
 async function materializedViewsBuilderServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -81,7 +81,7 @@ async function materializedViewsBuilderServiceDelete() {
  * This sample demonstrates how to Deletes service with the given serviceName.
  *
  * @summary Deletes service with the given serviceName.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlDedicatedGatewayServiceDelete.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-11-15-preview/examples/CosmosDBSqlDedicatedGatewayServiceDelete.json
  */
 async function sqlDedicatedGatewayServiceDelete() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
