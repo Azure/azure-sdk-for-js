@@ -7,4 +7,10 @@
 
 export { getLocalExports, getPublicMethods, isExternal } from "./exports";
 export { createRule } from "./ruleCreator";
-export { arrayToString, getVerifiers, stripPath } from "./verifiers";
+export {
+  arrayToString,
+  getVerifiers,
+  stripPath,
+  VerifierMessages,
+  type VerifierMessageIds,
+} from "./verifiers";
