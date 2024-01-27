@@ -100,7 +100,8 @@ describe("ContainerService test", () => {
         osType: "Linux",
         vmSize: "Standard_DS2_v2",
         workloadRuntime: "OCIContainer"
-      }
+      },
+      testPollingOptions,
     );
     assert.equal(res.name, "aksagent1");
   });
