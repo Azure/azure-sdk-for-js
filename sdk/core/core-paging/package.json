@@ -2,33 +2,9 @@
   "name": "@azure/core-paging",
   "author": "Microsoft Corporation",
   "sdk-type": "client",
-  "type": "module",
   "version": "1.5.1",
   "description": "Core types for paging async iterable iterators",
-  "tags": [
-    "microsoft",
-    "clientruntime"
-  ],
-  "keywords": [
-    "microsoft",
-    "clientruntime",
-    "azure",
-    "cloud"
-  ],
-  "files": [
-    "dist/",
-    "LICENSE",
-    "README.md"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
+  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -60,6 +36,32 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "tags": [
+    "microsoft",
+    "clientruntime"
+  ],
+  "keywords": [
+    "microsoft",
+    "clientruntime",
+    "azure",
+    "cloud"
+  ],
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-paging/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "sideEffects": true,
+  "private": false,
   "scripts": {
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tshy && dev-tool run build-test",
@@ -78,12 +80,10 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run build:test && vitest -c vitest.browser.config.ts",
+    "unit-test:browser": "npx playwright install && npm run build:test && vitest -c vitest.browser.config.ts",
     "unit-test:node": "vitest",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "sideEffects": true,
-  "private": false,
   "dependencies": {
     "tslib": "^2.6.2"
   },

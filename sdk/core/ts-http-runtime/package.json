@@ -4,32 +4,50 @@
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
-  "scripts": {
-    "build:samples": "echo Obsolete",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"  \"*.{js,json}\"",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
-    "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run build:test && vitest -c vitest.browser.config.ts",
-    "unit-test:node": "vitest",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  "main": "dist/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "imports": {
+    "#defaultHttpClient": "./src/defaultHttpClient.ts",
+    "#decompressResponsePolicy": "./src/policies/decompressResponsePolicy.ts",
+    "#proxyPolicy": "./src/policies/proxyPolicy.ts",
+    "#inspect": "./src/util/inspect.ts",
+    "#log": "./src/logger/log.ts",
+    "#sha256": "./src/util/sha256.ts",
+    "#stream": "./src/util/stream.ts",
+    "#userAgentPlatform": "./src/util/userAgentPlatform.ts",
+    "#uuidUtils": "./src/util/uuidUtils.ts"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "bun": {
+        "types": "./dist/bun/index.d.ts",
+        "default": "./dist/bun/index.js"
+      },
+      "deno": {
+        "types": "./dist/deno/index.d.ts",
+        "default": "./dist/deno/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/ts-http-runtime.d.ts",
     "ts-http-runtime.shims.d.ts",
     "LICENSE",
     "README.md"
@@ -50,6 +68,28 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/ts-http-runtime/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build:samples": "echo Obsolete",
+    "build:test": "tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && dev-tool run build-test && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "echo skipped",
+    "extract-api": "tsc -p . && api-extractor run --local",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"  \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "npx playwright install && npm run build:test && vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -105,47 +145,5 @@
       "deno",
       "react-native"
     ]
-  },
-  "imports": {
-    "#defaultHttpClient": "./src/defaultHttpClient.ts",
-    "#decompressResponsePolicy": "./src/policies/decompressResponsePolicy.ts",
-    "#proxyPolicy": "./src/policies/proxyPolicy.ts",
-    "#inspect": "./src/util/inspect.ts",
-    "#log": "./src/logger/log.ts",
-    "#sha256": "./src/util/sha256.ts",
-    "#stream": "./src/util/stream.ts",
-    "#userAgentPlatform": "./src/util/userAgentPlatform.ts",
-    "#uuidUtils": "./src/util/uuidUtils.ts"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "bun": {
-        "types": "./dist/bun/index.d.ts",
-        "default": "./dist/bun/index.js"
-      },
-      "deno": {
-        "types": "./dist/deno/index.d.ts",
-        "default": "./dist/deno/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
-  },
-  "main": "dist/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  }
 }

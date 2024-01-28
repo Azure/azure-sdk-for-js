@@ -4,6 +4,8 @@
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -33,30 +35,6 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "scripts": {
-    "build:samples": "echo Obsolete",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && api-extractor run --local",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tshy && api-extractor run --local",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts",
-    "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run build:test && vitest -c vitest.browser.config.ts",
-    "unit-test:node": "vitest",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
-  },
   "files": [
     "dist/",
     "README.md",
@@ -78,6 +56,28 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-xml/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "build:samples": "echo Obsolete",
+    "build:test": "tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && api-extractor run --local",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tshy && api-extractor run --local",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
+    "pack": "npm pack 2>&1",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "npx playwright install && npm run build:test && vitest -c vitest.browser.config.ts",
+    "unit-test:node": "vitest",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
   "dependencies": {
     "tslib": "^2.6.2",
     "fast-xml-parser": "^4.3.2"

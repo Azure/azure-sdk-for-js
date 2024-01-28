@@ -5,33 +5,6 @@
   "type": "module",
   "version": "2.5.5",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
-  "tags": [
-    "isomorphic",
-    "browser",
-    "javascript",
-    "node",
-    "microsoft",
-    "lro",
-    "polling"
-  ],
-  "keywords": [
-    "isomorphic",
-    "browser",
-    "javascript",
-    "node",
-    "microsoft",
-    "lro",
-    "polling",
-    "azure",
-    "cloud"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "browser": {
-    "os": false,
-    "process": false
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -63,12 +36,41 @@
   },
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "tags": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "lro",
+    "polling"
+  ],
+  "keywords": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "lro",
+    "polling",
+    "azure",
+    "cloud"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "browser": {
+    "os": false,
+    "process": false
+  },
+
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "sideEffects": false,
   "scripts": {
     "build:samples": "echo Obsolete",
     "build:test": "tshy && dev-tool run build-test",
@@ -88,10 +90,9 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "vitest -c vitest.browser.config.ts",
+    "unit-test:browser": "npx playwright install && npm run build:test && vitest -c vitest.browser.config.ts",
     "unit-test:node": "vitest"
   },
-  "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-util": "^1.2.0",
