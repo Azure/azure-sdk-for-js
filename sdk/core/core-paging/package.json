@@ -89,8 +89,8 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@microsoft/api-extractor": "^7.39.1",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@microsoft/api-extractor": "^7.39.4",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^1.2.1",
     "@vitest/coverage-istanbul": "^1.2.1",
@@ -99,7 +99,7 @@
     "prettier": "^3.2.4",
     "rimraf": "^5.0.5",
     "tshy": "^1.11.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "vitest": "^1.2.1"
   },
   "//metadata": {

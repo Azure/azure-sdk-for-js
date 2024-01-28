@@ -93,6 +93,6 @@
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",
     "ts-node": "^10.9.1",
-    "typescript": "~5.2.0"
+    "typescript": "~5.3.3"
   }
 }

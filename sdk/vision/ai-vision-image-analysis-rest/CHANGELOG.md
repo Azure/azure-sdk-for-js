@@ -5,6 +5,7 @@
 ### Features Added
 
 ### Breaking Changes
+The type names for AnalyzeFromBuffer* have changed to AnalyzeFromImageData*
 
 ### Bugs Fixed
 
@@ -14,4 +15,3 @@
 
 ### Features Added
 Initial release of Image Analysis SDK. Uses the generally available [Computer Vision REST API (2023-10-01)](https://eastus.dev.cognitive.microsoft.com/docs/services/Cognitive_Services_Unified_Vision_API_2023-10-01).
-

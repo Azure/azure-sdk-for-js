@@ -30,7 +30,7 @@ async function volumeSnapshotsGetMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function volumeSnapshotsGetMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }

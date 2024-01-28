@@ -26,7 +26,7 @@ async function privateLinkResourcesListByElasticSanMaximumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.privateLinkResources.listByElasticSan(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function privateLinkResourcesListByElasticSanMinimumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.privateLinkResources.listByElasticSan(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }
