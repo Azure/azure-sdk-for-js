@@ -11,7 +11,7 @@ import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogLevel } from "@azure/logger";
 import { GetTokenOptions } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNode, randomUUID as coreRandomUUID } from "@azure/core-util";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
@@ -262,4 +262,14 @@ export function deserializeAuthenticationRecord(serializedRecord: string): Authe
   }
 
   return parsed;
+}
+
+/**
+ * Wraps core-util's randomUUID for stubbing, since ESM packages cannot be stubbed as
+ * easily as CJS.
+ *
+ * @returns a UUID
+ */
+export function randomUUID(): string {
+  return coreRandomUUID();
 }
