@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.20 (unreleased)
+## 1.0.0-beta.20 ()
 
 ### Features Added
 
