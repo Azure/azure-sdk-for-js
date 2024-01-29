@@ -127,7 +127,7 @@ async function httpRequest(
   );
 
   if (response.status >= 400) {
-    const errorResponse: ErrorResponse = new ErrorResponse(result.message);
+    const errorResponse: ErrorResponse = new ErrorResponse(result?.message);
     logger.warning(
       response.status +
         " " +
