@@ -7,11 +7,7 @@ import type { BodyPart, MultipartRequestBody } from "../../src/interfaces.js";
 import { isBlob } from "../../src/util/typeGuards.js";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec.js";
-import {
-  createFile,
-  createFileFromStream,
-  getRawContent,
-} from "../../src/util/file.js";
+import { createFile, createFileFromStream, getRawContent } from "../../src/util/file.js";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
