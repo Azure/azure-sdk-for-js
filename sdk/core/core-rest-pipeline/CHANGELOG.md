@@ -1,10 +1,6 @@
 # Release History
 
-## 1.13.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.14.0 (2024-02-01)
 
 ### Bugs Fixed
 
@@ -13,6 +9,8 @@
 - Form file uploads now have content type `application/octet-stream` if no other content type was specified.
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.13.0 (2023-12-07)
 

@@ -1,14 +1,10 @@
 # Release History
 
-## 1.2.0 (Unreleased)
+## 1.2.0 (2024-02-01)
 
 ### Features Added
 
 - Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
