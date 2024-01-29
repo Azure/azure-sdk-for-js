@@ -5,6 +5,10 @@
  * Checks if the body is a ReadableStream supported by browsers
  * @internal
  */
-export function isReadableStream(body: unknown): body is ReadableStream | NodeJS.ReadableStream {
-  return body instanceof ReadableStream;
+export function isReadableStream(body: unknown): body is ReadableStream {
+  return Boolean(
+    body &&
+      typeof (body as ReadableStream).getReader === "function" &&
+      typeof (body as ReadableStream).tee === "function",
+  );
 }
