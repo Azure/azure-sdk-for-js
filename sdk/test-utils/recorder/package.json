@@ -2,9 +2,8 @@
   "name": "@azure-tools/test-recorder",
   "version": "3.1.0",
   "sdk-type": "utility",
-  "type": "module",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
   "browser": {
@@ -12,13 +11,6 @@
     "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",
     "./dist-esm/src/utils/encoding.js": "./dist-esm/src/utils/encoding.browser.js",
     "./dist-esm/test/utils/server.js": "./dist-esm/test/utils/server.browser.js"
-  },
-  "exports": {
-    ".": {
-      "types": "./types/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
-    }
   },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -36,7 +28,7 @@
     "test:node-with-proxy": "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/*.spec.ts\"",
     "test:browser-with-proxy": "dev-tool run test:browser",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "tests:server": "node --loader ts-node/esm test/utils/server.ts",
+    "tests:server": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/utils/server.ts",
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
@@ -90,9 +82,9 @@
     "c8": "^8.0.0",
     "chai": "^4.2.0",
     "concurrently": "^8.2.0",
+    "cross-env": "7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "esm": "^3.2.25",
     "express": "^4.16.3",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",

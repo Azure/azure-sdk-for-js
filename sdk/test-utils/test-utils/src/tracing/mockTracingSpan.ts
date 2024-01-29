@@ -8,7 +8,7 @@ import {
   TracingSpanKind,
   TracingContext,
 } from "@azure/core-tracing";
-import { spanKey } from "./mockContext.js";
+import { spanKey } from "./mockContext";
 
 /**
  * Represents an implementation of a mock tracing span {@link TracingSpan} used for tests

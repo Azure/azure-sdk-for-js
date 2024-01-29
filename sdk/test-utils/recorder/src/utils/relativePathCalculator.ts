@@ -3,7 +3,7 @@
 
 import path from "path";
 import fs from "fs";
-import { RecorderError } from "./utils.js";
+import { RecorderError } from "./utils";
 
 /**
  * Replace backslashes in a path with forward slashes so they are not treated as escape characters
@@ -18,7 +18,7 @@ function toSafePath(filePath: string): string {
 /**
  * Determines the path of the package being tested relative to the repository root.
  */
-function relativePackagePath(): string {
+function relativePackagePath() {
   const currentPath = process.cwd(); // Gives the current working directory
 
   let rootPath = undefined;

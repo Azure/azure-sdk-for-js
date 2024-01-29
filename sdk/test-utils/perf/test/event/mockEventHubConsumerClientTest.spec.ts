@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfOptionDictionary } from "../../src/index.js";
-import { EventPerfTest } from "../../src/eventPerfTest.js";
-import {
-  MockEventHubConsumerClient,
-  Event,
-  SubscribeOptions,
-} from "./mockEventHubConsumerClient.js";
+import { PerfOptionDictionary } from "../../src";
+import { EventPerfTest } from "../../src/eventPerfTest";
+import { MockEventHubConsumerClient, Event, SubscribeOptions } from "./mockEventHubConsumerClient";
 
 export class MockEventHubConsumerClientTest extends EventPerfTest<SubscribeOptions> {
   public client: MockEventHubConsumerClient;

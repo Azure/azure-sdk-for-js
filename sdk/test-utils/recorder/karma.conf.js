@@ -1,5 +1,5 @@
 // https://github.com/karma-runner/karma-chrome-launcher
-const { relativeRecordingsPath, relativeAssetsPath } = require("./dist/index.cjs");
+const { relativeRecordingsPath, relativeAssetsPath } = require("./dist/index.js");
 process.env.CHROME_BIN = require("puppeteer").executablePath();
 require("dotenv").config({ path: "../.env" });
 

@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { createXhrHttpClient } from "../../src/xhrHttpClient.js";
+import { createXhrHttpClient } from "../../src/xhrHttpClient";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("XhrHttpClient", function () {

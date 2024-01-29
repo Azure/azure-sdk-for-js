@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { env } from "./env.js";
+import { env } from "./env";
 /**
  * A custom error type for failed pipeline requests.
  */
@@ -25,7 +25,7 @@ export class RecordingStateManager {
   /**
    * validateState
    */
-  private validateState(nextState: RecordingState): void {
+  private validateState(nextState: RecordingState) {
     if (nextState === "started") {
       if (this.state === "started") {
         throw new RecorderError("Already started, should not have called start again.");
@@ -332,15 +332,15 @@ export const once = <T>(make: () => T): (() => T) => {
   return () => (value = value ?? make());
 };
 
-export function isRecordMode(): boolean {
+export function isRecordMode() {
   return env.TEST_MODE?.toLowerCase() === "record";
 }
 
-export function isLiveMode(): boolean {
+export function isLiveMode() {
   return env.TEST_MODE?.toLowerCase() === "live";
 }
 
-export function isPlaybackMode(): boolean {
+export function isPlaybackMode() {
   return !isRecordMode() && !isLiveMode();
 }
 
@@ -352,7 +352,7 @@ export function isPlaybackMode(): boolean {
  * Suppose `variables` is { ACCOUNT_NAME: "my_account_name", ACCOUNT_KEY: "fake_secret" },
  * `setEnvironmentVariables` loads the ACCOUNT_NAME and ACCOUNT_KEY in the environment accordingly.
  */
-export function setEnvironmentVariables(variables: { [key: string]: string }): void {
+export function setEnvironmentVariables(variables: { [key: string]: string }) {
   for (const [key, value] of Object.entries(variables)) {
     env[key] = value;
   }

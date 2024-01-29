@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { env } from "./env.js";
-import { RecorderError } from "./utils.js";
+import { env } from "./env";
+import { RecorderError } from "./utils";
 
 export function relativeRecordingsPath(): string {
   if (env.RECORDINGS_RELATIVE_PATH) {

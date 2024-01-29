@@ -19,22 +19,22 @@ import {
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
-} from "./utils/utils.js";
-import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath.js";
-import { SanitizerOptions } from "./utils/utils.js";
-import { paths } from "./utils/paths.js";
-import { addSanitizers, transformsInfo } from "./sanitizer.js";
-import { handleEnvSetup } from "./utils/envSetupForPlayback.js";
-import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher.js";
-import { addTransform, Transform } from "./transform.js";
-import { createRecordingRequest } from "./utils/createRecordingRequest.js";
-import { logger } from "./log.js";
-import { setRecordingOptions } from "./options.js";
+} from "./utils/utils";
+import { Test } from "mocha";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
+import { SanitizerOptions } from "./utils/utils";
+import { paths } from "./utils/paths";
+import { addSanitizers, transformsInfo } from "./sanitizer";
+import { handleEnvSetup } from "./utils/envSetupForPlayback";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
+import { addTransform, Transform } from "./transform";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { logger } from "./log";
+import { setRecordingOptions } from "./options";
 import { isNode } from "@azure/core-util";
-import { env } from "./utils/env.js";
-import { decodeBase64 } from "./utils/encoding.js";
+import { env } from "./utils/env";
+import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
-import { TestInfo } from "./testInfo.js";
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -53,7 +53,7 @@ export class Recorder {
   private assetsJson?: string;
   private variables: Record<string, string>;
 
-  constructor(private testContext?: TestInfo | undefined) {
+  constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
       if (this.testContext) {
@@ -395,7 +395,7 @@ export class Recorder {
     }
 
     if (ensureExistence(this.httpClient, "this.httpClient")) {
-      return transformsInfo(this.httpClient, Recorder.url, this.recordingId!);
+      return await transformsInfo(this.httpClient, Recorder.url, this.recordingId!);
     }
 
     throw new RecorderError("Expected httpClient to be defined");

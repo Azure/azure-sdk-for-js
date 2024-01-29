@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTest } from "../src/index.js";
+import { PerfTest } from "../src";
 import { delay } from "@azure/core-util";
 
 /**

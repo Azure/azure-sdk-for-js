@@ -2,21 +2,13 @@
   "name": "@azure/test-utils",
   "version": "1.0.0",
   "sdk-type": "utility",
-  "type": "module",
   "description": "Test utilities library for the Azure SDK for JavaScript and TypeScript",
-  "main": "dist/index.cjs",
+  "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
   "browser": {
     "./dist-esm/src/global.js": "./dist-esm/src/global.browser.js"
   },
-  "exports": {
-    ".": {
-      "types": "./types/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
-    }
-  },
+  "types": "./types/src/index.d.ts",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -34,7 +26,7 @@
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
-    "unit-test:browser": "karma start karma.conf.cjs --single-run",
+    "unit-test:browser": "cross-env karma start --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
@@ -83,7 +75,7 @@
     "@microsoft/api-extractor": "^7.31.1",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.1",
+    "@types/sinon": "^17.0.0",
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "karma": "^6.2.0",
@@ -92,7 +84,7 @@
     "karma-env-preprocessor": "^0.1.1",
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",
-    "ts-node": "^10.9.1",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "ts-node": "^10.0.0"
   }
 }

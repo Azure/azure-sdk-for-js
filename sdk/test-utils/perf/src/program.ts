@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PerfTestConstructor } from "./perfTestBase.js";
+import { PerfTestConstructor } from "./perfTestBase";
 import minimist, { ParsedArgs } from "minimist";
-import { WorkerPerfProgram } from "./workerProgram.js";
-import { ManagerPerfProgram } from "./managerProgram.js";
-import { multicoreUtils } from "./multicore.js";
+import { WorkerPerfProgram } from "./workerProgram";
+import { ManagerPerfProgram } from "./managerProgram";
+import { multicoreUtils } from "./multicore";
 
 export interface PerfProgram {
   run(): Promise<void>;

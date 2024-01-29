@@ -3,7 +3,7 @@
 
 /* eslint-disable no-use-before-define */
 import { assert } from "chai";
-import { isVersionInSupportedRange, versionsToTest } from "../src/multiVersion.js";
+import { isVersionInSupportedRange, versionsToTest } from "../src/multiVersion";
 
 describe("Multi-service-version test support", () => {
   const allVersions = ["1.0", "1.1", "1.2"];

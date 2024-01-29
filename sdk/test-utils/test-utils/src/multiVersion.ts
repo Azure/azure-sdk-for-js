@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { getGlobalObject } from "./global.js";
+import { getGlobalObject } from "./global";
 
 export interface TestFunctionWrapper {
   it:

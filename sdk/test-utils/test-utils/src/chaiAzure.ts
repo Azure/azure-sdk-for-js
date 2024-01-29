@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable-next-line @typescript-eslint/triple-slash-reference */
-/// <reference types="chai" />
 import { assert } from "chai";
 import { OperationTracingOptions } from "@azure/core-tracing";
-import { supportsTracing } from "./tracing/chaiAzureTrace.js";
+import { supportsTracing } from "./tracing/chaiAzureTrace";
 
 /**
  * Augments Chai with support for Azure specific assertions.

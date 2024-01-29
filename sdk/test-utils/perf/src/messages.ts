@@ -1,8 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import type { BarrierMessage } from "./barrier.js";
-import { Snapshot } from "./snapshot.js";
+import type { BarrierMessage } from "./barrier";
+import { Snapshot } from "./snapshot";
 
 export interface StatusUpdateMessage {
   tag: "statusUpdate";

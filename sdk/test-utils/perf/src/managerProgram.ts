@@ -1,20 +1,17 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { exec } from "child_process";
 import os from "os";
-import { performStage } from "./barrier.js";
+import { performStage } from "./barrier";
 import {
   ReportResultsMessage,
   StatusUpdateMessage,
   WorkerToManagerMessageWithId,
-} from "./messages.js";
-import { ManagerMulticoreUtils, multicoreUtils } from "./multicore.js";
-import { DefaultPerfOptions, ParsedPerfOptions } from "./options.js";
-import { Snapshot } from "./snapshot.js";
-import { PerfTestBase, PerfTestConstructor } from "./perfTestBase.js";
-import { PerfProgram } from "./program.js";
-import { formatDuration, formatNumber } from "./utils/utils.js";
+} from "./messages";
+import { ManagerMulticoreUtils, multicoreUtils } from "./multicore";
+import { DefaultPerfOptions, ParsedPerfOptions } from "./options";
+import { Snapshot } from "./snapshot";
+import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
+import { PerfProgram } from "./program";
+import { formatDuration, formatNumber } from "./utils/utils";
 
 /**
  * The manager program which is responsible for spawning workers which run the actual perf test.

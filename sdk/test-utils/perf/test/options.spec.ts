@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
-import { PerfTest, PerfOptionDictionary } from "../src/index.js";
+import { PerfTest, PerfOptionDictionary } from "../src";
 
 interface OptionsTestOptions {
   "non-req": string;

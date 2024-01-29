@@ -1,9 +1,0 @@
-{
-  "extends": "./.tshy/build.json",
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
-  "compilerOptions": {
-    "outDir": "./dist-test/node",
-    "rootDir": ".",
-    "skipLibCheck": true
-  }
-}

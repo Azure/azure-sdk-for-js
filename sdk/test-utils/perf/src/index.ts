@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-export { PerfTestConstructor, PerfTestBase } from "./perfTestBase.js";
-export { PerfTest } from "./perfTest.js";
-export { BatchPerfTest } from "./batchPerfTest.js";
-export { EventPerfTest } from "./eventPerfTest.js";
-export * from "./options.js";
-export * from "./program.js";
-export * from "./parallel.js";
-export { getEnvVar, drainStream } from "./utils/utils.js";
+export { PerfTestConstructor, PerfTestBase } from "./perfTestBase";
+export { PerfTest } from "./perfTest";
+export { BatchPerfTest } from "./batchPerfTest";
+export { EventPerfTest } from "./eventPerfTest";
+export * from "./options";
+export * from "./program";
+export * from "./parallel";
+export { getEnvVar, drainStream } from "./utils/utils";

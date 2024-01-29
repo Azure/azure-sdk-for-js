@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Message } from "./messages.js";
-import { multicoreUtils } from "./multicore.js";
+import { Message } from "./messages";
+import { multicoreUtils } from "./multicore";
 
 export type Stage =
   | "globalSetup"

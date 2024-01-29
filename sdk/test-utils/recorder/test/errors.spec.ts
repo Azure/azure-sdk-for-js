@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
+import { RecorderError, RecordingStateManager } from "../src/utils/utils";
 import { expect } from "chai";
-import { Recorder } from "../src/recorder.js";
+import { Recorder } from "../src/recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { encodeBase64 } from "../src/utils/encoding.js";
+import { encodeBase64 } from "../src/utils/encoding";
 
 describe("State Manager", function () {
   it("throws error if started twice", function () {

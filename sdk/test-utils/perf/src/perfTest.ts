@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { BatchPerfTest } from "./batchPerfTest.js";
+import { BatchPerfTest } from "./batchPerfTest";
 
 /**
  *

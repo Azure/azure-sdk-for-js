@@ -3,7 +3,7 @@
 
 import { default as minimist, ParsedArgs as MinimistParsedArgs } from "minimist";
 import { isDefined } from "@azure/core-util";
-import { getFormattedDate } from "./utils/utils.js";
+import { getFormattedDate } from "./utils/utils";
 
 /**
  * The structure of a Perf option. They represent command line parameters.

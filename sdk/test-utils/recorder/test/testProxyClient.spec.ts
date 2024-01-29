@@ -8,10 +8,10 @@ import {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
-import { env, Recorder } from "../src/index.js";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
-import { paths } from "../src/utils/paths.js";
-import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
+import { env, Recorder } from "../src";
+import { createRecordingRequest } from "../src/utils/createRecordingRequest";
+import { paths } from "../src/utils/paths";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
 
 const testRedirectedRequest = (
   client: Recorder,

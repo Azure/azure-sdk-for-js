@@ -1,8 +1,8 @@
 import { HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "./log.js";
-import { getRealAndFakePairs } from "./utils/connectionStringHelpers.js";
-import { createRecordingRequest } from "./utils/createRecordingRequest.js";
-import { paths } from "./utils/paths.js";
+import { logger } from "./log";
+import { getRealAndFakePairs } from "./utils/connectionStringHelpers";
+import { createRecordingRequest } from "./utils/createRecordingRequest";
+import { paths } from "./utils/paths";
 import {
   ConnectionStringSanitizer,
   ContinuationSanitizer,
@@ -15,7 +15,7 @@ import {
   RecorderError,
   RemoveHeaderSanitizer,
   SanitizerOptions,
-} from "./utils/utils.js";
+} from "./utils/utils";
 
 /**
  * Signature of a function that adds a sanitizer of type T.

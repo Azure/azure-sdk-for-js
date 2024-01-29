@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { NoOp } from "./noop.spec.js";
-import { OptionsTest } from "./options.spec.js";
-import { SetupCleanupTest } from "./setupCleanup.spec.js";
-import { Exception } from "./exception.spec.js";
-import { SleepTest } from "./sleep.spec.js";
-import { MockReceiverTest } from "./batch/mockReceiverTest.spec.js";
-import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec.js";
-import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec.js";
-import { LogTest } from "./log.spec.js";
-import { PerfTestConstructor } from "../src/index.js";
+import { NoOp } from "./noop.spec";
+import { OptionsTest } from "./options.spec";
+import { SetupCleanupTest } from "./setupCleanup.spec";
+import { Exception } from "./exception.spec";
+import { SleepTest } from "./sleep.spec";
+import { MockReceiverTest } from "./batch/mockReceiverTest.spec";
+import { MockEventReceiverTest } from "./event/mockEventReceiverTest.spec";
+import { MockEventHubConsumerClientTest } from "./event/mockEventHubConsumerClientTest.spec";
+import { LogTest } from "./log.spec";
+import { PerfTestConstructor } from "../src";
 
 type NormalizedTestDefinition = { testClass: PerfTestConstructor; options?: string };
 

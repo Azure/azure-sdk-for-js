@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { env, isPlaybackMode, Recorder } from "../src/index.js";
-import { TestMode } from "../src/utils/utils.js";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
+import { env, isPlaybackMode, Recorder } from "../src";
+import { TestMode } from "../src/utils/utils";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
 import { randomUUID } from "@azure/core-util";
 
 // These tests require the following to be running in parallel

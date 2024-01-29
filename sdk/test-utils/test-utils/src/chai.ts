@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { chaiAzure } from "./chaiAzure.js";
+import { chaiAzure } from "./chaiAzure";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 

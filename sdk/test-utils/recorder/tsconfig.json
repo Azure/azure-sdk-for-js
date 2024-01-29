@@ -4,12 +4,6 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "lib": ["dom"],
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": ".",
-  },
-  "ts-node": {
-    "esm": true,
   },
   "include": ["./src/**/*.ts", "./test/**/*.ts"],
 }
