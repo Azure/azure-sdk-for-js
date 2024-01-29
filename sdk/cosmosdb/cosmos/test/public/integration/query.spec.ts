@@ -192,15 +192,22 @@ describe("Test Index metrics", function (this: Suite) {
 
   it("validate that index metrics are correct", async function () {
     const collectionId = "testCollection3";
-    const createdContainerSinglePartition = await setupContainer(
+    const containerDefinition = {
+      id: collectionId,
+    };
+    const containerOptions1 = { offerThroughput: 4000 };
+    const createdContainerSinglePartition = await getTestContainer(
       "index metrics test db",
-      collectionId,
-      4000,
+      undefined,
+      containerDefinition,
+      containerOptions1,
     );
-    const createdContainerMultiPartition = await setupContainer(
+    const containerOptions2 = { offerThroughput: 12000 };
+    const createdContainerMultiPartition = await getTestContainer(
       "index metrics test db multipartioned",
-      collectionId,
-      12000,
+      undefined,
+      containerDefinition,
+      containerOptions2,
     );
 
     await validateIndexMetrics(createdContainerSinglePartition, collectionId);
@@ -232,22 +239,174 @@ describe("Test Index metrics", function (this: Suite) {
       }
     }
   }
-  async function setupContainer(datbaseName: string, collectionId: string, throughput?: number) {
-    const database = await getTestDatabase(datbaseName);
+});
 
-    const collectionDefinition = {
-      id: collectionId,
-      partitionKey: {
-        paths: ["/pk"],
-      },
-    };
-    const collectionOptions = { offerThroughput: throughput };
+describe("Test RU Capping query", function (this: Suite) {
+  const offset = 0.5;
 
-    const { resource: createdCollectionDef } = await database.containers.create(
-      collectionDefinition,
-      collectionOptions,
+  afterEach(async function () {
+    await removeAllDatabases();
+  });
+
+  it("For Single partition query", async function () {
+    const collectionId = "testCollection4";
+    const containerDefinition = { id: collectionId, throughput: 4000 };
+    const createdContainerSinglePartition = await getTestContainer(
+      "RU Capping test db for single partition",
+      undefined,
+      containerDefinition,
     );
-    const createdContainer = database.container(createdCollectionDef.id);
-    return createdContainer;
-  }
+    // Create 500 documents
+    for (let i = 1; i <= 500; i++) {
+      const document = {
+        id: `myId${i}`,
+        pk: `pk${i % 10}`, // You can adjust the logic for partition key (pk) as needed
+        name: `test${i}`,
+      };
+      await createdContainerSinglePartition.items.create(document);
+    }
+
+    const query1 = "SELECT * from " + collectionId + " where " + collectionId + ".name = 'test2'";
+    const queryOptions: FeedOptions = { maxItemCount: 100 };
+    const queryIterator1 = createdContainerSinglePartition.items.query(query1, queryOptions);
+    const queryIterator1RUCapCalculate = createdContainerSinglePartition.items.query(
+      query1,
+      queryOptions,
+    );
+    let calculated_ru_threshold = (await queryIterator1RUCapCalculate.fetchNext()).requestCharge;
+    // Case 1: RU Cap breached
+    try {
+      await queryIterator1.fetchNext({
+        ruCapPerOperation: calculated_ru_threshold - offset,
+      });
+      assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED error");
+    } catch (err) {
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.fetchedResults);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    }
+    queryIterator1.reset();
+    // Case 2: RU Cap not breached
+    while (queryIterator1.hasMoreResults()) {
+      const { resources: results } = await queryIterator1.fetchNext({
+        ruCapPerOperation: calculated_ru_threshold + offset,
+      });
+      if (results === undefined) {
+        continue;
+      }
+      assert.equal(results.length, 1);
+    }
+
+    const query2 = "SELECT * from " + collectionId;
+    const queryiterator2 = createdContainerSinglePartition.items.query(query2, queryOptions);
+    const queryiterator2RUCapCalculate = createdContainerSinglePartition.items.query(
+      query2,
+      queryOptions,
+    );
+    calculated_ru_threshold = (await queryiterator2RUCapCalculate.fetchAll()).requestCharge;
+    // Case 3: RU Cap breached for fetchAll operation
+    try {
+      await queryiterator2.fetchAll({ ruCapPerOperation: calculated_ru_threshold - offset });
+      assert.fail("Must throw exception");
+    } catch (err) {
+      assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+      assert.ok(err.fetchedResults);
+      assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+    }
+    queryiterator2.reset();
+    // Case 4: RU Cap not breached for fetchAll operation
+    const { resources: results } = await queryiterator2.fetchAll({
+      ruCapPerOperation: calculated_ru_threshold + offset,
+    });
+    // All items should be returned
+    assert.equal(results.length, 500);
+  });
+
+  describe("For Multi partition query", async function () {
+    let queryIterator: any;
+    let queryIteratorRUCapCalculate: any;
+    afterEach(async function () {
+      queryIterator.reset();
+      queryIteratorRUCapCalculate.reset();
+      await removeAllDatabases();
+    });
+
+    beforeEach(async function () {
+      const collectionId = "testCollection5";
+      const containerDefinition = { id: collectionId, throughput: 30000 };
+      const createdContainerMultiPartition = await getTestContainer(
+        "RU Capping test db for multi partition",
+        undefined,
+        containerDefinition,
+      );
+      const data = [
+        { id: "myId1", pk: "pk1", name: "test1" },
+        { id: "myId2", pk: "pk2", name: "test2" },
+        { id: "myId3", pk: "pk2", name: "test2" },
+        { id: "myId4", pk: "pk3", name: "test3" },
+        { id: "myId5", pk: "pk3", name: "test3" },
+        { id: "myId6", pk: "pk3", name: "test3" },
+        { id: "myId7", pk: "pk3", name: "test4" },
+        { id: "myId8", pk: "pk3", name: "test4" },
+        { id: "myId9", pk: "pk4", name: "test5" },
+        { id: "myId10", pk: "pk5", name: "test5" },
+        { id: "myId11", pk: "pk5", name: "test6" },
+        { id: "myId12", pk: "pk6", name: "test7" },
+        { id: "myId13", pk: "pk6", name: "test7" },
+        { id: "myId14", pk: "pk6", name: "test7" },
+      ];
+
+      data.forEach((itemData) => {
+        createdContainerMultiPartition.items.create(itemData);
+      });
+
+      const query = `SELECT count(${collectionId}.name) from ${collectionId} GROUP BY ${collectionId}.name`;
+      const queryOptions: FeedOptions = { maxItemCount: 10, maxDegreeOfParallelism: 4 };
+      queryIterator = createdContainerMultiPartition.items.query(query, queryOptions);
+      queryIteratorRUCapCalculate = createdContainerMultiPartition.items.query(query, queryOptions);
+    });
+
+    it("FetchNext RU Cap breached for a single operation", async function () {
+      const calculated_ru_threshold1 = (await queryIteratorRUCapCalculate.fetchNext())
+        .requestCharge;
+      try {
+        await queryIterator.fetchNext({
+          ruCapPerOperation: calculated_ru_threshold1 - offset,
+        });
+        assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED exception");
+      } catch (err) {
+        assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+        assert.ok(err.fetchedResults === undefined);
+        assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+      }
+    });
+
+    it("FetchNext RU Cap not breached", async function () {
+      const calculated_ru_threshold = (await queryIteratorRUCapCalculate.fetchNext()).requestCharge;
+      const { resources: results } = await queryIterator.fetchNext({
+        ruCapPerOperation: calculated_ru_threshold + offset,
+      });
+      assert.equal(results.length, 7);
+    });
+
+    it("FetchAll RU Cap breached", async function () {
+      const calculated_ru_threshold = (await queryIteratorRUCapCalculate.fetchAll()).requestCharge;
+      try {
+        await queryIterator.fetchAll({ ruCapPerOperation: calculated_ru_threshold - offset });
+        assert.fail("Must throw OPERATION_RU_LIMIT_EXCEEDED exception");
+      } catch (err) {
+        assert.ok(err.code, "OPERATION_RU_LIMIT_EXCEEDED");
+        assert.ok(err.fetchedResults === undefined);
+        assert.ok(err.body.message === "Request Unit limit per Operation call exceeded");
+      }
+    });
+
+    it("FetchAll RU Cap not breached", async function () {
+      const calculated_ru_threshold = (await queryIteratorRUCapCalculate.fetchAll()).requestCharge;
+      const { resources: results } = await queryIterator.fetchAll({
+        ruCapPerOperation: calculated_ru_threshold + offset,
+      });
+      assert.equal(results.length, 7);
+    });
+  });
 });
