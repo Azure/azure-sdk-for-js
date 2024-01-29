@@ -3854,6 +3854,28 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
+  /@vitest/browser@1.2.2(playwright@1.41.1)(vitest@1.2.2):
+    resolution: {integrity: sha512-N8myxNVLbS9AbZ7B2cK33HTGYVzUTDArbMh3hLojOxaj7s7ZrBYYmzs0Q5J2wyDrOgs51p6OUrrzAIb1Z+Ck3A==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: ^1.0.0
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@vitest/utils': 1.2.2
+      magic-string: 0.30.5
+      playwright: 1.41.1
+      sirv: 2.0.4
+      vitest: 1.2.2(@types/node@18.19.8)(@vitest/browser@1.2.2)
+    dev: false
+
   /@vitest/browser@1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1):
     resolution: {integrity: sha512-N8myxNVLbS9AbZ7B2cK33HTGYVzUTDArbMh3hLojOxaj7s7ZrBYYmzs0Q5J2wyDrOgs51p6OUrrzAIb1Z+Ck3A==}
     peerDependencies:
@@ -10604,7 +10626,7 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/expect': 1.2.2
       '@vitest/runner': 1.2.2
       '@vitest/snapshot': 1.2.2
@@ -11104,7 +11126,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       c8: 8.0.1
       chai: 4.3.10
@@ -18549,7 +18571,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-tufgYYcNGmAn4G8hDYc7WHU9KGSIV2LB9fmvJnRl9DYaozfbvsBeyWHh3sJF99p7RPCpTS39x1TI+CaWWFhemw==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-6h6org7cGpL0umcPJGGijBodcBegawhjr+yoK3hUWbGV7NCTmOlRw7L/Yw/GWSjczugBO2ttOY11u4Km7db4vw==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18579,7 +18601,7 @@ packages:
       puppeteer: 19.11.1(typescript@5.3.3)
       rhea: 3.0.2
       rhea-promise: 3.0.1
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.3.3)
       tshy: 1.11.0
@@ -18589,21 +18611,12 @@ packages:
       vitest: 1.2.2(@types/node@18.19.8)(@vitest/browser@1.2.2)
       ws: 8.16.0
     transitivePeerDependencies:
-      - '@edge-runtime/vm'
-      - '@vitest/ui'
+      - '@swc/core'
+      - '@swc/wasm'
       - bufferutil
-      - happy-dom
-      - jsdom
-      - less
-      - lightningcss
-      - safaridriver
-      - sass
-      - stylus
-      - sugarss
+      - encoding
       - supports-color
-      - terser
       - utf-8-validate
-      - webdriverio
     dev: false
 
   file:projects/core-auth.tgz:
@@ -18616,7 +18629,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18658,7 +18671,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18711,7 +18724,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18759,7 +18772,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.39.4(@types/node@18.19.8)
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18788,14 +18801,14 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-baapzFAOoBXndbpFQd4Tm7wqxZ3tscwgPiP+OG8G84nExKVltImZNF+/SAMmu9oc+YHQt3naXYBONa2mJ5T/FA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-ngdE/tlfRPSxubFLCtzvOv4Ak6a+/LrnJKz190MmoU82R4OmGAWndtuU2VdUOpg1O18Tl5TXgkeyA0HTE/fuVA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.39.4(@types/node@18.19.8)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       '@vitest/utils': 1.2.2
       c8: 8.0.1
@@ -18824,9 +18837,6 @@ packages:
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
-      - bufferutil
-      - devtools
-      - encoding
       - happy-dom
       - jsdom
       - less
@@ -18837,7 +18847,7 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/core-paging.tgz:
@@ -18849,7 +18859,7 @@ packages:
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -18896,7 +18906,7 @@ packages:
       '@microsoft/api-extractor': 7.39.4(@types/node@18.19.8)
       '@opentelemetry/api': 1.7.0
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       eslint: 8.56.0
       http-proxy-agent: 5.0.0
@@ -18932,7 +18942,7 @@ packages:
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       c8: 8.0.1
       cross-env: 7.0.3
@@ -18987,7 +18997,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19036,7 +19046,7 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.39.4(@types/node@18.19.8)
       '@types/node': 18.19.8
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       eslint: 8.56.0
       playwright: 1.41.1
@@ -19072,7 +19082,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/trusted-types': 2.0.7
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       cross-env: 7.0.3
@@ -20293,7 +20303,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       c8: 8.0.1
       chai: 4.3.10
@@ -22573,7 +22583,7 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-NB+m7fqmAgA9cOU5ktCdhYwmKBO/HVkQiUE0U5Cu6lZHBZGDy45PiID9BTcVzIWlH10azaIaP4VKyajMeiiy1A==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-59wCpvAIFd+hVOdlADUEn0fb/0yNC20+SdKIC54kkGQPlpPxkpnC7N2EAFtg+z6FI5UOSvjTsDeqTr5u11RBWA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
@@ -22614,7 +22624,7 @@ packages:
     dev: false
 
   file:projects/test-utils-perf.tgz:
-    resolution: {integrity: sha512-TjoovfE60P5ZTS0elv0dDb2Bz9IC0N48DWj1YdTPl5mw69R3IHSLCH7PILnOOZtoDqsOt6qJlJR+txAa2yXrZg==, tarball: file:projects/test-utils-perf.tgz}
+    resolution: {integrity: sha512-8qhq5ooTMcMBowWuYUKu/fvAD4Bj+b7SfsCII1NpFbyy2PptJtVhbtF2zJWSqkRzF+i+4nGwuYclyL1YeTDwQA==, tarball: file:projects/test-utils-perf.tgz}
     name: '@rush-temp/test-utils-perf'
     version: 0.0.0
     dependencies:
@@ -22629,7 +22639,7 @@ packages:
       karma-env-preprocessor: 0.1.1
       minimist: 1.2.8
       node-fetch: 3.3.2
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.3.3)
       tshy: 1.11.0
       tslib: 2.6.2
@@ -22644,7 +22654,7 @@ packages:
     dev: false
 
   file:projects/test-utils.tgz:
-    resolution: {integrity: sha512-0TvY00YTiD50dqWaEYLND2rhNIcgG70AYvSjM4KrAIM8a6e3NvDpy4461uD1NHTngm2y6f7rvajeq81fIp7pkA==, tarball: file:projects/test-utils.tgz}
+    resolution: {integrity: sha512-9QyH4zoz8/TgK9el7f186sA73kz4p/wiyeoJZwsorOUyI+At30qDUg6S7ezXYuFKGz47Z4u9yolbTkBLEdj3wg==, tarball: file:projects/test-utils.tgz}
     name: '@rush-temp/test-utils'
     version: 0.0.0
     dependencies:
@@ -22691,7 +22701,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)(webdriverio@8.29.1)
+      '@vitest/browser': 1.2.2(playwright@1.41.1)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
