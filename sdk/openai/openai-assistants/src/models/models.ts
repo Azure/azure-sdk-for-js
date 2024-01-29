@@ -26,26 +26,20 @@ export interface AssistantCreationOptions {
   metadata?: Record<string, string> | null;
 }
 
-/** An abstract representation of an input tool definition that an assistant can use. */
-export interface ToolDefinitionParent {
-  /** the discriminator possible values: code_interpreter, retrieval, function */
-  type: string;
-}
-
 /** The input definition information for a code interpreter tool as used to configure an assistant. */
-export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+export interface CodeInterpreterToolDefinition {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
 }
 
 /** The input definition information for a retrieval tool as used to configure an assistant. */
-export interface RetrievalToolDefinition extends ToolDefinitionParent {
+export interface RetrievalToolDefinition {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
 }
 
 /** The input definition information for a function tool as used to configure an assistant. */
-export interface FunctionToolDefinition extends ToolDefinitionParent {
+export interface FunctionToolDefinition {
   /** The object type, which is always 'function'. */
   type: "function";
   /** The definition of the concrete function that the function tool should call. */
@@ -432,14 +426,8 @@ export interface RunStep {
   metadata?: Record<string, string> | null;
 }
 
-/** An abstract representation of the details for a run step. */
-export interface RunStepDetailsParent {
-  /** the discriminator possible values: message_creation, tool_calls */
-  type: RunStepType;
-}
-
 /** The detailed information associated with a message creation run step. */
-export interface RunStepMessageCreationDetails extends RunStepDetailsParent {
+export interface RunStepMessageCreationDetails {
   /** The object type, which is always 'message_creation'. */
   type: "message_creation";
   /** Information about the message creation associated with this run step. */
@@ -453,28 +441,22 @@ export interface RunStepMessageCreationReference {
 }
 
 /** The detailed information associated with a run step calling tools. */
-export interface RunStepToolCallDetails extends RunStepDetailsParent {
+export interface RunStepToolCallDetails {
   /** The object type, which is always 'tool_calls'. */
   type: "tool_calls";
   /** A list of tool call details for this run step. */
   toolCalls: ToolCall[];
 }
 
-/** An abstract representation of a detailed tool call as recorded within a run step for an existing run. */
-export interface ToolCallParent {
-  /** the discriminator possible values: code_interpreter, retrieval, function */
-  type: string;
-  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
-  id: string;
-}
-
 /**
  * A record of a call to a code interpreter tool, issued by the model in evaluation of a defined tool, that
  * represents inputs and outputs consumed and emitted by the code interpreter.
  */
-export interface CodeInterpreterToolCall extends ToolCallParent {
+export interface CodeInterpreterToolCall {
   /** The object type, which is always 'code_interpreter'. */
   type: "code_interpreter";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The details of the tool call to the code interpreter tool. */
   codeInterpreter: CodeInterpreterToolCallDetails;
 }
@@ -487,14 +469,8 @@ export interface CodeInterpreterToolCallDetails {
   outputs: CodeInterpreterToolCallOutput[];
 }
 
-/** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterToolCallOutputParent {
-  /** the discriminator possible values: logs, image */
-  type: string;
-}
-
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutputParent {
+export interface CodeInterpreterLogOutput {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -502,7 +478,7 @@ export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutputP
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutputParent {
+export interface CodeInterpreterImageOutput {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -519,9 +495,11 @@ export interface CodeInterpreterImageReference {
  * A record of a call to a retrieval tool, issued by the model in evaluation of a defined tool, that represents
  * executed retrieval actions.
  */
-export interface RetrievalToolCall extends ToolCallParent {
+export interface RetrievalToolCall {
   /** The object type, which is always 'retrieval'. */
   type: "retrieval";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The key/value pairs produced by the retrieval tool. */
   retrieval: Record<string, string>;
 }
@@ -530,9 +508,11 @@ export interface RetrievalToolCall extends ToolCallParent {
  * A record of a call to a function tool, issued by the model in evaluation of a defined tool, that represents the inputs
  * and output consumed and emitted by the specified function.
  */
-export interface FunctionToolCall extends ToolCallParent {
+export interface FunctionToolCall {
   /** The object type, which is always 'function'. */
   type: "function";
+  /** The ID of the tool call. This ID must be referenced when you submit tool outputs. */
+  id: string;
   /** The detailed information about the function called by the model. */
   function: FunctionToolCallDetails;
 }
@@ -644,18 +624,15 @@ export type RequiredToolCall = RequiredFunctionToolCall;
 export type RunStepDetails =
   | RunStepMessageCreationDetails
   | RunStepToolCallDetails
-  | RunStepDetailsParent;
 /** Alias for ToolCall */
 export type ToolCall =
   | CodeInterpreterToolCall
   | RetrievalToolCall
-  | FunctionToolCall
-  | ToolCallParent;
+  | FunctionToolCall;
 /** Alias for CodeInterpreterToolCallOutput */
 export type CodeInterpreterToolCallOutput =
   | CodeInterpreterLogOutput
-  | CodeInterpreterImageOutput
-  | CodeInterpreterToolCallOutputParent;
+  | CodeInterpreterImageOutput;
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
   | CodeInterpreterToolDefinition

@@ -153,21 +153,16 @@ export interface MessageTextDetailsOutput {
   annotations: Array<MessageTextAnnotationOutput>;
 }
 
-/** An abstract representation of an annotation to text thread message content. */
-export interface MessageTextAnnotationOutputParent {
+/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
+export interface MessageTextFileCitationAnnotationOutput {
+  /** The object type, which is always 'file_citation'. */
+  type: "file_citation";
   /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
   start_index: number;
   /** The last text index associated with this text annotation. */
   end_index: number;
-  type: string;
-}
-
-/** A citation within the message that points to a specific quote from a specific File associated with the assistant or the message. Generated when the assistant uses the 'retrieval' tool to search files. */
-export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
-  /** The object type, which is always 'file_citation'. */
-  type: "file_citation";
   /**
    * A citation within the message that points to a specific quote from a specific file.
    * Generated when the assistant uses the "retrieval" tool to search files.
@@ -184,9 +179,15 @@ export interface MessageTextFileCitationDetailsOutput {
 }
 
 /** A citation within the message that points to a file located at a specific path. */
-export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
+export interface MessageTextFilePathAnnotationOutput {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
+  /** The textual content associated with this text annotation item. */
+  text: string;
+  /** The first text index associated with this text annotation. */
+  start_index: number;
+  /** The last text index associated with this text annotation. */
+  end_index: number;
   /** A URL for the file that's generated when the assistant used the code_interpreter tool to generate a file. */
   file_path: MessageTextFilePathDetailsOutput;
 }
@@ -387,13 +388,8 @@ export interface CodeInterpreterToolCallDetailsOutput {
   outputs: Array<CodeInterpreterToolCallOutputOutput>;
 }
 
-/** An abstract representation of an emitted output from a code interpreter tool. */
-export interface CodeInterpreterToolCallOutputOutputParent {
-  type: string;
-}
-
 /** A representation of a log output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterLogOutputOutput extends CodeInterpreterToolCallOutputOutputParent {
+export interface CodeInterpreterLogOutputOutput {
   /** The object type, which is always 'logs'. */
   type: "logs";
   /** The serialized log output emitted by the code interpreter. */
@@ -401,8 +397,7 @@ export interface CodeInterpreterLogOutputOutput extends CodeInterpreterToolCallO
 }
 
 /** A representation of an image output emitted by a code interpreter tool in response to a tool call by the model. */
-export interface CodeInterpreterImageOutputOutput
-  extends CodeInterpreterToolCallOutputOutputParent {
+export interface CodeInterpreterImageOutputOutput {
   /** The object type, which is always 'image'. */
   type: "image";
   /** Referential information for the image associated with this output. */
@@ -501,7 +496,6 @@ export interface ListResponseOfOutput<T> {
 
 /** An abstract representation of an annotation to text thread message content. */
 export type MessageTextAnnotationOutput =
-  | MessageTextAnnotationOutputParent
   | MessageTextFileCitationAnnotationOutput
   | MessageTextFilePathAnnotationOutput;
 /** An abstract representation of a required action for an assistant thread run to continue. */
@@ -514,7 +508,6 @@ export type RunStepDetailsOutput =
   | RunStepToolCallDetailsOutput;
 /** An abstract representation of an emitted output from a code interpreter tool. */
 export type CodeInterpreterToolCallOutputOutput =
-  | CodeInterpreterToolCallOutputOutputParent
   | CodeInterpreterLogOutputOutput
   | CodeInterpreterImageOutputOutput;
 /** An abstract representation of an input tool definition that an assistant can use. */

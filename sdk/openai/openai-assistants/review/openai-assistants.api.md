@@ -121,10 +121,8 @@ export { AzureKeyCredential }
 export interface CancelRunOptions extends OperationOptions {
 }
 
-// Warning: (ae-forgotten-export) The symbol "CodeInterpreterToolCallOutputParent" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface CodeInterpreterImageOutput extends CodeInterpreterToolCallOutputParent {
+export interface CodeInterpreterImageOutput {
     image: CodeInterpreterImageReference;
     type: "image";
 }
@@ -135,16 +133,15 @@ export interface CodeInterpreterImageReference {
 }
 
 // @public
-export interface CodeInterpreterLogOutput extends CodeInterpreterToolCallOutputParent {
+export interface CodeInterpreterLogOutput {
     logs: string;
     type: "logs";
 }
 
-// Warning: (ae-forgotten-export) The symbol "ToolCallParent" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface CodeInterpreterToolCall extends ToolCallParent {
+export interface CodeInterpreterToolCall {
     codeInterpreter: CodeInterpreterToolCallDetails;
+    id: string;
     type: "code_interpreter";
 }
 
@@ -155,12 +152,10 @@ export interface CodeInterpreterToolCallDetails {
 }
 
 // @public
-export type CodeInterpreterToolCallOutput = CodeInterpreterLogOutput | CodeInterpreterImageOutput | CodeInterpreterToolCallOutputParent;
+export type CodeInterpreterToolCallOutput = CodeInterpreterLogOutput | CodeInterpreterImageOutput;
 
-// Warning: (ae-forgotten-export) The symbol "ToolDefinitionParent" needs to be exported by the entry point index.d.ts
-//
 // @public
-export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+export interface CodeInterpreterToolDefinition {
     type: "code_interpreter";
 }
 
@@ -243,8 +238,9 @@ export interface FunctionDefinition {
 }
 
 // @public
-export interface FunctionToolCall extends ToolCallParent {
+export interface FunctionToolCall {
     function: FunctionToolCallDetails;
+    id: string;
     type: "function";
 }
 
@@ -256,7 +252,7 @@ export interface FunctionToolCallDetails {
 }
 
 // @public
-export interface FunctionToolDefinition extends ToolDefinitionParent {
+export interface FunctionToolDefinition {
     function: FunctionDefinition;
     type: "function";
 }
@@ -421,13 +417,14 @@ export interface RequiredAction {
 }
 
 // @public
-export interface RetrievalToolCall extends ToolCallParent {
+export interface RetrievalToolCall {
+    id: string;
     retrieval: Record<string, string>;
     type: "retrieval";
 }
 
 // @public
-export interface RetrievalToolDefinition extends ToolDefinitionParent {
+export interface RetrievalToolDefinition {
     type: "retrieval";
 }
 
@@ -464,10 +461,8 @@ export interface RunStep {
     type: RunStepType;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RunStepDetailsParent" needs to be exported by the entry point index.d.ts
-//
 // @public
-export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails | RunStepDetailsParent;
+export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
 
 // @public
 export interface RunStepError {
@@ -485,7 +480,7 @@ export interface RunStepError {
 export type RunStepErrorCode = string;
 
 // @public
-export interface RunStepMessageCreationDetails extends RunStepDetailsParent {
+export interface RunStepMessageCreationDetails {
     messageCreation: RunStepMessageCreationReference;
     type: "message_creation";
 }
@@ -499,7 +494,7 @@ export interface RunStepMessageCreationReference {
 export type RunStepStatus = string;
 
 // @public
-export interface RunStepToolCallDetails extends RunStepDetailsParent {
+export interface RunStepToolCallDetails {
     toolCalls: ToolCall[];
     type: "tool_calls";
 }
@@ -556,7 +551,7 @@ export interface ThreadRun {
 }
 
 // @public
-export type ToolCall = CodeInterpreterToolCall | RetrievalToolCall | FunctionToolCall | ToolCallParent;
+export type ToolCall = CodeInterpreterToolCall | RetrievalToolCall | FunctionToolCall;
 
 // @public
 export type ToolDefinition = CodeInterpreterToolDefinition | RetrievalToolDefinition | FunctionToolDefinition;

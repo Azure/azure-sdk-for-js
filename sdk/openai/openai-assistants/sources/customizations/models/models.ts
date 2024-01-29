@@ -2,6 +2,11 @@
 // Licensed under the MIT license.
 
 import {
+  CodeInterpreterImageOutput,
+  CodeInterpreterLogOutput,
+  CodeInterpreterToolCall,
+  FunctionToolCall,
+  RetrievalToolCall,
   MessageTextDetails,
   RequiredAction,
   RunError,
@@ -156,3 +161,12 @@ export type ToolDefinition =
   | CodeInterpreterToolDefinition
   | RetrievalToolDefinition
   | FunctionToolDefinition;
+/** Alias for ToolCall */
+export type ToolCall =
+  | CodeInterpreterToolCall
+  | RetrievalToolCall
+  | FunctionToolCall;
+/** Alias for CodeInterpreterToolCallOutput */
+export type CodeInterpreterToolCallOutput =
+  | CodeInterpreterLogOutput
+  | CodeInterpreterImageOutput;

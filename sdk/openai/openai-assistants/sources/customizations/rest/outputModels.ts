@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  CodeInterpreterLogOutputOutput,
+  CodeInterpreterImageOutputOutput,
   FunctionDefinitionOutput,
   FunctionToolCallOutput,
   CodeInterpreterToolCallOutput,
@@ -9,6 +11,8 @@ import {
   RequiredActionOutput,
   RequiredFunctionToolCallOutput,
   SubmitToolOutputsDetailsOutput,
+  MessageTextFileCitationAnnotationOutput,
+  MessageTextFilePathAnnotationOutput,
   MessageImageFileContentOutput,
   MessageTextContentOutput,
 } from "../../generated/src/rest/outputModels.js";
@@ -69,3 +73,11 @@ export type ToolCallOutput =
   | CodeInterpreterToolCallOutput
   | RetrievalToolCallOutput;
 export type RequiredToolCallOutput = RequiredFunctionToolCallOutput;
+/** An abstract representation of an annotation to text thread message content. */
+export type MessageTextAnnotationOutput =
+  | MessageTextFileCitationAnnotationOutput
+  | MessageTextFilePathAnnotationOutput;
+/** An abstract representation of an emitted output from a code interpreter tool. */
+export type CodeInterpreterToolCallOutputOutput =
+  | CodeInterpreterLogOutputOutput
+  | CodeInterpreterImageOutputOutput;
