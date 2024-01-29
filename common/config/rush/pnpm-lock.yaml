@@ -19828,7 +19828,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-FfhKJnGDoZlg9Wu+eeKZeLBRAKlyl0sByUYEItNb9UzT0JOUjE1MBSZcL3s1uBhnPDTmyA/zXqYf8yIbz5kg8Q==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-fR80kWGbKwCMxk8b0fQX6lwjVdj7TYHQCmpQKcXSqPXPSQuPA3sDvKqvEBzT5Kn6KoT16bQJaQBKsAtE2DOMTg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -19842,7 +19842,7 @@ packages:
       '@opentelemetry/sdk-logs': 0.48.0(@opentelemetry/api-logs@0.48.0)(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-metrics': 1.21.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/sdk-trace-base': 1.21.0(@opentelemetry/api@1.7.0)
-      '@opentelemetry/sdk-trace-node': 1.20.0(@opentelemetry/api@1.7.0)
+      '@opentelemetry/sdk-trace-node': 1.21.0(@opentelemetry/api@1.7.0)
       '@opentelemetry/semantic-conventions': 1.21.0
       '@types/mocha': 10.0.6
       '@types/node': 18.19.8
