@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.20 (unreleased)
+
+### Features Added
+
+### Bugs Fixed
+
+- Created file used for caching retriable telemetry now includes PID to avoid concurrency issues.
+
+### Other Changes
+
 ## 1.0.0-beta.19 (2024-01-23)
 
 ### Features Added
