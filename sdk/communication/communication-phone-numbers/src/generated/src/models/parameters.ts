@@ -14,7 +14,8 @@ import {
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
-  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper
+  PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
+  OperatorInformationRequest as OperatorInformationRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -120,7 +121,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-12-01",
+    defaultValue: "2024-03-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -256,6 +257,16 @@ export const top: OperationQueryParameter = {
       name: "Number"
     }
   }
+};
+
+export const phoneNumbers: OperationParameter = {
+  parameterPath: ["options", "phoneNumbers"],
+  mapper: OperatorInformationRequestMapper
+};
+
+export const options: OperationParameter = {
+  parameterPath: ["options", "options"],
+  mapper: OperatorInformationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {
