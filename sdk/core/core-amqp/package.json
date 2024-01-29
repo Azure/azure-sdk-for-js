@@ -18,11 +18,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "imports": {
-    "#checkNetworkConnection": "./src/util/checkNetworkConnection.ts",
-    "#hmacSha256": "./src/util/hmacSha256.ts",
-    "#runtimeInfo": "./src/util/runtimeInfo.ts"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

@@ -6,15 +6,6 @@
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "imports": {
-    "#decompressResponsePolicy": "./src/policies/decompressResponsePolicy.ts",
-    "#formDataPolicy": "./src/policies/formDataPolicy.ts",
-    "#proxyPolicy": "./src/policies/proxyPolicy.ts",
-    "#inspect": "./src/util/inspect.ts",
-    "#stream": "./src/util/stream.ts",
-    "#userAgentPlatform": "./src/util/userAgentPlatform.ts",
-    "#defaultHttpClient": "./src/defaultHttpClient.ts"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

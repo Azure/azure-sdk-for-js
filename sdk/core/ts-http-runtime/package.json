@@ -6,17 +6,6 @@
   "type": "module",
   "main": "dist/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "imports": {
-    "#defaultHttpClient": "./src/defaultHttpClient.ts",
-    "#decompressResponsePolicy": "./src/policies/decompressResponsePolicy.ts",
-    "#proxyPolicy": "./src/policies/proxyPolicy.ts",
-    "#inspect": "./src/util/inspect.ts",
-    "#log": "./src/logger/log.ts",
-    "#sha256": "./src/util/sha256.ts",
-    "#stream": "./src/util/stream.ts",
-    "#userAgentPlatform": "./src/util/userAgentPlatform.ts",
-    "#uuidUtils": "./src/util/uuidUtils.ts"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

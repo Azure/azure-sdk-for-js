@@ -116,8 +116,5 @@
       "deno",
       "react-native"
     ]
-  },
-  "imports": {
-    "#xml": "./src/xml.ts"
   }
 }

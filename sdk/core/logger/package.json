@@ -122,8 +122,5 @@
       "deno",
       "react-native"
     ]
-  },
-  "imports": {
-    "#log": "./src/log.ts"
   }
 }

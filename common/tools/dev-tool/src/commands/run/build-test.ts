@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import path from "node:path";
-import { cpSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
@@ -52,9 +52,25 @@ export default leafCommand(commandInfo, async (options) => {
     }
   }
 
+  // Build the overrides - hard code to browser for now
+  const overrides = new Map<string, OverrideSet>();
+  overrides.set("esm", new OverrideSet("esm", "browser"));
+  const sources = new Set(getSources());
+  for (const file of sources) {
+    for (const override of overrides.values()) {
+      override.addOverride(file, sources);
+    }
+  }
+
+  for (const [name, pf] of overrides.entries()) {
+    if (pf.map.size === 0) {
+      overrides.delete(name);
+    }
+  }
+
   if (browserTest) {
     log.info(`Building for browser testing...`);
-    compileForEnvironment("browser", browserConfig, importMap);
+    compileForEnvironment("browser", browserConfig, importMap, overrides.get("esm")!.map);
   }
 
   return true;
@@ -63,7 +79,8 @@ export default leafCommand(commandInfo, async (options) => {
 function compileForEnvironment(
   type: string,
   tsConfig: string,
-  importMap: Map<string, string>
+  importMap: Map<string, string>,
+  overrideMap: Map<string, string>,
 ): boolean {
   const tsconfigPath = path.join(process.cwd(), tsConfig);
   const tsConfigFile = readFileSync(tsconfigPath, "utf8");
@@ -102,9 +119,9 @@ function compileForEnvironment(
     return false;
   }
 
-  for (const [key, value] of importMap.entries()) {
-    log.info(`Replacing for : ${key} => ${value}`);
-    copyOverrides(type, outputPath, value);
+  for (const [override, original] of overrideMap.entries()) {
+    log.info(`Replacing for : ${original} => ${override}`);
+    copyOverrides(type, outputPath, original);
   }
 
   return true;
@@ -154,4 +171,38 @@ function overrideFile(
   const destFileType = path.join(process.cwd(), rootDir, relativeDir, destinationFile);
 
   cpSync(sourceFileType, destFileType, { force: true });
+}
+
+class OverrideSet {
+  public map: Map<string, string>;
+
+  constructor(public type: "esm" | "commonjs", public name: string) {
+    this.map = new Map();
+  }
+
+  addOverride(file: string, sources: Set<string>) {
+    const extension = this.type === "esm" ? "mts" : "cts";
+    const suffix = `-${this.name}.${extension}`;
+    if (!file.endsWith(suffix)) {
+      return;
+    }
+    const originalFile = file.substring(0, file.length - suffix.length) + ".ts";
+    if (sources.has(originalFile)) {
+      this.map.set(file, originalFile);
+    }
+  }
+}
+
+function getSources(dir: string = "src"): string[] {
+  const sources: string[] = [];
+  const entries = readdirSync(dir, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      sources.push(...getSources(path.join(dir, entry.name)));
+    } else if (entry.isFile()) {
+      sources.push(path.join(dir, entry.name));
+    }
+  }
+
+  return sources;
 }

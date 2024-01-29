@@ -6,11 +6,6 @@
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "imports": {
-    "#bytesEncoding": "./src/bytesEncoding.ts",
-    "#sha256": "./src/sha256.ts",
-    "#uuidUtils": "./src/uuidUtils.ts"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {

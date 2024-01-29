@@ -5,6 +5,8 @@
   "version": "1.5.1",
   "description": "Core types for paging async iterable iterators",
   "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -34,8 +36,6 @@
       }
     }
   },
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
   "tags": [
     "microsoft",
     "clientruntime"

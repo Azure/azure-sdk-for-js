@@ -6,9 +6,6 @@
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "imports": {
-    "#isReadableStream": "./src/helpers/isReadableStream.ts"
-  },
   "exports": {
     "./package.json": "./package.json",
     ".": {
