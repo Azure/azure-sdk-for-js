@@ -16,7 +16,7 @@ import {
   PostOptionalParams,
   PostResponse,
 } from "../../../generated";
-import { resourceMetricsToQuickpulseDataPoint } from "../utils";
+import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
 
 /**
  * Quickpulse Metric Exporter.
@@ -62,7 +62,7 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
         this.baseMonitoringDataPoint,
         this.getDocumentsFn(),
       ),
-      xMsQpsTransmissionTime: Date.now(),
+      xMsQpsTransmissionTime: getTransmissionTime(),
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {

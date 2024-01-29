@@ -37,6 +37,7 @@ import {
   getLogDocument,
   getSdkVersion,
   getSpanDocument,
+  getTransmissionTime,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
@@ -150,7 +151,7 @@ export class LiveMetrics {
       // If not collecting, Ping
       try {
         let params: PingOptionalParams = {
-          xMsQpsTransmissionTime: Date.now(),
+          xMsQpsTransmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
         await context.with(suppressTracing(context.active()), async () => {
