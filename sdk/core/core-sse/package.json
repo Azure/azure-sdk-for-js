@@ -88,8 +88,8 @@
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@microsoft/api-extractor": "^7.39.1",
     "@types/node": "^18.0.0",
-    "@vitest/browser": "^1.2.1",
-    "@vitest/coverage-istanbul": "^1.2.1",
+    "@vitest/browser": "^1.2.2",
+    "@vitest/coverage-istanbul": "^1.2.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.56.0",
     "prettier": "^3.2.4",
@@ -97,7 +97,7 @@
     "rimraf": "^5.0.5",
     "tshy": "^1.11.0",
     "typescript": "~5.2.0",
-    "vitest": "^1.2.1"
+    "vitest": "^1.2.2"
   },
   "dependencies": {
     "tslib": "^2.6.2"
