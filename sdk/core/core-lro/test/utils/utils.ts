@@ -9,7 +9,7 @@ import {
   isRestError,
 } from "@azure/core-rest-pipeline";
 import { ResponseBody } from "../../src/http/models.js";
-import { assert } from "@azure/test-utils";
+import { assert } from "vitest";
 
 export interface RouteProcessor {
   method: string;

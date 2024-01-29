@@ -7,9 +7,9 @@ import {
   assertError,
   createDoubleHeaders,
 } from "./utils/utils.js";
-import { describe, it } from "vitest";
-import { assert, matrix } from "@azure/test-utils";
+import { describe, it, assert } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
+import { matrix } from "./matrix.js";
 
 matrix(
   [

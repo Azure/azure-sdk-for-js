@@ -22,7 +22,7 @@ import { LroEngine, LroResponse, SimplePollerLike, createHttpPoller } from "../.
 import { LroResourceLocationConfig, RawResponse, ResponseBody } from "../../src/http/models.js";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
-import { getYieldedValue } from "@azure/test-utils";
+import { getYieldedValue } from "../getYieldedValue.js";
 
 /**
  * Dummy value for the path of the initial request
