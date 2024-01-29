@@ -126,7 +126,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
         assert.strictEqual(longIntervalStatsbeatMetrics["instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, '');
+        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, "");
       });
 
       it("should turn off statsbeat after max failures", async () => {
