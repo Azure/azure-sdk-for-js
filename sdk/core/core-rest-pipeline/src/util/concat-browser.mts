@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getRawContent } from "./file";
-import { isNodeReadableStream, isWebReadableStream } from "./typeGuards";
+import { getRawContent } from "./file.js";
+import { isNodeReadableStream, isWebReadableStream } from "./typeGuards.js";
 
 /**
  * Drain the content of the given ReadableStream into a Blob.

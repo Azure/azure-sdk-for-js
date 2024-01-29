@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Readable } from "stream";
-import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
-import { isBlob } from "./typeGuards";
-import { getRawContent } from "./file";
+import { Readable } from "node:stream";
+import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
+import { isBlob } from "./typeGuards.js";
+import { getRawContent } from "./file.js";
 
 async function* streamAsyncIterator(
   this: ReadableStream<Uint8Array>,
