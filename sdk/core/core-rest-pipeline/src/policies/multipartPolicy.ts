@@ -2,15 +2,9 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import type {
-  BodyPart,
-  HttpHeaders,
-  PipelineRequest,
-  RequestBodyType,
-  PipelineResponse,
-} from "../interfaces.js";
+import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
-import { toStream, concatenateStreams } from "../util/stream.js";
+import { concat } from "../util/concat.js";
 import { isBlob } from "../util/typeGuards.js";
 
 function generateBoundary(): string {
@@ -66,7 +60,11 @@ function getTotalLength(
   return total;
 }
 
-function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
+async function buildRequestBody(
+  request: PipelineRequest,
+  parts: BodyPart[],
+  boundary: string,
+): Promise<void> {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
@@ -84,10 +82,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = (() =>
-    concatenateStreams(
-      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream),
-    )) as RequestBodyType;
+  request.body = await concat(sources);
 }
 
 /**
@@ -149,7 +144,7 @@ export function multipartPolicy(): PipelinePolicy {
         boundary = generateBoundary();
       }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      buildRequestBody(request, request.multipartBody.parts, boundary);
+      await buildRequestBody(request, request.multipartBody.parts, boundary);
 
       request.multipartBody = undefined;
 

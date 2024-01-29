@@ -7,8 +7,11 @@ import type { BodyPart, MultipartRequestBody } from "../../src/interfaces.js";
 import { isBlob } from "../../src/util/typeGuards.js";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec.js";
-import { createFile, createFileFromStream } from "../../src/util/file.js";
-import { ReadableStream } from "node:stream/web";
+import {
+  createFile,
+  createFileFromStream,
+  getRawContent,
+} from "../../src/util/file.js";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
@@ -30,7 +33,7 @@ describe("formDataPolicy (node-only)", function () {
     assert.ok(isBlob(parts[0].body));
 
     const buffers: Buffer[] = [];
-    for await (const part of (parts[0].body as Blob).stream() as ReadableStream<Uint8Array>) {
+    for await (const part of getRawContent(parts[0].body as Blob) as NodeJS.ReadableStream) {
       buffers.push(part as Buffer);
     }
 

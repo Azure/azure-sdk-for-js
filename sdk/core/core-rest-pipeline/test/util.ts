@@ -3,7 +3,7 @@
 
 import type { AzureLogger } from "@azure/logger";
 import type { RequestBodyType } from "../src/interfaces.js";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards.js";
+import { isNodeReadableStream } from "../src/util/typeGuards.js";
 import { assert } from "vitest";
 
 export function makeTestLogger(): {
@@ -51,8 +51,8 @@ export async function assertBodyMatches(
 
   const actual = typeof resettableActual === "function" ? resettableActual() : resettableActual;
 
-  if (isWebReadableStream(actual)) {
-    const actualBytes = new Uint8Array(await new Response(actual).arrayBuffer());
+  if (actual instanceof Blob) {
+    const actualBytes = new Uint8Array(await actual.arrayBuffer());
     assertUint8ArraySame(actualBytes, expected, "body does not match");
   } else if (isNodeReadableStream(actual)) {
     const buffers: Buffer[] = [];
