@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { ReadableStream } from "stream/web";
+
 /**
  * Checks if the body is a ReadableStream supported by Node
  * @internal
