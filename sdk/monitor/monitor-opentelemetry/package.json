@@ -96,13 +96,13 @@
     "@opentelemetry/api-logs": "^0.48.0",
     "@opentelemetry/core": "^1.21.0",
     "@opentelemetry/instrumentation": "^0.48.0",
-    "@opentelemetry/instrumentation-bunyan": "^0.34.1",
+    "@opentelemetry/instrumentation-bunyan": "^0.35.0",
     "@opentelemetry/instrumentation-http": "^0.48.0",
-    "@opentelemetry/instrumentation-mongodb": "^0.38.1",
-    "@opentelemetry/instrumentation-mysql": "^0.34.5",
-    "@opentelemetry/instrumentation-pg": "^0.37.2",
-    "@opentelemetry/instrumentation-redis": "^0.35.5",
-    "@opentelemetry/instrumentation-redis-4": "^0.35.6",
+    "@opentelemetry/instrumentation-mongodb": "^0.39.0",
+    "@opentelemetry/instrumentation-mysql": "^0.35.0",
+    "@opentelemetry/instrumentation-pg": "^0.38.0",
+    "@opentelemetry/instrumentation-redis": "^0.36.0",
+    "@opentelemetry/instrumentation-redis-4": "^0.36.0",
     "@opentelemetry/resources": "^1.21.0",
     "@opentelemetry/sdk-logs": "^0.48.0",
     "@opentelemetry/sdk-metrics": "^1.21.0",
@@ -112,7 +112,7 @@
     "@opentelemetry/semantic-conventions": "^1.21.0",
     "tslib": "^2.2.0",
     "@microsoft/applicationinsights-web-snippet": "^1.0.1",
-    "@opentelemetry/resource-detector-azure": "^0.2.3"
+    "@opentelemetry/resource-detector-azure": "^0.2.4"
   },
   "sideEffects": false,
   "keywords": [
