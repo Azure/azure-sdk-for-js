@@ -7,6 +7,7 @@
 - Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
 
 ### Bugs Fixed
+
 - Fixed an issue where `multipart/form-data` requests with an array of files as a parameter would not work if any of the files were supplied as a `Uint8Array`.
 
 ### Other Changes
