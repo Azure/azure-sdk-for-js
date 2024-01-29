@@ -46,7 +46,9 @@ const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<v
 
   // Read the first file in tempDir
   const origFiles = await readdirAsync(tempDir);
-  const files = origFiles.filter((f) => path.basename(f).includes(`${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`));
+  const files = origFiles.filter((f) =>
+    path.basename(f).includes(`${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`),
+  );
   assert.ok(files.length > 0);
 
   // Assert file matches expectation
