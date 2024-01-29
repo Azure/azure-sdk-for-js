@@ -115,7 +115,7 @@ export class FileSystemPersist implements PersistentStorage {
       if (stats.isDirectory()) {
         const origFiles = await readdirAsync(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+          path.basename(f).includes(`${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`),
         );
         if (files.length === 0) {
           return null;
@@ -160,7 +160,7 @@ export class FileSystemPersist implements PersistentStorage {
       return false;
     }
 
-    const fileName = `${new Date().getTime()}${FileSystemPersist.FILENAME_SUFFIX}`;
+    const fileName = `${new Date().getTime()}.${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`;
     const fileFullPath = path.join(this._tempDirectory, fileName);
 
     // Mode 600 is w/r for creator and no read access for others
@@ -180,7 +180,7 @@ export class FileSystemPersist implements PersistentStorage {
       if (stats.isDirectory()) {
         const origFiles = await readdirAsync(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+          path.basename(f).includes(`${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`),
         );
         if (files.length === 0) {
           return false;
@@ -188,7 +188,7 @@ export class FileSystemPersist implements PersistentStorage {
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(
-              parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0]),
+              parseInt(file.split(`${process.pid}${FileSystemPersist.FILENAME_SUFFIX}`)[0]),
             );
             const expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {
