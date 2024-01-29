@@ -3,21 +3,21 @@
 
 /// <reference lib="es2015" />
 
-export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink.js";
-export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry.js";
-export { TokenType } from "./auth/token.js";
+export { RequestResponseLink, SendRequestOptions } from "./requestResponseLink";
+export { retry, RetryOptions, RetryConfig, RetryOperationType, RetryMode } from "./retry";
+export { TokenType } from "./auth/token";
 
-export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig.js";
+export { ConnectionConfig, ConnectionConfigOptions } from "./connectionConfig/connectionConfig";
 
-export { CbsClient, CbsResponse } from "./cbs.js";
-export { Constants, StandardAbortMessage } from "./util/constants.js";
-export { AmqpMessageHeader } from "./messageHeader.js";
-export { AmqpMessageProperties } from "./messageProperties.js";
+export { CbsClient, CbsResponse } from "./cbs";
+export { Constants, StandardAbortMessage } from "./util/constants";
+export { AmqpMessageHeader } from "./messageHeader";
+export { AmqpMessageProperties } from "./messageProperties";
 export {
   ConnectionContextBase,
   ConnectionProperties,
   CreateConnectionContextBaseParameters,
-} from "./ConnectionContextBase.js";
+} from "./ConnectionContextBase";
 export {
   MessagingError,
   isMessagingError,
@@ -28,15 +28,15 @@ export {
   isSystemError,
   SystemErrorConditionMapper,
   NetworkSystemError,
-} from "./errors.js";
+} from "./errors";
 export {
   delay,
   parseConnectionString,
   defaultCancellableLock,
   ParsedOutput,
   WebSocketOptions,
-} from "./util/utils.js";
-export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage.js";
-export { logger } from "./log.js";
-export * from "./internals.js";
-export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock.js";
+} from "./util/utils";
+export { AmqpAnnotatedMessage } from "./amqpAnnotatedMessage";
+export { logger } from "./log";
+export * from "./internals";
+export { AcquireLockProperties, CancellableAsyncLock } from "./util/lock";

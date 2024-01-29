@@ -12,19 +12,11 @@ import {
   Sender,
   generate_uuid,
 } from "rhea-promise";
-import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo.js";
-import { CbsClient } from "./cbs.js";
-import { ConnectionConfig } from "./connectionConfig/connectionConfig.js";
-import { Constants } from "./util/constants.js";
-import { isNode } from "./util/utils.js";
-
-interface Window {
-  WebSocket: WebSocket;
-}
-
-interface WebSocket {}
-
-declare const self: Window;
+import { getFrameworkInfo, getPlatformInfo } from "./util/runtimeInfo";
+import { CbsClient } from "./cbs";
+import { ConnectionConfig } from "./connectionConfig/connectionConfig";
+import { Constants } from "./util/constants";
+import { isNode } from "./util/utils";
 
 /**
  * Provides contextual information like the underlying amqp connection, cbs session, tokenProvider,

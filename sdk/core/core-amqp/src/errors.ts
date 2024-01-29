@@ -4,16 +4,8 @@
 
 import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isDefined, isObjectWithProperties } from "@azure/core-util";
-import { isNode, isNumber, isString } from "./util/utils.js";
+import { isNode, isNumber, isString } from "../src/util/utils";
 import { isError } from "@azure/core-util";
-
-interface Window {
-  WebSocket: WebSocket;
-}
-
-interface WebSocket {}
-
-declare const self: Window;
 
 /**
  * Maps the conditions to the numeric AMQP Response status codes.

@@ -10,60 +10,35 @@
     "amqp",
     "cloud"
   ],
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/latest/core-amqp.d.ts",
+  "browser": {
+    "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
+    "./dist-esm/src/util/hmacSha256.js": "./dist-esm/src/util/hmacSha256.browser.js",
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
+    "buffer": "buffer"
+  },
+  "react-native": {
+    "./dist/index.js": "dist-esm/src/index.js",
+    "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.native.js"
+  },
   "files": [
     "dist/",
+    "dist-esm/src/",
+    "types/latest/core-amqp.d.ts",
     "README.md",
     "LICENSE"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "bun": {
-        "types": "./dist/bun/index.d.ts",
-        "default": "./dist/bun/index.js"
-      },
-      "deno": {
-        "types": "./dist/deno/index.d.ts",
-        "default": "./dist/deno/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
-  },
-  "type": "module",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
-  "sideEffects": false,
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
   "scripts": {
+    "bundle": "tsc -p . && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
     "build:samples": "echo Obsolete",
-    "build:test": "tshy && dev-tool run build-test",
-    "build": "npm run clean && tshy && api-extractor run --local",
+    "build:test": "tsc -p . && npm run bundle",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
+    "clean": "rimraf dist dist-* temp types coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
     "execute:samples": "echo skipped",
-    "extract-api": "tshy && api-extractor run --local",
+    "extract-api": "tsc -p . && api-extractor run --local",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -74,59 +49,59 @@
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run clean && tsc -p . && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run clean && tsc -p . && npm run unit-test:node && npm run bundle && npm run unit-test:browser && npm run integration-test",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "npx playwright install && npm run build:test && vitest -c vitest.browser.config.ts",
-    "unit-test:node": "vitest"
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input --no-test-proxy=true",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
+  "sideEffects": false,
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-util": "^1.1.1",
     "@azure/logger": "^1.0.0",
-    "buffer": "^6.0.3",
-    "events": "^3.3.0",
+    "buffer": "^6.0.0",
+    "events": "^3.0.0",
     "process": "^0.11.10",
-    "rhea": "^3.0.2",
-    "rhea-promise": "^3.0.1",
+    "rhea": "^3.0.0",
+    "rhea-promise": "^3.0.0",
     "tslib": "^2.2.0",
-    "util": "^0.12.5"
+    "util": "^0.12.1"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@microsoft/api-extractor": "^7.39.4",
-    "@types/debug": "^4.1.12",
+    "@microsoft/api-extractor": "^7.31.1",
+    "@types/chai": "^4.1.6",
+    "@types/debug": "^4.1.4",
+    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
+    "@types/sinon": "^17.0.0",
     "@types/ws": "^7.2.4",
-    "@vitest/browser": "^1.2.2",
-    "@vitest/coverage-istanbul": "^1.2.2",
-    "debug": "^4.3.4",
-    "eslint": "^8.56.0",
-    "playwright": "^1.41.0",
-    "prettier": "^3.2.4",
-    "rimraf": "^5.0.5",
-    "tshy": "^1.11.0",
+    "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "debug": "^4.1.1",
+    "eslint": "^8.0.0",
+    "karma": "^6.2.0",
+    "karma-chrome-launcher": "^3.0.0",
+    "karma-mocha": "^2.0.1",
+    "mocha": "^10.0.0",
+    "c8": "^8.0.0",
+    "puppeteer": "^19.2.2",
+    "rimraf": "^3.0.0",
+    "sinon": "^17.0.0",
+    "ts-node": "^10.0.0",
     "typescript": "~5.3.3",
-    "vitest": "^1.2.2",
-    "ws": "^8.14.2"
+    "ws": "^8.2.0"
   },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser",
-      "bun",
-      "deno",
-      "react-native"
-    ]
   }
 }

@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
 
-import { MessagingError, translate } from "./errors.js";
+import { MessagingError, translate } from "./errors";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { Constants } from "./util/constants.js";
-import { checkNetworkConnection } from "./util/checkNetworkConnection.js";
+import { Constants } from "./util/constants";
+import { checkNetworkConnection } from "./util/checkNetworkConnection";
 import { delay } from "@azure/core-util";
-import { logger } from "./log.js";
+import { logger } from "./log";
 
 /**
  * Determines whether the object is a Delivery object.

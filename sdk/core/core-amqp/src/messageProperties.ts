@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 
 import { MessageProperties as RheaMessageProperties } from "rhea-promise";
-import { logger } from "./log.js";
+import { logger } from "./log";
 
 /**
  * Describes the defined set of standard properties of the message.

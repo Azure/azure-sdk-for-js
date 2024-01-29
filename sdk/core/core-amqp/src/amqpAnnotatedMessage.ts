@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint-disable eqeqeq */
-import { AmqpMessageHeader } from "./messageHeader.js";
-import { AmqpMessageProperties } from "./messageProperties.js";
+import { AmqpMessageHeader } from "./messageHeader";
+import { AmqpMessageProperties } from "./messageProperties";
 import { Message as RheaMessage } from "rhea-promise";
-import { Constants } from "./util/constants.js";
+import { Constants } from "./util/constants";
 
 /**
  * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).

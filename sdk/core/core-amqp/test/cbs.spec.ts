@@ -1,20 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CbsClient, TokenType, defaultCancellableLock } from "../src/index.js";
+import { CbsClient, TokenType, defaultCancellableLock } from "../src";
 import { Connection } from "rhea-promise";
-import { createConnectionStub } from "./utils/createConnectionStub.js";
+import { assert } from "chai";
+import { createConnectionStub } from "./utils/createConnectionStub";
 import { isError } from "@azure/core-util";
-import { describe, it, assert, afterEach, vi } from "vitest";
+import { stub } from "sinon";
 
 describe("CbsClient", function () {
   const TEST_FAILURE = "Test failure";
 
   describe("init", function () {
-    afterEach(() => {
-      vi.restoreAllMocks();
-    });
-
     it("honors already aborted abortSignal", async function () {
       const cbsClient = new CbsClient(new Connection(), "lock");
 
@@ -67,7 +64,7 @@ describe("CbsClient", function () {
     it("honors abortSignal", async function () {
       const connectionStub = new Connection();
       // Stub 'open' because creating a real connection will fail.
-      vi.spyOn(connectionStub, "open");
+      stub(connectionStub, "open").resolves({} as any);
 
       const cbsClient = new CbsClient(connectionStub, "lock");
 

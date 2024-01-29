@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src/index.js";
+import * as chai from "chai";
+const should = chai.should();
+import { CbsClient, ConnectionConfig, ConnectionContextBase } from "../src";
 import { Connection } from "rhea-promise";
 import { ConnectionOptions as TlsConnectionOptions } from "tls";
 
-describe("ConnectionContextBase", () => {
-  it("should be created with required parameters", () => {
+describe("ConnectionContextBase", function () {
+  it("should be created with required parameters", function (done) {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -20,20 +21,21 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.instanceOf(context.cbsSession, CbsClient);
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.cbsSession.should.instanceOf(CbsClient);
+    done();
   });
 
-  it("should set host and hostname to the same value by default", () => {
+  it("should set host and hostname to the same value by default", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -46,25 +48,23 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.equal(context.connection.options.hostname, "hostname.servicebus.windows.net");
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
+    context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
+    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow setting host and hostname to different values", () => {
+  it("should allow setting host and hostname to different values", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -78,24 +78,23 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.equal(context.connection.options.hostname, "127.0.0.1");
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
+    context.connection.options.hostname!.should.equal("127.0.0.1");
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.host, "hostname.servicebus.windows.net");
+    tlsConnectionOptions.host!.should.equal("hostname.servicebus.windows.net");
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow specifying a port", () => {
+  it("should allow specifying a port", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -109,23 +108,22 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.port, 1111);
+    tlsConnectionOptions.port!.should.equal(1111);
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should have a default port (5671)", () => {
+  it("should have a default port (5671)", function () {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -138,23 +136,22 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.port, 5671);
+    tlsConnectionOptions.port!.should.equal(5671);
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow setting host and hostname to different values when using websockets", () => {
+  it("should allow setting host and hostname to different values when using websockets", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -173,25 +170,24 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.equal(context.connection.options.hostname, "hostname.servicebus.windows.net");
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(context.connection.options.webSocketOptions!.url, "wss://127.0.0.1:443/");
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.host, "127.0.0.1");
+    tlsConnectionOptions.host!.should.equal("127.0.0.1");
+    context.connection.options.hostname!.should.equal("hostname.servicebus.windows.net");
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.connection.options.webSocketOptions!.url.should.equal(`wss://127.0.0.1:443/`);
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should have a default port when using websockets (443)", () => {
+  it("should have a default port when using websockets (443)", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -208,24 +204,23 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(
-      context.connection.options.webSocketOptions!.url,
-      "wss://hostname.servicebus.windows.net:443/",
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.connection.options.webSocketOptions!.url.should.equal(
+      `wss://hostname.servicebus.windows.net:443/`,
     );
-    assert.instanceOf(context.cbsSession, CbsClient);
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("should allow specifying a port when using websockets", () => {
+  it("should allow specifying a port when using websockets", function () {
     const websockets: any = () => {
       /** Empty function on purpose for the sake of mocking */
     };
@@ -243,27 +238,25 @@ describe("ConnectionContextBase", () => {
         version: "1.0.0",
       },
     });
-    assert.isDefined(context.config);
-    assert.isDefined(context.connection);
-    assert.isDefined(context.connectionId);
-    assert.isDefined(context.connectionLock);
-    assert.isDefined(context.negotiateClaimLock);
-    assert.isFalse(context.wasConnectionCloseCalled);
-    assert.instanceOf(context.connection, Connection);
-    assert.equal(context.connection.options.properties!.product, "MSJSClient");
-    assert.equal(context.connection.options.properties!["user-agent"], "/js-amqp-client");
-    assert.equal(context.connection.options.properties!.version, "1.0.0");
-    assert.equal(
-      context.connection.options.webSocketOptions!.url,
-      "wss://hostname.servicebus.windows.net:1111/",
-    );
-    assert.instanceOf(context.cbsSession, CbsClient);
-
+    should.exist(context.config);
+    should.exist(context.connection);
+    should.exist(context.connectionId);
+    should.exist(context.connectionLock);
+    should.exist(context.negotiateClaimLock);
     const tlsConnectionOptions = context.connection.options as TlsConnectionOptions;
-    assert.equal(tlsConnectionOptions.port, 1111);
+    tlsConnectionOptions.port!.should.equal(1111);
+    context.wasConnectionCloseCalled.should.equal(false);
+    context.connection.should.instanceOf(Connection);
+    context.connection.options.properties!.product.should.equal("MSJSClient");
+    context.connection.options.properties!["user-agent"].should.equal("/js-amqp-client");
+    context.connection.options.properties!.version.should.equal("1.0.0");
+    context.connection.options.webSocketOptions!.url.should.equal(
+      `wss://hostname.servicebus.windows.net:1111/`,
+    );
+    context.cbsSession.should.instanceOf(CbsClient);
   });
 
-  it("Throws error if user-agent string length is greater than 512 characters", () => {
+  it("Throws error if user-agent string length is greater than 512 characters", function (done) {
     const connectionString =
       "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
     const path = "mypath";
@@ -271,7 +264,7 @@ describe("ConnectionContextBase", () => {
 
     const userAgentString = "user-agent-string".repeat(32);
 
-    assert.throw(() => {
+    should.throw(() => {
       ConnectionContextBase.create({
         config: config,
         connectionProperties: {
@@ -281,10 +274,12 @@ describe("ConnectionContextBase", () => {
         },
       });
     }, /user-agent string cannot be more than 512 characters/);
+
+    done();
   });
 
-  describe("#refreshConnection", () => {
-    it("should update fields on the context", () => {
+  describe("#refreshConnection", function () {
+    it("should update fields on the context", function () {
       const connectionString =
         "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep";
       const path = "mypath";
@@ -308,14 +303,13 @@ describe("ConnectionContextBase", () => {
         // change the value so refresh changes it back
         wasConnectionCloseCalled: !context.wasConnectionCloseCalled,
       };
-
-      assert.isDefined(context.config);
-      assert.isDefined(context.connection);
-      assert.isDefined(context.connectionId);
-      assert.isDefined(context.connectionLock);
-      assert.isDefined(context.negotiateClaimLock);
-      assert.isFalse(context.wasConnectionCloseCalled);
-      assert.instanceOf(context.cbsSession, CbsClient);
+      should.exist(context.config);
+      should.exist(context.connection);
+      should.exist(context.connectionId);
+      should.exist(context.connectionLock);
+      should.exist(context.negotiateClaimLock);
+      context.wasConnectionCloseCalled.should.equal(false);
+      context.cbsSession.should.instanceOf(CbsClient);
 
       // update wasConnectionCloseCalled so we can make sure it refreshes
       context.wasConnectionCloseCalled = true;
@@ -324,7 +318,7 @@ describe("ConnectionContextBase", () => {
 
       // ensure the refreshable fields have all been updated
       for (const field of Object.keys(refreshableFields) as (keyof typeof refreshableFields)[]) {
-        assert.notEqual(context[field], refreshableFields[field]);
+        context[field].should.not.equal(refreshableFields[field]);
       }
     });
   });

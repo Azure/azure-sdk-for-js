@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, beforeEach } from "vitest";
+import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock.js";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "../src/util/lock";
 import { OperationTimeoutError } from "rhea-promise";
-import { delay } from "../src/index.js";
-import { settleAllTasks } from "./utils/utils.js";
+import { delay } from "../src";
+import { settleAllTasks } from "./utils/utils";
 
-describe("CancellableAsyncLock", () => {
+const should = chai.should();
+
+describe("CancellableAsyncLock", function () {
   const TEST_FAILURE = "Test failure";
 
-  describe(".acquire", () => {
+  describe(".acquire", function () {
     let lock: CancellableAsyncLock;
-
-    beforeEach(() => {
+    beforeEach("create lock", () => {
       lock = new CancellableAsyncLockImpl();
     });
 
@@ -32,7 +33,7 @@ describe("CancellableAsyncLock", () => {
       }
 
       const results = await Promise.all(tasks);
-      assert.deepEqual(results, expectedValues, "Unexpected value returned from tasks.");
+      results.should.deep.equal(expectedValues, "Unexpected value returned from tasks.");
     });
 
     it("forwards error from task", async () => {
@@ -46,8 +47,8 @@ describe("CancellableAsyncLock", () => {
         );
         throw new Error(TEST_FAILURE);
       } catch (err) {
-        assert.instanceOf(err, Error);
-        assert.equal((err as Error).message, "I break things!");
+        should.equal(true, err instanceof Error);
+        should.equal((err as Error).message, "I break things!");
       }
     });
 
@@ -73,11 +74,11 @@ describe("CancellableAsyncLock", () => {
       // verify order
       for (let i = 0; i < taskCount; i++) {
         const result = await Promise.race(tasks);
-        assert.equal(result, i, "Tasks ran out of order.");
+        should.equal(result, i, "Tasks ran out of order.");
         // Since tasks should be completed in order, remove head task.
         tasks.shift();
       }
-      assert.equal(tasks.length, 0, "There are still tasks pending.");
+      should.equal(tasks.length, 0, "There are still tasks pending.");
     });
 
     it("keys are isolated", async () => {
@@ -148,7 +149,7 @@ describe("CancellableAsyncLock", () => {
         await Promise.race(queue);
       }
 
-      assert.deepEqual(results, [0, 1, 2, 3], "Tasks completed out of order.");
+      results.should.deep.equal([0, 1, 2, 3], "Tasks completed out of order.");
     });
 
     it("supports timeouts", async () => {
@@ -196,16 +197,16 @@ describe("CancellableAsyncLock", () => {
       ];
 
       const results = await settleAllTasks(tasks);
-      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
+      results.length.should.equal(5, "Unexpected number of tasks completed.");
 
       const expectedResults = [0, 1, OperationTimeoutError, 3, OperationTimeoutError];
       for (let i = 0; i < results.length; i++) {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          assert.equal(value, expectedResult, "Unexpected task value.");
+          should.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          assert.instanceOf(value, expectedResult, "Unexpected task value.");
+          should.equal(value instanceof expectedResult, true, "Unexpected task value.");
         }
       }
     });
@@ -279,8 +280,8 @@ describe("CancellableAsyncLock", () => {
         }
       }
 
-      assert.equal(tasks.length, 0, "Queue of tasks not empty.");
-      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
+      tasks.length.should.equal(0, "Queue of tasks not empty.");
+      results.length.should.equal(5, "Unexpected number of tasks completed.");
 
       const expectedResults = [AbortError, AbortError, 0, 1, 3];
 
@@ -288,9 +289,9 @@ describe("CancellableAsyncLock", () => {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          assert.equal(value, expectedResult, "Unexpected task value.");
+          should.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          assert.equal(value.name, expectedResult.name, "Unexpected task value.");
+          should.equal(value.name, expectedResult.name, "Unexpected task value.");
         }
       }
     });
@@ -364,8 +365,8 @@ describe("CancellableAsyncLock", () => {
         }
       }
 
-      assert.equal(tasks.length, 0, "Queue of tasks not empty.");
-      assert.equal(results.length, 5, "Unexpected number of tasks completed.");
+      tasks.length.should.equal(0, "Queue of tasks not empty.");
+      results.length.should.equal(5, "Unexpected number of tasks completed.");
 
       const expectedResults = [AbortError, AbortError, 0, 1, 3];
 
@@ -373,9 +374,9 @@ describe("CancellableAsyncLock", () => {
         const value = results[i];
         const expectedResult = expectedResults[i];
         if (typeof expectedResult === "number") {
-          assert.equal(value, expectedResult, "Unexpected task value.");
+          should.equal(value, expectedResult, "Unexpected task value.");
         } else {
-          assert.equal(value.name, expectedResult.name, "Unexpected task value.");
+          should.equal(value.name, expectedResult.name, "Unexpected task value.");
         }
       }
     });

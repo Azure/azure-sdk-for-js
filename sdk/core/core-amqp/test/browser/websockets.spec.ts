@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
-import { ConnectionConfig, ConnectionContextBase } from "../../src/index.js";
+import * as chai from "chai";
+const should = chai.should();
+import { ConnectionConfig, ConnectionContextBase } from "../../src";
 
 describe("ConnectionContextBase (browser)", function () {
   it("should default to using a websocket", async () => {
@@ -22,7 +23,7 @@ describe("ConnectionContextBase (browser)", function () {
       },
     });
 
-    assert.isDefined(context);
-    assert.equal(context.connection["options"]["webSocketOptions"]?.url, `wss://${host}:443/ws`);
+    should.exist(context);
+    should.equal(context.connection["options"]["webSocketOptions"]?.url, `wss://${host}:443/ws`);
   });
 });

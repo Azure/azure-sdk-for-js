@@ -3,7 +3,7 @@
 
 import { WebSocketImpl } from "rhea-promise";
 import { isDefined } from "@azure/core-util";
-import { parseConnectionString } from "../util/utils.js";
+import { parseConnectionString } from "../util/utils";
 
 /**
  * Describes the options that can be provided while creating a connection config.

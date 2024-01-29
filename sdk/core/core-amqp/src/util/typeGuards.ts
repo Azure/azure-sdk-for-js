@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SasTokenProvider } from "../auth/tokenProvider.js";
+import { SasTokenProvider } from "../auth/tokenProvider";
 import { isObjectWithProperties } from "@azure/core-util";
 
 /**

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi, expect, beforeEach, afterEach } from "vitest";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Connection, EventContext, Message as RheaMessage, generate_uuid } from "rhea-promise";
 import {
@@ -12,14 +11,16 @@ import {
   RetryOperationType,
   StandardAbortMessage,
   retry,
-} from "../src/index.js";
+} from "../src";
 import {
   DeferredPromiseWithCallback,
   getCodeDescriptionAndError,
   onMessageReceived,
-} from "../src/requestResponseLink.js";
+} from "../src/requestResponseLink";
+import { SinonSpy, fake, stub } from "sinon";
 import EventEmitter from "events";
-import { createConnectionStub } from "./utils/createConnectionStub.js";
+import { assert } from "chai";
+import { createConnectionStub } from "./utils/createConnectionStub";
 import { isError } from "@azure/core-util";
 
 const assertItemsLengthInResponsesMap = (
@@ -79,10 +80,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send a request and receive a response correctly", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -128,10 +129,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -197,11 +198,11 @@ describe("RequestResponseLink", function () {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
-  it("request without `message_id` gets a new `message_id`", async function () {
-    const connectionStub = new Connection();
+  it("request without `message_id` gets a new `message_id`", async function () {
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -225,7 +226,7 @@ describe("RequestResponseLink", function () {
     const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     assertItemsLengthInResponsesMap(link["_responsesMap"], 0);
     const request1: RheaMessage = {
-      body: "Hello World!!",
+      body: "Hello World!!",
     };
     let errorWasThrown = false;
     try {
@@ -245,10 +246,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should send parallel requests and receive responses correctly (one failure)", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     const reqs: RheaMessage[] = [];
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -317,7 +318,7 @@ describe("RequestResponseLink", function () {
       throw new Error("Test failure");
     } catch (err) {
       assert.ok(isError(err));
-      assert.notEqual((err as Error).message, "Test failure");
+      (err as Error).message.should.not.equal("Test failure");
     }
 
     // ensure the other request succeeds
@@ -327,11 +328,11 @@ describe("RequestResponseLink", function () {
   });
 
   it("should surface error up through retry", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let messageId: string = "";
     let count = 0;
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -410,10 +411,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -473,10 +474,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is fired after sometime", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -547,10 +548,10 @@ describe("RequestResponseLink", function () {
   });
 
   it("should abort a request and response correctly when abort signal is already fired", async function () {
-    const connectionStub = new Connection();
+    const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
-    vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+    connectionStub.createSession.resolves({
       connection: {
         id: "connection-1",
       },
@@ -626,10 +627,10 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after error message", async function () {
-      const connectionStub = new Connection();
+      const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
-      vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+      connectionStub.createSession.resolves({
         connection: {
           id: "connection-1",
         },
@@ -683,10 +684,10 @@ describe("RequestResponseLink", function () {
     });
 
     it("sendRequest clears timeout after successful message", async function () {
-      const connectionStub = new Connection();
+      const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
-      vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+      connectionStub.createSession.resolves({
         connection: {
           id: "connection-1",
         },
@@ -735,18 +736,18 @@ describe("RequestResponseLink", function () {
 
   describe("close", () => {
     it("signals receiver and sender to now close the session", async () => {
-      const connectionStub = new Connection();
-      vi.spyOn(connectionStub, "createSession").mockResolvedValue({
+      const connectionStub = stub(new Connection());
+      connectionStub.createSession.resolves({
         connection: {
           id: "connection-1",
         },
-        close: vi.fn(),
+        close: fake(),
         createSender: () => {
           return Promise.resolve({
             send: () => {
               /* no op */
             },
-            close: vi.fn(),
+            close: fake(),
             on: () => {
               /* no_op */
             },
@@ -754,7 +755,7 @@ describe("RequestResponseLink", function () {
         },
         createReceiver: () => {
           return Promise.resolve({
-            close: vi.fn(),
+            close: fake(),
             on: () => {
               /** Empty function on purpose for the sake of mocking */
             },
@@ -772,9 +773,18 @@ describe("RequestResponseLink", function () {
 
       await link.close();
 
-      expect(senderStub.close).toBeCalledWith({ closeSession: false });
-      expect(receiverStub.close).toBeCalledWith({ closeSession: false });
-      expect(sessionStub.close).toHaveBeenCalledOnce();
+      assert(
+        (senderStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Sender.close() should have been called once.",
+      );
+      assert(
+        (receiverStub.close as SinonSpy).calledOnceWith({ closeSession: false }),
+        "Receiver.close() should have been called once.",
+      );
+      assert(
+        (sessionStub.close as SinonSpy).calledOnceWithExactly(),
+        "Session.close() should have been called once.",
+      );
     });
   });
 

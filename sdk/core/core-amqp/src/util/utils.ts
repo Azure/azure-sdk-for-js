@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock.js";
+import { CancellableAsyncLock, CancellableAsyncLockImpl } from "./lock";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { WebSocketImpl } from "rhea-promise";
 import { delay as wrapperDelay } from "@azure/core-util";

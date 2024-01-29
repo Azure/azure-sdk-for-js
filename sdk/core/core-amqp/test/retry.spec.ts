@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert } from "vitest";
+import * as chai from "chai";
 import {
   Constants,
   MessagingError,
@@ -11,10 +11,11 @@ import {
   delay,
   retry,
   translate,
-} from "../src/index.js";
+} from "../src";
 import debugModule from "debug";
 
 const debug = debugModule("azure:core-amqp:retry-spec");
+const should = chai.should();
 
 [RetryMode.Exponential, RetryMode.Fixed].forEach((mode) => {
   describe(`retry function for "${
@@ -37,9 +38,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           retryOptions: { retryDelayInMs: 15000, mode: mode },
         };
         const result = await retry(config);
-        assert.equal(result.code, 200);
-        assert.equal(result.description, "OK");
-        assert.equal(counter, 1);
+        result.code.should.equal(200);
+        result.description.should.equal("OK");
+        counter.should.equal(1);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -64,11 +65,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.equal(true, err instanceof MessagingError);
-        assert.equal((err as MessagingError).message, "I would like to fail, not retryable.");
-        assert.equal(counter, 1);
+        should.exist(err);
+        should.equal(true, err instanceof MessagingError);
+        (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
+        counter.should.equal(1);
       }
     });
 
@@ -96,9 +96,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode },
         };
         const result = await retry(config);
-        assert.equal(result.code, 200);
-        assert.equal(result.description, "OK");
-        assert.equal(counter, 2);
+        result.code.should.equal(200);
+        result.description.should.equal("OK");
+        counter.should.equal(2);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -132,9 +132,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           retryOptions: { maxRetries: 2, retryDelayInMs: 500, mode: mode },
         };
         const result = await retry(config);
-        assert.equal(result.code, 200);
-        assert.equal(result.description, "OK");
-        assert.equal(counter, 3);
+        result.code.should.equal(200);
+        result.description.should.equal("OK");
+        counter.should.equal(3);
       } catch (err) {
         debug("An error occurred in a test that should have succeeded: %O", err);
         throw err;
@@ -170,14 +170,13 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.equal((err as MessagingError).message, "I would like to fail.");
-        assert.equal(counter, 3);
+        should.exist(err);
+        should.equal(true, err instanceof MessagingError);
+        (err as MessagingError).message.should.equal("I would like to fail.");
+        counter.should.equal(3);
       }
     });
 
-    // TODO: This test is flaky. It should be fixed.
     it("should fail if all attempts return a retryable error", async function () {
       let counter = 0;
       try {
@@ -195,13 +194,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.equal(
-          (err as MessagingError).message,
-          "I would always like to fail, keep retrying.",
-        );
-        assert.equal(counter, 5);
+        should.exist(err);
+        should.equal(true, err instanceof MessagingError);
+        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        counter.should.equal(5);
       }
     });
 
@@ -230,13 +226,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.equal(
-          (err as MessagingError).message,
-          "I would always like to fail, keep retrying.",
-        );
-        assert.equal(counter, 1);
+        should.exist(err);
+        should.equal(true, err instanceof MessagingError);
+        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        counter.should.equal(1);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
       }
@@ -268,13 +261,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         // If we get here, `delay` won :-(
         throw new Error("TestFailure: 'retry' took longer than expected to return.");
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, MessagingError);
-        assert.equal(
-          (err as MessagingError).message,
-          "I would always like to fail, keep retrying.",
-        );
-        assert.equal(counter, 2);
+        should.exist(err);
+        should.equal(true, err instanceof MessagingError);
+        (err as MessagingError).message.should.equal("I would always like to fail, keep retrying.");
+        counter.should.equal(2);
         // Clear delay's setTimeout...we don't need it anymore.
         delayAbortController.abort();
       }
@@ -301,10 +291,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
         };
         await retry(config);
       } catch (err) {
-        assert.isDefined(err);
-        assert.instanceOf(err, Error);
-        assert.equal((err as Error).name, "AbortError");
-        assert.equal(counter, 1);
+        should.exist(err);
+        should.equal(true, err instanceof Error);
+        should.equal(true, (err as Error).name === "AbortError");
+        counter.should.equal(1, "It should retry only once");
       }
     });
 
@@ -326,9 +316,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          assert.equal(result.code, 200);
-          assert.equal(result.description, "OK");
-          assert.equal(counter, 1);
+          result.code.should.equal(200);
+          result.description.should.equal("OK");
+          counter.should.equal(1);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -353,10 +343,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           };
           await retry(config);
         } catch (err) {
-          assert.isDefined(err);
-          assert.instanceOf(err, MessagingError);
-          assert.equal((err as MessagingError).message, "I would like to fail, not retryable.");
-          assert.equal(counter, 1);
+          should.exist(err);
+          should.equal(true, err instanceof MessagingError);
+          (err as MessagingError).message.should.equal("I would like to fail, not retryable.");
+          counter.should.equal(1);
         }
       });
 
@@ -384,9 +374,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          assert.equal(result.code, 200);
-          assert.equal(result.description, "OK");
-          assert.equal(counter, 2);
+          result.code.should.equal(200);
+          result.description.should.equal("OK");
+          counter.should.equal(2);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -420,9 +410,9 @@ const debug = debugModule("azure:core-amqp:retry-spec");
             retryOptions: { maxRetries: Infinity, retryDelayInMs: 500, mode: mode },
           };
           const result = await retry(config);
-          assert.equal(result.code, 200);
-          assert.equal(result.description, "OK");
-          assert.equal(counter, 3);
+          result.code.should.equal(200);
+          result.description.should.equal("OK");
+          counter.should.equal(3);
         } catch (err) {
           debug("An error occurred in a test that should have succeeded: %O", err);
           throw err;
@@ -462,10 +452,10 @@ const debug = debugModule("azure:core-amqp:retry-spec");
           };
           await retry(config);
         } catch (err) {
-          assert.isDefined(err);
-          assert.instanceOf(err, MessagingError);
-          assert.equal((err as MessagingError).message, "I would like to fail.");
-          assert.equal(counter, 3);
+          should.exist(err);
+          should.equal(true, err instanceof MessagingError);
+          (err as MessagingError).message.should.equal("I would like to fail.");
+          counter.should.equal(3);
         }
       });
     });
