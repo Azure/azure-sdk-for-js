@@ -139,7 +139,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    return { body: (body as ArrayBufferView) instanceof Uint8Array ? body : JSON.stringify(body) };
+    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
   switch (firstType) {
