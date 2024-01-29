@@ -1,10 +1,6 @@
 # Release History
 
-## 1.13.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.14.0 (2024-02-01)
 
 ### Bugs Fixed
 
@@ -14,6 +10,8 @@
 - Fix `multipart/form-data` requests failing in versions of Node 18 below 18.13 and versions of Node 20 below 20.6.
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.13.0 (2023-12-07)
 

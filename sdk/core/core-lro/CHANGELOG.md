@@ -1,16 +1,11 @@
 # Release History
 
-## 2.5.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 2.6.0 (2024-02-01)
 
 ### Other Changes
 
 - Search for the `resourceLocation` property in the raw response body if it cannot be found in the parsed response body.
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 2.5.4 (2023-07-24)
 
