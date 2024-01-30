@@ -1,14 +1,19 @@
 # Release History
 
-## 4.5.0-beta.2 (Unreleased)
+## 4.5.0 (Unreleased)
 
 ### Features Added
+
+Since 4.4.0:
+- Managed Identity can now be used in place of a SAS token to access the blob storage resource when performing backup and restore operations.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+- The default service version is now `7.5`.
 
 ## 4.5.0-beta.1 (2023-11-08)
 
