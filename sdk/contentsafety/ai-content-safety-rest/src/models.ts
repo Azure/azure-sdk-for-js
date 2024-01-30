@@ -14,7 +14,7 @@ export interface AnalyzeTextOptions {
   /**
    * This refers to the type of text analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels, EightSeverityLevels
+   * Possible values: "FourSeverityLevels", "EightSeverityLevels"
    */
   outputType?: string;
 }
@@ -28,7 +28,7 @@ export interface AnalyzeImageOptions {
   /**
    * This refers to the type of image analysis output. If no value is assigned, the default value will be "FourSeverityLevels".
    *
-   * Possible values: FourSeverityLevels
+   * Possible values: "FourSeverityLevels"
    */
   outputType?: string;
 }

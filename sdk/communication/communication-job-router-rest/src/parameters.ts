@@ -26,7 +26,8 @@ export interface UpsertClassificationPolicyHeaders {
 }
 
 /** The resource instance. */
-export type ClassificationPolicyResourceMergeAndPatch = Partial<ClassificationPolicy>;
+export type ClassificationPolicyResourceMergeAndPatch =
+  Partial<ClassificationPolicy>;
 
 export interface UpsertClassificationPolicyBodyParam {
   /** The resource instance. */
@@ -42,10 +43,11 @@ export interface UpsertClassificationPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertClassificationPolicyParameters = UpsertClassificationPolicyHeaderParam &
-  UpsertClassificationPolicyMediaTypesParam &
-  UpsertClassificationPolicyBodyParam &
-  RequestParameters;
+export type UpsertClassificationPolicyParameters =
+  UpsertClassificationPolicyHeaderParam &
+    UpsertClassificationPolicyMediaTypesParam &
+    UpsertClassificationPolicyBodyParam &
+    RequestParameters;
 export type GetClassificationPolicyParameters = RequestParameters;
 export type DeleteClassificationPolicyParameters = RequestParameters;
 
@@ -58,8 +60,8 @@ export interface ListClassificationPoliciesQueryParam {
   queryParameters?: ListClassificationPoliciesQueryParamProperties;
 }
 
-export type ListClassificationPoliciesParameters = ListClassificationPoliciesQueryParam &
-  RequestParameters;
+export type ListClassificationPoliciesParameters =
+  ListClassificationPoliciesQueryParam & RequestParameters;
 
 export interface UpsertDistributionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -69,7 +71,8 @@ export interface UpsertDistributionPolicyHeaders {
 }
 
 /** The resource instance. */
-export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy>;
+export type DistributionPolicyResourceMergeAndPatch =
+  Partial<DistributionPolicy>;
 
 export interface UpsertDistributionPolicyBodyParam {
   /** The resource instance. */
@@ -85,10 +88,11 @@ export interface UpsertDistributionPolicyMediaTypesParam {
   contentType: "application/merge-patch+json";
 }
 
-export type UpsertDistributionPolicyParameters = UpsertDistributionPolicyHeaderParam &
-  UpsertDistributionPolicyMediaTypesParam &
-  UpsertDistributionPolicyBodyParam &
-  RequestParameters;
+export type UpsertDistributionPolicyParameters =
+  UpsertDistributionPolicyHeaderParam &
+    UpsertDistributionPolicyMediaTypesParam &
+    UpsertDistributionPolicyBodyParam &
+    RequestParameters;
 export type GetDistributionPolicyParameters = RequestParameters;
 export type DeleteDistributionPolicyParameters = RequestParameters;
 
@@ -101,8 +105,8 @@ export interface ListDistributionPoliciesQueryParam {
   queryParameters?: ListDistributionPoliciesQueryParamProperties;
 }
 
-export type ListDistributionPoliciesParameters = ListDistributionPoliciesQueryParam &
-  RequestParameters;
+export type ListDistributionPoliciesParameters =
+  ListDistributionPoliciesQueryParam & RequestParameters;
 
 export interface UpsertExceptionPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -144,7 +148,8 @@ export interface ListExceptionPoliciesQueryParam {
   queryParameters?: ListExceptionPoliciesQueryParamProperties;
 }
 
-export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam & RequestParameters;
+export type ListExceptionPoliciesParameters = ListExceptionPoliciesQueryParam &
+  RequestParameters;
 
 export interface UpsertQueueHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -253,7 +258,7 @@ export interface ListJobsQueryParamProperties {
   /**
    * If specified, filter jobs by status.
    *
-   * Possible values: all, pendingClassification, queued, assigned, completed, closed, cancelled, classificationFailed, created, pendingSchedule, scheduled, scheduleFailed, waitingForActivation, active
+   * Possible values: "all", "pendingClassification", "queued", "assigned", "completed", "closed", "cancelled", "classificationFailed", "created", "pendingSchedule", "scheduled", "scheduleFailed", "waitingForActivation", "active"
    */
   status?: string;
   /** If specified, filter jobs by queue. */
@@ -328,7 +333,7 @@ export interface ListWorkersQueryParamProperties {
   /**
    * If specified, select workers by worker state.
    *
-   * Possible values: active, draining, inactive, all
+   * Possible values: "active", "draining", "inactive", "all"
    */
   state?: string;
   /** If specified, select workers who have a channel configuration with this channel. */
