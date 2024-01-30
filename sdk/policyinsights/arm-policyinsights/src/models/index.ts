@@ -2408,7 +2408,7 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalPar
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2431,7 +2431,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalPa
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2454,7 +2454,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2479,7 +2479,7 @@ export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptiona
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2502,7 +2502,7 @@ export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicy
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */
@@ -2525,7 +2525,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolic
   /** Select expression using OData notation. Limits the columns on each record to just those requested, e.g. "$select=PolicyAssignmentId, ResourceId". */
   select?: string;
   /** ISO 8601 formatted timestamp specifying the start time of the interval to query. When not specified, the service uses ($to - 1-day). */
-  fromParam?: Date;
+  from?: Date;
   /** ISO 8601 formatted timestamp specifying the end time of the interval to query. When not specified, the service uses request time. */
   to?: Date;
   /** OData filter expression. */

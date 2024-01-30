@@ -289,7 +289,7 @@ export interface ComponentPolicyStates {
 export interface ComponentPolicyStatesListQueryResultsForPolicyDefinitionOptionalParams extends coreClient.OperationOptions {
     apply?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;
@@ -303,7 +303,7 @@ export type ComponentPolicyStatesListQueryResultsForPolicyDefinitionResponse = C
 export interface ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
     apply?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;
@@ -317,7 +317,7 @@ export type ComponentPolicyStatesListQueryResultsForResourceGroupLevelPolicyAssi
 export interface ComponentPolicyStatesListQueryResultsForResourceGroupOptionalParams extends coreClient.OperationOptions {
     apply?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;
@@ -332,7 +332,7 @@ export interface ComponentPolicyStatesListQueryResultsForResourceOptionalParams 
     apply?: string;
     expand?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;
@@ -346,7 +346,7 @@ export type ComponentPolicyStatesListQueryResultsForResourceResponse = Component
 export interface ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssignmentOptionalParams extends coreClient.OperationOptions {
     apply?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;
@@ -360,7 +360,7 @@ export type ComponentPolicyStatesListQueryResultsForSubscriptionLevelPolicyAssig
 export interface ComponentPolicyStatesListQueryResultsForSubscriptionOptionalParams extends coreClient.OperationOptions {
     apply?: string;
     filter?: string;
-    fromParam?: Date;
+    from?: Date;
     orderBy?: string;
     select?: string;
     to?: Date;

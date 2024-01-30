@@ -252,7 +252,7 @@ export const select: OperationQueryParameter = {
 };
 
 export const fromParam: OperationQueryParameter = {
-  parameterPath: ["options", "queryOptions", "fromParam"],
+  parameterPath: ["options", "queryOptions", "from"],
   mapper: {
     serializedName: "$from",
     type: {
@@ -485,7 +485,7 @@ export const select1: OperationQueryParameter = {
 };
 
 export const fromParam1: OperationQueryParameter = {
-  parameterPath: ["options", "fromParam"],
+  parameterPath: ["options", "from"],
   mapper: {
     serializedName: "$from",
     type: {
