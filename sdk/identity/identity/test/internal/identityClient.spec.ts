@@ -181,7 +181,7 @@ describe("IdentityClient", function () {
       (msg: string) => msg.indexOf("azure:identity:") >= 0,
     );
 
-    assert.equal(expectedMessages.length, logMessages.length);
+    assert.equal(logMessages.length, expectedMessages.length);
 
     for (let i = 0; i < logMessages.length; i++) {
       assert.ok(logMessages[i].match(expectedMessages[i]), `Checking[${i}] ${logMessages[i]}`);
