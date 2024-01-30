@@ -38,14 +38,14 @@ export type SendParameters = SendHeaderParam &
   SendBodyParam &
   RequestParameters;
 
-export interface GetTemplatesHeaders {
+export interface ListTemplatesHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface GetTemplatesHeaderParam {
-  headers?: RawHttpHeadersInput & GetTemplatesHeaders;
+export interface ListTemplatesHeaderParam {
+  headers?: RawHttpHeadersInput & ListTemplatesHeaders;
 }
 
-export type GetTemplatesParameters = GetTemplatesHeaderParam &
+export type ListTemplatesParameters = ListTemplatesHeaderParam &
   RequestParameters;

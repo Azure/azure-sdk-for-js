@@ -4,15 +4,15 @@
 import {
   DownloadMediaParameters,
   SendParameters,
-  GetTemplatesParameters,
+  ListTemplatesParameters,
 } from "./parameters";
 import {
   DownloadMedia200Response,
   DownloadMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
-  GetTemplates200Response,
-  GetTemplatesDefaultResponse,
+  ListTemplates200Response,
+  ListTemplatesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
@@ -30,11 +30,11 @@ export interface Send {
   ): StreamableMethod<Send202Response | SendDefaultResponse>;
 }
 
-export interface GetTemplates {
+export interface ListTemplates {
   /** List all templates for given ACS channel */
   get(
-    options?: GetTemplatesParameters,
-  ): StreamableMethod<GetTemplates200Response | GetTemplatesDefaultResponse>;
+    options?: ListTemplatesParameters,
+  ): StreamableMethod<ListTemplates200Response | ListTemplatesDefaultResponse>;
 }
 
 export interface Routes {
@@ -46,7 +46,7 @@ export interface Routes {
   (
     path: "/messages/channels/{channelId}/templates",
     channelId: string,
-  ): GetTemplates;
+  ): ListTemplates;
 }
 
 export type AzureCommunicationMessagesServiceClient = Client & {

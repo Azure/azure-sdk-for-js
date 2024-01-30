@@ -1,7 +1,7 @@
 import { 
     AzureCommunicationMessagesServiceClient,
-} from "../src";
-import NotificationClient from "../src";
+} from "../src/generated";
+import NotificationClient from "../src/generated";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 

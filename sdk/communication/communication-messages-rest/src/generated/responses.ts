@@ -58,25 +58,25 @@ export interface SendDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & SendDefaultHeaders;
 }
 
-export interface GetTemplates200Headers {
+export interface ListTemplates200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface GetTemplates200Response extends HttpResponse {
+export interface ListTemplates200Response extends HttpResponse {
   status: "200";
   body: PagedMessageTemplateItemOutput;
-  headers: RawHttpHeaders & GetTemplates200Headers;
+  headers: RawHttpHeaders & ListTemplates200Headers;
 }
 
-export interface GetTemplatesDefaultHeaders {
+export interface ListTemplatesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetTemplatesDefaultResponse extends HttpResponse {
+export interface ListTemplatesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetTemplatesDefaultHeaders;
+  headers: RawHttpHeaders & ListTemplatesDefaultHeaders;
 }
