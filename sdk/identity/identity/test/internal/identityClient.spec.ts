@@ -32,6 +32,7 @@ describe("IdentityClient", function () {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
       credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret", {
+        // createResponse below will simulate a 400 error when trying to resolve the authority
         authorityHost: "https://unreachable-host.com",
       }),
       secureResponses: [
@@ -54,7 +55,11 @@ describe("IdentityClient", function () {
   it("throws an exception when an authentication request fails", async () => {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
-      credential: new ClientSecretCredential("adfs", "client", "secret"),
+      credential: new ClientSecretCredential("adfs", "client", "secret", {
+        // createResponse below will simulate a 200 when trying to resolve the authority,
+        // then the 400 error when trying to get the token
+        authorityHost: "https://valid-authority.com",
+      }),
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(400, {
