@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
 declare global {
   interface FormData {}
   interface Blob {}
@@ -8,6 +9,7 @@ declare global {
   interface ReadableStream<R = any> {}
   interface TransformStream<I = any, O = any> {}
 }
+/* eslint-enable @typescript-eslint/no-unused-vars */
 
 export type {
   Agent,
