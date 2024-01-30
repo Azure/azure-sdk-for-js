@@ -192,7 +192,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.method, "GET");
   });
 
-    it("makes successful get message with file attachments request", async function () {
+  it("makes successful get message with file attachments request", async function () {
     const mockHttpClient = generateHttpClient(200, mockMessageWithFileAttachment);
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
