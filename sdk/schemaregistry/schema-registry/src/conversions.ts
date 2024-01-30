@@ -43,6 +43,8 @@ const textPlain = "text/plain";
 const charsetutf8 = "charset=utf-8";
 const customContentType = `${textPlain}; ${charsetutf8}`;
 const customFormat = "Custom";
+const protobufContentType = `text/vnd.ms.protobuf`;
+const protobufFormat = "Protobuf";
 
 /**
  * @internal
@@ -50,9 +52,13 @@ const customFormat = "Custom";
  * @returns corresponding content-type value
  */
 export function buildContentType(format: string): string {
-  return format.toLowerCase() === customFormat.toLowerCase()
-    ? customContentType
-    : `application/json; serialization=${format}`;
+  const lowerCaseFormat = format.toLowerCase();
+  if (lowerCaseFormat === customFormat.toLowerCase()) {
+    return customContentType;
+  } else if (lowerCaseFormat === protobufFormat.toLowerCase()) {
+    return protobufContentType;
+  }
+  return `application/json; serialization=${format}`;
 }
 
 /**
@@ -78,6 +84,7 @@ export function convertSchemaIdResponse(
 
 function mapContentTypeToFormat(contentType: string): string {
   if (contentType.match(new RegExp(`${textPlain};\\s?${charsetutf8}`))) return customFormat;
+  else if (contentType.match(new RegExp(protobufContentType))) return protobufFormat;
   const parts = /.*serialization=(.*)$/.exec(contentType);
   const schemaFormat = parts?.[1];
   if (schemaFormat) {

@@ -16,7 +16,7 @@ export const accept: OperationParameter = {
   parameterPath: "accept",
   mapper: {
     defaultValue:
-      "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8",
+      "application/json; serialization=Avro, application/json; serialization=json, text/plain; charset=utf-8, text/vnd.ms.protobuf",
     isConstant: true,
     serializedName: "Accept",
     type: {
@@ -51,7 +51,7 @@ export const id: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2022-10",
+    defaultValue: "2023-07-01",
     isConstant: true,
     serializedName: "api-version",
     type: {

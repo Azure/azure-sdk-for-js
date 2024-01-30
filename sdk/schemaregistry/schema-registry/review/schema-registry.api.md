@@ -20,7 +20,8 @@ export interface GetSchemaPropertiesOptions extends OperationOptions {
 export enum KnownSchemaFormats {
     Avro = "Avro",
     Custom = "Custom",
-    Json = "Json"
+    Json = "Json",
+    Protobuf = "Protobuf"
 }
 
 // @public
