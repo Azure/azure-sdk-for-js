@@ -14132,7 +14132,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-iO+KMEN6URMBVFq3M4wPDBXbxsxL54jif9D60+7yCRISnpQ1EM+fcEhY5sfJEygXmfR6pAAvYbfC027XxjUmNw==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-4hHE5t4e0tDNeuCuOVTwC/iQZpr3n1dNC0gMZKEBfQDvocJYzjeiObuY3bGQtPMb+FcyjdZkfgu7t4hiEqBLOQ==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -15872,7 +15872,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-tu1TAcV7Ou49sdztyoqTcLxPcgbbgBQfM/7ai55TDMc5ta/82Z4OxByGj35u/wkvQHqrDUqf6dgDC3XrHHi7ig==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-qbdKb6wZ6pBpsNJCnY2fKIJ2OcH2AmV2JzP8PsAuCg1cQCvCiB/R0kiu7UtI4F6XppAngMxu4CE4DChywzj95g==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-resources-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -15887,7 +15887,7 @@ packages:
       dotenv: 16.3.2
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -15924,7 +15924,7 @@ packages:
     dev: false
 
   file:projects/arm-resources.tgz:
-    resolution: {integrity: sha512-qmcs/pnqtzBFmm3nFNM+FCs+I/f9U0YzC8SthcNgqNytHrLywb5OlDYmyXWVlvg4GnDPiAyLfDA2ooNJNBha3w==, tarball: file:projects/arm-resources.tgz}
+    resolution: {integrity: sha512-a03hZZ+ALAAxXYW4Z8mYj4Dr4j1jYyzF/II40LlHlNWuMy1hvDaoPTEXAv7kAED5KovEveaEjPQhe6ikRahgEA==, tarball: file:projects/arm-resources.tgz}
     name: '@rush-temp/arm-resources'
     version: 0.0.0
     dependencies:
@@ -15939,7 +15939,7 @@ packages:
       dotenv: 16.3.2
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
