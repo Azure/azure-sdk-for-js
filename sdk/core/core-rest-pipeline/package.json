@@ -37,6 +37,7 @@
   },
   "files": [
     "dist/",
+    "public-shims.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -133,8 +134,6 @@
     ],
     "esmDialects": [
       "browser",
-      "bun",
-      "deno",
       "react-native"
     ]
   }
