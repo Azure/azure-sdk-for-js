@@ -31,7 +31,9 @@ describe("IdentityClient", function () {
   it("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
-      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret", {
+        authorityHost: "https://unreachable-host.com",
+      }),
       secureResponses: [
         createResponse(400, {
           error: "test_error",
