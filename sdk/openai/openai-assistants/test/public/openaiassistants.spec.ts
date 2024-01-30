@@ -72,7 +72,6 @@ describe("OpenAIAssistants", () => {
         it("creates, gets, modifies, and deletes a thread", async function () {
           const metadataValue = "bar";
           const thread = {
-            messages: [],
             metadata: { foo: metadataValue },
           };
           const threadResponse = await client.createThread(thread);
@@ -180,7 +179,7 @@ describe("OpenAIAssistants", () => {
             tools: [{ type: "code_interpreter" }],
           });
           assert.isNotNull(assistant.id);
-          const thread = await client.createThread({});
+          const thread = await client.createThread();
           assert.isNotNull(thread.id);
 
           const metadataValue = "bar";
@@ -238,7 +237,7 @@ describe("OpenAIAssistants", () => {
         it("create and run code interpreter scenario", async function () {
           const assistant = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistant);
-          const thread = await client.createThread({});
+          const thread = await client.createThread();
           assert.isNotNull(thread.id);
           const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
           const role = "user";
@@ -389,7 +388,7 @@ describe("OpenAIAssistants", () => {
           };
           const assistant = await client.createAssistant(functionAssistant);
           assert.isNotNull(assistant.id);
-          const thread = await client.createThread({});
+          const thread = await client.createThread();
           assert.isNotNull(thread.id);
           const content = "What's the nickname of my favorite city?";
           const role = "user";

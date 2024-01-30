@@ -63,7 +63,7 @@ export class AssistantsClient {
     createMessage(threadId: string, role: MessageRole, content: string, options?: CreateMessageOptions): Promise<ThreadMessage>;
     // Warning: (ae-forgotten-export) The symbol "CreateRunRequestOptions" needs to be exported by the entry point index.d.ts
     createRun(threadId: string, createRunOptions: CreateRunOptions, options?: CreateRunRequestOptions): Promise<ThreadRun>;
-    createThread(body: AssistantThreadCreationOptions, options?: CreateThreadOptions): Promise<AssistantThread>;
+    createThread(body?: AssistantThreadCreationOptions, options?: CreateThreadOptions): Promise<AssistantThread>;
     createThreadAndRun(body: CreateAndRunThreadOptions, options?: CreateThreadAndRunOptions): Promise<ThreadRun>;
     deleteAssistant(assistantId: string, options?: DeleteAssistantOptions): Promise<AssistantDeletionStatus>;
     deleteAssistantFile(assistantId: string, fileId: string, options?: DeleteAssistantFileOptions): Promise<AssistantFileDeletionStatus>;

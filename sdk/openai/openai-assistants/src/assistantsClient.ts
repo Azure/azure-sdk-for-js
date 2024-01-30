@@ -268,7 +268,7 @@ export class AssistantsClient {
 
   /** Creates a new thread. Threads contain messages and can be run by assistants. */
   createThread(
-    body: AssistantThreadCreationOptions,
+    body: AssistantThreadCreationOptions = {},
     options: CreateThreadOptions = { requestOptions: {} }
   ): Promise<AssistantThread> {
     return createThread(this._client, body, options);
