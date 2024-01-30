@@ -11,6 +11,7 @@ import {
   PipelineResponse,
   RequestBodyType,
   RestError,
+  createFile,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
@@ -196,7 +197,7 @@ function isRLCFormDataInput(body: unknown): body is RLCFormDataInput {
 }
 
 function processFormDataValue(value: RLCFormDataValue): FormDataValue {
-  return value instanceof Uint8Array ? new Blob([value]) : value;
+  return value instanceof Uint8Array ? createFile(value, "blob") : value;
 }
 
 /**

@@ -23,7 +23,7 @@ export class AppComplianceAutomationToolForMicrosoft365 extends coreClient.Servi
     // (undocumented)
     operations: Operations;
     // (undocumented)
-    report: Report;
+    report: Report_2;
     // (undocumented)
     reports: Reports;
     // (undocumented)
@@ -354,7 +354,7 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-export interface Report {
+interface Report_2 {
     beginCreateOrUpdate(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<ReportCreateOrUpdateResponse>, ReportCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(reportName: string, parameters: ReportResource, options?: ReportCreateOrUpdateOptionalParams): Promise<ReportCreateOrUpdateResponse>;
     beginDelete(reportName: string, options?: ReportDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
@@ -363,6 +363,7 @@ export interface Report {
     beginUpdateAndWait(reportName: string, parameters: ReportResourcePatch, options?: ReportUpdateOptionalParams): Promise<ReportUpdateResponse>;
     get(reportName: string, options?: ReportGetOptionalParams): Promise<ReportGetResponse>;
 }
+export { Report_2 as Report }
 
 // @public
 export interface ReportComplianceStatus {

@@ -4,15 +4,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+
 import { ClientAssertionCredential } from "../../../src";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { Context } from "mocha";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
-import { env } from "@azure-tools/test-recorder";
 import { createJWTTokenFromCertificate } from "../../public/node/utils/utils";
+import { env } from "@azure-tools/test-recorder";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

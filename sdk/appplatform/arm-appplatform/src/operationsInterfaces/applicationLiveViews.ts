@@ -15,7 +15,8 @@ import {
   ApplicationLiveViewsGetResponse,
   ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ApplicationLiveViewsCreateOrUpdateResponse,
-  ApplicationLiveViewsDeleteOptionalParams
+  ApplicationLiveViewsDeleteOptionalParams,
+  ApplicationLiveViewsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -97,7 +98,12 @@ export interface ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ApplicationLiveViewsDeleteResponse>,
+      ApplicationLiveViewsDeleteResponse
+    >
+  >;
   /**
    * Disable the default Application Live View.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -111,5 +117,5 @@ export interface ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<ApplicationLiveViewsDeleteResponse>;
 }

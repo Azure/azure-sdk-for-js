@@ -1,16 +1,14 @@
 # Release History
 
-## 4.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 4.2.0 (2024-02-01)
 
 ### Bugs Fixed
 
 - Correct timeToLive calculation to use absolute expiry time.
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 4.1.0 (2023-11-07)
 
