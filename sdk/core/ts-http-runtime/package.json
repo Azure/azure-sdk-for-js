@@ -29,7 +29,6 @@
   },
   "files": [
     "dist/",
-    "ts-http-runtime.shims.d.ts",
     "LICENSE",
     "README.md"
   ],

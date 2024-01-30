@@ -13,14 +13,6 @@
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
-      "bun": {
-        "types": "./dist/bun/index.d.ts",
-        "default": "./dist/bun/index.js"
-      },
-      "deno": {
-        "types": "./dist/deno/index.d.ts",
-        "default": "./dist/deno/index.js"
-      },
       "react-native": {
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
@@ -37,7 +29,6 @@
   },
   "files": [
     "dist/",
-    "public-shims.d.ts",
     "LICENSE",
     "README.md"
   ],
