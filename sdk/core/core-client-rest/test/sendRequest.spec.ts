@@ -44,7 +44,7 @@ describe("sendRequest", () => {
 
     it("should handle request body as string", async () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
-      const expectedBody = '"foo"';
+      const expectedBody = "foo";
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.body, expectedBody);
         return { headers: createHttpHeaders() } as PipelineResponse;
@@ -264,7 +264,10 @@ describe("sendRequest", () => {
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("POST", mockBaseUrl, mockPipeline, { body: expectedBody });
+    await sendRequest("POST", mockBaseUrl, mockPipeline, {
+      body: expectedBody,
+      contentType: "application/json",
+    });
   });
 
   it("should send request with undefined body", async () => {
@@ -347,14 +350,24 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { body: new Uint8Array() });
   });
 
-  it("should set application/json by default if not binary", async () => {
+  it("should set text/plain by default if its not json string", async () => {
+    const mockPipeline: Pipeline = createEmptyPipeline();
+    mockPipeline.sendRequest = async (_client, request) => {
+      assert.equal(request.headers.get("content-type"), "text/plain");
+      return { headers: createHttpHeaders() } as PipelineResponse;
+    };
+
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "test" });
+  });
+
+  it("should set application/json by default if it is json string", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
       assert.equal(request.headers.get("content-type"), "application/json; charset=UTF-8");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
-    await sendRequest("POST", mockBaseUrl, mockPipeline, { body: "test" });
+    await sendRequest("POST", mockBaseUrl, mockPipeline, { body: '{"key": "value"}' });
   });
 
   it("should give you back a string response", async () => {

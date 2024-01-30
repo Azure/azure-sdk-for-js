@@ -80,6 +80,18 @@ function getContentType(body: any): string {
     return "application/octet-stream";
   }
 
+  if (typeof body === "string") {
+    try {
+      JSON.parse(body);
+      return "application/json; charset=UTF-8";
+    } catch {
+      Error;
+    }
+    {
+      // If we fail to parse the body, it is not json
+      return "text/plain";
+    }
+  }
   // By default return json
   return "application/json; charset=UTF-8";
 }
