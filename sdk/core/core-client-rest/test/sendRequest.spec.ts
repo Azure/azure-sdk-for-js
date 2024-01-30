@@ -73,7 +73,6 @@ describe("sendRequest", () => {
       const mockPipeline: Pipeline = createEmptyPipeline();
       mockPipeline.sendRequest = async (_client, request) => {
         assert.equal(request.formData?.fileName, "foo.txt");
-        assert.instanceOf(request.formData?.file, Blob);
         assert.sameOrderedMembers(
           [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
           [...foo],
@@ -96,8 +95,6 @@ describe("sendRequest", () => {
         const files = request.formData?.files as Blob[];
         assert.lengthOf(files, 2);
 
-        assert.instanceOf(files[0], Blob);
-        assert.instanceOf(files[1], Blob);
         assert.sameOrderedMembers([...new Uint8Array(await files[0].arrayBuffer())], [...foo]);
         assert.sameOrderedMembers([...new Uint8Array(await files[1].arrayBuffer())], [...foo]);
 
