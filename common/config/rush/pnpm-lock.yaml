@@ -14132,7 +14132,7 @@ packages:
     dev: false
 
   file:projects/arm-links.tgz:
-    resolution: {integrity: sha512-5Q+3YCCGArUrV51Zl5Ct6GL/C4C9CFlCW0YGzMRtcREl6cGPWRdz0BpoFlTlBAsCEsFcpbn1Pz7rLFmkPj0alQ==, tarball: file:projects/arm-links.tgz}
+    resolution: {integrity: sha512-iO+KMEN6URMBVFq3M4wPDBXbxsxL54jif9D60+7yCRISnpQ1EM+fcEhY5sfJEygXmfR6pAAvYbfC027XxjUmNw==, tarball: file:projects/arm-links.tgz}
     name: '@rush-temp/arm-links'
     version: 0.0.0
     dependencies:
@@ -14145,7 +14145,7 @@ packages:
       cross-env: 7.0.3
       mkdirp: 1.0.4
       mocha: 10.2.0
-      rimraf: 5.0.5
+      rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
