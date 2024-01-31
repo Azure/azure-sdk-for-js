@@ -50,7 +50,7 @@ export interface AssistantFile {
 export interface AssistantFileDeletionStatus extends DeletionStatus {
 }
 
-// @public (undocumented)
+// @public
 export class AssistantsClient {
     constructor(endpoint: string, credential: KeyCredential, options?: AssistantsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: AssistantsClientOptions);
@@ -90,7 +90,7 @@ export class AssistantsClient {
     uploadFile(file: Uint8Array, purpose: FilePurpose, options?: UploadFileOptions): Promise<InputFile>;
 }
 
-// @public (undocumented)
+// @public
 export interface AssistantsClientOptions extends ClientOptions {
 }
 
@@ -112,7 +112,7 @@ export interface AssistantThreadCreationOptions {
 
 export { AzureKeyCredential }
 
-// @public (undocumented)
+// @public
 export interface CancelRunOptions extends OperationOptions {
 }
 
@@ -164,15 +164,15 @@ export interface CreateAndRunThreadOptions {
     tools?: ToolDefinition[];
 }
 
-// @public (undocumented)
+// @public
 export interface CreateAssistantFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateAssistantOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateMessageOptions extends OperationOptions {
     fileIds?: string[];
     metadata?: Record<string, string>;
@@ -188,31 +188,31 @@ export interface CreateRunOptions {
     tools?: ToolDefinition[] | null;
 }
 
-// @public (undocumented)
+// @public
 export interface CreateRunRequestOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateThreadAndRunOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface CreateThreadOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteAssistantFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteAssistantOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface DeleteThreadOptions extends OperationOptions {
 }
 
@@ -262,35 +262,35 @@ export interface FunctionToolDefinition {
     type: "function";
 }
 
-// @public (undocumented)
+// @public
 export interface GetAssistantFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetAssistantOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetMessageFileOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetMessageOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetRunOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetRunStepOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface GetThreadOptions extends OperationOptions {
 }
 
@@ -303,7 +303,7 @@ export interface InputFile {
     purpose: FilePurpose;
 }
 
-// @public (undocumented)
+// @public
 export interface ListAssistantFilesOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -311,7 +311,7 @@ export interface ListAssistantFilesOptions extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public (undocumented)
+// @public
 export interface ListAssistantsOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -319,12 +319,12 @@ export interface ListAssistantsOptions extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public (undocumented)
+// @public
 export interface ListFilesOptions extends OperationOptions {
     purpose?: FilePurpose;
 }
 
-// @public (undocumented)
+// @public
 export interface ListMessageFilesOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -332,7 +332,7 @@ export interface ListMessageFilesOptions extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public (undocumented)
+// @public
 export interface ListMessagesOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -348,7 +348,7 @@ export interface ListResponseOf<T> {
     lastId: string;
 }
 
-// @public (undocumented)
+// @public
 export interface ListRunsOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -356,7 +356,7 @@ export interface ListRunsOptions extends OperationOptions {
     order?: ListSortOrder;
 }
 
-// @public (undocumented)
+// @public
 export interface ListRunStepsOptions extends OperationOptions {
     after?: string;
     before?: string;
@@ -444,7 +444,6 @@ export class OpenAIKeyCredential implements KeyCredential {
 
 // @public
 export interface RequiredAction {
-    // (undocumented)
     submitToolOutputs?: SubmitToolOutputsDetails;
     type: string;
 }
@@ -550,7 +549,7 @@ export interface SubmitToolOutputsDetails {
     toolCalls: RequiredToolCall[];
 }
 
-// @public (undocumented)
+// @public
 export interface SubmitToolOutputsToRunOptions extends OperationOptions {
 }
 
@@ -615,26 +614,26 @@ export interface UpdateAssistantOptions {
     tools?: ToolDefinition[];
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateAssistantRequestOptions extends OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateMessageOptions extends OperationOptions {
     metadata?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateRunOptions extends OperationOptions {
     metadata?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateThreadOptions extends OperationOptions {
     metadata?: Record<string, string>;
 }
 
-// @public (undocumented)
+// @public
 export interface UploadFileOptions extends OperationOptions {
     contentType?: string;
     filename?: string;

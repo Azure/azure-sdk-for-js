@@ -335,6 +335,7 @@ export interface ThreadRun {
 export interface RequiredAction {
   /** the discriminator possible values: submit_tool_outputs */
   type: string;
+  /** The details describing tools that should be called to submit tool outputs. **/
   submitToolOutputs?: SubmitToolOutputsDetails;
 }
 

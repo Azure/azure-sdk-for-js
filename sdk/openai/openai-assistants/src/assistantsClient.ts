@@ -110,6 +110,7 @@ import { AssistantsContext } from "./rest/index.js";
 
 export { AssistantsClientOptions } from "./api/AssistantsContext.js";
 
+/** Client handling assistant-related operations. */
 export class AssistantsClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;

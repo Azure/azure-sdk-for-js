@@ -14,6 +14,7 @@ import { ClientOptions } from "@azure-rest/core-client";
 import { AssistantsContext } from "../rest/index.js";
 import getClient from "../rest/index.js";
 
+/** The details used to create a assistant client **/
 export interface AssistantsClientOptions extends ClientOptions {}
 
 export { AssistantsContext } from "../rest/index.js";

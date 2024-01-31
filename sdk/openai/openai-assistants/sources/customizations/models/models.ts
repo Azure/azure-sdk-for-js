@@ -8,10 +8,18 @@ import {
   FunctionToolCall,
   RetrievalToolCall,
   MessageTextDetails,
-  RequiredAction,
+  SubmitToolOutputsDetails,
   RunError,
   RunStatus,
 } from "../../generated/src/models/models.js";
+
+/** An abstract representation of a required action for an assistant thread run to continue. */
+export interface RequiredAction {
+  /** the discriminator possible values: submit_tool_outputs */
+  type: string;
+  /** The details describing tools that should be called to submit tool outputs. **/
+  submitToolOutputs?: SubmitToolOutputsDetails;
+}
 
 /** Data representing a single evaluation run of an assistant thread. */
 export interface ThreadRun {
