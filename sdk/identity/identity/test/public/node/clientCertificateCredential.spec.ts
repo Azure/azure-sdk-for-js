@@ -74,6 +74,7 @@ describe("ClientCertificateCredential", function () {
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
       certificatePath,
       recorder.configureClientOptions({
+        authorityHost: "https://fake-authority.com",
         httpClient: {
           async sendRequest(): Promise<PipelineResponse> {
             await delay(100);
