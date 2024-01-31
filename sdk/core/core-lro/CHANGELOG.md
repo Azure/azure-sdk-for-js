@@ -1,8 +1,10 @@
 # Release History
 
-## 2.6.0 (2024-02-01)
+## 3.0.0-preview.1 (Unreleased)
 
-- Support to create LRO poller in a synchronized way in the `Next` namespace.
+- Initial implementation of new LRO
+
+## 2.6.0 (2024-02-01)
 
 ### Other Changes
 

@@ -25,7 +25,7 @@ export interface LroResponseSpec {
   headers?: Record<string, string>;
 }
 
-export type ImplementationName = "LroEngine" | "createPoller";
+export type ImplementationName = "createPoller";
 
 export type Result = ResponseBody & { statusCode: number };
 export type State = any;
