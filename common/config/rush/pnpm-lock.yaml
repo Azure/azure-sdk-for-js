@@ -15715,7 +15715,7 @@ packages:
     dev: false
 
   file:projects/arm-resources-profile-2020-09-01-hybrid.tgz:
-    resolution: {integrity: sha512-qbdKb6wZ6pBpsNJCnY2fKIJ2OcH2AmV2JzP8PsAuCg1cQCvCiB/R0kiu7UtI4F6XppAngMxu4CE4DChywzj95g==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
+    resolution: {integrity: sha512-JQRZ5EgXIYoSh6vTnaMeygBhbFwASKRgWZ7ctalG+GA/EOqFvzy1vJXkMBtlaGzDobM7J8T8pHk3o2v/VqC/Dg==, tarball: file:projects/arm-resources-profile-2020-09-01-hybrid.tgz}
     name: '@rush-temp/arm-resources-profile-2020-09-01-hybrid'
     version: 0.0.0
     dependencies:
@@ -15723,6 +15723,7 @@ packages:
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
       '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.8
       chai: 4.3.10
       cross-env: 7.0.3
