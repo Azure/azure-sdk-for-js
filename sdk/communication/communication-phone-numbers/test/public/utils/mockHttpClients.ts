@@ -13,7 +13,7 @@ import { PurchasedPhoneNumbers } from "../../../src/generated/src/models";
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
   parsedBody?: T,
-  headers?: HttpHeaders
+  headers?: HttpHeaders,
 ): HttpClient => {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {
@@ -45,7 +45,7 @@ export const getPhoneNumberHttpClient: HttpClient = createMockHttpClient<Purchas
       currencyCode: "USD",
       billingFrequency: "monthly",
     },
-  }
+  },
 );
 
 export const mockListPhoneNumbersHttpClient = createMockHttpClient<PurchasedPhoneNumbers>(200, {

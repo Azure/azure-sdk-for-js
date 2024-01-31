@@ -27,7 +27,7 @@ async function getListOfServiceTags() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTags",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   console.log(result);

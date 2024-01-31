@@ -23,7 +23,7 @@ const conversationAnalysisAzureKeyCredentialPolicyName =
  * @internal
  */
 export function conversationAnalysisAzureKeyCredentialPolicy(
-  credential: KeyCredential
+  credential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: conversationAnalysisAzureKeyCredentialPolicyName,

@@ -4,7 +4,7 @@
     "lib": ["dom"],
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
 }

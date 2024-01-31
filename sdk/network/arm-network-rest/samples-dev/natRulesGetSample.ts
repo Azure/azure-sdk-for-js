@@ -31,7 +31,7 @@ async function natRuleGet() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      natRuleName
+      natRuleName,
     )
     .get(options);
   console.log(result);

@@ -29,7 +29,7 @@ describe("ClientSecretCredential", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -42,7 +42,7 @@ describe("ClientSecretCredential", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope, { enableCae: true });
@@ -55,7 +55,7 @@ describe("ClientSecretCredential", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const controller = new AbortController();
@@ -83,12 +83,12 @@ describe("ClientSecretCredential", function () {
           env.AZURE_TENANT_ID!,
           env.AZURE_CLIENT_ID!,
           env.AZURE_CLIENT_SECRET!,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["ClientSecretCredential.getToken"]
+      ["ClientSecretCredential.getToken"],
     );
   });
 
@@ -108,7 +108,7 @@ describe("ClientSecretCredential", function () {
       recorder.configureClientOptions({
         // TODO: Uncomment again once we're ready to release this feature.
         // regionalAuthority: RegionalAuthority.AutoDiscoverRegion
-      })
+      }),
     );
 
     const token = await credential.getToken(scope);

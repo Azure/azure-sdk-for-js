@@ -32,7 +32,7 @@ async function deleteVirtualNetworkTapResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       subscriptionId,
       resourceGroupName,
-      tapName
+      tapName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

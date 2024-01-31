@@ -43,7 +43,7 @@ describe("RemoteRenderingClient construction", () => {
       serviceEndpoint,
       accountId,
       accountDomain,
-      keyCredential
+      keyCredential,
     );
 
     assert.isNotNull(client);
@@ -67,7 +67,7 @@ describe("RemoteRenderingClient construction", () => {
       serviceEndpoint,
       accountId,
       accountDomain,
-      tokenCredential
+      tokenCredential,
     );
 
     assert.isNotNull(client);
@@ -76,32 +76,32 @@ describe("RemoteRenderingClient construction", () => {
   it("can create with invalid arguments", () => {
     assert.throws(
       () => new RemoteRenderingClient(undefined!, accountId, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'endpoint'."
+      "Argument cannot be null or empty: 'endpoint'.",
     );
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, undefined!, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
+      "Argument cannot be null or empty: 'accountId'.",
     );
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, accountId, undefined!, keyCredential),
-      "Argument 3 cannot be null or empty."
+      "Argument 3 cannot be null or empty.",
     );
 
     assert.throws(
       () => new RemoteRenderingClient(null!, accountId, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'endpoint'."
+      "Argument cannot be null or empty: 'endpoint'.",
     );
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, null!, accountDomain, keyCredential),
-      "Argument cannot be null or empty: 'accountId'."
+      "Argument cannot be null or empty: 'accountId'.",
     );
 
     assert.throws(
       () => new RemoteRenderingClient(serviceEndpoint, accountId, null!, keyCredential),
-      "Argument 3 cannot be null or empty."
+      "Argument 3 cannot be null or empty.",
     );
   });
 });
@@ -143,23 +143,23 @@ describe("RemoteRendering functional tests", () => {
 
     const conversionId: string = recorder.variable(
       "conversionId",
-      `conversionId-${Math.floor(Math.random() * 10000)}`
+      `conversionId-${Math.floor(Math.random() * 10000)}`,
     );
 
     const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
       conversionId,
       conversionSettings,
-      pollerSettings
+      pollerSettings,
     );
     assert.equal(conversionPoller.getOperationState().latestResponse.conversionId, conversionId);
     assert.equal(
       conversionPoller.getOperationState().latestResponse.settings.inputSettings
         .relativeInputAssetPath,
-      inputSettings.relativeInputAssetPath
+      inputSettings.relativeInputAssetPath,
     );
     assert.notEqual(
       conversionPoller.getOperationState().latestResponse.status,
-      KnownAssetConversionStatus.Failed
+      KnownAssetConversionStatus.Failed,
     );
 
     const conversion: AssetConversion = await client.getConversion(conversionId);
@@ -203,7 +203,7 @@ describe("RemoteRendering functional tests", () => {
 
     const conversionId = recorder.variable(
       "conversionId",
-      `conversionId-${Math.floor(Math.random() * 10000)}`
+      `conversionId-${Math.floor(Math.random() * 10000)}`,
     );
 
     let didThrowExpected: boolean = false;
@@ -242,13 +242,13 @@ describe("RemoteRendering functional tests", () => {
 
     const conversionId: string = recorder.variable(
       "conversionId",
-      `conversionId-${Math.floor(Math.random() * 10000)}`
+      `conversionId-${Math.floor(Math.random() * 10000)}`,
     );
 
     const conversionPoller: AssetConversionPollerLike = await client.beginConversion(
       conversionId,
       conversionSettings,
-      pollerSettings
+      pollerSettings,
     );
 
     const assetConversion: AssetConversion = await client.getConversion(conversionId);
@@ -275,20 +275,20 @@ describe("RemoteRendering functional tests", () => {
 
     const sessionId: string = recorder.variable(
       "sessionId",
-      `sessionId-${Math.floor(Math.random() * 10000)}`
+      `sessionId-${Math.floor(Math.random() * 10000)}`,
     );
 
     const sessionPoller: RenderingSessionPollerLike = await client.beginSession(
       sessionId,
       sessionSettings,
-      pollerSettings
+      pollerSettings,
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
     assert.equal(sessionPoller.getOperationState().latestResponse.size, sessionSettings.size);
     assert.equal(
       sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
-      sessionSettings.maxLeaseTimeInMinutes
+      sessionSettings.maxLeaseTimeInMinutes,
     );
     assert.notEqual(sessionPoller.getOperationState().latestResponse.status, "Error");
 
@@ -309,7 +309,7 @@ describe("RemoteRendering functional tests", () => {
     // would carry the earlier maxLeastTimeInMinutes value.
     assert.isTrue(
       readyRenderingSession.maxLeaseTimeInMinutes === 4 ||
-        readyRenderingSession.maxLeaseTimeInMinutes === 5
+        readyRenderingSession.maxLeaseTimeInMinutes === 5,
     );
 
     assert.equal(readyRenderingSession.status, "Ready");
@@ -332,7 +332,7 @@ describe("RemoteRendering functional tests", () => {
     };
     const sessionId: string = recorder.variable(
       "sessionId",
-      `sessionId-${Math.floor(Math.random() * 10000)}`
+      `sessionId-${Math.floor(Math.random() * 10000)}`,
     );
 
     let didThrowExpected: boolean = false;

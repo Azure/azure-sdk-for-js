@@ -26,13 +26,13 @@ export class GreedyLoadBalancingStrategy implements LoadBalancingStrategy {
   public getPartitionsToClaim(
     ourOwnerId: string,
     claimedPartitionOwnershipMap: Map<string, PartitionOwnership>,
-    partitionIds: string[]
+    partitionIds: string[],
   ): string[] {
     return listAvailablePartitions(
       ourOwnerId,
       claimedPartitionOwnershipMap,
       partitionIds,
-      this._partitionOwnershipExpirationIntervalInMs
+      this._partitionOwnershipExpirationIntervalInMs,
     );
   }
 }

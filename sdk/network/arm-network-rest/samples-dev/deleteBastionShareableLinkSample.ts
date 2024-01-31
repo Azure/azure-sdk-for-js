@@ -46,7 +46,7 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks",
       subscriptionId,
       resourceGroupName,
-      bastionHostName
+      bastionHostName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

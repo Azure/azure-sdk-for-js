@@ -206,7 +206,11 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    remoteDependencyData.type = DependencyTypes.Grpc;
+    if (rpcSystem == DependencyTypes.Wcf) {
+      remoteDependencyData.type = DependencyTypes.Wcf;
+    } else {
+      remoteDependencyData.type = DependencyTypes.Grpc;
+    }
     const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);

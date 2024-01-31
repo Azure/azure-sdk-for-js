@@ -6,8 +6,8 @@
     "lib": ["dom", "ES2018.AsyncIterable"],
     "downlevelIteration": true,
     "paths": {
-      "@azure/service-bus": ["./src/index"]
-    }
+      "@azure/service-bus": ["./src/index"],
+    },
   },
   "exclude": [
     "node_modules",
@@ -15,7 +15,7 @@
     "./samples/**/*.ts",
     "test/perf-js-libs/*",
     "test/perf/track-1",
-    "test/stress*"
+    "test/stress*",
   ],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
 }

@@ -4,7 +4,7 @@
 
 ## Getting started
 
-This exporter package assumes your application is [already instrumented](https://opentelemetry.io/docs/js/getting-started/) with the OpenTelemetry SDK. Once you are ready to export OpenTelemetry data, you can add this exporter to your application.
+This exporter package assumes your application is [already instrumented](https://opentelemetry.io/docs/languages/js/getting-started/) with the OpenTelemetry SDK. Once you are ready to export OpenTelemetry data, you can add this exporter to your application.
 
 ### Install the package
 

@@ -32,7 +32,7 @@ async function assessPatchStateOfAVirtualMachine() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/assessPatches",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

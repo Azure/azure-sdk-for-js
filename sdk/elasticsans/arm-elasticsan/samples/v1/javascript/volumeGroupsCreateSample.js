@@ -24,26 +24,28 @@ async function volumeGroupsCreateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const parameters = {
-    encryption: "EncryptionAtRestWithCustomerManagedKey",
-    encryptionProperties: {
-      encryptionIdentity: { encryptionUserAssignedIdentity: "im" },
-      keyVaultProperties: {
-        keyName: "sftaiernmrzypnrkpakrrawxcbsqzc",
-        keyVaultUri: "https://microsoft.com/axmblwp",
-        keyVersion: "c",
-      },
-    },
     identity: { type: "None", userAssignedIdentities: { key7482: {} } },
-    networkAcls: {
-      virtualNetworkRules: [
-        {
-          action: "Allow",
-          virtualNetworkResourceId:
-            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
+    properties: {
+      encryption: "EncryptionAtRestWithCustomerManagedKey",
+      encryptionProperties: {
+        encryptionIdentity: { encryptionUserAssignedIdentity: "im" },
+        keyVaultProperties: {
+          keyName: "sftaiernmrzypnrkpakrrawxcbsqzc",
+          keyVaultUri: "https://microsoft.com/axmblwp",
+          keyVersion: "c",
         },
-      ],
+      },
+      networkAcls: {
+        virtualNetworkRules: [
+          {
+            action: "Allow",
+            virtualNetworkResourceId:
+              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}",
+          },
+        ],
+      },
+      protocolType: "Iscsi",
     },
-    protocolType: "Iscsi",
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -51,7 +53,7 @@ async function volumeGroupsCreateMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -74,7 +76,7 @@ async function volumeGroupsCreateMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

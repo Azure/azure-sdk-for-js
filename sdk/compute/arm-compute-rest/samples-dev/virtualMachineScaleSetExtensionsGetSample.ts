@@ -33,7 +33,7 @@ async function virtualMachineScaleSetExtensionsGetMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .get(options);
   console.log(result);
@@ -62,7 +62,7 @@ async function virtualMachineScaleSetExtensionsGetMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .get(options);
   console.log(result);

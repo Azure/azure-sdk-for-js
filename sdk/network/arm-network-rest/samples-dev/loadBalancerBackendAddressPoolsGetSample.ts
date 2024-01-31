@@ -33,7 +33,7 @@ async function loadBalancerWithBackendAddressPoolWithBackendAddresses() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .get(options);
   console.log(result);
@@ -62,7 +62,7 @@ async function loadBalancerBackendAddressPoolGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .get(options);
   console.log(result);

@@ -113,7 +113,7 @@ export interface TableClientLike {
    */
   createEntity<T extends object>(
     entity: TableEntity<T>,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<CreateTableEntityResponse>;
   /**
    * Permanently deletes the current table with all of its entities.
@@ -127,7 +127,7 @@ export interface TableClientLike {
   deleteEntity(
     partitionKey: string,
     rowKey: string,
-    options?: DeleteTableEntityOptions
+    options?: DeleteTableEntityOptions,
   ): Promise<DeleteTableEntityResponse>;
   /**
    * Returns a single entity in the table.
@@ -138,7 +138,7 @@ export interface TableClientLike {
   getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
-    options?: GetTableEntityOptions
+    options?: GetTableEntityOptions,
   ): Promise<GetTableEntityResponse<T>>;
   /**
    * Queries entities in a table.
@@ -146,7 +146,7 @@ export interface TableClientLike {
    * @param options - The options parameters.
    */
   listEntities<T extends object>(
-    options?: ListTableEntitiesOptions
+    options?: ListTableEntitiesOptions,
   ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
   /**
    * Update an entity in the table.
@@ -159,7 +159,7 @@ export interface TableClientLike {
   updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: UpdateTableEntityOptions
+    options?: UpdateTableEntityOptions,
   ): Promise<UpdateEntityResponse>;
   /**
    * Upsert an entity in the table.
@@ -173,6 +173,6 @@ export interface TableClientLike {
   upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<UpsertEntityResponse>;
 }

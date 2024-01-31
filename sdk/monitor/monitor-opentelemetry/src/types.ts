@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.1.1";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.2.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 
 /**
@@ -36,4 +36,5 @@ export enum StatsbeatInstrumentation {
   MYSQL = 4,
   REDIS = 8,
   POSTGRES = 16,
+  BUNYAN = 32,
 }

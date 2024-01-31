@@ -30,7 +30,7 @@ async function listsAllTheVMScaleSetsUnderTheSpecifiedSubscriptionForTheSpecifie
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/virtualMachineScaleSets",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

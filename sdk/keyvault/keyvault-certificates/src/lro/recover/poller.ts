@@ -43,7 +43,7 @@ export class RecoverDeletedCertificatePoller extends KeyVaultCertificatePoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

@@ -19,7 +19,7 @@ export class MixedRealityTokenCredential implements TokenCredential {
     accountId: string,
     accountDomain: string,
     credential: TokenCredential,
-    options: MixedRealityStsClientOptions
+    options: MixedRealityStsClientOptions,
   ) {
     this.stsClient = new MixedRealityStsClient(accountId, accountDomain, credential, options);
   }

@@ -78,7 +78,7 @@ export interface PartitionContext {
  */
 export type ProcessEventsHandler = (
   events: ReceivedEventData[],
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**
@@ -87,7 +87,7 @@ export type ProcessEventsHandler = (
  */
 export type ProcessErrorHandler = (
   error: Error | MessagingError,
-  context: PartitionContext
+  context: PartitionContext,
 ) => Promise<void>;
 
 /**

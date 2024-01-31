@@ -30,7 +30,7 @@ describe("createTimerLoop", function () {
     assert.strictEqual(
       curCallCount,
       callCount,
-      "Expected the loop to run the exact number of iterations"
+      "Expected the loop to run the exact number of iterations",
     );
     loop.stop();
     assert.isFalse(loop.isRunning);

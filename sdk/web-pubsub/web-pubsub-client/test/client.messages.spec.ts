@@ -233,7 +233,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           connectionId: "connId",
           userId: "user",
-        })
+        }),
       );
     });
 
@@ -248,7 +248,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           connectionId: "connId",
           message: undefined,
-        })
+        }),
       );
     });
 
@@ -269,7 +269,7 @@ describe("WebPubSubClient", function () {
             kind: "disconnected",
             message: "internal server error",
           } as DisconnectedMessage,
-        })
+        }),
       );
     });
 
@@ -288,7 +288,7 @@ describe("WebPubSubClient", function () {
       assert.isTrue(
         callback.calledWith({
           message: { kind: "groupData", group: "groupName", dataType: "text", data: "xyz" },
-        })
+        }),
       );
     });
 
@@ -306,7 +306,7 @@ describe("WebPubSubClient", function () {
       assert.isTrue(
         callback.calledWith({
           message: { kind: "serverData", dataType: "text", data: "xyz" },
-        })
+        }),
       );
     });
 
@@ -332,7 +332,7 @@ describe("WebPubSubClient", function () {
         callback.calledWith({
           group: "groupName",
           error: err,
-        })
+        }),
       );
     });
   });

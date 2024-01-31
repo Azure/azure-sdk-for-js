@@ -19,7 +19,7 @@ describe("tablesSecondaryEndpointPolicy", function () {
         assert.equal(req.url, expectedSecondary);
         assert.isUndefined(req.headers.get("tables-secondary-endpoint"));
         return { status: 200 } as any;
-      }
+      },
     );
   });
 
@@ -34,7 +34,7 @@ describe("tablesSecondaryEndpointPolicy", function () {
       async (req) => {
         assert.equal(req.url, primaryURL);
         return {} as any;
-      }
+      },
     );
   });
 });

@@ -55,7 +55,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -103,7 +103,7 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

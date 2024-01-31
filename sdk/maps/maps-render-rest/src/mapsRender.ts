@@ -30,7 +30,7 @@ import createClient from "./generated/mapsRenderClient";
  */
 export default function MapsRender(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRenderClient;
 /**
  * Creates an instance of MapsRender from an Azure Identity `TokenCredential`.
@@ -51,7 +51,7 @@ export default function MapsRender(
 export default function MapsRender(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRenderClient;
 /**
  * Creates an instance of MapsRender from an Azure Identity `AzureSASCredential`.
@@ -70,12 +70,12 @@ export default function MapsRender(
  */
 export default function MapsRender(
   credential: AzureSASCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRenderClient;
 export default function MapsRender(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsRenderClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -94,7 +94,7 @@ export default function MapsRender(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;

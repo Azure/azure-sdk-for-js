@@ -39,7 +39,7 @@ export async function main() {
   const searchClient: SearchClient<Hotel> = new SearchClient<Hotel>(
     endpoint,
     TEST_INDEX_NAME,
-    credential
+    credential,
   );
   const indexClient: SearchIndexClient = new SearchIndexClient(endpoint, credential);
 
@@ -52,7 +52,7 @@ export async function main() {
       documentKeyRetriever,
       {
         autoFlush: false,
-      }
+      },
     );
 
     bufferedClient.on("batchAdded", (response: any) => {

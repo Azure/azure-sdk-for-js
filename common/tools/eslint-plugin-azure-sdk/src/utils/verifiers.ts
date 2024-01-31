@@ -106,7 +106,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
         fix: (fixer: Rule.RuleFixer): Rule.Fix =>
           fixer.replaceText(
             nodeValue,
-            typeof expected === "string" ? `"${expected}"` : (expected as string)
+            typeof expected === "string" ? `"${expected}"` : (expected as string),
           ),
       });
     }
@@ -168,7 +168,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
         fix: (fixer: Rule.RuleFixer): Rule.Fix =>
           fixer.replaceText(
             nodeValue,
-            typeof expected === "string" ? `"${expected}"` : (expected as string)
+            typeof expected === "string" ? `"${expected}"` : (expected as string),
           ),
       });
     }
@@ -193,7 +193,7 @@ export const getVerifiers = (context: Rule.RuleContext, data: StructureData): Ve
     const nodeValue = node.value as ArrayExpression;
 
     const nonLiteral = nodeValue.elements.find(
-      (element: any): boolean => element.type !== "Literal"
+      (element: any): boolean => element.type !== "Literal",
     );
 
     if (nonLiteral !== undefined && nonLiteral !== null) {

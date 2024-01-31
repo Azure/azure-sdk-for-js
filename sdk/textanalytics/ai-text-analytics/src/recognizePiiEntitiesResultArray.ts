@@ -32,12 +32,12 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
  */
 export function makeRecognizePiiEntitiesResultArray(
   input: TextDocumentInput[],
-  response: PiiResult
+  response: PiiResult,
 ): RecognizePiiEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeRecognizePiiEntitiesResult,
-    makeRecognizePiiEntitiesErrorResult
+    makeRecognizePiiEntitiesErrorResult,
   );
 }

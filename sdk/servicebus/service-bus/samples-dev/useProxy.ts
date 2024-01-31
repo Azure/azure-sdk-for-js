@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary This sample demonstrates how to create a ServiceBusClient meant to be used in an environment
@@ -24,7 +24,7 @@ export async function main() {
 
   if (!proxyInfo) {
     console.error(
-      "Error: Proxy information not provided, but it is required to run this sample. Exiting."
+      "Error: Proxy information not provided, but it is required to run this sample. Exiting.",
     );
     return;
   }

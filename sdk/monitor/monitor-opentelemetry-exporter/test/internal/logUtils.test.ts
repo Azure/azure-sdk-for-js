@@ -36,7 +36,7 @@ function assertEnvelope(
   expectedProperties?: Properties,
   expectedMeasurements?: Measurements | undefined,
   expectedBaseData?: Partial<MonitorDomain>,
-  expectedTime?: Date
+  expectedTime?: Date,
 ): void {
   assert.ok(envelope);
   assert.strictEqual(envelope.name, name);
@@ -70,7 +70,7 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("logUtils.ts", () => {
-  let testLogRecord: any = {
+  const testLogRecord: any = {
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
@@ -126,7 +126,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -168,7 +168,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
   });
@@ -209,7 +209,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -261,7 +261,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -307,7 +307,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -351,7 +351,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
 
@@ -387,7 +387,7 @@ describe("logUtils.ts", () => {
         expectedProperties,
         emptyMeasurements,
         expectedBaseData,
-        expectedTime
+        expectedTime,
       );
     });
   });
@@ -422,7 +422,7 @@ describe("logUtils.ts", () => {
       expectedProperties,
       emptyMeasurements,
       expectedBaseData,
-      expectedTime
+      expectedTime,
     );
   });
 });

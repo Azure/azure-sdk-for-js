@@ -35,7 +35,7 @@ export class StorageFileShareDownloadToFileTest extends StorageFileShareTest<Sto
   constructor() {
     super();
     this.fileClient = this.directoryClient.getFileClient(
-      StorageFileShareDownloadToFileTest.fileName
+      StorageFileShareDownloadToFileTest.fileName,
     );
     this.localFileName = randomUUID();
   }

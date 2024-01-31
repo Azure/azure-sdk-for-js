@@ -28,7 +28,7 @@ async function patchServicePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .patch(appServicePlan);
   console.log(result);

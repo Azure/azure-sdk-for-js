@@ -53,7 +53,7 @@ describe("ShareClient", () => {
     assert.ok(await shareClient.exists());
 
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     assert.ok(!(await shareClient2.exists()));
   });
@@ -74,7 +74,7 @@ describe("ShareClient", () => {
 
   it("create with all parameters configured", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     const metadata = { key: "value" };
     await shareClient2.create({ metadata });
@@ -84,7 +84,7 @@ describe("ShareClient", () => {
 
   it("createIfNotExists", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
     assert.ok(res.succeeded);
@@ -103,14 +103,14 @@ describe("ShareClient", () => {
 
   it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
     assert.ok(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
-      recorder.variable(shareName + "3", getUniqueName(shareName + "3"))
+      recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
     );
     const res2 = await shareClient3.deleteIfExists();
     assert.ok(!res2.succeeded);
@@ -160,7 +160,7 @@ describe("ShareClient", () => {
     try {
       await directoryClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -178,7 +178,7 @@ describe("ShareClient", () => {
     try {
       await fileClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -227,7 +227,7 @@ describe("ShareClient", () => {
       assert.equal(
         "Expecting non-empty strings for name parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -291,7 +291,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
     assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
   }
@@ -306,7 +306,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
 
   it("verify IPv6 host address as Endpoint", async () => {
     verifyNameProperties(
-      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`,
     );
   });
 
@@ -362,7 +362,7 @@ describe("ShareClient - OAuth", () => {
       assert.ok(
         (err as any).statusCode === 409 &&
           (err as any).code === "FileOAuthManagementApiRestrictedToSrp",
-        "Should get correct error mesage when creating a share with TokenCredentials"
+        "Should get correct error mesage when creating a share with TokenCredentials",
       );
     }
   });
@@ -450,7 +450,7 @@ describe("ShareClient", () => {
     assert.ok(await shareClient.exists());
 
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     assert.ok(!(await shareClient2.exists()));
   });
@@ -471,7 +471,7 @@ describe("ShareClient", () => {
 
   it("create with all parameters configured", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     const metadata = { key: "value" };
     await shareClient2.create({ metadata });
@@ -481,7 +481,7 @@ describe("ShareClient", () => {
 
   it("createIfNotExists", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     const res = await shareClient2.createIfNotExists();
     assert.ok(res.succeeded);
@@ -500,14 +500,14 @@ describe("ShareClient", () => {
 
   it("deleteIfExists", async () => {
     const shareClient2 = serviceClient.getShareClient(
-      recorder.variable(shareName, getUniqueName(shareName))
+      recorder.variable(shareName, getUniqueName(shareName)),
     );
     await shareClient2.create();
     const res = await shareClient2.deleteIfExists();
     assert.ok(res.succeeded);
 
     const shareClient3 = serviceClient.getShareClient(
-      recorder.variable(shareName + "3", getUniqueName(shareName + "3"))
+      recorder.variable(shareName + "3", getUniqueName(shareName + "3")),
     );
     const res2 = await shareClient3.deleteIfExists();
     assert.ok(!res2.succeeded);
@@ -557,7 +557,7 @@ describe("ShareClient", () => {
     try {
       await directoryClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -575,7 +575,7 @@ describe("ShareClient", () => {
     try {
       await fileClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -624,7 +624,7 @@ describe("ShareClient", () => {
       assert.equal(
         "Expecting non-empty strings for name parameter",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -688,7 +688,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
     assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
   }
@@ -703,7 +703,7 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
 
   it("verify IPv6 host address as Endpoint", async () => {
     verifyNameProperties(
-      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`
+      `https://[2001:db8:85a3:8d3:1319:8a2e:370:7348]:443/${accountName}/${shareName}`,
     );
   });
 

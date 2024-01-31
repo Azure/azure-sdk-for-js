@@ -110,7 +110,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
    */
   async sendIndividualRequest<T>(
     sendPromise: () => Promise<T | null>,
-    { response }: { response: TestResponse }
+    { response }: { response: TestResponse },
   ): Promise<T | null> {
     /**
      * Both keeps track of the outgoing requests,
@@ -134,7 +134,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
    */
   async sendIndividualRequestAndGetError<T>(
     sendPromise: () => Promise<T | null>,
-    response: { response: TestResponse }
+    response: { response: TestResponse },
   ): Promise<Error> {
     return getError(this.sendIndividualRequest(sendPromise, response));
   }

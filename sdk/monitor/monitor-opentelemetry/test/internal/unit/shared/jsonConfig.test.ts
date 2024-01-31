@@ -40,14 +40,14 @@ describe("Json Config", () => {
       const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(
         __dirname,
-        "../../../../../test/internal/unit/shared/config.json"
+        "../../../../../test/internal/unit/shared/config.json",
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.connectionString,
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
     });
 
@@ -59,7 +59,7 @@ describe("Json Config", () => {
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.connectionString,
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
     });
   });
@@ -69,14 +69,14 @@ describe("Json Config", () => {
       const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(
         __dirname,
-        "../../../../../test/internal/unit/shared/config.json"
+        "../../../../../test/internal/unit/shared/config.json",
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.connectionString,
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
       assert.deepStrictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
       assert.deepStrictEqual(config.azureMonitorExporterOptions?.storageDirectory, "testPath");
@@ -84,18 +84,18 @@ describe("Json Config", () => {
       assert.deepStrictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
         true,
-        "Wrong azureSdk"
+        "Wrong azureSdk",
       );
       assert.deepStrictEqual(
         config.instrumentationOptions?.mongoDb?.enabled,
         true,
-        "Wrong mongoDb"
+        "Wrong mongoDb",
       );
       assert.deepStrictEqual(config.instrumentationOptions?.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions?.postgreSql?.enabled,
         true,
-        "Wrong postgreSql"
+        "Wrong postgreSql",
       );
       assert.deepStrictEqual(config.instrumentationOptions?.redis?.enabled, true, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions?.redis4?.enabled, true, "Wrong redis4");
@@ -105,7 +105,7 @@ describe("Json Config", () => {
       const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(
         __dirname,
-        "../../../../../test/internal/unit/shared/config.json"
+        "../../../../../test/internal/unit/shared/config.json",
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       env["APPLICATIONINSIGHTS_CONNECTION_STRING"] = "TestConnectionString";
@@ -113,7 +113,7 @@ describe("Json Config", () => {
       const config = JsonConfig.getInstance();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.connectionString,
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
       );
     });
 
@@ -152,7 +152,7 @@ describe("Json Config", () => {
       assert.strictEqual(config.azureMonitorExporterOptions?.connectionString, "testConnString");
       assert.strictEqual(
         config.azureMonitorExporterOptions?.storageDirectory,
-        "teststorageDirectory"
+        "teststorageDirectory",
       );
       assert.strictEqual(config.azureMonitorExporterOptions?.disableOfflineStorage, true);
     });

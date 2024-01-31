@@ -21,7 +21,6 @@ import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 export {
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-  IBrowserSdkLoaderConfig,
   BrowserSdkLoaderOptions,
 } from "./shared/types";
 
@@ -51,13 +50,17 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   const traceHandler = new TraceHandler(config, metricHandler);
   const logHandler = new LogHandler(config, metricHandler);
 
+  const instrumentations = traceHandler
+    .getInstrumentations()
+    .concat(logHandler.getInstrumentations());
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
     logRecordProcessor: logHandler.getLogRecordProcessor(),
     metricReader: metricHandler.getMetricReader(),
     views: metricHandler.getViews(),
-    instrumentations: traceHandler.getInstrumentations(),
+    instrumentations: instrumentations,
     resource: config.resource,
     sampler: traceHandler.getSampler(),
     spanProcessor: traceHandler.getSpanProcessor(),
@@ -93,6 +96,9 @@ function _setStatsbeatFeatures(config: InternalConfig, browserSdkLoader?: Browse
   }
   if (config.instrumentationOptions?.redis?.enabled) {
     instrumentationBitMap |= StatsbeatInstrumentation.REDIS;
+  }
+  if (config.instrumentationOptions?.bunyan?.enabled) {
+    instrumentationBitMap |= StatsbeatInstrumentation.BUNYAN;
   }
 
   let featureBitMap = StatsbeatFeature.NONE;

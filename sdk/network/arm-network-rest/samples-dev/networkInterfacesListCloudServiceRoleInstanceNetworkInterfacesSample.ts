@@ -34,7 +34,7 @@ async function listCloudServiceRoleInstanceNetworkInterfaces() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      roleInstanceName
+      roleInstanceName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

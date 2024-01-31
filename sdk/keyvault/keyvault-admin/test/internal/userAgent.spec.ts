@@ -22,7 +22,7 @@ describe("Key Vault Admin's user agent", function () {
             throw new Error("only a test");
           },
         },
-      }
+      },
     );
 
     try {
@@ -41,12 +41,12 @@ describe("Key Vault Admin's user agent", function () {
     let version: string;
     try {
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" }),
       );
       version = fileContents.version;
     } catch {
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" }),
       );
       version = fileContents.version;
     }

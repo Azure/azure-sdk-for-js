@@ -133,7 +133,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     }
 
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     checkUnsupportedTenant(this.tenantId);
@@ -176,7 +176,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     await this.prepareOnce();
 
@@ -185,7 +185,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
         this.tenantId,
         options,
         this.additionallyAllowedTenantIds,
-        logger
+        logger,
       ) || this.tenantId;
 
     if (findCredentials === undefined) {
@@ -196,7 +196,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(vsCodePlugin)` before creating a `VisualStudioCodeCredential`.",
           "To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
-        ].join(" ")
+        ].join(" "),
       );
     }
 
@@ -233,7 +233,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
         AzureAccountClientId,
         scopeString,
         refreshToken,
-        undefined
+        undefined,
       );
 
       if (tokenResponse) {
@@ -241,14 +241,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailableError(
-          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailableError(
-        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot."
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension? To troubleshoot, visit https://aka.ms/azsdk/js/identity/vscodecredential/troubleshoot.",
       );
       logger.getToken.info(formatError(scopes, error));
       throw error;

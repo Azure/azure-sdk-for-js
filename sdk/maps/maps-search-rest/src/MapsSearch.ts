@@ -31,7 +31,7 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  */
 export default function MapsSearch(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsSearchClient;
 /**
  * Creates an instance of MapsSearch from an Azure Identity `TokenCredential`.
@@ -52,7 +52,7 @@ export default function MapsSearch(
 export default function MapsSearch(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsSearchClient;
 /**
  * Creates an instance of MapsSearch from an Azure Identity `AzureSASCredential`.
@@ -71,12 +71,12 @@ export default function MapsSearch(
  */
 export default function MapsSearch(
   credential: AzureSASCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsSearchClient;
 export default function MapsSearch(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsSearchClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -95,7 +95,7 @@ export default function MapsSearch(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;

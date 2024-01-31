@@ -55,7 +55,7 @@ describe("Library/TraceHandler", () => {
             code: ExportResultCode.SUCCESS,
           });
           resolve(spans);
-        })
+        }),
     );
     const tracerProvider = new NodeTracerProvider();
     tracerProvider.addSpanProcessor(handler.getSpanProcessor());
@@ -78,7 +78,7 @@ describe("Library/TraceHandler", () => {
         res.write(
           JSON.stringify({
             success: true,
-          })
+          }),
         );
         res.end();
       }
@@ -122,7 +122,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[0].name, "GET");
               assert.deepStrictEqual(
                 spans[0].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
+                "@opentelemetry/instrumentation-http",
               );
               assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
               assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
@@ -130,7 +130,7 @@ describe("Library/TraceHandler", () => {
               assert.ok(spans[0].endTime);
               assert.deepStrictEqual(
                 spans[0].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
+                `localhost:${mockHttpServerPort}`,
               );
               assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
               assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
@@ -138,7 +138,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
               assert.deepStrictEqual(
                 spans[0].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
+                `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
               assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
@@ -146,7 +146,7 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].name, "GET");
               assert.deepStrictEqual(
                 spans[1].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http"
+                "@opentelemetry/instrumentation-http",
               );
               assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
               assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
@@ -154,7 +154,7 @@ describe("Library/TraceHandler", () => {
               assert.ok(spans[1].endTime);
               assert.deepStrictEqual(
                 spans[1].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`
+                `localhost:${mockHttpServerPort}`,
               );
               assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
               assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
@@ -162,18 +162,18 @@ describe("Library/TraceHandler", () => {
               assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
               assert.deepStrictEqual(
                 spans[1].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`
+                `http://localhost:${mockHttpServerPort}/test`,
               );
               assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
               assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
 
               assert.deepStrictEqual(
                 spans[0]["_spanContext"]["traceId"],
-                spans[1]["_spanContext"]["traceId"]
+                spans[1]["_spanContext"]["traceId"],
               );
               assert.notDeepStrictEqual(
                 spans[0]["_spanContext"]["spanId"],
-                spans[1]["_spanContext"]["spanId"]
+                spans[1]["_spanContext"]["spanId"],
               );
               done();
             })
@@ -243,12 +243,12 @@ describe("Library/TraceHandler", () => {
               // Incoming request
               assert.deepStrictEqual(
                 spans[0].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Requests', Ver:'1.1')"
+                "(Name:'Requests', Ver:'1.1')",
               );
               // Outgoing request
               assert.deepStrictEqual(
                 spans[1].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Dependencies', Ver:'1.1')"
+                "(Name:'Dependencies', Ver:'1.1')",
               );
               done();
             })

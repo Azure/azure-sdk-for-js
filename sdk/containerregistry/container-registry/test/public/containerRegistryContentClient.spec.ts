@@ -44,14 +44,14 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         "oci-artifact",
         serviceVersion,
-        recorder
+        recorder,
       );
 
       helloWorldClient = createBlobClient(
         assertEnvironmentVariable("CONTAINER_REGISTRY_ENDPOINT"),
         "library/hello-world",
         serviceVersion,
-        recorder
+        recorder,
       );
     });
 
@@ -81,7 +81,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     async function uploadOciManifestPrerequisites() {
       const layer = fs.createReadStream(
-        "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+        "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
       );
       await ociArtifactClient.uploadBlob(layer);
       const config = fs.createReadStream("test/data/oci-artifact/config.json");
@@ -90,7 +90,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     async function uploadDockerManifestPrerequisites() {
       const layer = fs.createReadStream(
-        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016"
+        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016",
       );
       await helloWorldClient.uploadBlob(layer);
       const config = fs.createReadStream("test/data/docker/config.json");
@@ -137,7 +137,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       await uploadOciManifestPrerequisites();
 
       const manifestBuffer = await readStreamToEnd(
-        fs.createReadStream("test/data/oci-artifact/manifest.json")
+        fs.createReadStream("test/data/oci-artifact/manifest.json"),
       );
       const uploadResult = await ociArtifactClient.setManifest(manifestBuffer);
       const downloadResult = await ociArtifactClient.getManifest(uploadResult.digest);
@@ -177,7 +177,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
       const configStream = fs.createReadStream("test/data/docker/config.json");
       await helloWorldClient.uploadBlob(configStream);
       const blobStream = fs.createReadStream(
-        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016"
+        "test/data/docker/ec0488e025553d34358768c43e24b1954e0056ec4700883252c74f3eec273016",
       );
       await helloWorldClient.uploadBlob(blobStream);
 
@@ -209,11 +209,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions): void => {
 
     it("can upload blob", async () => {
       const blob = fs.createReadStream(
-        "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+        "test/data/oci-artifact/654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
       );
       const { digest, sizeInBytes } = await ociArtifactClient.uploadBlob(blob);
       const downloadResult = await ociArtifactClient.downloadBlob(
-        "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed"
+        "sha256:654b93f61054e4ce90ed203bb8d556a6200d5f906cf3eca0620738d6dc18cbed",
       );
       assert.equal(digest, downloadResult.digest);
       assert.equal(sizeInBytes, 28);

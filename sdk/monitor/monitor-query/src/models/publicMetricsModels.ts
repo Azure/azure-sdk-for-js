@@ -119,7 +119,7 @@ export function getMetricByName(this: MetricsQueryResult, metricName: string): M
 }
 
 export function createMetricsQueryResult(
-  metricsQueryResultData: Omit<MetricsQueryResult, "getMetricByName">
+  metricsQueryResultData: Omit<MetricsQueryResult, "getMetricByName">,
 ): MetricsQueryResult {
   return { ...metricsQueryResultData, getMetricByName };
 }

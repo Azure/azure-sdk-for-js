@@ -123,7 +123,7 @@ export class DiagFileConsoleLogger implements DiagLogger {
         // eslint-disable-next-line no-console
         console.log(
           this._TAG,
-          `Failed to put log into file: ${appendError && appendError.message}`
+          `Failed to put log into file: ${appendError && appendError.message}`,
         );
         return;
       }

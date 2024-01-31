@@ -32,7 +32,7 @@ async function listServiceEndpointDefinitionsInServiceEndPointPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}/serviceEndpointPolicyDefinitions",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

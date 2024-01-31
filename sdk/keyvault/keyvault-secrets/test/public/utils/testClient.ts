@@ -26,7 +26,7 @@ export default class TestClient {
   }
   public async beginRestoreSecretBackup(
     backup: Uint8Array,
-    options: BeginRestoreSecretBackupOptions = {}
+    options: BeginRestoreSecretBackupOptions = {},
   ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
     const poller = new RestoreSecretBackupPoller({
       backup,

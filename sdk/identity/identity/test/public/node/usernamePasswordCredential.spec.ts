@@ -37,7 +37,7 @@ describe("UsernamePasswordCredential", function () {
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     const token = await credential.getToken(scope);
@@ -53,7 +53,7 @@ describe("UsernamePasswordCredential", function () {
       tenantId,
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
-      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!
+      env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
     );
 
     const controller = new AbortController();
@@ -85,12 +85,12 @@ describe("UsernamePasswordCredential", function () {
           clientId,
           env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
           env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
 
         await credential.getToken(scope, tracingOptions);
       },
-      ["UsernamePasswordCredential.getToken"]
+      ["UsernamePasswordCredential.getToken"],
     );
   });
 });

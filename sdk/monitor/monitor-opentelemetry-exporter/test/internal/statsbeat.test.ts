@@ -80,11 +80,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(
           statsbeat["getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(statsbeat["getShortHost"]("https://dc.services.visualstudio.com"), "dc");
         assert.strictEqual(statsbeat["getShortHost"]("https://www.test.com"), "test");
@@ -101,13 +101,13 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(statsbeat["attach"], "Manual");
         assert.strictEqual(
           statsbeat["cikey"],
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
         );
         assert.strictEqual(statsbeat["language"], "node");
         assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
           statsbeat["endpointUrl"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
         );
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
@@ -126,7 +126,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
         assert.strictEqual(longIntervalStatsbeatMetrics["instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, undefined);
+        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, "");
       });
 
       it("should turn off statsbeat after max failures", async () => {
@@ -377,7 +377,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const longIntervalStatsbeat = getInstance(options);
         const mockExport = sandbox.stub(
           longIntervalStatsbeat["longIntervalAzureExporter"],
-          "export"
+          "export",
         );
 
         await new Promise((resolve) => setTimeout(resolve, 120));

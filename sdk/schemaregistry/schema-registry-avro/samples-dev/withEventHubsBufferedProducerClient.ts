@@ -68,7 +68,7 @@ export async function main() {
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential()
+    new DefaultAzureCredential(),
   );
 
   // Register the schema. This would generally have been done somewhere else.
@@ -87,7 +87,7 @@ export async function main() {
     eventHubName,
     {
       onSendEventsErrorHandler: handleError,
-    }
+    },
   );
 
   // serialize an object that matches the schema

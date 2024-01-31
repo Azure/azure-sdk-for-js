@@ -9,7 +9,6 @@ import { ConnectionStringParser } from "../utils/connectionStringParser";
 import { IncomingMessage, ServerResponse } from "http";
 import { Logger } from "../shared/logging/logger";
 import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
-import { IBrowserSdkLoaderConfig } from "../shared/types";
 
 export class BrowserSdkLoader {
   private static _instance: BrowserSdkLoader | null;
@@ -19,13 +18,11 @@ export class BrowserSdkLoader {
   private _isIkeyValid: boolean = true;
   private _isInitialized: boolean = false;
   private _browserSdkLoaderIkey?: string;
-  private _clientBrowserSdkLoaderConfig?: IBrowserSdkLoaderConfig;
-  private _clientBrowserSdkLoaderSrc?: string;
 
   constructor(config: InternalConfig) {
     if (!!BrowserSdkLoader._instance) {
       throw new Error(
-        "Browser SDK Loader should be configured from the applicationInsights object"
+        "Browser SDK Loader should be configured from the applicationInsights object",
       );
     }
 
@@ -35,15 +32,13 @@ export class BrowserSdkLoader {
     let clientWebIkey;
     if (config.browserSdkLoaderOptions?.connectionString) {
       clientWebIkey = this._getBrowserSdkLoaderIkey(
-        config?.browserSdkLoaderOptions?.connectionString
+        config?.browserSdkLoaderOptions?.connectionString,
       );
     }
     this._browserSdkLoaderIkey =
       clientWebIkey ||
       ConnectionStringParser.parse(config.azureMonitorExporterOptions.connectionString)
         .instrumentationkey;
-    this._clientBrowserSdkLoaderConfig = config.browserSdkLoaderOptions?.config;
-    this._clientBrowserSdkLoaderSrc = config.browserSdkLoaderOptions?.src;
 
     if (this._isIkeyValid) {
       this._initialize();
@@ -66,7 +61,7 @@ export class BrowserSdkLoader {
       if (!ConnectionStringParser.validateInstrumentationKey(iKeyCode)) {
         this._isIkeyValid = false;
         Logger.getInstance().info(
-          "Invalid browser SDK loader connection string, browser SDK loader is not enabled."
+          "Invalid browser SDK loader connection string, browser SDK loader is not enabled.",
         );
       } else {
         this._isIkeyValid = true;
@@ -83,51 +78,11 @@ export class BrowserSdkLoader {
    * @returns The string to inject into the web page
    */
   private _getBrowserSdkLoaderReplacedStr() {
-    let configStr = this._getClientBrowserSdkLoaderConfigStr(this._clientBrowserSdkLoaderConfig);
     let osStr = prefixHelper.getOsPrefix();
     let rpStr = prefixHelper.getResourceProvider();
-    let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n${configStr} disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
+    let sdkLoaderReplacedStr = `${this._browserSdkLoaderIkey}\",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: \"${rpStr}${osStr}d_n_`;
     let replacedSdkLoader = sdkLoader.replace("INSTRUMENTATION_KEY", sdkLoaderReplacedStr);
-    if (this._clientBrowserSdkLoaderSrc) {
-      return replacedSdkLoader.replace(
-        `${BROWSER_SDK_LOADER_DEFAULT_SOURCE}.2.min.js`,
-        this._clientBrowserSdkLoaderSrc
-      );
-    }
     return replacedSdkLoader;
-  }
-
-  // Do not use string replace here, because double quote should be kept.
-  // we want to transfer all values of config to the sdk loader in the following way:
-  // cfg: {
-  //      config1: "config1 string value",
-  //      config2: true,
-  //      config3: 1,
-  //      ...
-  //}});
-  private _getClientBrowserSdkLoaderConfigStr(config?: IBrowserSdkLoaderConfig) {
-    let configStr = "";
-    try {
-      if (!!config && Object.keys(config).length > 0) {
-        for (let key in config) {
-          const value = config[key as keyof IBrowserSdkLoaderConfig];
-          let entry = "";
-          // NOTE: users should convert object/function to string themselves
-          // Type "function" and "object" will be skipped!
-          if (typeof value === "string") {
-            entry = ` ${key}: \"${value}\",\r\n`;
-            configStr += entry;
-          }
-        }
-      }
-    } catch (e) {
-      // if has any errors here, web Instrumentation will be disabled.
-      this.dispose();
-      Logger.getInstance().info(
-        "Parse client web instrumentation error. Browser SDK Loader is disabled"
-      );
-    }
-    return configStr;
   }
 
   private _initialize() {
@@ -137,7 +92,7 @@ export class BrowserSdkLoader {
     const originalHttpsServer = https.createServer;
 
     (http.createServer as any) = (
-      requestListener?: (request: IncomingMessage, response: ServerResponse) => void
+      requestListener?: (request: IncomingMessage, response: ServerResponse) => void,
     ) => {
       const originalRequestListener = requestListener;
       if (originalRequestListener) {
@@ -160,7 +115,7 @@ export class BrowserSdkLoader {
                       response,
                       a,
                       undefined,
-                      writeBufferType
+                      writeBufferType,
                     );
                   }
                 } else if (headers.length) {
@@ -168,7 +123,7 @@ export class BrowserSdkLoader {
                   arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                     response,
                     a,
-                    encodeType
+                    encodeType,
                   );
                 }
               }
@@ -196,7 +151,7 @@ export class BrowserSdkLoader {
                         response,
                         a,
                         undefined,
-                        endBufferType
+                        endBufferType,
                       );
                     }
                   } else if (headers.length) {
@@ -204,7 +159,7 @@ export class BrowserSdkLoader {
                     arguments[0] = BrowserSdkLoader._instance?.InjectSdkLoader(
                       response,
                       a,
-                      encodeType
+                      encodeType,
                     );
                   }
                 }
@@ -265,7 +220,7 @@ export class BrowserSdkLoader {
                       res,
                       a,
                       undefined,
-                      endBufferType
+                      endBufferType,
                     );
                   }
                 } else if (headers.length) {
@@ -313,7 +268,7 @@ export class BrowserSdkLoader {
     response: any,
     input: string | Buffer,
     encodeType?: browserSdkLoaderHelper.contentEncodingMethod,
-    bufferEncodeType?: string
+    bufferEncodeType?: string,
   ): string | Buffer {
     try {
       let isCompressedBuffer = !!encodeType;
@@ -325,7 +280,7 @@ export class BrowserSdkLoader {
         let newHtml = browserSdkLoaderHelper.insertBrowserSdkLoaderByIndex(
           index,
           html,
-          BrowserSdkLoader._sdkLoader
+          BrowserSdkLoader._sdkLoader,
         );
         if (typeof input === "string") {
           response.removeHeader("Content-Length");
@@ -348,13 +303,13 @@ export class BrowserSdkLoader {
         input = this._getInjectedCompressBuffer(
           response,
           input as Buffer,
-          encodeType as browserSdkLoaderHelper.contentEncodingMethod
+          encodeType as browserSdkLoaderHelper.contentEncodingMethod,
         );
         response.setHeader("Content-Length", input.length);
       }
     } catch (ex) {
       Logger.getInstance().warn(
-        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex
+        "Failed to inject browser sdk loader and change content-length headers. Exception:" + ex,
       );
     }
     return input;
@@ -368,7 +323,7 @@ export class BrowserSdkLoader {
   private _getInjectedCompressBuffer(
     response: any,
     input: Buffer,
-    encodeType: browserSdkLoaderHelper.contentEncodingMethod
+    encodeType: browserSdkLoaderHelper.contentEncodingMethod,
   ): Buffer {
     try {
       switch (encodeType) {

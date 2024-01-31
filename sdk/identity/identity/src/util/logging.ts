@@ -27,7 +27,7 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
       }
       return acc;
     },
-    { missing: [], assigned: [] }
+    { missing: [], assigned: [] },
   );
 }
 
@@ -40,7 +40,7 @@ export function processEnvVars(supportedEnvVars: string[]): EnvironmentAccumulat
 export function logEnvVars(credentialName: string, supportedEnvVars: string[]): void {
   const { assigned } = processEnvVars(supportedEnvVars);
   logger.info(
-    `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`
+    `${credentialName} => Found the following environment variables: ${assigned.join(", ")}`,
   );
 }
 
@@ -91,7 +91,7 @@ export interface CredentialLoggerInstance {
 export function credentialLoggerInstance(
   title: string,
   parent?: CredentialLoggerInstance,
-  log: AzureLogger = logger
+  log: AzureLogger = logger,
 ): CredentialLoggerInstance {
   const fullTitle = parent ? `${parent.fullTitle} ${title}` : title;
 

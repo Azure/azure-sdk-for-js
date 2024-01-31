@@ -122,7 +122,7 @@ describe("Model unit tests", () => {
 
       const actualMetricsRequest: GeneratedMetricsListOptionalParams = convertRequestForMetrics(
         ["name1", "name2"],
-        track2Model
+        track2Model,
       );
 
       const expectedMetricsRequest: GeneratedMetricsListOptionalParams = {
@@ -245,7 +245,7 @@ describe("Model unit tests", () => {
       const { getMetricByName, ...rest } = actualConvertedResponse;
       assert.deepEqual(
         { ...rest } as Omit<MetricsQueryResult, "getMetricByName">,
-        expectedResponse
+        expectedResponse,
       );
     });
 
@@ -307,7 +307,7 @@ describe("Model unit tests", () => {
             dimensions: ["the value"],
           },
         ],
-        actualResponse
+        actualResponse,
       );
     });
 
@@ -326,7 +326,7 @@ describe("Model unit tests", () => {
             id: "anything",
           },
         ],
-        actualResponse
+        actualResponse,
       );
     });
 

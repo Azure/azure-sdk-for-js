@@ -32,7 +32,7 @@ async function virtualMachinesPowerOffMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -61,7 +61,7 @@ async function virtualMachinesPowerOffMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/powerOff",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

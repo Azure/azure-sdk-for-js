@@ -3,14 +3,14 @@
 
 import { stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders";
-import {
+import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import type { PipelinePolicy } from "../pipeline";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -87,9 +87,9 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
-        if (value.type) {
-          headers.set("Content-Type", value.type);
-        }
+
+        // again, || is used since an empty value.type means the content type is unset
+        headers.set("Content-Type", value.type || "application/octet-stream");
 
         parts.push({
           headers,
@@ -97,7 +97,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         });
       }
     }
-
-    request.multipartBody = { parts };
   }
+  request.multipartBody = { parts };
 }

@@ -20,6 +20,7 @@ import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 
 const context = getInstance();
 
@@ -44,7 +45,7 @@ function assertEnvelope(
   expectedProperties: Properties,
   expectedMeasurements: Measurements | undefined,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
-  expectedTime?: Date
+  expectedTime?: Date,
 ): void {
   assert.strictEqual(Context.sdkVersion, packageJson.version);
   assert.ok(envelope);
@@ -73,7 +74,7 @@ function assertEnvelope(
   assert.deepStrictEqual((envelope?.data?.baseData as RequestData).properties, expectedProperties);
   assert.deepStrictEqual(
     (envelope?.data?.baseData as RequestData).measurements,
-    expectedMeasurements
+    expectedMeasurements,
   );
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
 }
@@ -90,7 +91,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -131,7 +132,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
@@ -141,7 +142,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -182,7 +183,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for Client Spans with an updated dependency target", () => {
@@ -192,7 +193,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -234,7 +235,58 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
+        );
+      });
+      it("should create a Dependency Envelope for Client Spans WCF defined as the RPC system", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
+          [SemanticAttributes.RPC_SYSTEM]: DependencyTypes.Wcf,
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+        };
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RemoteDependencyData> = {
+          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          resultCode: "123",
+          type: "WCF Service",
+          target: "WCF Service",
+          name: `parent span`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
         );
       });
     });
@@ -246,7 +298,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "_MS.sampleRate": "50",
@@ -283,7 +335,7 @@ describe("spanUtils.ts", () => {
           {},
           emptyMeasurements,
           expectedBaseData,
-          expectedTime
+          expectedTime,
         );
       });
 
@@ -294,7 +346,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.INTERNAL,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "az.namespace": "Microsoft.EventHub",
@@ -333,7 +385,7 @@ describe("spanUtils.ts", () => {
           expectedProperties,
           emptyMeasurements,
           expectedBaseData,
-          expectedTime
+          expectedTime,
         );
       });
 
@@ -344,7 +396,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -382,7 +434,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
     });
@@ -396,7 +448,7 @@ describe("spanUtils.ts", () => {
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
           "parentSpanId",
-          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }]
+          [{ context: { traceId: "traceid", spanId: "spanId", traceFlags: 0 } }],
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_METHOD]: "GET",
@@ -440,7 +492,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should set AiOperationName when only httpUrl is set", () => {
@@ -450,7 +502,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_METHOD]: "GET",
@@ -495,7 +547,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should set AiLocationIp when httpMethod not set and netPeerIp is", () => {
@@ -505,7 +557,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.SERVER,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_URL]: "https://example.com/api/example",
@@ -548,7 +600,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for Client Spans", () => {
@@ -558,7 +610,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_METHOD]: "GET",
@@ -601,7 +653,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
     });
@@ -614,7 +666,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.PRODUCER,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -648,7 +700,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for Internal Spans", () => {
@@ -658,7 +710,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.INTERNAL,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           "extra.attribute": "foo",
@@ -692,7 +744,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should remove default port if target is defined", () => {
@@ -702,7 +754,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.INTERNAL,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.HTTP_METHOD]: "GET",
@@ -740,7 +792,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
     });
@@ -753,7 +805,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MYSQL,
@@ -794,7 +846,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for PostgreSQL spans", () => {
@@ -804,7 +856,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.POSTGRESQL,
@@ -845,7 +897,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for MongoDB spans", () => {
@@ -855,7 +907,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.MONGODB,
@@ -896,7 +948,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for Redis spans", () => {
@@ -906,7 +958,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.REDIS,
@@ -947,7 +999,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for SQL spans", () => {
@@ -957,7 +1009,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.SQLITE,
@@ -998,7 +1050,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
       it("should create a Dependency Envelope for other database spans", () => {
@@ -1008,7 +1060,7 @@ describe("spanUtils.ts", () => {
           "parent span",
           { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
           SpanKind.CLIENT,
-          "parentSpanId"
+          "parentSpanId",
         );
         span.setAttributes({
           [SemanticAttributes.DB_SYSTEM]: DbSystemValues.HIVE,
@@ -1051,7 +1103,7 @@ describe("spanUtils.ts", () => {
           expectedTags,
           expectedProperties,
           emptyMeasurements,
-          expectedBaseData
+          expectedBaseData,
         );
       });
     });

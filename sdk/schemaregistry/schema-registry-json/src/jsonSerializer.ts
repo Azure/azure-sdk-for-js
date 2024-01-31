@@ -32,7 +32,7 @@ interface SchemaObject {
 function getSchemaObject(schema: string): SchemaObject {
   return wrapError(
     () => JSON.parse(schema),
-    `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`
+    `Parsing Json schema failed:\n\n\t${schema}\n\nSee 'cause' for more details.`,
   );
 }
 
@@ -86,7 +86,7 @@ export class JsonSerializer<MessageT = MessageContent> {
     const entry = await this.getSchemaByDefinition(schema);
     const data = wrapError(
       () => encoder.encode(JSON.stringify(value)),
-      `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`
+      `Json serialization failed. See 'cause' for more details. Schema ID: ${entry.id}`,
     );
     const contentType = `${jsonMimeType}+${entry.id}`;
     return this.messageAdapter
@@ -120,13 +120,13 @@ export class JsonSerializer<MessageT = MessageContent> {
     const schema = await this.getSchemaById(schemaId);
     const returnedMessage = wrapError(
       () => JSON.parse(decoder.decode(data)),
-      `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`
+      `Json deserialization failed with schema ID (${schemaId}). See 'cause' for more details.`,
     );
     const validate = options?.validateCallback;
     if (validate) {
       wrapError(
         () => validate(returnedMessage, schema),
-        `Json validation failed. See 'cause' for more details. Schema ID: ${schemaId}`
+        `Json validation failed. See 'cause' for more details. Schema ID: ${schemaId}`,
       );
     }
     return returnedMessage;
@@ -144,7 +144,7 @@ export class JsonSerializer<MessageT = MessageContent> {
 
     if (!schemaResponse.properties.format.match(/^json$/i)) {
       throw new Error(
-        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`
+        `Schema with ID '${schemaResponse.properties.id}' has format '${schemaResponse.properties.format}', not 'json'.`,
       );
     }
     return this.cache(schemaResponse.definition, schemaId).schema;
@@ -157,7 +157,7 @@ export class JsonSerializer<MessageT = MessageContent> {
     }
     if (!this.schemaGroup) {
       throw new Error(
-        "Schema group must have been specified in the constructor options when the client was created in order to serialize."
+        "Schema group must have been specified in the constructor options when the client was created in order to serialize.",
       );
     }
     const schemaObj = getSchemaObject(definition);
@@ -175,7 +175,7 @@ export class JsonSerializer<MessageT = MessageContent> {
       if ((e as any).statusCode === 404) {
         throw errorWithCause(
           `Schema '${description.name}' not found in registry group '${description.groupName}', or not found to have matching definition.`,
-          e as Error
+          e as Error,
         );
       } else {
         throw e;
@@ -190,7 +190,7 @@ export class JsonSerializer<MessageT = MessageContent> {
     this.cacheIdByDefinition.set(schema, id);
     this.cacheById.set(id, schema);
     logger.verbose(
-      `Cache entry added or updated. Total number of entries: ${this.cacheIdByDefinition.size}; Total schema length ${this.cacheIdByDefinition.calculatedSize}`
+      `Cache entry added or updated. Total number of entries: ${this.cacheIdByDefinition.size}; Total schema length ${this.cacheIdByDefinition.calculatedSize}`,
     );
     return entry;
   }
@@ -203,7 +203,7 @@ function getSchemaId(contentType: string): string {
   }
   if (contentTypeParts[0] !== jsonMimeType) {
     throw new Error(
-      `Received content of type ${contentTypeParts[0]} but an json serializer may only be used on content that is of '${jsonMimeType}' type`
+      `Received content of type ${contentTypeParts[0]} but an json serializer may only be used on content that is of '${jsonMimeType}' type`,
     );
   }
   return contentTypeParts[1];
@@ -211,7 +211,7 @@ function getSchemaId(contentType: string): string {
 
 function convertMessage<MessageT>(
   message: MessageT,
-  adapter?: MessageAdapter<MessageT>
+  adapter?: MessageAdapter<MessageT>,
 ): MessageContent {
   const messageConsumer = adapter?.consume;
   if (messageConsumer) {
@@ -220,7 +220,7 @@ function convertMessage<MessageT>(
     return message;
   } else {
     throw new Error(
-      `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`
+      `Expected either a message adapter to be provided to the serializer or the input message to have data and contentType fields`,
     );
   }
 }

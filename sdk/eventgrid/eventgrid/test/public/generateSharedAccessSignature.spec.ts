@@ -18,12 +18,12 @@ describe("generateSharedAccessSignature", function () {
     const sig = await generateSharedAccessSignature(
       topicUrl,
       new AzureKeyCredential(key),
-      new Date(Date.UTC(2020, 0, 1, 0, 0, 0))
+      new Date(Date.UTC(2020, 0, 1, 0, 0, 0)),
     );
 
     assert.equal(
       sig,
-      "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D"
+      "r=https%3A%2F%2Feg-topic.westus-2.eventgrid.azure.net%2Fapi%2Fevents%3FapiVersion%3D2018-01-01&e=1%2F1%2F2020%2012%3A00%3A00%20AM&s=ZzvNAYRyvJwDrOJKYxbNAPNCoSqgOJVLFi4IMXOrW2Q%3D",
     );
   });
 });

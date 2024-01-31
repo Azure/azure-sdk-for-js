@@ -1,14 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { BodyPart, MultipartRequestBody } from "../../src/interfaces";
+import type { BodyPart, MultipartRequestBody } from "../../src/interfaces";
 import { isBlob } from "../../src/util/typeGuards";
 import { Readable } from "stream";
 import { performRequest } from "../formDataPolicy.spec";
-import { createFile, createFileFromStream } from "../../src/util/file";
-import { ReadableStream } from "stream/web";
+import {
+  FileWithRawContent,
+  createFile,
+  createFileFromStream,
+  getRawContent,
+} from "../../src/util/file";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
@@ -30,7 +34,7 @@ describe("formDataPolicy (node-only)", function () {
     assert.ok(isBlob(parts[0].body));
 
     const buffers: Buffer[] = [];
-    for await (const part of (parts[0].body as Blob).stream() as ReadableStream<Uint8Array>) {
+    for await (const part of getRawContent(parts[0].body as Blob) as NodeJS.ReadableStream) {
       buffers.push(part as Buffer);
     }
 
@@ -68,11 +72,7 @@ describe("formDataPolicy (node-only)", function () {
   });
 
   describe("file uploads", function () {
-    it("can upload a File object", async function () {
-      if (typeof File === "undefined") {
-        this.skip();
-      }
-
+    it.skipIf(typeof File === "undefined")("can upload a File object", async function () {
       const result = await performRequest({
         file: new File([new Uint8Array([1, 2, 3])], "file.bin", {
           type: "application/octet-stream",
@@ -92,11 +92,7 @@ describe("formDataPolicy (node-only)", function () {
       assert.deepEqual([...buf], [1, 2, 3]);
     });
 
-    it("can upload a Blob object", async function () {
-      if (typeof Blob === "undefined") {
-        this.skip();
-      }
-
+    it.skipIf(typeof Blob === "undefined")("can upload a Blob object", async function () {
       const result = await performRequest({
         file: new Blob([new Uint8Array([1, 2, 3])]),
       });
@@ -106,7 +102,8 @@ describe("formDataPolicy (node-only)", function () {
       assert.deepEqual(
         parts[0].headers,
         createHttpHeaders({
-          // Content-Type should not be inferred
+          // Content-Type should default to 'application/octet-stream' for binary content (lack of content type is reserved for text content)
+          "Content-Type": "application/octet-stream",
           "Content-Disposition": `form-data; name="file"; filename="blob"`,
         }),
       );

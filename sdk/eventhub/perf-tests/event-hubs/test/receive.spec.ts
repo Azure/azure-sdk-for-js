@@ -58,7 +58,7 @@ async function main(): Promise<void> {
 async function sendBatch(
   numberOfEvents: number,
   partitionIds: string[],
-  eventBodySize: number
+  eventBodySize: number,
 ): Promise<void> {
   const _payload = Buffer.alloc(eventBodySize);
   const producer = new EventHubProducerClient(connectionString, eventHubName);
@@ -100,7 +100,7 @@ async function RunTest(maxBatchSize: number, messages: number): Promise<void> {
       processEvents,
       processError,
     },
-    { maxBatchSize, startPosition: earliestEventPosition }
+    { maxBatchSize, startPosition: earliestEventPosition },
   );
 }
 
@@ -132,7 +132,7 @@ async function WriteResults(messages: number): Promise<void> {
       currentMessages,
       currentElapsed,
       maxMessages,
-      maxElapsed
+      maxElapsed,
     );
   } while (_messages < messages);
 }
@@ -143,7 +143,7 @@ function WriteResult(
   currentMessages: number,
   currentElapsed: number,
   maxMessages: number,
-  maxElapsed: number
+  maxElapsed: number,
 ): void {
   const memoryUsage = process.memoryUsage();
   log(
@@ -152,7 +152,7 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
       `\tRSS\t${memoryUsage.rss}` +
-      `\tHeapUsed\t${memoryUsage.heapUsed}`
+      `\tHeapUsed\t${memoryUsage.heapUsed}`,
   );
 }
 

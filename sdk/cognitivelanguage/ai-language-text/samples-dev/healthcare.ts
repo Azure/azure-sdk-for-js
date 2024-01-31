@@ -43,7 +43,7 @@ export async function main() {
 
   poller.onProgress(() => {
     console.log(
-      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`
+      `Last time the operation was updated was on: ${poller.getOperationState().modifiedOn}`,
     );
   });
   console.log(`The operation was created on ${poller.getOperationState().createdOn}`);
@@ -79,7 +79,7 @@ export async function main() {
         console.log(`\tRecognized relations between entities:`);
         for (const relation of result.entityRelations) {
           console.log(
-            `\t\t- Relation of type ${relation.relationType} found between the following entities:`
+            `\t\t- Relation of type ${relation.relationType} found between the following entities:`,
           );
           for (const role of relation.roles) {
             console.log(`\t\t\t- "${role.entity.text}" with the role ${role.name}`);

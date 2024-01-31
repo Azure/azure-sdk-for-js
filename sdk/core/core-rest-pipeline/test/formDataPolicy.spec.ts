@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { assert, describe, it, vi, expect } from "vitest";
+
 import {
-  PipelineResponse,
-  SendRequest,
+  type PipelineResponse,
+  type SendRequest,
+  createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
   formDataPolicy,
+  multipartPolicy,
 } from "../src";
-import { FormDataMap } from "../src/interfaces";
+import type { FormDataMap } from "../src/interfaces";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
@@ -25,8 +27,8 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
     request,
     status: 200,
   };
-  const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-  next.resolves(successResponse);
+  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  next.mockResolvedValue(successResponse);
 
   const policy = formDataPolicy();
 
@@ -34,10 +36,6 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
 }
 
 describe("formDataPolicy", function () {
-  afterEach(function () {
-    sinon.restore();
-  });
-
   it("prepares x-www-form-urlencoded form data correctly", async function () {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -54,8 +52,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -81,8 +79,8 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 
@@ -90,32 +88,5 @@ describe("formDataPolicy", function () {
 
     assert.isUndefined(result.request.formData);
     assert.strictEqual(result.request.body, `a=va&b=vb&c=vc1&c=vc2`);
-  });
-
-  describe("multipart/form-data", function () {
-    it("throws if request.body is already present", async function () {
-      const request = createPipelineRequest({
-        url: "https://bing.com",
-        headers: createHttpHeaders({
-          "Content-Type": "multipart/form-data",
-        }),
-        formData: {},
-        body: "AAAAAAAAAAAA",
-      });
-      const successResponse: PipelineResponse = {
-        headers: createHttpHeaders(),
-        request,
-        status: 200,
-      };
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-      next.resolves(successResponse);
-
-      const policy = formDataPolicy();
-
-      assert.isRejected(
-        policy.sendRequest(request, next),
-        /multipart\/form-data request must not have a request body already specified/,
-      );
-    });
   });
 });

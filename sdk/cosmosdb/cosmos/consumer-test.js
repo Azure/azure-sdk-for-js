@@ -18,11 +18,11 @@ async function exec(cmd) {
     for (const version of tsVersionsToCheckCompatibility) {
       console.log(`Compiling with typescript@${version} - Basic`);
       await exec(
-        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --target ES5`
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --target ES5`,
       );
       console.log(`Compiling with typescript@${version} - Custom lib`);
       await exec(
-        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`
+        `npx -p typescript@${version} tsc ./test.ts --allowSyntheticDefaultImports true --lib es2018`,
       );
     }
     process.exit(0);

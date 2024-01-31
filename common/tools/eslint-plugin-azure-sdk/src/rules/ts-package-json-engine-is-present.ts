@@ -35,7 +35,7 @@ export default {
           },
         },
       },
-    ]
+    ],
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const options = context.options[0] || {};

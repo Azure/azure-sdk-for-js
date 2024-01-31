@@ -28,7 +28,7 @@ async function expressRouteCrossConnectionList() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteCrossConnections",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

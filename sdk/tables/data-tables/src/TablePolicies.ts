@@ -26,7 +26,7 @@ const dummyResponse: PipelineResponse = {
 
 export function transactionRequestAssemblePolicy(
   bodyParts: string[],
-  changesetId: string
+  changesetId: string,
 ): PipelinePolicy {
   return {
     name: transactionRequestAssemblePolicyName,

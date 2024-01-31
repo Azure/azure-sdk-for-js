@@ -35,7 +35,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
@@ -68,7 +68,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -119,7 +119,7 @@ export function getTokenBSUWithDefaultCredential(
   recorder: Recorder,
   pipelineOptions: StoragePipelineOptions = {},
   accountType: string = "",
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): BlobServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountName = env[accountNameEnvVar];
@@ -144,7 +144,7 @@ export async function getStorageAccessTokenWithDefaultCredential(): Promise<Acce
 
 export function getBSU(
   recorder: Recorder,
-  pipelineOptions: StoragePipelineOptions = {}
+  pipelineOptions: StoragePipelineOptions = {},
 ): BlobServiceClient {
   return getGenericBSU(recorder, "", undefined, pipelineOptions);
 }
@@ -187,7 +187,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {
@@ -207,12 +207,12 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockContent: Buffer
+  blockContent: Buffer,
 ): Promise<string>;
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSize: number
+  blockSize: number,
 ): Promise<string>;
 
 // Total file size = (blockNumber -1)*blockSize + lastBlockSize
@@ -220,13 +220,13 @@ export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
   blockSize: number,
-  lastBlockSize: number
+  lastBlockSize: number,
 ): Promise<string>;
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
   blockSizeOrContent: number | Buffer,
-  lastBlockSize: number = 0
+  lastBlockSize: number = 0,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
@@ -273,7 +273,7 @@ export async function createRandomLocalFile(
 export async function createRandomLocalFileWithTotalSize(
   folder: string,
   totalSize: number,
-  blockSize?: number
+  blockSize?: number,
 ): Promise<string> {
   if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
     blockSize = 1024 * 1024;
@@ -304,16 +304,16 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
       startsOn: now,
       version: "2020-08-04",
     },
-    sharedKeyCredential as StorageSharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential,
   ).toString();
 
   const blobEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
   return `BlobEndpoint=${blobEndpoint}/;QueueEndpoint=${blobEndpoint.replace(
     ".blob.",
-    ".queue."
+    ".queue.",
   )}/;FileEndpoint=${blobEndpoint.replace(
     ".queue.",
-    ".file."
+    ".file.",
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }

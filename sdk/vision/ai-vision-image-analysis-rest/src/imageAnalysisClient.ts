@@ -16,11 +16,11 @@ import { ImageAnalysisClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ImageAnalysisClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/computervision`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";
-  const userAgentInfo = `azsdk-js-imageAnalysis-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-vision-image-analysis-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

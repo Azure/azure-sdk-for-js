@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AzureLogger } from "@azure/logger";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { AccessTokenGetter, createTokenCycler } from "../util/tokenCycler";
+import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AzureLogger } from "@azure/logger";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
+import { type AccessTokenGetter, createTokenCycler } from "../util/tokenCycler";
 import { logger as coreLogger } from "../log";
-import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
+import type { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
 /**
  * The programmatic identifier of the auxiliaryAuthenticationHeaderPolicy.

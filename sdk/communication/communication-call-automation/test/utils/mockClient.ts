@@ -34,7 +34,7 @@ export const createMediaClient = (mockHttpClient: HttpClient): CallMedia => {
     new CallAutomationEventProcessor(),
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };
 
@@ -44,6 +44,6 @@ export const createRecordingClient = (mockHttpClient: HttpClient): CallRecording
     { key: generateToken() },
     {
       httpClient: mockHttpClient,
-    }
+    },
   );
 };

@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest",
-    "verbatimModuleSyntax": true
+    "verbatimModuleSyntax": true,
   },
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts"],
 }

@@ -32,7 +32,7 @@ async function virtualWanDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}",
       subscriptionId,
       resourceGroupName,
-      VirtualWANName
+      VirtualWANName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

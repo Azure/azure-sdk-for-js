@@ -22,7 +22,10 @@ interface GroupByResult {
 
 /** @hidden */
 export class GroupByEndpointComponent implements ExecutionContext {
-  constructor(private executionContext: ExecutionContext, private queryInfo: QueryInfo) {}
+  constructor(
+    private executionContext: ExecutionContext,
+    private queryInfo: QueryInfo,
+  ) {}
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];
@@ -49,7 +52,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
     while (this.executionContext.hasMoreResults()) {
       // Grab the next result
       const { result, headers } = (await this.executionContext.nextItem(
-        diagnosticNode
+        diagnosticNode,
       )) as GroupByResponse;
       mergeHeaders(aggregateHeaders, headers);
 

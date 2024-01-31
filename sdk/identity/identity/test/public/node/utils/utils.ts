@@ -11,7 +11,7 @@ import { randomUUID } from "@azure/core-util";
 export async function createJWTTokenFromCertificate(
   authorityHost: string,
   clientId: string,
-  certificatePath: string
+  certificatePath: string,
 ): Promise<string> {
   console.log("client ID =", clientId);
   const privateKeyPemCert = fs.readFileSync(certificatePath);

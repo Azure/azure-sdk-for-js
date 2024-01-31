@@ -42,7 +42,7 @@ async function main() {
   const containerName = `newcontainer${new Date().getTime()}`;
   const containerClient = new ContainerClient(
     `https://${account}.blob.core.windows.net/${containerName}`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const createContainerResponse = await containerClient.create();
@@ -63,12 +63,12 @@ async function main() {
   const response = await blobSnapshotClient.download(0);
   console.log(
     "Reading response to string...",
-    (await blobSnapshotClient.getProperties()).contentLength
+    (await blobSnapshotClient.getProperties()).contentLength,
   );
 
   console.log(
     "Downloaded blob content",
-    (await streamToBuffer(response.readableStreamBody!)).toString()
+    (await streamToBuffer(response.readableStreamBody!)).toString(),
   );
 
   // Delete container

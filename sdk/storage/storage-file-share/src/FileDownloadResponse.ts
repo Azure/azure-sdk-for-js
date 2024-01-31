@@ -415,17 +415,17 @@ export class FileDownloadResponse implements FileDownloadResponseModel {
     getter: ReadableStreamGetter,
     offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     this.originalResponse = assertResponse<FileDownloadResponseModel, FileDownloadHeaders>(
-      originalResponse
+      originalResponse,
     );
     this.fileDownloadStream = new RetriableReadableStream(
       this.originalResponse.readableStreamBody!,
       getter,
       offset,
       count,
-      options
+      options,
     );
   }
 }

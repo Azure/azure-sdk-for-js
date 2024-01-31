@@ -20,7 +20,7 @@ const tempDir = path.join(
   os.tmpdir(),
   "Microsoft",
   "AzureMonitor",
-  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
 );
 
 const deleteFolderRecursive = (dirPath: string): void => {
@@ -97,7 +97,7 @@ describe("FileSystemPersist", () => {
         customPath,
         "Microsoft",
         "AzureMonitor",
-        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
+        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
       );
       deleteFolderRecursive(tempDir);
       const envelope: Envelope = {

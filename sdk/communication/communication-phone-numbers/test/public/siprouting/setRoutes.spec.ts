@@ -235,7 +235,7 @@ matrix([[true, false]], async function (useAad) {
         assert.equal(error.code, "UnprocessableConfiguration");
         const storedRoutes = await listAllRoutes(client);
         assert.isUndefined(
-          storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute")
+          storedRoutes.find((item) => item.name === "invalidDuplicatedRoutingTrunksRoute"),
         );
         return;
       }

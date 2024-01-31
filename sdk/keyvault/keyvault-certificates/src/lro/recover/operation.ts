@@ -33,7 +33,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     public state: RecoverDeletedCertificateState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, {
       cancelMessage: "Canceling the recovery of a deleted certificate is not supported.",
@@ -45,7 +45,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
    */
   private getCertificate(
     certificateName: string,
-    options: GetCertificateOptions = {}
+    options: GetCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     return tracingClient.withSpan(
       "RecoverDeletedCertificatePoller.getCertificate",
@@ -55,10 +55,10 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
           this.vaultUrl,
           certificateName,
           "",
-          updatedOptions
+          updatedOptions,
         );
         return getCertificateWithPolicyFromCertificateBundle(result);
-      }
+      },
     );
   }
 
@@ -68,7 +68,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
    */
   private recoverDeletedCertificate(
     certificateName: string,
-    options: RecoverDeletedCertificateOptions = {}
+    options: RecoverDeletedCertificateOptions = {},
   ): Promise<KeyVaultCertificateWithPolicy> {
     let parsedBody: any;
     return tracingClient.withSpan(
@@ -82,7 +82,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
           },
         });
         return getCertificateWithPolicyFromCertificateBundle(parsedBody);
-      }
+      },
     );
   }
 
@@ -93,7 +93,7 @@ export class RecoverDeletedCertificatePollOperation extends KeyVaultCertificateP
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: RecoverDeletedCertificateState) => void;
-    } = {}
+    } = {},
   ): Promise<RecoverDeletedCertificatePollOperation> {
     const state = this.state;
     const { certificateName } = state;

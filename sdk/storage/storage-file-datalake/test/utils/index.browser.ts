@@ -28,7 +28,7 @@ export function getTokenCredential(): TokenCredential {
 export function getGenericDataLakeServiceClient(
   recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): DataLakeServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -40,7 +40,7 @@ export function getGenericDataLakeServiceClient(
 
   if (!accountName || !accountSAS || accountName === "" || accountSAS === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`,
     );
   }
 
@@ -101,7 +101,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     contentAsBlob?: Promise<Blob>;
   },
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.contentAsBlob!;
   return blobToString(blob);

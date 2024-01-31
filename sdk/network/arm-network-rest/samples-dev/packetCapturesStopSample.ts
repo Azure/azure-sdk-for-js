@@ -34,7 +34,7 @@ async function stopPacketCapture() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      packetCaptureName
+      packetCaptureName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -86,7 +86,7 @@ describe("Main functions", () => {
     assert.ok(features & StatsbeatFeature.DISTRO, "DISTRO is not set");
     assert.ok(
       instrumentations & StatsbeatInstrumentation.AZURE_CORE_TRACING,
-      "AZURE_CORE_TRACING not set"
+      "AZURE_CORE_TRACING not set",
     );
     assert.ok(instrumentations & StatsbeatInstrumentation.MONGODB, "MONGODB not set");
     assert.ok(instrumentations & StatsbeatInstrumentation.MYSQL, "MYSQL not set");

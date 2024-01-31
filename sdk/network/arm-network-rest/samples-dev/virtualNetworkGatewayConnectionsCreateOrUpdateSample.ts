@@ -110,7 +110,7 @@ async function createVirtualNetworkGatewayConnectionS2S() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -23,24 +23,24 @@ describe("transforms", () => {
   it("toBlobEndpointUrl", () => {
     assert.deepStrictEqual(
       toBlobEndpointUrl("http://account.blob.core.windows.net"),
-      "http://account.blob.core.windows.net"
+      "http://account.blob.core.windows.net",
     );
     assert.deepStrictEqual(
       toBlobEndpointUrl("http://account.dfs.core.windows.net"),
-      "http://account.blob.core.windows.net"
+      "http://account.blob.core.windows.net",
     );
     assert.deepStrictEqual(toBlobEndpointUrl("http://127.0.0.1:10000"), "http://127.0.0.1:10000");
     assert.deepStrictEqual(
       toBlobEndpointUrl("http://account.blob.core.windows.net/abc"),
-      "http://account.blob.core.windows.net/abc"
+      "http://account.blob.core.windows.net/abc",
     );
     assert.deepStrictEqual(
       toBlobEndpointUrl("http://account.dfs.core.windows.net/abc"),
-      "http://account.blob.core.windows.net/abc"
+      "http://account.blob.core.windows.net/abc",
     );
     assert.deepStrictEqual(
       toBlobEndpointUrl("http://127.0.0.1:10000/abc"),
-      "http://127.0.0.1:10000/abc"
+      "http://127.0.0.1:10000/abc",
     );
     assert.deepStrictEqual(toBlobEndpointUrl("http://localhost"), "http://localhost");
     assert.deepStrictEqual(toBlobEndpointUrl("invalidurl"), "invalidurl");
@@ -49,24 +49,24 @@ describe("transforms", () => {
   it("toDfsEndpointUrl", () => {
     assert.deepStrictEqual(
       toDfsEndpointUrl("http://account.blob.core.windows.net"),
-      "http://account.dfs.core.windows.net"
+      "http://account.dfs.core.windows.net",
     );
     assert.deepStrictEqual(
       toDfsEndpointUrl("http://account.dfs.core.windows.net"),
-      "http://account.dfs.core.windows.net"
+      "http://account.dfs.core.windows.net",
     );
     assert.deepStrictEqual(toDfsEndpointUrl("http://127.0.0.1:10000"), "http://127.0.0.1:10000");
     assert.deepStrictEqual(
       toDfsEndpointUrl("http://account.blob.core.windows.net/abc"),
-      "http://account.dfs.core.windows.net/abc"
+      "http://account.dfs.core.windows.net/abc",
     );
     assert.deepStrictEqual(
       toDfsEndpointUrl("http://account.dfs.core.windows.net/abc"),
-      "http://account.dfs.core.windows.net/abc"
+      "http://account.dfs.core.windows.net/abc",
     );
     assert.deepStrictEqual(
       toDfsEndpointUrl("http://127.0.0.1:10000/abc"),
-      "http://127.0.0.1:10000/abc"
+      "http://127.0.0.1:10000/abc",
     );
     assert.deepStrictEqual(toDfsEndpointUrl("http://localhost"), "http://localhost");
     assert.deepStrictEqual(toDfsEndpointUrl("invalidurl"), "invalidurl");
@@ -253,7 +253,7 @@ describe("transforms", () => {
         entityId: "xxx",
         permissions: { read: true, write: true, execute: true },
       }),
-      "default:user:xxx:rwx"
+      "default:user:xxx:rwx",
     );
 
     assert.deepStrictEqual(
@@ -263,7 +263,7 @@ describe("transforms", () => {
         entityId: "xxx",
         permissions: { read: false, write: false, execute: false },
       }),
-      "user:xxx:---"
+      "user:xxx:---",
     );
 
     assert.deepStrictEqual(
@@ -273,7 +273,7 @@ describe("transforms", () => {
         entityId: "xxx",
         permissions: { read: true, write: true, execute: false },
       }),
-      "user:xxx:rw-"
+      "user:xxx:rw-",
     );
 
     assert.deepStrictEqual(
@@ -283,7 +283,7 @@ describe("transforms", () => {
         entityId: "xxx",
         permissions: { read: false, write: true, execute: false },
       }),
-      "user:xxx:-w-"
+      "user:xxx:-w-",
     );
   });
 
@@ -316,34 +316,34 @@ describe("transforms", () => {
           permissions: { read: false, write: true, execute: false },
         },
       ]),
-      "default:user:xxx:rwx,user:xxx:rw-,user:xxx:---,user:xxx:-w-"
+      "default:user:xxx:rwx,user:xxx:rw-,user:xxx:---,user:xxx:-w-",
     );
   });
 
   it("toRolePermissionsString", () => {
     assert.deepStrictEqual(
       toRolePermissionsString({ read: true, write: true, execute: true }),
-      "rwx"
+      "rwx",
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: false, write: false, execute: false }),
-      "---"
+      "---",
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: true, write: false, execute: true }),
-      "r-x"
+      "r-x",
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: false, write: false, execute: true }),
-      "--x"
+      "--x",
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: false, write: false, execute: true }, true),
-      "--t"
+      "--t",
     );
     assert.deepStrictEqual(
       toRolePermissionsString({ read: false, write: true, execute: false }, true),
-      "-wT"
+      "-wT",
     );
   });
 
@@ -356,7 +356,7 @@ describe("transforms", () => {
         stickyBit: false,
         extendedAcls: false,
       }),
-      "rwxrwxrwx"
+      "rwxrwxrwx",
     );
 
     assert.deepStrictEqual(
@@ -367,7 +367,7 @@ describe("transforms", () => {
         stickyBit: false,
         extendedAcls: false,
       }),
-      "---------"
+      "---------",
     );
 
     assert.deepStrictEqual(
@@ -378,7 +378,7 @@ describe("transforms", () => {
         stickyBit: false,
         extendedAcls: true,
       }),
-      "---------+"
+      "---------+",
     );
 
     assert.deepStrictEqual(
@@ -389,7 +389,7 @@ describe("transforms", () => {
         stickyBit: true,
         extendedAcls: false,
       }),
-      "--------t"
+      "--------t",
     );
 
     assert.deepStrictEqual(
@@ -400,7 +400,7 @@ describe("transforms", () => {
         stickyBit: true,
         extendedAcls: false,
       }),
-      "---r-x--t"
+      "---r-x--t",
     );
   });
 });

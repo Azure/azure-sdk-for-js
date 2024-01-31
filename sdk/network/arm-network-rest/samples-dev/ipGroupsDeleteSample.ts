@@ -32,7 +32,7 @@ async function deleteIPGroups() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
       subscriptionId,
       resourceGroupName,
-      ipGroupsName
+      ipGroupsName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
