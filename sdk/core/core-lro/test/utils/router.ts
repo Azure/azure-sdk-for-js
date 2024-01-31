@@ -19,7 +19,12 @@ import {
   generate,
 } from "./utils";
 import { PollerLike, createHttpPoller } from "../../src";
-import { OperationResponse, RawResponse, ResourceLocationConfig, ResponseBody } from "../../src/http/models";
+import {
+  OperationResponse,
+  RawResponse,
+  ResourceLocationConfig,
+  ResponseBody,
+} from "../../src/http/models";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
 import { getYieldedValue } from "@azure/test-utils";
@@ -107,7 +112,6 @@ export function createClient(inputs: {
     },
   };
 }
-
 
 function createSendOp(settings: {
   client: HttpClient;
@@ -217,11 +221,11 @@ async function runLro<TState>(settings: {
 
 export const createRunLroWith =
   <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
-    (settings: {
-      routes: LroResponseSpec[];
-      onProgress?: (state: TState) => void;
-      resourceLocationConfig?: ResourceLocationConfig;
-      processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
-      updateState?: (state: TState, lastResponse: RawResponse) => void;
-    }): Promise<Result> =>
-      runLro({ ...settings, ...variables });
+  (settings: {
+    routes: LroResponseSpec[];
+    onProgress?: (state: TState) => void;
+    resourceLocationConfig?: ResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+  }): Promise<Result> =>
+    runLro({ ...settings, ...variables });
