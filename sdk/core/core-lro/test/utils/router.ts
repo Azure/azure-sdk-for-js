@@ -145,7 +145,7 @@ export function createTestPoller(settings: {
     resourceLocationConfig,
     processResult,
     updateState,
-    implName = "createPollerSync",
+    implName = "createPoller",
     throwOnNon2xxResponse = true,
     restoreFrom = undefined,
   } = settings;
@@ -165,7 +165,7 @@ export function createTestPoller(settings: {
     },
   });
   switch (implName) {
-    case "createPollerSync": {
+    case "createPoller": {
       return createHttpPoller(lro, {
         intervalInMs: 0,
         resourceLocationConfig: resourceLocationConfig,
