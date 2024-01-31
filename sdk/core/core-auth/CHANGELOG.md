@@ -6,6 +6,10 @@
 
 - Added the `isKeyCredential` typeguard function similar to the existing `isTokenCredential`.
 
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
 ## 1.5.0 (2023-08-03)
 
 ### Features Added
