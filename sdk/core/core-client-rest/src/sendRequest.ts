@@ -86,7 +86,7 @@ function getContentType(body: any): string {
       return "application/json; charset=UTF-8";
     } catch (error: any) {
       // If we fail to parse the body, it is not json
-      return "text/plain";
+      return "text/plain; charset=UTF-8";
     }
   }
   // By default return json

@@ -10,7 +10,6 @@ import { OperationOptions, RequestParameters } from "./common";
  */
 export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
   return {
-    ...options,
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
     timeout: options.requestOptions?.timeout,
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,

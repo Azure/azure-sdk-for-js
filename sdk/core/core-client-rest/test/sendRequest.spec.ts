@@ -353,7 +353,7 @@ describe("sendRequest", () => {
   it("should set text/plain by default if its not json string", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.equal(request.headers.get("content-type"), "text/plain");
+      assert.equal(request.headers.get("content-type"), "text/plain; charset=UTF-8");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 
