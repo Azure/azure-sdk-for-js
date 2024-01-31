@@ -16,3 +16,4 @@ export {
 export { env } from "./utils/env";
 export { delay } from "./utils/delay";
 export { CustomMatcherOptions } from "./matcher";
+export { TestInfo, MochaTest, VitestTestContext } from "./testInfo";
