@@ -33,7 +33,7 @@ describe("IdentityClient", function () {
       scopes: ["scope"],
       credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret", {
         // createResponse below will simulate a 400 error when trying to resolve the authority
-        authorityHost: "https://unreachable-host.com",
+        authorityHost: "https://fake-authority.com",
       }),
       secureResponses: [
         createResponse(400, {
@@ -58,7 +58,7 @@ describe("IdentityClient", function () {
       credential: new ClientSecretCredential("adfs", "client", "secret", {
         // createResponse below will simulate a 200 when trying to resolve the authority,
         // then the 400 error when trying to get the token
-        authorityHost: "https://valid-authority.com",
+        authorityHost: "https://fake-authority.com",
       }),
       secureResponses: [
         ...prepareMSALResponses(),
