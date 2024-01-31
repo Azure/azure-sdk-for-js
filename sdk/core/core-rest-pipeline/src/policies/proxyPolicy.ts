@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as http from "http";
-import type * as https from "https";
+import type * as http from "node:http";
+import type * as https from "node:https";
 import createHttpsProxyAgent, { type HttpsProxyAgentOptions } from "https-proxy-agent";
 import createHttpProxyAgent, { type HttpProxyAgentOptions } from "http-proxy-agent";
 import type {
