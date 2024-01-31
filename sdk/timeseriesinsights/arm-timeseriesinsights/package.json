@@ -43,7 +43,8 @@
     "@types/node": "^18.0.0",
     "@azure/dev-tool": "^1.0.0",
     "dotenv": "^16.0.0",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "@types/mocha": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/timeseriesinsights/arm-timeseriesinsights",
   "repository": {
