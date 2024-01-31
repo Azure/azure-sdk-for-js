@@ -579,6 +579,7 @@ export const Constants: {
         MaximumExclusiveEffectivePartitionKey: string;
     };
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
+    ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
 
 // @public
@@ -1040,7 +1041,6 @@ export interface FeedOptions extends SharedOptions {
     partitionKey?: PartitionKey;
     populateIndexMetrics?: boolean;
     populateQueryMetrics?: boolean;
-    useAllVersionsAndDeleteFeed?: boolean;
     useIncrementalFeed?: boolean;
 }
 

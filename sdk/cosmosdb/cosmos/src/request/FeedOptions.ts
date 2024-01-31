@@ -50,6 +50,7 @@ export interface FeedOptions extends SharedOptions {
    */
   useIncrementalFeed?: boolean;
   /**
+   * @internal
    * Indicates a change feed request in allVersionsAndDelete mode. Default false.
    */
   useAllVersionsAndDeleteFeed?: boolean;

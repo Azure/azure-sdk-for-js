@@ -23,7 +23,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
   private startTime: string;
   private rId: string;
   private isInstantiated: boolean;
-  private startFromNow: string;
+  private startFromNow: boolean;
   /**
    * @internal
    */
@@ -41,13 +41,12 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
     this.isInstantiated = false;
 
     if (changeFeedOptions.startTime) {
+      // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
       if (typeof changeFeedOptions.startTime === "string") {
-        this.startFromNow = "*";
+        this.startFromNow = true;
       } else {
         this.startTime = changeFeedOptions.startTime.toUTCString();
       }
-    } else {
-      this.startTime = undefined;
     }
   }
 
@@ -147,7 +146,8 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         condition: continuation,
       };
     } else if (this.startFromNow) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] = "*";
+      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
     }
 
     if (this.startTime) {

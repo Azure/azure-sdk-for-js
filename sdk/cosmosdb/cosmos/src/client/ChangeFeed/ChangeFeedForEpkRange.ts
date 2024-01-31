@@ -27,7 +27,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   private startTime: string;
   private isInstantiated: boolean;
   private rId: string;
-  private startFromNow: string;
+  private startFromNow: boolean;
   /**
    * @internal
    */
@@ -46,13 +46,12 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
     if (changeFeedOptions.startTime) {
+      // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
       if (typeof changeFeedOptions.startTime === "string") {
-        this.startFromNow = "*";
+        this.startFromNow = true;
       } else {
         this.startTime = changeFeedOptions.startTime.toUTCString();
       }
-    } else {
-      this.startTime = undefined;
     }
     this.isInstantiated = false;
   }
@@ -406,7 +405,8 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         condition: feedRange.continuationToken,
       };
     } else if (this.startFromNow) {
-      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] = "*";
+      feedOptions.initialHeaders[Constants.HttpHeaders.IfNoneMatch] =
+        Constants.ChangeFeedIfNoneMatchStartFromNowHeader;
     }
 
     if (this.startTime) {
