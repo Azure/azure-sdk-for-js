@@ -17,6 +17,7 @@ import {
   handleMsalError,
   msalToPublic,
   publicToMsal,
+  randomUUID,
 } from "../utils";
 import {
   processMultiTenantRequest,
@@ -35,7 +36,6 @@ import { NativeBrokerPluginControl } from "../../plugins/provider";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { getLogLevel } from "@azure/logger";
-import { randomUUID } from "@azure/core-util";
 
 /**
  * Union of the constructor parameters that all MSAL flow types for Node.
