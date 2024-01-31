@@ -142,7 +142,7 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
 }
 
 /**
- * Wraps core-util's {@link randomUUID} in order to allow for mocking in tests.
+ * Wraps core-util's randomUUID in order to allow for mocking in tests.
  * This prepares the library for the upcoming core-util update to ESM.
  *
  * @internal
