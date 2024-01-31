@@ -6,33 +6,15 @@ export {
   CancelOnProgress,
   OperationState,
   OperationStatus,
-  SimplePollerLike,
+  PollerLike,
+  RestorableOperationState,
+  OperationConfig,
 } from "./poller/models";
 export { CreateHttpPollerOptions } from "./http/models";
 export {
-  LroResourceLocationConfig,
+  ResourceLocationConfig,
   LongRunningOperation,
-  LroResponse,
+  OperationResponse,
   RawResponse,
 } from "./http/models";
-
-/**
- * This can be uncommented to expose the protocol-agnostic poller
- */
-// export {
-//   BuildCreatePollerOptions,
-//   Operation,
-//   CreatePollerOptions,
-//   OperationConfig,
-//   RestorableOperationState,
-// } from "./poller/models";
-// export { buildCreatePoller } from "./poller/poller";
-
-/** legacy */
-export * from "./legacy/lroEngine";
-export * from "./legacy/poller";
-export * from "./legacy/pollOperation";
-export { PollerLike } from "./legacy/models";
-
-import * as Next from "./next";
-export { Next };
+export { deserializeState } from "./poller/operation";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, LroResponse } from "./models";
-import { OperationState, SimplePollerLike } from "../poller/models";
+import { LongRunningOperation, OperationResponse } from "./models";
+import { OperationState, PollerLike } from "../poller/models";
 import {
   getErrorFromResponse,
   getOperationLocation,
@@ -22,10 +22,10 @@ import { buildCreatePoller } from "../poller/poller";
  * @param options - options to configure the poller
  * @returns an initialized poller
  */
-export async function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
   options?: CreateHttpPollerOptions<TResult, TState>,
-): Promise<SimplePollerLike<TState, TResult>> {
+): PollerLike<TState, TResult> {
   const {
     resourceLocationConfig,
     intervalInMs,
@@ -35,7 +35,7 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     withOperationLocation,
     resolveOnUnsuccessful = false,
   } = options || {};
-  return buildCreatePoller<LroResponse, TResult, TState>({
+  return buildCreatePoller<OperationResponse, TResult, TState>({
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     isOperationError,
@@ -48,17 +48,21 @@ export async function createHttpPoller<TResult, TState extends OperationState<TR
     {
       init: async () => {
         const response = await lro.sendInitialRequest();
-        const config = inferLroMode({
-          rawResponse: response.rawResponse,
-          requestPath: lro.requestPath,
-          requestMethod: lro.requestMethod,
-          resourceLocationConfig,
-        });
+        const config = inferLroMode(response.rawResponse, resourceLocationConfig);
+        const metadata: Record<string, string> = {};
+        if (config?.mode) {
+          metadata["mode"] = config.mode;
+        }
+        if (resourceLocationConfig) {
+          metadata["resourceLocationConfig"] = resourceLocationConfig;
+        }
         return {
           response,
           operationLocation: config?.operationLocation,
           resourceLocation: config?.resourceLocation,
-          ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
+          initialUri: config?.initialUri,
+          requestMethod: config?.requestMethod,
+          metadata,
         };
       },
       poll: lro.sendPollRequest,
