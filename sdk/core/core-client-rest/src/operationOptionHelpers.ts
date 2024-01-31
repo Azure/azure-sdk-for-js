@@ -8,11 +8,8 @@ import { OperationOptions, RequestParameters } from "./common";
  * @param options - the options that are used by Modular layer to send the request
  * @returns the result of the conversion in RequestParameters of RLC layer
  */
-export function operationOptionsToRequestParameters(
-  options: OperationOptions & { contentType: string },
-): RequestParameters {
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters {
   return {
-    contentType: options.contentType,
     allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
     timeout: options.requestOptions?.timeout,
     skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
