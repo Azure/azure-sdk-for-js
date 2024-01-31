@@ -35,8 +35,6 @@ export interface AssistantCreationOptions {
     tools?: ToolDefinition[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "DeletionStatus" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface AssistantDeletionStatus extends DeletionStatus {
 }
@@ -61,7 +59,6 @@ export class AssistantsClient {
     createAssistant(body: AssistantCreationOptions, options?: CreateAssistantOptions): Promise<Assistant>;
     createAssistantFile(assistantId: string, fileId: string, options?: CreateAssistantFileOptions): Promise<AssistantFile>;
     createMessage(threadId: string, role: MessageRole, content: string, options?: CreateMessageOptions): Promise<ThreadMessage>;
-    // Warning: (ae-forgotten-export) The symbol "CreateRunRequestOptions" needs to be exported by the entry point index.d.ts
     createRun(threadId: string, createRunOptions: CreateRunOptions, options?: CreateRunRequestOptions): Promise<ThreadRun>;
     createThread(body?: AssistantThreadCreationOptions, options?: CreateThreadOptions): Promise<AssistantThread>;
     createThreadAndRun(body: CreateAndRunThreadOptions, options?: CreateThreadAndRunOptions): Promise<ThreadRun>;
@@ -78,7 +75,6 @@ export class AssistantsClient {
     getRunStep(threadId: string, runId: string, stepId: string, options?: GetRunStepOptions): Promise<RunStep>;
     getThread(threadId: string, options?: GetThreadOptions): Promise<AssistantThread>;
     listAssistantFiles(assistantId: string, options?: ListAssistantFilesOptions): Promise<ListResponseOf<AssistantFile>>;
-    // Warning: (ae-forgotten-export) The symbol "ListResponseOf" needs to be exported by the entry point index.d.ts
     listAssistants(options?: ListAssistantsOptions): Promise<ListResponseOf<Assistant>>;
     listFiles(options?: ListFilesOptions): Promise<FileListResponse>;
     listMessageFiles(threadId: string, messageId: string, options?: ListMessageFilesOptions): Promise<ListResponseOf<MessageFile>>;
@@ -87,7 +83,6 @@ export class AssistantsClient {
     listRunSteps(threadId: string, runId: string, options?: ListRunStepsOptions): Promise<ListResponseOf<RunStep>>;
     readonly pipeline: Pipeline;
     submitToolOutputsToRun(threadId: string, runId: string, toolOutputs: ToolOutput[], options?: SubmitToolOutputsToRunOptions): Promise<ThreadRun>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateAssistantRequestOptions" needs to be exported by the entry point index.d.ts
     updateAssistant(assistantId: string, body: UpdateAssistantOptions, options?: UpdateAssistantRequestOptions): Promise<Assistant>;
     updateMessage(threadId: string, messageId: string, options?: UpdateMessageOptions): Promise<ThreadMessage>;
     updateRun(threadId: string, runId: string, options?: UpdateRunOptions): Promise<ThreadRun>;
@@ -194,6 +189,10 @@ export interface CreateRunOptions {
 }
 
 // @public (undocumented)
+export interface CreateRunRequestOptions extends OperationOptions {
+}
+
+// @public (undocumented)
 export interface CreateThreadAndRunOptions extends OperationOptions {
 }
 
@@ -215,6 +214,12 @@ export interface DeleteFileOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface DeleteThreadOptions extends OperationOptions {
+}
+
+// @public
+export interface DeletionStatus {
+    deleted: boolean;
+    id: string;
 }
 
 // @public
@@ -335,6 +340,14 @@ export interface ListMessagesOptions extends OperationOptions {
     order?: ListSortOrder;
 }
 
+// @public
+export interface ListResponseOf<T> {
+    data: T[];
+    firstId: string;
+    hasMore: boolean;
+    lastId: string;
+}
+
 // @public (undocumented)
 export interface ListRunsOptions extends OperationOptions {
     after?: string;
@@ -378,9 +391,6 @@ export interface MessageImageFileDetails {
 // @public
 export type MessageRole = string;
 
-// Warning: (ae-forgotten-export) The symbol "MessageTextFileCitationAnnotation" needs to be exported by the entry point index.d.ts
-// Warning: (ae-forgotten-export) The symbol "MessageTextFilePathAnnotation" needs to be exported by the entry point index.d.ts
-//
 // @public
 export type MessageTextAnnotation = MessageTextFileCitationAnnotation | MessageTextFilePathAnnotation;
 
@@ -397,9 +407,32 @@ export interface MessageTextDetails {
 }
 
 // @public
+export interface MessageTextFileCitationAnnotation {
+    endIndex: number;
+    fileCitation: MessageTextFileCitationDetails;
+    startIndex: number;
+    text: string;
+    type: "file_citation";
+}
+
+// @public
 export interface MessageTextFileCitationDetails {
     fileId: string;
     quote: string;
+}
+
+// @public
+export interface MessageTextFilePathAnnotation {
+    endIndex: number;
+    filePath: MessageTextFilePathDetails;
+    startIndex: number;
+    text: string;
+    type: "file_path";
+}
+
+// @public
+export interface MessageTextFilePathDetails {
+    fileId: string;
 }
 
 // @public
@@ -415,6 +448,16 @@ export interface RequiredAction {
     submitToolOutputs?: SubmitToolOutputsDetails;
     type: string;
 }
+
+// @public
+export interface RequiredFunctionToolCall {
+    function: FunctionDefinition;
+    id: string;
+    type: "function";
+}
+
+// @public
+export type RequiredToolCall = RequiredFunctionToolCall;
 
 // @public
 export interface RetrievalToolCall {
@@ -504,7 +547,6 @@ export type RunStepType = string;
 
 // @public
 export interface SubmitToolOutputsDetails {
-    // Warning: (ae-forgotten-export) The symbol "RequiredToolCall" needs to be exported by the entry point index.d.ts
     toolCalls: RequiredToolCall[];
 }
 
@@ -571,6 +613,10 @@ export interface UpdateAssistantOptions {
     model?: string;
     name?: string | null;
     tools?: ToolDefinition[];
+}
+
+// @public (undocumented)
+export interface UpdateAssistantRequestOptions extends OperationOptions {
 }
 
 // @public (undocumented)

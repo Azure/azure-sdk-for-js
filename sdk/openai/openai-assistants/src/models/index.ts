@@ -20,6 +20,7 @@ export {
   ListSortOrder,
   UpdateAssistantOptions,
   AssistantDeletionStatus,
+  DeletionStatus,
   AssistantFile,
   AssistantFileDeletionStatus,
   AssistantThreadCreationOptions,
@@ -73,6 +74,7 @@ export {
   RunStepDetails,
   ToolCall,
   CodeInterpreterToolCallOutput,
+  ListResponseOf,
 } from "./models.js";
 export {
   CreateAssistantOptions,
@@ -94,7 +96,6 @@ export {
   UpdateMessageOptions,
   ListMessageFilesOptions,
   GetMessageFileOptions,
-  CreateRunRequestOptions,
   ListRunsOptions,
   GetRunOptions,
   UpdateRunOptions,
@@ -107,4 +108,5 @@ export {
   UploadFileOptions,
   DeleteFileOptions,
   GetFileOptions,
+  CreateRunRequestOptions,
 } from "./options.js";

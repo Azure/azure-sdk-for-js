@@ -12,3 +12,13 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 export { AssistantsClient } from "./AssistantsClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+export {
+  CreateRunRequestOptions,
+  UpdateAssistantRequestOptions,
+  RequiredToolCall,
+  MessageTextFileCitationAnnotation,
+  MessageTextFilePathAnnotation,
+  MessageTextFilePathDetails,
+  RequiredFunctionToolCall,
+} from "../generated/src/models/index.js";
+export { ListResponseOf } from "./models/models.js";
