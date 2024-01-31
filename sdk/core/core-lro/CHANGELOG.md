@@ -2,7 +2,7 @@
 
 ## 3.0.0-beta.1 (Unreleased)
 
-- Initial implementation of new LRO
+- Initial implementation of syncronized LRO
 
 ## 2.6.0 (2024-02-01)
 
