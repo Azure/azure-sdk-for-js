@@ -70,7 +70,7 @@ function assertEnvelope(
 const emptyMeasurements: Measurements = {};
 
 describe("logUtils.ts", () => {
-  let testLogRecord: any = {
+  const testLogRecord: any = {
     resource: new Resource({
       [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",

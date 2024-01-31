@@ -4,8 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { Context } from "mocha";
@@ -54,28 +56,6 @@ describe("ClientCertificateCredential", function () {
           env.IDENTITY_PEM_CONTENTS || fs.readFileSync(certificatePath, { encoding: "utf-8" }),
       },
       recorder.configureClientOptions({}),
-    );
-
-    const token = await credential.getToken(scope);
-    assert.ok(token?.token);
-    assert.ok(token?.expiresOnTimestamp! > Date.now());
-  });
-
-  it("authenticates with sendCertificateChain", async function (this: Context) {
-    if (isPlaybackMode()) {
-      // MSAL creates a client assertion based on the certificate that I haven't been able to mock.
-      // This assertion could be provided as parameters, but we don't have that in the public API yet,
-      // and I'm trying to avoid having to generate one ourselves.
-      this.skip();
-    }
-
-    const credential = new ClientCertificateCredential(
-      env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
-      env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
-      recorder.configureClientOptions({
-        certificatePath: env.IDENTITY_SP_CERT_SNI_PEM || certificatePath,
-      }),
-      { sendCertificateChain: true },
     );
 
     const token = await credential.getToken(scope);

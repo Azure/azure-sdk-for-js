@@ -8,7 +8,6 @@ import { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
 
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 

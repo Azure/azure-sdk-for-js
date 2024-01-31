@@ -1,18 +1,13 @@
 # Release History
 
-## 2.5.5 (Unreleased)
-
-### Features Added
+## 2.6.0 (2024-02-01)
 
 - Support to create LRO poller in a synchronized way in the `Next` namespace.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
 - Search for the `resourceLocation` property in the raw response body if it cannot be found in the parsed response body.
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 2.5.4 (2023-07-24)
 
