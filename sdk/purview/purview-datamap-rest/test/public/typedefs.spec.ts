@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { PurviewDataMapClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -10,11 +9,9 @@ import { createRecorder } from "./utils/recordedClient";
 
 describe("purview datamap typedefs test", () => {
   let recorder: Recorder;
-  let client: PurviewDataMapClient;
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    client = await createClient(recorder);
   });
 
   afterEach(async function () {
@@ -22,13 +19,14 @@ describe("purview datamap typedefs test", () => {
   });
 
   it("should list all available typedefs sources", async () => {
+	const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/types/typedefs").get();
 
-     console.dir(result);
+    //console.dir(result);
     if (result.status !== "200") {
       assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
     }
 
-    //assert.isDefined(result.body.entityDefs?.length);
+    //assert.isDefined(result.body.length);
   });
 }).timeout(60000000000);
