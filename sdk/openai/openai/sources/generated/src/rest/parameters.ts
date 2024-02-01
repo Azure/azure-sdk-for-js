@@ -9,6 +9,7 @@ import {
   ChatCompletionsOptions,
   ImageGenerationOptions,
   EmbeddingsOptions,
+  AudioSpeechOptions,
 } from "./models.js";
 
 export interface GetAudioTranscriptionAsPlainTextBodyParam {
@@ -67,13 +68,6 @@ export interface GetChatCompletionsBodyParam {
 export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
   RequestParameters;
 
-export interface GetChatCompletionsWithAzureExtensionsBodyParam {
-  body?: ChatCompletionsOptions;
-}
-
-export type GetChatCompletionsWithAzureExtensionsParameters =
-  GetChatCompletionsWithAzureExtensionsBodyParam & RequestParameters;
-
 export interface GetImageGenerationsBodyParam {
   body?: ImageGenerationOptions;
 }
@@ -86,6 +80,13 @@ export interface GetEmbeddingsBodyParam {
 }
 
 export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
+  RequestParameters;
+
+export interface GetAudioSpeechBodyParam {
+  body?: AudioSpeechOptions;
+}
+
+export type GetAudioSpeechParameters = GetAudioSpeechBodyParam &
   RequestParameters;
 export type GetAzureBatchImageGenerationOperationStatusParameters =
   RequestParameters;

@@ -124,25 +124,6 @@ export interface GetChatCompletionsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface GetChatCompletionsWithAzureExtensions200Response
-  extends HttpResponse {
-  status: "200";
-  body: ChatCompletionsOutput;
-}
-
-export interface GetChatCompletionsWithAzureExtensionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetChatCompletionsWithAzureExtensionsDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & GetChatCompletionsWithAzureExtensionsDefaultHeaders;
-}
-
-/** The request has succeeded. */
 export interface GetImageGenerations200Response extends HttpResponse {
   status: "200";
   body: ImageGenerationsOutput;
@@ -174,6 +155,24 @@ export interface GetEmbeddingsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetEmbeddingsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetAudioSpeech200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+}
+
+export interface GetAudioSpeechDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetAudioSpeechDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetAudioSpeechDefaultHeaders;
 }
 
 /** The request has succeeded. */
