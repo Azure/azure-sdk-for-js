@@ -558,17 +558,17 @@ export const PhoneNumberCapabilitiesRequest: coreClient.CompositeMapper = {
       sms: {
         serializedName: "sms",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       tenDLCCampaignBriefId: {
         serializedName: "tenDLCCampaignBriefId",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
@@ -608,8 +608,8 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
         serializedName: "capabilities",
         type: {
           name: "Composite",
-          className: "PurchasedPhoneNumberCapabilities"
-        }
+          className: "PurchasedPhoneNumberCapabilities",
+        },
       },
       assignmentType: {
         serializedName: "assignmentType",
@@ -640,6 +640,35 @@ export const PurchasedPhoneNumber: coreClient.CompositeMapper = {
       },
       operatorName: {
         serializedName: "operatorName",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const PurchasedPhoneNumberCapabilities: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PurchasedPhoneNumberCapabilities",
+    modelProperties: {
+      calling: {
+        serializedName: "calling",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      sms: {
+        serializedName: "sms",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      tenDLCCampaignBriefId: {
+        serializedName: "tenDLCCampaignBriefId",
         type: {
           name: "String",
         },
