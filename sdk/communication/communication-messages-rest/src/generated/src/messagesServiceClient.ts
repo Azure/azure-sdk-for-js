@@ -4,10 +4,10 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { AzureCommunicationMessagesServiceClient } from "./clientDefinitions";
+import { MessagesServiceClient } from "./clientDefinitions";
 
 /**
- * Initialize a new instance of `AzureCommunicationMessagesServiceClient`
+ * Initialize a new instance of `MessagesServiceClient`
  * @param endpoint - The communication resource, for example https://my-resource.communication.azure.com
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -16,7 +16,7 @@ export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {},
-): AzureCommunicationMessagesServiceClient {
+): MessagesServiceClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "2024-02-01";
   const userAgentInfo = `azsdk-js-communication-messages-rest/1.0.0-beta.2`;
@@ -45,7 +45,7 @@ export default function createClient(
     baseUrl,
     credentials,
     options,
-  ) as AzureCommunicationMessagesServiceClient;
+  ) as MessagesServiceClient;
 
   return client;
 }

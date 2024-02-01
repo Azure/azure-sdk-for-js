@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import {
-  DownloadMediaParameters,
+  GetMediaParameters,
   SendParameters,
   ListTemplatesParameters,
 } from "./parameters";
 import {
-  DownloadMedia200Response,
-  DownloadMediaDefaultResponse,
+  GetMedia200Response,
+  GetMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
   ListTemplates200Response,
@@ -16,11 +16,11 @@ import {
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface DownloadMedia {
+export interface GetMedia {
   /** Download the Media payload from a User to Business message. */
   get(
-    options?: DownloadMediaParameters,
-  ): StreamableMethod<DownloadMedia200Response | DownloadMediaDefaultResponse>;
+    options?: GetMediaParameters,
+  ): StreamableMethod<GetMedia200Response | GetMediaDefaultResponse>;
 }
 
 export interface Send {
@@ -39,7 +39,7 @@ export interface ListTemplates {
 
 export interface Routes {
   /** Resource for '/messages/streams/\{id\}' has methods for the following verbs: get */
-  (path: "/messages/streams/{id}", id: string): DownloadMedia;
+  (path: "/messages/streams/{id}", id: string): GetMedia;
   /** Resource for '/messages/notifications:send' has methods for the following verbs: post */
   (path: "/messages/notifications:send"): Send;
   /** Resource for '/messages/channels/\{channelId\}/templates' has methods for the following verbs: get */
@@ -49,6 +49,6 @@ export interface Routes {
   ): ListTemplates;
 }
 
-export type AzureCommunicationMessagesServiceClient = Client & {
+export type MessagesServiceClient = Client & {
   path: Routes;
 };

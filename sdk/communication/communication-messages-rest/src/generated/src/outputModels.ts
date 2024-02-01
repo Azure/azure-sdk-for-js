@@ -30,7 +30,7 @@ export interface MessageReceiptOutput {
 export interface MessageTemplateItemOutputParent {
   /** The template's name. */
   readonly name: string;
-  /** The template's language. */
+  /** The template's language, in the ISO 639 format, consist of a two-letter language code followed by an optional two-letter country code, e.g., 'en' or 'en_US'. */
   language: string;
   /**
    * The aggregated template status.
@@ -44,11 +44,7 @@ export interface MessageTemplateItemOutputParent {
 /** The WhatsApp-specific template response contract */
 export interface WhatsAppMessageTemplateItemOutput
   extends MessageTemplateItemOutputParent {
-  /**
-   * WhatsApp platform's template content
-   * This is the payload returned from WhatsApp
-   * API.
-   */
+  /** WhatsApp platform's template content. This is the payload returned from WhatsApp API. */
   content?: any;
   /** Message template response type is whatsApp. */
   kind: "whatsApp";

@@ -1,6 +1,6 @@
-import NotificationClient from "../src/generated";
-import { KeyCredential, AzureKeyCredential } from "@azure/core-auth";
-import { AzureCommunicationMessagesServiceClient, Send202Response } from "../src/generated";
+import NotificationClient from "../src/generated/src";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { MessagesServiceClient, Send202Response } from "../src/generated/src";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -9,7 +9,7 @@ dotenv.config();
 async function main() {
     const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
     const endpoint = process.env["ACS_URL"] || "";
-    const client:AzureCommunicationMessagesServiceClient = NotificationClient(endpoint, credential);
+    const client:MessagesServiceClient = NotificationClient(endpoint, credential);
     console.log("Sending message...");
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",

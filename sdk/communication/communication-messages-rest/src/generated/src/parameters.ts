@@ -5,17 +5,16 @@ import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import { NotificationContent } from "./models";
 
-export interface DownloadMediaHeaders {
+export interface GetMediaHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface DownloadMediaHeaderParam {
-  headers?: RawHttpHeadersInput & DownloadMediaHeaders;
+export interface GetMediaHeaderParam {
+  headers?: RawHttpHeadersInput & GetMediaHeaders;
 }
 
-export type DownloadMediaParameters = DownloadMediaHeaderParam &
-  RequestParameters;
+export type GetMediaParameters = GetMediaHeaderParam & RequestParameters;
 
 export interface SendHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -43,9 +42,19 @@ export interface ListTemplatesHeaders {
   "x-ms-client-request-id"?: string;
 }
 
+export interface ListTemplatesQueryParamProperties {
+  /** Number of objects to return per page. */
+  maxpagesize?: number;
+}
+
+export interface ListTemplatesQueryParam {
+  queryParameters?: ListTemplatesQueryParamProperties;
+}
+
 export interface ListTemplatesHeaderParam {
   headers?: RawHttpHeadersInput & ListTemplatesHeaders;
 }
 
-export type ListTemplatesParameters = ListTemplatesHeaderParam &
+export type ListTemplatesParameters = ListTemplatesQueryParam &
+  ListTemplatesHeaderParam &
   RequestParameters;

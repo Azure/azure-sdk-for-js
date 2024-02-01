@@ -9,28 +9,28 @@ import {
   PagedMessageTemplateItemOutput,
 } from "./outputModels";
 
-export interface DownloadMedia200Headers {
+export interface GetMedia200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface DownloadMedia200Response extends HttpResponse {
+export interface GetMedia200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
   body: Uint8Array;
-  headers: RawHttpHeaders & DownloadMedia200Headers;
+  headers: RawHttpHeaders & GetMedia200Headers;
 }
 
-export interface DownloadMediaDefaultHeaders {
+export interface GetMediaDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface DownloadMediaDefaultResponse extends HttpResponse {
+export interface GetMediaDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & DownloadMediaDefaultHeaders;
+  headers: RawHttpHeaders & GetMediaDefaultHeaders;
 }
 
 export interface Send202Headers {

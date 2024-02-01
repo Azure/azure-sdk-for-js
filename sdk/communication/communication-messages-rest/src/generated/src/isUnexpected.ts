@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import {
-  DownloadMedia200Response,
-  DownloadMediaDefaultResponse,
+  GetMedia200Response,
+  GetMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
   ListTemplates200Response,
@@ -17,8 +17,8 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: DownloadMedia200Response | DownloadMediaDefaultResponse,
-): response is DownloadMediaDefaultResponse;
+  response: GetMedia200Response | GetMediaDefaultResponse,
+): response is GetMediaDefaultResponse;
 export function isUnexpected(
   response: Send202Response | SendDefaultResponse,
 ): response is SendDefaultResponse;
@@ -27,14 +27,14 @@ export function isUnexpected(
 ): response is ListTemplatesDefaultResponse;
 export function isUnexpected(
   response:
-    | DownloadMedia200Response
-    | DownloadMediaDefaultResponse
+    | GetMedia200Response
+    | GetMediaDefaultResponse
     | Send202Response
     | SendDefaultResponse
     | ListTemplates200Response
     | ListTemplatesDefaultResponse,
 ): response is
-  | DownloadMediaDefaultResponse
+  | GetMediaDefaultResponse
   | SendDefaultResponse
   | ListTemplatesDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];

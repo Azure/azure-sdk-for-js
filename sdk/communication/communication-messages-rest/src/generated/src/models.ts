@@ -24,10 +24,7 @@ export interface MediaNotificationContent extends NotificationContentParent {
   kind: "image";
   /** Optional text content. */
   content?: string;
-  /**
-   * A media url for the file. Required if the type is one of the supported media
-   * types, e.g. image
-   */
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
   mediaUri: string;
 }
 
@@ -43,7 +40,7 @@ export interface TemplateNotificationContent extends NotificationContentParent {
 export interface MessageTemplate {
   /** Name of the template. */
   name: string;
-  /** The codes for the supported languages for templates. */
+  /** The template's language, in the ISO 639 format, consist of a two-letter language code followed by an optional two-letter country code, e.g., 'en' or 'en_US'. */
   language: string;
   /** The template values. */
   values?: Array<MessageTemplateValue>;
@@ -159,7 +156,7 @@ export interface WhatsAppMessageTemplateBindingsButton {
    *
    * Possible values: "quickReply", "url"
    */
-  subType?: string;
+  subType: string;
   /** The name of the referenced item in the template values. */
   refValue: string;
 }

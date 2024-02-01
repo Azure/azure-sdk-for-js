@@ -93,10 +93,7 @@
   },
   "//metadata": {
     "constantPaths": [
-      {
-        "path": "src/azureCommunicationMessagesServiceClient.ts",
-        "prefix": "userAgentInfo"
-      }
+      { "path": "src/messagesServiceClient.ts", "prefix": "userAgentInfo" }
     ]
   },
   "browser": {
