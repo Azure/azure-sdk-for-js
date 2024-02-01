@@ -195,7 +195,7 @@ describe.skip("ByPass integrated cache", function (this: Suite) {
     assert.ok(response);
     console.log("x-ms-cosmos-cache-bypass", response.headers["x-ms-cosmos-cache-bypass"]);
     assert.ok(response.headers["x-ms-cosmos-cache-bypass"] !== undefined);
-    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] === "true");
+    assert.ok(response.headers["x-ms-cosmos-cache-bypass"] === "True");
   });
 });
 
