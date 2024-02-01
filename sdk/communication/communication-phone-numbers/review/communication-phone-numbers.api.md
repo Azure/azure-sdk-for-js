@@ -32,10 +32,6 @@ export interface BeginUpdatePhoneNumberCapabilitiesOptions extends OperationOpti
 }
 
 // @public
-type Error_2 = "NoError" | "UnknownErrorCode" | "OutOfStock" | "AuthorizationDenied" | "MissingAddress" | "InvalidAddress" | "InvalidOfferModel" | "NotEnoughLicenses" | "NoWallet" | "NotEnoughCredit" | "NumbersPartiallyAcquired" | "AllNumbersNotAcquired" | "ReservationExpired" | "PurchaseFailed" | "BillingUnavailable" | "ProvisioningFailed" | "UnknownSearchError";
-export { Error_2 as Error }
-
-// @public
 export type GetPurchasedPhoneNumberOptions = OperationOptions;
 
 // @public
@@ -170,8 +166,6 @@ export interface PhoneNumberSearchResult {
     assignmentType: PhoneNumberAssignmentType;
     capabilities: PhoneNumberCapabilities;
     cost: PhoneNumberCost;
-    error?: Error_2;
-    errorCode?: number;
     phoneNumbers: string[];
     phoneNumberType: PhoneNumberType;
     searchExpiresBy: Date;
@@ -189,9 +183,6 @@ export interface PhoneNumbersListAreaCodesOptionalParams extends coreClient.Oper
 }
 
 // @public
-export type PhoneNumberSource = "cloud" | "operatorConnect";
-
-// @public
 export type PhoneNumberType = "geographic" | "tollFree";
 
 // @public
@@ -204,7 +195,6 @@ export interface PurchasedPhoneNumber {
     operatorId?: string;
     operatorName?: string;
     phoneNumber: string;
-    phoneNumberSource?: PhoneNumberSource;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
 }

@@ -85,7 +85,6 @@ export interface ListOfferingsOptions extends OperationOptions {
 }
 
 export {
-  Error,
   PhoneNumberAdministrativeDivision,
   PhoneNumberAssignmentType,
   PhoneNumberAreaCode,
@@ -99,7 +98,6 @@ export {
   PhoneNumberOffering,
   PhoneNumberSearchRequest,
   PhoneNumberSearchResult,
-  PhoneNumberSource,
   PhoneNumberType,
   PurchasedPhoneNumber,
   PurchasedPhoneNumberCapabilities,
