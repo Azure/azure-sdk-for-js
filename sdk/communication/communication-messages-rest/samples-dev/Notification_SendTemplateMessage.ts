@@ -1,20 +1,19 @@
-import NotificationClient from "../src/generated/src";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { 
+import NotificationClient, { 
     MessagesServiceClient,
     Send202Response,
     MessageTemplate,
     MessageTemplateValue,
     MessageTemplateBindings,
-} from "../src/generated/src";
+} from "@azure-rest/communication-messages";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
-    const endpoint = process.env["ACS_URL"] || "";
+    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "MpSQLE8vTWrwV/M0ol5LOnH9lJSjwJB5dj8r0KbJhcCKJNl9Cmd0i1RmXSSsEZSiE6D7Lc5oZjDKVnDPw51rZg==");
+    const endpoint = process.env["ACS_URL"] || "https://acsxplatmg-sandbox-ppe.unitedstates.ppe.communication.azure.net/";
     const client:MessagesServiceClient = NotificationClient(endpoint, credential);
 
     const nameValue:MessageTemplateValue = {
@@ -55,7 +54,7 @@ async function main() {
     };
 
     const template:MessageTemplate = {
-        name: "cpmupdateproduct",
+        name: "sample_issue_resolution",
         language: "en_US",
         bindings: templateBindings,
         values: [nameValue, yesAction, noAction]
@@ -65,8 +64,8 @@ async function main() {
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",
         body: {
-            channelRegistrationId: "<CHANNEl_ID>",
-            to: ["<PHONE_NUMBER>"],
+            channelRegistrationId: "972e282c-ea60-4bc7-bd22-b9e0b3d99bd3",
+            to: ["+14014507114"],
             kind: "template",
             template: template
         }

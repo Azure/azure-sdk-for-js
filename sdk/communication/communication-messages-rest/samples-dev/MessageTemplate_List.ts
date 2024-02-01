@@ -1,5 +1,5 @@
-import { MessagesServiceClient, paginate } from "../src/generated/src";
-import MessageTemplateClient from "../src/generated/src";
+import { MessagesServiceClient, paginate } from "@azure-rest/communication-messages";
+import MessageTemplateClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
