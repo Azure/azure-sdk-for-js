@@ -1,49 +1,38 @@
 # Release History
-
-## 2.3.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.3.0-beta.1 (2023-03-27)
+    
+## 3.0.0 (2024-01-31)
     
 **Features**
 
-  - Added operation group Skus
   - Added operation Databases.beginFlush
   - Added operation Databases.beginFlushAndWait
-  - Added Interface Capability
+  - Added operation PrivateEndpointConnections.beginDelete
+  - Added operation PrivateEndpointConnections.beginDeleteAndWait
   - Added Interface ClusterPropertiesEncryption
   - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryption
   - Added Interface ClusterPropertiesEncryptionCustomerManagedKeyEncryptionKeyIdentity
   - Added Interface DatabasesFlushHeaders
   - Added Interface DatabasesFlushOptionalParams
   - Added Interface FlushParameters
-  - Added Interface LocationInfo
   - Added Interface ManagedServiceIdentity
-  - Added Interface RegionSkuDetail
-  - Added Interface RegionSkuDetails
-  - Added Interface SkuDetail
-  - Added Interface SkusListOptionalParams
-  - Added Interface SystemData
+  - Added Interface PrivateEndpointConnectionsDeleteHeaders
   - Added Interface UserAssignedIdentity
   - Added Type Alias CmkIdentityType
-  - Added Type Alias CreatedByType
   - Added Type Alias ManagedServiceIdentityType
-  - Added Type Alias SkusListResponse
   - Interface Cluster has a new optional parameter encryption
   - Interface Cluster has a new optional parameter identity
   - Interface ClusterUpdate has a new optional parameter encryption
   - Interface ClusterUpdate has a new optional parameter identity
-  - Interface Resource has a new optional parameter systemData
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter resumeFrom
+  - Interface PrivateEndpointConnectionsDeleteOptionalParams has a new optional parameter updateIntervalInMs
   - Added Enum KnownCmkIdentityType
-  - Added Enum KnownCreatedByType
   - Added Enum KnownManagedServiceIdentityType
+  - Enum KnownResourceState has a new value Scaling
+  - Enum KnownResourceState has a new value ScalingFailed
+
+**Breaking Changes**
+
+  - Removed operation PrivateEndpointConnections.delete
     
     
 ## 2.2.0 (2022-12-07)
@@ -82,4 +71,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
