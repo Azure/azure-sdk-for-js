@@ -79,6 +79,7 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
     excludedHeaders: [
       "Accept-Language", // This is env-dependent
       "x-ms-content-sha256", // This is dependent on the current datetime
+      "x-ms-useragent",
     ],
   });
   return recorder;
