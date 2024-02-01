@@ -5,7 +5,10 @@ The Azure OpenAI Assistants client library for JavaScript is an adaptation of Op
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure/openai-assistants)
-- [API reference documentation](https://aka.ms/openai-assistants-docs)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-assistants)
+- [API reference documentation](https://aka.ms/openai-js-api)
+- [Product documentation](https://learn.microsoft.com/azure/cognitive-services/openai)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai-assistants/openai/samples/v1-beta)
 
 ## Getting started
 
