@@ -62,7 +62,7 @@ With a client, an assistant can then be created. An assistant is a purpose-built
 
 The code to create an assistant:
 ```javascript Snippet:OverviewCreateAssistant
-const assistant = await assistantsClient.assistants.createAssistant({
+const assistant = await assistantsClient.createAssistant({
   model: "gpt-4-1106-preview",
   name: "JS Math Tutor",
   instructions: "You are a personal math tutor. Write and run code to answer math questions.",
@@ -74,20 +74,20 @@ A conversation session between an Assistant and a user is called a Thread. Threa
 
 To create a thread:
 ```javascript Snippet:OverviewCreateThread
-const assistantThread = await assistantsClient.assistantThreads.createThread();
+const assistantThread = await assistantsClient.createThread();
 ```
 
 Message represent a message created by an Assistant or a user. Messages can include text, images, and other files. Messages are stored as a list on the Thread.
 With a thread created, messages can be created on it:
 ```javascript Snippet:OverviewCreateMessage
 const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-const messageResponse = await assistantsClient.threadMessages.createMessage(assistantThread.id, "user", question);
+const messageResponse = await assistantsClient.createMessage(assistantThread.id, "user", question);
 ```
 
 A Run represent an invocation of an Assistant on a Thread. The Assistant uses it’s configuration and the Thread’s Messages to perform tasks by calling models and tools. As part of a Run, the Assistant appends Messages to the Thread.
 A run can then be started that evaluates the thread against an assistant:
 ```javascript Snippet:OverviewCreateRun
-let runResponse = await assistantsClient.threadRuns.createRun(assistantThread.id, assistant.id, {
+let runResponse = await assistantsClient.createRun(assistantThread.id, assistant.id, {
    instructions: "Please address the user as Jane Doe. The user has a premium account." 
 });
 ```
@@ -95,15 +95,15 @@ let runResponse = await assistantsClient.threadRuns.createRun(assistantThread.id
 Once the run has started, it should then be polled until it reaches a terminal status:
 ```javascript Snippet:OverviewWaitForRun
 do {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-  runResponse = await assistantsClient.threadRuns.retrieveRun(assistantThread.id, runResponse.id);
+  await new Promise((resolve) => setTimeout(resolve, 800));
+  runResponse = await assistantsClient.getRun(assistantThread.id, runResponse.id);
 } while (runResponse.status === "queued" || runResponse.status === "in_progress")
 ```
 
 Assuming the run successfully completed, listing messages from the thread that was run will now reflect new information
 added by the assistant:
 ```javascript Snippet:OverviewListUpdatedMessages
-const runMessages = await assistantsClient.threadMessages.listMessages(assistantThread.id);
+const runMessages = await assistantsClient.listMessages(assistantThread.id);
 for (const runMessageDatum of runMessages.data) {
   for (const item of runMessageDatum.content) {
     if (item.type === "text") {
@@ -129,13 +129,13 @@ purpose of 'assistants' to make a file ID available:
 const filename = "<path_to_text_file>";
 await fs.writeFile(filename, "The word 'apple' uses the code 442345, while the word 'banana' uses the code 673457.", "utf8");
 const uint8array = await fs.readFile(filename);
-const uploadAssistantFile = await assistantsClient.files.uploadFile(uint8array, "assistants", { filename });
+const uploadAssistantFile = await assistantsClient.uploadFile(uint8array, "assistants", { filename });
 ```
 
 Once uploaded, the file ID can then be provided to an assistant upon creation. Note that file IDs will only be used
 if an appropriate tool like Code Interpreter or Retrieval is enabled.
 ```javascript Snippet:CreateAssistantWithFiles
-const fileAssistant = await assistantsClient.assistants.createAssistant({
+const fileAssistant = await assistantsClient.createAssistant({
   model: "gpt-4-1106-preview",
   name: "JS SDK Test Assistant - Retrieval",
   instructions: "You are a helpful assistant that can help fetch data from files you know about.",
@@ -248,7 +248,7 @@ const getWeatherAtLocationTool = {
 With the functions defined in their appropriate tools, an assistant can be now created that has those tools enabled:
 
 ```javascript Snippet:FunctionsCreateAssistantWithFunctionTools
-  const weatherAssistant = await assistantsClient.assistants.createAssistant({
+  const weatherAssistant = await assistantsClient.createAssistant({
   // note: parallel function calling is only supported with newer models like gpt-4-1106-preview
   model: "gpt-4-1106-preview",
   name: "JS SDK Test Assistant - Weather",
@@ -298,7 +298,7 @@ run via the `SubmitRunToolOutputs` method so that the run can continue:
 
 ```javascript Snippet:FunctionsHandlePollingWithRequiredAction
 const question = "What's the weather like right now in my favorite city?";
-let runResponse = await assistantsClient.threadRuns.createThreadAndRun({ 
+let runResponse = await assistantsClient.createThreadAndRun({ 
   assistantId: weatherAssistant.id, 
   thread: { messages: [{ role: "user", content: question }] },
   tools: [getUserFavoriteCityTool, getCityNicknameTool, getWeatherAtLocationTool]
@@ -306,7 +306,7 @@ let runResponse = await assistantsClient.threadRuns.createThreadAndRun({
 
 do {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  runResponse = await assistantsClient.threadRuns.retrieveRun(runResponse.threadId, runResponse.id);
+  runResponse = await assistantsClient.getRun(runResponse.threadId, runResponse.id);
   
   if (runResponse.status === "requires_action" && runResponse.requiredAction.type === "submit_tool_outputs") {
     const toolOutputs = [];
@@ -314,7 +314,7 @@ do {
     for (const toolCall of runResponse.requiredAction.submitToolOutputs.toolCalls) {
       toolOutputs.push(getResolvedToolOutput(toolCall));
     }
-    runResponse = await assistantsClient.threadRuns.submitRunToolOutputs(runResponse.threadId, runResponse.id, toolOutputs);
+    runResponse = await assistantsClient.submitToolOutputsToRun(runResponse.threadId, runResponse.id, toolOutputs);
   }
 } while (runResponse.status === "queued" || runResponse.status === "in_progress")
 ```
