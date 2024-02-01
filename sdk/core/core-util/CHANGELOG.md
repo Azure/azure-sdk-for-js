@@ -1,14 +1,10 @@
 # Release History
 
-## 1.6.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.7.0 (2024-02-01)
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.6.1 (2023-11-07)
 
@@ -21,7 +17,7 @@
 ### Features Added
 
 - Add support for hex encoding to `uint8ArrayToString` and `stringToUint8Array`
-- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data 
+- Fix bug when `uint8ArrayToString` with Base64 encoding would not decode binary data
   containing bytes which are not valid ISO/IEC 8859-1 (latin1) characters.
 
 ### Bugs Fixed
