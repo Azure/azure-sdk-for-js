@@ -6,6 +6,8 @@
 
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
+import { createFile } from '@azure/core-rest-pipeline';
+import { createFileFromStream } from '@azure/core-rest-pipeline';
 import { HttpResponse } from '@azure-rest/core-client';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -1032,6 +1034,10 @@ export interface ContactSearchResultValueOutput {
 function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewDataMapClient;
 export default createClient;
 
+export { createFile }
+
+export { createFileFromStream }
+
 // @public
 export interface DateFormat {
     availableLocales?: string[];
@@ -1720,7 +1726,7 @@ export interface EntityImportBusinessMetadata200Response extends HttpResponse {
 export interface EntityImportBusinessMetadataBodyParam {
     // (undocumented)
     body?: {
-        file: string;
+        file: Uint8Array | File;
     };
 }
 
