@@ -12,8 +12,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "MpSQLE8vTWrwV/M0ol5LOnH9lJSjwJB5dj8r0KbJhcCKJNl9Cmd0i1RmXSSsEZSiE6D7Lc5oZjDKVnDPw51rZg==");
-    const endpoint = process.env["ACS_URL"] || "https://acsxplatmg-sandbox-ppe.unitedstates.ppe.communication.azure.net/";
+    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
+    const endpoint = process.env["ACS_URL"] || "";
     const client:MessagesServiceClient = NotificationClient(endpoint, credential);
 
     const nameValue:MessageTemplateValue = {
