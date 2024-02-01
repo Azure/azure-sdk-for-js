@@ -3,14 +3,14 @@
 
 import { stringToUint8Array } from "@azure/core-util";
 import { createHttpHeaders } from "../httpHeaders";
-import {
+import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import type { PipelinePolicy } from "../pipeline";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -97,7 +97,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         });
       }
     }
-
-    request.multipartBody = { parts };
   }
+  request.multipartBody = { parts };
 }

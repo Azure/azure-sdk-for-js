@@ -1,4 +1,15 @@
 
+---
+page_type: sample
+languages:
+- typescript
+products:
+- azure
+- azure-computer-vision
+name: @azure-rest/ai-vision-image-analysis samples for TypeScript
+description: Samples for the @azure-rest/ai-vision-image-analysis client library.
+---
+
 # Azure AI Vision Image Analysis client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure AI Vision Image Analysis in some common scenarios.

@@ -2,21 +2,24 @@
 // Licensed under the MIT license.
 
 import * as msalBrowser from "@azure/msal-browser";
+
+import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { AuthenticationRecord, MsalResult } from "../types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { MsalBaseUtilities, getAuthority, getKnownAuthorities } from "../utils";
+import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
+import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../../util/tenantIdUtils";
-import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
+
 import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
-import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.
@@ -82,7 +85,7 @@ export function defaultBrowserMsalConfig(
  *
  * @internal
  */
-export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrowserFlow {
+export abstract class MsalBrowser implements MsalBrowserFlow {
   protected loginStyle: BrowserLoginStyle;
   protected clientId: string;
   protected tenantId: string;
@@ -91,10 +94,10 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
   protected account: AuthenticationRecord | undefined;
   protected msalConfig: msalBrowser.Configuration;
   protected disableAutomaticAuthentication?: boolean;
-  protected app?: msalBrowser.PublicClientApplication;
+  protected app?: msalBrowser.IPublicClientApplication;
+  protected logger: CredentialLogger;
 
   constructor(options: MsalBrowserFlowOptions) {
-    super(options);
     this.logger = options.logger;
     this.loginStyle = options.loginStyle;
     if (!options.clientId) {
@@ -194,5 +197,26 @@ export abstract class MsalBrowser extends MsalBaseUtilities implements MsalBrows
       );
       return this.doGetToken(scopes);
     });
+  }
+
+  /**
+   * Handles the MSAL authentication result.
+   * If the result has an account, we update the local account reference.
+   * If the token received is invalid, an error will be thrown depending on what's missing.
+   */
+  protected handleResult(
+    scopes: string | string[],
+    result?: MsalResult,
+    getTokenOptions?: GetTokenOptions,
+  ): AccessToken {
+    if (result?.account) {
+      this.account = msalToPublic(this.clientId, result.account);
+    }
+    ensureValidMsalToken(scopes, result, getTokenOptions);
+    this.logger.getToken.info(formatSuccess(scopes));
+    return {
+      token: result!.accessToken!,
+      expiresOnTimestamp: result!.expiresOn!.getTime(),
+    };
   }
 }

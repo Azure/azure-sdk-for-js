@@ -13,19 +13,20 @@ urlFragment: openai-typescript-beta
 
 These sample programs show how to use the TypeScript client libraries for Azure OpenAI in some common scenarios.
 
-| **File Name**                                                                       | **Description**                                                          |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------ |
-| [audioTranscription.ts][audiotranscription]                                         | audio transcription.                                                     |
-| [audioTranslation.ts][audiotranslation]                                             | audio translation.                                                       |
-| [bringYourOwnData.ts][bringyourowndata]                                             | chat completions with your own data.                                     |
-| [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                    |
-| [completions.ts][completions]                                                       | get completions.                                                         |
-| [functions.ts][functions]                                                           | get chat completions with functions.                                     |
-| [getImages.ts][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation. |
-| [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                   |
-| [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                         |
-| [streamCompletions.ts][streamcompletions]                                           | list completions.                                                        |
-| [openAi.ts][openai]                                                                 | get completions using the OpenAI API.                                    |
+| **File Name**                                                                       | **Description**                                                              |
+| ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
+| [audioTranscription.ts][audiotranscription]                                         | audio transcription.                                                         |
+| [audioTranslation.ts][audiotranslation]                                             | audio translation.                                                           |
+| [bringYourOwnData.ts][bringyourowndata]                                             | chat completions with your own data.                                         |
+| [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
+| [completions.ts][completions]                                                       | get completions.                                                             |
+| [functions.ts][functions]                                                           | get chat completions with functions.                                         |
+| [getEmbeddings.ts][getembeddings]                                                   | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
+| [getImages.ts][getimages]                                                           | generates images from prompts using Azure OpenAI Batch Image Generation.     |
+| [streamChatCompletions.ts][streamchatcompletions]                                   | list chat completions.                                                       |
+| [streamChatCompletionsWithContentFilter.ts][streamchatcompletionswithcontentfilter] | get completions.                                                             |
+| [streamCompletions.ts][streamcompletions]                                           | list completions.                                                            |
+| [openAi.ts][openai]                                                                 | get completions using the OpenAI API.                                        |
 
 ## Prerequisites
 
@@ -85,6 +86,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/chatCompletions.ts
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/completions.ts
 [functions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/functions.ts
+[getembeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getEmbeddings.ts
 [getimages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/getImages.ts
 [streamchatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletions.ts
 [streamchatcompletionswithcontentfilter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/typescript/src/streamChatCompletionsWithContentFilter.ts

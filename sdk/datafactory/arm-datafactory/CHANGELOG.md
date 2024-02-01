@@ -1,15 +1,48 @@
 # Release History
+    
+## 13.0.0 (2023-12-28)
+    
+**Features**
 
-## 12.0.1 (Unreleased)
+  - Added Interface SalesforceServiceCloudV2LinkedService
+  - Added Interface SalesforceServiceCloudV2ObjectDataset
+  - Added Interface SalesforceServiceCloudV2Sink
+  - Added Interface SalesforceServiceCloudV2Source
+  - Added Interface SalesforceV2LinkedService
+  - Added Interface SalesforceV2ObjectDataset
+  - Added Interface SalesforceV2Sink
+  - Added Interface SalesforceV2Source
+  - Added Type Alias SalesforceV2SinkWriteBehavior
+  - Added Type Alias SalesforceV2SourceReadBehavior
+  - Interface MariaDBLinkedService has a new optional parameter database
+  - Interface MariaDBLinkedService has a new optional parameter driverVersion
+  - Interface MariaDBLinkedService has a new optional parameter password
+  - Interface MariaDBLinkedService has a new optional parameter port
+  - Interface MariaDBLinkedService has a new optional parameter server
+  - Interface MariaDBLinkedService has a new optional parameter username
+  - Interface MySqlLinkedService has a new optional parameter database
+  - Interface MySqlLinkedService has a new optional parameter driverVersion
+  - Interface MySqlLinkedService has a new optional parameter port
+  - Interface MySqlLinkedService has a new optional parameter server
+  - Interface MySqlLinkedService has a new optional parameter sslMode
+  - Interface MySqlLinkedService has a new optional parameter username
+  - Interface MySqlLinkedService has a new optional parameter useSystemTrustStore
+  - Interface StoreWriteSettings has a new optional parameter metadata
+  - Interface WebActivity has a new optional parameter httpRequestTimeout
+  - Interface WebActivity has a new optional parameter turnOffAsync
+  - Type of parameter type of interface CopySink has two new values "SalesforceV2Sink" | "SalesforceServiceCloudV2Sink"  
+  - Type of parameter type of interface CopySource has two new values "SalesforceV2Source" | "SalesforceServiceCloudV2Source"
+  - Type of parameter type of interface Dataset has two new values "SalesforceV2Object" | "SalesforceServiceCloudV2Object"
+  - Type of parameter type of interface LinkedService has two new values "SalesforceV2" | "SalesforceServiceCloudV2"
+  - Type of parameter type of interface TabularSource has a new value "SalesforceV2Source"
+  - Added Enum KnownSalesforceV2SinkWriteBehavior
+  - Added Enum KnownSalesforceV2SourceReadBehavior
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface MariaDBLinkedService no longer has parameter pwd
+    
+    
 ## 12.0.0 (2023-11-10)
     
 **Features**

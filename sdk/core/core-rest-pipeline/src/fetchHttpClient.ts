@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,

@@ -5,6 +5,7 @@ import {
   AzureKeyCredential,
   AzureNamedKeyCredential,
   AzureSASCredential,
+  isKeyCredential,
   isNamedKeyCredential,
   isSASCredential,
   isTokenCredential,
@@ -221,5 +222,15 @@ describe("isSASCredential", function () {
 
   it("should return false for an object that does not resemble a isSASCredential", () => {
     assert.strictEqual(isSASCredential({}), false);
+  });
+});
+
+describe("isKeyCredential", function () {
+  it("should return true for an object that resembles a KeyCredential", () => {
+    assert.ok(isKeyCredential({ key: "bar" }));
+  });
+
+  it("should return false for an object that does not resemble a KeyCredential", () => {
+    assert.strictEqual(isKeyCredential({}), false);
   });
 });

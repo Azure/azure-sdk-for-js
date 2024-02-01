@@ -6,7 +6,7 @@ import * as https from "https";
 import * as zlib from "zlib";
 import { Transform } from "stream";
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   HttpClient,
   HttpHeaders,
   PipelineRequest,
@@ -17,7 +17,7 @@ import {
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
 import { RestError } from "./restError";
-import { IncomingMessage } from "http";
+import type { IncomingMessage } from "http";
 import { logger } from "./log";
 
 const DEFAULT_TLS_SETTINGS = {};

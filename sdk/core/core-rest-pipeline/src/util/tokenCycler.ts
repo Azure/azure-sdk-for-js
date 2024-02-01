@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { delay } from "./helpers";
 
 /**

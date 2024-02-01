@@ -30,7 +30,6 @@ import {
 import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import "@azure/core-paging";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { isNode } from "@azure/core-util";
 import { tracingClient } from "./utils/tracing";

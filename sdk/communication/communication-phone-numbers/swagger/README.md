@@ -7,7 +7,7 @@
 ```yaml
 package-name: "@azure/communication-phone-numbers"
 description: Phone number configuration client
-package-version: 1.2.1
+package-version: 1.3.0-beta.3
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-preview-2024-01
@@ -62,4 +62,41 @@ directive:
   where: "$.definitions.AreaCodeResult"
   transform: >
     $["x-ms-client-name"] = "AreaCodeItem";
+```
+
+### Removed Property error from PhoneNumberSearchResult
+``` yaml
+directive:
+  where-model: PhoneNumberSearchResult
+  remove-property: error
+```
+
+### Removed Property error from PhoneNumberSearchResult
+``` yaml
+directive:
+  where-model: PhoneNumberSearchResult
+  remove-property: errorCode
+```
+
+### Removed Property phoneNumberSource from PurchasedPhoneNumber
+``` yaml
+directive:
+  where-model: PurchasedPhoneNumber
+  remove-property: phoneNumberSource
+```
+
+# Removed Models
+``` yaml
+directive:
+  - remove-operation-match: /.*Reservation.*/i
+  - remove-operation: PhoneNumbers_BrowseAvailableNumbers
+  - remove-model: PhoneNumbersReservation
+  - remove-model: PhoneNumbersReservations
+  - remove-model: PhoneNumbersBrowseRequest
+  - remove-model: PhoneNumbersBrowseResult
+  - remove-model: PhoneNumberBrowseCapabilitiesRequest
+  - remove-model: PhoneNumbersReservationPurchaseRequest
+  - remove-model: Error
+  - remove-model: AvailablePhoneNumber
+  - remove-model: AvailablePhoneNumberCost
 ```

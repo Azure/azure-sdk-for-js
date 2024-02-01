@@ -915,21 +915,21 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
 // @public (undocumented)
 export enum DiagnosticNodeType {
     // (undocumented)
-    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",
+    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",// Top most node representing client operations.
     // (undocumented)
-    BATCH_REQUEST = "BATCH_REQUEST",
+    BATCH_REQUEST = "BATCH_REQUEST",// Node representing a metadata request.
     // (undocumented)
-    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",
+    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",// Node representing REST call to backend services.
     // (undocumented)
-    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",
+    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",// Node representing batch request.
     // (undocumented)
-    HTTP_REQUEST = "HTTP_REQUEST",
+    HTTP_REQUEST = "HTTP_REQUEST",// Node representing parallel query execution.
     // (undocumented)
-    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",
+    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",// Node representing default query execution.
     // (undocumented)
-    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",
+    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",// Node representing query repair.
     // (undocumented)
-    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",
+    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",// Node representing background refresh.
     // (undocumented)
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }

@@ -1,15 +1,486 @@
 # Release History
+    
+## 3.0.0 (2024-01-10)
+    
+**Features**
 
-## 3.0.0-beta.2 (Unreleased)
+  - Added operation group ApiPortalCustomDomains
+  - Added operation group ApiPortals
+  - Added operation group Apms
+  - Added operation group ApplicationAccelerators
+  - Added operation group ApplicationLiveViews
+  - Added operation group ContainerRegistries
+  - Added operation group CustomizedAccelerators
+  - Added operation group DevToolPortals
+  - Added operation group GatewayCustomDomains
+  - Added operation group GatewayRouteConfigs
+  - Added operation group Gateways
+  - Added operation group PredefinedAccelerators
+  - Added operation group Storages
+  - Added operation BuildpackBinding.listForCluster
+  - Added operation BuildServiceBuilder.listDeployments
+  - Added operation BuildServiceOperations.beginCreateOrUpdate
+  - Added operation BuildServiceOperations.beginCreateOrUpdateAndWait
+  - Added operation BuildServiceOperations.beginDeleteBuild
+  - Added operation BuildServiceOperations.beginDeleteBuildAndWait
+  - Added operation ConfigurationServices.beginValidateResource
+  - Added operation ConfigurationServices.beginValidateResourceAndWait
+  - Added operation Deployments.beginDisableRemoteDebugging
+  - Added operation Deployments.beginDisableRemoteDebuggingAndWait
+  - Added operation Deployments.beginEnableRemoteDebugging
+  - Added operation Deployments.beginEnableRemoteDebuggingAndWait
+  - Added operation Deployments.getRemoteDebuggingConfig
+  - Added operation Services.beginDisableApmGlobally
+  - Added operation Services.beginDisableApmGloballyAndWait
+  - Added operation Services.beginEnableApmGlobally
+  - Added operation Services.beginEnableApmGloballyAndWait
+  - Added operation Services.beginFlushVnetDnsSetting
+  - Added operation Services.beginFlushVnetDnsSettingAndWait
+  - Added operation Services.beginStart
+  - Added operation Services.beginStartAndWait
+  - Added operation Services.beginStop
+  - Added operation Services.beginStopAndWait
+  - Added operation Services.listGloballyEnabledApms
+  - Added operation Services.listSupportedApmTypes
+  - Added operation Services.listSupportedServerVersions
+  - Added Interface AcceleratorAuthSetting
+  - Added Interface AcceleratorBasicAuthSetting
+  - Added Interface AcceleratorGitRepository
+  - Added Interface AcceleratorPublicSetting
+  - Added Interface AcceleratorSshSetting
+  - Added Interface ApiPortalCustomDomainProperties
+  - Added Interface ApiPortalCustomDomainResource
+  - Added Interface ApiPortalCustomDomainResourceCollection
+  - Added Interface ApiPortalCustomDomainsCreateOrUpdateOptionalParams
+  - Added Interface ApiPortalCustomDomainsDeleteOptionalParams
+  - Added Interface ApiPortalCustomDomainsGetOptionalParams
+  - Added Interface ApiPortalCustomDomainsListNextOptionalParams
+  - Added Interface ApiPortalCustomDomainsListOptionalParams
+  - Added Interface ApiPortalInstance
+  - Added Interface ApiPortalProperties
+  - Added Interface ApiPortalResource
+  - Added Interface ApiPortalResourceCollection
+  - Added Interface ApiPortalResourceRequests
+  - Added Interface ApiPortalsCreateOrUpdateOptionalParams
+  - Added Interface ApiPortalsDeleteOptionalParams
+  - Added Interface ApiPortalsGetOptionalParams
+  - Added Interface ApiPortalsListNextOptionalParams
+  - Added Interface ApiPortalsListOptionalParams
+  - Added Interface ApiPortalsValidateDomainOptionalParams
+  - Added Interface ApmProperties
+  - Added Interface ApmReference
+  - Added Interface ApmResource
+  - Added Interface ApmResourceCollection
+  - Added Interface ApmsCreateOrUpdateOptionalParams
+  - Added Interface ApmsDeleteHeaders
+  - Added Interface ApmsDeleteOptionalParams
+  - Added Interface ApmSecretKeys
+  - Added Interface ApmsGetOptionalParams
+  - Added Interface ApmsListNextOptionalParams
+  - Added Interface ApmsListOptionalParams
+  - Added Interface ApmsListSecretKeysOptionalParams
+  - Added Interface ApplicationAcceleratorComponent
+  - Added Interface ApplicationAcceleratorInstance
+  - Added Interface ApplicationAcceleratorProperties
+  - Added Interface ApplicationAcceleratorResource
+  - Added Interface ApplicationAcceleratorResourceCollection
+  - Added Interface ApplicationAcceleratorResourceRequests
+  - Added Interface ApplicationAcceleratorsCreateOrUpdateOptionalParams
+  - Added Interface ApplicationAcceleratorsDeleteHeaders
+  - Added Interface ApplicationAcceleratorsDeleteOptionalParams
+  - Added Interface ApplicationAcceleratorsGetOptionalParams
+  - Added Interface ApplicationAcceleratorsListNextOptionalParams
+  - Added Interface ApplicationAcceleratorsListOptionalParams
+  - Added Interface ApplicationLiveViewComponent
+  - Added Interface ApplicationLiveViewInstance
+  - Added Interface ApplicationLiveViewProperties
+  - Added Interface ApplicationLiveViewResource
+  - Added Interface ApplicationLiveViewResourceCollection
+  - Added Interface ApplicationLiveViewResourceRequests
+  - Added Interface ApplicationLiveViewsCreateOrUpdateOptionalParams
+  - Added Interface ApplicationLiveViewsDeleteHeaders
+  - Added Interface ApplicationLiveViewsDeleteOptionalParams
+  - Added Interface ApplicationLiveViewsGetOptionalParams
+  - Added Interface ApplicationLiveViewsListNextOptionalParams
+  - Added Interface ApplicationLiveViewsListOptionalParams
+  - Added Interface AppResource
+  - Added Interface AppVNetAddons
+  - Added Interface AzureFileVolume
+  - Added Interface BindingResource
+  - Added Interface Build
+  - Added Interface BuilderResource
+  - Added Interface BuildpackBindingListForClusterNextOptionalParams
+  - Added Interface BuildpackBindingListForClusterOptionalParams
+  - Added Interface BuildpackBindingResource
+  - Added Interface BuildResourceRequests
+  - Added Interface BuildResult
+  - Added Interface BuildResultUserSourceInfo
+  - Added Interface BuildService
+  - Added Interface BuildServiceAgentPoolResource
+  - Added Interface BuildServiceBuilderListDeploymentsOptionalParams
+  - Added Interface BuildServiceCreateOrUpdateOptionalParams
+  - Added Interface BuildServiceDeleteBuildHeaders
+  - Added Interface BuildServiceDeleteBuildOptionalParams
+  - Added Interface CertificateReference
+  - Added Interface CertificateResource
+  - Added Interface ConfigServerResource
+  - Added Interface ConfigurationServiceResource
+  - Added Interface ConfigurationServicesValidateResourceHeaders
+  - Added Interface ConfigurationServicesValidateResourceOptionalParams
+  - Added Interface ContainerProbeSettings
+  - Added Interface ContainerRegistriesCreateOrUpdateOptionalParams
+  - Added Interface ContainerRegistriesDeleteHeaders
+  - Added Interface ContainerRegistriesDeleteOptionalParams
+  - Added Interface ContainerRegistriesGetOptionalParams
+  - Added Interface ContainerRegistriesListNextOptionalParams
+  - Added Interface ContainerRegistriesListOptionalParams
+  - Added Interface ContainerRegistriesValidateHeaders
+  - Added Interface ContainerRegistriesValidateOptionalParams
+  - Added Interface ContainerRegistryBasicCredentials
+  - Added Interface ContainerRegistryCredentials
+  - Added Interface ContainerRegistryProperties
+  - Added Interface ContainerRegistryResource
+  - Added Interface ContainerRegistryResourceCollection
+  - Added Interface ContainerRegistryValidateResult
+  - Added Interface ContentCertificateProperties
+  - Added Interface CustomContainer
+  - Added Interface CustomContainerUserSourceInfo
+  - Added Interface CustomDomainResource
+  - Added Interface CustomizedAcceleratorProperties
+  - Added Interface CustomizedAcceleratorResource
+  - Added Interface CustomizedAcceleratorResourceCollection
+  - Added Interface CustomizedAcceleratorsCreateOrUpdateOptionalParams
+  - Added Interface CustomizedAcceleratorsDeleteHeaders
+  - Added Interface CustomizedAcceleratorsDeleteOptionalParams
+  - Added Interface CustomizedAcceleratorsGetOptionalParams
+  - Added Interface CustomizedAcceleratorsListNextOptionalParams
+  - Added Interface CustomizedAcceleratorsListOptionalParams
+  - Added Interface CustomizedAcceleratorsValidateHeaders
+  - Added Interface CustomizedAcceleratorsValidateOptionalParams
+  - Added Interface CustomizedAcceleratorValidateResult
+  - Added Interface CustomPersistentDiskProperties
+  - Added Interface CustomPersistentDiskResource
+  - Added Interface DeploymentList
+  - Added Interface DeploymentResource
+  - Added Interface DeploymentsDisableRemoteDebuggingOptionalParams
+  - Added Interface DeploymentsEnableRemoteDebuggingOptionalParams
+  - Added Interface DeploymentsGetRemoteDebuggingConfigOptionalParams
+  - Added Interface DevToolPortalComponent
+  - Added Interface DevToolPortalFeatureDetail
+  - Added Interface DevToolPortalFeatureSettings
+  - Added Interface DevToolPortalInstance
+  - Added Interface DevToolPortalProperties
+  - Added Interface DevToolPortalResource
+  - Added Interface DevToolPortalResourceCollection
+  - Added Interface DevToolPortalResourceRequests
+  - Added Interface DevToolPortalsCreateOrUpdateOptionalParams
+  - Added Interface DevToolPortalsDeleteHeaders
+  - Added Interface DevToolPortalsDeleteOptionalParams
+  - Added Interface DevToolPortalsGetOptionalParams
+  - Added Interface DevToolPortalsListNextOptionalParams
+  - Added Interface DevToolPortalsListOptionalParams
+  - Added Interface DevToolPortalSsoProperties
+  - Added Interface ExecAction
+  - Added Interface GatewayApiMetadataProperties
+  - Added Interface GatewayApiRoute
+  - Added Interface GatewayCorsProperties
+  - Added Interface GatewayCustomDomainProperties
+  - Added Interface GatewayCustomDomainResource
+  - Added Interface GatewayCustomDomainResourceCollection
+  - Added Interface GatewayCustomDomainsCreateOrUpdateOptionalParams
+  - Added Interface GatewayCustomDomainsDeleteOptionalParams
+  - Added Interface GatewayCustomDomainsGetOptionalParams
+  - Added Interface GatewayCustomDomainsListNextOptionalParams
+  - Added Interface GatewayCustomDomainsListOptionalParams
+  - Added Interface GatewayInstance
+  - Added Interface GatewayOperatorProperties
+  - Added Interface GatewayOperatorResourceRequests
+  - Added Interface GatewayProperties
+  - Added Interface GatewayPropertiesClientAuth
+  - Added Interface GatewayPropertiesEnvironmentVariables
+  - Added Interface GatewayResource
+  - Added Interface GatewayResourceCollection
+  - Added Interface GatewayResourceRequests
+  - Added Interface GatewayRouteConfigOpenApiProperties
+  - Added Interface GatewayRouteConfigProperties
+  - Added Interface GatewayRouteConfigResource
+  - Added Interface GatewayRouteConfigResourceCollection
+  - Added Interface GatewayRouteConfigsCreateOrUpdateOptionalParams
+  - Added Interface GatewayRouteConfigsDeleteOptionalParams
+  - Added Interface GatewayRouteConfigsGetOptionalParams
+  - Added Interface GatewayRouteConfigsListNextOptionalParams
+  - Added Interface GatewayRouteConfigsListOptionalParams
+  - Added Interface GatewaysCreateOrUpdateOptionalParams
+  - Added Interface GatewaysDeleteOptionalParams
+  - Added Interface GatewaysGetOptionalParams
+  - Added Interface GatewaysListEnvSecretsOptionalParams
+  - Added Interface GatewaysListNextOptionalParams
+  - Added Interface GatewaysListOptionalParams
+  - Added Interface GatewaysRestartHeaders
+  - Added Interface GatewaysRestartOptionalParams
+  - Added Interface GatewaysValidateDomainOptionalParams
+  - Added Interface GloballyEnabledApms
+  - Added Interface HttpGetAction
+  - Added Interface ImageRegistryCredential
+  - Added Interface IngressConfig
+  - Added Interface IngressSettings
+  - Added Interface IngressSettingsClientAuth
+  - Added Interface JarUploadedUserSourceInfo
+  - Added Interface KeyVaultCertificateProperties
+  - Added Interface MarketplaceResource
+  - Added Interface MonitoringSettingResource
+  - Added Interface NetCoreZipUploadedUserSourceInfo
+  - Added Interface PredefinedAcceleratorProperties
+  - Added Interface PredefinedAcceleratorResource
+  - Added Interface PredefinedAcceleratorResourceCollection
+  - Added Interface PredefinedAcceleratorsDisableHeaders
+  - Added Interface PredefinedAcceleratorsDisableOptionalParams
+  - Added Interface PredefinedAcceleratorsEnableHeaders
+  - Added Interface PredefinedAcceleratorsEnableOptionalParams
+  - Added Interface PredefinedAcceleratorsGetOptionalParams
+  - Added Interface PredefinedAcceleratorsListNextOptionalParams
+  - Added Interface PredefinedAcceleratorsListOptionalParams
+  - Added Interface Probe
+  - Added Interface ProbeAction
+  - Added Interface ProxyResource
+  - Added Interface RemoteDebugging
+  - Added Interface RemoteDebuggingPayload
+  - Added Interface ServiceRegistryResource
+  - Added Interface ServiceResource
+  - Added Interface ServicesDisableApmGloballyHeaders
+  - Added Interface ServicesDisableApmGloballyOptionalParams
+  - Added Interface ServicesEnableApmGloballyHeaders
+  - Added Interface ServicesEnableApmGloballyOptionalParams
+  - Added Interface ServicesFlushVnetDnsSettingHeaders
+  - Added Interface ServicesFlushVnetDnsSettingOptionalParams
+  - Added Interface ServicesListGloballyEnabledApmsOptionalParams
+  - Added Interface ServicesListSupportedApmTypesNextOptionalParams
+  - Added Interface ServicesListSupportedApmTypesOptionalParams
+  - Added Interface ServicesListSupportedServerVersionsNextOptionalParams
+  - Added Interface ServicesListSupportedServerVersionsOptionalParams
+  - Added Interface ServicesStartOptionalParams
+  - Added Interface ServicesStopOptionalParams
+  - Added Interface ServiceVNetAddons
+  - Added Interface SkuObject
+  - Added Interface SourceUploadedUserSourceInfo
+  - Added Interface SsoProperties
+  - Added Interface StorageAccount
+  - Added Interface StorageProperties
+  - Added Interface StorageResource
+  - Added Interface StorageResourceCollection
+  - Added Interface StoragesCreateOrUpdateOptionalParams
+  - Added Interface StoragesDeleteOptionalParams
+  - Added Interface StoragesGetOptionalParams
+  - Added Interface StoragesListNextOptionalParams
+  - Added Interface StoragesListOptionalParams
+  - Added Interface SupportedApmType
+  - Added Interface SupportedApmTypes
+  - Added Interface SupportedBuildpackResource
+  - Added Interface SupportedServerVersion
+  - Added Interface SupportedServerVersions
+  - Added Interface SupportedStackResource
+  - Added Interface TCPSocketAction
+  - Added Interface TrackedResource
+  - Added Interface UploadedUserSourceInfo
+  - Added Interface UserAssignedManagedIdentity
+  - Added Interface WarUploadedUserSourceInfo
+  - Added Type Alias AcceleratorAuthSettingUnion
+  - Added Type Alias ApiPortalApiTryOutEnabledState
+  - Added Type Alias ApiPortalCustomDomainsCreateOrUpdateResponse
+  - Added Type Alias ApiPortalCustomDomainsGetResponse
+  - Added Type Alias ApiPortalCustomDomainsListNextResponse
+  - Added Type Alias ApiPortalCustomDomainsListResponse
+  - Added Type Alias ApiPortalProvisioningState
+  - Added Type Alias ApiPortalsCreateOrUpdateResponse
+  - Added Type Alias ApiPortalsGetResponse
+  - Added Type Alias ApiPortalsListNextResponse
+  - Added Type Alias ApiPortalsListResponse
+  - Added Type Alias ApiPortalsValidateDomainResponse
+  - Added Type Alias ApmProvisioningState
+  - Added Type Alias ApmsCreateOrUpdateResponse
+  - Added Type Alias ApmsDeleteResponse
+  - Added Type Alias ApmsGetResponse
+  - Added Type Alias ApmsListNextResponse
+  - Added Type Alias ApmsListResponse
+  - Added Type Alias ApmsListSecretKeysResponse
+  - Added Type Alias ApplicationAcceleratorProvisioningState
+  - Added Type Alias ApplicationAcceleratorsCreateOrUpdateResponse
+  - Added Type Alias ApplicationAcceleratorsDeleteResponse
+  - Added Type Alias ApplicationAcceleratorsGetResponse
+  - Added Type Alias ApplicationAcceleratorsListNextResponse
+  - Added Type Alias ApplicationAcceleratorsListResponse
+  - Added Type Alias ApplicationLiveViewProvisioningState
+  - Added Type Alias ApplicationLiveViewsCreateOrUpdateResponse
+  - Added Type Alias ApplicationLiveViewsDeleteResponse
+  - Added Type Alias ApplicationLiveViewsGetResponse
+  - Added Type Alias ApplicationLiveViewsListNextResponse
+  - Added Type Alias ApplicationLiveViewsListResponse
+  - Added Type Alias BackendProtocol
+  - Added Type Alias BuildpackBindingListForClusterNextResponse
+  - Added Type Alias BuildpackBindingListForClusterResponse
+  - Added Type Alias BuildServiceBuilderListDeploymentsResponse
+  - Added Type Alias BuildServiceCreateOrUpdateResponse
+  - Added Type Alias BuildServiceDeleteBuildResponse
+  - Added Type Alias CertificateResourceProvisioningState
+  - Added Type Alias ConfigurationServiceGeneration
+  - Added Type Alias ConfigurationServicesValidateResourceResponse
+  - Added Type Alias ContainerRegistriesCreateOrUpdateResponse
+  - Added Type Alias ContainerRegistriesDeleteResponse
+  - Added Type Alias ContainerRegistriesGetResponse
+  - Added Type Alias ContainerRegistriesListNextResponse
+  - Added Type Alias ContainerRegistriesListResponse
+  - Added Type Alias ContainerRegistriesValidateResponse
+  - Added Type Alias ContainerRegistryCredentialsUnion
+  - Added Type Alias ContainerRegistryProvisioningState
+  - Added Type Alias CustomDomainResourceProvisioningState
+  - Added Type Alias CustomizedAcceleratorProvisioningState
+  - Added Type Alias CustomizedAcceleratorsCreateOrUpdateResponse
+  - Added Type Alias CustomizedAcceleratorsDeleteResponse
+  - Added Type Alias CustomizedAcceleratorsGetResponse
+  - Added Type Alias CustomizedAcceleratorsListNextResponse
+  - Added Type Alias CustomizedAcceleratorsListResponse
+  - Added Type Alias CustomizedAcceleratorsValidateResponse
+  - Added Type Alias CustomizedAcceleratorType
+  - Added Type Alias CustomizedAcceleratorValidateResultState
+  - Added Type Alias CustomPersistentDiskPropertiesUnion
+  - Added Type Alias DeploymentsDisableRemoteDebuggingResponse
+  - Added Type Alias DeploymentsEnableRemoteDebuggingResponse
+  - Added Type Alias DeploymentsGetRemoteDebuggingConfigResponse
+  - Added Type Alias DevToolPortalFeatureState
+  - Added Type Alias DevToolPortalProvisioningState
+  - Added Type Alias DevToolPortalsCreateOrUpdateResponse
+  - Added Type Alias DevToolPortalsDeleteResponse
+  - Added Type Alias DevToolPortalsGetResponse
+  - Added Type Alias DevToolPortalsListNextResponse
+  - Added Type Alias DevToolPortalsListResponse
+  - Added Type Alias GatewayCertificateVerification
+  - Added Type Alias GatewayCustomDomainsCreateOrUpdateResponse
+  - Added Type Alias GatewayCustomDomainsGetResponse
+  - Added Type Alias GatewayCustomDomainsListNextResponse
+  - Added Type Alias GatewayCustomDomainsListResponse
+  - Added Type Alias GatewayProvisioningState
+  - Added Type Alias GatewayRouteConfigProtocol
+  - Added Type Alias GatewayRouteConfigsCreateOrUpdateResponse
+  - Added Type Alias GatewayRouteConfigsGetResponse
+  - Added Type Alias GatewayRouteConfigsListNextResponse
+  - Added Type Alias GatewayRouteConfigsListResponse
+  - Added Type Alias GatewaysCreateOrUpdateResponse
+  - Added Type Alias GatewaysGetResponse
+  - Added Type Alias GatewaysListEnvSecretsResponse
+  - Added Type Alias GatewaysListNextResponse
+  - Added Type Alias GatewaysListResponse
+  - Added Type Alias GatewaysValidateDomainResponse
+  - Added Type Alias GitImplementation
+  - Added Type Alias HttpSchemeType
+  - Added Type Alias KeyVaultCertificateAutoSync
+  - Added Type Alias PowerState
+  - Added Type Alias PredefinedAcceleratorProvisioningState
+  - Added Type Alias PredefinedAcceleratorsGetResponse
+  - Added Type Alias PredefinedAcceleratorsListNextResponse
+  - Added Type Alias PredefinedAcceleratorsListResponse
+  - Added Type Alias PredefinedAcceleratorState
+  - Added Type Alias ProbeActionType
+  - Added Type Alias ProbeActionUnion
+  - Added Type Alias ServicesFlushVnetDnsSettingResponse
+  - Added Type Alias ServicesListGloballyEnabledApmsResponse
+  - Added Type Alias ServicesListSupportedApmTypesNextResponse
+  - Added Type Alias ServicesListSupportedApmTypesResponse
+  - Added Type Alias ServicesListSupportedServerVersionsNextResponse
+  - Added Type Alias ServicesListSupportedServerVersionsResponse
+  - Added Type Alias SessionAffinity
+  - Added Type Alias StoragePropertiesUnion
+  - Added Type Alias StoragesCreateOrUpdateResponse
+  - Added Type Alias StoragesGetResponse
+  - Added Type Alias StoragesListNextResponse
+  - Added Type Alias StoragesListResponse
+  - Added Type Alias StorageType
+  - Added Type Alias TriggeredBuildResultProvisioningState
+  - Added Type Alias Type
+  - Interface AppResourceProperties has a new optional parameter customPersistentDisks
+  - Interface AppResourceProperties has a new optional parameter ingressSettings
+  - Interface AppResourceProperties has a new optional parameter vnetAddons
+  - Interface BuildProperties has a new optional parameter apms
+  - Interface BuildProperties has a new optional parameter certificates
+  - Interface BuildProperties has a new optional parameter resourceRequests
+  - Interface BuildResultProperties has a new optional parameter error
+  - Interface BuildResultProperties has a new optional parameter image
+  - Interface BuildServiceProperties has a new optional parameter containerRegistry
+  - Interface BuildStageProperties has a new optional parameter exitCode
+  - Interface BuildStageProperties has a new optional parameter reason
+  - Interface CertificateProperties has a new optional parameter provisioningState
+  - Interface ClusterResourceProperties has a new optional parameter marketplaceResource
+  - Interface ClusterResourceProperties has a new optional parameter powerState
+  - Interface ClusterResourceProperties has a new optional parameter vnetAddons
+  - Interface ConfigurationServiceGitRepository has a new optional parameter caCertResourceId
+  - Interface ConfigurationServiceGitRepository has a new optional parameter gitImplementation
+  - Interface ConfigurationServiceProperties has a new optional parameter generation
+  - Interface CustomDomainProperties has a new optional parameter provisioningState
+  - Interface DeploymentSettings has a new optional parameter apms
+  - Interface DeploymentSettings has a new optional parameter containerProbeSettings
+  - Interface DeploymentSettings has a new optional parameter livenessProbe
+  - Interface DeploymentSettings has a new optional parameter readinessProbe
+  - Interface DeploymentSettings has a new optional parameter startupProbe
+  - Interface DeploymentSettings has a new optional parameter terminationGracePeriodSeconds
+  - Interface DeploymentsListForClusterOptionalParams has a new optional parameter expand
+  - Interface ManagedIdentityProperties has a new optional parameter userAssignedIdentities
+  - Interface NetworkProfile has a new optional parameter ingressConfig
+  - Interface NetworkProfile has a new optional parameter outboundType
+  - Interface TriggeredBuildResult has a new optional parameter image
+  - Interface TriggeredBuildResult has a new optional parameter lastTransitionReason
+  - Interface TriggeredBuildResult has a new optional parameter lastTransitionStatus
+  - Interface TriggeredBuildResult has a new optional parameter lastTransitionTime
+  - Interface TriggeredBuildResult has a new optional parameter provisioningState
+  - Type of parameter type of interface UserSourceInfo is changed from "UploadedUserSourceInfo" | "Jar" | "Source" | "NetCoreZip" | "BuildResult" to "UploadedUserSourceInfo" | "Jar" | "War" | "Source" | "NetCoreZip" | "BuildResult" | "Container"
+  - Added Enum KnownApiPortalApiTryOutEnabledState
+  - Added Enum KnownApiPortalProvisioningState
+  - Added Enum KnownApmProvisioningState
+  - Added Enum KnownApplicationAcceleratorProvisioningState
+  - Added Enum KnownApplicationLiveViewProvisioningState
+  - Added Enum KnownBackendProtocol
+  - Added Enum KnownCertificateResourceProvisioningState
+  - Added Enum KnownConfigurationServiceGeneration
+  - Added Enum KnownContainerRegistryProvisioningState
+  - Added Enum KnownCustomDomainResourceProvisioningState
+  - Added Enum KnownCustomizedAcceleratorProvisioningState
+  - Added Enum KnownCustomizedAcceleratorType
+  - Added Enum KnownCustomizedAcceleratorValidateResultState
+  - Added Enum KnownDevToolPortalFeatureState
+  - Added Enum KnownDevToolPortalProvisioningState
+  - Added Enum KnownGatewayCertificateVerification
+  - Added Enum KnownGatewayProvisioningState
+  - Added Enum KnownGatewayRouteConfigProtocol
+  - Added Enum KnownGitImplementation
+  - Added Enum KnownHttpSchemeType
+  - Added Enum KnownKeyVaultCertificateAutoSync
+  - Added Enum KnownPowerState
+  - Added Enum KnownPredefinedAcceleratorProvisioningState
+  - Added Enum KnownPredefinedAcceleratorState
+  - Added Enum KnownProbeActionType
+  - Added Enum KnownSessionAffinity
+  - Added Enum KnownStorageType
+  - Added Enum KnownTriggeredBuildResultProvisioningState
+  - Added Enum KnownType
+  - Added function getContinuationToken
+  - Interface DeploymentsListForClusterNextOptionalParams no longer has parameter version
+  - Interface DeploymentsListNextOptionalParams no longer has parameter version
+  - Class AppPlatformManagementClient has a new signature
+  - Type of parameter addonConfigs of interface AppResourceProperties is changed to {
+        [propertyName: string]: Record<string, unknown>;
+    }
+  - Type of parameter addonConfigs of interface DeploymentSettings is changed to {
+        [propertyName: string]: Record<string, unknown>;
+    }
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter bindingParameters of interface BindingResourceProperties is changed from {
+        [propertyName: string]: Record<string, unknown>;
+    } to {
+        [propertyName: string]: string;
+    }
+  
+    
+    
 ## 3.0.0-beta.1 (2023-03-28)
     
 **Features**
@@ -411,7 +882,7 @@
         [propertyName: string]: Record<string, unknown>;
     }
     
-    
+ 
 ## 2.0.0 (2022-05-19)
 
 The package of @azure/arm-appplatform is using our next generation design principles since version 2.0.0, which contains breaking changes.

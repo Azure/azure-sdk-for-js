@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to connect to Azure Event Hubs over websockets to work over an HTTP proxy.

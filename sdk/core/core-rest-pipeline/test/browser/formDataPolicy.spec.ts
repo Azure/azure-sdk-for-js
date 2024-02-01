@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { PipelineResponse, SendRequest } from "../../src/interfaces";
+import type { PipelineResponse, SendRequest } from "../../src/interfaces";
 import { createPipelineRequest } from "../../src/pipelineRequest";
 import { formDataPolicy } from "../../src/policies/formDataPolicy";
-import { assert } from "chai";
+import { assert, describe, it, vi } from "vitest";
 
 describe("formDataPolicy (browser-only)", function () {
   it("prepares multipart/form-data form data correctly", async function () {
@@ -24,8 +23,8 @@ describe("formDataPolicy (browser-only)", function () {
       request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(successResponse);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
 

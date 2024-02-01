@@ -321,14 +321,13 @@ export function toRheaMessage(
       message_annotations: {},
     };
 
-    amqpMsg.ttl = msg.timeToLive;
-  }
-
-  if (amqpMsg.ttl != null && amqpMsg.ttl !== Constants.maxDurationValue) {
-    amqpMsg.creation_time = new Date();
-    amqpMsg.absolute_expiry_time = new Date(
-      Math.min(Constants.maxAbsoluteExpiryTime, amqpMsg.creation_time.getTime() + amqpMsg.ttl),
-    );
+    if (msg.timeToLive) {
+      amqpMsg.ttl = Math.min(msg.timeToLive, Constants.maxUint32Value);
+      amqpMsg.creation_time = new Date();
+      amqpMsg.absolute_expiry_time = new Date(
+        Math.min(amqpMsg.creation_time.getTime() + amqpMsg.ttl, Constants.maxAbsoluteExpiryTime),
+      );
+    }
   }
 
   if (isAmqpAnnotatedMessage(msg)) {
@@ -560,9 +559,6 @@ export function fromRheaMessage(
   if (rheaMessage.to != null) {
     sbmsg.to = rheaMessage.to;
   }
-  if (rheaMessage.ttl != null) {
-    sbmsg.timeToLive = rheaMessage.ttl;
-  }
   if (rheaMessage.subject != null) {
     sbmsg.subject = rheaMessage.subject;
   }
@@ -634,15 +630,17 @@ export function fromRheaMessage(
       );
     }
   }
-  if (rheaMessage.ttl == null) rheaMessage.ttl = Constants.maxDurationValue;
+
+  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
+  rawMessage.bodyType = bodyType;
+  if (rheaMessage.ttl == null) {
+    rheaMessage.ttl = rawMessage.header?.timeToLive ?? Constants.maxDurationValue;
+  }
   if (props.enqueuedTimeUtc) {
     props.expiresAtUtc = new Date(
       Math.min(props.enqueuedTimeUtc.getTime() + rheaMessage.ttl, Constants.maxDurationValue),
     );
   }
-
-  const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(rheaMessage);
-  rawMessage.bodyType = bodyType;
 
   if (rawMessage.applicationProperties) {
     rawMessage.applicationProperties = skipConvertingDate
@@ -658,6 +656,10 @@ export function fromRheaMessage(
     rawMessage.messageAnnotations = skipConvertingDate
       ? rawMessage.messageAnnotations
       : convertDatesToNumbers(rawMessage.messageAnnotations);
+  }
+
+  if (rawMessage.header?.timeToLive) {
+    sbmsg.timeToLive = rawMessage.header.timeToLive;
   }
 
   const rcvdsbmsg: ServiceBusReceivedMessage = {

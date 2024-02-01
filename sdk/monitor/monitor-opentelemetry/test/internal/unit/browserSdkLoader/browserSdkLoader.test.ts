@@ -154,7 +154,7 @@ describe("#BrowserSdkLoader", () => {
     assert.ok(Number(response.getHeader("Content-Length")) > 4000); // Content length updated
   });
 
-  it("browser SDK loader should use provided snippet src url ", () => {
+  it("browser SDK loader be constructed using the proper verison prefix ", () => {
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -162,49 +162,6 @@ describe("#BrowserSdkLoader", () => {
       browserSdkLoaderOptions: {
         enabled: true,
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        src: "WebInstrumentationTestSourceURL",
-      },
-    };
-    useAzureMonitor(config);
-    let browserSdkLoader = BrowserSdkLoader.getInstance();
-    let _headers: any = {};
-    let response: http.ServerResponse = <any>{
-      setHeader: (header: string, value: string) => {
-        _headers[header] = value;
-      },
-      getHeader: (header: string) => {
-        return _headers[header];
-      },
-      removeHeader: (header: string) => {
-        _headers[header] = undefined;
-      },
-    };
-    response.setHeader("Content-Type", "text/html");
-    response.statusCode = 200;
-    let validHtml = "<html><head></head><body></body></html>";
-    assert.equal(browserSdkLoader.ValidateInjection(response, validHtml), true);
-    let newHtml = browserSdkLoader.InjectSdkLoader(response, validHtml).toString();
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
-    assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
-    assert.ok(newHtml.indexOf("<html><head>") == 0);
-    assert.ok(newHtml.indexOf('instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333"') >= 0);
-  });
-
-  it("browser SDK loader should use provided config ", () => {
-    const config: AzureMonitorOpenTelemetryOptions = {
-      azureMonitorExporterOptions: {
-        connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-      },
-      browserSdkLoaderOptions: {
-        enabled: true,
-        connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
-        src: "WebInstrumentationTestSourceURL",
-        config: {
-          src: "WebInstrumentationTestSourceURL",
-          name: "WebInstrumentationTestName",
-          ld: 1000,
-          cfg: "{ config: test }",
-        },
       },
     };
     useAzureMonitor(config);
@@ -233,9 +190,8 @@ describe("#BrowserSdkLoader", () => {
     } else if (isLinux()) {
       osType = "l";
     }
-    let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n src: "WebInstrumentationTestSourceURL",\r\n name: "WebInstrumentationTestName",\r\n cfg: "{ config: test }",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
-    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") < 0);
-    assert.ok(newHtml.indexOf("WebInstrumentationTestSourceURL") >= 0);
+    let expectedStr = `    instrumentationKey: "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",\r\n disableIkeyDeprecationMessage: true,\r\n sdkExtension: "u${osType}d_n_`;
+    assert.ok(newHtml.indexOf("https://js.monitor.azure.com/scripts/b/ai.2.min.js") >= 0);
     assert.ok(newHtml.indexOf("<html><head>") == 0);
     assert.ok(newHtml.indexOf(expectedStr) >= 0, expectedStr);
   });
