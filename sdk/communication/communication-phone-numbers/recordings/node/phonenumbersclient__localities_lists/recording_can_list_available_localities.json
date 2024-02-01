@@ -8,7 +8,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-beta.3 core-rest-pipeline/1.13.1 Node/v20.10.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "fake-useragent",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 01 Feb 2024 20:29:19 GMT"
@@ -741,7 +741,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-beta.3 core-rest-pipeline/1.13.1 Node/v20.10.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "fake-useragent",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 01 Feb 2024 20:29:20 GMT"
@@ -1474,7 +1474,7 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.3.0-beta.3 core-rest-pipeline/1.13.1 Node/v20.10.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "fake-useragent",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
         "x-ms-date": "Thu, 01 Feb 2024 20:29:21 GMT"
