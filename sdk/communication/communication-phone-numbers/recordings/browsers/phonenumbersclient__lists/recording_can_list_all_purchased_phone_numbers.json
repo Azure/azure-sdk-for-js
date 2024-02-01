@@ -19,23 +19,21 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 02 Jan 2024 20:59:08 GMT",
-        "x-ms-useragent": "fake-useragent"
+        "x-ms-date": "Thu, 01 Feb 2024 23:48:15 GMT",
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.3.0-beta.3 core-rest-pipeline/1.13.1 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "Accept-Ranges": "bytes",
         "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
-        "Connection": "keep-alive",
-        "Content-Length": "822",
+        "Content-Length": "3075",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 02 Jan 2024 20:59:10 GMT",
-        "MS-CV": "4YgBn2vgnEGlE5SvJoltuw.0",
+        "Date": "Thu, 01 Feb 2024 23:48:16 GMT",
+        "MS-CV": "BsZ6egaTv0i0Qt0yUg/x1A.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "x-azure-ref": "20240102T205908Z-sdc64pz8cp5nf65ktzgxk4w2k8000000029g0000000001q4",
+        "X-Azure-Ref": "0wC28ZQAAAACym7TPzTRYTLIY69W91wV8U04xRURHRTMwMTUAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "1357ms"
+        "X-Processing-Time": "410ms"
       },
       "ResponseBody": {
         "phoneNumbers": [
@@ -46,17 +44,38 @@
             "phoneNumberType": "geographic",
             "capabilities": {
               "calling": "inbound\u002Boutbound",
-              "sms": "none"
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
             },
             "assignmentType": "application",
-            "purchaseDate": "2022-07-05T14:51:10.7867686\u002B00:00",
+            "purchaseDate": "2024-01-31T16:37:12.6993769\u002B00:00",
             "cost": {
               "amount": 1.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
             },
             "operatorId": "sanitized",
-            "operatorName": "Microsoft PPE (Dogfood)"
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "CA",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-02-01T15:26:01.5151254\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
           },
           {
             "id": "14155550100",
@@ -64,18 +83,119 @@
             "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
-              "calling": "outbound",
-              "sms": "none"
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
             },
             "assignmentType": "application",
-            "purchaseDate": "2023-12-15T21:59:39.7206619\u002B00:00",
+            "purchaseDate": "2024-02-01T22:22:03.6898165\u002B00:00",
             "cost": {
               "amount": 2.0,
               "currencyCode": "USD",
               "billingFrequency": "monthly"
             },
             "operatorId": "sanitized",
-            "operatorName": "Microsoft PPE (Dogfood)"
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-02-01T22:21:04.2820975\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-02-01T23:45:29.7705418\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-02-01T20:32:55.4293781\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-02-01T20:31:41.667432\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound",
+              "sms": "none",
+              "tenDLCCampaignBriefId": ""
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2024-01-31T16:44:03.544209\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            },
+            "operatorId": "sanitized",
+            "operatorName": "Microsoft"
           }
         ]
       }
