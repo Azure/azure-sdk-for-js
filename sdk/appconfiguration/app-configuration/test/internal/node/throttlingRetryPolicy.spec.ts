@@ -24,7 +24,7 @@ describe("Should not retry forever", () => {
         policy: "Total Requests",
         status: 429,
       },
-      ["retry-after-ms", retryAfterMs]
+      ["retry-after-ms", retryAfterMs],
     );
   }
 
@@ -54,8 +54,8 @@ describe("Should not retry forever", () => {
             },
             {
               abortSignal: AbortController.timeout(1000),
-            }
-          )
+            },
+          ),
         );
       }
       await Promise.all(promises);
@@ -77,7 +77,7 @@ describe("Should not retry forever", () => {
     chai.assert.equal(
       nock.pendingMocks().length,
       responseCount,
-      "unexpected pending mocks before making the request"
+      "unexpected pending mocks before making the request",
     );
     try {
       await client.addConfigurationSetting({
@@ -92,14 +92,14 @@ describe("Should not retry forever", () => {
       chai.assert.equal(
         JSON.parse(err.message).title,
         "Resource utilization has surpassed the assigned quota",
-        "Unexpected error thrown"
+        "Unexpected error thrown",
       );
     }
     chai.assert.equal(errorWasThrown, true, "Error was not thrown");
     chai.assert.equal(
       nock.pendingMocks().length,
       responseCount - 1 - 3, // one attempt + three retries
-      "unexpected pending mocks after the test was run"
+      "unexpected pending mocks after the test was run",
     );
   });
 });

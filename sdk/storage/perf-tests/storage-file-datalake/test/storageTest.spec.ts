@@ -32,11 +32,11 @@ export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
 
     this.datalakeServiceClient = new DataLakeServiceClient(
       `https://${accountName}.dfs.core.windows.net`,
-      sharedKeyCredential
+      sharedKeyCredential,
     );
 
     this.fileSystemClient = this.datalakeServiceClient.getFileSystemClient(
-      StorageDFSTest.fileSystemName
+      StorageDFSTest.fileSystemName,
     );
 
     this.directoryClient = this.fileSystemClient.getDirectoryClient(StorageDFSTest.directoryName);
@@ -54,7 +54,7 @@ export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
 
 export function getValueInConnString(
   connectionString: string,
-  argument: "AccountName" | "AccountKey"
+  argument: "AccountName" | "AccountKey",
 ) {
   const elements = connectionString.split(";");
   for (const element of elements) {

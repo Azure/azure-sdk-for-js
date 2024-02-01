@@ -8,7 +8,7 @@ import { PurviewCatalogClient } from "./clientDefinitions";
 export default function createClient(
   Endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): PurviewCatalogClient {
   const baseUrl = options.baseUrl ?? `${Endpoint}/catalog/api`;
   options.apiVersion = options.apiVersion ?? "2022-03-01-preview";

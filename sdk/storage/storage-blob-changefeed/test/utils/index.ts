@@ -21,7 +21,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
   const accountKey = env[accountKeyEnvVar];
   if (!accountName || !accountKey || accountName === "" || accountKey === "") {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
     );
   }
 
@@ -30,7 +30,7 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -91,7 +91,7 @@ export function getBlobChangeFeedClient(
   recorder: Recorder,
   accountType: string = "",
   accountNameSuffix: string = "",
-  options: StoragePipelineOptions = {}
+  options: StoragePipelineOptions = {},
 ): BlobChangeFeedClient {
   let client: BlobChangeFeedClient;
   if (

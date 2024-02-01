@@ -40,14 +40,14 @@ describe("Certificates client's user agent (only in Node, because of fs)", () =>
     try {
       // The unit-test script has this test file at: test/internal/userAgent.spec.ts
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../package.json"), { encoding: "utf-8" }),
       );
       version = fileContents.version;
     } catch {
       // The integration-test script has this test file in a different place,
       // Along the lines of: dist-esm/test/internal/userAgent.spec.ts
       const fileContents = JSON.parse(
-        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" })
+        fs.readFileSync(path.join(__dirname, "../../../package.json"), { encoding: "utf-8" }),
       );
       version = fileContents.version;
     }

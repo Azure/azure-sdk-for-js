@@ -31,7 +31,7 @@ describe("internal crypto tests", () => {
     it("parses the vaultUrl", () => {
       const client = new CryptographyClient(
         "https://my.vault.azure.net/keys/keyId/v1",
-        tokenCredential
+        tokenCredential,
       );
       assert.equal(client.vaultUrl, "https://my.vault.azure.net");
     });
@@ -39,14 +39,14 @@ describe("internal crypto tests", () => {
     it("throws if id is invalid", () => {
       assert.throws(
         () => new CryptographyClient("foo", tokenCredential),
-        /not a valid Key Vault key ID/
+        /not a valid Key Vault key ID/,
       );
     });
 
     it("allows version to be omitted", () => {
       const client = new CryptographyClient(
         "https://my.vault.azure.net/keys/keyId",
-        tokenCredential
+        tokenCredential,
       );
       assert.equal(client.vaultUrl, "https://my.vault.azure.net");
     });
@@ -72,7 +72,7 @@ describe("internal crypto tests", () => {
         const cryptoClient = new CryptographyClient(key, tokenCredential);
         await assert.isRejected(
           cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
-          `Key ${key.id} can't be used before ${notBefore.toISOString()}`
+          `Key ${key.id} can't be used before ${notBefore.toISOString()}`,
         );
       });
 
@@ -82,7 +82,7 @@ describe("internal crypto tests", () => {
         const cryptoClient = new CryptographyClient(key, tokenCredential);
         await assert.isRejected(
           cryptoClient.encrypt("RSA1_5", stringToUint8Array("")),
-          `Key ${key.id} expired at ${expiresOn.toISOString()}`
+          `Key ${key.id} expired at ${expiresOn.toISOString()}`,
         );
       });
 
@@ -100,7 +100,7 @@ describe("internal crypto tests", () => {
         key.id = "invalid_id";
         assert.throws(
           () => new CryptographyClient(key, tokenCredential),
-          /not a valid Key Vault key ID/
+          /not a valid Key Vault key ID/,
         );
       });
     });
@@ -118,7 +118,7 @@ describe("internal crypto tests", () => {
       key.keyOps = ["encrypt"];
       await assert.isRejected(
         cryptoClient.decrypt("RSA1_5", stringToUint8Array("")),
-        /Operation decrypt is not supported/
+        /Operation decrypt is not supported/,
       );
     });
   });
@@ -176,7 +176,7 @@ describe("internal crypto tests", () => {
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
             tracingOptions: {},
-          })
+          }),
         );
       });
 
@@ -185,7 +185,7 @@ describe("internal crypto tests", () => {
 
         await client.encrypt(
           { algorithm: "RSA1_5", plaintext: text },
-          { requestOptions: { timeout: 5 } }
+          { requestOptions: { timeout: 5 } },
         );
 
         sinon.assert.calledWith(
@@ -194,7 +194,7 @@ describe("internal crypto tests", () => {
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
             tracingOptions: {},
-          })
+          }),
         );
       });
     });
@@ -210,7 +210,7 @@ describe("internal crypto tests", () => {
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
             tracingOptions: {},
-          })
+          }),
         );
       });
 
@@ -219,7 +219,7 @@ describe("internal crypto tests", () => {
 
         await client.decrypt(
           { algorithm: "RSA1_5", ciphertext: text },
-          { requestOptions: { timeout: 5 } }
+          { requestOptions: { timeout: 5 } },
         );
 
         sinon.assert.calledWith(
@@ -228,7 +228,7 @@ describe("internal crypto tests", () => {
           operationOptionsSinonMatcher({
             requestOptions: { timeout: 5 },
             tracingOptions: {},
-          })
+          }),
         );
       });
     });
@@ -243,7 +243,7 @@ describe("internal crypto tests", () => {
       const rsaProvider = new RsaCryptographyProvider({ kty: "AES", keyOps: ["encrypt"] });
       assert.throws(
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
-        "Key type does not match the algorithm RSA"
+        "Key type does not match the algorithm RSA",
       );
     });
 
@@ -254,7 +254,7 @@ describe("internal crypto tests", () => {
       const rsaProvider = new RsaCryptographyProvider({ kty: "RSA", keyOps: ["encrypt"] });
       assert.throws(
         () => rsaProvider.encrypt({ algorithm: "RSA1_5", plaintext: stringToUint8Array("foo") }),
-        /not supported in the browser/
+        /not supported in the browser/,
       );
     });
   });
@@ -340,7 +340,7 @@ describe("internal crypto tests", () => {
               httpClient: {
                 sendRequest,
               },
-            }
+            },
           );
 
           await idCryptoClient.sign("RS256", new Uint8Array([1, 2, 3]));
@@ -438,13 +438,13 @@ describe("internal crypto tests", () => {
       describe("when a local provider errors", function () {
         it("throws the original encrypt exception", async function () {
           await assert.isRejected(
-            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") })
+            cryptoClient.encrypt({ algorithm: "RSA-OAEP", plaintext: stringToUint8Array("text") }),
           );
         });
 
         it("throws the original decrypt exception", async function () {
           await assert.isRejected(
-            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") })
+            cryptoClient.decrypt({ algorithm: "RSA-OAEP", ciphertext: stringToUint8Array("text") }),
           );
         });
 
@@ -463,12 +463,12 @@ describe("internal crypto tests", () => {
         });
         it("throws the original verify exception", async function () {
           await assert.isRejected(
-            cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
+            cryptoClient.verify("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
           );
         });
         it("throws the original verifyData exception", async function () {
           await assert.isRejected(
-            cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig"))
+            cryptoClient.verifyData("PS256", stringToUint8Array("data"), stringToUint8Array("sig")),
           );
         });
       });
@@ -485,7 +485,7 @@ describe("internal crypto tests", () => {
  * matcher does the comparisons needed and still maintain sinon.calledWith() compatibility.
  */
 function operationOptionsSinonMatcher<T extends OperationOptions>(
-  expectedPropagatedOptions: T
+  expectedPropagatedOptions: T,
 ): ReturnType<typeof sinon.match> {
   return sinon.match((actualOptions: T) => {
     // check that an actual context was set up (ie, we must have

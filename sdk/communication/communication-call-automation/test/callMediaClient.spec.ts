@@ -79,7 +79,7 @@ describe("CallMedia Unit Tests", async function () {
       CALL_CONNECTION_ID,
       baseUri,
       { key: generateToken() },
-      new CallAutomationEventProcessor()
+      new CallAutomationEventProcessor(),
     );
   });
 
@@ -273,7 +273,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.startContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions
+      continuousDtmfRecognitionOptions,
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -295,7 +295,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.stopContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions
+      continuousDtmfRecognitionOptions,
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -417,7 +417,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 });
 
-describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media Client Live Tests", function () {
+describe("Call Media Client Live Tests", function () {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -438,13 +438,6 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch (e) {
-        console.log(e);
-      }
-    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -455,6 +448,13 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch {
+        return;
+      }
+    }
   });
 
   it("Play audio to target participant", async function () {
@@ -471,7 +471,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -484,7 +484,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -521,7 +521,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -534,7 +534,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -573,7 +573,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -586,7 +586,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -612,7 +612,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     assert.isDefined(callDisconnectedEvent);
   }).timeout(60000);
 
-  it.skip("Skipping to update this test later: Trigger DTMF actions", async function () {
+  it("Trigger DTMF actions", async function () {
     testName = this.test?.fullTitle()
       ? this.test?.fullTitle().replace(/ /g, "_")
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
@@ -622,7 +622,7 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
     assert.isAtLeast(
       phoneNumbers.length,
       2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers"
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
     );
     callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
     receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
@@ -641,39 +641,39 @@ describe.skip("SKIP test until Javascript is updated with TextProxy. Call Media 
       : "";
     assert.isDefined(incomingCallContext);
 
-    let answerCallResult;
     if (incomingCallContext) {
-      answerCallResult = await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
-    const receivercallConnectionId: string = answerCallResult?.callConnectionProperties
-      .callConnectionId
-      ? answerCallResult?.callConnectionProperties.callConnectionId
-      : "";
 
-    await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
+    const continuousDtmfRecognitionOptions1: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionStart",
+    };
+    await callConnection
+      .getCallMedia()
+      .startContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions1);
 
-    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
-    const sendDtmfCompleted = await waitForEvent("SendDtmfCompleted", callConnectionId, 8000);
+    const continuousDtmfRecognitionOptions2: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionSend",
+    };
+    await callConnection
+      .getCallMedia()
+      .sendDtmfTones([DtmfTone.Pound], receiverPhoneUser, continuousDtmfRecognitionOptions2);
+    const sendDtmfCompleted = await waitForEvent("SendDtmfTonesCompleted", callConnectionId, 8000);
     assert.isDefined(sendDtmfCompleted);
 
-    const continuousDtmfRecognitionToneReceivedEvent = await waitForEvent(
-      "ContinuousDtmfRecognitionToneReceived",
-      receivercallConnectionId,
-      8000
-    );
-    assert.isDefined(continuousDtmfRecognitionToneReceivedEvent);
-
-    await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser);
+    const continuousDtmfRecognitionOptions3: ContinuousDtmfRecognitionOptions = {
+      operationContext: "ContinuousDtmfRecognitionStop",
+    };
+    await callConnection
+      .getCallMedia()
+      .stopContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions3);
     const continuousDtmfRecognitionStopped = await waitForEvent(
       "ContinuousDtmfRecognitionStopped",
       callConnectionId,
-      8000
+      8000,
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
 

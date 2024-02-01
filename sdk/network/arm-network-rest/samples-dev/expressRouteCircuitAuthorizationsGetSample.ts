@@ -33,7 +33,7 @@ async function getExpressRouteCircuitAuthorization() {
       subscriptionId,
       resourceGroupName,
       circuitName,
-      authorizationName
+      authorizationName,
     )
     .get(options);
   console.log(result);

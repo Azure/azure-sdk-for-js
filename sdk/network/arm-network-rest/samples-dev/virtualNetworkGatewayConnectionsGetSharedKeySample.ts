@@ -31,7 +31,7 @@ async function getVirtualNetworkGatewayConnectionSharedKey() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/connections/{virtualNetworkGatewayConnectionName}/sharedkey",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayConnectionName
+      virtualNetworkGatewayConnectionName,
     )
     .get(options);
   console.log(result);

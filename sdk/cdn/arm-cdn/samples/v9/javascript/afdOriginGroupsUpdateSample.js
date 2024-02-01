@@ -43,7 +43,7 @@ async function afdOriginGroupsUpdate() {
     resourceGroupName,
     profileName,
     originGroupName,
-    originGroupUpdateProperties
+    originGroupUpdateProperties,
   );
   console.log(result);
 }

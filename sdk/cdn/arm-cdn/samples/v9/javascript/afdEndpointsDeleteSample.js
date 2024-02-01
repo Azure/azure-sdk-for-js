@@ -28,7 +28,7 @@ async function afdEndpointsDelete() {
   const result = await client.afdEndpoints.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

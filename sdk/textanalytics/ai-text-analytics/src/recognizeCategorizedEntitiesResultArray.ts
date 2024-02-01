@@ -33,12 +33,12 @@ export interface RecognizeCategorizedEntitiesResultArray
  */
 export function makeRecognizeCategorizedEntitiesResultArray(
   input: TextDocumentInput[],
-  response: EntitiesResult
+  response: EntitiesResult,
 ): RecognizeCategorizedEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeRecognizeCategorizedEntitiesResult,
-    makeRecognizeCategorizedEntitiesErrorResult
+    makeRecognizeCategorizedEntitiesErrorResult,
   );
 }

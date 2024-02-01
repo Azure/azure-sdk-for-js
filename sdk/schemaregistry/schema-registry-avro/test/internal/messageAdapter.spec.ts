@@ -41,7 +41,7 @@ describe("Message Adapters", function () {
       const areEqual: AssertEqualKeys<MessageAdapter<unknown>, EHMessageAdapter<unknown>> = true;
       assert.isTrue(
         areEqual,
-        "MessageAdapter should have the same shape as @azure/event-hubs's MessageAdapter."
+        "MessageAdapter should have the same shape as @azure/event-hubs's MessageAdapter.",
       );
     });
   });
@@ -53,7 +53,7 @@ describe("Message Adapters", function () {
       > = true;
       assert.isTrue(
         areEqual,
-        'EventDataAdapterParameters should have the same shape as Omit<EventData, "body" | "contentType">.'
+        'EventDataAdapterParameters should have the same shape as Omit<EventData, "body" | "contentType">.',
       );
     });
   });
@@ -69,7 +69,7 @@ describe("Message Adapters", function () {
             adapter.consume({
               contentType: "",
             }),
-          /Expected the body field to be defined/
+          /Expected the body field to be defined/,
         );
       });
       it("consumeMessage rejects messages with no contentType", async () => {
@@ -78,7 +78,7 @@ describe("Message Adapters", function () {
             adapter.consume({
               body: dummyUint8Array,
             }),
-          /Expected the contentType field to be defined/
+          /Expected the contentType field to be defined/,
         );
       });
     });

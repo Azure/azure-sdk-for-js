@@ -38,7 +38,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/exceptionPolicies/{exceptionPolicyId}",
-          exceptionPolicyIdForCreationAndDeletionTest
+          exceptionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -59,7 +59,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/exceptionPolicies/{exceptionPolicyId}",
-          exceptionPolicyIdForCreationAndDeletionTest
+          exceptionPolicyIdForCreationAndDeletionTest,
         )
         .get();
 
@@ -79,7 +79,7 @@ describe("JobRouterClient", function () {
       let response = await routerClient
         .path(
           "/routing/exceptionPolicies/{exceptionPolicyId}",
-          exceptionPolicyIdForCreationAndDeletionTest
+          exceptionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -95,7 +95,7 @@ describe("JobRouterClient", function () {
       response = await routerClient
         .path(
           "/routing/exceptionPolicies/{exceptionPolicyId}",
-          exceptionPolicyIdForCreationAndDeletionTest
+          exceptionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -138,7 +138,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/exceptionPolicies/{exceptionPolicyId}",
-          exceptionPolicyIdForCreationAndDeletionTest
+          exceptionPolicyIdForCreationAndDeletionTest,
         )
         .delete();
 

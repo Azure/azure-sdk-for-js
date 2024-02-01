@@ -31,7 +31,7 @@ async function getRoute() {
       subscriptionId,
       resourceGroupName,
       routeTableName,
-      routeName
+      routeName,
     )
     .get(options);
   console.log(result);

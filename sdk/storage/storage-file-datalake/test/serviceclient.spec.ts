@@ -106,11 +106,11 @@ describe("DataLakeServiceClient", () => {
     assert.deepStrictEqual(serviceProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(
       serviceProperties.deleteRetentionPolicy?.days,
-      properties.deleteRetentionPolicy?.days
+      properties.deleteRetentionPolicy?.days,
     );
     assert.deepStrictEqual(
       serviceProperties.deleteRetentionPolicy?.enabled,
-      properties.deleteRetentionPolicy?.enabled
+      properties.deleteRetentionPolicy?.enabled,
     );
 
     // Cleanup
@@ -121,17 +121,17 @@ describe("DataLakeServiceClient", () => {
     assert.deepStrictEqual(previousProperties.cors, properties.cors);
     assert.deepStrictEqual(
       previousProperties.blobAnalyticsLogging,
-      properties.blobAnalyticsLogging
+      properties.blobAnalyticsLogging,
     );
     assert.deepStrictEqual(previousProperties.hourMetrics, properties.hourMetrics);
     assert.deepStrictEqual(previousProperties.minuteMetrics, properties.minuteMetrics);
     assert.deepStrictEqual(
       previousProperties.deleteRetentionPolicy?.days,
-      properties.deleteRetentionPolicy?.days
+      properties.deleteRetentionPolicy?.days,
     );
     assert.deepStrictEqual(
       previousProperties.deleteRetentionPolicy?.enabled,
-      properties.deleteRetentionPolicy?.enabled
+      properties.deleteRetentionPolicy?.enabled,
     );
   });
 
@@ -534,7 +534,7 @@ describe("DataLakeServiceClient", () => {
         retryOptions: {
           maxTries: 1,
         },
-      }
+      },
     );
     configureStorageClient(recorder, newClient);
 
@@ -622,7 +622,7 @@ describe("DataLakeServiceClient", () => {
 
         const restoreRes = await serviceClient.undeleteFileSystem(
           fileSystemName,
-          fileSystemItem.versionId!
+          fileSystemItem.versionId!,
         );
         assert.equal(restoreRes.fileSystemClient.name, fileSystemName);
         await restoreRes.fileSystemClient.delete();

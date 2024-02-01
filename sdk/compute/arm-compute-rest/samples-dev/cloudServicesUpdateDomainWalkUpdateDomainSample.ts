@@ -34,7 +34,7 @@ async function updateCloudServiceToSpecifiedDomain() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      updateDomain
+      updateDomain,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

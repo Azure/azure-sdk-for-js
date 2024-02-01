@@ -35,7 +35,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listAnomaliesForDetectionConfiguration(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           new Date(Date.UTC(2021, 4, 5)),
-          new Date(Date.UTC(2021, 10, 1))
+          new Date(Date.UTC(2021, 10, 1)),
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.seriesKey, "Expecting first anomaly");
@@ -48,7 +48,7 @@ matrix([[true, false]] as const, async (useAad) => {
           .listAnomaliesForDetectionConfiguration(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
             new Date(Date.UTC(2021, 4, 5)),
-            new Date(Date.UTC(2021, 10, 1))
+            new Date(Date.UTC(2021, 10, 1)),
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -61,7 +61,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listAnomaliesForDetectionConfiguration(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           "2021-05-05T00:00:00.000Z",
-          "2021-11-01T00:00:00.000Z"
+          "2021-11-01T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.seriesKey, "Expecting first anomaly");
@@ -74,14 +74,14 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listAnomaliesForDetectionConfiguration(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
             "startTime",
-            "endTime"
+            "endTime",
           );
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
         } catch (err: any) {
           assert.equal(
             err.message,
-            'Error "Invalid time value" occurred in serializing the payload - undefined.'
+            'Error "Invalid time value" occurred in serializing the payload - undefined.',
           );
         }
       });
@@ -90,7 +90,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listIncidentsForDetectionConfiguration(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           new Date(Date.UTC(2021, 4, 5)),
-          new Date(Date.UTC(2021, 10, 1))
+          new Date(Date.UTC(2021, 10, 1)),
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.rootDimensionKey, "Expecting first incident");
@@ -103,7 +103,7 @@ matrix([[true, false]] as const, async (useAad) => {
           .listIncidentsForDetectionConfiguration(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
             new Date(Date.UTC(2021, 4, 5)),
-            new Date(Date.UTC(2021, 10, 1))
+            new Date(Date.UTC(2021, 10, 1)),
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -116,7 +116,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listIncidentsForDetectionConfiguration(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           "2021-05-05T00:00:00.000Z",
-          "2021-11-01T00:00:00.000Z"
+          "2021-11-01T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.rootDimensionKey, "Expecting first incident");
@@ -129,7 +129,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const iterator = client.listIncidentsForDetectionConfiguration(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
             "startTime",
-            "endTime"
+            "endTime",
           );
           await iterator.next();
           assert.fail("Error should have been thrown for invalid date strings");
@@ -143,7 +143,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           new Date(Date.UTC(2021, 4, 5)),
           new Date(Date.UTC(2021, 10, 1)),
-          "category"
+          "category",
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -156,7 +156,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
           "2021-01-05T00:00:00.000Z",
           "2021-11-05T00:00:00.000Z",
-          "category"
+          "category",
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -170,7 +170,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
             new Date(Date.UTC(2021, 4, 5)),
             new Date(Date.UTC(2021, 10, 1)),
-            "category"
+            "category",
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -184,7 +184,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assertEnvironmentVariable("METRICS_ADVISOR_ALERT_CONFIG_ID"),
           new Date(Date.UTC(2021, 4, 5)),
           new Date(Date.UTC(2021, 10, 1)),
-          "AnomalyTime"
+          "AnomalyTime",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.id, "Expecting first alert");
@@ -197,7 +197,7 @@ matrix([[true, false]] as const, async (useAad) => {
           assertEnvironmentVariable("METRICS_ADVISOR_ALERT_CONFIG_ID"),
           "2021-05-05T00:00:00.000Z",
           "2021-11-01T00:00:00.000Z",
-          "AnomalyTime"
+          "AnomalyTime",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.id, "Expecting first alert");
@@ -211,7 +211,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assertEnvironmentVariable("METRICS_ADVISOR_ALERT_CONFIG_ID"),
             new Date(Date.UTC(2021, 4, 5)),
             new Date(Date.UTC(2021, 10, 1)),
-            "AnomalyTime"
+            "AnomalyTime",
           )
           .byPage({ maxPageSize: 1 });
         let result = await iterator.next();
@@ -271,7 +271,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("listMetricSeriesDefinitions()", async function () {
         const iterator = client.listMetricSeriesDefinitions(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
-          new Date(Date.UTC(2021, 7, 5))
+          new Date(Date.UTC(2021, 7, 5)),
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.seriesKey, "Expecting first definition");
@@ -282,7 +282,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("listMetricSeriesDefinitions() with datetime string", async function () {
         const iterator = client.listMetricSeriesDefinitions(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
-          "2021-08-05T00:00:00.000Z"
+          "2021-08-05T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.seriesKey, "Expecting first definition");
@@ -294,7 +294,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client
           .listMetricSeriesDefinitions(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
-            new Date(Date.UTC(2021, 7, 5))
+            new Date(Date.UTC(2021, 7, 5)),
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -306,7 +306,7 @@ matrix([[true, false]] as const, async (useAad) => {
       it("listMetricDimensionValues()", async function () {
         const iterator = client.listMetricDimensionValues(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
-          "category"
+          "category",
         );
         let result = await iterator.next();
         assert.ok(result.value, "Expecting first dimension value");
@@ -318,7 +318,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client
           .listMetricDimensionValues(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
-            "category"
+            "category",
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -335,12 +335,12 @@ matrix([[true, false]] as const, async (useAad) => {
             { region: "Cairo", category: "Home & Garden" },
           ],
           new Date(Date.UTC(2021, 7, 5)),
-          new Date(Date.UTC(2021, 11, 5))
+          new Date(Date.UTC(2021, 11, 5)),
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
-          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
           region: "Delhi",
@@ -352,12 +352,12 @@ matrix([[true, false]] as const, async (useAad) => {
             data![0].timestamps.length > 0 &&
             data![0].values &&
             data![0].values.length > 0,
-          "Expecting data for the first time series"
+          "Expecting data for the first time series",
         );
 
         assert.equal(
           data![1].definition.metricId,
-          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
         );
         assert.deepStrictEqual(data![1].definition.seriesKey, {
           region: "Cairo",
@@ -369,7 +369,7 @@ matrix([[true, false]] as const, async (useAad) => {
             data![1].timestamps.length > 0 &&
             data![1].values &&
             data![1].values.length > 0,
-          "Expecting data for the second time series"
+          "Expecting data for the second time series",
         );
       });
 
@@ -381,12 +381,12 @@ matrix([[true, false]] as const, async (useAad) => {
             { category: "Shoes Handbags & Sunglasses", region: "Manila" },
           ],
           "2021-08-05T00:00:00.000Z",
-          "2021-09-05T00:00:00.000Z"
+          "2021-09-05T00:00:00.000Z",
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
         assert.equal(
           data![0].definition.metricId,
-          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1")
+          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
         );
         assert.deepStrictEqual(data![0].definition.seriesKey, {
           region: "Cairo",
@@ -398,7 +398,7 @@ matrix([[true, false]] as const, async (useAad) => {
             data![0].timestamps.length > 0 &&
             data![0].values &&
             data![0].values.length > 0,
-          "Expecting data for the first time series"
+          "Expecting data for the first time series",
         );
       });
 
@@ -410,7 +410,7 @@ matrix([[true, false]] as const, async (useAad) => {
             { category: "Home & Garden", region: "Cairo" },
           ],
           new Date(Date.UTC(2021, 7, 1)),
-          new Date(Date.UTC(2021, 7, 27))
+          new Date(Date.UTC(2021, 7, 27)),
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
@@ -426,7 +426,7 @@ matrix([[true, false]] as const, async (useAad) => {
             data![0].values.length > 0 &&
             data![0].isAnomaly &&
             data![0].isAnomaly.length > 0,
-          "Expecting enriched data for the first time series"
+          "Expecting enriched data for the first time series",
         );
 
         assert.deepStrictEqual(data![1].seriesKey, {
@@ -441,7 +441,7 @@ matrix([[true, false]] as const, async (useAad) => {
             data![1].values.length > 0 &&
             data![0].isAnomaly &&
             data![0].isAnomaly.length > 0,
-          "Expecting enriched data for the second time series"
+          "Expecting enriched data for the second time series",
         );
       });
 
@@ -453,7 +453,7 @@ matrix([[true, false]] as const, async (useAad) => {
             { category: "Home & Garden", region: "Cairo" },
           ],
           "2021-08-01T00:00:00.000Z",
-          "2021-08-27T00:00:00.000Z"
+          "2021-08-27T00:00:00.000Z",
         );
         assert.ok(data && data!.length === 2, "Expecting data for two time series");
 
@@ -467,7 +467,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listMetricEnrichmentStatus(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
           new Date(Date.UTC(2021, 0, 1)),
-          new Date(Date.UTC(2021, 8, 18))
+          new Date(Date.UTC(2021, 8, 18)),
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.status, "Expecting first status");
@@ -479,7 +479,7 @@ matrix([[true, false]] as const, async (useAad) => {
         const iterator = client.listMetricEnrichmentStatus(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
           "2021-01-01T00:00:00.000Z",
-          "2021-09-18T00:00:00.000Z"
+          "2021-09-18T00:00:00.000Z",
         );
         let result = getYieldedValue(await iterator.next());
         assert.ok(result.status, "Expecting first status");
@@ -492,7 +492,7 @@ matrix([[true, false]] as const, async (useAad) => {
           .listMetricEnrichmentStatus(
             assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_METRIC_ID_1"),
             new Date(Date.UTC(2021, 0, 1)),
-            new Date(Date.UTC(2021, 10, 5))
+            new Date(Date.UTC(2021, 10, 5)),
           )
           .byPage({ maxPageSize: 2 });
         let result = await iterator.next();
@@ -504,19 +504,19 @@ matrix([[true, false]] as const, async (useAad) => {
       it("gets root causes of an incident", async function () {
         const result = await client.getIncidentRootCauses(
           assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_DETECTION_CONFIG_ID"),
-          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID")
+          assertEnvironmentVariable("METRICS_ADVISOR_AZURE_SQLSERVER_INCIDENT_ID"),
         );
 
         assert.ok(
           result.rootCauses && result.rootCauses.length > 0,
-          "Expecting non empty root cause list"
+          "Expecting non empty root cause list",
         );
         const first = result.rootCauses[0];
         assert.deepStrictEqual(first.path, ["category"]);
         assert.ok(first.score, "Expecting score");
         assert.equal(
           first.description,
-          "Increase on region = Beijing | category = Handmade contributes the most to current incident."
+          "Increase on region = Beijing | category = Handmade contributes the most to current incident.",
         );
       });
 
@@ -619,7 +619,7 @@ matrix([[true, false]] as const, async (useAad) => {
                 endTime: new Date(Date.UTC(2021, 10, 5)),
                 timeMode: "FeedbackCreatedTime",
               },
-            }
+            },
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.id, "Expecting first status");
@@ -636,7 +636,7 @@ matrix([[true, false]] as const, async (useAad) => {
                 endTime: "2021-11-05T00:00:00.000Z",
                 timeMode: "FeedbackCreatedTime",
               },
-            }
+            },
           );
           let result = getYieldedValue(await iterator.next());
           assert.ok(result.id, "Expecting first status");

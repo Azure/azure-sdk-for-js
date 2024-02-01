@@ -29,7 +29,7 @@ async function kustoSandboxCustomImagesGet() {
   const result = await client.sandboxCustomImages.get(
     resourceGroupName,
     clusterName,
-    sandboxCustomImageName
+    sandboxCustomImageName,
   );
   console.log(result);
 }

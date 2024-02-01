@@ -33,7 +33,7 @@ async function getASasOnASnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}/beginGetAccess",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

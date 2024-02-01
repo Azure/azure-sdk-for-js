@@ -65,7 +65,7 @@ describe("formDataPolicy", function () {
     assert.isUndefined(result.request.formData);
     assert.strictEqual(
       result.request.body,
-      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`
+      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`,
     );
   });
 
@@ -115,7 +115,7 @@ describe("formDataPolicy", function () {
 
       assert.isRejected(
         policy.sendRequest(request, next),
-        /multipart\/form-data request must not have a request body already specified/
+        /multipart\/form-data request must not have a request body already specified/,
       );
     });
 
@@ -167,10 +167,10 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             "Content-Type": "application/octet-stream",
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-          })
+          }),
         );
         const buf = new Uint8Array(
-          await new Response((parts[0].body as any).stream()).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer(),
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
@@ -191,10 +191,10 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             // Content-Type should not be inferred
             "Content-Disposition": `form-data; name="file"; filename="blob"`,
-          })
+          }),
         );
         const buf = new Uint8Array(
-          await new Response((parts[0].body as any).stream()).arrayBuffer()
+          await new Response((parts[0].body as any).stream()).arrayBuffer(),
         );
         assert.deepEqual([...buf], [1, 2, 3]);
       });
@@ -213,7 +213,7 @@ describe("formDataPolicy", function () {
           createHttpHeaders({
             "Content-Type": "text/plain",
             "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-          })
+          }),
         );
 
         const content = new Uint8Array(await (parts[0].body as Blob).arrayBuffer());

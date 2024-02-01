@@ -32,7 +32,7 @@ async function listActiveConnectivityConfigurations() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveConnectivityConfigurations",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .post(options);
   console.log(result);

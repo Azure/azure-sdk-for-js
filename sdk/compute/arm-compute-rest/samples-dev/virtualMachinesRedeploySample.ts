@@ -32,7 +32,7 @@ async function virtualMachinesRedeployMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -61,7 +61,7 @@ async function virtualMachinesRedeployMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/redeploy",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

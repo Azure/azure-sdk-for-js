@@ -399,8 +399,11 @@ export type ChatCompletionsNamedToolSelection = ChatCompletionsNamedFunctionTool
 export interface ChatCompletionsNamedFunctionToolSelection {
   /** The object type, which is always 'function'. */
   type: "function";
-  /** The name of the function that should be called. */
-  name: string;
+  /** Specifies a tool the model should use. Used to force the model to call a specific function. */
+  function: {
+    /** The name of the function that should be called. */
+    name: string;
+  };
 }
 
 /**
@@ -867,4 +870,4 @@ export interface ChatMessageImageUrl {
 }
 
 /** A readable stream that is iterable and disposable. */
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {}
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {}

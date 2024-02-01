@@ -19,7 +19,7 @@ describe("ManagementClient - disconnects", function (): void {
     receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
   before(() => {
@@ -77,7 +77,7 @@ describe("ManagementClient - disconnects", function (): void {
 
     const deliveryIds = await sender.scheduleMessages(
       TestMessage.getSample(),
-      new Date("2020-04-25T12:00:00Z")
+      new Date("2020-04-25T12:00:00Z"),
     );
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
@@ -96,7 +96,7 @@ describe("ManagementClient - disconnects", function (): void {
     // peek additional messages
     const [deliveryId] = await sender.scheduleMessages(
       TestMessage.getSample(),
-      new Date("2020-04-25T12:00:00Z")
+      new Date("2020-04-25T12:00:00Z"),
     );
     deliveryIds.push(deliveryId);
     deliveryIds.length.should.equal(2, "Unexpected number of scheduled messages.");

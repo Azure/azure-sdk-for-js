@@ -32,7 +32,7 @@ export class CosmosDiagnosticContext {
 
   public recordFailedAttempt(
     gaterwayStatistics: GatewayStatistics,
-    retryAttemptNumber: number
+    retryAttemptNumber: number,
   ): void {
     const attempt: FailedRequestAttemptDiagnostic = {
       attemptNumber: retryAttemptNumber,
@@ -59,11 +59,11 @@ export class CosmosDiagnosticContext {
    */
   public mergeDiagnostics(
     childDiagnostics: CosmosDiagnosticContext,
-    metadataType: MetadataLookUpType
+    metadataType: MetadataLookUpType,
   ): void {
     // Copy Location endpoints contacted.
     childDiagnostics.locationEndpointsContacted.forEach((endpoint) =>
-      this.locationEndpointsContacted.add(endpoint)
+      this.locationEndpointsContacted.add(endpoint),
     );
 
     // Copy child nodes's GatewayStatistics to parent's metadata lookups.
@@ -77,7 +77,7 @@ export class CosmosDiagnosticContext {
         resourceType: gateway.resourceType,
         durationInMs: gateway.durationInMs,
         metaDataType: metadataType,
-      })
+      }),
     );
 
     // Copy child nodes's metadata lookups to parent's metadata lookups.
@@ -88,7 +88,7 @@ export class CosmosDiagnosticContext {
   }
 
   public getClientSideStats(
-    endTimeUTCInMs: number = getCurrentTimestampInMs()
+    endTimeUTCInMs: number = getCurrentTimestampInMs(),
   ): ClientSideRequestStatistics {
     return {
       requestStartTimeUTCInMs: this.requestStartTimeUTCinMs,
@@ -109,13 +109,13 @@ export class CosmosDiagnosticContext {
   public getTotalRequestPayloadLength(): number {
     let totalRequestPayloadLength = 0;
     this.gaterwayStatistics.forEach(
-      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes)
+      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes),
     );
     this.metadataLookups.forEach(
-      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes)
+      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes),
     );
     this.failedAttempts.forEach(
-      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes)
+      (req) => (totalRequestPayloadLength += req.requestPayloadLengthInBytes),
     );
     return totalRequestPayloadLength;
   }
@@ -123,13 +123,13 @@ export class CosmosDiagnosticContext {
   public getTotalResponsePayloadLength(): number {
     let totalResponsePayloadLength = 0;
     this.gaterwayStatistics.forEach(
-      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes)
+      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes),
     );
     this.metadataLookups.forEach(
-      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes)
+      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes),
     );
     this.failedAttempts.forEach(
-      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes)
+      (req) => (totalResponsePayloadLength += req.responsePayloadLengthInBytes),
     );
     return totalResponsePayloadLength;
   }

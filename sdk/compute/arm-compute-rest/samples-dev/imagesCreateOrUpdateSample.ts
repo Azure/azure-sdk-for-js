@@ -47,7 +47,7 @@ async function createAVirtualMachineImageFromABlobWithDiskEncryptionSetResource(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -89,7 +89,7 @@ async function createAVirtualMachineImageFromABlob() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -135,7 +135,7 @@ async function createAVirtualMachineImageFromAManagedDiskWithDiskEncryptionSetRe
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -179,7 +179,7 @@ async function createAVirtualMachineImageFromAManagedDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -225,7 +225,7 @@ async function createAVirtualMachineImageFromASnapshotWithDiskEncryptionSetResou
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -269,7 +269,7 @@ async function createAVirtualMachineImageFromASnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -306,7 +306,7 @@ async function createAVirtualMachineImageFromAnExistingVirtualMachine() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -354,7 +354,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromABlob() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -406,7 +406,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromAManagedDisk()
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -458,7 +458,7 @@ async function createAVirtualMachineImageThatIncludesADataDiskFromASnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

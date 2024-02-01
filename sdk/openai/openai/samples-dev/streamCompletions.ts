@@ -25,7 +25,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "text-davinci-003";
-  await using events = await client.streamCompletions(deploymentId, prompt, { maxTokens: 128 });
+  const events = await client.streamCompletions(deploymentId, prompt, { maxTokens: 128 });
 
   for await (const event of events) {
     for (const choice of event.choices) {

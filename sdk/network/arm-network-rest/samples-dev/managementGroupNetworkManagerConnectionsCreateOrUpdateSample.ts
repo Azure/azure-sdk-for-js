@@ -35,7 +35,7 @@ async function createOrUpdateManagementGroupNetworkManagerConnection() {
     .path(
       "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       managementGroupId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .put(options);
   console.log(result);

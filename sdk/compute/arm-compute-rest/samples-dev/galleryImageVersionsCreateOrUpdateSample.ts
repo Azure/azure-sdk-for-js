@@ -95,7 +95,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -187,7 +187,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -281,7 +281,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -328,7 +328,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -420,7 +420,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -514,7 +514,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -597,7 +597,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -689,7 +689,7 @@ async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocatio
       resourceGroupName,
       galleryName,
       galleryImageName,
-      galleryImageVersionName
+      galleryImageVersionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -137,7 +137,7 @@ async function endpointsCreate() {
     resourceGroupName,
     profileName,
     endpointName,
-    endpoint
+    endpoint,
   );
   console.log(result);
 }

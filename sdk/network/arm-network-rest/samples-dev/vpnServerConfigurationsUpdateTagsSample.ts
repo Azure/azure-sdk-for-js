@@ -32,7 +32,7 @@ async function vpnServerConfigurationUpdate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName
+      vpnServerConfigurationName,
     )
     .patch(options);
   console.log(result);

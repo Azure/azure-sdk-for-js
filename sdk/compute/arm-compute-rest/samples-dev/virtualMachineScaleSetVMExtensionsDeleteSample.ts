@@ -36,7 +36,7 @@ async function deleteVirtualMachineScaleSetVMExtension() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      vmExtensionName
+      vmExtensionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

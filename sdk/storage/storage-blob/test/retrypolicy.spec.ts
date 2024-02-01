@@ -169,7 +169,7 @@ describe("RetryPolicy", () => {
             return next(req);
           },
         },
-        { afterPhase: "Retry" }
+        { afterPhase: "Retry" },
       );
     }
 

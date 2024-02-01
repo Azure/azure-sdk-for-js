@@ -1,16 +1,14 @@
 # Release History
 
-## 1.7.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.8.0 (2024-02-01)
 
 ### Bugs Fixed
 
 - Fix an error when serializing browser ReadableStream [PR #27052](https://github.com/Azure/azure-sdk-for-js/pull/27052)
 
 ### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.7.3 (2023-06-01)
 

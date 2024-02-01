@@ -33,7 +33,7 @@ describe("ClientSecretCredential", function () {
       authDetails.requests[0].body,
       "tenant",
       "client",
-      "secret"
+      "secret",
     );
   });
 });

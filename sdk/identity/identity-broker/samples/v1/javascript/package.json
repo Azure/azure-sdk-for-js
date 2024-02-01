@@ -26,9 +26,9 @@
     "start": "electron index.js"
   },
   "dependencies": {
-    "@azure/identity-broker": "1.0.0-beta.1",
+    "@azure/identity-broker": "^1.0.0",
     "dotenv": "latest",
-    "@azure/identity": "4.0.0-beta.1",
+    "@azure/identity": "^4.0.0",
     "electron": "^27.0.0",
     "@azure/logger": "^1.0.4"
   }

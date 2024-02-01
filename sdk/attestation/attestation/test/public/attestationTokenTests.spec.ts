@@ -180,7 +180,7 @@ describe("AttestationTokenTests", function () {
           console.log("In callback, token algorithm: " + tokenToCheck.algorithm);
           return undefined;
         },
-      })
+      }),
     );
 
     assert.isTrue(
@@ -192,7 +192,7 @@ describe("AttestationTokenTests", function () {
             return ["There was a validation failure"];
           },
         })
-        .find((s) => s.search("validation")) !== undefined
+        .find((s) => s.search("validation")) !== undefined,
     );
   });
 
@@ -217,7 +217,7 @@ describe("AttestationTokenTests", function () {
           validateToken: true,
           validateIssuer: true,
           expectedIssuer: "this is an issuer",
-        })
+        }),
       );
 
       assert.isTrue(
@@ -227,7 +227,7 @@ describe("AttestationTokenTests", function () {
             validateIssuer: true,
             expectedIssuer: "this is a different issuer",
           })
-          .find((s) => s.search("different issuer")) !== undefined
+          .find((s) => s.search("different issuer")) !== undefined,
       );
     }
   });
@@ -252,7 +252,7 @@ describe("AttestationTokenTests", function () {
           validateToken: true,
           validateExpirationTime: true,
           validateNotBeforeTime: true,
-        })
+        }),
       );
     }
 
@@ -275,7 +275,7 @@ describe("AttestationTokenTests", function () {
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
-          .find((s) => s.search("expired")) !== undefined
+          .find((s) => s.search("expired")) !== undefined,
       );
 
       // Validate the token again, this time specifying a validation slack of
@@ -287,7 +287,7 @@ describe("AttestationTokenTests", function () {
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10,
-        })
+        }),
       );
     }
     {
@@ -308,7 +308,7 @@ describe("AttestationTokenTests", function () {
             validateExpirationTime: true,
             validateNotBeforeTime: true,
           })
-          .find((s) => s.search("not yet")) !== undefined
+          .find((s) => s.search("not yet")) !== undefined,
       );
 
       // Validate the token again, this time specifying a validation slack of
@@ -320,7 +320,7 @@ describe("AttestationTokenTests", function () {
           validateExpirationTime: true,
           validateNotBeforeTime: true,
           timeValidationSlack: 10,
-        })
+        }),
       );
     }
   });

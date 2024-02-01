@@ -46,7 +46,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options: SchemaRegistryClientOptions = {}
+    options: SchemaRegistryClientOptions = {},
   ) {
     this.fullyQualifiedNamespace = fullyQualifiedNamespace;
 
@@ -87,7 +87,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   registerSchema(
     schema: SchemaDescription,
-    options: RegisterSchemaOptions = {}
+    options: RegisterSchemaOptions = {},
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
@@ -96,7 +96,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
       (updatedOptions) =>
         this._client.schema
           .register(groupName, schemaName, buildContentType(format), schemaContent, updatedOptions)
-          .then(convertSchemaIdResponse(format))
+          .then(convertSchemaIdResponse(format)),
     );
   }
 
@@ -109,7 +109,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
    */
   getSchemaProperties(
     schema: SchemaDescription,
-    options: GetSchemaPropertiesOptions = {}
+    options: GetSchemaPropertiesOptions = {},
   ): Promise<SchemaProperties> {
     const { groupName, name: schemaName, definition: schemaContent, format } = schema;
     return this._tracing.withSpan(
@@ -122,9 +122,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
             schemaName,
             buildContentType(format),
             schemaContent,
-            updatedOptions
+            updatedOptions,
           )
-          .then(convertSchemaIdResponse(format))
+          .then(convertSchemaIdResponse(format)),
     );
   }
 
@@ -168,21 +168,21 @@ export class SchemaRegistryClient implements SchemaRegistry {
     name: string,
     groupName: string,
     version: number,
-    options?: GetSchemaOptions
+    options?: GetSchemaOptions,
   ): Promise<Schema>;
   // implementation
   getSchema(
     nameOrId: string,
     groupNameOrOptions?: string | GetSchemaOptions,
     version?: number,
-    options: GetSchemaOptions = {}
+    options: GetSchemaOptions = {},
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
       return this._tracing.withSpan(
         "SchemaRegistryClient.getSchema",
         groupNameOrOptions ?? {},
         (updatedOptions) =>
-          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse)
+          this._client.schema.getById(nameOrId, updatedOptions).then(convertSchemaResponse),
       );
     }
     return this._tracing.withSpan(
@@ -194,9 +194,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
             groupNameOrOptions as string,
             nameOrId,
             version as number,
-            updatedOptions
+            updatedOptions,
           )
-          .then(convertSchemaResponse)
+          .then(convertSchemaResponse),
     );
   }
 }

@@ -34,7 +34,7 @@ async function kustoScriptsCheckNameAvailability() {
     resourceGroupName,
     clusterName,
     databaseName,
-    scriptName
+    scriptName,
   );
   console.log(result);
 }

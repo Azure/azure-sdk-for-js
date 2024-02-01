@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 13.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 13.0.0 (2023-12-13)
+    
+**Features**
+
+  - Added Interface UserAssignedIdentityProperties
+
+**Breaking Changes**
+
+  - Type of parameter userAssignedIdentityProperties of interface UserAssignedManagedIdentityDetails is changed from UserAssignedIdentity to UserAssignedIdentityProperties
+    
+    
 ## 12.0.0 (2023-11-09)
     
 **Features**

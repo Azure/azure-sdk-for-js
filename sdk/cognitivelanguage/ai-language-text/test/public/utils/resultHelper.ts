@@ -15,7 +15,7 @@ export async function assertActionsResults(
   options: {
     maxPageSize?: number;
     excludedAdditionalProps?: string[];
-  } = {}
+  } = {},
 ): Promise<void> {
   const { maxPageSize, excludedAdditionalProps = [] } = options;
   let actionIndex = 0;
@@ -41,7 +41,7 @@ export async function assertRestError(
     statusCode?: number;
     code?: keyof typeof KnownTextAnalysisErrorCode;
     messagePattern?: RegExp;
-  } = {}
+  } = {},
 ): Promise<void> {
   const { code, statusCode, messagePattern } = options;
   try {
@@ -69,7 +69,7 @@ export function assertActionResults<T>(
   expectation: T[],
   options: {
     excludedAdditionalProps?: string[];
-  } = {}
+  } = {},
 ): void {
   const { excludedAdditionalProps = ["confidenceScore", "confidenceScores"] } = options;
   assert.deepEqualExcludingEvery(result, expectation, excludedAdditionalProps as any);

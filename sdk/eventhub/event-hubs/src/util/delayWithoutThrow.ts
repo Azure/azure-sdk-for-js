@@ -11,7 +11,7 @@ import { delay } from "@azure/core-amqp";
  */
 export async function delayWithoutThrow(
   delayInMs: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<void> {
   try {
     await delay(delayInMs, abortSignal);

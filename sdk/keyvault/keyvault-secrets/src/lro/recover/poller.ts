@@ -31,7 +31,7 @@ export class RecoverDeletedSecretPoller extends KeyVaultSecretPoller<
       },
       vaultUrl,
       client,
-      operationOptions
+      operationOptions,
     );
 
     super(operation);

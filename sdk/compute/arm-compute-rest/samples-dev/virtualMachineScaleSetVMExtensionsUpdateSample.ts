@@ -45,7 +45,7 @@ async function updateVirtualMachineScaleSetVMExtension() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      vmExtensionName
+      vmExtensionName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

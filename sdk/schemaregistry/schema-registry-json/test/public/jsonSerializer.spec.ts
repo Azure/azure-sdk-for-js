@@ -51,7 +51,7 @@ describe("JsonSerializer", async function () {
         data,
         contentType: createContentType(schemaId),
       }),
-      testValue
+      testValue,
     );
   });
 

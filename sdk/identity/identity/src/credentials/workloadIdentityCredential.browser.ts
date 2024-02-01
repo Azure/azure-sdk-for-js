@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "WorkloadIdentityCredential is not supported in the browser."
+  "WorkloadIdentityCredential is not supported in the browser.",
 );
 const logger = credentialLogger("WorkloadIdentityCredential");
 

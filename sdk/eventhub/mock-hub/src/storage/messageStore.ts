@@ -166,7 +166,7 @@ export class MessageStore {
    */
   public async *getMessageIterator(
     partitionId: string,
-    startPosition: EventPosition
+    startPosition: EventPosition,
   ): AsyncIterator<MessageRecord, void, boolean | undefined> {
     const partitionStore = this._getPartitionStore(partitionId);
     const partitionViews = this._getPartitionViews(partitionId);

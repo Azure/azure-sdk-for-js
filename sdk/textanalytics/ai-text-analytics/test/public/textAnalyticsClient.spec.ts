@@ -122,10 +122,10 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                 sentence.opinions.reduce(
                   (assessments: string[], opinion: Opinion) =>
                     assessments.concat(
-                      opinion.assessments.map((assessment: AssessmentSentiment) => assessment.text)
+                      opinion.assessments.map((assessment: AssessmentSentiment) => assessment.text),
                     ),
-                  []
-                )
+                  [],
+                ),
               );
             const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
             assert.deepEqual(allAssessments1, ["unacceptable"]);
@@ -146,7 +146,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           }
           assert.equal(
             results.filter((result) => result.error === undefined).length,
-            testDataEn.length
+            testDataEn.length,
           );
           assert.equal(errorResult.error.code, "InvalidDocument");
         });
@@ -157,14 +157,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               language: "en",
               text,
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               language: "es",
               text,
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
           const results = await client.analyzeSentiment(allInputs);
@@ -172,8 +172,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
           assertAllSuccess(results);
           results.map((result) =>
             (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
-              assert.isEmpty(sentence.opinions)
-            )
+              assert.isEmpty(sentence.opinions),
+            ),
           );
         });
 
@@ -222,7 +222,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               assert.equal(beautifulAssessment.offset, 53);
               assert.equal(beautifulAssessment.length, 9);
               assert.equal(beautifulAssessment.text.length, beautifulAssessment.length);
-            })
+            }),
           );
         });
 
@@ -321,7 +321,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it('client accepts "none" country hint with string[] input', async function () {
           const results = await client.detectLanguage(
             ["I use Azure Functions to develop my service."],
-            "none"
+            "none",
           );
           assert.equal(results.length, 1);
           assertAllSuccess(results);
@@ -336,8 +336,8 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                 id: getId(),
                 countryHint: "none",
                 text: input,
-              })
-            )
+              }),
+            ),
           );
           assertAllSuccess(results);
         });
@@ -356,14 +356,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             (text): DetectLanguageInput => ({
               id: getId(),
               text,
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): DetectLanguageInput => ({
               id: getId(),
               countryHint: "mx",
               text,
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
 
@@ -393,7 +393,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("service errors on unsupported language", async function () {
           const [result] = await client.recognizeEntities(
             ["This is some text, but it doesn't matter."],
-            "notalanguage"
+            "notalanguage",
           );
 
           if (result.error === undefined) {
@@ -409,14 +409,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
 
@@ -431,14 +431,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
           await assertRestError(client.recognizeEntities(allInputs), {
@@ -469,7 +469,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("service errors on unsupported language", async function () {
           const [result] = await client.extractKeyPhrases(
             ["This is some text, but it doesn't matter."],
-            "notalanguage"
+            "notalanguage",
           );
 
           if (result.error === undefined) {
@@ -485,14 +485,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
 
@@ -535,7 +535,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("service errors on unsupported language", async function () {
           const [result] = await client.recognizePiiEntities(
             ["This is some text, but it doesn't matter."],
-            "notalanguage"
+            "notalanguage",
           );
 
           if (result.error === undefined) {
@@ -552,14 +552,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
 
@@ -578,7 +578,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                 language: "en",
               },
             ],
-            { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
+            { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION },
           );
           if (!result.error) {
             assert.equal(result.entities.length, 2);
@@ -588,7 +588,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             assert.equal(result.entities[1].category, "PhoneNumber");
             assert.equal(
               result.redactedText,
-              "I work at ********* and my phone number is ************"
+              "I work at ********* and my phone number is ************",
             );
           }
         });
@@ -602,7 +602,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                 language: "en",
               },
             ],
-            { categoriesFilter: ["USSocialSecurityNumber"] }
+            { categoriesFilter: ["USSocialSecurityNumber"] },
           );
           if (!result.error) {
             assert.equal(result.entities.length, 1);
@@ -630,7 +630,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
                   language: "en",
                 },
               ],
-              { categoriesFilter: [entity2.category] }
+              { categoriesFilter: [entity2.category] },
             );
             if (!result2.error) {
               assert.equal(result2.entities.length, 1);
@@ -662,7 +662,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
         it("service errors on unsupported language", async function () {
           const [result] = await client.recognizeLinkedEntities(
             ["This is some text, but it doesn't matter."],
-            "notalanguage"
+            "notalanguage",
           );
 
           if (result.error === undefined) {
@@ -678,14 +678,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
 
@@ -700,14 +700,14 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               id: getId(),
               text,
               language: "en",
-            })
+            }),
           );
           const esInputs = testDataEs.map(
             (text): TextDocumentInput => ({
               id: getId(),
               text,
               language: "es",
-            })
+            }),
           );
           const allInputs = enInputs.concat(esInputs);
           await assertRestError(client.recognizeEntities(allInputs), {
@@ -727,7 +727,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -738,7 +738,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               10,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -749,7 +749,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               17,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -760,7 +760,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               25,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -771,7 +771,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               9,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -782,7 +782,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               10,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -793,7 +793,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -804,7 +804,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -815,7 +815,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "Utf16CodeUnit",
               121,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
         });
@@ -838,7 +838,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               "UnicodeCodePoint",
               17,
-              11
+              11,
             ); // offset was 25 with UTF16
           });
 
@@ -881,7 +881,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               "TextElement_v8",
               7,
-              11
+              11,
             ); // offset was 25 with UTF16
           });
 
@@ -929,7 +929,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
@@ -965,7 +965,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const results = await poller.pollUntilDone();
           for await (const page of results) {
@@ -1015,7 +1015,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1056,7 +1056,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1100,7 +1100,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1164,7 +1164,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1220,7 +1220,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1244,18 +1244,18 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
 
                   const listAllAssessments = (
                     acc: string[],
-                    sentence: SentenceSentiment
+                    sentence: SentenceSentiment,
                   ): string[] =>
                     acc.concat(
                       sentence.opinions.reduce(
                         (assessments: string[], opinion: Opinion) =>
                           assessments.concat(
                             opinion.assessments.map(
-                              (assessment: AssessmentSentiment) => assessment.text
-                            )
+                              (assessment: AssessmentSentiment) => assessment.text,
+                            ),
                           ),
-                        []
-                      )
+                        [],
+                      ),
                     );
                   const allAssessments1 = result1.sentences.reduce(listAllAssessments, []);
                   assert.deepEqual(allAssessments1, ["unacceptable"]);
@@ -1280,11 +1280,11 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               "en",
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             ),
             {
               statusCode: 400,
-            }
+            },
           );
         });
 
@@ -1312,7 +1312,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1384,7 +1384,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1450,7 +1450,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1516,7 +1516,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           const in_order = ["56", "0", "22", "19", "1"];
@@ -1585,7 +1585,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             {
               includeStatistics: true,
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const response = await poller.pollUntilDone();
           const results = (await response.next()).value;
@@ -1629,7 +1629,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1663,7 +1663,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1696,7 +1696,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1729,7 +1729,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1759,7 +1759,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "notalanguage",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           const firstResult = (await result.next()).value;
@@ -1796,7 +1796,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           let docCount = 0;
@@ -1837,7 +1837,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const page of result) {
@@ -1872,7 +1872,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             {
               updateIntervalInMs: pollingInterval,
               displayName: "testJob",
-            }
+            },
           );
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
@@ -1898,7 +1898,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             },
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const pollerResult = await poller.pollUntilDone();
           const firstResult = (await pollerResult.next()).value;
@@ -1928,12 +1928,12 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               },
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             ),
             {
               statusCode: 400,
               code: "InvalidRequest",
-            }
+            },
           );
         });
 
@@ -1950,11 +1950,11 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               },
               {
                 updateIntervalInMs: pollingInterval,
-              }
+              },
             ),
             {
               messagePattern: /Duplicate task name/,
-            }
+            },
           );
         });
       });
@@ -1969,7 +1969,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           const doc1 = (await result.next()).value;
@@ -2030,7 +2030,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             "en",
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           const doc1 = (await result.next()).value;
@@ -2097,7 +2097,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             ],
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const result = await poller.pollUntilDone();
           for await (const doc of result) {
@@ -2167,7 +2167,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               code: "InvalidDocumentBatch",
               statusCode: 400,
               messagePattern: /Max 10 records are permitted/,
-            }
+            },
           );
         });
 
@@ -2195,7 +2195,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
               code: "InvalidDocumentBatch",
               statusCode: 413,
               messagePattern: /Limit request size to: 524288/,
-            }
+            },
           );
         });
 
@@ -2381,7 +2381,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             }),
             {
               code: "ModelVersionIncorrect",
-            }
+            },
           );
         });
 
@@ -2416,7 +2416,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             }),
             {
               code: "InvalidRequest",
-            }
+            },
           );
         });
 
@@ -2517,7 +2517,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             ],
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           poller.onProgress((state) => {
             assert.ok(state.createdOn, "createdOn is undefined!");
@@ -2535,7 +2535,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             [{ id: "0", text: doc, language: "en" }],
             {
               updateIntervalInMs: pollingInterval,
-            }
+            },
           );
           const pollerResult = await poller.pollUntilDone();
           const result = (await pollerResult.next()).value;
@@ -2555,7 +2555,7 @@ matrix([["AAD", "APIKey"]] as const, async (authMethod: AuthMethod) => {
             {
               updateIntervalInMs: pollingInterval,
               stringIndexType: "UnicodeCodePoint",
-            }
+            },
           );
           const pollerResult = await poller.pollUntilDone();
           const result = (await pollerResult.next()).value;

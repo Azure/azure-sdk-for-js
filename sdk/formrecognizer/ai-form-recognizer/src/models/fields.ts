@@ -240,10 +240,13 @@ export interface DocumentObjectField<Properties = { [k: string]: DocumentField |
 export function toAnalyzedDocumentFieldsFromGenerated(fields: {
   [k: string]: GeneratedDocumentField;
 }): { [k: string]: DocumentField } {
-  return Object.entries(fields ?? {}).reduce((transformedFields, [name, value]) => {
-    transformedFields[name] = toDocumentField(value);
-    return transformedFields;
-  }, {} as { [k: string]: DocumentField });
+  return Object.entries(fields ?? {}).reduce(
+    (transformedFields, [name, value]) => {
+      transformedFields[name] = toDocumentField(value);
+      return transformedFields;
+    },
+    {} as { [k: string]: DocumentField },
+  );
 }
 
 /**

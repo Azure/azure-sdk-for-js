@@ -34,7 +34,7 @@ async function kustoDatabasesUpdate() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

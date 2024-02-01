@@ -6,11 +6,13 @@
 
 /// <reference types="node" />
 
+import type { IncomingMessage } from 'http';
+
 // @public
 export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
 
 // @public
-export function createSseStream(chunkStream: NodeJS.ReadableStream): EventMessageStream;
+export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
 
 // @public
 export interface EventMessage {

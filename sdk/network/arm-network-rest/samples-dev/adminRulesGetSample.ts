@@ -35,7 +35,7 @@ async function getsSecurityAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .get(options);
   console.log(result);
@@ -68,7 +68,7 @@ async function getsSecurityDefaultAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .get(options);
   console.log(result);

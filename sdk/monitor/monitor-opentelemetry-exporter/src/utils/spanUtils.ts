@@ -3,13 +3,18 @@
 
 import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { hrTimeToTimeStamp } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
 import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
 
-import { createTagsFromResource, getDependencyTarget, getUrl, isSqlDB } from "./common";
+import {
+  createTagsFromResource,
+  getDependencyTarget,
+  getUrl,
+  hrTimeToDate,
+  isSqlDB,
+} from "./common";
 import { Tags, Properties, MSLink, Measurements } from "../types";
-import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
 import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -124,7 +129,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     success: span.status.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
-    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    duration: hrTimeToTimeStamp(span.duration),
     version: 2,
   };
   if (span.kind === SpanKind.PRODUCER) {
@@ -206,7 +211,11 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    remoteDependencyData.type = DependencyTypes.Grpc;
+    if (rpcSystem == DependencyTypes.Wcf) {
+      remoteDependencyData.type = DependencyTypes.Wcf;
+    } else {
+      remoteDependencyData.type = DependencyTypes.Grpc;
+    }
     const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
@@ -226,7 +235,7 @@ function createRequestData(span: ReadableSpan): RequestData {
     id: `${span.spanContext().spanId}`,
     success: span.status.code !== SpanStatusCode.ERROR,
     responseCode: "0",
-    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    duration: hrTimeToTimeStamp(span.duration),
     version: 2,
     source: undefined,
   };
@@ -253,7 +262,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
 
-  const time = new Date(hrTimeToMilliseconds(span.startTime));
+  const time = hrTimeToDate(span.startTime);
   const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
@@ -320,7 +329,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const time = new Date(hrTimeToMilliseconds(event.time));
+      const time = hrTimeToDate(event.time);
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);

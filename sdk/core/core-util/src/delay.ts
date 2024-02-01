@@ -28,6 +28,6 @@ export function delay(timeInMs: number, options?: DelayOptions): Promise<void> {
       cleanupBeforeAbort: () => clearTimeout(token),
       abortSignal,
       abortErrorMsg: abortErrorMsg ?? StandardAbortMessage,
-    }
+    },
   );
 }

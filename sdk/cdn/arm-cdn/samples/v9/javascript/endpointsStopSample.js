@@ -28,7 +28,7 @@ async function endpointsStop() {
   const result = await client.endpoints.beginStopAndWait(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

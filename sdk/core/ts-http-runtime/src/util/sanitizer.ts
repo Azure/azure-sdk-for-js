@@ -128,7 +128,7 @@ export class Sanitizer {
 
         return value;
       },
-      2
+      2,
     );
   }
 

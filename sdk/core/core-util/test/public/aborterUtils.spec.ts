@@ -20,7 +20,7 @@ describe("createAbortablePromise", function () {
         cleanupBeforeAbort: () => clearTimeout(token),
         abortSignal,
         abortErrorMsg,
-      }
+      },
     );
   afterEach(function () {
     vi.useRealTimers();
@@ -69,7 +69,7 @@ describe("cancelablePromiseRace", function () {
           function1Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -85,7 +85,7 @@ describe("cancelablePromiseRace", function () {
           function2Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -104,7 +104,7 @@ describe("cancelablePromiseRace", function () {
           function3Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -127,7 +127,7 @@ describe("cancelablePromiseRace", function () {
     function2Delay = function1Delay / 2;
     assert.strictEqual(
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]),
-      function2Message
+      function2Message,
     ); // 2 rejects and finishes first, 1&3 are aborted
     assert.isTrue(function1Aborted); // checks 1 is aborted
     assert.isFalse(function2Aborted); // checks 2 is not aborted

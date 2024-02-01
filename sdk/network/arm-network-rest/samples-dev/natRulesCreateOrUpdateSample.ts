@@ -44,7 +44,7 @@ async function natRulePut() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      natRuleName
+      natRuleName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

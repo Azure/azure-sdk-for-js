@@ -23,7 +23,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  await using events = await client.streamChatCompletions(
+  const events = await client.streamChatCompletions(
     deploymentId,
     [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },

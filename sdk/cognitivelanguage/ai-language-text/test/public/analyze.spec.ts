@@ -87,21 +87,21 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client throws on empty list", async function () {
           await assert.isRejected(
             client.analyze(AnalyzeActionNames.SentimentAnalysis, []),
-            /non-empty array/
+            /non-empty array/,
           );
         });
 
         it("client accepts string[] and language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn, "en"),
-            expectation63
+            expectation63,
           );
         });
 
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, testDataEn),
-            expectation63
+            expectation63,
           );
         });
 
@@ -109,7 +109,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const [result] = await client.analyze(
             AnalyzeActionNames.SentimentAnalysis,
             ["Hello world!"],
-            "notalanguage"
+            "notalanguage",
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -131,7 +131,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs, "en", {
               includeOpinionMining: true,
             }),
-            expectation65
+            expectation65,
           );
         });
 
@@ -140,7 +140,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           data.splice(1, 0, "");
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, data),
-            expectation66
+            expectation66,
           );
         });
 
@@ -158,7 +158,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = enDocs.concat(esDocs);
           assertActionResults(
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs),
-            expectation34
+            expectation34,
           );
         });
 
@@ -170,7 +170,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs, "en", {
               includeOpinionMining: true,
             }),
-            expectation35
+            expectation35,
           );
         });
 
@@ -180,7 +180,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs, "en", {
               includeOpinionMining: true,
             }),
-            expectation36
+            expectation36,
           );
         });
 
@@ -190,7 +190,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.SentimentAnalysis, docs, "en", {
               includeOpinionMining: true,
             }),
-            expectation37
+            expectation37,
           );
         });
       });
@@ -199,14 +199,14 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client throws on empty list", async function () {
           await assert.isRejected(
             client.analyze(AnalyzeActionNames.LanguageDetection, []),
-            /non-empty array/
+            /non-empty array/,
           );
         });
 
         it("client accepts no countryHint", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, testDataEn),
-            expectation38
+            expectation38,
           );
         });
 
@@ -215,7 +215,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = ["impossible"];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "fr"),
-            expectation39
+            expectation39,
           );
         });
 
@@ -223,7 +223,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = ["I use Azure Functions to develop my service."];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "none"),
-            expectation40
+            expectation40,
           );
         });
 
@@ -235,7 +235,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           }));
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs),
-            expectation41
+            expectation41,
           );
         });
 
@@ -243,7 +243,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = ["hello"];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs, "invalidcountry"),
-            expectation42
+            expectation42,
           );
         });
 
@@ -260,7 +260,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = enDocs.concat(esDocs);
           assertActionResults(
             await client.analyze(AnalyzeActionNames.LanguageDetection, docs),
-            expectation43
+            expectation43,
           );
         });
       });
@@ -269,21 +269,21 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client throws on empty list", async function () {
           await assert.isRejected(
             client.analyze(AnalyzeActionNames.EntityRecognition, []),
-            /non-empty array/
+            /non-empty array/,
           );
         });
 
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityRecognition, testDataEn),
-            expectation44
+            expectation44,
           );
         });
 
         it("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityRecognition, testDataEn, "en"),
-            expectation45
+            expectation45,
           );
         });
 
@@ -292,7 +292,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const [result] = await client.analyze(
             AnalyzeActionNames.EntityRecognition,
             docs,
-            "notalanguage"
+            "notalanguage",
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -314,7 +314,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = enDocs.concat(esDocs);
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityRecognition, docs),
-            expectation47
+            expectation47,
           );
         });
 
@@ -342,21 +342,21 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client throws on empty list", async function () {
           await assert.isRejected(
             client.analyze(AnalyzeActionNames.KeyPhraseExtraction, []),
-            /non-empty array/
+            /non-empty array/,
           );
         });
 
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, testDataEn),
-            expectation48
+            expectation48,
           );
         });
 
         it("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, testDataEn, "en"),
-            expectation49
+            expectation49,
           );
         });
 
@@ -365,7 +365,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const [result] = await client.analyze(
             AnalyzeActionNames.KeyPhraseExtraction,
             docs,
-            "notalanguage"
+            "notalanguage",
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -387,7 +387,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = enDocs.concat(esDocs);
           assertActionResults(
             await client.analyze(AnalyzeActionNames.KeyPhraseExtraction, docs),
-            expectation51
+            expectation51,
           );
         });
       });
@@ -400,14 +400,14 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, testDataEn),
-            expectation52
+            expectation52,
           );
         });
 
         it("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, testDataEn, "en"),
-            expectation53
+            expectation53,
           );
         });
 
@@ -417,7 +417,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = ["Your Social Security Number is 859-98-0987."];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs),
-            expectation54
+            expectation54,
           );
         });
 
@@ -426,7 +426,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const [result] = await client.analyze(
             AnalyzeActionNames.PiiEntityRecognition,
             docs,
-            "notalanguage"
+            "notalanguage",
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -449,7 +449,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = enDocs.concat(esDocs);
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs),
-            expectation56
+            expectation56,
           );
         });
 
@@ -459,7 +459,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "en", {
               domainFilter: KnownPiiEntityDomain.Phi,
             }),
-            expectation57
+            expectation57,
           );
         });
 
@@ -469,7 +469,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "en", {
               categoriesFilter: [KnownPiiEntityCategory.USSocialSecurityNumber],
             }),
-            expectation58
+            expectation58,
           );
         });
 
@@ -477,13 +477,13 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const docs = ["Patient name is Joe and SSN is 859-98-0987"];
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs),
-            expectation59
+            expectation59,
           );
           assertActionResults(
             await client.analyze(AnalyzeActionNames.PiiEntityRecognition, docs, "en", {
               categoriesFilter: [expectation59[0].entities[1].category],
             }),
-            expectation58
+            expectation58,
           );
         });
       });
@@ -492,21 +492,21 @@ matrix(authModes, async (authMethod: AuthMethod) => {
         it("client throws on empty list", async function () {
           return assert.isRejected(
             client.analyze(AnalyzeActionNames.EntityLinking, []),
-            /non-empty array/
+            /non-empty array/,
           );
         });
 
         it("client accepts string[] with no language", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityLinking, testDataEn),
-            expectation60
+            expectation60,
           );
         });
 
         it("client accepts string[] with a language specified", async function () {
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityLinking, testDataEn, "en"),
-            expectation60
+            expectation60,
           );
         });
 
@@ -514,7 +514,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
           const [result] = await client.analyze(
             AnalyzeActionNames.EntityLinking,
             ["This is some text, but it doesn't matter."],
-            "notalanguage"
+            "notalanguage",
           );
           if (result.error === undefined) {
             assert.fail("Expected an error from the service");
@@ -537,7 +537,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
 
           assertActionResults(
             await client.analyze(AnalyzeActionNames.EntityLinking, docs),
-            expectation62
+            expectation62,
           );
         });
 
@@ -571,7 +571,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
           it("emoji with skin tone modifier", async function () {
@@ -581,7 +581,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               10,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -592,7 +592,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               17,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -603,7 +603,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               25,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -614,7 +614,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               9,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -625,7 +625,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               10,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -636,7 +636,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -647,7 +647,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               8,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
 
@@ -658,7 +658,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               KnownStringIndexType.Utf16CodeUnit,
               121,
               11,
-              checkEntityTextOffset
+              checkEntityTextOffset,
             );
           });
         });
@@ -669,7 +669,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               7,
-              11
+              11,
             ); // offset was 8 with UTF16
           });
 
@@ -679,7 +679,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               8,
-              11
+              11,
             ); // offset was 10 with UTF16
           });
 
@@ -689,7 +689,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               13,
-              11
+              11,
             ); // offset was 17 with UTF16
           });
 
@@ -699,7 +699,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               17,
-              11
+              11,
             ); // offset was 25 with UTF16
           });
 
@@ -709,7 +709,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "año SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               9,
-              11
+              11,
             );
           });
 
@@ -719,7 +719,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "año SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               10,
-              11
+              11,
             );
           });
 
@@ -729,7 +729,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "아가 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               8,
-              11
+              11,
             );
           });
 
@@ -739,7 +739,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "아가 SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               8,
-              11
+              11,
             );
           });
 
@@ -749,7 +749,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
               KnownStringIndexType.UnicodeCodePoint,
               121,
-              11
+              11,
             );
           });
         });
@@ -760,7 +760,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               7,
-              11
+              11,
             ); // offset was 8 with UTF16
           });
 
@@ -770,7 +770,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩🏻 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               7,
-              11
+              11,
             ); // offset was 10 with UTF16
           });
 
@@ -780,7 +780,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩‍👩‍👧‍👧 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               7,
-              11
+              11,
             ); // offset was 17 with UTF16
           });
 
@@ -790,7 +790,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               7,
-              11
+              11,
             ); // offset was 25 with UTF16
           });
 
@@ -800,7 +800,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "año SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               9,
-              11
+              11,
             );
           });
 
@@ -810,7 +810,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "año SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               9,
-              11
+              11,
             ); // offset was 10 with UTF16
           });
 
@@ -820,7 +820,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "아가 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               8,
-              11
+              11,
             );
           });
 
@@ -830,7 +830,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "아가 SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               8,
-              11
+              11,
             );
           });
 
@@ -840,7 +840,7 @@ matrix(authModes, async (authMethod: AuthMethod) => {
               "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987",
               KnownStringIndexType.TextElementsV8,
               9,
-              11
+              11,
             ); // offset was 121 with UTF16
           });
         });

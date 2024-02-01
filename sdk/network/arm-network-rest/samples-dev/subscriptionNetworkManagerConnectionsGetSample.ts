@@ -29,7 +29,7 @@ async function getSubscriptionNetworkManagerConnection() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}",
       subscriptionId,
-      networkManagerConnectionName
+      networkManagerConnectionName,
     )
     .get(options);
   console.log(result);

@@ -50,7 +50,7 @@ async function securityPoliciesPatch() {
     resourceGroupName,
     profileName,
     securityPolicyName,
-    securityPolicyUpdateProperties
+    securityPolicyUpdateProperties,
   );
   console.log(result);
 }

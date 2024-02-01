@@ -16,8 +16,8 @@ import {
 /** Interface representing a KubernetesVersions. */
 export interface KubernetesVersions {
   /**
-   * Lists the supported kubernetes versions from the underlying custom location
-   * @param customLocationResourceUri The fully qualified Azure Resource manager identifier of the custom
+   * Lists the supported kubernetes versions for the specified custom location
+   * @param customLocationResourceUri The fully qualified Azure Resource Manager identifier of the custom
    *                                  location resource.
    * @param options The options parameters.
    */

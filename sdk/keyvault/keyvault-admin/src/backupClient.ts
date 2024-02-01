@@ -70,7 +70,7 @@ export class KeyVaultBackupClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    options: KeyVaultBackupClientOptions = {}
+    options: KeyVaultBackupClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
 
@@ -96,7 +96,7 @@ export class KeyVaultBackupClient {
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
         challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      })
+      }),
     );
   }
 
@@ -134,7 +134,7 @@ export class KeyVaultBackupClient {
   public async beginBackup(
     blobStorageUri: string,
     sasToken?: string,
-    options: KeyVaultBeginBackupOptions = {}
+    options: KeyVaultBeginBackupOptions = {},
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
     const poller = new KeyVaultBackupPoller({
       blobStorageUri,
@@ -187,7 +187,7 @@ export class KeyVaultBackupClient {
   public async beginRestore(
     folderUri: string,
     sasToken?: string,
-    options: KeyVaultBeginRestoreOptions = {}
+    options: KeyVaultBeginRestoreOptions = {},
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
     const poller = new KeyVaultRestorePoller({
       ...mappings.folderUriParts(folderUri),
@@ -242,7 +242,7 @@ export class KeyVaultBackupClient {
     keyName: string,
     folderUri: string,
     sasToken?: string,
-    options: KeyVaultBeginSelectiveKeyRestoreOptions = {}
+    options: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ): Promise<
     PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
   > {

@@ -106,7 +106,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .put(parameters);
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
@@ -138,7 +138,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         subscriptionId,
         resourceGroup,
         clusterName,
-        applicationTypeName
+        applicationTypeName,
       )
       .put(parameters);
     assert.equal(result.status, "200");
@@ -151,7 +151,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .get();
     assert.equal(result.status, "200");
@@ -165,7 +165,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         subscriptionId,
         resourceGroup,
         clusterName,
-        applicationTypeName
+        applicationTypeName,
       )
       .get();
     assert.equal(result.status, "200");
@@ -176,7 +176,7 @@ describe("Service Fabric Rest Level Client Test", () => {
     const result = await client
       .path(
         "/subscriptions/{subscriptionId}/providers/Microsoft.ServiceFabric/clusters",
-        subscriptionId
+        subscriptionId,
       )
       .get();
     assert.equal(result.status, "200");
@@ -189,7 +189,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .get();
     assert.equal(result.status, "200");
@@ -251,7 +251,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .patch(parameters);
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
@@ -267,7 +267,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         subscriptionId,
         resourceGroup,
         clusterName,
-        applicationTypeName
+        applicationTypeName,
       )
       .delete();
     const poller = getLongRunningPoller(client, initialResponse, testPollingOptions);
@@ -279,7 +279,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .get();
     assert.equal(result.status, "200");
@@ -292,7 +292,7 @@ describe("Service Fabric Rest Level Client Test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
         subscriptionId,
         resourceGroup,
-        clusterName
+        clusterName,
       )
       .delete();
     assert.equal(deleteResult.status, "200");
@@ -300,7 +300,7 @@ describe("Service Fabric Rest Level Client Test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters",
         subscriptionId,
-        resourceGroup
+        resourceGroup,
       )
       .get();
     assert.equal(result.status, "200");

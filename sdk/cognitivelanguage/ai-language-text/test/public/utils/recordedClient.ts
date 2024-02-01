@@ -36,7 +36,7 @@ export function createClient(
   options: {
     recorder?: Recorder;
     clientOptions?: TextAnalysisClientOptions;
-  }
+  },
 ): TextAnalysisClient {
   const { recorder, clientOptions = {} } = options;
   const endpoint = assertEnvironmentVariable("ENDPOINT");
@@ -47,7 +47,7 @@ export function createClient(
       return new TextAnalysisClient(
         endpoint,
         new AzureKeyCredential(assertEnvironmentVariable("LANGUAGE_API_KEY")),
-        updatedOptions
+        updatedOptions,
       );
     }
     case "AAD": {

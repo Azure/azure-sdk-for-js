@@ -68,7 +68,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
         assertEnvironmentVariable("CLIENT_OBJECT_ID"),
         {
           abortSignal: controller.signal,
-        }
+        },
       );
     });
   });

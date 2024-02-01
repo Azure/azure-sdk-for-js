@@ -48,11 +48,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", function (): void {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -80,7 +80,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           encodedMessage.byteLength,
           batch.sizeInBytes,
-          "Batch size and encodedMessage size should match."
+          "Batch size and encodedMessage size should match.",
         );
 
         // Ensure that events in the encodedMessage don't have idempotent publishing message annotations.
@@ -88,17 +88,17 @@ testWithServiceTypes((serviceVersion) => {
         for (const rheaMessage of rheaMessages) {
           should.not.exist(
             rheaMessage.message_annotations?.[idempotentProducerAmqpPropertyNames.epoch],
-            "Idempotent epoch annotation should not exist on event."
+            "Idempotent epoch annotation should not exist on event.",
           );
           should.not.exist(
             rheaMessage.message_annotations?.[idempotentProducerAmqpPropertyNames.producerId],
-            "Idempotent producerId annotation should not exist on event."
+            "Idempotent producerId annotation should not exist on event.",
           );
           should.not.exist(
             rheaMessage.message_annotations?.[
               idempotentProducerAmqpPropertyNames.producerSequenceNumber
             ],
-            "Idempotent producerSequenceNumber annotation should not exist on event."
+            "Idempotent producerSequenceNumber annotation should not exist on event.",
           );
         }
       });
@@ -134,7 +134,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           encodedMessage.byteLength,
           batch.sizeInBytes,
-          "Batch size and encodedMessage size should match."
+          "Batch size and encodedMessage size should match.",
         );
 
         // Ensure that events in the encodedMessage have idempotent publishing message annotations.
@@ -144,19 +144,19 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             rheaMessage.message_annotations![idempotentProducerAmqpPropertyNames.epoch],
             publishingProps.ownerLevel,
-            "Idempotent epoch annotation should match publishingProps.epoch on event."
+            "Idempotent epoch annotation should match publishingProps.epoch on event.",
           );
           should.equal(
             rheaMessage.message_annotations![idempotentProducerAmqpPropertyNames.producerId],
             publishingProps.producerGroupId,
-            "Idempotent producerId annotation should match publishingProps.producerGroupId on event."
+            "Idempotent producerId annotation should match publishingProps.producerGroupId on event.",
           );
           should.equal(
             rheaMessage.message_annotations![
               idempotentProducerAmqpPropertyNames.producerSequenceNumber
             ],
             startingSequenceNumber + i,
-            "Idempotent producerSequenceNumber annotation on event should be consecutive after lastPublishedSequenceNumber."
+            "Idempotent producerSequenceNumber annotation on event should be consecutive after lastPublishedSequenceNumber.",
           );
         }
       });
@@ -185,14 +185,14 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           Buffer.isBuffer(encodedMessage),
           true,
-          "Expected events to be encoded as a binary buffer."
+          "Expected events to be encoded as a binary buffer.",
         );
 
         // Ensure that events aren't annotated.
         for (const event of events as EventDataInternal[]) {
           should.not.exist(
             event[PENDING_PUBLISH_SEQ_NUM_SYMBOL],
-            "Expected event to lack a pending publish sequence number."
+            "Expected event to lack a pending publish sequence number.",
           );
           should.not.exist(event.properties, "Expected event to lack properties.");
         }
@@ -202,17 +202,17 @@ testWithServiceTypes((serviceVersion) => {
         for (const rheaMessage of rheaMessages) {
           should.not.exist(
             rheaMessage.message_annotations?.[idempotentProducerAmqpPropertyNames.epoch],
-            "Idempotent epoch annotation should not exist on event."
+            "Idempotent epoch annotation should not exist on event.",
           );
           should.not.exist(
             rheaMessage.message_annotations?.[idempotentProducerAmqpPropertyNames.producerId],
-            "Idempotent producerId annotation should not exist on event."
+            "Idempotent producerId annotation should not exist on event.",
           );
           should.not.exist(
             rheaMessage.message_annotations?.[
               idempotentProducerAmqpPropertyNames.producerSequenceNumber
             ],
-            "Idempotent producerSequenceNumber annotation should not exist on event."
+            "Idempotent producerSequenceNumber annotation should not exist on event.",
           );
         }
       });
@@ -234,7 +234,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           Buffer.isBuffer(encodedMessage),
           true,
-          "Expected events to be encoded as a binary buffer."
+          "Expected events to be encoded as a binary buffer.",
         );
 
         // Ensure that events aren't annotated.
@@ -243,7 +243,7 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             event[PENDING_PUBLISH_SEQ_NUM_SYMBOL],
             startingSequenceNumber + i,
-            "Expected event have a pending publish sequence number."
+            "Expected event have a pending publish sequence number.",
           );
           should.not.exist(event.properties, "Expected event to lack properties.");
         }
@@ -255,19 +255,19 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             rheaMessage.message_annotations![idempotentProducerAmqpPropertyNames.epoch],
             publishingProps.ownerLevel,
-            "Idempotent epoch annotation should match publishingProps.epoch on event."
+            "Idempotent epoch annotation should match publishingProps.epoch on event.",
           );
           should.equal(
             rheaMessage.message_annotations![idempotentProducerAmqpPropertyNames.producerId],
             publishingProps.producerGroupId,
-            "Idempotent producerId annotation should match publishingProps.producerGroupId on event."
+            "Idempotent producerId annotation should match publishingProps.producerGroupId on event.",
           );
           should.equal(
             rheaMessage.message_annotations![
               idempotentProducerAmqpPropertyNames.producerSequenceNumber
             ],
             startingSequenceNumber + i,
-            "Idempotent producerSequenceNumber annotation on event should be consecutive after lastPublishedSequenceNumber."
+            "Idempotent producerSequenceNumber annotation on event should be consecutive after lastPublishedSequenceNumber.",
           );
         }
       });
@@ -293,7 +293,7 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           Buffer.isBuffer(encodedMessage),
           true,
-          "Expected events to be encoded as a binary buffer."
+          "Expected events to be encoded as a binary buffer.",
         );
 
         // Ensure that events aren't annotated.
@@ -301,7 +301,7 @@ testWithServiceTypes((serviceVersion) => {
           const event = events[i] as EventDataInternal;
           should.not.exist(
             event[PENDING_PUBLISH_SEQ_NUM_SYMBOL],
-            "Expected event to lack a pending publish sequence number."
+            "Expected event to lack a pending publish sequence number.",
           );
           should.not.exist(event.properties, "Expected event to lack properties.");
         }
@@ -313,7 +313,7 @@ testWithServiceTypes((serviceVersion) => {
           should.equal(
             rheaMessage.application_properties![TRACEPARENT_PROPERTY],
             `some-span-probably-#${i}`,
-            "Expected event to have TRACEPARENT_PROPERTY."
+            "Expected event to have TRACEPARENT_PROPERTY.",
           );
         }
       });

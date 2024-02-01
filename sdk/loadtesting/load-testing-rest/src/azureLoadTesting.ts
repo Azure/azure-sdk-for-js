@@ -13,7 +13,7 @@ import { AzureLoadTestingClient } from "./clientDefinitions";
 export default function createClient(
   Endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): AzureLoadTestingClient {
   const baseUrl = options.baseUrl ?? `https://${Endpoint}`;
   options.apiVersion = options.apiVersion ?? "2022-11-01";

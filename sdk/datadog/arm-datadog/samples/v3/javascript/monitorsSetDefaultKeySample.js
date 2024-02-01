@@ -23,9 +23,11 @@ async function monitorsSetDefaultKey() {
     process.env["DATADOG_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
+  const body = { key: "1111111111111111aaaaaaaaaaaaaaaa" };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.monitors.setDefaultKey(resourceGroupName, monitorName);
+  const result = await client.monitors.setDefaultKey(resourceGroupName, monitorName, options);
   console.log(result);
 }
 

@@ -24,9 +24,30 @@ async function tagRulesCreateOrUpdate() {
   const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
+  const body = {
+    properties: {
+      automuting: true,
+      logRules: {
+        filteringTags: [
+          { name: "Environment", action: "Include", value: "Prod" },
+          { name: "Environment", action: "Exclude", value: "Dev" },
+        ],
+        sendAadLogs: false,
+        sendResourceLogs: true,
+        sendSubscriptionLogs: true,
+      },
+      metricRules: { filteringTags: [] },
+    },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
-  const result = await client.tagRules.createOrUpdate(resourceGroupName, monitorName, ruleSetName);
+  const result = await client.tagRules.createOrUpdate(
+    resourceGroupName,
+    monitorName,
+    ruleSetName,
+    options,
+  );
   console.log(result);
 }
 

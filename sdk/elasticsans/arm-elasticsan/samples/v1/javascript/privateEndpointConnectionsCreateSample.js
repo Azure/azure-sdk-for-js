@@ -24,12 +24,14 @@ async function privateEndpointConnectionsCreateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const privateEndpointConnectionName = "privateendpointconnectionname";
   const parameters = {
-    groupIds: ["jdwrzpemdjrpiwzvy"],
-    privateEndpoint: {},
-    privateLinkServiceConnectionState: {
-      description: "dxl",
-      actionsRequired: "jhjdpwvyzipggtn",
-      status: "Pending",
+    properties: {
+      groupIds: ["jdwrzpemdjrpiwzvy"],
+      privateEndpoint: {},
+      privateLinkServiceConnectionState: {
+        description: "dxl",
+        actionsRequired: "jhjdpwvyzipggtn",
+        status: "Pending",
+      },
     },
   };
   const credential = new DefaultAzureCredential();
@@ -38,7 +40,7 @@ async function privateEndpointConnectionsCreateMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -55,7 +57,7 @@ async function privateEndpointConnectionsCreateMinimumSetGen() {
   const elasticSanName = "elasticsanname";
   const privateEndpointConnectionName = "privateendpointconnectionname";
   const parameters = {
-    privateLinkServiceConnectionState: {},
+    properties: { privateLinkServiceConnectionState: {} },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -63,7 +65,7 @@ async function privateEndpointConnectionsCreateMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

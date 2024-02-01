@@ -44,7 +44,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
    */
   async export(
     spans: ReadableSpan[],
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     if (this.isShutdown) {
       diag.info("Exporter shut down. Failed to export spans.");
@@ -58,7 +58,7 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
       const envelopes: Envelope[] = [];
       const resourceMetricEnvelope = createResourceMetricEnvelope(
         spans[0].resource,
-        this.instrumentationKey
+        this.instrumentationKey,
       );
       if (resourceMetricEnvelope) {
         envelopes.push(resourceMetricEnvelope);

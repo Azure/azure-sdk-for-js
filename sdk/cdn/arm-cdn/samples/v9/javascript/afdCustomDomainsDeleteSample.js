@@ -28,7 +28,7 @@ async function afdCustomDomainsDelete() {
   const result = await client.afdCustomDomains.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

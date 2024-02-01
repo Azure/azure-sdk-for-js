@@ -1,18 +1,25 @@
 # Release History
 
-## 1.2.0 (Unreleased)
+## 1.2.0 (2024-02-01)
 
 ### Features Added
 
-### Breaking Changes
+- Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
 
 ### Bugs Fixed
 
-- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fixed an issue where `multipart/form-data` requests with an array of files as a parameter would not work if any of the files were supplied as a `Uint8Array`.
 
 ### Other Changes
 
 - Upgrade dependency `@azure/abort-controller` to `^2.0.0`.
+
+## 1.1.7 (2024-01-02)
+
+### Bugs Fixed
+
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fix the issue where onResponse is not called when `asNodeStream` or `asBrowserStream` are called.
 
 ## 1.1.6 (2023-11-30)
 

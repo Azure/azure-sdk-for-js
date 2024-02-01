@@ -126,7 +126,7 @@ export class SearchIndexClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options: SearchIndexClientOptions = {}
+    options: SearchIndexClientOptions = {},
   ) {
     this.endpoint = endpoint;
     this.credential = credential;
@@ -156,7 +156,7 @@ export class SearchIndexClient {
     this.client = new GeneratedClient(
       this.endpoint,
       this.serviceVersion,
-      internalClientPipelineOptions
+      internalClientPipelineOptions,
     );
 
     if (isTokenCredential(credential)) {
@@ -165,7 +165,7 @@ export class SearchIndexClient {
         : `${KnownSearchAudience.AzurePublicCloud}/.default`;
 
       this.client.pipeline.addPolicy(
-        bearerTokenAuthenticationPolicy({ credential, scopes: scope })
+        bearerTokenAuthenticationPolicy({ credential, scopes: scope }),
       );
     } else {
       this.client.pipeline.addPolicy(createSearchApiKeyCredentialPolicy(credential));
@@ -175,7 +175,7 @@ export class SearchIndexClient {
   }
 
   private async *listIndexesPage(
-    options: ListIndexesOptions = {}
+    options: ListIndexesOptions = {},
   ): AsyncIterableIterator<SearchIndex[]> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesPage", options);
     try {
@@ -194,7 +194,7 @@ export class SearchIndexClient {
   }
 
   private async *listIndexesAll(
-    options: ListIndexesOptions = {}
+    options: ListIndexesOptions = {},
   ): AsyncIterableIterator<SearchIndex> {
     for await (const page of this.listIndexesPage(options)) {
       yield* page;
@@ -222,7 +222,7 @@ export class SearchIndexClient {
   }
 
   private async *listAliasesPage(
-    options: ListAliasesOptions = {}
+    options: ListAliasesOptions = {},
   ): AsyncIterableIterator<SearchIndexAlias[]> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listAliases", options);
     try {
@@ -240,7 +240,7 @@ export class SearchIndexClient {
   }
 
   private async *listAliasesAll(
-    options: ListAliasesOptions = {}
+    options: ListAliasesOptions = {},
   ): AsyncIterableIterator<SearchIndexAlias> {
     for await (const page of this.listAliasesPage(options)) {
       yield* page;
@@ -268,7 +268,7 @@ export class SearchIndexClient {
   }
 
   private async *listIndexesNamesPage(
-    options: ListIndexesOptions = {}
+    options: ListIndexesOptions = {},
   ): AsyncIterableIterator<string[]> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-listIndexesNamesPage", options);
     try {
@@ -290,7 +290,7 @@ export class SearchIndexClient {
   }
 
   private async *listIndexesNamesAll(
-    options: ListIndexesOptions = {}
+    options: ListIndexesOptions = {},
   ): AsyncIterableIterator<string> {
     for await (const page of this.listIndexesNamesPage(options)) {
       yield* page;
@@ -388,7 +388,7 @@ export class SearchIndexClient {
    */
   public async getSynonymMap(
     synonymMapName: string,
-    options: GetSynonymMapsOptions = {}
+    options: GetSynonymMapsOptions = {},
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getSynonymMaps", options);
     try {
@@ -412,13 +412,13 @@ export class SearchIndexClient {
    */
   public async createIndex(
     index: SearchIndex,
-    options: CreateIndexOptions = {}
+    options: CreateIndexOptions = {},
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createIndex", options);
     try {
       const result = await this.client.indexes.create(
         utils.publicIndexToGeneratedIndex(index),
-        updatedOptions
+        updatedOptions,
       );
       return utils.generatedIndexToPublicIndex(result);
     } catch (e: any) {
@@ -439,13 +439,13 @@ export class SearchIndexClient {
    */
   public async createSynonymMap(
     synonymMap: SynonymMap,
-    options: CreateSynonymMapOptions = {}
+    options: CreateSynonymMapOptions = {},
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createSynonymMaps", options);
     try {
       const result = await this.client.synonymMaps.create(
         utils.publicSynonymMapToGeneratedSynonymMap(synonymMap),
-        updatedOptions
+        updatedOptions,
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e: any) {
@@ -466,7 +466,7 @@ export class SearchIndexClient {
    */
   public async createOrUpdateIndex(
     index: SearchIndex,
-    options: CreateOrUpdateIndexOptions = {}
+    options: CreateOrUpdateIndexOptions = {},
   ): Promise<SearchIndex> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-createOrUpdateIndex", options);
     try {
@@ -478,7 +478,7 @@ export class SearchIndexClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-        }
+        },
       );
       return utils.generatedIndexToPublicIndex(result);
     } catch (e: any) {
@@ -499,11 +499,11 @@ export class SearchIndexClient {
    */
   public async createOrUpdateSynonymMap(
     synonymMap: SynonymMap,
-    options: CreateOrUpdateSynonymMapOptions = {}
+    options: CreateOrUpdateSynonymMapOptions = {},
   ): Promise<SynonymMap> {
     const { span, updatedOptions } = createSpan(
       "SearchIndexClient-createOrUpdateSynonymMap",
-      options
+      options,
     );
     try {
       const etag = options.onlyIfUnchanged ? synonymMap.etag : undefined;
@@ -514,7 +514,7 @@ export class SearchIndexClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-        }
+        },
       );
       return utils.generatedSynonymMapToPublicSynonymMap(result);
     } catch (e: any) {
@@ -535,7 +535,7 @@ export class SearchIndexClient {
    */
   public async deleteIndex(
     index: string | SearchIndex,
-    options: DeleteIndexOptions = {}
+    options: DeleteIndexOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteIndex", options);
     try {
@@ -565,7 +565,7 @@ export class SearchIndexClient {
    */
   public async deleteSynonymMap(
     synonymMap: string | SynonymMap,
-    options: DeleteSynonymMapOptions = {}
+    options: DeleteSynonymMapOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-deleteSynonymMap", options);
     try {
@@ -574,8 +574,8 @@ export class SearchIndexClient {
         typeof synonymMap === "string"
           ? undefined
           : options.onlyIfUnchanged
-          ? synonymMap.etag
-          : undefined;
+            ? synonymMap.etag
+            : undefined;
 
       await this.client.synonymMaps.delete(synonymMapName, {
         ...updatedOptions,
@@ -599,7 +599,7 @@ export class SearchIndexClient {
    */
   public async createOrUpdateAlias(
     alias: SearchIndexAlias,
-    options: CreateOrUpdateAliasOptions = {}
+    options: CreateOrUpdateAliasOptions = {},
   ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createOrUpdateAlias", options);
     try {
@@ -628,7 +628,7 @@ export class SearchIndexClient {
    */
   public async createAlias(
     alias: SearchIndexAlias,
-    options: CreateAliasOptions = {}
+    options: CreateAliasOptions = {},
   ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-createAlias", options);
     try {
@@ -653,7 +653,7 @@ export class SearchIndexClient {
    */
   public async deleteAlias(
     alias: string | SearchIndexAlias,
-    options: DeleteAliasOptions = {}
+    options: DeleteAliasOptions = {},
   ): Promise<void> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-deleteAlias", options);
     try {
@@ -683,7 +683,7 @@ export class SearchIndexClient {
    */
   public async getAlias(
     aliasName: string,
-    options: GetAliasOptions = {}
+    options: GetAliasOptions = {},
   ): Promise<SearchIndexAlias> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-getAlias", options);
     try {
@@ -708,7 +708,7 @@ export class SearchIndexClient {
    */
   public async getIndexStatistics(
     indexName: string,
-    options: GetIndexStatisticsOptions = {}
+    options: GetIndexStatisticsOptions = {},
   ): Promise<SearchIndexStatistics> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getIndexStatistics", options);
     try {
@@ -749,7 +749,7 @@ export class SearchIndexClient {
           tokenizer: restOptions.tokenizerName,
           normalizer: restOptions.normalizerName,
         },
-        updatedOptions
+        updatedOptions,
       );
       return result;
     } catch (e: any) {
@@ -768,7 +768,7 @@ export class SearchIndexClient {
    * @param options - Additional optional arguments.
    */
   public async getServiceStatistics(
-    options: GetServiceStatisticsOptions = {}
+    options: GetServiceStatisticsOptions = {},
   ): Promise<SearchServiceStatistics> {
     const { span, updatedOptions } = createSpan("SearchIndexClient-getServiceStatistics", options);
     try {
@@ -796,13 +796,13 @@ export class SearchIndexClient {
    */
   public getSearchClient<TModel extends object>(
     indexName: string,
-    options?: GetSearchClientOptions
+    options?: GetSearchClientOptions,
   ): SearchClient<TModel> {
     return new SearchClient<TModel>(
       this.endpoint,
       indexName,
       this.credential,
-      options || this.options
+      options || this.options,
     );
   }
 }

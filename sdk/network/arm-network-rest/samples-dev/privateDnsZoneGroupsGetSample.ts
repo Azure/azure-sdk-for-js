@@ -33,7 +33,7 @@ async function getPrivateDnsZoneGroup() {
       subscriptionId,
       resourceGroupName,
       privateEndpointName,
-      privateDnsZoneGroupName
+      privateDnsZoneGroupName,
     )
     .get(options);
   console.log(result);

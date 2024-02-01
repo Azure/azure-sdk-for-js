@@ -14,7 +14,7 @@ import {
  * @param credential - The CommunicationTokenCredential implementation that can supply the user credential.
  */
 export const createCommunicationTokenCredentialPolicy = (
-  credential: CommunicationTokenCredential
+  credential: CommunicationTokenCredential,
 ): PipelinePolicy => {
   const policyOptions: BearerTokenAuthenticationPolicyOptions = {
     credential: {

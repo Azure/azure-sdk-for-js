@@ -2,19 +2,25 @@
 // Licensed under the MIT license.
 
 import * as msalCommon from "@azure/msal-browser";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, MsalAccountInfo, MsalResult, MsalToken } from "./types";
+
+import { AuthenticationRecord, MsalAccountInfo, MsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, formatError, formatSuccess } from "../util/logging";
+import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+
 import { AbortError } from "@azure/abort-controller";
-import { MsalFlowOptions } from "./flows";
-import { isNode, randomUUID } from "@azure/core-util";
 import { AzureLogLevel } from "@azure/logger";
+import { GetTokenOptions } from "@azure/core-auth";
+import { isNode } from "@azure/core-util";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
 }
+
+/**
+ * @internal
+ */
+const logger = credentialLogger("IdentityUtils");
 
 /**
  * Latest AuthenticationRecord version
@@ -28,9 +34,8 @@ const LatestAuthenticationRecordVersion = "1.0";
  */
 export function ensureValidMsalToken(
   scopes: string | string[],
-  logger: CredentialLogger,
   msalToken?: MsalToken,
-  getTokenOptions?: GetTokenOptions
+  getTokenOptions?: GetTokenOptions,
 ): void {
   const error = (message: string): Error => {
     logger.getToken.info(message);
@@ -79,7 +84,7 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  disableInstanceDiscovery?: boolean
+  disableInstanceDiscovery?: boolean,
 ): string[] {
   if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
@@ -89,30 +94,30 @@ export function getKnownAuthorities(
 
 /**
  * Generates a logger that can be passed to the MSAL clients.
- * @param logger - The logger of the credential.
+ * @param credLogger - The logger of the credential.
  * @internal
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
-  platform?: "Node" | "Browser"
+  platform?: "Node" | "Browser",
 ) => msalCommon.ILoggerCallback =
-  (logger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
+  (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
     if (containsPii) {
       return;
     }
     switch (level) {
       case msalCommon.LogLevel.Error:
-        logger.info(`MSAL ${platform} V2 error: ${message}`);
+        credLogger.info(`MSAL ${platform} V2 error: ${message}`);
         return;
       case msalCommon.LogLevel.Info:
-        logger.info(`MSAL ${platform} V2 info message: ${message}`);
+        credLogger.info(`MSAL ${platform} V2 info message: ${message}`);
         return;
       case msalCommon.LogLevel.Verbose:
-        logger.info(`MSAL ${platform} V2 verbose message: ${message}`);
+        credLogger.info(`MSAL ${platform} V2 verbose message: ${message}`);
         return;
       case msalCommon.LogLevel.Warning:
-        logger.info(`MSAL ${platform} V2 warning: ${message}`);
+        credLogger.info(`MSAL ${platform} V2 warning: ${message}`);
         return;
     }
   };
@@ -137,88 +142,45 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
 }
 
 /**
- * The common utility functions for the MSAL clients.
- * Defined as a class so that the classes extending this one can have access to its methods and protected properties.
- *
- * It keeps track of a logger and an in-memory copy of the AuthenticationRecord.
- *
- * @internal
+ * Handles MSAL errors.
  */
-export class MsalBaseUtilities {
-  protected logger: CredentialLogger;
-  protected account: AuthenticationRecord | undefined;
-
-  constructor(options: MsalFlowOptions) {
-    this.logger = options.logger;
-    this.account = options.authenticationRecord;
-  }
-
-  /**
-   * Generates a UUID
-   */
-  generateUuid(): string {
-    return randomUUID();
-  }
-
-  /**
-   * Handles the MSAL authentication result.
-   * If the result has an account, we update the local account reference.
-   * If the token received is invalid, an error will be thrown depending on what's missing.
-   */
-  protected handleResult(
-    scopes: string | string[],
-    clientId: string,
-    result?: MsalResult,
-    getTokenOptions?: GetTokenOptions
-  ): AccessToken {
-    if (result?.account) {
-      this.account = msalToPublic(clientId, result.account);
+export function handleMsalError(
+  scopes: string[],
+  error: Error,
+  getTokenOptions?: GetTokenOptions,
+): Error {
+  if (
+    error.name === "AuthError" ||
+    error.name === "ClientAuthError" ||
+    error.name === "BrowserAuthError"
+  ) {
+    const msalError = error as msalCommon.AuthError;
+    switch (msalError.errorCode) {
+      case "endpoints_resolution_error":
+        logger.info(formatError(scopes, error.message));
+        return new CredentialUnavailableError(error.message);
+      case "device_code_polling_cancelled":
+        return new AbortError("The authentication has been aborted by the caller.");
+      case "consent_required":
+      case "interaction_required":
+      case "login_required":
+        logger.info(
+          formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`),
+        );
+        break;
+      default:
+        logger.info(formatError(scopes, `Failed to acquire token: ${error.message}`));
+        break;
     }
-    ensureValidMsalToken(scopes, this.logger, result, getTokenOptions);
-    this.logger.getToken.info(formatSuccess(scopes));
-    return {
-      token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime(),
-    };
   }
-
-  /**
-   * Handles MSAL errors.
-   */
-  protected handleError(scopes: string[], error: Error, getTokenOptions?: GetTokenOptions): Error {
-    if (
-      error.name === "AuthError" ||
-      error.name === "ClientAuthError" ||
-      error.name === "BrowserAuthError"
-    ) {
-      const msalError = error as msalCommon.AuthError;
-      switch (msalError.errorCode) {
-        case "endpoints_resolution_error":
-          this.logger.info(formatError(scopes, error.message));
-          return new CredentialUnavailableError(error.message);
-        case "device_code_polling_cancelled":
-          return new AbortError("The authentication has been aborted by the caller.");
-        case "consent_required":
-        case "interaction_required":
-        case "login_required":
-          this.logger.info(
-            formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
-          );
-          break;
-        default:
-          this.logger.info(formatError(scopes, `Failed to acquire token: ${error.message}`));
-          break;
-      }
-    }
-    if (
-      error.name === "ClientConfigurationError" ||
-      error.name === "BrowserConfigurationAuthError" ||
-      error.name === "AbortError"
-    ) {
-      return error;
-    }
-    return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
+  if (
+    error.name === "ClientConfigurationError" ||
+    error.name === "BrowserConfigurationAuthError" ||
+    error.name === "AbortError"
+  ) {
+    return error;
   }
+  return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
 }
 
 // transformations.ts

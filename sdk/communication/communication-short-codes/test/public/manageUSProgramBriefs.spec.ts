@@ -39,7 +39,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     // before test begins, make sure program brief does not exist, clean up if necessary
     if (await doesProgramBriefExist(client, uspb.id)) {
       console.warn(
-        "Program brief should not exist, it has not yet been created. Cleaning up program brief."
+        "Program brief should not exist, it has not yet been created. Cleaning up program brief.",
       );
       await client.deleteUSProgramBrief(uspb.id);
       if (await doesProgramBriefExist(client, uspb.id)) {
@@ -124,7 +124,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       assert.isOk(delRes, "Deleting program brief failed");
       assert.isFalse(
         await doesProgramBriefExist(client, pb.id),
-        "Delete program brief was unsuccessful, program brief is still returned"
+        "Delete program brief was unsuccessful, program brief is still returned",
       );
       return true;
     });

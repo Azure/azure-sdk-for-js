@@ -13,7 +13,7 @@ const createStateProxy: <TResult, TState extends PollOperationState<TResult>>() 
   TState,
   TResult
 > = () => ({
-  initState: (config) => ({ config, isStarted: true } as any),
+  initState: (config) => ({ config, isStarted: true }) as any,
   setCanceled: (state) => (state.isCancelled = true),
   setError: (state, error) => (state.error = error),
   setResult: (state, result) => (state.result = result),
@@ -43,7 +43,7 @@ export class GenericPollOperation<TResult, TState extends PollOperationState<TRe
     private lroResourceLocationConfig?: LroResourceLocationConfig,
     private processResult?: (result: unknown, state: TState) => TResult,
     private updateState?: (state: TState, lastResponse: RawResponse) => void,
-    private isDone?: (lastResponse: TResult, state: TState) => boolean
+    private isDone?: (lastResponse: TResult, state: TState) => boolean,
   ) {}
 
   public setPollerConfig(pollerConfig: PollerConfig): void {

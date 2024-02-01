@@ -96,7 +96,7 @@ async function main() {
   // Create digital twin
   const createdTwin = await serviceClient.upsertDigitalTwin(
     digitalTwinId,
-    JSON.stringify(temporaryTwin)
+    JSON.stringify(temporaryTwin),
   );
   console.log(`Created Digital Twin:`);
   console.log(inspect(createdTwin));
@@ -111,7 +111,7 @@ async function main() {
   const updateComponentResponse = await serviceClient.updateComponent(
     digitalTwinId,
     componentPath,
-    [patch]
+    [patch],
   );
   console.log(`Update Component response:`);
   console.log(inspect(updateComponentResponse));

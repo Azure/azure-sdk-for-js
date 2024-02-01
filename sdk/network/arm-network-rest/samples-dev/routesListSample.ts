@@ -32,7 +32,7 @@ async function listRoutes() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}/routes",
       subscriptionId,
       resourceGroupName,
-      routeTableName
+      routeTableName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

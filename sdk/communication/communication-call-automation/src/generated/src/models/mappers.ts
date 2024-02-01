@@ -513,6 +513,13 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           name: "Composite",
           className: "CommunicationUserIdentifierModel"
         }
+      },
+      sourceCallerIdNumber: {
+        serializedName: "sourceCallerIdNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel"
+        }
       }
     }
   }
@@ -1293,6 +1300,64 @@ export const DialogStateResponse: coreClient.CompositeMapper = {
         serializedName: "operationContext",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UpdateDialogRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UpdateDialogRequest",
+    modelProperties: {
+      dialog: {
+        serializedName: "dialog",
+        type: {
+          name: "Composite",
+          className: "DialogUpdateBase"
+        }
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String"
+        }
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DialogUpdateBase: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogUpdateBase",
+    uberParent: "DialogUpdateBase",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind"
+    },
+    modelProperties: {
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      context: {
+        serializedName: "context",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: { name: "Dictionary", value: { type: { name: "any" } } }
+          }
         }
       }
     }
@@ -2417,6 +2482,71 @@ export const DialogSensitivityUpdate: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "String"
+        }
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DialogUpdated: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DialogUpdated",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation"
+        }
+      },
+      dialogInputType: {
+        serializedName: "dialogInputType",
+        type: {
+          name: "String"
+        }
+      },
+      dialogId: {
+        serializedName: "dialogId",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      ivrContext: {
+        serializedName: "ivrContext",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       },
       callConnectionId: {
@@ -3865,8 +3995,23 @@ export const PowerVirtualAgentsDialog: coreClient.CompositeMapper = {
   }
 };
 
+export const AzureOpenAIDialogUpdate: coreClient.CompositeMapper = {
+  serializedName: "AzureOpenAI",
+  type: {
+    name: "Composite",
+    className: "AzureOpenAIDialogUpdate",
+    uberParent: "DialogUpdateBase",
+    polymorphicDiscriminator: DialogUpdateBase.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...DialogUpdateBase.type.modelProperties
+    }
+  }
+};
+
 export let discriminators = {
   BaseDialog: BaseDialog,
+  DialogUpdateBase: DialogUpdateBase,
   "BaseDialog.AzureOpenAI": AzureOpenAIDialog,
-  "BaseDialog.PowerVirtualAgents": PowerVirtualAgentsDialog
+  "BaseDialog.PowerVirtualAgents": PowerVirtualAgentsDialog,
+  "DialogUpdateBase.AzureOpenAI": AzureOpenAIDialogUpdate
 };

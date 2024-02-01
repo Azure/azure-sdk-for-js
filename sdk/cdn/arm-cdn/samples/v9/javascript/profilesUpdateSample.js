@@ -30,7 +30,7 @@ async function profilesUpdate() {
   const result = await client.profiles.beginUpdateAndWait(
     resourceGroupName,
     profileName,
-    profileUpdateParameters
+    profileUpdateParameters,
   );
   console.log(result);
 }

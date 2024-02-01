@@ -36,7 +36,7 @@ export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeRecognizeLinkedEntitiesResult(
-  result: DocumentLinkedEntities
+  result: DocumentLinkedEntities,
 ): RecognizeLinkedEntitiesSuccessResult {
   const { statistics, id, warnings, entities } = result;
   return {
@@ -50,7 +50,7 @@ export function makeRecognizeLinkedEntitiesResult(
  */
 export function makeRecognizeLinkedEntitiesErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): RecognizeLinkedEntitiesErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
