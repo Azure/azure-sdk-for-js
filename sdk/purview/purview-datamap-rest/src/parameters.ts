@@ -358,7 +358,7 @@ export type EntityGetSampleBusinessMetadataTemplateParameters =
   RequestParameters;
 
 export interface EntityImportBusinessMetadataBodyParam {
-  body?: { file: string };
+  body?: { file: Uint8Array | File };
 }
 
 export interface EntityImportBusinessMetadataMediaTypesParam {

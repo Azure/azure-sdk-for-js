@@ -13,3 +13,4 @@ export * from "./outputModels";
 export * from "./serializeHelper";
 
 export default PurviewDataMapClient;
+export { createFile, createFileFromStream } from "@azure/core-rest-pipeline"; 
