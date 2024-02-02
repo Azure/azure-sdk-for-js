@@ -17,6 +17,7 @@ import {
   StatsbeatInstrumentation,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
+import { setSdkPrefix } from "./metrics/quickpulse/utils";
 
 export {
   AzureMonitorOpenTelemetryOptions,
@@ -66,6 +67,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     spanProcessor: traceHandler.getSpanProcessor(),
   };
   sdk = new NodeSDK(sdkConfig);
+  setSdkPrefix();
   sdk.start();
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
   traceHandler.start();

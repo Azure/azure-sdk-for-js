@@ -23,6 +23,8 @@ import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-me
 import { AZURE_MONITOR_OPENTELEMETRY_VERSION } from "../../types";
 import { Resource } from "@opentelemetry/resources";
 import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
+import { getOsPrefix } from "../../utils/common";
+import { getResourceProvider } from "../../utils/common";
 
 export function getSdkVersion(): string {
   const { node } = process.versions;
@@ -35,6 +37,13 @@ export function getSdkVersion(): string {
   const version = `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
   const internalSdkVersion = `${prefix}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
+}
+
+/** Set the version prefix to a string in the format {RP}{OS}m_ if agent did not define a prefix. */
+export function setSdkPrefix(): void {
+  if (!process.env["AZURE_MONITOR_AGENT_PREFIX"]) {
+    process.env["AZURE_MONITOR_AGENT_PREFIX"] = `${getResourceProvider()}${getOsPrefix()}m_`;
+  }
 }
 
 export function getCloudRole(resource: Resource): string {
