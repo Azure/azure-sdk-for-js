@@ -52,7 +52,7 @@ export class Recorder {
   private sessionFile?: string;
   private assetsJson?: string;
   private variables: Record<string, string>;
-  private matcherSet: boolean = false;
+  private matcherSet = false;
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -407,7 +407,7 @@ export class Recorder {
           this.httpClient,
           "CustomDefaultMatcher",
           this.recordingId,
-          updatedOptions
+          updatedOptions,
         );
       } else {
         await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, updatedOptions);
