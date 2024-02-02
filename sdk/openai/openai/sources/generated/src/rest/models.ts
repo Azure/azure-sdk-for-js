@@ -257,6 +257,10 @@ export interface ChatCompletionsOptions {
    * system_fingerprint response parameter to monitor changes in the backend."
    */
   seed?: number;
+  /** Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model. */
+  logprobs?: boolean | null;
+  /** An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used. */
+  top_logprobs?: number | null;
   /** An object specifying the format that the model must output. Used to enable JSON mode. */
   response_format?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */

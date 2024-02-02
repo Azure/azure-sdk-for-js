@@ -92,6 +92,10 @@ export {
   ChatChoice,
   ChatResponseMessage,
   AzureChatExtensionsMessageContext,
+  AzureChatExtensionDataSourceResponseCitation,
+  ChatChoiceLogProbabilityInfo,
+  ChatTokenLogProbabilityResult,
+  ChatTokenLogProbabilityInfo,
   ChatFinishDetailsParent,
   StopFinishDetails,
   MaxTokensFinishDetails,
@@ -120,7 +124,6 @@ export {
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinition,
   ChatCompletionsNamedToolSelection,
-  undefined,
   ChatFinishDetails,
 } from "./models.js";
 export {

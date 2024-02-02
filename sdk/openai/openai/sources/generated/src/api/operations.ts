@@ -579,6 +579,8 @@ export function _getChatCompletionsSend(
                 : { enabled: body.enhancements?.ocr?.["enabled"] },
             },
         seed: body["seed"],
+        logprobs: body["logprobs"],
+        top_logprobs: body["topLogprobs"],
         response_format: !body.responseFormat
           ? undefined
           : { type: body.responseFormat?.["type"] },
@@ -616,24 +618,37 @@ export async function _getChatCompletionsDeserialize(
             context: !p.message?.context
               ? undefined
               : {
-                  messages: !p.message?.context?.["messages"]
-                    ? p.message?.context?.["messages"]
-                    : p.message?.context?.["messages"].map((p) => ({
-                        role: p["role"],
+                  citations: !p.message?.context?.["citations"]
+                    ? p.message?.context?.["citations"]
+                    : p.message?.context?.["citations"].map((p) => ({
                         content: p["content"],
-                        toolCalls: !p["tool_calls"]
-                          ? p["tool_calls"]
-                          : p["tool_calls"],
-                        functionCall: !p.function_call
-                          ? undefined
-                          : {
-                              name: p.function_call?.["name"],
-                              arguments: p.function_call?.["arguments"],
-                            },
-                        context: !p.context ? undefined : (p.context as any),
+                        title: p["title"],
+                        url: p["url"],
+                        filepath: p["filepath"],
+                        chunkId: p["chunk_id"],
                       })),
+                  intent: p.message?.context?.["intent"],
                 },
           },
+      logprobs:
+        p.logprobs === null
+          ? null
+          : {
+              content: !p.logprobs["content"]
+                ? p.logprobs["content"]
+                : p.logprobs["content"].map((p) => ({
+                    token: p["token"],
+                    logprob: p["logprob"],
+                    bytes: p["bytes"],
+                    topLogprobs: !p["top_logprobs"]
+                      ? p["top_logprobs"]
+                      : p["top_logprobs"].map((p) => ({
+                          token: p["token"],
+                          logprob: p["logprob"],
+                          bytes: p["bytes"],
+                        })),
+                  })),
+            },
       index: p["index"],
       finishReason: p["finish_reason"],
       finishDetails: !p.finish_details
@@ -656,22 +671,16 @@ export async function _getChatCompletionsDeserialize(
             context: !p.delta?.context
               ? undefined
               : {
-                  messages: !p.delta?.context?.["messages"]
-                    ? p.delta?.context?.["messages"]
-                    : p.delta?.context?.["messages"].map((p) => ({
-                        role: p["role"],
+                  citations: !p.delta?.context?.["citations"]
+                    ? p.delta?.context?.["citations"]
+                    : p.delta?.context?.["citations"].map((p) => ({
                         content: p["content"],
-                        toolCalls: !p["tool_calls"]
-                          ? p["tool_calls"]
-                          : p["tool_calls"],
-                        functionCall: !p.function_call
-                          ? undefined
-                          : {
-                              name: p.function_call?.["name"],
-                              arguments: p.function_call?.["arguments"],
-                            },
-                        context: !p.context ? undefined : (p.context as any),
+                        title: p["title"],
+                        url: p["url"],
+                        filepath: p["filepath"],
+                        chunkId: p["chunk_id"],
                       })),
+                  intent: p.delta?.context?.["intent"],
                 },
           },
       contentFilterResults: !p.content_filter_results

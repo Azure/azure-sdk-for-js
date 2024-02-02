@@ -587,6 +587,10 @@ export interface ChatCompletionsOptions {
    * system_fingerprint response parameter to monitor changes in the backend."
    */
   seed?: number;
+  /** Whether to return log probabilities of the output tokens or not. If true, returns the log probabilities of each output token returned in the `content` of `message`. This option is currently not available on the `gpt-4-vision-preview` model. */
+  logprobs?: boolean | null;
+  /** An integer between 0 and 5 specifying the number of most likely tokens to return at each token position, each with an associated log probability. `logprobs` must be set to `true` if this parameter is used. */
+  topLogprobs?: number | null;
   /** An object specifying the format that the model must output. Used to enable JSON mode. */
   responseFormat?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
@@ -1343,6 +1347,8 @@ export interface ChatCompletions {
 export interface ChatChoice {
   /** The chat message for a given chat completions prompt. */
   message?: ChatResponseMessage;
+  /** The log probability information for this choice, as enabled via the 'logprobs' request option. */
+  logprobs: ChatChoiceLogProbabilityInfo | null;
   /** The ordered index associated with this chat completions choice. */
   index: number;
   /** The reason that this chat completions choice completed its generated. */
@@ -1398,12 +1404,66 @@ export interface ChatResponseMessage {
  */
 export interface AzureChatExtensionsMessageContext {
   /**
-   *   The contextual message payload associated with the Azure chat extensions used for a chat completions request.
+   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
    *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
    *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
    *   extensions.
    */
-  messages?: ChatResponseMessage[];
+  citations?: AzureChatExtensionDataSourceResponseCitation[];
+  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
+  intent?: string;
+}
+
+/**
+ * A single instance of additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
+ */
+export interface AzureChatExtensionDataSourceResponseCitation {
+  /** The content of the citation. */
+  content: string;
+  /** The title of the citation. */
+  title?: string;
+  /** The URL of the citation. */
+  url?: string;
+  /** The file path of the citation. */
+  filepath?: string;
+  /** The chunk ID of the citation. */
+  chunkId?: string;
+}
+
+/** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
+export interface ChatChoiceLogProbabilityInfo {
+  /** The list of log probability information entries for the choice's message content tokens, as requested via the 'logprobs' option. */
+  content: ChatTokenLogProbabilityResult[] | null;
+}
+
+/** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
+export interface ChatChoiceLogProbabilityInfo {
+  /** The list of log probability information entries for the choice's message content tokens, as requested via the 'logprobs' option. */
+  content: ChatTokenLogProbabilityResult[] | null;
+}
+
+/** A representation of the log probability information for a single content token, including a list of most likely tokens if 'top_logprobs' were requested. */
+export interface ChatTokenLogProbabilityResult {
+  /** The message content token. */
+  token: string;
+  /** The log probability of the message content token. */
+  logprob: number;
+  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
+  bytes: number[] | null;
+  /** The list of most likely tokens and their log probability information, as requested via 'top_logprobs'. */
+  topLogprobs: ChatTokenLogProbabilityInfo[] | null;
+}
+
+/** A representation of the log probability information for a single message content token. */
+export interface ChatTokenLogProbabilityInfo {
+  /** The message content token. */
+  token: string;
+  /** The log probability of the message content token. */
+  logprob: number;
+  /** A list of integers representing the UTF-8 bytes representation of the token. Useful in instances where characters are represented by multiple tokens and their byte representations must be combined to generate the correct text representation. Can be null if there is no bytes representation for the token. */
+  bytes: number[] | null;
 }
 
 /** An abstract representation of structured information about why a chat completions response terminated. */
@@ -1672,10 +1732,6 @@ export type ChatCompletionsToolDefinition =
 export type ChatCompletionsNamedToolSelection =
   | ChatCompletionsNamedFunctionToolSelection
   | ChatCompletionsNamedToolSelectionParent;
-/** Alias for undefined */
-export type undefined =
-  | ChatCompletionsNamedFunctionToolSelection
-  | undefinedParent;
 /** Alias for ChatFinishDetails */
 export type ChatFinishDetails =
   | StopFinishDetails
