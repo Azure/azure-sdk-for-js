@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
+
 ### Other Changes
 
 - Add SDK prefix including attach type.
