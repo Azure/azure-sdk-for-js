@@ -29,6 +29,6 @@
   "dependencies": {
     "@azure/keyvault-secrets": "latest",
     "dotenv": "latest",
-    "@azure/identity": "^2.1.0-beta.2"
+    "@azure/identity": "^4.0.1"
   }
 }
