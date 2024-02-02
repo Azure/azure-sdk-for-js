@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Add JSON Merge Path support
+
 ### Breaking Changes
 
 ### Bugs Fixed
