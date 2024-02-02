@@ -13,7 +13,7 @@ import { KeyCredential } from "@azure/core-auth";
 
 /**
  * The OpenAIKeyCredential class represents an OpenAI API key
- * and is used to authenticate into an OpenAI client for
+ * and is used to authenticate into an Assistants client for
  * an OpenAI endpoint.
  */
 export class OpenAIKeyCredential implements KeyCredential {
