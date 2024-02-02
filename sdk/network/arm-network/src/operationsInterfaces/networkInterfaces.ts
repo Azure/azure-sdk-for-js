@@ -35,7 +35,7 @@ import {
   NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
   NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse,
   NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
-  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse
+  NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     cloudServiceName: string,
     roleInstanceName: string,
-    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams
+    options?: NetworkInterfacesListCloudServiceRoleInstanceNetworkInterfacesOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets all network interfaces in a cloud service.
@@ -63,14 +63,14 @@ export interface NetworkInterfaces {
   listCloudServiceNetworkInterfaces(
     resourceGroupName: string,
     cloudServiceName: string,
-    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams
+    options?: NetworkInterfacesListCloudServiceNetworkInterfacesOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets all network interfaces in a subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: NetworkInterfacesListAllOptionalParams
+    options?: NetworkInterfacesListAllOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets all network interfaces in a resource group.
@@ -79,7 +79,7 @@ export interface NetworkInterfaces {
    */
   list(
     resourceGroupName: string,
-    options?: NetworkInterfacesListOptionalParams
+    options?: NetworkInterfacesListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets information about all network interfaces in a virtual machine in a virtual machine scale set.
@@ -92,7 +92,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams
+    options?: NetworkInterfacesListVirtualMachineScaleSetVMNetworkInterfacesOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Gets all network interfaces in a virtual machine scale set.
@@ -103,7 +103,7 @@ export interface NetworkInterfaces {
   listVirtualMachineScaleSetNetworkInterfaces(
     resourceGroupName: string,
     virtualMachineScaleSetName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams
+    options?: NetworkInterfacesListVirtualMachineScaleSetNetworkInterfacesOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterface>;
   /**
    * Get the specified network interface ip configuration in a virtual machine scale set.
@@ -118,7 +118,7 @@ export interface NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams
+    options?: NetworkInterfacesListVirtualMachineScaleSetIpConfigurationsOptionalParams,
   ): PagedAsyncIterableIterator<NetworkInterfaceIPConfiguration>;
   /**
    * Get the specified network interface in a cloud service.
@@ -133,7 +133,7 @@ export interface NetworkInterfaces {
     cloudServiceName: string,
     roleInstanceName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams
+    options?: NetworkInterfacesGetCloudServiceNetworkInterfaceOptionalParams,
   ): Promise<NetworkInterfacesGetCloudServiceNetworkInterfaceResponse>;
   /**
    * Deletes the specified network interface.
@@ -144,7 +144,7 @@ export interface NetworkInterfaces {
   beginDelete(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified network interface.
@@ -155,7 +155,7 @@ export interface NetworkInterfaces {
   beginDeleteAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesDeleteOptionalParams
+    options?: NetworkInterfacesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified network interface.
@@ -166,7 +166,7 @@ export interface NetworkInterfaces {
   get(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetOptionalParams
+    options?: NetworkInterfacesGetOptionalParams,
   ): Promise<NetworkInterfacesGetResponse>;
   /**
    * Creates or updates a network interface.
@@ -179,7 +179,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: NetworkInterface,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesCreateOrUpdateResponse>,
@@ -197,7 +197,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: NetworkInterface,
-    options?: NetworkInterfacesCreateOrUpdateOptionalParams
+    options?: NetworkInterfacesCreateOrUpdateOptionalParams,
   ): Promise<NetworkInterfacesCreateOrUpdateResponse>;
   /**
    * Updates a network interface tags.
@@ -210,7 +210,7 @@ export interface NetworkInterfaces {
     resourceGroupName: string,
     networkInterfaceName: string,
     parameters: TagsObject,
-    options?: NetworkInterfacesUpdateTagsOptionalParams
+    options?: NetworkInterfacesUpdateTagsOptionalParams,
   ): Promise<NetworkInterfacesUpdateTagsResponse>;
   /**
    * Gets all route tables applied to a network interface.
@@ -221,7 +221,7 @@ export interface NetworkInterfaces {
   beginGetEffectiveRouteTable(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
+    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NetworkInterfacesGetEffectiveRouteTableResponse>,
@@ -237,7 +237,7 @@ export interface NetworkInterfaces {
   beginGetEffectiveRouteTableAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams
+    options?: NetworkInterfacesGetEffectiveRouteTableOptionalParams,
   ): Promise<NetworkInterfacesGetEffectiveRouteTableResponse>;
   /**
    * Gets all network security groups applied to a network interface.
@@ -248,12 +248,10 @@ export interface NetworkInterfaces {
   beginListEffectiveNetworkSecurityGroups(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
+    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
-      >,
+      OperationState<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>,
       NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse
     >
   >;
@@ -266,7 +264,7 @@ export interface NetworkInterfaces {
   beginListEffectiveNetworkSecurityGroupsAndWait(
     resourceGroupName: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams
+    options?: NetworkInterfacesListEffectiveNetworkSecurityGroupsOptionalParams,
   ): Promise<NetworkInterfacesListEffectiveNetworkSecurityGroupsResponse>;
   /**
    * Get the specified network interface in a virtual machine scale set.
@@ -281,10 +279,8 @@ export interface NetworkInterfaces {
     virtualMachineScaleSetName: string,
     virtualmachineIndex: string,
     networkInterfaceName: string,
-    options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams
-  ): Promise<
-    NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse
-  >;
+    options?: NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceOptionalParams,
+  ): Promise<NetworkInterfacesGetVirtualMachineScaleSetNetworkInterfaceResponse>;
   /**
    * Get the specified network interface ip configuration in a virtual machine scale set.
    * @param resourceGroupName The name of the resource group.
@@ -300,6 +296,6 @@ export interface NetworkInterfaces {
     virtualmachineIndex: string,
     networkInterfaceName: string,
     ipConfigurationName: string,
-    options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams
+    options?: NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationOptionalParams,
   ): Promise<NetworkInterfacesGetVirtualMachineScaleSetIpConfigurationResponse>;
 }

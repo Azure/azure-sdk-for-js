@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ExpressRouteServiceProvider,
-  ExpressRouteServiceProvidersListOptionalParams
+  ExpressRouteServiceProvidersListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface ExpressRouteServiceProviders {
    * @param options The options parameters.
    */
   list(
-    options?: ExpressRouteServiceProvidersListOptionalParams
+    options?: ExpressRouteServiceProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteServiceProvider>;
 }

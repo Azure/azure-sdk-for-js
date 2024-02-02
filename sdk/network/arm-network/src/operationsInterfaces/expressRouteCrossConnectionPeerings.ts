@@ -15,7 +15,7 @@ import {
   ExpressRouteCrossConnectionPeeringsGetOptionalParams,
   ExpressRouteCrossConnectionPeeringsGetResponse,
   ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams,
-  ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse
+  ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ExpressRouteCrossConnectionPeerings {
   list(
     resourceGroupName: string,
     crossConnectionName: string,
-    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteCrossConnectionPeering>;
   /**
    * Deletes the specified peering from the ExpressRouteCrossConnection.
@@ -43,7 +43,7 @@ export interface ExpressRouteCrossConnectionPeerings {
     resourceGroupName: string,
     crossConnectionName: string,
     peeringName: string,
-    options?: ExpressRouteCrossConnectionPeeringsDeleteOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified peering from the ExpressRouteCrossConnection.
@@ -56,7 +56,7 @@ export interface ExpressRouteCrossConnectionPeerings {
     resourceGroupName: string,
     crossConnectionName: string,
     peeringName: string,
-    options?: ExpressRouteCrossConnectionPeeringsDeleteOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified peering for the ExpressRouteCrossConnection.
@@ -69,7 +69,7 @@ export interface ExpressRouteCrossConnectionPeerings {
     resourceGroupName: string,
     crossConnectionName: string,
     peeringName: string,
-    options?: ExpressRouteCrossConnectionPeeringsGetOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsGetOptionalParams,
   ): Promise<ExpressRouteCrossConnectionPeeringsGetResponse>;
   /**
    * Creates or updates a peering in the specified ExpressRouteCrossConnection.
@@ -85,7 +85,7 @@ export interface ExpressRouteCrossConnectionPeerings {
     crossConnectionName: string,
     peeringName: string,
     peeringParameters: ExpressRouteCrossConnectionPeering,
-    options?: ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface ExpressRouteCrossConnectionPeerings {
     crossConnectionName: string,
     peeringName: string,
     peeringParameters: ExpressRouteCrossConnectionPeering,
-    options?: ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams
+    options?: ExpressRouteCrossConnectionPeeringsCreateOrUpdateOptionalParams,
   ): Promise<ExpressRouteCrossConnectionPeeringsCreateOrUpdateResponse>;
 }

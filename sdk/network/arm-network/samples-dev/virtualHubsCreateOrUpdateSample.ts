@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
  *
  * @summary Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubPut.json
  */
 async function virtualHubPut() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,16 +30,15 @@ async function virtualHubPut() {
     sku: "Basic",
     tags: { key1: "value1" },
     virtualWan: {
-      id:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
-    }
+      id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.virtualHubs.beginCreateOrUpdateAndWait(
     resourceGroupName,
     virtualHubName,
-    virtualHubParameters
+    virtualHubParameters,
   );
   console.log(result);
 }

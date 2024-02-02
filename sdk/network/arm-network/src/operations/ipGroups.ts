@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   IpGroupsUpdateGroupsResponse,
   IpGroupsDeleteOptionalParams,
   IpGroupsListByResourceGroupNextResponse,
-  IpGroupsListNextResponse
+  IpGroupsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class IpGroupsImpl implements IpGroups {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: IpGroupsListByResourceGroupOptionalParams
+    options?: IpGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IpGroup> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class IpGroupsImpl implements IpGroups {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: IpGroupsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpGroup[]> {
     let result: IpGroupsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class IpGroupsImpl implements IpGroups {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class IpGroupsImpl implements IpGroups {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: IpGroupsListByResourceGroupOptionalParams
+    options?: IpGroupsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<IpGroup> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class IpGroupsImpl implements IpGroups {
    * @param options The options parameters.
    */
   public list(
-    options?: IpGroupsListOptionalParams
+    options?: IpGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<IpGroup> {
     const iter = this.listPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class IpGroupsImpl implements IpGroups {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: IpGroupsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<IpGroup[]> {
     let result: IpGroupsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class IpGroupsImpl implements IpGroups {
   }
 
   private async *listPagingAll(
-    options?: IpGroupsListOptionalParams
+    options?: IpGroupsListOptionalParams,
   ): AsyncIterableIterator<IpGroup> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -184,11 +184,11 @@ export class IpGroupsImpl implements IpGroups {
   get(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsGetOptionalParams
+    options?: IpGroupsGetOptionalParams,
   ): Promise<IpGroupsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ipGroupsName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -203,7 +203,7 @@ export class IpGroupsImpl implements IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: IpGroup,
-    options?: IpGroupsCreateOrUpdateOptionalParams
+    options?: IpGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<IpGroupsCreateOrUpdateResponse>,
@@ -212,21 +212,20 @@ export class IpGroupsImpl implements IpGroups {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<IpGroupsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -235,8 +234,8 @@ export class IpGroupsImpl implements IpGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -244,15 +243,15 @@ export class IpGroupsImpl implements IpGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipGroupsName, parameters, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       IpGroupsCreateOrUpdateResponse,
@@ -260,7 +259,7 @@ export class IpGroupsImpl implements IpGroups {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -277,13 +276,13 @@ export class IpGroupsImpl implements IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: IpGroup,
-    options?: IpGroupsCreateOrUpdateOptionalParams
+    options?: IpGroupsCreateOrUpdateOptionalParams,
   ): Promise<IpGroupsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       ipGroupsName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -299,11 +298,11 @@ export class IpGroupsImpl implements IpGroups {
     resourceGroupName: string,
     ipGroupsName: string,
     parameters: TagsObject,
-    options?: IpGroupsUpdateGroupsOptionalParams
+    options?: IpGroupsUpdateGroupsOptionalParams,
   ): Promise<IpGroupsUpdateGroupsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, ipGroupsName, parameters, options },
-      updateGroupsOperationSpec
+      updateGroupsOperationSpec,
     );
   }
 
@@ -316,25 +315,24 @@ export class IpGroupsImpl implements IpGroups {
   async beginDelete(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams
+    options?: IpGroupsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -343,8 +341,8 @@ export class IpGroupsImpl implements IpGroups {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -352,20 +350,20 @@ export class IpGroupsImpl implements IpGroups {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, ipGroupsName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -380,12 +378,12 @@ export class IpGroupsImpl implements IpGroups {
   async beginDeleteAndWait(
     resourceGroupName: string,
     ipGroupsName: string,
-    options?: IpGroupsDeleteOptionalParams
+    options?: IpGroupsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       ipGroupsName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -397,11 +395,11 @@ export class IpGroupsImpl implements IpGroups {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: IpGroupsListByResourceGroupOptionalParams
+    options?: IpGroupsListByResourceGroupOptionalParams,
   ): Promise<IpGroupsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -410,7 +408,7 @@ export class IpGroupsImpl implements IpGroups {
    * @param options The options parameters.
    */
   private _list(
-    options?: IpGroupsListOptionalParams
+    options?: IpGroupsListOptionalParams,
   ): Promise<IpGroupsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -424,11 +422,11 @@ export class IpGroupsImpl implements IpGroups {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: IpGroupsListByResourceGroupNextOptionalParams
+    options?: IpGroupsListByResourceGroupNextOptionalParams,
   ): Promise<IpGroupsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -439,11 +437,11 @@ export class IpGroupsImpl implements IpGroups {
    */
   private _listNext(
     nextLink: string,
-    options?: IpGroupsListNextOptionalParams
+    options?: IpGroupsListNextOptionalParams,
   ): Promise<IpGroupsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -451,47 +449,45 @@ export class IpGroupsImpl implements IpGroups {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ipGroupsName
+    Parameters.ipGroupsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     201: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     202: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     204: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters25,
   queryParameters: [Parameters.apiVersion],
@@ -499,23 +495,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ipGroupsName
+    Parameters.ipGroupsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateGroupsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroup
+      bodyMapper: Mappers.IpGroup,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -523,15 +518,14 @@ const updateGroupsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ipGroupsName
+    Parameters.ipGroupsName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups/{ipGroupsName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -539,92 +533,91 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.ipGroupsName
+    Parameters.ipGroupsName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ipGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroupListResult
+      bodyMapper: Mappers.IpGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ipGroups",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroupListResult
+      bodyMapper: Mappers.IpGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroupListResult
+      bodyMapper: Mappers.IpGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.IpGroupListResult
+      bodyMapper: Mappers.IpGroupListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

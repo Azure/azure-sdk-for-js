@@ -19,7 +19,7 @@ import {
   PacketCapturesDeleteOptionalParams,
   PacketCapturesStopOptionalParams,
   PacketCapturesGetStatusOptionalParams,
-  PacketCapturesGetStatusResponse
+  PacketCapturesGetStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface PacketCaptures {
   list(
     resourceGroupName: string,
     networkWatcherName: string,
-    options?: PacketCapturesListOptionalParams
+    options?: PacketCapturesListOptionalParams,
   ): PagedAsyncIterableIterator<PacketCaptureResult>;
   /**
    * Create and start a packet capture on the specified VM.
@@ -49,7 +49,7 @@ export interface PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     parameters: PacketCapture,
-    options?: PacketCapturesCreateOptionalParams
+    options?: PacketCapturesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCapturesCreateResponse>,
@@ -69,7 +69,7 @@ export interface PacketCaptures {
     networkWatcherName: string,
     packetCaptureName: string,
     parameters: PacketCapture,
-    options?: PacketCapturesCreateOptionalParams
+    options?: PacketCapturesCreateOptionalParams,
   ): Promise<PacketCapturesCreateResponse>;
   /**
    * Gets a packet capture session by name.
@@ -82,7 +82,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetOptionalParams
+    options?: PacketCapturesGetOptionalParams,
   ): Promise<PacketCapturesGetResponse>;
   /**
    * Deletes the specified packet capture session.
@@ -95,7 +95,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesDeleteOptionalParams
+    options?: PacketCapturesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified packet capture session.
@@ -108,7 +108,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesDeleteOptionalParams
+    options?: PacketCapturesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Stops a specified packet capture session.
@@ -121,7 +121,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesStopOptionalParams
+    options?: PacketCapturesStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops a specified packet capture session.
@@ -134,7 +134,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesStopOptionalParams
+    options?: PacketCapturesStopOptionalParams,
   ): Promise<void>;
   /**
    * Query the status of a running packet capture session.
@@ -147,7 +147,7 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetStatusOptionalParams
+    options?: PacketCapturesGetStatusOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PacketCapturesGetStatusResponse>,
@@ -165,6 +165,6 @@ export interface PacketCaptures {
     resourceGroupName: string,
     networkWatcherName: string,
     packetCaptureName: string,
-    options?: PacketCapturesGetStatusOptionalParams
+    options?: PacketCapturesGetStatusOptionalParams,
   ): Promise<PacketCapturesGetStatusResponse>;
 }
