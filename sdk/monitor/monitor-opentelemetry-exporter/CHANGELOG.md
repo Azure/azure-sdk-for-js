@@ -6,7 +6,7 @@
 
 ### Bugs Fixed
 
-- Created file used for caching retriable telemetry now includes PID to avoid concurrency issues.
+- Added exception handling for reading files to avoid concurrency errors.
 
 ### Other Changes
 
