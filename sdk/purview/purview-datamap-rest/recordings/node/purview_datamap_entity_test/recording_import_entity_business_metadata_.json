@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeAccount.purview.azure.com/datamap/api/atlas/v2/entity/businessmetadata/import?api-version=2023-09-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Type": "multipart/form-data; boundary=--RecordedTestMultipartBoundary",
+        "Transfer-Encoding": "chunked",
+        "User-Agent": "azsdk-js-purview-datamap-rest/1.0.0-beta.1 core-rest-pipeline/1.14.0 Node/v20.9.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "3d79ecb2-5dc3-4739-b386-4731a3f94d51"
+      },
+      "RequestBody": "LS0tLVJlY29yZGVkVGVzdE11bHRpcGFydEJvdW5kYXJ5DQpDb250ZW50LURpc3Bvc2l0aW9uOiBmb3JtLWRhdGE7IG5hbWU9ImZpbGUiOyBmaWxlbmFtZT0idGVtcGxhdGVfMi5jc3YiDQpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL29jdGV0LXN0cmVhbQ0KDQpUeXBlTmFtZSxVbmlxdWVBdHRyaWJ1dGVWYWx1ZSxCdXNpbmVzc0F0dHJpYnV0ZU5hbWUsQnVzaW5lc3NBdHRyaWJ1dGVWYWx1ZSxVbmlxdWVBdHRyaWJ1dGVOYW1lW29wdGlvbmFsXQpoaXZlX2RhdGFiYXNlLGhpdmVfZGJfMSxibVdpdGhBbGxUeXBlcy5hdHRyOCwiQXdlc29tZSBBdHRyaWJ1dGUgMSIsbmFtZQoNCi0tLS1SZWNvcmRlZFRlc3RNdWx0aXBhcnRCb3VuZGFyeS0tDQoNCg==",
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 02 Feb 2024 03:17:37 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "MicrosoftPurview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "e1b811f3-af08-490f-ba2a-eb4db4279eac",
+        "x-ms-request-id": "3d79ecb2-5dc3-4739-b386-4731a3f94d51",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "failedImportInfoList": [
+          {
+            "parentObjectName": "",
+            "childObjectName": "",
+            "importStatus": "FAILED",
+            "remarks": "Line #2: invalid entity-type \u0027hive_database\u0027"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

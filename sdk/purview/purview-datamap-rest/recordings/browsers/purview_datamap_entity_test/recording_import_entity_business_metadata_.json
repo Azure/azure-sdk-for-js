@@ -1,0 +1,55 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://fakeAccount.purview.azure.com/datamap/api/atlas/v2/entity/businessmetadata/import?api-version=2023-09-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "150",
+        "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryY3iAf1z6ICQom0q5",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "180a4c48-7fdc-476f-869e-7311bade18fa",
+        "x-ms-useragent": "azsdk-js-purview-datamap-rest/1.0.0-beta.1 core-rest-pipeline/1.14.0 OS"
+      },
+      "RequestBody": "LS0tLS0tV2ViS2l0Rm9ybUJvdW5kYXJ5WTNpQWYxejZJQ1FvbTBxNQ0KQ29udGVudC1EaXNwb3NpdGlvbjogZm9ybS1kYXRhOyBuYW1lPSJmaWxlIg0KDQpbb2JqZWN0IE9iamVjdF0NCi0tLS0tLVdlYktpdEZvcm1Cb3VuZGFyeVkzaUFmMXo2SUNRb20wcTUtLQ0K",
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Access-Control-Allow-Headers": "authorization,content-type,x-xsrf-header,x-ms-client-request-id,lastmodifiedts,x-ms-user-token,x-ms-client-tenant-id",
+        "Access-Control-Allow-Methods": "GET,OPTIONS,HEAD,PUT,POST,DELETE,PATCH",
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Expose-Headers": "x-ms-request-id,lastmodifiedts",
+        "Cache-Control": "no-store, must-revalidate, no-cache, max-age=0",
+        "Content-Security-Policy": "default-src \u0027self\u0027; script-src \u0027self\u0027 \u0027unsafe-inline\u0027 \u0027unsafe-eval\u0027 blob: data:; connect-src \u0027self\u0027; img-src \u0027self\u0027 blob: data:; style-src \u0027self\u0027 \u0027unsafe-inline\u0027;font-src \u0027self\u0027 data:",
+        "Content-Type": "application/json",
+        "Date": "Fri, 02 Feb 2024 03:17:47 GMT",
+        "Expires": "0",
+        "Pragma": "no-cache",
+        "Server": "MicrosoftPurview",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff",
+        "X-Frame-Options": "DENY",
+        "x-ms-correlation-request-id": "50bad7fa-5118-4c44-b302-c467b427cff6",
+        "x-ms-request-id": "180a4c48-7fdc-476f-869e-7311bade18fa",
+        "X-XSS-Protection": "1; mode=block"
+      },
+      "ResponseBody": {
+        "requestId": "180a4c48-7fdc-476f-869e-7311bade18fa",
+        "errorCode": "ATLAS-404-00-014",
+        "errorMessage": "File name should not be blank"
+      }
+    }
+  ],
+  "Variables": {}
+}
