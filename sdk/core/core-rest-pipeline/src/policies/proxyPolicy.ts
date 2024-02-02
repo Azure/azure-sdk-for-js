@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as http from "http";
-import type * as https from "https";
+import type * as http from "node:http";
+import type * as https from "node:https";
 import { HttpsProxyAgent, type HttpsProxyAgentOptions } from "https-proxy-agent";
 import { HttpProxyAgent, type HttpProxyAgentOptions } from "http-proxy-agent";
-import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+  SendRequest,
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -58,7 +63,7 @@ function loadEnvironmentProxyValue(): string | undefined {
 function isBypassed(
   uri: string,
   noProxyList: string[],
-  bypassedMap?: Map<string, boolean>,
+  bypassedMap?: Map<string, boolean>
 ): boolean | undefined {
   if (noProxyList.length === 0) {
     return false;
@@ -131,20 +136,20 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
  */
 export function getProxyAgentOptions(
   proxySettings: ProxySettings,
-  { headers, tlsSettings }: PipelineRequest,
+  { headers, tlsSettings }: PipelineRequest
 ): HttpProxyAgentOptions {
   let parsedProxyUrl: URL;
   try {
     parsedProxyUrl = new URL(proxySettings.host);
   } catch (_error) {
     throw new Error(
-      `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`,
+      `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`
     );
   }
 
   if (tlsSettings) {
     logger.warning(
-      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
+      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored."
     );
   }
 
@@ -208,7 +213,7 @@ export function proxyPolicy(
   options?: {
     /** a list of patterns to override those loaded from NO_PROXY environment variable. */
     customNoProxyList?: string[];
-  },
+  }
 ): PipelinePolicy {
   if (!noProxyListLoaded) {
     globalNoProxyList.push(...loadNoProxy());
@@ -224,7 +229,7 @@ export function proxyPolicy(
         !isBypassed(
           request.url,
           options?.customNoProxyList ?? globalNoProxyList,
-          options?.customNoProxyList ? undefined : globalBypassedMap,
+          options?.customNoProxyList ? undefined : globalBypassedMap
         )
       ) {
         request.proxySettings = proxySettings;

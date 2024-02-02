@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { PipelineResponse } from "../interfaces";
-import type { RestError } from "../restError";
+import type { PipelineResponse } from "../interfaces.js";
+import type { RestError } from "../restError.js";
 import { getRandomIntegerInclusive } from "@azure/core-util";
-import type { RetryStrategy } from "./retryStrategy";
-import { isThrottlingRetryResponse } from "./throttlingRetryStrategy";
+import type { RetryStrategy } from "./retryStrategy.js";
+import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
 
 // intervals are in milliseconds
 const DEFAULT_CLIENT_RETRY_INTERVAL = 1000;
@@ -40,7 +40,7 @@ export function exponentialRetryStrategy(
      * If true it won't retry if it received a non-fatal HTTP status code.
      */
     ignoreHttpStatusCodes?: boolean;
-  } = {},
+  } = {}
 ): RetryStrategy {
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
@@ -89,7 +89,7 @@ export function isExponentialRetryResponse(response?: PipelineResponse): boolean
       response.status !== undefined &&
       (response.status >= 500 || response.status === 408) &&
       response.status !== 501 &&
-      response.status !== 505,
+      response.status !== 505
   );
 }
 

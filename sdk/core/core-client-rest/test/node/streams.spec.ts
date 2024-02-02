@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import https from "https";
+import https from "node:https";
 import { assert } from "chai";
-import { getClient } from "../../src/getClient";
+import { getClient } from "../../src/getClient.js";
 import sinon from "sinon";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { PassThrough } from "stream";
+import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "node:http";
+import { PassThrough } from "node:stream";
 
 const mockBaseUrl = "https://example.org";
 

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Readable } from "stream";
-import type { ReadableStream as AsyncIterableReadableStream } from "stream/web";
-import { isBlob } from "./typeGuards";
-import { getRawContent } from "./file";
+import { Readable } from "node:stream";
+import type { ReadableStream as AsyncIterableReadableStream } from "node:stream/web";
+import { isBlob } from "./typeGuards.js";
+import { getRawContent } from "./file.js";
 
 async function* streamAsyncIterator(
-  this: ReadableStream<Uint8Array>,
+  this: ReadableStream<Uint8Array>
 ): AsyncIterableIterator<Uint8Array> {
   const reader = this.getReader();
   try {
@@ -35,7 +35,7 @@ function makeAsyncIterable<T>(webStream: any): asserts webStream is AsyncIterabl
 }
 
 function ensureNodeStream(
-  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
+  stream: ReadableStream<Uint8Array> | NodeJS.ReadableStream
 ): NodeJS.ReadableStream {
   if (stream instanceof ReadableStream) {
     makeAsyncIterable<Uint8Array>(stream);
@@ -46,7 +46,7 @@ function ensureNodeStream(
 }
 
 function toStream(
-  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob,
+  source: ReadableStream<Uint8Array> | NodeJS.ReadableStream | Uint8Array | Blob
 ): NodeJS.ReadableStream {
   if (source instanceof Uint8Array) {
     return Readable.from(Buffer.from(source));
@@ -74,7 +74,7 @@ export type ConcatSource = ReadableStream<Uint8Array> | NodeJS.ReadableStream | 
  * @internal
  */
 export async function concat(
-  sources: (ConcatSource | (() => ConcatSource))[],
+  sources: (ConcatSource | (() => ConcatSource))[]
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
   return function () {
     const streams = sources.map((x) => (typeof x === "function" ? x() : x)).map(toStream);
@@ -86,7 +86,7 @@ export async function concat(
             yield chunk;
           }
         }
-      })(),
+      })()
     );
   };
 }

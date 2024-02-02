@@ -3,11 +3,11 @@
 
 import { assert } from "chai";
 import * as sinon from "sinon";
-import { PassThrough, Writable } from "stream";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import https from "https";
-import http from "http";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { PassThrough, Writable } from "node:stream";
+import { ClientRequest, type IncomingHttpHeaders, IncomingMessage } from "node:http";
+import https from "node:https";
+import http from "node:http";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 class FakeResponse extends PassThrough {
   public statusCode?: number;

@@ -2,15 +2,14 @@
 // Licensed under the MIT license.
 
 import { describe, it, afterEach, assert, vi, expect } from "vitest";
-
 import {
   type PipelineResponse,
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   throttlingRetryPolicy,
-} from "../src";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
@@ -103,7 +102,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       Date.now(),
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
     expect(next).toHaveBeenCalledTimes(2);
 
@@ -181,7 +180,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       Date.now(),
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
     expect(next).toHaveBeenCalledTimes(2);
 

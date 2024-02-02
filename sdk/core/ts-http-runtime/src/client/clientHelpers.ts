@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "../interfaces";
-import { Pipeline } from "../pipeline";
-import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy";
-import { createDefaultHttpClient } from "../defaultHttpClient";
-import { createPipelineFromOptions } from "../createPipelineFromOptions";
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential";
-import { KeyCredential } from "../auth/keyCredential";
-
-import { ClientOptions } from "./common";
-import { apiVersionPolicy } from "./apiVersionPolicy";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
+import { HttpClient } from "../interfaces.js";
+import { Pipeline } from "../pipeline.js";
+import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
+import { createDefaultHttpClient } from "../defaultHttpClient.js";
+import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
+import { KeyCredential } from "../auth/keyCredential.js";
+import { ClientOptions } from "./common.js";
+import { apiVersionPolicy } from "./apiVersionPolicy.js";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -35,7 +34,7 @@ export interface AddCredentialPipelinePolicyOptions {
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
   baseUrl: string,
-  options: AddCredentialPipelinePolicyOptions = {},
+  options: AddCredentialPipelinePolicyOptions = {}
 ): void {
   const { credential, clientOptions } = options;
   if (!credential) {
@@ -54,7 +53,7 @@ export function addCredentialPipelinePolicy(
     }
     const keyPolicy = keyCredentialAuthenticationPolicy(
       credential,
-      clientOptions?.credentials?.apiKeyHeaderName,
+      clientOptions?.credentials?.apiKeyHeaderName
     );
     pipeline.addPolicy(keyPolicy);
   }
@@ -66,7 +65,7 @@ export function addCredentialPipelinePolicy(
 export function createDefaultPipeline(
   baseUrl: string,
   credential?: TokenCredential | KeyCredential,
-  options: ClientOptions = {},
+  options: ClientOptions = {}
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 

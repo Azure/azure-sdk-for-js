@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRestError } from "../../src/client/restError";
-import { PipelineRequest } from "../../src/interfaces";
+import { createRestError } from "../../src/client/restError.js";
+import type { PipelineRequest } from "../../src/interfaces.js";
 import { assert } from "chai";
 
 describe("createRestError", () => {

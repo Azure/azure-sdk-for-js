@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { stringToUint8Array } from "@azure/core-util";
-import { createHttpHeaders } from "../httpHeaders";
+import { createHttpHeaders } from "../httpHeaders.js";
 import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -77,7 +77,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         });
       } else if (value === undefined || value === null || typeof value !== "object") {
         throw new Error(
-          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`,
+          `Unexpected value for key ${fieldName}: ${value}. Value should be serialized to string first.`
         );
       } else {
         // using || instead of ?? here since if value.name is empty we should create a file name
@@ -85,7 +85,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",
-          `form-data; name="${fieldName}"; filename="${fileName}"`,
+          `form-data; name="${fieldName}"; filename="${fileName}"`
         );
 
         // again, || is used since an empty value.type means the content type is unset

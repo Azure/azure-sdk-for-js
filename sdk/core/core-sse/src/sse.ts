@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { IncomingMessage } from "http";
-import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
+import { IncomingMessage } from "node:http";
+import type { EventMessage, EventMessageStream, PartialSome } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 const enum ControlChars {
@@ -25,7 +25,7 @@ export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventM
  */
 export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
 export function createSseStream(
-  chunkStream: IncomingMessage | ReadableStream<Uint8Array>,
+  chunkStream: IncomingMessage | ReadableStream<Uint8Array>
 ): EventMessageStream {
   const { cancel, iterable } = ensureAsyncIterable(chunkStream);
   const asyncIter = toMessage(toLine(iterable));
@@ -49,7 +49,7 @@ function createMessage(): PartialSome<EventMessage, "data"> {
 }
 
 async function* toLine(
-  chunkIter: AsyncIterable<Uint8Array>,
+  chunkIter: AsyncIterable<Uint8Array>
 ): AsyncIterable<{ line: Uint8Array; fieldLen: number }> {
   let buf: Uint8Array | undefined;
   let bufIdx = 0;
@@ -111,7 +111,7 @@ async function* toLine(
 }
 
 async function* toMessage(
-  lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>,
+  lineIter: AsyncIterable<{ line: Uint8Array; fieldLen: number }>
 ): AsyncIterableIterator<EventMessage> {
   let message = createMessage();
   const decoder = new TextDecoder();

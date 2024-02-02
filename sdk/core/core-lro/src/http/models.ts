@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { LroError } from "../poller/models";
+import { LroError } from "../poller/models.js";
 
 // TODO: rename to ResourceLocationConfig
 /**
@@ -75,7 +75,7 @@ export interface LongRunningOperation<T = unknown> {
    */
   sendPollRequest: (
     path: string,
-    options?: { abortSignal?: AbortSignalLike },
+    options?: { abortSignal?: AbortSignalLike }
   ) => Promise<LroResponse<T>>;
 }
 

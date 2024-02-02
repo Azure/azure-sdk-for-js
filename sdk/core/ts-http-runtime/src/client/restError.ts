@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineResponse } from "../interfaces";
-import { RestError } from "../restError";
+import type { PipelineResponse } from "../interfaces.js";
+import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders";
-import { PathUncheckedResponse } from "./common";
+import type { PathUncheckedResponse } from "./common.js";
 
 /**
  * Creates a rest error from a PathUnchecked response
@@ -16,7 +16,7 @@ export function createRestError(response: PathUncheckedResponse): RestError;
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 export function createRestError(
   messageOrResponse: string | PathUncheckedResponse,
-  response?: PathUncheckedResponse,
+  response?: PathUncheckedResponse
 ): RestError {
   const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
   const internalError = resp.body.error || resp.body;

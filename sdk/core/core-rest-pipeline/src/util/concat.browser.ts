@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getRawContent } from "./file";
-import { isNodeReadableStream, isWebReadableStream } from "./typeGuards";
+import { getRawContent } from "./file.js";
+import { isNodeReadableStream, isWebReadableStream } from "./typeGuards.js";
 
 /**
  * Drain the content of the given ReadableStream into a Blob.
@@ -13,7 +13,7 @@ function drain(stream: ReadableStream<Uint8Array>): Promise<Blob> {
 }
 
 async function toBlobPart(
-  source: ReadableStream<Uint8Array> | Blob | Uint8Array,
+  source: ReadableStream<Uint8Array> | Blob | Uint8Array
 ): Promise<BlobPart> {
   if (source instanceof Blob || source instanceof Uint8Array) {
     return source;
@@ -31,7 +31,7 @@ async function toBlobPart(
   // Shouldn't happen but guard for it anyway
   if (isNodeReadableStream(rawContent)) {
     throw new Error(
-      "Encountered unexpected type. In the browser, `concat` supports Web ReadableStream, Blob, Uint8Array, and files created using `createFile` only.",
+      "Encountered unexpected type. In the browser, `concat` supports Web ReadableStream, Blob, Uint8Array, and files created using `createFile` only."
     );
   }
 
@@ -55,7 +55,7 @@ type ConcatSource = ReadableStream<Uint8Array> | Blob | Uint8Array;
  * @internal
  */
 export async function concat(
-  sources: (ConcatSource | (() => ConcatSource))[],
+  sources: (ConcatSource | (() => ConcatSource))[]
 ): Promise<(() => NodeJS.ReadableStream) | Blob> {
   const parts = [];
   for (const source of sources) {

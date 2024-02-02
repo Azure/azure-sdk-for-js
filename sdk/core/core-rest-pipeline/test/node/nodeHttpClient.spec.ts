@@ -3,9 +3,9 @@
 
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
 
-import { PassThrough, Writable } from "stream";
-import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { PassThrough, Writable } from "node:stream";
+import { ClientRequest, type IncomingHttpHeaders, IncomingMessage } from "node:http";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {
   const actual = await vi.importActual("https");
@@ -71,7 +71,7 @@ function yieldHttpsResponse(response: IncomingMessage): void {
   const lastCall = vi.mocked<{
     (
       options: string | https.RequestOptions | URL,
-      callback?: ((res: IncomingMessage) => void) | undefined,
+      callback?: ((res: IncomingMessage) => void) | undefined
     ): ClientRequest;
   }>(https.request).mock.lastCall;
   if (!lastCall) {
@@ -88,7 +88,7 @@ function yieldHttpResponse(response: IncomingMessage): void {
   const lastCall = vi.mocked<{
     (
       options: string | http.RequestOptions | URL,
-      callback?: ((res: IncomingMessage) => void) | undefined,
+      callback?: ((res: IncomingMessage) => void) | undefined
     ): ClientRequest;
   }>(http.request).mock.lastCall;
   if (!lastCall) {

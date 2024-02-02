@@ -7,8 +7,8 @@ import {
   RestError,
   createHttpHeaders,
   createPipelineRequest,
-} from "../../src";
-import { inspect } from "util";
+} from "../../src/index.js";
+import { inspect } from "node:util";
 
 describe("RestError", function () {
   it("serializes properly in node", function () {

@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { createFetchHttpClient } from "../../src/fetchHttpClient";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { png } from "./mocks/encodedPng";
+import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { png } from "./mocks/encodedPng.js";
 import sinon from "sinon";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import { AbortError } from "../../src/abort-controller/AbortError";
-import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike";
-import { delay } from "../../src/util/helpers";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { AbortError } from "../../src/abort-controller/AbortError.js";
+import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
+import { delay } from "../../src/util/helpers.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -23,7 +23,7 @@ function createResponse(
   body = "",
   chunkDelay = 0,
   chunkNumber?: number,
-  abortSignal?: AbortSignalLike,
+  abortSignal?: AbortSignalLike
 ): Response {
   const stream = new ReadableStream({
     async start(controller) {
@@ -394,7 +394,7 @@ describe("FetchHttpClient", function () {
         body &&
           typeof (body as ReadableStream).getReader === "function" &&
           typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
+        "expecting ReadableStream request body"
       );
       assert.strictEqual(options.duplex, "half");
       const reader = (body as ReadableStream).getReader();
@@ -435,7 +435,7 @@ describe("FetchHttpClient", function () {
         body &&
           typeof (body as ReadableStream).getReader === "function" &&
           typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
+        "expecting ReadableStream request body"
       );
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();

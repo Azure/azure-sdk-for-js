@@ -8,7 +8,7 @@ import {
   createHttpHeaders,
   isRestError,
 } from "@azure/core-rest-pipeline";
-import { ResponseBody } from "../../src/http/models";
+import { ResponseBody } from "../../src/http/models.js";
 import { assert } from "@azure/test-utils";
 
 export interface RouteProcessor {
@@ -68,7 +68,7 @@ export async function assertError(
     statusCode?: number;
     messagePattern?: RegExp;
     name?: string;
-  } = {},
+  } = {}
 ): Promise<void> {
   const { statusCode, messagePattern, name } = options;
   try {

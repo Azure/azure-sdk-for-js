@@ -10,9 +10,9 @@ import {
 } from "@azure/core-rest-pipeline";
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 
-import { ClientOptions } from "./common";
-import { apiVersionPolicy } from "./apiVersionPolicy";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
+import { ClientOptions } from "./common.js";
+import { apiVersionPolicy } from "./apiVersionPolicy.js";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -36,7 +36,7 @@ export interface AddCredentialPipelinePolicyOptions {
 export function addCredentialPipelinePolicy(
   pipeline: Pipeline,
   endpoint: string,
-  options: AddCredentialPipelinePolicyOptions = {},
+  options: AddCredentialPipelinePolicyOptions = {}
 ): void {
   const { credential, clientOptions } = options;
   if (!credential) {
@@ -55,7 +55,7 @@ export function addCredentialPipelinePolicy(
     }
     const keyPolicy = keyCredentialAuthenticationPolicy(
       credential,
-      clientOptions?.credentials?.apiKeyHeaderName,
+      clientOptions?.credentials?.apiKeyHeaderName
     );
     pipeline.addPolicy(keyPolicy);
   }
@@ -67,7 +67,7 @@ export function addCredentialPipelinePolicy(
 export function createDefaultPipeline(
   endpoint: string,
   credential?: TokenCredential | KeyCredential,
-  options: ClientOptions = {},
+  options: ClientOptions = {}
 ): Pipeline {
   const pipeline = createPipelineFromOptions(options);
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { stringToUint8Array } from "../util/bytesEncoding";
-import { createHttpHeaders } from "../httpHeaders";
-import {
+import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { createHttpHeaders } from "../httpHeaders.js";
+import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -81,7 +81,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
         const headers = createHttpHeaders();
         headers.set(
           "Content-Disposition",
-          `form-data; name="${fieldName}"; filename="${fileName}"`,
+          `form-data; name="${fieldName}"; filename="${fileName}"`
         );
         if (value.type) {
           headers.set("Content-Type", value.type);

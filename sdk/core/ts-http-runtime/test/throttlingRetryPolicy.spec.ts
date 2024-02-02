@@ -6,8 +6,13 @@ import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 import { Context } from "mocha";
 import * as sinon from "sinon";
-import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
-import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy";
+import {
+  type PipelineResponse,
+  type SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../src/index.js";
+import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
@@ -102,7 +107,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
     assert.isTrue(next.calledTwice);
 
@@ -182,7 +187,7 @@ describe("throttlingRetryPolicy", function () {
     assert.strictEqual(
       time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
     assert.isTrue(next.calledTwice);
 
@@ -292,7 +297,7 @@ describe("throttlingRetryPolicy", function () {
     await assert.isRejected(
       policy.sendRequest(request, next),
       "The operation was aborted.",
-      "Unexpected error thrown",
+      "Unexpected error thrown"
     );
 
     assert.isTrue(next.calledOnce);

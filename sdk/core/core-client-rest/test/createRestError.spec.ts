@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createRestError } from "../src/restError";
+import { createRestError } from "../src/restError.js";
 import { PipelineRequest } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { binaryArrayToString } from "../../src/client/helpers/getBinaryBody";
+import { binaryArrayToString } from "../../src/client/helpers/getBinaryBody.js";
 
 describe("getBinaryBody", () => {
   describe("decodeBinaryContent", () => {

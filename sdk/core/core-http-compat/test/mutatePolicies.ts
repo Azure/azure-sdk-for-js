@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike,
   WebResourceLike,
-} from "../src/index";
+} from "../src/index.js";
 
 export interface MutateOptions {
   headersToSet?: { [name: string]: string };
@@ -30,7 +30,7 @@ export class MutateRequestPolicy {
   constructor(
     private _nextPolicy: RequestPolicy,
     _options: RequestPolicyOptionsLike,
-    private readonly _mutateOptions: RequestMutateOptions,
+    private readonly _mutateOptions: RequestMutateOptions
   ) {
     /** Nothing much to do here */
   }
@@ -62,7 +62,7 @@ export class MutateResponsePolicy {
   constructor(
     private _nextPolicy: RequestPolicy,
     _options: RequestPolicyOptionsLike,
-    private readonly _mutateOptions: MutateOptions,
+    private readonly _mutateOptions: MutateOptions
   ) {
     /** Nothing much to do here */
   }

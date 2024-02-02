@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src";
+import { getPagedAsyncIterator, PagedResult, PageSettings } from "../src/index.js";
 
 function buildIterator<T>(input: T) {
   return getPagedAsyncIterator({

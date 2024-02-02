@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import type { AzureLogger } from "@azure/logger";
-import type { RequestBodyType } from "../src/interfaces";
-import { isNodeReadableStream } from "../src/util/typeGuards";
+import type { RequestBodyType } from "../src/interfaces.js";
+import { isNodeReadableStream } from "../src/util/typeGuards.js";
 import { assert } from "vitest";
 
 export function makeTestLogger(): {
@@ -36,14 +36,14 @@ export function makeTestLogger(): {
 export function assertUint8ArraySame(
   actual: Uint8Array,
   expected: Uint8Array,
-  message?: string,
+  message?: string
 ): void {
   assert.sameOrderedMembers([...actual], [...expected], message);
 }
 
 export async function assertBodyMatches(
   resettableActual: RequestBodyType | undefined,
-  expected: Uint8Array,
+  expected: Uint8Array
 ): Promise<void> {
   if (!resettableActual) {
     assert.fail("Expected a request body");

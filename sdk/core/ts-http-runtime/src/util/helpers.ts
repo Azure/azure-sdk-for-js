@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "../abort-controller/AbortError";
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike";
-import { PipelineResponse } from "../interfaces";
+import { AbortError } from "../abort-controller/AbortError.js";
+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import type { PipelineResponse } from "../interfaces.js";
 
 const StandardAbortMessage = "The operation was aborted.";
 
@@ -22,7 +22,7 @@ export function delay<T>(
   options?: {
     abortSignal?: AbortSignalLike;
     abortErrorMsg?: string;
-  },
+  }
 ): Promise<T | void> {
   return new Promise((resolve, reject) => {
     let timer: ReturnType<typeof setTimeout> | undefined = undefined;
@@ -30,7 +30,7 @@ export function delay<T>(
 
     const rejectOnAbort = (): void => {
       return reject(
-        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage),
+        new AbortError(options?.abortErrorMsg ? options?.abortErrorMsg : StandardAbortMessage)
       );
     };
 
@@ -69,7 +69,7 @@ export function delay<T>(
  */
 export function parseHeaderValueAsNumber(
   response: PipelineResponse,
-  headerName: string,
+  headerName: string
 ): number | undefined {
   const value = response.headers.get(headerName);
   if (!value) return;

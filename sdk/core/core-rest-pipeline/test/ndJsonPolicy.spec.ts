@@ -9,7 +9,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   ndJsonPolicy,
-} from "../src";
+} from "../src/index.js";
 
 describe("NdJsonPolicy", function () {
   it("Formats arrays correctly", async function () {

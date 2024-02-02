@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import debug, { Debugger } from "../../src/logger/debug";
+import debug, { type Debugger } from "../../src/logger/debug.js";
 import { assert } from "chai";
 import { stub } from "sinon";
 
@@ -44,7 +44,7 @@ describe("debug", function () {
     assert.strictEqual(
       debug.disable(),
       "test",
-      "disable should return the list of what was enabled",
+      "disable should return the list of what was enabled"
     );
     assert.isFalse(logger.enabled);
     logger(testMessage);

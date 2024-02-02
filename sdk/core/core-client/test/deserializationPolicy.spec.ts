@@ -3,23 +3,23 @@
 
 import * as sinon from "sinon";
 import {
-  CompositeMapper,
-  FullOperationResponse,
-  OperationRequest,
-  OperationSpec,
-  SerializerOptions,
+  type CompositeMapper,
+  type FullOperationResponse,
+  type OperationRequest,
+  type OperationSpec,
+  type SerializerOptions,
   createSerializer,
   deserializationPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
-  PipelineResponse,
-  RawHttpHeaders,
-  SendRequest,
+  type PipelineResponse,
+  type RawHttpHeaders,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
-import { getOperationRequestInfo } from "../src/operationHelpers";
+import { getOperationRequestInfo } from "../src/operationHelpers.js";
 import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function () {
@@ -684,7 +684,7 @@ describe("deserializationPolicy", function () {
         assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
         assert.strictEqual(
           e.response.parsedBody.message,
-          "The specified container already exists.",
+          "The specified container already exists."
         );
       }
     });
@@ -805,7 +805,7 @@ async function getDeserializedResponse(
     bodyAsText?: string;
     xmlContentTypes?: string[];
     serializerOptions?: SerializerOptions;
-  } = {},
+  } = {}
 ): Promise<FullOperationResponse> {
   const policy = deserializationPolicy({
     expectedContentTypes: { xml: options.xmlContentTypes },

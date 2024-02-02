@@ -4,19 +4,19 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
-import { HttpClient } from '@azure/core-rest-pipeline';
-import { HttpMethods } from '@azure/core-rest-pipeline';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { AuthorizeRequestOnChallengeOptions } from '@azure/core-rest-pipeline';
+import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
 import { InternalPipelineOptions } from '@azure/core-rest-pipeline';
-import { OperationTracingOptions } from '@azure/core-tracing';
+import type { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
-import { PipelineOptions } from '@azure/core-rest-pipeline';
+import type { PipelineOptions } from '@azure/core-rest-pipeline';
 import { PipelinePolicy } from '@azure/core-rest-pipeline';
 import { PipelineRequest } from '@azure/core-rest-pipeline';
 import { PipelineResponse } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
-import { TransferProgressEvent } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
+import type { TransferProgressEvent } from '@azure/core-rest-pipeline';
 
 // @public
 export interface AdditionalPolicyConfig {

@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
 import * as sinon from "sinon";
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { retryPolicy } from "../src/policies/retryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { retryPolicy } from "../src/policies/retryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 import { assert } from "chai";
-import { makeTestLogger } from "./util";
+import { makeTestLogger } from "./util.js";
 
 describe("retryPolicy", function () {
   afterEach(function () {
@@ -119,7 +120,7 @@ describe("retryPolicy", function () {
       ],
       {
         maxRetries: 10,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -240,7 +241,7 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -270,7 +271,7 @@ describe("retryPolicy", function () {
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
         "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
-      ],
+      ]
     );
 
     assert.deepEqual(
@@ -280,7 +281,7 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-      ],
+      ]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -321,7 +322,7 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -346,12 +347,12 @@ describe("retryPolicy", function () {
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
         "None of the retry strategies could work with the received error. Throwing it.",
-      ],
+      ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]"],
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -385,7 +386,7 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -406,12 +407,12 @@ describe("retryPolicy", function () {
 
     assert.deepEqual(
       policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Attempting to send request [Request Id]"],
+      ["Retry 0: Attempting to send request [Request Id]"]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]", "Retry 0: Request aborted."],
+      ["Retry 0: Received an error from request [Request Id]", "Retry 0: Request aborted."]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -446,7 +447,7 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -472,12 +473,12 @@ describe("retryPolicy", function () {
       [
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
-      ],
+      ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]"],
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -513,7 +514,7 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
     const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
@@ -546,7 +547,7 @@ describe("retryPolicy", function () {
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
         "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
-      ],
+      ]
     );
 
     assert.deepEqual(
@@ -556,7 +557,7 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-      ],
+      ]
     );
 
     assert.deepEqual(strategyLogger.params, {

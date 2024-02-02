@@ -2,17 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it } from "vitest";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import type { BodyPart, MultipartRequestBody } from "../../src/interfaces";
-import { isBlob } from "../../src/util/typeGuards";
-import { Readable } from "stream";
-import { performRequest } from "../formDataPolicy.spec";
-import {
-  FileWithRawContent,
-  createFile,
-  createFileFromStream,
-  getRawContent,
-} from "../../src/util/file";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import type { BodyPart, MultipartRequestBody } from "../../src/interfaces.js";
+import { isBlob } from "../../src/util/typeGuards.js";
+import { Readable } from "node:stream";
+import { performRequest } from "../formDataPolicy.spec.js";
+import { createFile, createFileFromStream, getRawContent } from "../../src/util/file.js";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {
@@ -29,7 +24,7 @@ describe("formDataPolicy (node-only)", function () {
       createHttpHeaders({
         "Content-Type": "text/plain",
         "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-      }),
+      })
     );
     assert.ok(isBlob(parts[0].body));
 
@@ -86,7 +81,7 @@ describe("formDataPolicy (node-only)", function () {
         createHttpHeaders({
           "Content-Type": "application/octet-stream",
           "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-        }),
+        })
       );
       const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
       assert.deepEqual([...buf], [1, 2, 3]);
@@ -105,7 +100,7 @@ describe("formDataPolicy (node-only)", function () {
           // Content-Type should default to 'application/octet-stream' for binary content (lack of content type is reserved for text content)
           "Content-Type": "application/octet-stream",
           "Content-Disposition": `form-data; name="file"; filename="blob"`,
-        }),
+        })
       );
       const buf = new Uint8Array(await new Response((parts[0].body as any).stream()).arrayBuffer());
       assert.deepEqual([...buf], [1, 2, 3]);
@@ -125,7 +120,7 @@ describe("formDataPolicy (node-only)", function () {
         createHttpHeaders({
           "Content-Type": "text/plain",
           "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-        }),
+        })
       );
 
       const content = new Uint8Array(await (parts[0].body as Blob).arrayBuffer());

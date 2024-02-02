@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createHttpPoller } from "./http/poller";
+export { createHttpPoller } from "./http/poller.js";
 export {
   CancelOnProgress,
   OperationState,
   OperationStatus,
   SimplePollerLike,
-} from "./poller/models";
-export { CreateHttpPollerOptions } from "./http/models";
+} from "./poller/models.js";
+export { CreateHttpPollerOptions } from "./http/models.js";
 export {
   LroResourceLocationConfig,
   LongRunningOperation,
   LroResponse,
   RawResponse,
-} from "./http/models";
+} from "./http/models.js";
 
 /**
  * This can be uncommented to expose the protocol-agnostic poller

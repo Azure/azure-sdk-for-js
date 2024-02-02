@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, InstrumenterSpanOptions, TracingContext, TracingSpan } from "./interfaces";
-import { createTracingContext } from "./tracingContext";
+import {
+  Instrumenter,
+  InstrumenterSpanOptions,
+  TracingContext,
+  TracingSpan,
+} from "./interfaces.js";
+import { createTracingContext } from "./tracingContext.js";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {
@@ -32,7 +37,7 @@ export function createDefaultInstrumenter(): Instrumenter {
     },
     startSpan: (
       _name: string,
-      spanOptions: InstrumenterSpanOptions,
+      spanOptions: InstrumenterSpanOptions
     ): { span: TracingSpan; tracingContext: TracingContext } => {
       return {
         span: createDefaultTracingSpan(),
@@ -41,7 +46,7 @@ export function createDefaultInstrumenter(): Instrumenter {
     },
     withContext<
       CallbackArgs extends unknown[],
-      Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+      Callback extends (...args: CallbackArgs) => ReturnType<Callback>
     >(
       _context: TracingContext,
       callback: Callback,

@@ -10,8 +10,8 @@ import {
   auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
@@ -44,7 +44,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential],
+      [mockCredential]
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
@@ -59,7 +59,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
           },
         ],
       ],
-      "fakeGetToken called incorrectly.",
+      "fakeGetToken called incorrectly."
     );
     assert.strictEqual(request.headers.get("x-ms-authorization-auxiliary"), `Bearer ${mockToken}`);
   });
@@ -92,7 +92,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential1, mockCredential2],
+      [mockCredential1, mockCredential2]
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
@@ -102,7 +102,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     });
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer ${mockToken1}, Bearer ${mockToken2}`,
+      `Bearer ${mockToken1}, Bearer ${mockToken2}`
     );
   });
 
@@ -133,7 +133,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     assert.strictEqual(longCredential.authCount, 1);
     assert.strictEqual(
       request.headers.get("x-ms-authorization-auxiliary"),
-      `Bearer mock-token, Bearer mock-token`,
+      `Bearer mock-token, Bearer mock-token`
     );
 
     // The token will remain cached until tokenExpiration - testTokenRefreshBufferMs, so in (5000 - 1000) milliseconds.
@@ -186,7 +186,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       1,
-      "The first authentication attempt should have happened",
+      "The first authentication attempt should have happened"
     );
   });
 
@@ -208,7 +208,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
+      "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
     );
   });
 
@@ -222,7 +222,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
       Promise.resolve({
         token: null,
         expiresOnTimestamp: new Date().getTime(),
-      } as unknown as AccessToken),
+      } as unknown as AccessToken)
     );
     const mockCredential1: TokenCredential = {
       getToken: fakeGetToken1,
@@ -242,7 +242,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
     const mockAuxiliaryAuthenticationHeaderPolicy = createAuxiliaryAuthenticationHeaderPolicy(
       tokenScopes,
-      [mockCredential1, mockCredential2],
+      [mockCredential1, mockCredential2]
     );
     await mockAuxiliaryAuthenticationHeaderPolicy.sendRequest(request, next);
 
@@ -255,7 +255,7 @@ describe("AuxiliaryAuthenticationHeaderPolicy", function () {
 
   function createAuxiliaryAuthenticationHeaderPolicy(
     scopes: string | string[],
-    credentials: TokenCredential[],
+    credentials: TokenCredential[]
   ): PipelinePolicy {
     return auxiliaryAuthenticationHeaderPolicy({
       scopes,
@@ -268,10 +268,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   public authCount = 0;
   public shouldThrow: boolean = false;
 
-  constructor(
-    public expiresOnTimestamp: number,
-    public getTokenDelay?: number,
-  ) {}
+  constructor(public expiresOnTimestamp: number, public getTokenDelay?: number) {}
 
   public async getToken(): Promise<AccessToken> {
     this.authCount++;

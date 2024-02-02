@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders } from "../src/httpHeaders";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
-import { createPipelineRequest } from "../src/pipelineRequest";
-import { multipartPolicy } from "../src/policies/multipartPolicy";
+import { createHttpHeaders } from "../src/httpHeaders.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
+import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { multipartPolicy } from "../src/policies/multipartPolicy.js";
 import { assert, describe, it, vi, expect } from "vitest";
-import type { PipelineRequestOptions } from "../src/pipelineRequest";
+import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
-import { assertBodyMatches } from "./util";
+import { assertBodyMatches } from "./util.js";
 
 export async function performRequest(
-  requestOptions: Omit<PipelineRequestOptions, "url" | "method">,
+  requestOptions: Omit<PipelineRequestOptions, "url" | "method">
 ): Promise<PipelineRequest> {
   const request = createPipelineRequest({
     url: "https://example.com",
@@ -63,7 +63,7 @@ describe("multipartPolicy", function () {
     assert.deepStrictEqual(
       request,
       originalRequest,
-      "multipartPolicy touched a request that is not multipart",
+      "multipartPolicy touched a request that is not multipart"
     );
   });
 
@@ -87,7 +87,7 @@ describe("multipartPolicy", function () {
     const policy = multipartPolicy();
 
     await expect(policy.sendRequest(request, next)).rejects.toThrow(
-      /multipartBody and regular body cannot be set at the same time/,
+      /multipartBody and regular body cannot be set at the same time/
     );
   });
 
@@ -104,7 +104,7 @@ describe("multipartPolicy", function () {
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/mixed; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
-        "content-type must be multipart/mixed with a valid boundary",
+        "content-type must be multipart/mixed with a valid boundary"
       );
     });
 
@@ -117,9 +117,9 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
+        })
       ).rejects.toThrow(
-        /Got multipart request body, but content-type header was not multipart: application\/json/,
+        /Got multipart request body, but content-type header was not multipart: application\/json/
       );
     });
 
@@ -132,7 +132,7 @@ describe("multipartPolicy", function () {
           multipartBody: {
             parts: [],
           },
-        }),
+        })
       ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
@@ -143,7 +143,7 @@ describe("multipartPolicy", function () {
             boundary: "%%%%%%%",
             parts: [],
           },
-        }),
+        })
       ).rejects.toThrow(/Multipart boundary "%%%%%%%" contains invalid characters/);
     });
 
@@ -161,7 +161,7 @@ describe("multipartPolicy", function () {
       assert.match(
         request.headers.get("content-type")!,
         /multipart\/alternative; boundary=[0-9a-zA-Z'()+,-./:=?]+/,
-        "content-type must be multipart/alternative with a valid boundary",
+        "content-type must be multipart/alternative with a valid boundary"
       );
     });
 
@@ -178,7 +178,7 @@ describe("multipartPolicy", function () {
       assert.equal(
         request.headers.get("content-type"),
         "multipart/form-data; boundary=blah",
-        "fully specified content-type header should be preserved",
+        "fully specified content-type header should be preserved"
       );
     });
 
@@ -196,7 +196,7 @@ describe("multipartPolicy", function () {
       assert.equal(
         request.headers.get("content-type"),
         "multipart/alternative; boundary=blah",
-        "boundary was not added",
+        "boundary was not added"
       );
     });
   });
@@ -233,13 +233,13 @@ describe("multipartPolicy", function () {
 
       const expectedBody = stringToUint8Array(
         "--blah\r\n\r\npart1\r\n--blah\r\n\r\npart2\r\n--blah--\r\n\r\n",
-        "utf-8",
+        "utf-8"
       );
       await assertBodyMatches(request.body, expectedBody);
       assert.equal(
         request.headers.get("Content-Length"),
         expectedBody.byteLength.toString(),
-        "Expected Content-Length header to equal length of body",
+        "Expected Content-Length header to equal length of body"
       );
     });
 
@@ -261,7 +261,7 @@ describe("multipartPolicy", function () {
       assert.equal(
         request.headers.get("Content-Length"),
         expectedBody.byteLength.toString(),
-        "Expected Content-Length header to equal length of body",
+        "Expected Content-Length header to equal length of body"
       );
     });
 
@@ -289,7 +289,7 @@ describe("multipartPolicy", function () {
       await assertBodyMatches(request.body, expectedBody);
       assert.isUndefined(
         request.headers.get("Content-Length"),
-        "Content-Length value should not be inferred from a stream",
+        "Content-Length value should not be inferred from a stream"
       );
     });
   });
@@ -313,13 +313,13 @@ describe("multipartPolicy", function () {
 
       const expectedBody = stringToUint8Array(
         "--blah\r\nContent-Type: text/plain\r\nContent-Disposition: form-data; name=aaa; filename=test.txt\r\n\r\npart1\r\n--blah--\r\n\r\n",
-        "utf-8",
+        "utf-8"
       );
       await assertBodyMatches(request.body, expectedBody);
       assert.equal(
         request.headers.get("Content-Length"),
         expectedBody.byteLength.toString(),
-        "Expected Content-Length header to equal length of body",
+        "Expected Content-Length header to equal length of body"
       );
     });
   });

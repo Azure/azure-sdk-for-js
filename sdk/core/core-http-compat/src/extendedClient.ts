@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeepAliveOptions } from "./policies/keepAliveOptions";
+import { KeepAliveOptions } from "./policies/keepAliveOptions.js";
 import {
   createDisableKeepAlivePolicy,
   pipelineContainsDisableKeepAlivePolicy,
-} from "./policies/disableKeepAlivePolicy";
-import { RedirectOptions } from "./policies/redirectOptions";
+} from "./policies/disableKeepAlivePolicy.js";
+import { RedirectOptions } from "./policies/redirectOptions.js";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
 import {
   CommonClientOptions,
@@ -17,7 +17,7 @@ import {
   ServiceClient,
   ServiceClientOptions,
 } from "@azure/core-client";
-import { toCompatResponse } from "./response";
+import { toCompatResponse } from "./response.js";
 
 /**
  * Options specific to Shim Clients.
@@ -73,7 +73,7 @@ export class ExtendedServiceClient extends ServiceClient {
    */
   async sendOperationRequest<T>(
     operationArguments: OperationArguments,
-    operationSpec: OperationSpec,
+    operationSpec: OperationSpec
   ): Promise<T> {
     const userProvidedCallBack: RawResponseCallback | undefined =
       operationArguments?.options?.onResponse;
@@ -83,7 +83,7 @@ export class ExtendedServiceClient extends ServiceClient {
     function onResponse(
       rawResponse: FullOperationResponse,
       flatResponse: unknown,
-      error?: unknown,
+      error?: unknown
     ): void {
       lastResponse = rawResponse;
       if (userProvidedCallBack) {

@@ -2,12 +2,17 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers";
-import { getClient } from "../../src/client/getClient";
+import { getCachedDefaultHttpsClient } from "../../src/client/clientHelpers.js";
+import { getClient } from "../../src/client/getClient.js";
 import sinon from "sinon";
-import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "../../src/interfaces";
-import { PipelinePolicy } from "../../src/pipeline";
-import { createHttpHeaders } from "../../src/httpHeaders";
+import type {
+  HttpClient,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "../../src/interfaces.js";
+import type { PipelinePolicy } from "../../src/pipeline.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
 
 describe("getClient", () => {
   afterEach(() => {

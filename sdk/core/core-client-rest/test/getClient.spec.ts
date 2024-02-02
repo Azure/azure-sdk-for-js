@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { getCachedDefaultHttpsClient } from "../src/clientHelpers";
-import { getClient } from "../src/getClient";
+import { getCachedDefaultHttpsClient } from "../src/clientHelpers.js";
+import { getClient } from "../src/getClient.js";
 import sinon from "sinon";
 import {
   HttpClient,
