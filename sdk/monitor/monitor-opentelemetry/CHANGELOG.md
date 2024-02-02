@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions.
+- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
 
 ### Other Changes
 
