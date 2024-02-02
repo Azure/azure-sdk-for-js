@@ -944,6 +944,9 @@ dependencies:
   '@rush-temp/openai':
     specifier: file:./projects/openai.tgz
     version: file:projects/openai.tgz
+  '@rush-temp/openai-assistants':
+    specifier: file:./projects/openai-assistants.tgz
+    version: file:projects/openai-assistants.tgz
   '@rush-temp/opentelemetry-instrumentation-azure-sdk':
     specifier: file:./projects/opentelemetry-instrumentation-azure-sdk.tgz
     version: file:projects/opentelemetry-instrumentation-azure-sdk.tgz
@@ -19857,6 +19860,51 @@ packages:
       - bufferutil
       - debug
       - encoding
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/openai-assistants.tgz:
+    resolution: {integrity: sha512-Tx+6NFk/CB2/O7oZs492iF/3t8Bfzu2C5sFNmvrzt8Co7YQt0nD9rupC92TDWgmeIrnRwijPJsKIfOJSehgQyQ==, tarball: file:projects/openai-assistants.tgz}
+    name: '@rush-temp/openai-assistants'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.1
+      '@microsoft/api-extractor': 7.38.5(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.3.1
+      eslint: 8.55.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      mocha-junit-reporter: 1.23.3(mocha@10.2.0)
+      prettier: 2.8.8
+      rimraf: 3.0.2
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
       - supports-color
       - utf-8-validate
     dev: false
