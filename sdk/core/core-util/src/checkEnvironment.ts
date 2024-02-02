@@ -76,8 +76,6 @@ export const isNode =
   !isDeno &&
   !isBun;
 
-
-
 /**
  * A constant that indicates whether the environment the code is running is in React-Native.
  */
