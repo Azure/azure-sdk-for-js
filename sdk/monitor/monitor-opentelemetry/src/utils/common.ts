@@ -68,10 +68,10 @@ export const isAks = (): boolean => {
  * non-Web and non-Function APP: "u" (unknown)
  */
 export const getResourceProvider = (): string => {
-  if (isFunctionApp()) {
+  if (isAppService()) {
     return "a";
   }
-  if (isAppService()) {
+  if (isFunctionApp()) {
     return "f";
   }
   if (isAks()) {
