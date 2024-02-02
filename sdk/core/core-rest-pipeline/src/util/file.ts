@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-util";
-import { isNodeReadableStream } from "./typeGuards";
+import { isNodeReadableStream } from "./typeGuards.js";
 
 /**
  * Options passed into createFile specifying metadata about the file.
@@ -85,7 +85,7 @@ function hasRawContent(x: unknown): x is RawContent {
  * @internal
  */
 export function getRawContent(
-  blob: Blob,
+  blob: Blob
 ): NodeJS.ReadableStream | ReadableStream<Uint8Array> | Uint8Array {
   if (hasRawContent(blob)) {
     return blob[rawContent]();
@@ -114,7 +114,7 @@ export function getRawContent(
 export function createFileFromStream(
   stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
   name: string,
-  options: CreateFileFromStreamOptions = {},
+  options: CreateFileFromStreamOptions = {}
 ): File {
   return {
     ...unimplementedMethods,
@@ -127,7 +127,7 @@ export function createFileFromStream(
       const s = stream();
       if (isNodeReadableStream(s)) {
         throw new Error(
-          "Not supported: a Node stream was provided as input to createFileFromStream.",
+          "Not supported: a Node stream was provided as input to createFileFromStream."
         );
       }
 
@@ -151,7 +151,7 @@ export function createFileFromStream(
 export function createFile(
   content: Uint8Array,
   name: string,
-  options: CreateFileOptions = {},
+  options: CreateFileOptions = {}
 ): File {
   if (isNode) {
     return {

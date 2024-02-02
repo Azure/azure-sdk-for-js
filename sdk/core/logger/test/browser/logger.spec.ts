@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Logger from "../../src";
+import * as Logger from "../../src/index.js";
 import * as sinon from "sinon";
 import { assert } from "chai";
 
@@ -25,7 +25,7 @@ describe("AzureLogger (browser)", function () {
     assert.isTrue(debugStub.calledOnce, "console.debug called");
     assert.strictEqual(
       debugStub.firstCall.args[0],
-      expectedTestMessage("azure:test:verbose", "verbose"),
+      expectedTestMessage("azure:test:verbose", "verbose")
     );
     debugStub.restore();
 

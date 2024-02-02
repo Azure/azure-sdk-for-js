@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { sendRequest } from "../../src/client/sendRequest";
+import { sendRequest } from "../../src/client/sendRequest.js";
 import { assert } from "chai";
-import { RestError } from "../../src/restError";
-import { PipelineResponse } from "../../src/interfaces";
-import { Pipeline, createEmptyPipeline } from "../../src/pipeline";
-import { createHttpHeaders } from "../../src/httpHeaders";
+import { RestError } from "../../src/restError.js";
+import type { PipelineResponse } from "../../src/interfaces.js";
+import { type Pipeline, createEmptyPipeline } from "../../src/pipeline.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);

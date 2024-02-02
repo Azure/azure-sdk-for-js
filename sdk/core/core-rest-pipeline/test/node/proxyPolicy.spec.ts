@@ -9,12 +9,12 @@ import {
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-} from "../../src";
+} from "../../src/index.js";
 import {
   getProxyAgentOptions,
   globalNoProxyList,
   loadNoProxy,
-} from "../../src/policies/proxyPolicy";
+} from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {
@@ -183,7 +183,7 @@ describe("proxyPolicy (node)", function () {
     };
     const options = getProxyAgentOptions(
       proxySettings,
-      createPipelineRequest({ url: "https://example.org" }),
+      createPipelineRequest({ url: "https://example.org" })
     );
     assert.strictEqual(options.auth, "user:pass");
   });
@@ -196,7 +196,7 @@ describe("proxyPolicy (node)", function () {
     };
     const options = getProxyAgentOptions(
       proxySettings,
-      createPipelineRequest({ url: "https://example.org" }),
+      createPipelineRequest({ url: "https://example.org" })
     );
     assert.strictEqual(options.auth, "user");
   });

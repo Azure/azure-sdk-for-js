@@ -3,7 +3,7 @@
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-import { createDefaultPipeline } from "./clientHelpers";
+import { createDefaultPipeline } from "./clientHelpers.js";
 import {
   Client,
   ClientOptions,
@@ -11,9 +11,9 @@ import {
   HttpNodeStreamResponse,
   RequestParameters,
   StreamableMethod,
-} from "./common";
-import { sendRequest } from "./sendRequest";
-import { buildRequestUrl } from "./urlHelpers";
+} from "./common.js";
+import { sendRequest } from "./sendRequest.js";
+import { buildRequestUrl } from "./urlHelpers.js";
 
 /**
  * Creates a client with a default pipeline
@@ -30,12 +30,12 @@ export function getClient(endpoint: string, options?: ClientOptions): Client;
 export function getClient(
   endpoint: string,
   credentials?: TokenCredential | KeyCredential,
-  options?: ClientOptions,
+  options?: ClientOptions
 ): Client;
 export function getClient(
   endpoint: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
-  clientOptions: ClientOptions = {},
+  clientOptions: ClientOptions = {}
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
   if (credentialsOrPipelineOptions) {
@@ -72,7 +72,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -82,7 +82,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -92,7 +92,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -102,7 +102,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -112,7 +112,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -122,7 +122,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -132,7 +132,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -142,7 +142,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
     };
@@ -161,7 +161,7 @@ function buildOperation(
   pipeline: Pipeline,
   options: RequestParameters,
   allowInsecureConnection?: boolean,
-  httpClient?: HttpClient,
+  httpClient?: HttpClient
 ): StreamableMethod {
   allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
   return {
@@ -171,7 +171,7 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection },
-        httpClient,
+        httpClient
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
@@ -180,7 +180,7 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
+        httpClient
       ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
@@ -189,14 +189,14 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
+        httpClient
       ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }
 
 function isCredential(
-  param: (TokenCredential | KeyCredential) | PipelineOptions,
+  param: (TokenCredential | KeyCredential) | PipelineOptions
 ): param is TokenCredential | KeyCredential {
   if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
     return true;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as Logger from "../../src/logger/logger";
+import * as Logger from "../../src/logger/logger.js";
 import { assert } from "chai";
 
 const testLogger = Logger.createClientLogger("test");

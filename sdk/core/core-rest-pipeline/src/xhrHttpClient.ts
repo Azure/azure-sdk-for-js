@@ -8,10 +8,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
-import { isReadableStream } from "./util/typeGuards";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
+import { isReadableStream } from "./util/typeGuards.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.
@@ -85,7 +85,7 @@ class XhrHttpClient implements HttpClient {
             status: xhr.status,
             headers: parseHeaders(xhr),
             bodyAsText: xhr.responseText,
-          }),
+          })
         );
         rejectOnTerminalEvent(request, xhr, reject);
       });
@@ -97,7 +97,7 @@ function handleBlobResponse(
   xhr: XMLHttpRequest,
   request: PipelineRequest,
   res: (value: PipelineResponse | PromiseLike<PipelineResponse>) => void,
-  rej: (reason?: any) => void,
+  rej: (reason?: any) => void
 ): void {
   xhr.addEventListener("readystatechange", () => {
     // Resolve as soon as headers are loaded
@@ -154,13 +154,13 @@ function handleBlobResponse(
 
 function addProgressListener(
   xhr: XMLHttpRequestEventTarget,
-  listener?: (progress: TransferProgressEvent) => void,
+  listener?: (progress: TransferProgressEvent) => void
 ): void {
   if (listener) {
     xhr.addEventListener("progress", (rawEvent) =>
       listener({
         loadedBytes: rawEvent.loaded,
-      }),
+      })
     );
   }
 }
@@ -183,15 +183,15 @@ function parseHeaders(xhr: XMLHttpRequest): HttpHeaders {
 function rejectOnTerminalEvent(
   request: PipelineRequest,
   xhr: XMLHttpRequest,
-  reject: (err: any) => void,
+  reject: (err: any) => void
 ): void {
   xhr.addEventListener("error", () =>
     reject(
       new RestError(`Failed to send request to ${request.url}`, {
         code: RestError.REQUEST_SEND_ERROR,
         request,
-      }),
-    ),
+      })
+    )
   );
   const abortError = new AbortError("The operation was aborted.");
   xhr.addEventListener("abort", () => reject(abortError));

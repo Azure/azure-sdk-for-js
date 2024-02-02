@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Mapper, createSerializer } from "../../src";
+import { type Mapper, createSerializer } from "../../src/index.js";
 import { assert } from "chai";
 
 describe("Serializer (browser specific)", function () {
@@ -10,7 +10,7 @@ describe("Serializer (browser specific)", function () {
       const file = new File(
         ["In ancient times, cats were worshiped as gods. They have never forgotten this."],
         "cats.txt",
-        { type: "text/plain" },
+        { type: "text/plain" }
       );
 
       const serializer = createSerializer();

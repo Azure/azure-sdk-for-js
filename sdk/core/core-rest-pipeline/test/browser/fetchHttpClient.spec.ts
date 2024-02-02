@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it, beforeEach, afterEach, vi } from "vitest";
-import { createFetchHttpClient } from "../../src/fetchHttpClient";
-import { createPipelineRequest } from "../../src/pipelineRequest";
-import { png } from "./mocks/encodedPng";
-import { createHttpHeaders } from "../../src/httpHeaders";
+import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { png } from "./mocks/encodedPng.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "../../src/util/helpers";
+import { delay } from "../../src/util/helpers.js";
 
 const streamBody = new ReadableStream({
   async start(controller) {
@@ -21,7 +21,7 @@ function createResponse(
   body = "",
   chunkDelay = 0,
   chunkNumber?: number,
-  abortSignal?: AbortSignalLike,
+  abortSignal?: AbortSignalLike
 ): Response {
   const stream = new ReadableStream({
     async start(controller) {
@@ -390,7 +390,7 @@ describe("FetchHttpClient", function () {
           body &&
             typeof (body as ReadableStream).getReader === "function" &&
             typeof (body as ReadableStream).tee === "function",
-          "expecting ReadableStream request body",
+          "expecting ReadableStream request body"
         );
         assert.strictEqual(options?.duplex, "half");
         const reader = (body as ReadableStream).getReader();
@@ -398,7 +398,7 @@ describe("FetchHttpClient", function () {
         assert.equal(data.value, requestText, "unexpected request text");
         bodySent = true;
         return new Response(undefined, { status: 200 });
-      },
+      }
     );
     const request = createPipelineRequest({
       url,
@@ -432,7 +432,7 @@ describe("FetchHttpClient", function () {
         body &&
           typeof (body as ReadableStream).getReader === "function" &&
           typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
+        "expecting ReadableStream request body"
       );
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();

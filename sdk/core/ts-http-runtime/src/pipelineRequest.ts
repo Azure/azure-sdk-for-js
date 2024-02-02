@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   FormDataMap,
   HttpHeaders,
   HttpMethods,
@@ -10,11 +10,11 @@ import {
   ProxySettings,
   RequestBodyType,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
-import { randomUUID } from "./util/uuidUtils";
-import { OperationTracingOptions } from "./tracing/interfaces";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import { randomUUID } from "./util/uuidUtils.js";
+import type { OperationTracingOptions } from "./tracing/interfaces.js";
 
 /**
  * Settings to initialize a request.

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createDefaultPipeline } from "../src/clientHelpers";
+import { createDefaultPipeline } from "../src/clientHelpers.js";
 import { assert } from "chai";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
-import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy";
+import { keyCredentialAuthenticationPolicyName } from "../src/keyCredentialAuthenticationPolicy.js";
 import { TokenCredential } from "@azure/core-auth";
 import { fail } from "assert";
-import { apiVersionPolicyName } from "../src/apiVersionPolicy";
+import { apiVersionPolicyName } from "../src/apiVersionPolicy.js";
+
 describe("clientHelpers", () => {
   const mockBaseUrl = "https://example.org";
   it("should create a default pipeline with no credentials", () => {
@@ -18,12 +19,12 @@ describe("clientHelpers", () => {
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
+      "pipeline shouldn't have bearerTokenAuthenticationPolicyName"
     );
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn't have keyCredentialAuthenticationPolicyName",
+      "pipeline shouldn't have keyCredentialAuthenticationPolicyName"
     );
   });
 
@@ -35,7 +36,7 @@ describe("clientHelpers", () => {
 
     assert.isDefined(
       policies.find((p) => p.name === apiVersionPolicyName),
-      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`,
+      `Pipeline policy not found in the default pipeline: ${apiVersionPolicyName}`
     );
   });
 
@@ -52,7 +53,7 @@ describe("clientHelpers", () => {
     const pipeline = createDefaultPipeline(
       mockBaseUrl,
       { key: "mockKey" },
-      { credentials: { apiKeyHeaderName: "apiHeader" } },
+      { credentials: { apiKeyHeaderName: "apiHeader" } }
     );
     const policies = pipeline.getOrderedPolicies();
 
@@ -60,12 +61,12 @@ describe("clientHelpers", () => {
 
     assert.isUndefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline shouldn't have bearerTokenAuthenticationPolicyName",
+      "pipeline shouldn't have bearerTokenAuthenticationPolicyName"
     );
 
     assert.isDefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+      "pipeline shouldn have keyCredentialAuthenticationPolicyName"
     );
   });
 
@@ -80,12 +81,12 @@ describe("clientHelpers", () => {
 
     assert.isDefined(
       policies.find((p) => p.name === bearerTokenAuthenticationPolicyName),
-      "pipeline should have bearerTokenAuthenticationPolicyName",
+      "pipeline should have bearerTokenAuthenticationPolicyName"
     );
 
     assert.isUndefined(
       policies.find((p) => p.name === keyCredentialAuthenticationPolicyName),
-      "pipeline shouldn have keyCredentialAuthenticationPolicyName",
+      "pipeline shouldn have keyCredentialAuthenticationPolicyName"
     );
   });
 });

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { PipelineResponse, RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { PathUncheckedResponse } from "./common";
+import { PathUncheckedResponse } from "./common.js";
 
 /**
  * Creates a rest error from a PathUnchecked response
@@ -14,7 +14,7 @@ export function createRestError(response: PathUncheckedResponse): RestError;
 export function createRestError(message: string, response: PathUncheckedResponse): RestError;
 export function createRestError(
   messageOrResponse: string | PathUncheckedResponse,
-  response?: PathUncheckedResponse,
+  response?: PathUncheckedResponse
 ): RestError {
   const resp = typeof messageOrResponse === "string" ? response! : messageOrResponse;
   const internalError = resp.body.error || resp.body;

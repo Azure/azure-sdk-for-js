@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index";
+import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("Type guards", function () {
@@ -27,14 +27,14 @@ describe("Type guards", function () {
       assert.isTrue(isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["a"]));
       assert.isTrue(
         isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["a", "b"]),
-        "object contains properties `a` and `b`",
+        "object contains properties `a` and `b`"
       );
     });
     it("should return false when the object does not contain at least one listed property", async function () {
       assert.isFalse(isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["d"]));
       assert.isFalse(
         isObjectWithProperties({ a: 1, b: 2, c: 3 }, ["a", "d"]),
-        "object does not contain property `d`",
+        "object does not contain property `d`"
       );
     });
   });

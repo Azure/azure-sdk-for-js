@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, TracingSpan } from "../src/interfaces";
+import { Instrumenter, TracingSpan } from "../src/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   getInstrumenter,
   useInstrumenter,
-} from "../src/instrumenter";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+} from "../src/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
 import { assert } from "chai";
 
 describe("Instrumenter", () => {
@@ -59,8 +59,8 @@ describe("Instrumenter", () => {
         assert.isEmpty(instrumenter.createRequestHeaders(createTracingContext()));
         assert.isEmpty(
           instrumenter.createRequestHeaders(
-            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan()),
-          ),
+            createTracingContext().setValue(knownContextKeys.span, createDefaultTracingSpan())
+          )
         );
       });
     });

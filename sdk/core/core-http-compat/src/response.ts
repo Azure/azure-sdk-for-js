@@ -9,7 +9,7 @@ import {
   toHttpHeadersLike,
   toPipelineRequest,
   toWebResourceLike,
-} from "./util";
+} from "./util.js";
 /**
  * Http Response that is compatible with the core-v1(core-http).
  */
@@ -34,7 +34,7 @@ type ExtendedCompatResponse = CompatResponse & { [originalResponse]?: FullOperat
  */
 export function toCompatResponse(
   response: FullOperationResponse,
-  options?: { createProxy?: boolean },
+  options?: { createProxy?: boolean }
 ): CompatResponse {
   let request = toWebResourceLike(response.request);
   let headers = toHttpHeadersLike(response.headers);

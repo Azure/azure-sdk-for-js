@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces";
+import { Instrumenter, TracingClient, TracingContext, TracingSpan } from "../src/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../src/instrumenter";
-import { createTracingContext, knownContextKeys } from "../src/tracingContext";
+} from "../src/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../src/tracingContext.js";
 import { assert } from "chai";
-import { createTracingClient } from "../src/tracingClient";
+import { createTracingClient } from "../src/tracingClient.js";
 import sinon from "sinon";
 
 describe("TracingClient", () => {
@@ -50,7 +50,7 @@ describe("TracingClient", () => {
       client.startSpan("test", {});
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
       );
     });
 
@@ -69,7 +69,7 @@ describe("TracingClient", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        expectedNamespace,
+        expectedNamespace
       );
     });
 
@@ -80,7 +80,7 @@ describe("TracingClient", () => {
       });
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        "Existing.Namespace",
+        "Existing.Namespace"
       );
     });
 
@@ -118,7 +118,7 @@ describe("TracingClient", () => {
       });
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
       );
     });
 
@@ -158,7 +158,7 @@ describe("TracingClient", () => {
         },
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
-        },
+        }
       );
     });
 

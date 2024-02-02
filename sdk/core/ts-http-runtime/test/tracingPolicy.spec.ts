@@ -4,23 +4,23 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  PipelineRequest,
-  PipelineResponse,
+  type PipelineRequest,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src";
-import {
+} from "../src/index.js";
+import type {
   Instrumenter,
   InstrumenterSpanOptions,
   SpanStatus,
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-} from "../src/tracing/interfaces";
-import { useInstrumenter } from "../src/tracing/instrumenter";
+} from "../src/tracing/interfaces.js";
+import { useInstrumenter } from "../src/tracing/instrumenter.js";
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
@@ -28,10 +28,7 @@ class MockSpan implements TracingSpan {
   status?: SpanStatus;
   exceptions: Array<Error | string> = [];
 
-  constructor(
-    public name: string,
-    spanOptions: TracingSpanOptions = {},
-  ) {
+  constructor(public name: string, spanOptions: TracingSpanOptions = {}) {
     this.spanAttributes = spanOptions.spanAttributes ?? {};
   }
 
@@ -81,7 +78,7 @@ class MockInstrumenter implements Instrumenter {
   }
   startSpan(
     name: string,
-    spanOptions: InstrumenterSpanOptions,
+    spanOptions: InstrumenterSpanOptions
   ): {
     span: TracingSpan;
     tracingContext: TracingContext;
@@ -99,7 +96,7 @@ class MockInstrumenter implements Instrumenter {
   }
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
   >(
     _context: TracingContext,
     callback: Callback,

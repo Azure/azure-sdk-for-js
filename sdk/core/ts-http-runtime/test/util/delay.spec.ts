@@ -3,7 +3,7 @@
 
 import * as sinon from "sinon";
 import { assert } from "chai";
-import { delay } from "../../src";
+import { delay } from "../../src/index.js";
 
 describe("delay", function () {
   afterEach(function () {

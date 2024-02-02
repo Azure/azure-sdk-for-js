@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TracingContext, TracingSpan } from "./interfaces";
+import { TracingContext, TracingSpan } from "./interfaces.js";
 
 /** @internal */
 export const knownContextKeys = {

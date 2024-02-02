@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   Instrumenter,
   TracingClient,
   TracingContext,
   TracingSpan,
-} from "../../src/tracing/interfaces";
+} from "../../src/tracing/interfaces.js";
 import {
   createDefaultInstrumenter,
   createDefaultTracingSpan,
   useInstrumenter,
-} from "../../src/tracing/instrumenter";
-import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext";
+} from "../../src/tracing/instrumenter.js";
+import { createTracingContext, knownContextKeys } from "../../src/tracing/tracingContext.js";
 import { assert } from "chai";
-import { createTracingClient } from "../../src/tracing/tracingClient";
+import { createTracingClient } from "../../src/tracing/tracingClient.js";
 import sinon from "sinon";
 
 describe("TracingClient", () => {
@@ -55,7 +55,7 @@ describe("TracingClient", () => {
       client.startSpan("test", {});
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
       );
     });
 
@@ -74,7 +74,7 @@ describe("TracingClient", () => {
       const { updatedOptions } = client.startSpan("test");
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        expectedNamespace,
+        expectedNamespace
       );
     });
 
@@ -85,7 +85,7 @@ describe("TracingClient", () => {
       });
       assert.equal(
         updatedOptions.tracingOptions?.tracingContext?.getValue(knownContextKeys.namespace),
-        "Existing.Namespace",
+        "Existing.Namespace"
       );
     });
 
@@ -123,7 +123,7 @@ describe("TracingClient", () => {
       });
       assert.isTrue(
         setAttributeSpy.calledWith("az.namespace", expectedNamespace),
-        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`,
+        `expected span.setAttribute("az.namespace", "${expectedNamespace}") to have been called`
       );
     });
 
@@ -163,7 +163,7 @@ describe("TracingClient", () => {
         },
         (updatedOptions) => {
           assert.strictEqual(updatedOptions.tracingOptions.tracingContext.getValue(key), value);
-        },
+        }
       );
     });
 

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { inspect } from "util";
+import { inspect } from "node:util";
 
 export const custom = inspect.custom;

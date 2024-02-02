@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it } from "vitest";
-import { proxyPolicy } from "../../src/policies/proxyPolicy.browser";
+import { proxyPolicy } from "../../src/policies/proxyPolicy.browser.js";
 
 describe("proxyPolicy (browser)", function () {
   it("Throws on creation", function () {

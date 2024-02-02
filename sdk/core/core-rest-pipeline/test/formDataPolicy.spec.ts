@@ -11,8 +11,8 @@ import {
   createPipelineRequest,
   formDataPolicy,
   multipartPolicy,
-} from "../src";
-import type { FormDataMap } from "../src/interfaces";
+} from "../src/index.js";
+import type { FormDataMap } from "../src/interfaces.js";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
   const request = createPipelineRequest({
@@ -62,7 +62,7 @@ describe("formDataPolicy", function () {
     assert.isUndefined(result.request.formData);
     assert.strictEqual(
       result.request.body,
-      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`,
+      `service=registry.azurecr.io&scope=repository%3Alibrary%2Fhello-world%3Ametadata_read`
     );
   });
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { sendRequest } from "../src/sendRequest";
+import { sendRequest } from "../src/sendRequest.js";
 import { assert } from "chai";
 import {
   FormDataValue,
@@ -75,7 +75,7 @@ describe("sendRequest", () => {
         assert.equal(request.formData?.fileName, "foo.txt");
         assert.sameOrderedMembers(
           [...new Uint8Array(await (request.formData?.file as Blob).arrayBuffer())],
-          [...foo],
+          [...foo]
         );
         return { headers: createHttpHeaders() } as PipelineResponse;
       };

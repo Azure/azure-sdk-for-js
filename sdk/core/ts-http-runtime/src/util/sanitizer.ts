@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UnknownObject, isObject } from "./object";
+import { UnknownObject, isObject } from "./object.js";
 
 /**
  * @internal
@@ -128,7 +128,7 @@ export class Sanitizer {
 
         return value;
       },
-      2,
+      2
     );
   }
 

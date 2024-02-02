@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress } from "../poller/models";
-import { PollOperationState } from "./pollOperation";
+import { CancelOnProgress } from "../poller/models.js";
+import { PollOperationState } from "./pollOperation.js";
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.

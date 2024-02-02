@@ -8,6 +8,8 @@
     },
     "lib": ["dom", "dom.iterable"],
     "verbatimModuleSyntax": true,
+    "module": "Node16",
+    "moduleResolution": "Node16"
   },
   "include": ["src/**/*.ts", "samples-dev/**/*.ts"],
 }

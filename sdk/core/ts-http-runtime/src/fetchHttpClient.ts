@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "./abort-controller/AbortError";
-import {
+import { AbortError } from "./abort-controller/AbortError.js";
+import type {
   HttpClient,
   HttpHeaders as PipelineHeaders,
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces";
-import { RestError } from "./restError";
-import { createHttpHeaders } from "./httpHeaders";
-import { isNodeReadableStream, isReadableStream } from "./util/typeGuards";
+} from "./interfaces.js";
+import { RestError } from "./restError.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { isNodeReadableStream, isReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like
@@ -102,7 +102,7 @@ async function makeRequest(request: PipelineRequest): Promise<PipelineResponse> 
 async function buildPipelineResponse(
   httpResponse: Response,
   request: PipelineRequest,
-  abortControllerCleanup?: () => void,
+  abortControllerCleanup?: () => void
 ) {
   const headers = buildPipelineHeaders(httpResponse);
   const response: PipelineResponse = {
@@ -235,7 +235,7 @@ function buildRequestBody(request: PipelineRequest) {
  */
 function buildBodyStream(
   readableStream: ReadableStream<Uint8Array>,
-  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {},
+  options: { onProgress?: (progress: TransferProgressEvent) => void; onEnd?: () => void } = {}
 ): ReadableStream<Uint8Array> {
   let loadedBytes = 0;
   const { onProgress, onEnd } = options;
@@ -260,7 +260,7 @@ function buildBodyStream(
         flush() {
           onEnd?.();
         },
-      }),
+      })
     );
   } else {
     // If we can't use transform streams, wrap the original stream in a new readable stream

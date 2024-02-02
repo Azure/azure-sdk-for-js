@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { concat } from "../util/concat";
-import { isBlob } from "../util/typeGuards";
+import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { concat } from "../util/concat.js";
+import { isBlob } from "../util/typeGuards.js";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -26,7 +26,7 @@ function getLength(
     | Uint8Array
     | Blob
     | ReadableStream
-    | NodeJS.ReadableStream,
+    | NodeJS.ReadableStream
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -46,7 +46,7 @@ function getTotalLength(
     | Blob
     | ReadableStream
     | NodeJS.ReadableStream
-  )[],
+  )[]
 ): number | undefined {
   let total = 0;
   for (const source of sources) {
@@ -63,7 +63,7 @@ function getTotalLength(
 async function buildRequestBody(
   request: PipelineRequest,
   parts: BodyPart[],
-  boundary: string,
+  boundary: string
 ): Promise<void> {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
@@ -92,7 +92,7 @@ export const multipartPolicyName = "multipartPolicy";
 
 const maxBoundaryLength = 70;
 const validBoundaryCharacters = new Set(
-  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`,
+  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`
 );
 
 function assertValidBoundary(boundary: string): void {
@@ -126,14 +126,14 @@ export function multipartPolicy(): PipelinePolicy {
       const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
       if (!parsedHeader) {
         throw new Error(
-          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`,
+          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`
         );
       }
 
       const [, contentType, parsedBoundary] = parsedHeader;
       if (parsedBoundary && boundary && parsedBoundary !== boundary) {
         throw new Error(
-          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`,
+          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`
         );
       }
 

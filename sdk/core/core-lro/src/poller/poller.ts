@@ -10,9 +10,9 @@ import {
   RestorableOperationState,
   SimplePollerLike,
   StateProxy,
-} from "./models";
-import { deserializeState, initOperation, pollOperation } from "./operation";
-import { POLL_INTERVAL_IN_MS } from "./constants";
+} from "./models.js";
+import { deserializeState, initOperation, pollOperation } from "./operation.js";
+import { POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
@@ -24,7 +24,7 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
    * It will be updated later to be of type TState when the
    * customer-provided callback, `updateState`, is called during polling.
    */
-  initState: (config) => ({ status: "running", config }) as any,
+  initState: (config) => ({ status: "running", config } as any),
   setCanceled: (state) => (state.status = "canceled"),
   setError: (state, error) => (state.error = error),
   setResult: (state, result) => (state.result = result),
@@ -44,10 +44,10 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
-  inputs: BuildCreatePollerOptions<TResponse, TState>,
+  inputs: BuildCreatePollerOptions<TResponse, TState>
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-  options?: CreatePollerOptions<TResponse, TResult, TState>,
+  options?: CreatePollerOptions<TResponse, TResult, TState>
 ) => Promise<SimplePollerLike<TState, TResult>> {
   const {
     getOperationLocation,
@@ -61,7 +61,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
   } = inputs;
   return async (
     { init, poll }: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
-    options?: CreatePollerOptions<TResponse, TResult, TState>,
+    options?: CreatePollerOptions<TResponse, TResult, TState>
   ) => {
     const {
       processResult,

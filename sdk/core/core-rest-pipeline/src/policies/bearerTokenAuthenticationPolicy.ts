@@ -3,10 +3,10 @@
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { AzureLogger } from "@azure/logger";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { createTokenCycler } from "../util/tokenCycler";
-import { logger as coreLogger } from "../log";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { createTokenCycler } from "../util/tokenCycler.js";
+import { logger as coreLogger } from "../log.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -135,7 +135,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
  * then apply it to the Authorization header of a request as a Bearer token.
  */
 export function bearerTokenAuthenticationPolicy(
-  options: BearerTokenAuthenticationPolicyOptions,
+  options: BearerTokenAuthenticationPolicyOptions
 ): PipelinePolicy {
   const { credential, scopes, challengeCallbacks } = options;
   const logger = options.logger || coreLogger;
@@ -172,7 +172,7 @@ export function bearerTokenAuthenticationPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
+          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
         );
       }
 

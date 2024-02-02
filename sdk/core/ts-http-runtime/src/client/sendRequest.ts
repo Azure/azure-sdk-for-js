@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   FormDataMap,
   HttpClient,
   HttpMethods,
@@ -9,14 +9,14 @@ import {
   PipelineResponse,
   RawHttpHeaders,
   RequestBodyType,
-} from "../interfaces";
+} from "../interfaces.js";
 import { RestError } from "../restError";
-import { Pipeline } from "../pipeline";
+import type { Pipeline } from "../pipeline";
 import { createHttpHeaders } from "../httpHeaders";
 import { createPipelineRequest } from "../pipelineRequest";
 import { getCachedDefaultHttpsClient } from "./clientHelpers";
 import { isReadableStream } from "../util/typeGuards";
-import { HttpResponse, RequestParameters } from "./common";
+import type { HttpResponse, RequestParameters } from "./common";
 import { binaryArrayToString } from "./helpers/getBinaryBody";
 
 /**
@@ -33,7 +33,7 @@ export async function sendRequest(
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient,
+  customHttpClient?: HttpClient
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
@@ -68,13 +68,13 @@ export async function sendRequest(
 export async function sendRequestAsStream<
   TResponse extends HttpResponse & {
     body: NodeJS.ReadableStream | ReadableStream<Uint8Array> | undefined;
-  },
+  }
 >(
   method: HttpMethods,
   url: string,
   pipeline: Pipeline,
   options: RequestParameters = {},
-  customHttpClient?: HttpClient,
+  customHttpClient?: HttpClient
 ): Promise<TResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, { ...options, responseAsStream: true });
@@ -113,7 +113,7 @@ export interface InternalRequestParameters extends RequestParameters {
 function buildPipelineRequest(
   method: HttpMethods,
   url: string,
-  options: InternalRequestParameters = {},
+  options: InternalRequestParameters = {}
 ): PipelineRequest {
   const { body, formData } = getRequestBody(options.body, options.contentType);
   const hasContent = body !== undefined || formData !== undefined;

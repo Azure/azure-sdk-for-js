@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export {
+export type {
   Agent,
   BodyPart,
   FormDataMap,
@@ -22,58 +22,65 @@ export {
   SendRequest,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
+} from "./interfaces.js";
 export {
-  AddPolicyOptions as AddPipelineOptions,
-  PipelinePhase,
-  PipelinePolicy,
-  Pipeline,
+  type AddPolicyOptions as AddPipelineOptions,
+  type PipelinePhase,
+  type PipelinePolicy,
+  type Pipeline,
   createEmptyPipeline,
-} from "./pipeline";
+} from "./pipeline.js";
 export {
   createPipelineFromOptions,
-  TelemetryOptions,
-  InternalPipelineOptions,
-  PipelineOptions,
-} from "./createPipelineFromOptions";
-export { createDefaultHttpClient } from "./defaultHttpClient";
-export { createHttpHeaders } from "./httpHeaders";
-export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
-export { RestError, RestErrorOptions, isRestError } from "./restError";
+  type TelemetryOptions,
+  type InternalPipelineOptions,
+  type PipelineOptions,
+} from "./createPipelineFromOptions.js";
+export { createDefaultHttpClient } from "./defaultHttpClient.js";
+export { createHttpHeaders } from "./httpHeaders.js";
+export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
+export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
-} from "./policies/decompressResponsePolicy";
-export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
-export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
+} from "./policies/decompressResponsePolicy.js";
+export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
+export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
 export {
   redirectPolicy,
   redirectPolicyName,
-  RedirectPolicyOptions,
-} from "./policies/redirectPolicy";
-export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
-export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
+  type RedirectPolicyOptions,
+} from "./policies/redirectPolicy.js";
+export {
+  tracingPolicy,
+  tracingPolicyName,
+  type TracingPolicyOptions,
+} from "./policies/tracingPolicy";
+export {
+  defaultRetryPolicy,
+  type DefaultRetryPolicyOptions,
+} from "./policies/defaultRetryPolicy.js";
 export {
   userAgentPolicy,
   userAgentPolicyName,
-  UserAgentPolicyOptions,
-} from "./policies/userAgentPolicy";
-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
+  type UserAgentPolicyOptions,
+} from "./policies/userAgentPolicy.js";
+export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
 export {
   bearerTokenAuthenticationPolicy,
   BearerTokenAuthenticationPolicyOptions,
   bearerTokenAuthenticationPolicyName,
-  ChallengeCallbacks,
-  AuthorizeRequestOptions,
-  AuthorizeRequestOnChallengeOptions,
-} from "./policies/bearerTokenAuthenticationPolicy";
-export { AbortSignalLike } from "./abort-controller/AbortSignalLike";
-export { AbortError } from "./abort-controller/AbortError";
-export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential";
-export { KeyCredential } from "./auth/keyCredential";
-export {
+  type ChallengeCallbacks,
+  type AuthorizeRequestOptions,
+  type AuthorizeRequestOnChallengeOptions,
+} from "./policies/bearerTokenAuthenticationPolicy.js";
+export type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+export { AbortError } from "./abort-controller/AbortError.js";
+export type { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential.js";
+export type { KeyCredential } from "./auth/keyCredential.js";
+export type {
   Instrumenter,
   InstrumenterSpanOptions,
   OperationTracingOptions,
@@ -89,28 +96,32 @@ export {
   TracingSpanKind,
   TracingSpanLink,
   TracingSpanOptions,
-} from "./tracing/interfaces";
-export { useInstrumenter } from "./tracing/instrumenter";
-export { createTracingClient } from "./tracing/tracingClient";
+} from "./tracing/interfaces.js";
+export { useInstrumenter } from "./tracing/instrumenter.js";
+export { createTracingClient } from "./tracing/tracingClient.js";
 // from core-util
-export { delay, DelayOptions } from "./util/delay";
-export { AbortOptions, cancelablePromiseRace, AbortablePromiseBuilder } from "./util/aborterUtils";
+export { delay, type DelayOptions } from "./util/delay.js";
+export {
+  type AbortOptions,
+  cancelablePromiseRace,
+  type AbortablePromiseBuilder,
+} from "./util/aborterUtils.js";
 export {
   createAbortablePromise,
   CreateAbortablePromiseOptions,
-} from "./util/createAbortablePromise";
-export { getRandomIntegerInclusive } from "./util/random";
-export { isObject, UnknownObject } from "./util/object";
-export { isError, getErrorMessage } from "./util/error";
+} from "./util/createAbortablePromise.js";
+export { getRandomIntegerInclusive } from "./util/random.js";
+export { isObject, type UnknownObject } from "./util/object.js";
+export { isError, getErrorMessage } from "./util/error.js";
 export {
   createFile,
   createFileFromStream,
-  CreateFileOptions,
-  CreateFileFromStreamOptions,
-} from "./util/file";
-export { computeSha256Hash, computeSha256Hmac } from "./util/sha256";
-export { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards";
-export { randomUUID } from "./util/uuidUtils";
+  type CreateFileOptions,
+  type CreateFileFromStreamOptions,
+} from "./util/file.js";
+export { computeSha256Hash, computeSha256Hmac } from "./util/sha256.js";
+export { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards.js";
+export { randomUUID } from "./util/uuidUtils.js";
 export {
   isBrowser,
   isBun,
@@ -118,20 +129,20 @@ export {
   isDeno,
   isReactNative,
   isWebWorker,
-} from "./util/checkEnvironment";
-export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./util/bytesEncoding";
+} from "./util/checkEnvironment.js";
+export { uint8ArrayToString, stringToUint8Array, type EncodingType } from "./util/bytesEncoding.js";
 export {
-  Debugger,
-  TypeSpecRuntimeLogger,
-  TypeSpecRuntimeLogLevel,
-  TypeSpecRuntimeClientLogger,
-} from "./logger/logger";
+  type Debugger,
+  type TypeSpecRuntimeLogger,
+  type TypeSpecRuntimeLogLevel,
+  type TypeSpecRuntimeClientLogger,
+} from "./logger/logger.js";
 // client
-export { createRestError } from "./client/restError";
+export { createRestError } from "./client/restError.js";
 export {
   addCredentialPipelinePolicy,
-  AddCredentialPipelinePolicyOptions,
-} from "./client/clientHelpers";
-export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers";
-export * from "./client/getClient";
-export * from "./client/common";
+  type AddCredentialPipelinePolicyOptions,
+} from "./client/clientHelpers.js";
+export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
+export * from "./client/getClient.js";
+export * from "./client/common.js";

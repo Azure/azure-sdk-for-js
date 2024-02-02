@@ -11,7 +11,7 @@ import {
   createPipelineFromOptions,
   createPipelineRequest,
   setClientRequestIdPolicy,
-} from "../src";
+} from "../src/index.js";
 
 describe("setClientRequestIdPolicy", function () {
   it("should set the header name with `x-ms-client-request-id` if no header name is provided", async () => {

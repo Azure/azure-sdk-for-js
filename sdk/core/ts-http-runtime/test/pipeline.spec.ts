@@ -3,13 +3,13 @@
 
 import { assert } from "chai";
 import {
-  HttpClient,
-  PipelinePolicy,
+  type HttpClient,
+  type PipelinePolicy,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineFromOptions,
   createPipelineRequest,
-} from "../src";
+} from "../src/index.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {
@@ -371,7 +371,7 @@ describe("HttpsPipeline", function () {
 
     const response = await pipeline.sendRequest(
       testHttpClient,
-      createPipelineRequest({ url: "initialUrl" }),
+      createPipelineRequest({ url: "initialUrl" })
     );
     assert.strictEqual(response.request.url, "afterTest3");
     assert.strictEqual(response.status, 200);

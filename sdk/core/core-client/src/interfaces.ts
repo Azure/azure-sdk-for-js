@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   HttpClient,
   HttpMethods,
   PipelineOptions,
@@ -10,8 +10,8 @@ import {
   PipelineResponse,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Default key used to access the XML attributes.
@@ -83,7 +83,7 @@ export interface OperationRequestInfo {
    */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
-    response: PipelineResponse,
+    response: PipelineResponse
   ) => undefined | OperationResponseMap;
 
   /**
@@ -360,7 +360,7 @@ export interface FullOperationResponse extends PipelineResponse {
 export type RawResponseCallback = (
   rawResponse: FullOperationResponse,
   flatResponse: unknown,
-  error?: unknown,
+  error?: unknown
 ) => void;
 
 /**
@@ -411,7 +411,7 @@ export interface Serializer {
     mapper: Mapper,
     responseBody: any,
     objectName: string,
-    options?: SerializerOptions,
+    options?: SerializerOptions
   ): any;
 }
 

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import * as zlib from "zlib";
-import { Transform } from "stream";
-import { AbortError } from "./abort-controller/AbortError";
-import {
+import * as http from "node:http";
+import * as https from "node:https";
+import * as zlib from "node:zlib";
+import { Transform } from "node:stream";
+import { AbortError } from "./abort-controller/AbortError.js";
+import type {
   HttpClient,
   HttpHeaders,
   PipelineRequest,
@@ -14,11 +14,10 @@ import {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces";
-import { createHttpHeaders } from "./httpHeaders";
-import { RestError } from "./restError";
-import { IncomingMessage } from "http";
-import { logger } from "./log";
+} from "./interfaces.js";
+import { createHttpHeaders } from "./httpHeaders.js";
+import { RestError } from "./restError.js";
+import { logger } from "./log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -195,7 +194,7 @@ class NodeHttpClient implements HttpClient {
   private makeRequest(
     request: PipelineRequest,
     abortController: AbortController,
-    body?: RequestBodyType,
+    body?: RequestBodyType
   ): Promise<http.IncomingMessage> {
     const url = new URL(request.url);
 
@@ -220,7 +219,7 @@ class NodeHttpClient implements HttpClient {
 
       req.once("error", (err: Error & { code?: string }) => {
         reject(
-          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request }),
+          new RestError(err.message, { code: err.code ?? RestError.REQUEST_SEND_ERROR, request })
         );
       });
 
@@ -294,7 +293,7 @@ class NodeHttpClient implements HttpClient {
   }
 }
 
-function getResponseHeaders(res: IncomingMessage): HttpHeaders {
+function getResponseHeaders(res: http.IncomingMessage): HttpHeaders {
   const headers = createHttpHeaders();
   for (const header of Object.keys(res.headers)) {
     const value = res.headers[header];
@@ -310,8 +309,8 @@ function getResponseHeaders(res: IncomingMessage): HttpHeaders {
 }
 
 function getDecodedResponseStream(
-  stream: IncomingMessage,
-  headers: HttpHeaders,
+  stream: http.IncomingMessage,
+  headers: HttpHeaders
 ): NodeJS.ReadableStream {
   const contentEncoding = headers.get("Content-Encoding");
   if (contentEncoding === "gzip") {
@@ -348,7 +347,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
         reject(
           new RestError(`Error reading response as text: ${e.message}`, {
             code: RestError.PARSE_ERROR,
-          }),
+          })
         );
       }
     });

@@ -15,9 +15,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getCachedDefaultHttpsClient } from "./clientHelpers";
-import { isReadableStream } from "./helpers/isReadableStream";
-import { HttpResponse, RequestParameters } from "./common";
+import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
+import { isReadableStream } from "./helpers/isReadableStream.js";
+import { HttpResponse, RequestParameters } from "./common.js";
 
 /**
  * Helper function to send request used by the client
@@ -33,7 +33,7 @@ export async function sendRequest(
   url: string,
   pipeline: Pipeline,
   options: InternalRequestParameters = {},
-  customHttpClient?: HttpClient,
+  customHttpClient?: HttpClient
 ): Promise<HttpResponse> {
   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
   const request = buildPipelineRequest(method, url, options);
@@ -78,7 +78,7 @@ export interface InternalRequestParameters extends RequestParameters {
 function buildPipelineRequest(
   method: HttpMethods,
   url: string,
-  options: InternalRequestParameters = {},
+  options: InternalRequestParameters = {}
 ): PipelineRequest {
   const { body, formData } = getRequestBody(options.body, options.contentType);
   const hasContent = body !== undefined || formData !== undefined;
@@ -182,7 +182,7 @@ function isRLCFormDataInput(body: unknown): body is RLCFormDataInput {
     body instanceof Object &&
     Object.values(body).every(
       (value) =>
-        isRLCFormDataValue(value) || (Array.isArray(value) && value.every(isRLCFormDataValue)),
+        isRLCFormDataValue(value) || (Array.isArray(value) && value.every(isRLCFormDataValue))
     )
   );
 }

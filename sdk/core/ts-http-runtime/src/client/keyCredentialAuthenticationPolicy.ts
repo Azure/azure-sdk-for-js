@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { KeyCredential } from "../auth/keyCredential";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import type { KeyCredential } from "../auth/keyCredential.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -12,7 +12,7 @@ export const keyCredentialAuthenticationPolicyName = "keyCredentialAuthenticatio
 
 export function keyCredentialAuthenticationPolicy(
   credential: KeyCredential,
-  apiKeyHeaderName: string,
+  apiKeyHeaderName: string
 ): PipelinePolicy {
   return {
     name: keyCredentialAuthenticationPolicyName,

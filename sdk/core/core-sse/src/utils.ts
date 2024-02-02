@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { IncomingMessage } from "http";
+import { IncomingMessage } from "node:http";
 
 export function createStream<T>(
   asyncIter: AsyncIterableIterator<T>,
-  cancel: () => PromiseLike<void>,
+  cancel: () => PromiseLike<void>
 ): ReadableStream<T> & AsyncDisposable & AsyncIterable<T> {
   const stream = iteratorToStream(asyncIter, cancel);
   /** TODO: remove these polyfills once all supported runtimes support them */
@@ -14,7 +14,7 @@ export function createStream<T>(
 
 function polyfillStream<T>(
   stream: ReadableStream<T>,
-  dispose: () => PromiseLike<void>,
+  dispose: () => PromiseLike<void>
 ): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
   makeAsyncIterable<T>(stream);
   makeAsyncDisposable(stream, dispose);
@@ -23,7 +23,7 @@ function polyfillStream<T>(
 
 function makeAsyncDisposable<T>(
   webStream: any,
-  dispose: () => PromiseLike<void>,
+  dispose: () => PromiseLike<void>
 ): asserts webStream is ReadableStream<T> & AsyncDisposable {
   (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
   if (!webStream[Symbol.asyncDispose]) {
@@ -32,7 +32,7 @@ function makeAsyncDisposable<T>(
 }
 
 function makeAsyncIterable<T>(
-  webStream: any,
+  webStream: any
 ): asserts webStream is ReadableStream<T> & AsyncIterable<T> {
   if (!webStream[Symbol.asyncIterator]) {
     webStream[Symbol.asyncIterator] = () => toAsyncIterable(webStream);
@@ -45,7 +45,7 @@ function makeAsyncIterable<T>(
 
 function iteratorToStream<T>(
   iterator: AsyncIterableIterator<T>,
-  cancel: () => PromiseLike<void>,
+  cancel: () => PromiseLike<void>
 ): ReadableStream<T> {
   return new ReadableStream({
     async pull(controller) {
@@ -84,7 +84,7 @@ function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
       typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function",
+      typeof (body as ReadableStream).tee === "function"
   );
 }
 

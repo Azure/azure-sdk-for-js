@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it } from "vitest";
-import { getBodyLength } from "../../src/nodeHttpClient";
+import { getBodyLength } from "../../src/nodeHttpClient.js";
 
 describe("Get Body Length", function () {
   it("Gets the length of the ASCII string correctly", function () {

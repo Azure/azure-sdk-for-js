@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert } from "vitest";
-import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding";
+import { stringToUint8Array, uint8ArrayToString } from "../../src/bytesEncoding.js";
 
 describe("bytesEncoding", function () {
   describe("base64ToBytes", function () {
@@ -13,7 +13,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of base64 to bytes.",
+        "Incorrect conversion of base64 to bytes."
       );
     });
 
@@ -30,7 +30,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes.",
+        "Incorrect conversion of utf-8 to bytes."
       );
     });
 
@@ -41,7 +41,7 @@ describe("bytesEncoding", function () {
       assert.deepEqual(
         output,
         new Uint8Array([97, 122, 117, 114, 101]),
-        "Incorrect conversion of utf-8 to bytes.",
+        "Incorrect conversion of utf-8 to bytes."
       );
     });
   });

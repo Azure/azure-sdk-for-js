@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PollOperation, PollOperationState } from "./pollOperation";
+import { PollOperation, PollOperationState } from "./pollOperation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress } from "../poller/models";
-import { PollerLike } from "./models";
+import { CancelOnProgress } from "../poller/models.js";
+import { PollerLike } from "./models.js";
 
 /**
  * PollProgressCallback<TState> is the type of the callback functions sent to onProgress.
@@ -188,11 +188,11 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     this.promise = new Promise<TResult>(
       (
         resolve: (result: TResult) => void,
-        reject: (error: PollerStoppedError | PollerCancelledError | Error) => void,
+        reject: (error: PollerStoppedError | PollerCancelledError | Error) => void
       ) => {
         this.resolve = resolve;
         this.reject = reject;
-      },
+      }
     );
     // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
     // The above warning would get thrown if `poller.poll` is called, it returns an error,
@@ -327,7 +327,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
    * Returns a promise that will resolve once the underlying operation is completed.
    */
   public async pollUntilDone(
-    pollOptions: { abortSignal?: AbortSignalLike } = {},
+    pollOptions: { abortSignal?: AbortSignalLike } = {}
   ): Promise<TResult> {
     if (this.stopped) {
       this.startPolling(pollOptions).catch(this.reject);

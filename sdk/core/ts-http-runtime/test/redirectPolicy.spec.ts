@@ -2,9 +2,14 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { redirectPolicy } from "../src/policies/redirectPolicy";
+import { redirectPolicy } from "../src/policies/redirectPolicy.js";
 import * as sinon from "sinon";
-import { PipelineResponse, SendRequest, createHttpHeaders, createPipelineRequest } from "../src";
+import {
+  type PipelineResponse,
+  type SendRequest,
+  createHttpHeaders,
+  createPipelineRequest,
+} from "../src/index.js";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

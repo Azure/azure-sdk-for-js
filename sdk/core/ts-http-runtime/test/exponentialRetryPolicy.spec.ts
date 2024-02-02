@@ -4,14 +4,14 @@
 import { assert } from "chai";
 import * as sinon from "sinon";
 import {
-  PipelineResponse,
+  type PipelineResponse,
   RestError,
-  SendRequest,
+  type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
+} from "../src/index.js";
+import { exponentialRetryPolicy } from "../src/policies/exponentialRetryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("exponentialRetryPolicy", function () {
   afterEach(function () {
