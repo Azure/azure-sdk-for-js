@@ -3,16 +3,16 @@
 
 import { isObject } from "./object";
 
-export type JsonMergePatch<T> = T extends { [k: string]: unknown }
+export type JsonMergePatch<T> = T extends object
   ? JsonMergePatchObject<T>
   : // If T isn't an object, we just yield T
     T;
 
-type JsonMergePatchObject<T extends { [k: string]: unknown }> =
+type JsonMergePatchObject<T extends object> =
   // The recursion exits when the object doesn't contain string-keyed properties
   {
     // Checks if a property is optional or undefined already (no way to distinguish them AFAIK)
-    [K in keyof T]?: JsonMergePatchProperty<T[K]>;
+    [K in keyof T as K extends string ? K : never]?: JsonMergePatchProperty<T[K]>;
   };
 
 type JsonMergePatchProperty<T> = undefined extends T
