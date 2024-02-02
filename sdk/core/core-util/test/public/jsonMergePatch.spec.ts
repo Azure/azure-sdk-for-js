@@ -85,6 +85,33 @@ describe("jsonMergePatch", function () {
         d?: number | null;
       } | null;
     };
+
+    interface Person {
+      name: string;
+      lastName: string;
+      email: string;
+      twitterHandle?: string;
+      githubHandle?: string;
+      awards: {
+        trackAndField?: Medal;
+        soccer?: Medal;
+      };
+    }
+
+    type Medal = "gold" | "silver" | "bronze";
+
+    interface ExpectJsonMergePatchPerson {
+      name?: string;
+      lastName?: string;
+      email?: string;
+      twitterHandle?: string | null;
+      githubHandle?: string | null;
+      awards?: {
+        trackAndField?: "gold" | "silver" | "bronze" | null;
+        soccer?: Medal | null;
+      };
+    }
+
     it("test types are declared correctly", function () {
       assert(testType.equal<Bar, Baz>(true));
       assert(testType.equal<ExpectJsonMergePatchBar, ExpectJsonMergePatchBaz>(true));
@@ -97,22 +124,29 @@ describe("jsonMergePatch", function () {
       assert(testType.true<BasicTest<ExpectJsonMergePatchFoo, Foo>>(true));
       assert(testType.true<BasicTest<ExpectJsonMergePatchBar, Bar>>(true));
       assert(testType.true<BasicTest<ExpectJsonMergePatchBaz, Baz>>(true));
+      assert(testType.true<BasicTest<ExpectJsonMergePatchPerson, Person>>(true));
 
       assert(testType.true<WithNullTest<ExpectJsonMergePatchFoo, Foo>>(true));
       assert(testType.true<WithNullTest<ExpectJsonMergePatchBar, Bar>>(true));
       assert(testType.true<WithNullTest<ExpectJsonMergePatchBaz, Baz>>(true));
+      assert(testType.true<WithNullTest<ExpectJsonMergePatchPerson, Person>>(true));
 
       assert(testType.true<CanAssignTest<Foo, ExpectJsonMergePatchFoo>>(true));
       assert(testType.true<CanAssignTest<Bar, ExpectJsonMergePatchBar>>(true));
       assert(testType.true<CanAssignTest<Baz, ExpectJsonMergePatchBaz>>(true));
+      assert(testType.true<CanAssignTest<Person, ExpectJsonMergePatchPerson>>(true));
     });
 
     it("parametric type has the correct behavior with type unions", function () {
       assert(
         testType.true<
           BasicTest<
-            ExpectJsonMergePatchFoo | ExpectJsonMergePatchBar | ExpectJsonMergePatchBaz | "foo",
-            Foo | Bar | Baz | "foo"
+            | ExpectJsonMergePatchFoo
+            | ExpectJsonMergePatchBar
+            | ExpectJsonMergePatchBaz
+            | ExpectJsonMergePatchPerson
+            | "foo",
+            Foo | Bar | Baz | Person | "foo"
           >
         >(true)
       );
@@ -120,8 +154,12 @@ describe("jsonMergePatch", function () {
       assert(
         testType.true<
           WithNullTest<
-            ExpectJsonMergePatchFoo | ExpectJsonMergePatchBar | ExpectJsonMergePatchBaz | "foo",
-            Foo | Bar | Baz | "foo"
+            | ExpectJsonMergePatchFoo
+            | ExpectJsonMergePatchBar
+            | ExpectJsonMergePatchBaz
+            | ExpectJsonMergePatchPerson
+            | "foo",
+            Foo | Bar | Baz | Person | "foo"
           >
         >(true)
       );
@@ -129,11 +167,30 @@ describe("jsonMergePatch", function () {
       assert(
         testType.true<
           CanAssignTest<
-            Foo | Bar | Baz | "foo",
-            ExpectJsonMergePatchFoo | ExpectJsonMergePatchBar | ExpectJsonMergePatchBaz | "foo"
+            Foo | Bar | Baz | Person | "foo",
+            | ExpectJsonMergePatchFoo
+            | ExpectJsonMergePatchBar
+            | ExpectJsonMergePatchBaz
+            | ExpectJsonMergePatchPerson
+            | "foo"
           >
         >(true)
       );
+    });
+
+    it("Is identical to the input with arrays, tuples, functions, RegExp and Date", function () {
+      type FooArray = Array<{ a: string; b?: string; c?: { a: string } }>;
+      type FooTuple = [
+        { a: string; b?: string; c?: { a: string } },
+        { a: string; b?: string; c?: { a: string } }
+      ];
+      type FooFunction = () => void;
+
+      assert(testType.equal<FooArray, JsonMergePatch<FooArray>>(true));
+      assert(testType.equal<FooTuple, JsonMergePatch<FooTuple>>(true));
+      assert(testType.equal<FooFunction, JsonMergePatch<FooFunction>>(true));
+      assert(testType.equal<RegExp, JsonMergePatch<RegExp>>(true));
+      assert(testType.equal<Date, JsonMergePatch<Date>>(true));
     });
   });
 

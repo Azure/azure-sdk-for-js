@@ -1,12 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import type { IsArray, IsTuple, IsFunction } from "type-plus";
 import { isObject } from "./object";
 
 export type JsonMergePatch<T> = T extends object
-  ? JsonMergePatchObject<T>
-  : // If T isn't an object, we just yield T
-    T;
+  ? IsArray<
+      T,
+      T,
+      IsTuple<
+        T,
+        T,
+        IsFunction<T, T, T extends Date ? T : T extends RegExp ? T : JsonMergePatchObject<T>>
+      >
+    >
+  : T;
 
 type JsonMergePatchObject<T extends object> =
   // The recursion exits when the object doesn't contain string-keyed properties
