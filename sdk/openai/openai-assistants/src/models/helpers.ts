@@ -8,38 +8,29 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-import { RequiredToolCallOutput, ToolCallOutput } from "../rest/outputModels.js";
-import { RequiredToolCall, ToolCall } from "./models.js";
+import { CodeInterpreterToolCallDetailsOutput, RequiredToolCallOutput, ToolCallOutput } from "../rest/outputModels.js";
+import { CodeInterpreterToolCallDetails, RequiredToolCall, ToolCall } from "./models.js";
+import { camelCaseKeys } from "../api/util.js";
 
 export function parseRequiredToolCallOutput(requiredToolCallOutput: RequiredToolCallOutput): RequiredToolCall {
   return { type: "function", id: requiredToolCallOutput.id, function: requiredToolCallOutput.function } as RequiredToolCall;
 }
 
 export function parseToolCallOutput(toolCallOutput: ToolCallOutput): ToolCall {
-  const { id } = toolCallOutput;
-  const toolCall: {
-    id: string;
-    type: string;
-    function: any;
-    retrieval: any;
-    codeInterpreter: any;
-  } = { id, type: "", function: {}, retrieval: {}, codeInterpreter: {} };
-  switch (toolCallOutput.type) {
+  const { id, type } = toolCallOutput;
+  switch (type) {
     case "function":
-      toolCall.type = toolCallOutput.type as "function";
-      toolCall.function = toolCallOutput.function;
-      break;
+      return { type, id, function: toolCallOutput.function };
     case "retrieval":
-      toolCall.type = toolCallOutput.type as "retrieval";
-      toolCall.retrieval = toolCallOutput.retrieval;
-      break;
+      return { type, id, retrieval: toolCallOutput.retrieval };
     case "code_interpreter":
-      toolCall.type = toolCallOutput.type as "code_interpreter";
-      toolCall.codeInterpreter = toolCallOutput.code_interpreter;
-      break;
+      return { type, id, codeInterpreter: parseCodeInterpreterToolCallDetailsOutput(toolCallOutput.code_interpreter) };
     default:
-      throw new Error(`Unknown tool call type: ${toolCall.type}`);
+      throw new Error(`Unknown tool call type: ${type}`);
   }
+}
 
-  return toolCall as ToolCall;
+function parseCodeInterpreterToolCallDetailsOutput(codeInterpreterToolCallDetailsOutput: CodeInterpreterToolCallDetailsOutput): CodeInterpreterToolCallDetails {
+  const { ...rest } = codeInterpreterToolCallDetailsOutput;
+  return { ...camelCaseKeys(rest) };
 }
