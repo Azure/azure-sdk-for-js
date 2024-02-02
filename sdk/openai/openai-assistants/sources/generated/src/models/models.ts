@@ -400,7 +400,7 @@ export interface RequiredFunctionToolCall extends RequiredToolCallParent {
   /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: FunctionDefinition;
+  function: FunctionToolCallDetails;
 }
 
 /** The details of an error as encountered by an assistant thread run. */

@@ -450,7 +450,7 @@ export interface RequiredAction {
 
 // @public
 export interface RequiredFunctionToolCall {
-    function: FunctionDefinition;
+    function: FunctionToolCallDetails;
     id: string;
     type: "function";
 }
