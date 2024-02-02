@@ -59,6 +59,11 @@ export const isDeno =
   typeof Deno.version.deno !== "undefined";
 
 /**
+ * A constant that indicates whether the environment the code is running is Bun.sh.
+ */
+export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
+
+/**
  * A constant that indicates whether the environment the code is running is Node.JS.
  */
 export const isNode =
@@ -66,12 +71,8 @@ export const isNode =
   Boolean(globalThis.process.version) &&
   Boolean(globalThis.process.versions?.node) &&
   // Deno thought it was a good idea to spoof process.versions.node, see https://deno.land/std@0.177.0/node/process.ts?s=versions
-  !isDeno;
-
-/**
- * A constant that indicates whether the environment the code is running is Bun.sh.
- */
-export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
+  !isDeno &&
+  !isBun;
 
 /**
  * A constant that indicates whether the environment the code is running is in React-Native.
