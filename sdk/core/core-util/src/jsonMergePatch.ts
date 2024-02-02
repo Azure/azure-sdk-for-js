@@ -4,17 +4,23 @@
 import type { IsArray, IsTuple, IsFunction } from "type-plus";
 import { isObject } from "./object";
 
-export type JsonMergePatch<T> = T extends object
+export type JsonMergePatch<T> = IsStrictObject<
+  T,
+  T extends object
+    ? JsonMergePatchObject<T> & {
+        //
+      }
+    : never,
+  T
+>;
+
+type IsStrictObject<T, Then = true, Else = false> = T extends object
   ? IsArray<
       T,
-      T,
-      IsTuple<
-        T,
-        T,
-        IsFunction<T, T, T extends Date ? T : T extends RegExp ? T : JsonMergePatchObject<T>>
-      >
+      Else,
+      IsTuple<T, Else, IsFunction<T, Else, T extends Date ? Else : T extends RegExp ? Else : Then>>
     >
-  : T;
+  : Else;
 
 type JsonMergePatchObject<T extends object> =
   // The recursion exits when the object doesn't contain string-keyed properties
@@ -39,7 +45,7 @@ type JsonMergePatchProperty<T> = undefined extends T
  * returns `patch`.
  */
 export function mergePatch<T>(target: T, patch: JsonMergePatch<T>): T {
-  return mergePatchStrict(target, patch, (p): p is T => true);
+  return mergePatchStrict(target, patch, (_): _ is T => true);
 }
 
 /**
