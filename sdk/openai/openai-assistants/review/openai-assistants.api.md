@@ -477,12 +477,6 @@ export interface RunError {
 }
 
 // @public
-export interface RunError {
-    code: string;
-    message: string;
-}
-
-// @public
 export type RunStatus = string;
 
 // @public

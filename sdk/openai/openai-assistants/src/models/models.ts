@@ -363,14 +363,6 @@ export interface RunError {
   message: string;
 }
 
-/** The details of an error as encountered by an assistant thread run. */
-export interface RunError {
-  /** The status for the error. */
-  code: string;
-  /** The human-readable text associated with the error. */
-  message: string;
-}
-
 /** The data provided during a tool outputs submission to resolve pending tool calls and allow the model to continue. */
 export interface ToolOutput {
   /** The ID of the tool call being resolved, as provided in the tool calls of a required action from a run. */
