@@ -3941,7 +3941,6 @@ export interface SnapshotBackupAdditionalDetails {
     instantRPDetails?: string;
     // (undocumented)
     instantRpRetentionRangeInDays?: number;
-    // (undocumented)
     userAssignedManagedIdentityDetails?: UserAssignedManagedIdentityDetails;
 }
 
@@ -4100,18 +4099,16 @@ export interface UnlockDeleteResponse {
 export type UsagesUnit = string;
 
 // @public
-export interface UserAssignedIdentity {
-    readonly clientId?: string;
-    readonly principalId?: string;
+export interface UserAssignedIdentityProperties {
+    clientId?: string;
+    principalId?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UserAssignedManagedIdentityDetails {
-    // (undocumented)
     identityArmId?: string;
-    // (undocumented)
     identityName?: string;
-    userAssignedIdentityProperties?: UserAssignedIdentity;
+    userAssignedIdentityProperties?: UserAssignedIdentityProperties;
 }
 
 // @public

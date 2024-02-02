@@ -28,6 +28,11 @@ import {
   ContainerRegistriesGetResponse,
   ContainerRegistriesCreateOrUpdateOptionalParams,
   ContainerRegistriesCreateOrUpdateResponse,
+  ContainerRegistriesDeleteOptionalParams,
+  ContainerRegistriesDeleteResponse,
+  ContainerRegistryProperties,
+  ContainerRegistriesValidateOptionalParams,
+  ContainerRegistriesValidateResponse,
   ContainerRegistriesListNextResponse
 } from "../models";
 
@@ -269,6 +274,213 @@ export class ContainerRegistriesImpl implements ContainerRegistries {
   }
 
   /**
+   * Delete a container registry resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    options?: ContainerRegistriesDeleteOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerRegistriesDeleteResponse>,
+      ContainerRegistriesDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ContainerRegistriesDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, serviceName, containerRegistryName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerRegistriesDeleteResponse,
+      OperationState<ContainerRegistriesDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Delete a container registry resource.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    options?: ContainerRegistriesDeleteOptionalParams
+  ): Promise<ContainerRegistriesDeleteResponse> {
+    const poller = await this.beginDelete(
+      resourceGroupName,
+      serviceName,
+      containerRegistryName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Check if the container registry properties are valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryProperties Parameters for the validate operation
+   * @param options The options parameters.
+   */
+  async beginValidate(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    containerRegistryProperties: ContainerRegistryProperties,
+    options?: ContainerRegistriesValidateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ContainerRegistriesValidateResponse>,
+      ContainerRegistriesValidateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ContainerRegistriesValidateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        containerRegistryName,
+        containerRegistryProperties,
+        options
+      },
+      spec: validateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ContainerRegistriesValidateResponse,
+      OperationState<ContainerRegistriesValidateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Check if the container registry properties are valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param containerRegistryName The name of the container registry.
+   * @param containerRegistryProperties Parameters for the validate operation
+   * @param options The options parameters.
+   */
+  async beginValidateAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    containerRegistryName: string,
+    containerRegistryProperties: ContainerRegistryProperties,
+    options?: ContainerRegistriesValidateOptionalParams
+  ): Promise<ContainerRegistriesValidateResponse> {
+    const poller = await this.beginValidate(
+      resourceGroupName,
+      serviceName,
+      containerRegistryName,
+      containerRegistryProperties,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -358,6 +570,72 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.containerRegistryResource,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.containerRegistryName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.ContainerRegistriesDeleteHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.containerRegistryName
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const validateOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries/{containerRegistryName}/validate",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ContainerRegistryValidateResult
+    },
+    201: {
+      bodyMapper: Mappers.ContainerRegistryValidateResult
+    },
+    202: {
+      bodyMapper: Mappers.ContainerRegistryValidateResult
+    },
+    204: {
+      bodyMapper: Mappers.ContainerRegistryValidateResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.containerRegistryProperties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

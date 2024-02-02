@@ -4,8 +4,10 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
+
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isPlaybackMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { ClientCertificateCredential } from "../../../src";
 import { ConfidentialClientApplication } from "@azure/msal-node";
@@ -13,6 +15,7 @@ import { Context } from "mocha";
 import { MsalNode } from "../../../src/msal/nodeFlows/msalNodeCommon";
 import Sinon from "sinon";
 import { assert } from "chai";
+import { parseCertificate } from "../../../src/msal/nodeFlows/msalClientCertificate";
 
 const ASSET_PATH = "assets";
 
@@ -201,5 +204,28 @@ describe("ClientCertificateCredential (internal)", function () {
     }
 
     assert.equal(doGetTokenSpy.getCall(0).args[0].azureRegion, "AUTO_DISCOVER");
+  });
+
+  describe("parseCertificate", function () {
+    it("includes the x5c value when sendCertificateChain is true", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        true,
+      );
+      assert.isNotEmpty(result.x5c);
+      assert.strictEqual(result.x5c, result.certificateContents);
+    });
+
+    it("omits the x5c value when sendCertificateChain is false", async function () {
+      const result = await parseCertificate(
+        {
+          certificatePath,
+        },
+        false,
+      );
+      assert.isUndefined(result.x5c);
+    });
   });
 });

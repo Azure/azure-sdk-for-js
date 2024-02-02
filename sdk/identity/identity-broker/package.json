@@ -81,7 +81,7 @@
     "mocha": "^10.0.0",
     "puppeteer": "^20.5.0",
     "rimraf": "^5.0.1",
-    "typescript": "~5.0.0",
+    "typescript": "~5.3.3",
     "sinon": "^17.0.0",
     "wtfnode": "0.9.1"
   },
