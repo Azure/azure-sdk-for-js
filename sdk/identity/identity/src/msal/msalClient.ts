@@ -8,6 +8,7 @@ import { defaultLoggerCallback, getAuthority, getKnownAuthorities, getMSALLogLev
 
 import { IdentityClient } from "../client/identityClient";
 import { MsalNodeOptions } from "./nodeFlows/msalNodeCommon";
+import { RegionalAuthority } from "../regionalAuthority";
 import { credentialLogger } from "../util/logging";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../util/tenantIdUtils";
@@ -75,7 +76,6 @@ export function createMsalClient(
 
   const msalConfig = generateMsalConfiguration(clientId, tenantId, createMsalClientOptions);
 
-  // configure assertion
   // configure persistence
   // configure broker
 
@@ -92,7 +92,7 @@ export function createMsalClient(
       // CAE / non-CAE
       // hook up cache plugin
       // hook up native broker
-      // wait for assertion
+      // wait for assertion (todo: push getAssertion call into parameters to getTokenByClientAssertion)
       if (msalConfig.auth.clientSecret === undefined /* TODO: add cert and assertion checks */) {
         throw new Error(
           "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
@@ -102,6 +102,14 @@ export function createMsalClient(
     }
 
     return confidentialApp;
+  }
+
+  function azureRegion(): string | undefined {
+    let region = createMsalClientOptions.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY;
+    if (region === RegionalAuthority.AutoDiscoverRegion) {
+      region = "AUTO_DISCOVER";
+    }
+    return region;
   }
 
   return {
@@ -114,6 +122,10 @@ export function createMsalClient(
       const msalApp = await getConfidentialApp(options);
       const token = await msalApp.acquireTokenByClientCredential({
         scopes: scopes,
+        // TODO: correlationId
+        azureRegion: azureRegion(),
+        // TODO: authority
+        claims: options?.claims,
       });
       return {
         token: token!.accessToken,
