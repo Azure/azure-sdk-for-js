@@ -28,36 +28,37 @@ type CreateMsalClientOptions = Partial<MsalNodeOptions>;
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  options: CreateMsalClientOptions = {},
+  createMsalClientOptions: CreateMsalClientOptions = {},
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
+
   const authority = getAuthority(
     resolvedTenant,
-    options.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
+    createMsalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
   );
+
   const httpClient = new IdentityClient({
-    ...options.tokenCredentialOptions,
+    ...createMsalClientOptions.tokenCredentialOptions,
     authorityHost: authority,
-    loggingOptions: options.loggingOptions,
+    loggingOptions: createMsalClientOptions.loggingOptions,
   });
 
   const msalConfig: msal.Configuration = {
-    // defaultNodeMsalConfig
     auth: {
       clientId,
       authority,
       knownAuthorities: getKnownAuthorities(
         resolvedTenant,
         authority,
-        options.disableInstanceDiscovery,
+        createMsalClientOptions.disableInstanceDiscovery,
       ),
     },
     system: {
       networkClient: httpClient,
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(msalLogger),
+        loggerCallback: defaultLoggerCallback(createMsalClientOptions.logger ?? msalLogger),
         logLevel: getMSALLogLevel(getLogLevel()),
-        piiLoggingEnabled: options.loggingOptions?.enableUnsafeSupportLogging,
+        piiLoggingEnabled: createMsalClientOptions.loggingOptions?.enableUnsafeSupportLogging,
       },
     },
   };
@@ -67,15 +68,12 @@ export function generateMsalConfiguration(
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  options: CreateMsalClientOptions = {},
+  createMsalClientOptions: CreateMsalClientOptions = {},
 ): MsalClient {
-  console.log({ options });
-  // logger
-  // defaultNodeConfiguration
-  // resolveTenantId
+  console.log({ options: createMsalClientOptions });
   // additionallyAllowedTenantIds
 
-  const msalConfig = generateMsalConfiguration(clientId, tenantId, options);
+  const msalConfig = generateMsalConfiguration(clientId, tenantId, createMsalClientOptions);
 
   // configure assertion
   // configure persistence
@@ -83,33 +81,44 @@ export function createMsalClient(
 
   // azure region should come from credentials if they care about it
 
-  let app: msal.ConfidentialClientApplication | undefined = undefined;
-  async function getMsalApplication(): Promise<msal.ConfidentialClientApplication> {
-    if (app === undefined) {
-      app = new msal.ConfidentialClientApplication(msalConfig);
+  let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
+  async function getConfidentialApp(
+    _options: GetTokenOptions = {},
+  ): Promise<msal.ConfidentialClientApplication> {
+    // abort requests
+    // Not doing: passing through logger
+
+    if (confidentialApp === undefined) {
+      // CAE / non-CAE
+      // hook up cache plugin
+      // hook up native broker
+      // wait for assertion
+      if (msalConfig.auth.clientSecret === undefined /* TODO: add cert and assertion checks */) {
+        throw new Error(
+          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
+        );
+      }
+      confidentialApp = new msal.ConfidentialClientApplication(msalConfig);
     }
 
-    return app;
-    // enableBroker
+    return confidentialApp;
   }
 
   return {
     async getTokenByClientSecret(
-      _scopes: string[],
+      scopes: string[],
       clientSecret: string,
-      _options?: GetTokenOptions,
+      options?: GetTokenOptions,
     ): Promise<AccessToken> {
       msalConfig.auth.clientSecret = clientSecret;
-      const pca = await getMsalApplication();
-      console.log(pca);
-      const token = await pca.acquireTokenByClientCredential({
-        scopes: _scopes,
+      const msalApp = await getConfidentialApp(options);
+      const token = await msalApp.acquireTokenByClientCredential({
+        scopes: scopes,
       });
       return {
         token: token!.accessToken,
         expiresOnTimestamp: token!.expiresOn!.getTime(),
       };
-      // implementation goes here
     },
   };
 }
