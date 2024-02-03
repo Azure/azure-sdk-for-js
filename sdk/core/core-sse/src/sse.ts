@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { IncomingMessage } from "http";
+import type { IncomingMessage } from "node:http";
 import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 

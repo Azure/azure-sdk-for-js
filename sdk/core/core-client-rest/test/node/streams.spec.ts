@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, afterEach, vi } from "vitest";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { PassThrough } from "stream";
+import { ClientRequest, type IncomingHttpHeaders, IncomingMessage } from "node:http";
+import { PassThrough } from "node:stream";
 
 vi.mock("https", async () => {
   const actual = await vi.importActual("https");
