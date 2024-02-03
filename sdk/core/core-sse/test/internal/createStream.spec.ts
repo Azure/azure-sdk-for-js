@@ -36,6 +36,18 @@ describe("createStream", () => {
     assert.isTrue(canceled);
   });
 
+  it("creates disposable stream", async function () {
+    let disposed = false;
+    {
+      const stream = createStream(createIter(), async () => {
+        disposed = true;
+      });
+      await stream[Symbol.asyncDispose]();
+      assert.isDefined(stream);
+    }
+    assert.isTrue(disposed);
+  });
+
   it("creates stream that is canceled when looping exits early", async () => {
     let canceled = false;
     const stream = createStream(createIter(), async () => {
