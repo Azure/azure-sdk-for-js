@@ -110,5 +110,6 @@ describe.only("MsalClient", function () {
     });
 
     it("attempts silent authentication first");
+    it("supports configuring azure region");
   });
 });
