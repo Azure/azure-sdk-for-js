@@ -3,9 +3,10 @@
 
 import * as msalClient from "../../../src/msal/msalClient";
 
+import { ConfidentialClientApplication } from "@azure/msal-node";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
-import { expect } from "chai";
+import { credentialLogger } from "../../../src/util/logging";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import sinon from "sinon";
 
@@ -61,9 +62,25 @@ describe.only("MsalClient", function () {
         const loggingOptions = {
           enableUnsafeSupportLogging: true,
         };
+        const testCorrelationId = "test-correlation-id-1";
+        const logger = credentialLogger("test");
+        const logSpy = sinon.spy(logger, "info");
 
-        const config = msalClient.generateMsalConfiguration(clientId, tenantId, { loggingOptions });
+        const config = msalClient.generateMsalConfiguration(clientId, tenantId, {
+          loggingOptions,
+          logger,
+        });
+        config.auth.clientSecret = "client-secret";
+        const cca = new ConfidentialClientApplication(config);
+
         assert.equal(config.system!.loggerOptions!.piiLoggingEnabled, true);
+
+        cca.getLogger().info("logging test", testCorrelationId);
+        const loggerCall = logSpy.getCalls().find((c) => c.lastArg.includes(testCorrelationId));
+        assert.exists(
+          loggerCall,
+          `Unable to find logger call with correlation id ${testCorrelationId}`,
+        );
       });
     });
 
