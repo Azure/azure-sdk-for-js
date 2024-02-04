@@ -4,9 +4,13 @@
 
 ### Features Added
 
+- Allow customers to set request content type by `option.contentType` or `content-type` request headers.
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Set the content-type as `undefined` if it's a non-json string in the body and we are unknown of the content-type, but remain to be `application/json` if it's json string.
 
 ### Other Changes
 
@@ -15,12 +19,10 @@
 ### Features Added
 
 - Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
-- Allow customers to set request content type by `option.contentType` or `content-type` request headers.
 
 ### Bugs Fixed
 
 - Fixed an issue where `multipart/form-data` requests with an array of files as a parameter would not work if any of the files were supplied as a `Uint8Array`.
-- Set the default content-type to `text/plain` if it's a non-json string in the body, but remain to be `application/json` if it's json string.
 
 ### Other Changes
 
