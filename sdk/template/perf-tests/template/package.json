@@ -10,7 +10,7 @@
   "dependencies": {
     "@azure/app-configuration": "1.5.0-beta.2",
     "@azure/core-util": "^1.6.1",
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.0.1",
     "@azure/template": "^1.0.11-beta.1 || ^1.0.12-beta.1",
     "@azure/test-utils-perf": "^1.0.0",
     "dotenv": "^16.0.0"

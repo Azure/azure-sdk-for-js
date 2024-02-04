@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreUtil from "@azure/core-util";
+import * as util from "../../src/msal/utils";
 
 import {
   AuthenticationResult,
@@ -46,7 +46,7 @@ export async function msalNodeTestSetup(
 
   const sandbox = createSandbox();
 
-  const stub = sandbox.stub(coreUtil, "randomUUID");
+  const stub = sandbox.stub(util, "randomUUID");
   stub.returns(playbackValues.correlationId);
 
   if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {

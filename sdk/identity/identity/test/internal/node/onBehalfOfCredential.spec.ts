@@ -27,6 +27,7 @@ describe("OnBehalfOfCredential", function () {
       clientId: "client",
       clientSecret: "secret",
       userAssertionToken: "user-assertion",
+      authorityHost: "https://fake-authority.com",
     });
 
     const newMSALClientLogs = (): number =>
@@ -60,6 +61,7 @@ describe("OnBehalfOfCredential", function () {
       clientId: "client",
       certificatePath,
       userAssertionToken: "user-assertion",
+      authorityHost: "https://fake-authority.com",
     });
 
     const newMSALClientLogs = (): number =>

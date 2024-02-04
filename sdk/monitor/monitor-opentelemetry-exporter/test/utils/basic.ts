@@ -11,7 +11,6 @@ import {
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
@@ -23,6 +22,7 @@ import {
 import { AzureMonitorLogExporter } from "../../src/export/log";
 import { LoggerProvider, SimpleLogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { SeverityNumber } from "@opentelemetry/api-logs";
+import { hrTimeToTimeStamp, millisToHrTime } from "@opentelemetry/core";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));
@@ -127,7 +127,7 @@ export class TraceBasicScenario implements Scenario {
         baseData: {
           version: 2,
           name: "TraceBasicScenario.Root",
-          duration: msToTimeSpan(600),
+          duration: hrTimeToTimeStamp(millisToHrTime(600)),
           responseCode: "0",
           success: true,
           properties: {
@@ -144,7 +144,7 @@ export class TraceBasicScenario implements Scenario {
             baseData: {
               version: 2,
               name: "TraceBasicScenario.Child.1",
-              duration: msToTimeSpan(100),
+              duration: hrTimeToTimeStamp(millisToHrTime(100)),
               success: true,
               resultCode: "0",
               properties: {

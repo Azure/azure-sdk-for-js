@@ -5,6 +5,7 @@
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isRecordMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { ClientSecretCredential } from "../../../src";
 import { Context } from "mocha";
@@ -55,7 +56,9 @@ describe("ClientSecretCredential", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_CLIENT_SECRET!,
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({
+        authorityHost: "https://fake-authority.com",
+      }),
     );
 
     const controller = new AbortController();
