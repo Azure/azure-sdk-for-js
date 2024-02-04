@@ -350,10 +350,11 @@ describe("sendRequest", () => {
     await sendRequest("POST", mockBaseUrl, mockPipeline, { body: new Uint8Array() });
   });
 
-  it("should set text/plain by default if its not json string", async () => {
+  it("should set content-type as undefined if it's unknown", async () => {
     const mockPipeline: Pipeline = createEmptyPipeline();
     mockPipeline.sendRequest = async (_client, request) => {
-      assert.equal(request.headers.get("content-type"), "text/plain; charset=UTF-8");
+      assert.equal(request.headers.get("content-type"), undefined);
+      assert.equal(request.body, "test");
       return { headers: createHttpHeaders() } as PipelineResponse;
     };
 

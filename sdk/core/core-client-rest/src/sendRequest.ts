@@ -75,7 +75,7 @@ function getRequestContentType(options: InternalRequestParameters = {}): string 
  * @param body - body in the request
  * @returns returns the content-type
  */
-function getContentType(body: any): string {
+function getContentType(body: any): string | undefined {
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
@@ -86,7 +86,7 @@ function getContentType(body: any): string {
       return "application/json; charset=UTF-8";
     } catch (error: any) {
       // If we fail to parse the body, it is not json
-      return "text/plain; charset=UTF-8";
+      return undefined;
     }
   }
   // By default return json
@@ -102,15 +102,17 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const { body, formData } = getRequestBody(options.body, getRequestContentType(options));
+  const requestContentType = getRequestContentType(options);
+  const { body, formData } = getRequestBody(options.body, requestContentType);
   const hasContent = body !== undefined || formData !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
     accept: options.accept ?? "application/json",
-    ...(hasContent && {
-      "content-type": getRequestContentType(options),
-    }),
+    ...(hasContent &&
+      requestContentType && {
+        "content-type": requestContentType,
+      }),
   });
 
   return createPipelineRequest({
