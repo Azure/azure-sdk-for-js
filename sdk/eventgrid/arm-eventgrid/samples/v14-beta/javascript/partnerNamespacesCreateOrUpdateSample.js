@@ -34,7 +34,7 @@ async function partnerNamespacesCreateOrUpdate() {
   const result = await client.partnerNamespaces.beginCreateOrUpdateAndWait(
     resourceGroupName,
     partnerNamespaceName,
-    partnerNamespaceInfo
+    partnerNamespaceInfo,
   );
   console.log(result);
 }

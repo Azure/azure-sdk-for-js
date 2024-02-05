@@ -113,7 +113,7 @@ function validateRequiredStringProperties(o: any, propertyNames: string[]): void
 
     if (typeof o[propertyName] !== "string") {
       throw new TypeError(
-        `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`
+        `event property '${propertyName} should be a 'string', but is '${typeof o[propertyName]}'`,
       );
     }
   }
@@ -133,7 +133,7 @@ function validateOptionalStringProperties(o: any, propertyNames: string[]): void
       throw new TypeError(
         `event property '${propertyName}' should be a 'string' but it is a '${typeof o[
           propertyName
-        ]}'`
+        ]}'`,
       );
     }
   }

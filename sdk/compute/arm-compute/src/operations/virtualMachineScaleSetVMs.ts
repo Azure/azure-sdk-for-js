@@ -26,6 +26,8 @@ import {
   VirtualMachineScaleSetVMsListResponse,
   VirtualMachineScaleSetVMsReimageOptionalParams,
   VirtualMachineScaleSetVMsReimageAllOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
   VirtualMachineScaleSetVMsDeallocateOptionalParams,
   VirtualMachineScaleSetVMsUpdateOptionalParams,
   VirtualMachineScaleSetVMsUpdateResponse,
@@ -42,6 +44,9 @@ import {
   VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse,
   VirtualMachineScaleSetVMsPerformMaintenanceOptionalParams,
   VirtualMachineScaleSetVMsSimulateEvictionOptionalParams,
+  AttachDetachDataDisksRequest,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams,
+  VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
   RunCommandInput,
   VirtualMachineScaleSetVMsRunCommandOptionalParams,
   VirtualMachineScaleSetVMsRunCommandResponse,
@@ -314,6 +319,101 @@ export class VirtualMachineScaleSetVMsImpl
     options?: VirtualMachineScaleSetVMsReimageAllOptionalParams
   ): Promise<void> {
     const poller = await this.beginReimageAll(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginApproveRollingUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>,
+      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, instanceId, options },
+      spec: approveRollingUpgradeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetVMsApproveRollingUpgradeResponse,
+      OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Approve upgrade on deferred rolling upgrade for OS disk on a VM scale set instance.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param options The options parameters.
+   */
+  async beginApproveRollingUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams
+  ): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse> {
+    const poller = await this.beginApproveRollingUpgrade(
       resourceGroupName,
       vmScaleSetName,
       instanceId,
@@ -1141,6 +1241,115 @@ export class VirtualMachineScaleSetVMsImpl
   }
 
   /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  async beginAttachDetachDataDisks(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>,
+      VirtualMachineScaleSetVMsAttachDetachDataDisksResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        vmScaleSetName,
+        instanceId,
+        parameters,
+        options
+      },
+      spec: attachDetachDataDisksOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetVMsAttachDetachDataDisksResponse,
+      OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Attach and detach data disks to/from a virtual machine in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param instanceId The instance ID of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on a Virtual
+   *                   Machine Scale Sets VM.
+   * @param options The options parameters.
+   */
+  async beginAttachDetachDataDisksAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    instanceId: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams
+  ): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse> {
+    const poller = await this.beginAttachDetachDataDisks(
+      resourceGroupName,
+      vmScaleSetName,
+      instanceId,
+      parameters,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Run command on a virtual machine in a VM scale set.
    * @param resourceGroupName The name of the resource group.
    * @param vmScaleSetName The name of the VM scale set.
@@ -1319,6 +1528,42 @@ const reimageAllOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const approveRollingUpgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/approveRollingUpgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+    },
+    201: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+    },
+    202: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+    },
+    204: {
+      headersMapper:
+        Mappers.VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
 const deallocateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/deallocate",
@@ -1373,7 +1618,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.vmScaleSetName,
     Parameters.instanceId
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -1641,6 +1891,40 @@ const simulateEvictionOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer
 };
+const attachDetachDataDisksOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/attachDetachDataDisks",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.StorageProfile
+    },
+    201: {
+      bodyMapper: Mappers.StorageProfile
+    },
+    202: {
+      bodyMapper: Mappers.StorageProfile
+    },
+    204: {
+      bodyMapper: Mappers.StorageProfile
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName,
+    Parameters.instanceId
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
 const runCommandOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualmachines/{instanceId}/runCommand",
@@ -1659,7 +1943,7 @@ const runCommandOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunCommandResult
     }
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

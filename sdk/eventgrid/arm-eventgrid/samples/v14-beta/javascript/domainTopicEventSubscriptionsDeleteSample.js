@@ -31,7 +31,7 @@ async function domainTopicEventSubscriptionsDelete() {
     resourceGroupName,
     domainName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

@@ -45,11 +45,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -58,7 +58,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       partitionIds = await producerClient.getPartitionIds({});
     });
@@ -86,7 +86,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: latestEventPosition,
               maxWaitTimeInSeconds: 0, // Set timeout of 0 to resolve the promise ASAP
-            }
+            },
           );
         });
         await subscription!.close();
@@ -145,7 +145,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: latestEventPosition,
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -157,12 +157,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -196,7 +196,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { sequenceNumber: partitionInfo.lastEnqueuedSequenceNumber },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -208,12 +208,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -234,12 +234,12 @@ testWithServiceTypes((serviceVersion) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected 1 event sent right before subscribe call."
+                    "Expected 1 event sent right before subscribe call.",
                   );
                   should.equal(
                     data[0].body,
                     eventSentBeforeSubscribe.body,
-                    "Should have received only the 1 event sent right before subscribe call."
+                    "Should have received only the 1 event sent right before subscribe call.",
                   );
 
                   await producerClient.sendBatch(eventsSentAfterSubscribe, { partitionId });
@@ -261,7 +261,7 @@ testWithServiceTypes((serviceVersion) => {
                 isInclusive: true,
               },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -269,13 +269,13 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
 
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -309,7 +309,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { offset: partitionInfo.lastEnqueuedOffset },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -321,12 +321,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -347,12 +347,12 @@ testWithServiceTypes((serviceVersion) => {
                   should.equal(
                     data.length,
                     1,
-                    "Expected 1 event sent right before subscribe call."
+                    "Expected 1 event sent right before subscribe call.",
                   );
                   should.equal(
                     data[0].body,
                     eventSentBeforeSubscribe.body,
-                    "Should have received only the 1 event sent right before subscribe call."
+                    "Should have received only the 1 event sent right before subscribe call.",
                   );
 
                   await producerClient.sendBatch(eventsSentAfterSubscribe, {
@@ -376,7 +376,7 @@ testWithServiceTypes((serviceVersion) => {
                 isInclusive: true,
               },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -384,13 +384,13 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
 
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -427,7 +427,7 @@ testWithServiceTypes((serviceVersion) => {
             {
               startPosition: { enqueuedOn: partitionInfo.lastEnqueuedOnUtc },
               maxWaitTimeInSeconds: 30,
-            }
+            },
           );
         });
         await subscription!.close();
@@ -439,12 +439,12 @@ testWithServiceTypes((serviceVersion) => {
         should.equal(
           eventsReceived.length,
           eventsSentAfterSubscribe.length,
-          "Not received the same number of events that were sent."
+          "Not received the same number of events that were sent.",
         );
         for (let i = 0; i < eventsSentAfterSubscribe.length; i++) {
           eventsReceived[i].body.should.equal(eventsSentAfterSubscribe[i].body);
           eventsReceived[i].properties!.stamp.should.equal(
-            eventsSentAfterSubscribe[i].properties!.stamp
+            eventsSentAfterSubscribe[i].properties!.stamp,
           );
         }
       });
@@ -471,7 +471,7 @@ testWithServiceTypes((serviceVersion) => {
                 should.exist(context.lastEnqueuedEventProperties);
                 context.lastEnqueuedEventProperties!.offset!.should.equal(pInfo.lastEnqueuedOffset);
                 context.lastEnqueuedEventProperties!.sequenceNumber!.should.equal(
-                  pInfo.lastEnqueuedSequenceNumber
+                  pInfo.lastEnqueuedSequenceNumber,
                 );
                 context
                   .lastEnqueuedEventProperties!.enqueuedOn!.getTime()
@@ -490,7 +490,7 @@ testWithServiceTypes((serviceVersion) => {
               startPosition: earliestEventPosition,
               maxBatchSize: 1,
               trackLastEnqueuedEventProperties: true,
-            }
+            },
           );
         });
         await subscription!.close();

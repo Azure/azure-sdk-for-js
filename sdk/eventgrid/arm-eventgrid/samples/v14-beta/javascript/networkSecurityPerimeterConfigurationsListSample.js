@@ -30,7 +30,7 @@ async function networkSecurityPerimeterConfigurationsList() {
   for await (let item of client.networkSecurityPerimeterConfigurations.list(
     resourceGroupName,
     resourceType,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

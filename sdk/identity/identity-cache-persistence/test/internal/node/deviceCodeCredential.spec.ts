@@ -32,7 +32,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
-      "acquireTokenByDeviceCode"
+      "acquireTokenByDeviceCode",
     );
   });
   afterEach(async function () {
@@ -64,7 +64,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     await credential.getToken(scope);
@@ -96,7 +96,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     await credential.getToken(scope);
@@ -137,7 +137,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     const account = await credential.authenticate(scope);
@@ -151,7 +151,7 @@ describe("DeviceCodeCredential (internal)", function (this: Mocha.Suite) {
         // To be able to re-use the account, the Token Cache must also have been provided.
         // TODO: Perhaps make the account parameter part of the tokenCachePersistenceOptions?
         tokenCachePersistenceOptions,
-      })
+      }),
     );
 
     // The cache should have a token a this point

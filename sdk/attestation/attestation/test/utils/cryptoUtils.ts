@@ -52,7 +52,7 @@ function formatDateString(dateObject: Date): string {
 export function createX509Certificate(
   privKeyPEM: string,
   pubKeyPEM: string,
-  subject_name: string
+  subject_name: string,
 ): string {
   const pubKey = jsrsasign.KEYUTIL.getKey(pubKeyPEM);
   const privKey = jsrsasign.KEYUTIL.getKey(privKeyPEM);

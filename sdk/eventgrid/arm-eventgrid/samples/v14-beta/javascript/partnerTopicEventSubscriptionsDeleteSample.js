@@ -29,7 +29,7 @@ async function partnerTopicEventSubscriptionsDelete() {
   const result = await client.partnerTopicEventSubscriptions.beginDeleteAndWait(
     resourceGroupName,
     partnerTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

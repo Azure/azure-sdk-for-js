@@ -42,7 +42,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     const createPoller = await client.beginCreateCertificate(
       certificateName,
       basicCertificatePolicy,
-      testPollerProperties
+      testPollerProperties,
     );
     await createPoller.pollUntilDone();
     const deletePoller = await client.beginDeleteCertificate(certificateName, testPollerProperties);
@@ -50,17 +50,17 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(
       getDeletedResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificate()."
+      "Unexpected certificate name in result from getCertificate().",
     );
     const recoverPoller = await client.beginRecoverDeletedCertificate(
       certificateName,
-      testPollerProperties
+      testPollerProperties,
     );
     const getResult = await recoverPoller.pollUntilDone();
     assert.equal(
       getResult.properties.name,
       certificateName,
-      "Unexpected certificate name in result from getCertificate()."
+      "Unexpected certificate name in result from getCertificate().",
     );
   });
 
@@ -85,13 +85,13 @@ describe("Certificates client - restore certificates and recover backups", () =>
       const createPoller = await client.beginCreateCertificate(
         certificateName,
         basicCertificatePolicy,
-        testPollerProperties
+        testPollerProperties,
       );
       await createPoller.pollUntilDone();
       const backup = await client.backupCertificate(certificateName);
       const deletePoller = await client.beginDeleteCertificate(
         certificateName,
-        testPollerProperties
+        testPollerProperties,
       );
       await deletePoller.pollUntilDone();
       await client.purgeDeletedCertificate(certificateName);
@@ -104,7 +104,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
       // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
       const restorePoller = await testClient.beginRestoreCertificateBackup(
         backup as Uint8Array,
-        testPollerProperties
+        testPollerProperties,
       );
       const restoredCertificate = await restorePoller.pollUntilDone();
 
@@ -124,7 +124,7 @@ describe("Certificates client - restore certificates and recover backups", () =>
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreCertificate()"
+      "Unexpected error from restoreCertificate()",
     );
   });
 });

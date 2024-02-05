@@ -32,7 +32,7 @@ async function getAvailableServiceAliasesInTheResourceGroup() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableServiceAliases",
       subscriptionId,
       resourceGroupName,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

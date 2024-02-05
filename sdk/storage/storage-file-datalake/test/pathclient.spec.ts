@@ -917,7 +917,7 @@ describe("DataLakePathClient", () => {
         const result = await fileClient.read(undefined, undefined, options);
         assert.deepStrictEqual(await bodyToString(result, content.length), content);
       },
-      ["DataLakeFileClient-read"]
+      ["DataLakeFileClient-read"],
     );
   });
 
@@ -925,18 +925,18 @@ describe("DataLakePathClient", () => {
     const accountName = "myaccount";
     const path = "file/part/1.txt";
     const newClient = new DataLakeFileClient(
-      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + path
+      `https://${accountName}.dfs.core.windows.net/` + fileSystemName + "/" + path,
     );
     assert.equal(
       newClient.fileSystemName,
       fileSystemName,
-      "File system name is not the same as the one provided."
+      "File system name is not the same as the one provided.",
     );
     assert.equal(newClient.name, path, "File name is not the same as the one provided.");
     assert.equal(
       newClient.accountName,
       accountName,
-      "Account name is not the same as the one provided."
+      "Account name is not the same as the one provided.",
     );
   });
 
@@ -964,8 +964,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -1025,8 +1025,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -1092,8 +1092,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -1147,8 +1147,8 @@ describe("DataLakePathClient", () => {
       gotError = true;
       assert.ok(
         (err as any).message.startsWith(
-          "There is currently a lease on the resource and no lease ID was specified in the request."
-        )
+          "There is currently a lease on the resource and no lease ID was specified in the request.",
+        ),
       );
     }
     assert.ok(gotError, "Should throw out an exception to write to a leased file without lease id");
@@ -1334,13 +1334,13 @@ describe("DataLakePathClient", () => {
 
   it("exists returns false on non-existing file or directory", async () => {
     const newFileClient = fileSystemClient.getFileClient(
-      recorder.variable("newFile", getUniqueName("newFile"))
+      recorder.variable("newFile", getUniqueName("newFile")),
     );
     const result = await newFileClient.exists();
     assert.ok(result === false, "exists() should return false for a non-existing file");
 
     const newDirectoryClient = fileSystemClient.getDirectoryClient(
-      recorder.variable("newDirectory", getUniqueName("newDirectory"))
+      recorder.variable("newDirectory", getUniqueName("newDirectory")),
     );
     const dirResult = await newDirectoryClient.exists();
     assert.ok(dirResult === false, "exists() should return false for a non-existing directory");
@@ -1541,7 +1541,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1551,7 +1551,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await fileClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1711,7 +1711,7 @@ describe("DataLakePathClient with CPK", () => {
         {},
         {
           customerProvidedKey: Test_CPK_INFO,
-        }
+        },
       );
     } catch (err: any) {
       gotError = true;
@@ -1766,7 +1766,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1775,7 +1775,7 @@ describe("DataLakePathClient with CPK", () => {
     assert.ok(
       await dirClient.exists({
         customerProvidedKey: Test_CPK_INFO,
-      })
+      }),
     );
   });
 
@@ -1832,7 +1832,7 @@ describe("DataLakePathClient with CPK", () => {
         {},
         {
           customerProvidedKey: Test_CPK_INFO,
-        }
+        },
       );
     } catch (err: any) {
       gotError = true;

@@ -38,7 +38,7 @@ async function deletesAnAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

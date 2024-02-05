@@ -169,14 +169,14 @@ export abstract class BaseSender {
         }
         diag.error(
           "Retrying due to transient client side error. Error message:",
-          restError.message
+          restError.message,
         );
         return this.persist(envelopes);
       }
       this.networkStatsbeatMetrics?.countException(restError);
       diag.error(
         "Envelopes could not be exported and are not retriable. Error message:",
-        restError.message
+        restError.message,
       );
       return { code: ExportResultCode.FAILED, error: restError };
     }

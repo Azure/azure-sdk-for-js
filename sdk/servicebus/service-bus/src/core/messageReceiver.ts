@@ -145,7 +145,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     context: ConnectionContext,
     entityPath: string,
     receiverType: ReceiverType,
-    options: Omit<ReceiveOptions, "maxConcurrentCalls">
+    options: Omit<ReceiveOptions, "maxConcurrentCalls">,
   ) {
     super(entityPath, entityPath, context, receiverType, logger, {
       address: entityPath,
@@ -166,7 +166,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    */
   protected _createReceiverOptions(
     useNewName: boolean,
-    handlers: ReceiverHandlers
+    handlers: ReceiverHandlers,
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = createReceiverOptions(
       useNewName ? getUniqueName(this.baseName) : this.name,
@@ -180,7 +180,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
           return onMessageSettled(this.logPrefix, context.delivery, this._deliveryDispositionMap);
         },
         ...handlers,
-      }
+      },
     );
 
     return rcvrOptions;
@@ -201,7 +201,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       logger.logError(
         translatedError,
         "%s An error occured while creating the receiver",
-        this.logPrefix
+        this.logPrefix,
       );
 
       // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
@@ -216,7 +216,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
 
   protected createRheaLink(
     options: ReceiverOptions,
-    _abortSignal?: AbortSignalLike
+    _abortSignal?: AbortSignalLike,
   ): Promise<Receiver> {
     return this._context.connection.createReceiver(options);
   }
@@ -247,7 +247,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   async settleMessage(
     message: ServiceBusMessageImpl,
     operation: DispositionType,
-    options: DispositionStatusOptions
+    options: DispositionStatusOptions,
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
@@ -263,7 +263,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
             "Hence rejecting the promise with timeout error.",
           this.logPrefix,
           delivery.id,
-          Constants.defaultOperationTimeoutInMs
+          Constants.defaultOperationTimeoutInMs,
         );
 
         const e: AmqpError = {

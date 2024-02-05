@@ -36,7 +36,7 @@ async function topicsUpdate() {
   const result = await client.topics.beginUpdateAndWait(
     resourceGroupName,
     topicName,
-    topicUpdateParameters
+    topicUpdateParameters,
   );
   console.log(result);
 }

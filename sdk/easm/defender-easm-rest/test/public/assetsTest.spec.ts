@@ -30,7 +30,7 @@ describe("Assets Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     asset_name = "ku.edu";
     asset_kind = "domain";

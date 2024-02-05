@@ -35,7 +35,7 @@ async function getVirtualMachineScaleSetVMRunCommands() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      runCommandName
+      runCommandName,
     )
     .get(options);
   console.log(result);

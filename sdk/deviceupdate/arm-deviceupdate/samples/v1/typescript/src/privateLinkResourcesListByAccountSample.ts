@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all private link resources in a device update account.
  *
  * @summary List all private link resources in a device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateLinkResources/PrivateLinkResources_ListByAccount.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateLinkResources/PrivateLinkResources_ListByAccount.json
  */
 async function privateLinkResourcesList() {
   const subscriptionId =

@@ -33,16 +33,16 @@ describe("invalid parameters", () => {
     // new sender/receiver clients before each test. Doing it once for each describe block.
     before(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
-        TestClientType.PartitionedQueueWithSessions
+        TestClientType.PartitionedQueueWithSessions,
       );
 
       sender = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createSender(entityNames.queue!)
+        serviceBusClient.createSender(entityNames.queue!),
       );
 
       receiver = await serviceBusClient.test.acceptSessionWithPeekLock(
         entityNames,
-        TestMessage.sessionId
+        TestMessage.sessionId,
       );
 
       await sender.sendMessages(TestMessage.getSessionSample());
@@ -56,7 +56,7 @@ describe("invalid parameters", () => {
       let errorCaught: string = "";
       try {
         const { queue } = serviceBusClient.test.getTestEntities(
-          TestClientType.PartitionedQueueWithSessions
+          TestClientType.PartitionedQueueWithSessions,
         );
 
         await serviceBusClient.acceptSession(queue!, TestMessage.sessionId, {
@@ -68,7 +68,7 @@ describe("invalid parameters", () => {
       should.equal(
         errorCaught,
         `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
-        "Did not throw error if created a client with invalid receiveMode."
+        "Did not throw error if created a client with invalid receiveMode.",
       );
     });
 
@@ -81,7 +81,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -96,7 +96,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -113,7 +113,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -129,7 +129,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "fromSequenceNumber" should be of type "Long"`
+        `The parameter "fromSequenceNumber" should be of type "Long"`,
       );
     });
 
@@ -144,7 +144,7 @@ describe("invalid parameters", () => {
         should.equal(caughtError && caughtError.name, "TypeError");
         should.equal(
           caughtError && caughtError.message,
-          `The parameter "fromSequenceNumber" should be of type "Long"`
+          `The parameter "fromSequenceNumber" should be of type "Long"`,
         );
       });
     });
@@ -181,7 +181,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -206,7 +206,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });
@@ -228,7 +228,7 @@ describe("invalid parameters", () => {
       should.equal(
         errorCaught,
         `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
-        "Did not throw error if created a client with invalid receiveMode."
+        "Did not throw error if created a client with invalid receiveMode.",
       );
     });
 
@@ -243,7 +243,7 @@ describe("invalid parameters", () => {
       should.equal(
         errorCaught,
         `Invalid subQueueType '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
-        "Did not throw error if created a client with invalid subQueue."
+        "Did not throw error if created a client with invalid subQueue.",
       );
     });
 
@@ -256,7 +256,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -271,7 +271,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -288,7 +288,7 @@ describe("invalid parameters", () => {
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
-            "maxMessageCount"
+            "maxMessageCount",
           );
         }
       });
@@ -304,7 +304,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "fromSequenceNumber" should be of type "Long"`
+        `The parameter "fromSequenceNumber" should be of type "Long"`,
       );
     });
 
@@ -319,7 +319,7 @@ describe("invalid parameters", () => {
         should.equal(caughtError && caughtError.name, "TypeError");
         should.equal(
           caughtError && caughtError.message,
-          `The parameter "fromSequenceNumber" should be of type "Long"`
+          `The parameter "fromSequenceNumber" should be of type "Long"`,
         );
       });
     });
@@ -356,7 +356,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -381,7 +381,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });
@@ -402,7 +402,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `Missing parameter "scheduledEnqueueTimeUtc"`
+        `Missing parameter "scheduledEnqueueTimeUtc"`,
       );
     });
 
@@ -427,7 +427,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be of type "Long"`
+        `The parameter "sequenceNumbers" should be of type "Long"`,
       );
     });
 
@@ -452,7 +452,7 @@ describe("invalid parameters", () => {
       should.equal(caughtError && caughtError.name, "TypeError");
       should.equal(
         caughtError && caughtError.message,
-        `The parameter "sequenceNumbers" should be an array of type "Long"`
+        `The parameter "sequenceNumbers" should be an array of type "Long"`,
       );
     });
   });

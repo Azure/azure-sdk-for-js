@@ -1,6 +1,6 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 13.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,17 @@
 
 ### Other Changes
 
+## 13.0.0 (2023-12-13)
+    
+**Features**
+
+  - Added Interface UserAssignedIdentityProperties
+
+**Breaking Changes**
+
+  - Type of parameter userAssignedIdentityProperties of interface UserAssignedManagedIdentityDetails is changed from UserAssignedIdentity to UserAssignedIdentityProperties
+    
+    
 ## 12.0.0 (2023-11-09)
     
 **Features**
@@ -379,4 +390,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

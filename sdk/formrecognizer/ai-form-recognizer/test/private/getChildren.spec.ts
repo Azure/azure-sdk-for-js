@@ -53,7 +53,7 @@ function intoIter<T>(values: T | T[]): IterableIterator<T> {
 
 function naiveGetChildren<T extends { span: DocumentSpan }>(
   spans: DocumentSpan[],
-  items: T[]
+  items: T[],
 ): T[] {
   const arr = [] as T[];
 
@@ -70,7 +70,7 @@ function naiveGetChildren<T extends { span: DocumentSpan }>(
 
 function naiveFindFirst<T extends { span: DocumentSpan }>(
   span: DocumentSpan,
-  items: T[]
+  items: T[],
 ): T | undefined {
   for (const item of items) {
     if (item.span.offset >= span.offset) {
@@ -89,7 +89,7 @@ describe("get children", function () {
     assert.deepStrictEqual(result, [2]);
     assert.deepStrictEqual(
       result,
-      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id)
+      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id),
     );
   });
 
@@ -101,7 +101,7 @@ describe("get children", function () {
 
       assert.deepStrictEqual(
         result,
-        naiveGetChildren([span], TEST_DATA).map(({ id }) => id)
+        naiveGetChildren([span], TEST_DATA).map(({ id }) => id),
       );
     }
   });
@@ -114,7 +114,7 @@ describe("get children", function () {
 
     assert.deepStrictEqual(
       result,
-      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id)
+      naiveGetChildren([testSpan], TEST_DATA).map(({ id }) => id),
     );
   });
 
@@ -124,7 +124,7 @@ describe("get children", function () {
         const testSpan = { offset: datum.span.offset, length: 1 };
         assert.strictEqual(
           (iteratorFromFirstMatchBinarySearch(testSpan, TEST_DATA).next().value as TestData)?.id,
-          naiveFindFirst(testSpan, TEST_DATA)?.id
+          naiveFindFirst(testSpan, TEST_DATA)?.id,
         );
       }
     });

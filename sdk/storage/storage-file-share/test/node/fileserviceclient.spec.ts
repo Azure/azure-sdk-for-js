@@ -87,7 +87,7 @@ describe("FileServiceClient Node.js only", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
 
     configureStorageClient(recorder, newClient);

@@ -50,7 +50,7 @@ async function securityPoliciesCreate() {
     resourceGroupName,
     profileName,
     securityPolicyName,
-    securityPolicy
+    securityPolicy,
   );
   console.log(result);
 }

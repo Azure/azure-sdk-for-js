@@ -32,7 +32,7 @@ async function eventSubscriptionsListByResource() {
     resourceGroupName,
     providerNamespace,
     resourceTypeName,
-    resourceName
+    resourceName,
   )) {
     resArray.push(item);
   }

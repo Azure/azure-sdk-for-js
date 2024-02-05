@@ -5,7 +5,7 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "AzurePowerShellCredential is not supported in the browser."
+  "AzurePowerShellCredential is not supported in the browser.",
 );
 const logger = credentialLogger("AzurePowerShellCredential");
 

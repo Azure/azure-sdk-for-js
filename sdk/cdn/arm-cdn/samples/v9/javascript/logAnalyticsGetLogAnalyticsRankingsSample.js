@@ -36,7 +36,7 @@ async function logAnalyticsGetLogAnalyticsRankings() {
     metrics,
     maxRanking,
     dateTimeBegin,
-    dateTimeEnd
+    dateTimeEnd,
   );
   console.log(result);
 }

@@ -28,7 +28,7 @@ async function partnerTopicEventSubscriptionsListByPartnerTopic() {
   const resArray = new Array();
   for await (let item of client.partnerTopicEventSubscriptions.listByPartnerTopic(
     resourceGroupName,
-    partnerTopicName
+    partnerTopicName,
   )) {
     resArray.push(item);
   }

@@ -32,7 +32,7 @@ async function kustoDatabasesCheckNameAvailability() {
   const result = await client.databases.checkNameAvailability(
     resourceGroupName,
     clusterName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

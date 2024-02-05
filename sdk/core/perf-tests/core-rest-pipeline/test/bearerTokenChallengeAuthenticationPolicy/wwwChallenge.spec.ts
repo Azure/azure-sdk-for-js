@@ -59,12 +59,12 @@ function parseCAEChallenge(challenges: string): any[] {
         .split('", ')
         .filter((x) => x)
         .map((keyValue) => (([key, value]) => ({ [key]: value }))(keyValue.trim().split('="')))
-        .reduce((a, b) => ({ ...a, ...b }), {})
+        .reduce((a, b) => ({ ...a, ...b }), {}),
     );
 }
 
 async function authorizeRequestOnChallenge(
-  options: AuthorizeRequestOnChallengeOptions
+  options: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes, request, response, getAccessToken } = options;
 
@@ -104,7 +104,7 @@ class MockRefreshAzureCredential implements TokenCredential {
 
   public getToken(
     scope: string | string[],
-    _options: GetTokenOptions
+    _options: GetTokenOptions,
   ): Promise<AccessToken | null> {
     this.authCount++;
     this.scopesAndClaims.push({

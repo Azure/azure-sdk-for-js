@@ -27,7 +27,7 @@ interface ExecuteArgs {
   requestContext: RequestContext;
   executeRequest: (
     diagnosticNode: DiagnosticNodeInternal,
-    requestContext: RequestContext
+    requestContext: RequestContext,
   ) => Promise<Response<any>>;
 }
 
@@ -60,18 +60,18 @@ export async function execute({
         retryPolicies = {
           endpointDiscoveryRetryPolicy: new EndpointDiscoveryRetryPolicy(
             requestContext.globalEndpointManager,
-            requestContext.operationType
+            requestContext.operationType,
           ),
           resourceThrottleRetryPolicy: new ResourceThrottleRetryPolicy(
             requestContext.connectionPolicy.retryOptions.maxRetryAttemptCount,
             requestContext.connectionPolicy.retryOptions.fixedRetryIntervalInMilliseconds,
-            requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds
+            requestContext.connectionPolicy.retryOptions.maxWaitTimeInSeconds,
           ),
           sessionReadRetryPolicy: new SessionRetryPolicy(
             requestContext.globalEndpointManager,
             requestContext.resourceType,
             requestContext.operationType,
-            requestContext.connectionPolicy
+            requestContext.connectionPolicy,
           ),
           defaultRetryPolicy: new DefaultRetryPolicy(requestContext.operationType),
           timeoutFailoverRetryPolicy: new TimeoutFailoverRetryPolicy(
@@ -80,7 +80,7 @@ export async function execute({
             requestContext.method,
             requestContext.resourceType,
             requestContext.operationType,
-            requestContext.connectionPolicy.enableEndpointDiscovery
+            requestContext.connectionPolicy.enableEndpointDiscovery,
           ),
         };
       }
@@ -93,13 +93,13 @@ export async function execute({
           localDiagnosticNode,
           requestContext.resourceType,
           requestContext.operationType,
-          retryContext.retryLocationServerIndex
+          retryContext.retryLocationServerIndex,
         );
       } else {
         requestContext.endpoint = await requestContext.globalEndpointManager.resolveServiceEndpoint(
           localDiagnosticNode,
           requestContext.resourceType,
-          requestContext.operationType
+          requestContext.operationType,
         );
       }
       const startTimeUTCInMs = getCurrentTimestampInMs();
@@ -138,7 +138,7 @@ export async function execute({
           err,
           localDiagnosticNode,
           retryContext,
-          requestContext.endpoint
+          requestContext.endpoint,
         );
         if (!results) {
           headers[Constants.ThrottleRetryCount] =
@@ -159,7 +159,7 @@ export async function execute({
             retryContext.retryCount,
             err.code,
             err.subsstatusCode,
-            headers
+            headers,
           );
           await sleep(retryPolicy.retryAfterInMs);
           return execute({
@@ -173,6 +173,6 @@ export async function execute({
       }
     },
     diagnosticNode,
-    DiagnosticNodeType.HTTP_REQUEST
+    DiagnosticNodeType.HTTP_REQUEST,
   );
 }

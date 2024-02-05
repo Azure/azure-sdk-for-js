@@ -52,7 +52,7 @@ async function createOrReplaceReceivedShare(
   client: PurviewSharingClient,
   receivedShareId: string,
   storageAccountResourceId: string,
-  storeKind: "BlobAccount" | "AdlsGen2Account"
+  storeKind: "BlobAccount" | "AdlsGen2Account",
 ): Promise<ReceivedShareOutput> {
   const options: ReceivedSharesCreateOrReplaceParameters = {
     body: {
@@ -113,7 +113,7 @@ async function registerTenantEmail(client: PurviewSharingClient): Promise<void> 
  */
 async function activateTenantEmailRegistrationSample(
   client: PurviewSharingClient,
-  activationCode: string
+  activationCode: string,
 ): Promise<void> {
   const options: ReceivedSharesActivateTenantEmailRegistrationParameters = {
     body: { properties: { activationCode } },
@@ -156,7 +156,7 @@ async function main() {
     client,
     receivedShareIdForBlobAsset,
     blobStorageAccountResourceId,
-    "BlobAccount"
+    "BlobAccount",
   );
   console.log(receivedShareForBlobAsset);
 
@@ -164,7 +164,7 @@ async function main() {
     client,
     receivedShareIdForAdlsGen2Asset,
     adlsgen2StorageAccountResourceId,
-    "AdlsGen2Account"
+    "AdlsGen2Account",
   );
   console.log(receivedShareForAdlsGen2Asset);
 }

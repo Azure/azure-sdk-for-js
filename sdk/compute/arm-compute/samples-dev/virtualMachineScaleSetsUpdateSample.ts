@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMaximumSetGen() {
   const subscriptionId =
@@ -55,7 +55,8 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
     upgradePolicy: {
       automaticOSUpgradePolicy: {
         disableAutomaticRollback: true,
-        enableAutomaticOSUpgrade: true
+        enableAutomaticOSUpgrade: true,
+        osRollingUpgradeDeferral: true
       },
       mode: "Manual",
       rollingUpgradePolicy: {
@@ -286,7 +287,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a VM scale set.
  *
  * @summary Update a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Update_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetUpdateMinimumSetGen() {
   const subscriptionId =

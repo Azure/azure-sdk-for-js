@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "230",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "d6277061-4ed4-4bf6-8495-1294bb9b0728"
+        "User-Agent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "0d6022df-356d-46e2-9cbe-cc09337b9493"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -29,21 +29,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "184",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 10:28:07 GMT",
-        "MS-CV": "xYyvq6OU3EC4uSxUZ2ugEw.0",
+        "Date": "Thu, 14 Dec 2023 16:15:49 GMT",
+        "MS-CV": "0FgzTsOkL0W7U7oqguVuzg.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0uNCSZAAAAADFrHese5rZSpjkXMvVFTUtSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0NSp7ZQAAAADstI2aJC5dTr9iALACHM1bU1ZHMjBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "221ms"
+        "X-Processing-Time": "126ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_2023062110280807f055cf-a6c4-483d-a3be-c6335a99afba_noam",
+            "messageId": "Outgoing_202312141615493feb4bba-e222-47d7-9d3b-ea5a2b0f4afa_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

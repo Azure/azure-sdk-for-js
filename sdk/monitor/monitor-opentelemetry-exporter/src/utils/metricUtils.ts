@@ -25,7 +25,7 @@ function createPropertiesFromMetricAttributes(attributes?: Attributes): {
 export function resourceMetricsToEnvelope(
   metrics: ResourceMetrics,
   ikey: string,
-  isStatsbeat?: boolean
+  isStatsbeat?: boolean,
 ): Envelope[] {
   const envelopes: Envelope[] = [];
   const time = new Date();

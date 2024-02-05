@@ -29,7 +29,7 @@ async function afdOriginsListByOriginGroup() {
   for await (let item of client.afdOrigins.listByOriginGroup(
     resourceGroupName,
     profileName,
-    originGroupName
+    originGroupName,
   )) {
     resArray.push(item);
   }

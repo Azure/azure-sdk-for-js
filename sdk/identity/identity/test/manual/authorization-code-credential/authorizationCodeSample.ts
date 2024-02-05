@@ -74,14 +74,14 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       } else {
         reject(
           new Error(
-            `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
-          )
+            `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`,
+          ),
         );
       }
     });
 
     server = app.listen(port, () =>
-      console.log(`Authorization code redirect server listening on port ${port}`)
+      console.log(`Authorization code redirect server listening on port ${port}`),
     );
   });
 
@@ -110,7 +110,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       // the default authority host: https://login.microsoftonline.com. It is only
       // necessary when a different authority host is used in the initial authorization
       // URI.
-      { authorityHost }
+      { authorityHost },
     );
   } else {
     // NOTE: If there is no client secret, we can construct an auth code credential
@@ -124,7 +124,7 @@ async function getCredential(): Promise<AuthorizationCodeCredential> {
       // the default authority host: https://login.microsoftonline.com.  It is only
       // necessary when a different authority host is used in the initial authorization
       // URI.
-      { authorityHost }
+      { authorityHost },
     );
   }
 }

@@ -28,7 +28,7 @@ async function getCloudServiceRoleInstance() {
   const result = await client.cloudServiceRoleInstances.get(
     roleInstanceName,
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

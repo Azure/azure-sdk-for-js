@@ -74,8 +74,6 @@ export interface GetAudioTranscriptionOptions extends OperationOptions {
   temperature?: number;
   /** The language of the input audio. Supplying the input language in ISO-639-1 format will improve accuracy and latency. */
   language?: string;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The options for an audio translation request */
@@ -88,8 +86,6 @@ export interface GetAudioTranslationOptions extends OperationOptions {
    * If set to 0, the model will use log probability to automatically increase the temperature until certain thresholds are hit.
    */
   temperature?: number;
-  /** (non-Azure) ID of the model to use. Only whisper-1 is currently available. */
-  model?: string;
 }
 
 /** The type of the result of the transcription based on the requested response format */

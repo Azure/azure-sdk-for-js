@@ -179,7 +179,7 @@ describe("Region Failover", () => {
     await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
-      "https://failovertest-australiaeast.documents.azure.com:443/"
+      "https://failovertest-australiaeast.documents.azure.com:443/",
     );
     client.dispose();
   });
@@ -221,7 +221,7 @@ describe("Region Failover", () => {
     await containerRef.item("any", undefined).read();
     assert.strictEqual(
       lastEndpointCalled,
-      "https://failovertest-australiaeast.documents.azure.com:443/"
+      "https://failovertest-australiaeast.documents.azure.com:443/",
     );
     client.dispose();
   });

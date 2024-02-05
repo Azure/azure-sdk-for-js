@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ES2021",
     "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
     "esModuleInterop": true,
 
-    "lib": ["ES2019", "ESNext.AsyncIterable"],
+    "lib": ["ES2021", "ESNext.AsyncIterable"],
 
     "newLine": "LF",
     "strict": true,
@@ -17,8 +17,8 @@
     "downlevelIteration": true,
 
     "resolveJsonModule": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "exclude": ["test/samples/files/expectations/**/*"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./test/**/*.ts"],
 }

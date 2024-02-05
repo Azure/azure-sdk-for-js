@@ -29,7 +29,7 @@ async function domainEventSubscriptionsGet() {
   const result = await client.domainEventSubscriptions.get(
     resourceGroupName,
     domainName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

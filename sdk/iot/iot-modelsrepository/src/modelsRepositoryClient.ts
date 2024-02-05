@@ -146,7 +146,7 @@ export class ModelsRepositoryClient {
       } else if (prot === "" && location.search(/\.[a-zA-Z]{2,63}$/)) {
         // Web URL with protocol unspecified - default to HTTPS
         logger.info(
-          "Repository Location identified as remote endpoint without protocol specified - using HttpFetcher"
+          "Repository Location identified as remote endpoint without protocol specified - using HttpFetcher",
         );
         const fLocation = "https://" + location;
         const client = this._createClient(options);
@@ -172,11 +172,11 @@ export class ModelsRepositoryClient {
    */
   async getModels(
     dtmis: string[],
-    options?: GetModelsOptions
+    options?: GetModelsOptions,
   ): Promise<{ [dtmi: string]: unknown }>;
   async getModels(
     dtmis: string | string[],
-    options?: GetModelsOptions
+    options?: GetModelsOptions,
   ): Promise<{ [dtmi: string]: unknown }> {
     let modelMap: { [dtmi: string]: unknown };
     if (!Array.isArray(dtmis)) {
@@ -207,7 +207,7 @@ export class ModelsRepositoryClient {
           const baseModelMap: { [dtmi: string]: unknown } = await this._resolver.resolve(
             dtmis,
             false,
-            options
+            options,
           );
           const baseModelList = Object.keys(baseModelMap).map((key) => baseModelMap[key]);
           logger.info(`Retreiving model dependencies for ${dtmis}...`);

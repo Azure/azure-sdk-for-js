@@ -48,7 +48,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 200,
         };
-      }
+      },
     );
 
     assert.equal(getTokenStub.callCount, 1);
@@ -80,7 +80,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 401,
         };
-      }
+      },
     );
 
     assert.equal(response.status, 401);
@@ -123,7 +123,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 200,
         };
-      }
+      },
     );
 
     assert.equal(getTokenStub.callCount, 2);
@@ -167,7 +167,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 200,
         };
-      }
+      },
     );
 
     assert.equal(getTokenStub.callCount, 2);
@@ -212,7 +212,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 200,
         };
-      }
+      },
     );
 
     assert.equal(getTokenStub.callCount, 2);
@@ -248,7 +248,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           request: req,
           status: 401,
         };
-      }
+      },
     );
 
     assert.equal(response.status, 401);
@@ -285,7 +285,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
             request: req,
             status: 200,
           };
-        }
+        },
       );
 
     // Send the request 3 times
@@ -326,7 +326,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
             request: req,
             status: 200,
           };
-        }
+        },
       );
 
     // Send the request 3 times
@@ -370,7 +370,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
             request: req,
             status: 200,
           };
-        }
+        },
       );
 
     // Send the request 2 times

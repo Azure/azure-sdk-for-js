@@ -25,7 +25,7 @@ describe("AzureLogger (browser)", function () {
     assert.isTrue(debugStub.calledOnce, "console.debug called");
     assert.strictEqual(
       debugStub.firstCall.args[0],
-      expectedTestMessage("azure:test:verbose", "verbose")
+      expectedTestMessage("azure:test:verbose", "verbose"),
     );
     debugStub.restore();
 

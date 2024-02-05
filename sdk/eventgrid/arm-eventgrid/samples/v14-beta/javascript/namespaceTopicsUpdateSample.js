@@ -33,7 +33,7 @@ async function namespaceTopicsUpdate() {
     resourceGroupName,
     namespaceName,
     topicName,
-    namespaceTopicUpdateParameters
+    namespaceTopicUpdateParameters,
   );
   console.log(result);
 }

@@ -45,7 +45,7 @@ export async function main() {
     consumerGroup,
     connectionString,
     eventHubName,
-    checkpointStore
+    checkpointStore,
   );
 
   // The below code will set up your program to listen to events from your Event Hub instance.
@@ -56,7 +56,7 @@ export async function main() {
     processEvents: async (events, context) => {
       for (const event of events) {
         console.log(
-          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`,
         );
       }
 
@@ -71,7 +71,7 @@ export async function main() {
       console.log(
         `Successfully checkpointed event with sequence number: ${
           events[events.length - 1].sequenceNumber
-        } from partition: 'partitionContext.partitionId'`
+        } from partition: 'partitionContext.partitionId'`,
       );
     },
     processError: async (err, context) => {

@@ -13,7 +13,7 @@ const should = chai.should();
 testWithServiceTypes(() => {
   describe("LoadBalancingStrategy", () => {
     function createOwnershipMap(
-      partitionToOwner: Record<string, string>
+      partitionToOwner: Record<string, string>,
     ): Map<string, PartitionOwnership> {
       const ownershipMap = new Map<string, PartitionOwnership>();
 
@@ -85,12 +85,12 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           [],
-          "we've gotten our fair share, shouldn't claim anything new"
+          "we've gotten our fair share, shouldn't claim anything new",
         );
 
         // now the other side of this is when we're fighting for the ownership of an
@@ -101,12 +101,12 @@ testWithServiceTypes(() => {
             "1": "b",
             "2": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           ["0"],
-          "we had our minimum fair share (1) but there's still one extra (uneven number of partitions per processor) and we should snag it"
+          "we had our minimum fair share (1) but there's still one extra (uneven number of partitions per processor) and we should snag it",
         );
       });
 
@@ -122,12 +122,12 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           [],
-          "we've gotten our fair share, shouldn't claim anything new"
+          "we've gotten our fair share, shouldn't claim anything new",
         );
 
         partitionsToOwn = lb.getPartitionsToClaim(
@@ -138,7 +138,7 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal([], "load is balanced, won't grab any more.");
@@ -160,13 +160,13 @@ testWithServiceTypes(() => {
             "1": "a",
             "2": "a",
           }),
-          ["0", "1", "2"]
+          ["0", "1", "2"],
         );
         partitionsToOwn.sort();
         // we'll attempt to steal a partition from 'a'.
         partitionsToOwn.length.should.equal(
           1,
-          "stealing with an odd number of partitions per processor"
+          "stealing with an odd number of partitions per processor",
         );
 
         // and now the same case as above, but with an even number of partitions per processor.
@@ -178,13 +178,13 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          ["0", "1", "2", "3"]
+          ["0", "1", "2", "3"],
         );
         partitionsToOwn.sort();
         // we'll attempt to steal a partition from 'a'.
         partitionsToOwn.length.should.equal(
           1,
-          "stealing with an even number of partitions per processor"
+          "stealing with an even number of partitions per processor",
         );
       });
 
@@ -230,7 +230,7 @@ testWithServiceTypes(() => {
 
         requestedPartitions.should.deep.equal(
           [],
-          "c will not steal one partition since it sees that, eventually, 'a' will lose its partitions and become a +1 processor on it's own"
+          "c will not steal one partition since it sees that, eventually, 'a' will lose its partitions and become a +1 processor on it's own",
         );
       });
 
@@ -245,7 +245,7 @@ testWithServiceTypes(() => {
             "1": "b",
             "2": "a",
           }),
-          ["0", "1", "2"]
+          ["0", "1", "2"],
         );
 
         partitionsToOwn.sort();
@@ -266,7 +266,7 @@ testWithServiceTypes(() => {
             "1": "b",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.length.should.be.equal(1, "1 and 1 with another owner, should claim one");
         // better not try to claim 'b's partition when there are unowned partitions
@@ -280,7 +280,7 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
@@ -294,7 +294,7 @@ testWithServiceTypes(() => {
             "2": "b",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");
@@ -337,12 +337,12 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           [],
-          "we've gotten our fair share, shouldn't claim anything new"
+          "we've gotten our fair share, shouldn't claim anything new",
         );
 
         // now the other side of this is when we're fighting for the ownership of an
@@ -353,12 +353,12 @@ testWithServiceTypes(() => {
             "1": "b",
             "2": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           ["0"],
-          "we had our minimum fair share (1) but there's still one extra (uneven number of partitions per processor) and we should snag it"
+          "we had our minimum fair share (1) but there's still one extra (uneven number of partitions per processor) and we should snag it",
         );
       });
 
@@ -374,12 +374,12 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(
           [],
-          "we've gotten our fair share, shouldn't claim anything new"
+          "we've gotten our fair share, shouldn't claim anything new",
         );
 
         partitionsToOwn = lb.getPartitionsToClaim(
@@ -390,7 +390,7 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal([], "load is balanced, won't grab any more.");
@@ -412,13 +412,13 @@ testWithServiceTypes(() => {
             "1": "a",
             "2": "a",
           }),
-          ["0", "1", "2"]
+          ["0", "1", "2"],
         );
         partitionsToOwn.sort();
         // we'll attempt to steal a partition from 'a'.
         partitionsToOwn.length.should.equal(
           1,
-          "stealing with an odd number of partitions per processor"
+          "stealing with an odd number of partitions per processor",
         );
 
         // and now the same case as above, but with an even number of partitions per processor.
@@ -430,13 +430,13 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          ["0", "1", "2", "3"]
+          ["0", "1", "2", "3"],
         );
         partitionsToOwn.sort();
         // we'll attempt to steal a partition from 'a'.
         partitionsToOwn.length.should.equal(
           2,
-          "stealing with an even number of partitions per processor"
+          "stealing with an even number of partitions per processor",
         );
       });
 
@@ -457,7 +457,7 @@ testWithServiceTypes(() => {
             "6": "b",
             "7": "b",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         // "a" should have 4 partitions in order to be balanced.
@@ -510,7 +510,7 @@ testWithServiceTypes(() => {
 
         requestedPartitions.should.deep.equal(
           [],
-          "c will not steal one partition since it sees that, eventually, 'a' will lose its partitions and become a +1 processor on it's own"
+          "c will not steal one partition since it sees that, eventually, 'a' will lose its partitions and become a +1 processor on it's own",
         );
       });
 
@@ -525,7 +525,7 @@ testWithServiceTypes(() => {
             "1": "b",
             "2": "a",
           }),
-          ["0", "1", "2"]
+          ["0", "1", "2"],
         );
 
         partitionsToOwn.sort();
@@ -546,7 +546,7 @@ testWithServiceTypes(() => {
             "1": "b",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.length.should.be.equal(1, "1 and 1 with another owner, should claim one");
         // better not try to claim 'b's partition when there are unowned partitions
@@ -560,7 +560,7 @@ testWithServiceTypes(() => {
             "2": "a",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal(["0"], "b grabbed the last available partition");
@@ -574,7 +574,7 @@ testWithServiceTypes(() => {
             "2": "b",
             "3": "a",
           }),
-          allPartitions
+          allPartitions,
         );
         partitionsToOwn.sort();
         partitionsToOwn.should.be.deep.equal([], "balanced: b should not grab anymore partitions");

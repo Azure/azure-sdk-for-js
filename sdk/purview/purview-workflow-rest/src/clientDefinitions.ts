@@ -52,92 +52,92 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface ListWorkflows {
   /** List all workflows. */
   get(
-    options?: ListWorkflowsParameters
+    options?: ListWorkflowsParameters,
   ): StreamableMethod<ListWorkflows200Response | ListWorkflowsDefaultResponse>;
 }
 
 export interface GetWorkflow {
   /** Get a specific workflow. */
   get(
-    options?: GetWorkflowParameters
+    options?: GetWorkflowParameters,
   ): StreamableMethod<GetWorkflow200Response | GetWorkflowDefaultResponse>;
   /** Create or replace a workflow. */
   put(
-    options: CreateOrReplaceWorkflowParameters
+    options: CreateOrReplaceWorkflowParameters,
   ): StreamableMethod<CreateOrReplaceWorkflow200Response | CreateOrReplaceWorkflowDefaultResponse>;
   /** Delete a workflow. */
   delete(
-    options?: DeleteWorkflowParameters
+    options?: DeleteWorkflowParameters,
   ): StreamableMethod<DeleteWorkflow204Response | DeleteWorkflowDefaultResponse>;
 }
 
 export interface SubmitUserRequests {
   /** Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. */
   post(
-    options: SubmitUserRequestsParameters
+    options: SubmitUserRequestsParameters,
   ): StreamableMethod<SubmitUserRequests200Response | SubmitUserRequestsDefaultResponse>;
 }
 
 export interface ListWorkflowRuns {
   /** List workflow runs. */
   get(
-    options?: ListWorkflowRunsParameters
+    options?: ListWorkflowRunsParameters,
   ): StreamableMethod<ListWorkflowRuns200Response | ListWorkflowRunsDefaultResponse>;
 }
 
 export interface GetWorkflowRun {
   /** Get a workflow run. */
   get(
-    options?: GetWorkflowRunParameters
+    options?: GetWorkflowRunParameters,
   ): StreamableMethod<GetWorkflowRun200Response | GetWorkflowRunDefaultResponse>;
 }
 
 export interface CancelWorkflowRun {
   /** Cancel a workflow run. */
   post(
-    options: CancelWorkflowRunParameters
+    options: CancelWorkflowRunParameters,
   ): StreamableMethod<CancelWorkflowRun200Response | CancelWorkflowRunDefaultResponse>;
 }
 
 export interface ListWorkflowTasks {
   /** Get all workflow tasks. */
   get(
-    options?: ListWorkflowTasksParameters
+    options?: ListWorkflowTasksParameters,
   ): StreamableMethod<ListWorkflowTasks200Response | ListWorkflowTasksDefaultResponse>;
 }
 
 export interface GetWorkflowTask {
   /** Get a workflow task. */
   get(
-    options?: GetWorkflowTaskParameters
+    options?: GetWorkflowTaskParameters,
   ): StreamableMethod<GetWorkflowTask200Response | GetWorkflowTaskDefaultResponse>;
 }
 
 export interface ApproveApprovalTask {
   /** Approve an approval task. */
   post(
-    options: ApproveApprovalTaskParameters
+    options: ApproveApprovalTaskParameters,
   ): StreamableMethod<ApproveApprovalTask200Response | ApproveApprovalTaskDefaultResponse>;
 }
 
 export interface RejectApprovalTask {
   /** Reject an approval task. */
   post(
-    options: RejectApprovalTaskParameters
+    options: RejectApprovalTaskParameters,
   ): StreamableMethod<RejectApprovalTask200Response | RejectApprovalTaskDefaultResponse>;
 }
 
 export interface ReassignWorkflowTask {
   /** Reassign a workflow task. */
   post(
-    options: ReassignWorkflowTaskParameters
+    options: ReassignWorkflowTaskParameters,
   ): StreamableMethod<ReassignWorkflowTask200Response | ReassignWorkflowTaskDefaultResponse>;
 }
 
 export interface UpdateTaskStatus {
   /** Update the status of a workflow task request. */
   post(
-    options: UpdateTaskStatusParameters
+    options: UpdateTaskStatusParameters,
   ): StreamableMethod<UpdateTaskStatus200Response | UpdateTaskStatusDefaultResponse>;
 }
 

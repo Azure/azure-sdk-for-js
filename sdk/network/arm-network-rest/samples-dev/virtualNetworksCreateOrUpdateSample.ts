@@ -39,7 +39,7 @@ async function createVirtualNetwork() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -76,7 +76,7 @@ async function createVirtualNetworkWithBgpCommunities() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -125,7 +125,7 @@ async function createVirtualNetworkWithDelegatedSubnets() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -162,7 +162,7 @@ async function createVirtualNetworkWithEncryption() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -206,7 +206,7 @@ async function createVirtualNetworkWithServiceEndpoints() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -255,7 +255,7 @@ async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -291,7 +291,7 @@ async function createVirtualNetworkWithSubnet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -332,7 +332,7 @@ async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

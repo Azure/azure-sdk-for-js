@@ -15,7 +15,7 @@ export function getDeliveryProperty(message: ServiceBusReceivedMessage): Deliver
   }
 
   throw new Error(
-    "Received message does not contain a .delivery member - not a ServiceBusMessageImpl instance."
+    "Received message does not contain a .delivery member - not a ServiceBusMessageImpl instance.",
   );
 }
 

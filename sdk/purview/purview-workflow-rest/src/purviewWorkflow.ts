@@ -14,7 +14,7 @@ import { PurviewWorkflowClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): PurviewWorkflowClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/workflow`;
   options.apiVersion = options.apiVersion ?? "2022-05-01-preview";

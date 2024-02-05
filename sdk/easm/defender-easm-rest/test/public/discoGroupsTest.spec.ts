@@ -31,7 +31,7 @@ describe("Discovery Groups Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     known_group_name = "University of Kansas";
     new_group_name = "New disco group name from ts";

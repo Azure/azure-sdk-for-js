@@ -51,7 +51,7 @@ export function createClient(recorder: Recorder, options?: ClientOptions): Purvi
   const client = PurviewSharing(
     env.ENDPOINT ?? "",
     credential,
-    recorder.configureClientOptions({ options })
+    recorder.configureClientOptions({ options }),
   );
 
   return client;

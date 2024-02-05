@@ -31,7 +31,7 @@ async function getASharedGallery() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}",
       subscriptionId,
       location,
-      galleryUniqueName
+      galleryUniqueName,
     )
     .get(options);
   console.log(result);

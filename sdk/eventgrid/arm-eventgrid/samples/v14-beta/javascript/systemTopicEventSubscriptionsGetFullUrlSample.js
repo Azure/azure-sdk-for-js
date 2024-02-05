@@ -29,7 +29,7 @@ async function systemTopicEventSubscriptionsGetFullUrl() {
   const result = await client.systemTopicEventSubscriptions.getFullUrl(
     resourceGroupName,
     systemTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

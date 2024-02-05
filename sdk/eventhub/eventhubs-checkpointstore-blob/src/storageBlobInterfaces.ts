@@ -37,7 +37,7 @@ export interface ContainerClientLike {
    * under the specified account.
    */
   listBlobsFlat(
-    options?: ContainerListBlobsOptions
+    options?: ContainerListBlobsOptions,
   ): PagedAsyncIterableIterator<BlobItem, ContainerListBlobFlatSegmentResponse>;
 }
 
@@ -51,13 +51,13 @@ export interface BlockBlobClientLike {
   upload(
     body: HttpRequestBody,
     contentLength: number,
-    options?: BlockBlobUploadOptions
+    options?: BlockBlobUploadOptions,
   ): Promise<BlockBlobUploadResponse>;
   /**
    * Sets user-defined metadata for the specified blob as one or more name-value pairs.
    */
   setMetadata(
     metadata?: Metadata,
-    options?: BlobSetMetadataOptions
+    options?: BlobSetMetadataOptions,
   ): Promise<ContainerSetMetadataResponse>;
 }

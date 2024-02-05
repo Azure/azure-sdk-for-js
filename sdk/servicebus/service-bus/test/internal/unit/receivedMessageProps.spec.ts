@@ -15,7 +15,7 @@ chai.use(chaiAsPromised);
 describe("Message translations", () => {
   describe("expiresAtUtc is not invalid on received message", function (): void {
     async function verifyExpiresAtUtc(
-      transformMessage?: (msg: ServiceBusMessage) => ServiceBusMessage
+      transformMessage?: (msg: ServiceBusMessage) => ServiceBusMessage,
     ): Promise<void> {
       let testMessage = TestMessage.getSample();
       if (transformMessage) testMessage = transformMessage(testMessage);

@@ -11,7 +11,7 @@ export { processMultiTenantRequest } from "./processMultiTenantRequest";
 export function checkTenantId(logger: CredentialLogger, tenantId: string): void {
   if (!tenantId.match(/^[0-9a-zA-Z-.]+$/)) {
     const error = new Error(
-      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names."
+      "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.",
     );
     logger.info(formatError("", error));
     throw error;
@@ -24,7 +24,7 @@ export function checkTenantId(logger: CredentialLogger, tenantId: string): void 
 export function resolveTenantId(
   logger: CredentialLogger,
   tenantId?: string,
-  clientId?: string
+  clientId?: string,
 ): string {
   if (tenantId) {
     checkTenantId(logger, tenantId);
@@ -43,7 +43,7 @@ export function resolveTenantId(
  * @internal
  */
 export function resolveAdditionallyAllowedTenantIds(
-  additionallyAllowedTenants?: string[]
+  additionallyAllowedTenants?: string[],
 ): string[] {
   if (!additionallyAllowedTenants || additionallyAllowedTenants.length === 0) {
     return [];

@@ -35,7 +35,7 @@ async function permissionBindingsCreateOrUpdate() {
     resourceGroupName,
     namespaceName,
     permissionBindingName,
-    permissionBindingInfo
+    permissionBindingInfo,
   );
   console.log(result);
 }

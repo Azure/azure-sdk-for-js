@@ -10,6 +10,7 @@
 
 - Wait for user error handler to finish when possible in session receivers. [PR #27716](https://github.com/Azure/azure-sdk-for-js/pull/27716)
 - Complete message before requesting the next one in session receivers [PR #27634](https://github.com/Azure/azure-sdk-for-js/pull/27634)
+- Correct timeToLive calculation to use absolute expiry time.
 
 ### Other Changes
 

@@ -29,7 +29,7 @@ async function domainTopicsCreateOrUpdate() {
   const result = await client.domainTopics.beginCreateOrUpdateAndWait(
     resourceGroupName,
     domainName,
-    domainTopicName
+    domainTopicName,
   );
   console.log(result);
 }

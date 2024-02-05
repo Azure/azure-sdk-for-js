@@ -32,7 +32,7 @@ async function listExpressRouteCircuitPeerings() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteCircuits/{circuitName}/peerings",
       subscriptionId,
       resourceGroupName,
-      circuitName
+      circuitName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

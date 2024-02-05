@@ -37,7 +37,7 @@ async function afdCustomDomainsCreate() {
     resourceGroupName,
     profileName,
     customDomainName,
-    customDomain
+    customDomain,
   );
   console.log(result);
 }

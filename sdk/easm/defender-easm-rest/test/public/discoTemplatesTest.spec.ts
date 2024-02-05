@@ -27,7 +27,7 @@ describe("Discovery Templates Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     template_id = "43488";
     partial_name = "ku";

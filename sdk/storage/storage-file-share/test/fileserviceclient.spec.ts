@@ -358,7 +358,7 @@ describe("FileServiceClient", () => {
     try {
       await shareClient.getProperties();
       assert.fail(
-        "Expecting an error in getting properties from a deleted block blob but didn't get one."
+        "Expecting an error in getting properties from a deleted block blob but didn't get one.",
       );
     } catch (error: any) {
       assert.ok((error.statusCode as number) === 404);
@@ -367,7 +367,7 @@ describe("FileServiceClient", () => {
 
   it("can be created from a sas connection string", async () => {
     const newClient = ShareServiceClient.fromConnectionString(
-      getSASConnectionStringFromEnvironment(recorder)
+      getSASConnectionStringFromEnvironment(recorder),
     );
     configureStorageClient(recorder, newClient);
 
@@ -384,7 +384,7 @@ describe("FileServiceClient", () => {
         retryOptions: {
           maxTries: 5,
         },
-      }
+      },
     );
     configureStorageClient(recorder, newClient);
 
@@ -417,7 +417,7 @@ describe("FileServiceClient - soft delete", () => {
 
   it("ListShares with deleted share", async function () {
     const shareClient = serviceClient.getShareClient(
-      recorder.variable("share", getUniqueName("share"))
+      recorder.variable("share", getUniqueName("share")),
     );
     await shareClient.create();
     await shareClient.delete();
@@ -435,7 +435,7 @@ describe("FileServiceClient - soft delete", () => {
 
   it("Undelete share positive", async function () {
     const shareClient = serviceClient.getShareClient(
-      recorder.variable("share", getUniqueName("share"))
+      recorder.variable("share", getUniqueName("share")),
     );
     await shareClient.create();
     await shareClient.delete();
@@ -461,7 +461,7 @@ describe("FileServiceClient - soft delete", () => {
 
     const restoredShareClient = await serviceClient.undeleteShare(
       shareDeleted!.name,
-      shareDeleted!.version!
+      shareDeleted!.version!,
     );
     await restoredShareClient.getProperties();
 
@@ -470,7 +470,7 @@ describe("FileServiceClient - soft delete", () => {
 
   it("Undelete share negative", async function () {
     const shareClient = serviceClient.getShareClient(
-      recorder.variable("share", getUniqueName("share"))
+      recorder.variable("share", getUniqueName("share")),
     );
     const invalidVersion = "01D60F8BB59A4652";
 

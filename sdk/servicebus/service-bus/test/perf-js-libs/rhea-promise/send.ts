@@ -58,7 +58,7 @@ async function RunTest(
   allowUnauthorized: boolean,
   entityPath: string,
   maxInflight: number,
-  messages: number
+  messages: number,
 ): Promise<void> {
   const port = 5671;
 
@@ -145,7 +145,7 @@ async function WriteResults(messages: number): Promise<void> {
       maxMessages,
       maxElapsed,
       _rejected,
-      inflightMessages
+      inflightMessages,
     );
   } while (_accepted + _rejected < messages);
 }
@@ -158,7 +158,7 @@ function WriteResult(
   maxMessages: number,
   maxElapsed: number,
   rejectedMessages: number,
-  inflightMessages: number
+  inflightMessages: number,
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
@@ -166,7 +166,7 @@ function WriteResult(
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
       `\tReject\t${rejectedMessages}` +
-      `\tInflt\t${inflightMessages}`
+      `\tInflt\t${inflightMessages}`,
   );
 }
 

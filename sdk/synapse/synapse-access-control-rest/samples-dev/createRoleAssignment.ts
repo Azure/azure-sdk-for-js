@@ -10,16 +10,16 @@
 
 import AccessControl, { isUnexpected } from "@azure-rest/synapse-access-control";
 import { DefaultAzureCredential } from "@azure/identity";
-import { v4 } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import dotenv from "dotenv";
 
 dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   const client = AccessControl(endpoint, new DefaultAzureCredential());
-  const roleAssignmentId = v4();
+  const roleAssignmentId = randomUUID();
   // Id of the principal to give aassing the tole to.
   const principalId = "<principal id>";
   // Id of the role to assing

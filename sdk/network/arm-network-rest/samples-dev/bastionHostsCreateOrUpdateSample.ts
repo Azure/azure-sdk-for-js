@@ -49,7 +49,7 @@ async function createBastionHost() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}",
       subscriptionId,
       resourceGroupName,
-      bastionHostName
+      bastionHostName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

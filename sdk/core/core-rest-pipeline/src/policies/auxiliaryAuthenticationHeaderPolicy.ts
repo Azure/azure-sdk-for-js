@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AzureLogger } from "@azure/logger";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { AccessTokenGetter, createTokenCycler } from "../util/tokenCycler";
+import type { GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AzureLogger } from "@azure/logger";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
+import { type AccessTokenGetter, createTokenCycler } from "../util/tokenCycler";
 import { logger as coreLogger } from "../log";
-import { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
+import type { AuthorizeRequestOptions } from "./bearerTokenAuthenticationPolicy";
 
 /**
  * The programmatic identifier of the auxiliaryAuthenticationHeaderPolicy.
@@ -51,7 +51,7 @@ async function sendAuthorizeRequest(options: AuthorizeRequestOptions): Promise<s
  * You could see [ARM docs](https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant) for a rundown of how this feature works
  */
 export function auxiliaryAuthenticationHeaderPolicy(
-  options: AuxiliaryAuthenticationHeaderPolicyOptions
+  options: AuxiliaryAuthenticationHeaderPolicyOptions,
 ): PipelinePolicy {
   const { credentials, scopes } = options;
   const logger = options.logger || coreLogger;
@@ -62,12 +62,12 @@ export function auxiliaryAuthenticationHeaderPolicy(
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
       if (!request.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs."
+          "Bearer token authentication for auxiliary header is not permitted for non-TLS protected (non-https) URLs.",
         );
       }
       if (!credentials || credentials.length === 0) {
         logger.info(
-          `${auxiliaryAuthenticationHeaderPolicyName} header will not be set due to empty credentials.`
+          `${auxiliaryAuthenticationHeaderPolicyName} header will not be set due to empty credentials.`,
         );
         return next(request);
       }
@@ -85,19 +85,19 @@ export function auxiliaryAuthenticationHeaderPolicy(
             request,
             getAccessToken,
             logger,
-          })
+          }),
         );
       }
       const auxiliaryTokens = (await Promise.all(tokenPromises)).filter((token) => Boolean(token));
       if (auxiliaryTokens.length === 0) {
         logger.warning(
-          `None of the auxiliary tokens are valid. ${AUTHORIZATION_AUXILIARY_HEADER} header will not be set.`
+          `None of the auxiliary tokens are valid. ${AUTHORIZATION_AUXILIARY_HEADER} header will not be set.`,
         );
         return next(request);
       }
       request.headers.set(
         AUTHORIZATION_AUXILIARY_HEADER,
-        auxiliaryTokens.map((token) => `Bearer ${token}`).join(", ")
+        auxiliaryTokens.map((token) => `Bearer ${token}`).join(", "),
       );
 
       return next(request);

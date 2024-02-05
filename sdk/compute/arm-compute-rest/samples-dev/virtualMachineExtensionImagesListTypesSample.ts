@@ -31,7 +31,7 @@ async function virtualMachineExtensionImagesListTypesMaximumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function virtualMachineExtensionImagesListTypesMinimumSetGen() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/publishers/{publisherName}/artifacttypes/vmextension/types",
       subscriptionId,
       location,
-      publisherName
+      publisherName,
     )
     .get(options);
   console.log(result);

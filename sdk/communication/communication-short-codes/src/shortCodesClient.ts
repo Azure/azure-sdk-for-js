@@ -52,19 +52,19 @@ export class ShortCodesClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: ShortCodesClientOptions
+    options?: ShortCodesClientOptions,
   );
 
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: ShortCodesClientOptions
+    options?: ShortCodesClientOptions,
   );
 
   public constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | ShortCodesClientOptions,
-    maybeOptions: ShortCodesClientOptions = {}
+    maybeOptions: ShortCodesClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isShortCodesClientOptions(credentialOrOptions)
@@ -89,11 +89,11 @@ export class ShortCodesClient {
   }
 
   public listShortCodes(
-    options: ListShortCodesOptions = {}
+    options: ListShortCodesOptions = {},
   ): PagedAsyncIterableIterator<ShortCode> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ShortCodesClient-listShortCodes",
-      options
+      options,
     );
     try {
       return this.client.shortCodes.listShortCodes(updatedOptions);
@@ -109,11 +109,11 @@ export class ShortCodesClient {
   }
 
   public listShortCodeCosts(
-    options: ListShortCodeCostsOptions = {}
+    options: ListShortCodeCostsOptions = {},
   ): PagedAsyncIterableIterator<ShortCodeCost> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ShortCodesClient-listShortCodeCosts",
-      options
+      options,
     );
     try {
       return this.client.shortCodes.listCosts(updatedOptions);
@@ -130,49 +130,49 @@ export class ShortCodesClient {
 
   public upsertUSProgramBrief(
     programBriefId: string,
-    options: ShortCodesUpsertUSProgramBriefOptionalParams = {}
+    options: ShortCodesUpsertUSProgramBriefOptionalParams = {},
   ): Promise<USProgramBrief> {
     return tracingClient.withSpan(
       "ShortCodesClient-upsertUSProgramBrief",
       options,
       (updatedOptions) => {
         return this.client.shortCodes.upsertUSProgramBrief(programBriefId, updatedOptions);
-      }
+      },
     );
   }
 
   public deleteUSProgramBrief(
     programBriefId: string,
-    options: DeleteUSProgramBriefOptions = {}
+    options: DeleteUSProgramBriefOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "ShortCodesClient-deleteUSProgramBrief",
       options,
       (updatedOptions) => {
         return this.client.shortCodes.deleteUSProgramBrief(programBriefId, updatedOptions);
-      }
+      },
     );
   }
 
   public getUSProgramBrief(
     programBriefId: string,
-    options: GetUSProgramBriefOptions = {}
+    options: GetUSProgramBriefOptions = {},
   ): Promise<USProgramBrief> {
     return tracingClient.withSpan(
       "ShortCodesClient-getUSProgramBrief",
       options,
       (updatedOptions) => {
         return this.client.shortCodes.getUSProgramBrief(programBriefId, updatedOptions);
-      }
+      },
     );
   }
 
   public listUSProgramBriefs(
-    options: ListUSProgramBriefsOptions = {}
+    options: ListUSProgramBriefsOptions = {},
   ): PagedAsyncIterableIterator<USProgramBrief> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ShortCodesClient-listUSProgramBriefs",
-      options
+      options,
     );
     try {
       return this.client.shortCodes.listUSProgramBriefs(updatedOptions);
@@ -189,21 +189,21 @@ export class ShortCodesClient {
 
   public submitUSProgramBrief(
     programBriefId: string,
-    options: SubmitUSProgramBriefOptions = {}
+    options: SubmitUSProgramBriefOptions = {},
   ): Promise<USProgramBrief> {
     return tracingClient.withSpan(
       "ShortCodesClient-submitUSProgramBrief",
       options,
       (updatedOptions) => {
         return this.client.shortCodes.submitUSProgramBrief(programBriefId, updatedOptions);
-      }
+      },
     );
   }
 
   public getUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
-    options: ShortCodesGetUSProgramBriefAttachmentOptionalParams = {}
+    options: ShortCodesGetUSProgramBriefAttachmentOptionalParams = {},
   ): Promise<ProgramBriefAttachment> {
     return tracingClient.withSpan(
       "ShortCodesClient-getUSProgramBriefAttachment",
@@ -212,19 +212,19 @@ export class ShortCodesClient {
         return this.client.shortCodes.getUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
   public listUSProgramBriefAttachments(
     programBriefId: string,
-    options: ShortCodesGetUSProgramBriefAttachmentsOptionalParams = {}
+    options: ShortCodesGetUSProgramBriefAttachmentsOptionalParams = {},
   ): PagedAsyncIterableIterator<ProgramBriefAttachment> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ShortCodesClient-listUSProgramBriefAttachments",
-      options
+      options,
     );
     try {
       return this.client.shortCodes.listUSProgramBriefAttachments(programBriefId, updatedOptions);
@@ -242,7 +242,7 @@ export class ShortCodesClient {
   public deleteUSProgramBriefAttachment(
     programBriefId: string,
     attachmentId: string,
-    options: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams = {}
+    options: ShortCodesDeleteUSProgramBriefAttachmentOptionalParams = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "ShortCodesClient-deleteUSProgramBriefAttachment",
@@ -251,9 +251,9 @@ export class ShortCodesClient {
         return this.client.shortCodes.deleteUSProgramBriefAttachment(
           programBriefId,
           attachmentId,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -264,7 +264,7 @@ export class ShortCodesClient {
     fileType: FileType,
     fileContent: string,
     attachmentType: AttachmentType,
-    options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {}
+    options: ShortCodesCreateOrReplaceUSProgramBriefAttachmentOptionalParams = {},
   ): Promise<ProgramBriefAttachment> {
     return tracingClient.withSpan(
       "ShortCodesClient-createOrReplaceUSProgramBriefAttachment",
@@ -278,9 +278,9 @@ export class ShortCodesClient {
           fileType,
           fileContent,
           attachmentType,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 }

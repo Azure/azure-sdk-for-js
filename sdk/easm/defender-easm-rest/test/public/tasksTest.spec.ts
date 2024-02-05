@@ -28,7 +28,7 @@ describe("Tasks Test", () => {
       resource_group,
       workspace_name,
       credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     existing_task_id = "efad1fac-52d5-4ea9-b601-d5bf54a83780";
     cancel_task_id = "efad1fac-52d5-4ea9-b601-d5bf54a83780";

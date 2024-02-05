@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import {
+  MonitoringTagRules,
+  TagRulesCreateOrUpdateOptionalParams,
+  MicrosoftDatadogClient
+} from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,12 +32,29 @@ async function tagRulesCreateOrUpdate() {
     process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const ruleSetName = "default";
+  const body: MonitoringTagRules = {
+    properties: {
+      automuting: true,
+      logRules: {
+        filteringTags: [
+          { name: "Environment", action: "Include", value: "Prod" },
+          { name: "Environment", action: "Exclude", value: "Dev" }
+        ],
+        sendAadLogs: false,
+        sendResourceLogs: true,
+        sendSubscriptionLogs: true
+      },
+      metricRules: { filteringTags: [] }
+    }
+  };
+  const options: TagRulesCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.tagRules.createOrUpdate(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
+    options
   );
   console.log(result);
 }

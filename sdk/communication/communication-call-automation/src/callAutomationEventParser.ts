@@ -30,6 +30,11 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
+  TranscriptionStarted,
+  TranscriptionStopped,
+  TranscriptionUpdated,
+  TranscriptionFailed,
+  TranscriptionResumed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -41,7 +46,7 @@ const serializer = createSerializer();
  * Helper function for parsing Acs callback events.
  */
 export function parseCallAutomationEvent(
-  encodedEvents: string | Record<string, unknown>
+  encodedEvents: string | Record<string, unknown>,
 ): CallAutomationEvent {
   const decodedInput = parseAndWrap(encodedEvents);
 
@@ -134,6 +139,21 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
       break;
+    case "Microsoft.Communication.TranscriptionStarted":
+      callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
+      break;
+    case "Microsoft.Communication.TranscriptionStopped":
+      callbackEvent = { kind: "TranscriptionStopped" } as TranscriptionStopped;
+      break;
+    case "Microsoft.Communication.TranscriptionUpdated":
+      callbackEvent = { kind: "TranscriptionUpdated" } as TranscriptionUpdated;
+      break;
+    case "Microsoft.Communication.TranscriptionFailed":
+      callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
+      break;
+    case "Microsoft.Communication.TranscriptionResumed":
+      callbackEvent = { kind: "TranscriptionResumed" } as TranscriptionResumed;
+      break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
   }
@@ -169,7 +189,7 @@ function participantsParserForEvent(data: any): any {
   return {
     ...rest,
     participants: participants?.map((participant: CallParticipantInternal) =>
-      callParticipantConverter(participant)
+      callParticipantConverter(participant),
     ),
   };
 }

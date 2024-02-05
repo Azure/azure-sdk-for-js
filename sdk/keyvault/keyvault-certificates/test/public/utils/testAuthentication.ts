@@ -11,7 +11,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function authenticate(
   that: Context,
-  serviceVersion: ReturnType<typeof getServiceVersion>
+  serviceVersion: ReturnType<typeof getServiceVersion>,
 ): Promise<any> {
   const suffix = uniqueString();
 
@@ -65,7 +65,7 @@ export async function authenticate(
     recorder.configureClientOptions({
       serviceVersion,
       disableChallengeResourceVerification: !isLiveMode(),
-    })
+    }),
   );
   const testClient = new TestClient(client);
 

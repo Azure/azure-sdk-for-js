@@ -27,7 +27,7 @@ function getLength(
     | Uint8Array
     | Blob
     | ReadableStream
-    | NodeJS.ReadableStream
+    | NodeJS.ReadableStream,
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -47,7 +47,7 @@ function getTotalLength(
     | Blob
     | ReadableStream
     | NodeJS.ReadableStream
-  )[]
+  )[],
 ): number | undefined {
   let total = 0;
   for (const source of sources) {
@@ -81,7 +81,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
 
   request.body = (() =>
     concatenateStreams(
-      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream)
+      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream),
     )) as RequestBodyType;
 }
 
@@ -92,7 +92,7 @@ export const multipartPolicyName = "multipartPolicy";
 
 const maxBoundaryLength = 70;
 const validBoundaryCharacters = new Set(
-  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`
+  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`,
 );
 
 function assertValidBoundary(boundary: string): void {
@@ -126,14 +126,14 @@ export function multipartPolicy(): PipelinePolicy {
       const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
       if (!parsedHeader) {
         throw new Error(
-          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`
+          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`,
         );
       }
 
       const [, contentType, parsedBoundary] = parsedHeader;
       if (parsedBoundary && boundary && parsedBoundary !== boundary) {
         throw new Error(
-          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`
+          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`,
         );
       }
 

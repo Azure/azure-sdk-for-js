@@ -33,7 +33,7 @@ async function channelsUpdate() {
     resourceGroupName,
     partnerNamespaceName,
     channelName,
-    channelUpdateParameters
+    channelUpdateParameters,
   );
   console.log(result);
 }

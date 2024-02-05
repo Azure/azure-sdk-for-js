@@ -46,7 +46,7 @@ async function handleRedirect(
   next: SendRequest,
   response: PipelineResponse,
   maxRetries: number,
-  currentRetries: number = 0
+  currentRetries: number = 0,
 ): Promise<PipelineResponse> {
   const { request, status, headers } = response;
   const locationHeader = headers.get("location");

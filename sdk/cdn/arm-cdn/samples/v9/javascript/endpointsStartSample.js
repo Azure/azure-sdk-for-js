@@ -28,7 +28,7 @@ async function endpointsStart() {
   const result = await client.endpoints.beginStartAndWait(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }

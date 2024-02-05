@@ -18,7 +18,7 @@ export interface BatchAccountCreateParameters {
   identity?: BatchAccountIdentity;
   /** The properties related to the auto-storage account. */
   autoStorage?: AutoStorageBaseProperties;
-  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Azure Active Directory. If the mode is UserSubscription, clients must use Azure Active Directory. The default is BatchService. */
+  /** The pool allocation mode also affects how clients may authenticate to the Batch Service API. If the mode is BatchService, clients may authenticate using access keys or Microsoft Entra ID. If the mode is UserSubscription, clients must use Microsoft Entra ID. The default is BatchService. */
   poolAllocationMode?: PoolAllocationMode;
   /** A reference to the Azure key vault associated with the Batch account. */
   keyVaultReference?: KeyVaultReference;
@@ -532,6 +532,10 @@ export interface VirtualMachineConfiguration {
   extensions?: VMExtension[];
   /** Contains configuration for ephemeral OSDisk settings. */
   osDisk?: OSDisk;
+  /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+  securityProfile?: SecurityProfile;
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  serviceArtifactReference?: ServiceArtifactReference;
 }
 
 /** A reference to an Azure Virtual Machines Marketplace image or the Azure Image resource of a custom Virtual Machine. To get the list of all imageReferences verified by Azure Batch, see the 'List supported node agent SKUs' operation. */
@@ -544,7 +548,7 @@ export interface ImageReference {
   sku?: string;
   /** A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
   version?: string;
-  /** This property is mutually exclusive with other properties. The Shared Image Gallery image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
+  /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
 }
 
@@ -601,7 +605,7 @@ export interface ContainerRegistry {
   identityReference?: ComputeNodeIdentityReference;
 }
 
-/** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Shared Image Gallery Image. */
+/** The disk encryption configuration applied on compute nodes in the pool. Disk encryption configuration is not supported on Linux pool created with Virtual Machine Image or Azure Compute Gallery Image. */
 export interface DiskEncryptionConfiguration {
   /** On Linux pool, only "TemporaryDisk" is supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified. */
   targets?: DiskEncryptionTarget[];
@@ -639,12 +643,48 @@ export interface VMExtension {
 export interface OSDisk {
   /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
   ephemeralOSDiskSettings?: DiffDiskSettings;
+  /** The type of caching to enable for the disk. */
+  caching?: CachingType;
+  managedDisk?: ManagedDisk;
+  /** The initial disk size in GB when creating new OS disk. */
+  diskSizeGB?: number;
+  /** Specifies whether writeAccelerator should be enabled or disabled on the disk. */
+  writeAcceleratorEnabled?: boolean;
 }
 
 /** Specifies the ephemeral Disk Settings for the operating system disk used by the virtual machine. */
 export interface DiffDiskSettings {
   /** This property can be used by user in the request to choose which location the operating system should be in. e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements. */
   placement?: "CacheDisk";
+}
+
+export interface ManagedDisk {
+  /** The storage account type for use in creating data disks or OS disk. */
+  storageAccountType?: StorageAccountType;
+}
+
+/** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
+export interface SecurityProfile {
+  /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
+  securityType?: "trustedLaunch";
+  /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. */
+  encryptionAtHost?: boolean;
+  /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
+  uefiSettings?: UefiSettings;
+}
+
+/** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
+export interface UefiSettings {
+  /** Specifies whether secure boot should be enabled on the virtual machine. */
+  secureBootEnabled?: boolean;
+  /** Specifies whether vTPM should be enabled on the virtual machine. */
+  vTpmEnabled?: boolean;
+}
+
+/** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
+export interface ServiceArtifactReference {
+  /** The service artifact reference id in the form of /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName} */
+  id: string;
 }
 
 /** Defines the desired size of the pool. This can either be 'fixedScale' where the requested targetDedicatedNodes is specified, or 'autoScale' which defines a formula which is periodically reevaluated. If this property is not specified, the pool will have a fixed scale with 0 targetDedicatedNodes. */
@@ -805,7 +845,7 @@ export interface StartTask {
   environmentSettings?: EnvironmentSetting[];
   /** If omitted, the task runs as a non-administrative user unique to the task. */
   userIdentity?: UserIdentity;
-  /** The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit. */
+  /** The Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit. Default is 0 */
   maxTaskRetryCount?: number;
   /** If true and the start task fails on a compute node, the Batch service retries the start task up to its maximum retry count (maxTaskRetryCount). If the task has still not completed successfully after all retries, then the Batch service marks the compute node unusable, and will not schedule tasks to it. This condition can be detected via the node state and scheduling error detail. If false, the Batch service will not wait for the start task to complete. In this case, other tasks can start executing on the compute node while the start task is still running; and even if the start task fails, new tasks will continue to be scheduled on the node. The default is true. */
   waitForSuccess?: boolean;
@@ -1279,6 +1319,8 @@ export interface Pool extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly currentNodeCommunicationMode?: NodeCommunicationMode;
+  /** The user-defined tags to be associated with the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources associated with the pool. This property can only be specified when the Batch account was created with the poolAllocationMode property set to 'UserSubscription'. */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /** Contains information about an Azure Batch account. */
@@ -1583,7 +1625,10 @@ export type AllocationState = "Steady" | "Resizing" | "Stopping";
 /** Defines values for CachingType. */
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 /** Defines values for StorageAccountType. */
-export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
+export type StorageAccountType =
+  | "Standard_LRS"
+  | "Premium_LRS"
+  | "StandardSSD_LRS";
 /** Defines values for DiskEncryptionTarget. */
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 /** Defines values for NodePlacementPolicyType. */

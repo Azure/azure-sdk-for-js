@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces";
+import type { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces";
 
 /**
  * Policies are executed in phases.
@@ -170,7 +170,7 @@ class HttpPipeline implements Pipeline {
           return policy.sendRequest(req, next);
         };
       },
-      (req: PipelineRequest) => httpClient.sendRequest(req)
+      (req: PipelineRequest) => httpClient.sendRequest(req),
     );
 
     return pipeline(request);

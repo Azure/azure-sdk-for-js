@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract text and layout information from documents.
  */
 export const PrebuiltLayoutModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltLayoutResult>;
 
 export interface PrebuiltLayoutResult extends fr.AnalyzeResultCommon {

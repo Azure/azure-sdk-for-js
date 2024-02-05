@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets supported OS options in the specified subscription.
  *
  * @summary Gets supported OS options in the specified subscription.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ContainerServiceGetOSOptions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ContainerServiceGetOSOptions.json
  */
 async function getContainerServiceOSOptions() {
   const subscriptionId =

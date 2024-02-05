@@ -39,7 +39,7 @@ export class LroEngine<TResult, TState extends PollOperationState<TResult>> exte
       lroResourceLocationConfig,
       processResult,
       updateState,
-      isDone
+      isDone,
     );
     super(operation);
     this.resolveOnUnsuccessful = resolveOnUnsuccessful;

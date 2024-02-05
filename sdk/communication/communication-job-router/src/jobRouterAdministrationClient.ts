@@ -58,7 +58,7 @@ import { logger } from "./logger";
  * @param value - The value being checked.
  */
 const isRouterAdministrationClientOptions = (
-  value: any
+  value: any,
 ): value is JobRouterAdministrationClientOptions => !!value && !isKeyCredential(value);
 
 /**
@@ -83,7 +83,7 @@ export class JobRouterAdministrationClient {
   constructor(
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    options?: JobRouterAdministrationClientOptions
+    options?: JobRouterAdministrationClientOptions,
   );
 
   /**
@@ -95,7 +95,7 @@ export class JobRouterAdministrationClient {
   constructor(
     endpoint: string,
     credential: CommunicationTokenCredential,
-    options?: JobRouterAdministrationClientOptions
+    options?: JobRouterAdministrationClientOptions,
   );
 
   /**
@@ -111,7 +111,7 @@ export class JobRouterAdministrationClient {
       | TokenCredential
       | CommunicationTokenCredential
       | JobRouterAdministrationClientOptions,
-    maybeOptions: JobRouterAdministrationClientOptions = {}
+    maybeOptions: JobRouterAdministrationClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isRouterAdministrationClientOptions(credentialOrOptions)
@@ -153,13 +153,13 @@ export class JobRouterAdministrationClient {
    */
   public async createClassificationPolicy(
     classificationPolicyId: string,
-    options: CreateClassificationPolicyOptions = {}
+    options: CreateClassificationPolicyOptions = {},
   ): Promise<ClassificationPolicyResponse> {
     const patch = options as ClassificationPolicy;
     const response = await this.client.jobRouterAdministration.upsertClassificationPolicy(
       classificationPolicyId,
       patch,
-      options
+      options,
     );
     return response as ClassificationPolicyResponse;
   }
@@ -172,13 +172,13 @@ export class JobRouterAdministrationClient {
    */
   public async updateClassificationPolicy(
     classificationPolicyId: string,
-    options: UpdateClassificationPolicyOptions = {}
+    options: UpdateClassificationPolicyOptions = {},
   ): Promise<ClassificationPolicyResponse> {
     const patch = options as ClassificationPolicy;
     const response = await this.client.jobRouterAdministration.upsertClassificationPolicy(
       classificationPolicyId,
       patch,
-      options
+      options,
     );
     return response as ClassificationPolicyResponse;
   }
@@ -189,7 +189,7 @@ export class JobRouterAdministrationClient {
    * @returns - The list of classification policies.
    */
   public listClassificationPolicies(
-    options: ListClassificationPoliciesOptions = {}
+    options: ListClassificationPoliciesOptions = {},
   ): PagedAsyncIterableIterator<ClassificationPolicyItem> {
     const listOptions = options as JobRouterAdministrationListClassificationPoliciesOptionalParams;
     listOptions.maxpagesize = options.maxPageSize;
@@ -204,11 +204,11 @@ export class JobRouterAdministrationClient {
    */
   public async getClassificationPolicy(
     classificationPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<ClassificationPolicyResponse> {
     const response = await this.client.jobRouterAdministration.getClassificationPolicy(
       classificationPolicyId,
-      options
+      options,
     );
     return response as ClassificationPolicyResponse;
   }
@@ -220,11 +220,11 @@ export class JobRouterAdministrationClient {
    */
   public async deleteClassificationPolicy(
     classificationPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return this.client.jobRouterAdministration.deleteClassificationPolicy(
       classificationPolicyId,
-      options
+      options,
     );
   }
 
@@ -236,13 +236,13 @@ export class JobRouterAdministrationClient {
    */
   public async createDistributionPolicy(
     distributionPolicyId: string,
-    options: CreateDistributionPolicyOptions = {}
+    options: CreateDistributionPolicyOptions = {},
   ): Promise<DistributionPolicyResponse> {
     const patch = options as DistributionPolicy;
     const response = await this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       patch,
-      options
+      options,
     );
     return response as DistributionPolicyResponse;
   }
@@ -255,13 +255,13 @@ export class JobRouterAdministrationClient {
    */
   public async updateDistributionPolicy(
     distributionPolicyId: string,
-    options: UpdateDistributionPolicyOptions = {}
+    options: UpdateDistributionPolicyOptions = {},
   ): Promise<DistributionPolicyResponse> {
     const patch = options as DistributionPolicy;
     const response = await this.client.jobRouterAdministration.upsertDistributionPolicy(
       distributionPolicyId,
       patch,
-      options
+      options,
     );
     return response as DistributionPolicyResponse;
   }
@@ -272,7 +272,7 @@ export class JobRouterAdministrationClient {
    * @returns - The list of distribution policies.
    */
   public listDistributionPolicies(
-    options: ListDistributionPoliciesOptions = {}
+    options: ListDistributionPoliciesOptions = {},
   ): PagedAsyncIterableIterator<DistributionPolicyItem> {
     const listOptions = options as JobRouterAdministrationListDistributionPoliciesOptionalParams;
     listOptions.maxpagesize = options.maxPageSize;
@@ -287,11 +287,11 @@ export class JobRouterAdministrationClient {
    */
   public async getDistributionPolicy(
     distributionPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<DistributionPolicyResponse> {
     const response = await this.client.jobRouterAdministration.getDistributionPolicy(
       distributionPolicyId,
-      options
+      options,
     );
     return response as DistributionPolicyResponse;
   }
@@ -303,11 +303,11 @@ export class JobRouterAdministrationClient {
    */
   public async deleteDistributionPolicy(
     distributionPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return this.client.jobRouterAdministration.deleteDistributionPolicy(
       distributionPolicyId,
-      options
+      options,
     );
   }
 
@@ -319,13 +319,13 @@ export class JobRouterAdministrationClient {
    */
   public async createExceptionPolicy(
     exceptionPolicyId: string,
-    options: CreateExceptionPolicyOptions = {}
+    options: CreateExceptionPolicyOptions = {},
   ): Promise<ExceptionPolicyResponse> {
     const patch = options as ExceptionPolicy;
     const response = await this.client.jobRouterAdministration.upsertExceptionPolicy(
       exceptionPolicyId,
       patch,
-      options
+      options,
     );
     return response as ExceptionPolicyResponse;
   }
@@ -338,13 +338,13 @@ export class JobRouterAdministrationClient {
    */
   public async updateExceptionPolicy(
     exceptionPolicyId: string,
-    options: UpdateExceptionPolicyOptions = {}
+    options: UpdateExceptionPolicyOptions = {},
   ): Promise<ExceptionPolicyResponse> {
     const patch = options as ExceptionPolicy;
     const response = await this.client.jobRouterAdministration.upsertExceptionPolicy(
       exceptionPolicyId,
       patch,
-      options
+      options,
     );
     return response as ExceptionPolicyResponse;
   }
@@ -355,7 +355,7 @@ export class JobRouterAdministrationClient {
    * @returns - The list of exception policies.
    */
   public listExceptionPolicies(
-    options: ListExceptionPoliciesOptions = {}
+    options: ListExceptionPoliciesOptions = {},
   ): PagedAsyncIterableIterator<ExceptionPolicyItem> {
     const listOptions = <JobRouterAdministrationListExceptionPoliciesOptionalParams>options;
     listOptions.maxpagesize = options.maxPageSize;
@@ -370,11 +370,11 @@ export class JobRouterAdministrationClient {
    */
   public async getExceptionPolicy(
     exceptionPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<ExceptionPolicyResponse> {
     const response = await this.client.jobRouterAdministration.getExceptionPolicy(
       exceptionPolicyId,
-      options
+      options,
     );
     return response as ExceptionPolicyResponse;
   }
@@ -386,7 +386,7 @@ export class JobRouterAdministrationClient {
    */
   public async deleteExceptionPolicy(
     exceptionPolicyId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     return this.client.jobRouterAdministration.deleteExceptionPolicy(exceptionPolicyId, options);
   }
@@ -399,7 +399,7 @@ export class JobRouterAdministrationClient {
    */
   public async createQueue(
     queueId: string,
-    options: CreateQueueOptions = {}
+    options: CreateQueueOptions = {},
   ): Promise<RouterQueueResponse> {
     const patch = options as RouterQueue;
     const response = await this.client.jobRouterAdministration.upsertQueue(queueId, patch, options);
@@ -414,7 +414,7 @@ export class JobRouterAdministrationClient {
    */
   public async updateQueue(
     queueId: string,
-    options: UpdateQueueOptions = {}
+    options: UpdateQueueOptions = {},
   ): Promise<RouterQueueResponse> {
     const patch = options as RouterQueue;
     const response = await this.client.jobRouterAdministration.upsertQueue(queueId, patch, options);
@@ -440,7 +440,7 @@ export class JobRouterAdministrationClient {
    */
   public async getQueue(
     queueId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<RouterQueueResponse> {
     const response = await this.client.jobRouterAdministration.getQueue(queueId, options);
     return response as RouterQueueResponse;

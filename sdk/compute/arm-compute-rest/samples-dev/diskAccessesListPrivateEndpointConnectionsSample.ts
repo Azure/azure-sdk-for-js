@@ -32,7 +32,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}/privateEndpointConnections",
       subscriptionId,
       resourceGroupName,
-      diskAccessName
+      diskAccessName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

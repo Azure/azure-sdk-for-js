@@ -41,7 +41,7 @@ export class AzureMonitorStatsbeatExporter
    */
   async export(
     metrics: ResourceMetrics,
-    resultCallback: (result: ExportResult) => void
+    resultCallback: (result: ExportResult) => void,
   ): Promise<void> {
     if (this._isShutdown) {
       setTimeout(() => resultCallback({ code: ExportResultCode.FAILED }), 0);
@@ -51,7 +51,7 @@ export class AzureMonitorStatsbeatExporter
     const envelopes: Envelope[] = resourceMetricsToEnvelope(
       metrics,
       this.instrumentationKey,
-      true // isStatsbeat flag passed to create a Statsbeat envelope.
+      true, // isStatsbeat flag passed to create a Statsbeat envelope.
     );
     // Supress tracing until OpenTelemetry Metrics SDK support it
     context.with(suppressTracing(context.active()), async () => {

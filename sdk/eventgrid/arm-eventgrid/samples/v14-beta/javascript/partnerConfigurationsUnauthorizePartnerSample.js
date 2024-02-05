@@ -31,7 +31,7 @@ async function partnerConfigurationsUnauthorizePartner() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerConfigurations.unauthorizePartner(
     resourceGroupName,
-    partnerInfo
+    partnerInfo,
   );
   console.log(result);
 }

@@ -9,7 +9,7 @@ export class LazyLoadingBlobStreamFactory {
     blobClient: BlobClient,
     offset: number,
     blockSize: number,
-    options?: LazyLoadingBlobStreamOptions
+    options?: LazyLoadingBlobStreamOptions,
   ): LazyLoadingBlobStream {
     return new LazyLoadingBlobStream(blobClient, offset, blockSize, options);
   }

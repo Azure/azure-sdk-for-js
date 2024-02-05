@@ -32,7 +32,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         "Newly updated items should be fetched incrementally",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
       await container.items.create({ id: "item1", key1: "0", key2: 0 });
       await container.items.create({ id: "item2", key1: "0", key2: 0 });
@@ -48,7 +48,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       } catch (err: any) {
         assert.equal(
           err.message,
-          "Container is partitioned, but no partition key or partition key range id was specified."
+          "Container is partitioned, but no partition key or partition key range id was specified.",
         );
         return;
       }
@@ -80,7 +80,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.equal(
         hasMoreResults,
         false,
-        "hasMoreResults should be false when we read the whole page"
+        "hasMoreResults should be false when we read the whole page",
       );
     });
   });
@@ -102,7 +102,7 @@ describe("Change Feed Iterator", function (this: Suite) {
         "Newly updated items should be fetched incrementally",
         undefined,
         containerDef,
-        throughput
+        throughput,
       );
       await container.items.create({ id: "item1", key1: "0", key2: 0 });
       await container.items.create({ id: "item1", key1: "1", key2: 1 });
@@ -133,14 +133,14 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.notDeepEqual(
         itemThatWasFound,
         itemThatWasCreated,
-        "actual should not match with expected value."
+        "actual should not match with expected value.",
       );
       delete itemThatWasFound._lsn;
       delete itemThatWasFound._metadata;
       assert.deepEqual(
         itemThatWasFound,
         itemThatWasCreated,
-        "actual value doesn't match with expected value."
+        "actual value doesn't match with expected value.",
       );
 
       const { result: itemsShouldBeEmptyWithNoNewCreates } = await iterator.fetchNext();
@@ -158,7 +158,7 @@ describe("Change Feed Iterator", function (this: Suite) {
       assert.equal(
         hasMoreResults,
         false,
-        "hasMoreResults should be false when we read the whole page"
+        "hasMoreResults should be false when we read the whole page",
       );
     });
   });

@@ -36,7 +36,7 @@ async function listRouteTables() {
       resourceGroupName,
       circuitName,
       peeringName,
-      devicePath
+      devicePath,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

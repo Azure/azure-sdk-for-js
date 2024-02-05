@@ -781,6 +781,60 @@ export const SenderUsernameResourceCollection: coreClient.CompositeMapper = {
   }
 };
 
+export const SuppressionListResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddressResourceCollection: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddressResourceCollection",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SuppressionListAddressResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const NameAvailabilityParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1062,6 +1116,91 @@ export const SenderUsernameResource: coreClient.CompositeMapper = {
       },
       provisioningState: {
         serializedName: "properties.provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      listName: {
+        serializedName: "properties.listName",
+        type: {
+          name: "String"
+        }
+      },
+      lastUpdatedTimeStamp: {
+        serializedName: "properties.lastUpdatedTimeStamp",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      createdTimeStamp: {
+        serializedName: "properties.createdTimeStamp",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      dataLocation: {
+        serializedName: "properties.dataLocation",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SuppressionListAddressResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SuppressionListAddressResource",
+    modelProperties: {
+      ...ProxyResource.type.modelProperties,
+      email: {
+        serializedName: "properties.email",
+        type: {
+          name: "String"
+        }
+      },
+      firstName: {
+        serializedName: "properties.firstName",
+        type: {
+          name: "String"
+        }
+      },
+      lastName: {
+        serializedName: "properties.lastName",
+        type: {
+          name: "String"
+        }
+      },
+      notes: {
+        serializedName: "properties.notes",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "properties.lastModified",
+        readOnly: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      dataLocation: {
+        serializedName: "properties.dataLocation",
         readOnly: true,
         type: {
           name: "String"

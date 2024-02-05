@@ -24,7 +24,7 @@ import {
 export interface HybridIdentityMetadataOperations {
   /**
    * Lists the hybrid identity metadata proxy resource in a provisioned cluster instance.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -35,9 +35,9 @@ export interface HybridIdentityMetadataOperations {
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
    * provisioning.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
-   * @param body Defines the hybridIdentityMetadata.
+   * @param body Hybrid Identity Metadata resource definition
    * @param options The options parameters.
    */
   put(
@@ -47,7 +47,7 @@ export interface HybridIdentityMetadataOperations {
   ): Promise<HybridIdentityMetadataPutResponse>;
   /**
    * Get the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -57,7 +57,7 @@ export interface HybridIdentityMetadataOperations {
   ): Promise<HybridIdentityMetadataGetResponse>;
   /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -72,7 +72,7 @@ export interface HybridIdentityMetadataOperations {
   >;
   /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */

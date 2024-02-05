@@ -36,7 +36,7 @@ export async function main() {
 
   if (!result.error) {
     console.log(
-      `The redacted text is "${result.redactedText}" and found the following PII entities`
+      `The redacted text is "${result.redactedText}" and found the following PII entities`,
     );
     for (const entity of result.entities) {
       console.log(`\t- "${entity.text}" of type ${entity.category}`);
@@ -64,7 +64,7 @@ export async function main() {
   });
   if (!resultWithSSNPII.error) {
     console.log(
-      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: "${textMultiplePIIs}", this is the SSN number:`
+      `You can choose to get SSN entities only, or any other PII category or a combination of them. For example, in this text: "${textMultiplePIIs}", this is the SSN number:`,
     );
     for (const entity of resultWithSSNPII.entities) {
       console.log(`\t- "${entity.text}"`);

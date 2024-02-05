@@ -39,7 +39,7 @@ export class StoredProcedure {
   constructor(
     public readonly container: Container,
     public readonly id: string,
-    private readonly clientContext: ClientContext
+    private readonly clientContext: ClientContext,
   ) {}
 
   /**
@@ -62,7 +62,7 @@ export class StoredProcedure {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -73,7 +73,7 @@ export class StoredProcedure {
    */
   public async replace(
     body: StoredProcedureDefinition,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<StoredProcedureResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (body.body) {
@@ -101,7 +101,7 @@ export class StoredProcedure {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -126,7 +126,7 @@ export class StoredProcedure {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
@@ -144,13 +144,13 @@ export class StoredProcedure {
   public async execute<T = any>(
     partitionKey: PartitionKey,
     params?: any[],
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ResourceResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       if (partitionKey === undefined) {
         const partitionKeyResponse = await readPartitionKeyDefinition(
           diagnosticNode,
-          this.container
+          this.container,
         );
         partitionKey = undefinedPartitionKey(partitionKeyResponse);
       }
@@ -165,7 +165,7 @@ export class StoredProcedure {
         response.result,
         response.headers,
         response.code,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }

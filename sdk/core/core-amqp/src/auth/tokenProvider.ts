@@ -39,7 +39,7 @@ export function createSasTokenProvider(
     | { sharedAccessKeyName: string; sharedAccessKey: string }
     | { sharedAccessSignature: string }
     | NamedKeyCredential
-    | SASCredential
+    | SASCredential,
 ): SasTokenProvider {
   if (isNamedKeyCredential(data) || isSASCredential(data)) {
     return new SasTokenProviderImpl(data);
@@ -87,7 +87,7 @@ export class SasTokenProviderImpl implements SasTokenProvider {
         this._credential.name,
         this._credential.key,
         Math.floor(Date.now() / 1000) + 3600,
-        audience
+        audience,
       );
     } else {
       return {
@@ -110,7 +110,7 @@ async function createToken(
   keyName: string,
   key: string,
   expiry: number,
-  audience: string
+  audience: string,
 ): Promise<AccessToken> {
   audience = encodeURIComponent(audience);
   keyName = encodeURIComponent(keyName);

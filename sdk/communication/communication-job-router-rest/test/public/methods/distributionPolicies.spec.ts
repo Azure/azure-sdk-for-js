@@ -37,7 +37,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
-          distributionPolicyIdForCreationAndDeletionTest
+          distributionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -58,7 +58,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
-          distributionPolicyIdForCreationAndDeletionTest
+          distributionPolicyIdForCreationAndDeletionTest,
         )
         .get();
 
@@ -71,7 +71,7 @@ describe("JobRouterClient", function () {
       assert.equal(result.name, distributionPolicyRequest.name);
       assert.equal(
         result.offerExpiresAfterSeconds,
-        distributionPolicyRequest.offerExpiresAfterSeconds
+        distributionPolicyRequest.offerExpiresAfterSeconds,
       );
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
     }).timeout(timeoutMs);
@@ -81,7 +81,7 @@ describe("JobRouterClient", function () {
       let response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
-          distributionPolicyIdForCreationAndDeletionTest
+          distributionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -97,7 +97,7 @@ describe("JobRouterClient", function () {
       response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
-          distributionPolicyIdForCreationAndDeletionTest
+          distributionPolicyIdForCreationAndDeletionTest,
         )
         .patch({
           contentType: "application/merge-patch+json",
@@ -140,7 +140,7 @@ describe("JobRouterClient", function () {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
-          distributionPolicyIdForCreationAndDeletionTest
+          distributionPolicyIdForCreationAndDeletionTest,
         )
         .delete();
 

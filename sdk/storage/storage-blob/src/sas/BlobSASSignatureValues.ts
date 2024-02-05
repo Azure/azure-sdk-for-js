@@ -206,7 +206,7 @@ export interface BlobSASSignatureValues {
  */
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters;
 
 /**
@@ -241,13 +241,13 @@ export function generateBlobSASQueryParameters(
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKey: UserDelegationKey,
-  accountName: string
+  accountName: string,
 ): SASQueryParameters;
 
 export function generateBlobSASQueryParameters(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
-  accountName?: string
+  accountName?: string,
 ): SASQueryParameters {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
 
@@ -260,7 +260,7 @@ export function generateBlobSASQueryParameters(
   if (sharedKeyCredential === undefined && accountName !== undefined) {
     userDelegationKeyCredential = new UserDelegationKeyCredential(
       accountName,
-      sharedKeyCredentialOrUserDelegationKey as UserDelegationKey
+      sharedKeyCredentialOrUserDelegationKey as UserDelegationKey,
     );
   }
 
@@ -275,7 +275,7 @@ export function generateBlobSASQueryParameters(
     } else {
       return generateBlobSASQueryParametersUDK20201206(
         blobSASSignatureValues,
-        userDelegationKeyCredential!
+        userDelegationKeyCredential!,
       );
     }
   }
@@ -291,12 +291,12 @@ export function generateBlobSASQueryParameters(
       if (version >= "2020-02-10") {
         return generateBlobSASQueryParametersUDK20200210(
           blobSASSignatureValues,
-          userDelegationKeyCredential!
+          userDelegationKeyCredential!,
         );
       } else {
         return generateBlobSASQueryParametersUDK20181109(
           blobSASSignatureValues,
-          userDelegationKeyCredential!
+          userDelegationKeyCredential!,
         );
       }
     }
@@ -307,7 +307,7 @@ export function generateBlobSASQueryParameters(
       return generateBlobSASQueryParameters20150405(blobSASSignatureValues, sharedKeyCredential);
     } else {
       throw new RangeError(
-        "'version' must be >= '2018-11-09' when generating user delegation SAS using user delegation key."
+        "'version' must be >= '2018-11-09' when generating user delegation SAS using user delegation key.",
       );
     }
   }
@@ -333,7 +333,7 @@ export function generateBlobSASQueryParameters(
  */
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
@@ -342,7 +342,7 @@ function generateBlobSASQueryParameters20150405(
     !(blobSASSignatureValues.permissions && blobSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -356,11 +356,11 @@ function generateBlobSASQueryParameters20150405(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -377,7 +377,7 @@ function generateBlobSASQueryParameters20150405(
     getCanonicalName(
       sharedKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     blobSASSignatureValues.identifier,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
@@ -408,7 +408,7 @@ function generateBlobSASQueryParameters20150405(
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType
+    blobSASSignatureValues.contentType,
   );
 }
 
@@ -430,7 +430,7 @@ function generateBlobSASQueryParameters20150405(
  */
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
@@ -439,7 +439,7 @@ function generateBlobSASQueryParameters20181109(
     !(blobSASSignatureValues.permissions && blobSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -460,11 +460,11 @@ function generateBlobSASQueryParameters20181109(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -481,7 +481,7 @@ function generateBlobSASQueryParameters20181109(
     getCanonicalName(
       sharedKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     blobSASSignatureValues.identifier,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
@@ -514,7 +514,7 @@ function generateBlobSASQueryParameters20181109(
     blobSASSignatureValues.contentDisposition,
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType
+    blobSASSignatureValues.contentType,
   );
 }
 
@@ -536,7 +536,7 @@ function generateBlobSASQueryParameters20181109(
  */
 function generateBlobSASQueryParameters20201206(
   blobSASSignatureValues: BlobSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
@@ -545,7 +545,7 @@ function generateBlobSASQueryParameters20201206(
     !(blobSASSignatureValues.permissions && blobSASSignatureValues.expiresOn)
   ) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided.",
     );
   }
 
@@ -566,11 +566,11 @@ function generateBlobSASQueryParameters20201206(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -587,7 +587,7 @@ function generateBlobSASQueryParameters20201206(
     getCanonicalName(
       sharedKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     blobSASSignatureValues.identifier,
     blobSASSignatureValues.ipRange ? ipRangeToString(blobSASSignatureValues.ipRange) : "",
@@ -625,7 +625,7 @@ function generateBlobSASQueryParameters20201206(
     undefined,
     undefined,
     undefined,
-    blobSASSignatureValues.encryptionScope
+    blobSASSignatureValues.encryptionScope,
   );
 }
 
@@ -645,14 +645,14 @@ function generateBlobSASQueryParameters20201206(
  */
 function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
-  userDelegationKeyCredential: UserDelegationKeyCredential
+  userDelegationKeyCredential: UserDelegationKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
   if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
     );
   }
 
@@ -673,11 +673,11 @@ function generateBlobSASQueryParametersUDK20181109(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -694,7 +694,7 @@ function generateBlobSASQueryParametersUDK20181109(
     getCanonicalName(
       userDelegationKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
@@ -736,7 +736,7 @@ function generateBlobSASQueryParametersUDK20181109(
     blobSASSignatureValues.contentEncoding,
     blobSASSignatureValues.contentLanguage,
     blobSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey
+    userDelegationKeyCredential.userDelegationKey,
   );
 }
 
@@ -756,14 +756,14 @@ function generateBlobSASQueryParametersUDK20181109(
  */
 function generateBlobSASQueryParametersUDK20200210(
   blobSASSignatureValues: BlobSASSignatureValues,
-  userDelegationKeyCredential: UserDelegationKeyCredential
+  userDelegationKeyCredential: UserDelegationKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
   if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
     );
   }
 
@@ -784,11 +784,11 @@ function generateBlobSASQueryParametersUDK20200210(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -805,7 +805,7 @@ function generateBlobSASQueryParametersUDK20200210(
     getCanonicalName(
       userDelegationKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
@@ -852,7 +852,7 @@ function generateBlobSASQueryParametersUDK20200210(
     blobSASSignatureValues.contentType,
     userDelegationKeyCredential.userDelegationKey,
     blobSASSignatureValues.preauthorizedAgentObjectId,
-    blobSASSignatureValues.correlationId
+    blobSASSignatureValues.correlationId,
   );
 }
 
@@ -872,14 +872,14 @@ function generateBlobSASQueryParametersUDK20200210(
  */
 function generateBlobSASQueryParametersUDK20201206(
   blobSASSignatureValues: BlobSASSignatureValues,
-  userDelegationKeyCredential: UserDelegationKeyCredential
+  userDelegationKeyCredential: UserDelegationKeyCredential,
 ): SASQueryParameters {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
   if (!blobSASSignatureValues.permissions || !blobSASSignatureValues.expiresOn) {
     throw new RangeError(
-      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS."
+      "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when generating user delegation SAS.",
     );
   }
 
@@ -900,11 +900,11 @@ function generateBlobSASQueryParametersUDK20201206(
   if (blobSASSignatureValues.permissions) {
     if (blobSASSignatureValues.blobName) {
       verifiedPermissions = BlobSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     } else {
       verifiedPermissions = ContainerSASPermissions.parse(
-        blobSASSignatureValues.permissions.toString()
+        blobSASSignatureValues.permissions.toString(),
       ).toString();
     }
   }
@@ -921,7 +921,7 @@ function generateBlobSASQueryParametersUDK20201206(
     getCanonicalName(
       userDelegationKeyCredential.accountName,
       blobSASSignatureValues.containerName,
-      blobSASSignatureValues.blobName
+      blobSASSignatureValues.blobName,
     ),
     userDelegationKeyCredential.userDelegationKey.signedObjectId,
     userDelegationKeyCredential.userDelegationKey.signedTenantId,
@@ -970,7 +970,7 @@ function generateBlobSASQueryParametersUDK20201206(
     userDelegationKeyCredential.userDelegationKey,
     blobSASSignatureValues.preauthorizedAgentObjectId,
     blobSASSignatureValues.correlationId,
-    blobSASSignatureValues.encryptionScope
+    blobSASSignatureValues.encryptionScope,
   );
 }
 
@@ -985,7 +985,7 @@ function getCanonicalName(accountName: string, containerName: string, blobName?:
 }
 
 function SASSignatureValuesSanityCheckAndAutofill(
-  blobSASSignatureValues: BlobSASSignatureValues
+  blobSASSignatureValues: BlobSASSignatureValues,
 ): BlobSASSignatureValues {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
   if (blobSASSignatureValues.snapshotTime && version < "2018-11-09") {
@@ -1055,7 +1055,7 @@ function SASSignatureValuesSanityCheckAndAutofill(
     (blobSASSignatureValues.preauthorizedAgentObjectId || blobSASSignatureValues.correlationId)
   ) {
     throw RangeError(
-      "'version' must be >= '2020-02-10' when providing 'preauthorizedAgentObjectId' or 'correlationId'."
+      "'version' must be >= '2020-02-10' when providing 'preauthorizedAgentObjectId' or 'correlationId'.",
     );
   }
 

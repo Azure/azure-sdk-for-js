@@ -34,7 +34,7 @@ export interface ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
   /**
    * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
@@ -48,7 +48,7 @@ export interface ServiceBusRuleManager {
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction?: SqlRuleAction,
-    options?: OperationOptionsBase
+    options?: OperationOptionsBase,
   ): Promise<void>;
   /**
    * Deletes a rule.
@@ -66,7 +66,7 @@ export interface ServiceBusRuleManager {
    */
   listRules(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties>;
 }
 
@@ -88,7 +88,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   constructor(
     private _context: ConnectionContext,
     private _entityPath: string,
-    private _retryOptions: RetryOptions = {}
+    private _retryOptions: RetryOptions = {},
   ) {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
@@ -109,7 +109,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
   createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<void>;
   /**
    * Adds a rule to the current subscription to filter the messages reaching from topic to the subscription.
@@ -123,13 +123,13 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleAction?: SqlRuleAction,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<void>;
   async createRule(
     ruleName: string,
     filter: SqlRuleFilter | CorrelationRuleFilter,
     ruleActionOrOperationOptions?: SqlRuleAction | OperationOptionsBase,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     let sqlRuleAction: SqlRuleAction | undefined = undefined;
     let operOptions: OperationOptions | undefined;
@@ -166,7 +166,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<void>(config);
-      }
+      },
     );
   }
 
@@ -174,7 +174,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    * Get all rules associated with the subscription.
    */
   private async getRules(
-    options?: ListRequestOptions & OperationOptions
+    options?: ListRequestOptions & OperationOptions,
   ): Promise<RuleProperties[]> {
     return tracingClient.withSpan(
       "ServiceBusRuleManager.getRules",
@@ -196,7 +196,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<RuleProperties[]>(config);
-      }
+      },
     );
   }
 
@@ -210,7 +210,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
    */
   public listRules(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: OperationOptions
+    options?: OperationOptions,
   ): PagedAsyncIterableIterator<RuleProperties, RuleProperties[], { maxPageSize?: number }> {
     logger.verbose(`Performing operation - listRules() with options: %j`, options);
     const pagedResult: PagedResult<RuleProperties[], { maxPageSize?: number }, number> = {
@@ -258,7 +258,7 @@ export class ServiceBusRuleManagerImpl implements ServiceBusRuleManager {
           abortSignal: updatedOptions?.abortSignal,
         };
         return retry<void>(config);
-      }
+      },
     );
   }
 }
