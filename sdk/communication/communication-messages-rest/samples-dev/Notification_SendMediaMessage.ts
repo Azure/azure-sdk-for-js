@@ -1,7 +1,5 @@
-import NotificationClient from "../src/generated/src";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { MessagesServiceClient, Send202Response } from "../src/generated/src";
-
+import NotificationClient, { MessagesServiceClient, Send202Response } from "@azure-rest/communication-messages";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
