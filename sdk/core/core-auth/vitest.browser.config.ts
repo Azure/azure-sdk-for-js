@@ -17,17 +17,15 @@ export default defineConfig({
       slowHijackESM: false,
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["./dist-test/browser/**/*.spec.js"],
+    include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
-      include: ["src/**/*.ts"],
+      include: ["dist-test/browser/**/*.js"],
       exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
-        "vitest*.config.ts",
-        "samples-dev/**/*.ts",
+        "dist-test/browser/**/*./*-browser.mjs",
+        "dist-test/browser/**/*./*-react-native.mjs",
       ],
       provider: "istanbul",
       reporter: ["text", "json", "html"],

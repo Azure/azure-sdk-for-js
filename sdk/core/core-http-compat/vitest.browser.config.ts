@@ -16,12 +16,16 @@ export default defineConfig({
       provider: "playwright",
     },
     fakeTimers: {
-      toFake: ["setTimeout"],
+      toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["./dist-test/browser/**/*.spec.js"],
+    include: ["dist-test/browser/**/*.spec.js"],
     coverage: {
       include: ["dist-test/browser/**/*.js"],
+      exclude: [
+        "dist-test/browser/**/*./*-browser.mjs",
+        "dist-test/browser/**/*./*-react-native.mjs",
+      ],
       provider: "istanbul",
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage-browser",
