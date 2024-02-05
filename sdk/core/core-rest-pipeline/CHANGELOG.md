@@ -8,7 +8,7 @@
 
 ### Bugs Fixed
 
-- Fixed issue where files created using `createFileFromStream` were not properly supported in the browser.
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
 
 ### Other Changes
 
