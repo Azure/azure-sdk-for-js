@@ -51,7 +51,7 @@ jobs:
             - docs-ref-services/
           Repositories:
             - Name: $(DocRepoOwner)/$(DocRepoName)
-      #         WorkingDirectory: $(DocRepoLocation)
+              WorkingDirectory: $(DocRepoLocation)
 
       # - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
 
