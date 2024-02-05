@@ -24,7 +24,19 @@ import { resolveTenantId } from "../util/tenantIdUtils";
 
 const msalLogger = credentialLogger("MsalClient");
 
+/**
+ * Interface for the MSAL (Microsoft Authentication Library) client.
+ * This client is used to interact with Microsoft's identity platform.
+ */
 export interface MsalClient {
+  /**
+   * Retrieves an access token by using a client secret.
+   *
+   * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param clientSecret - The client secret of the application. This is a credential that the application can use to authenticate itself.
+   * @param options - Optional. Additional options that may be provided to the method.
+   * @returns A promise that resolves to an access token.
+   */
   getTokenByClientSecret(
     scopes: string[],
     clientSecret: string,
@@ -35,6 +47,14 @@ export interface MsalClient {
 // TODO: define a new type for this
 type CreateMsalClientOptions = Partial<MsalNodeOptions>;
 
+/**
+ * Generates the configuration for MSAL (Microsoft Authentication Library).
+ *
+ * @param clientId - The client ID of the application.
+ * @param  tenantId - The tenant ID of the Azure Active Directory.
+ * @param  createMsalClientOptions - Optional. Additional options for creating the MSAL client.
+ * @returns  The MSAL configuration object.
+ */
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
@@ -75,13 +95,36 @@ export function generateMsalConfiguration(
   return msalConfig;
 }
 
+/**
+ * Represents the state necessary for the MSAL (Microsoft Authentication Library) client to operate.
+ * This includes the MSAL configuration, cached account information, Azure region, and a flag to disable automatic authentication.
+ *
+ * @internal
+ */
 interface MsalClientState {
+  /** The configuration for the MSAL client. */
   msalConfig: msal.Configuration;
+
+  /** The cached account information, or null if no account information is cached. */
   cachedAccount: msal.AccountInfo | null;
+
+  /** The Azure region, if specified. */
   azureRegion?: string;
+
+  /** A flag indicating whether automatic authentication is disabled. */
   disableAutomaticAuthentication?: boolean;
 }
 
+/**
+ * Creates an instance of the MSAL (Microsoft Authentication Library) client.
+ *
+ * @param clientId - The client ID of the application.
+ * @param tenantId - The tenant ID of the Azure Active Directory.
+ * @param createMsalClientOptions - Optional. Additional options for creating the MSAL client.
+ * @returns An instance of the MSAL client.
+ *
+ * @public
+ */
 export function createMsalClient(
   clientId: string,
   tenantId: string,
@@ -209,18 +252,22 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         });
       }
       msalLogger.getToken.info(`Silent authentication failed, falling back to interactive method.`);
-      const token = await msalApp.acquireTokenByClientCredential({
+      const result = await msalApp.acquireTokenByClientCredential({
         scopes: scopes,
         // TODO: correlationId
         azureRegion: state.azureRegion,
         authority: state.msalConfig.auth.authority,
         claims: options?.claims,
       });
-      state.cachedAccount = token?.account ?? null;
+
+      ensureValidMsalToken(scopes, result ?? undefined, options);
+      msalLogger.getToken.info(formatSuccess(scopes));
+
+      state.cachedAccount = result?.account ?? null;
 
       return {
-        token: token!.accessToken,
-        expiresOnTimestamp: token!.expiresOn!.getTime(),
+        token: result!.accessToken,
+        expiresOnTimestamp: result!.expiresOn!.getTime(),
       };
     }
   }
