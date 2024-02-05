@@ -80,7 +80,7 @@ export const skip: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-11-07",
+    defaultValue: "2023-11-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
