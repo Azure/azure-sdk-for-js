@@ -50,7 +50,7 @@
   "sideEffects": false,
   "scripts": {
     "build:samples": "echo Obsolete",
-    "build:test": "tshy && dev-tool run build-test",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
     "build": "npm run clean && tshy && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",

@@ -1,7 +1,9 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "paths": { "@azure/core-sse": ["./src/index.js"] },
+    "paths": {
+      "@azure/core-sse": ["./src/index.ts"],
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext", "dom"],
