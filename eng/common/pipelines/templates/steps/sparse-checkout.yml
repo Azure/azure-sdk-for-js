@@ -26,7 +26,7 @@ steps:
       # Define this inline, because of the chicken/egg problem with loading a script when nothing
       # has been checked out yet.
       script: |
-        $PSNativeCommandArgumentPassing = 'Legacy'
+        # $PSNativeCommandArgumentPassing = 'Legacy'
         function SparseCheckout([Array]$paths, [Hashtable]$repository)
         {
             $dir = $repository.WorkingDirectory
@@ -76,6 +76,9 @@ steps:
             if (!$hasInitialized) {
               # Remove refs/heads/ prefix from branch names
               $commitish = $repository.Commitish -replace '^refs/heads/', ''
+
+              Write-Host "git status"
+              git status
 
               # use -- to prevent git from interpreting the commitish as a path
               Write-Host "git -c advice.detachedHead=false checkout $commitish --"
