@@ -400,6 +400,41 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.deepEqual(sendRequest.participants[0].metadata, requestJson.participants[0].metadata);
   });
 
+  it("makes successful add chat participants request with metadata", async function () {
+    const mockHttpClient = generateHttpClient(201);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const sendRequest: AddParticipantsRequest = {
+      participants: [
+        {
+          ...mockSdkModelParticipant,
+          metadata: {
+            userType: "C2",
+          },
+        },
+      ],
+    };
+
+    await chatThreadClient.addParticipants(sendRequest);
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(
+      request.url,
+      `${baseUri}/chat/threads/${threadId}/participants/:add?api-version=${API_VERSION}`
+    );
+    assert.equal(request.method, "POST");
+    const requestJson = JSON.parse(request.body as string);
+    assert.equal(
+      (sendRequest.participants[0].id as CommunicationUserIdentifier).communicationUserId,
+      requestJson.participants[0].communicationIdentifier.communicationUser.id
+    );
+    assert.equal(sendRequest.participants[0].displayName, requestJson.participants[0].displayName);
+    assert.deepEqual(sendRequest.participants[0].metadata, requestJson.participants[0].metadata);
+  });
+
   it("makes successful list chat participants request", async function () {
     const mockHttpClient = generateHttpClient(200, {
       value: [mockParticipantWithMetadata],

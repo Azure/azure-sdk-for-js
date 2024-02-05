@@ -148,6 +148,24 @@ export class ChatThreadClient {
   }
 
   /**
+   * Updates a thread's properties.
+   * @param options - Operation options.
+   */
+  public updateProperties(options: UpdateChatThreadPropertiesOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UpdateProperties",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.updateChatThreadProperties(
+          this.threadId,
+          options,
+          updatedOptions
+        );
+      }
+    );
+  }
+
+  /**
    * Sends a chat message to a thread identified by threadId.
    * Returns the id of the created message.
    * @param request - Request for sending a message.
