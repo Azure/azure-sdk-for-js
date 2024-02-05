@@ -352,7 +352,7 @@ export interface RequiredFunctionToolCall {
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
   id: string;
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: FunctionDefinition;
+  function: FunctionToolCallDetails;
 }
 
 /** The details of an error as encountered by an assistant thread run. */

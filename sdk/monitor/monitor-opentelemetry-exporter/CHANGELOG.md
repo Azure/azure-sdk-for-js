@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.20 ()
+
+### Features Added
+
+### Bugs Fixed
+
+- Added exception handling for reading files to avoid concurrency errors.
+
+### Other Changes
+
 ## 1.0.0-beta.19 (2024-01-23)
 
 ### Features Added

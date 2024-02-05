@@ -45,8 +45,12 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   const args = options["browser"] ? "-c vitest.browser.config.ts" : "";
+  const updatedArgs = options["--"]?.map((opt) =>
+    opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
+  );
+  const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
   const command = {
-    command: `vitest ${args}`,
+    command: `vitest ${args} ${vitestArgs}`,
     name: "vitest",
   };
 
