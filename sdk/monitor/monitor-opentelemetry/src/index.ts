@@ -73,10 +73,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 }
 
 /**
- * Shutdown Azure Monitor Distro
+ * Shutdown Azure Monitor Open Telemetry Distro
+ * @see https://github.com/open-telemetry/opentelemetry-js/blob/0229434cb5a3179f63c021105f36270ae7897929/experimental/packages/opentelemetry-sdk-node/src/sdk.ts#L398
  */
-export function shutdownAzureMonitor() {
-  sdk?.shutdown();
+export async function shutdownAzureMonitor(): Promise<void> {
+  await sdk?.shutdown();
   browserSdkLoader?.dispose();
 }
 
