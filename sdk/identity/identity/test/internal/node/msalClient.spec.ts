@@ -3,15 +3,19 @@
 
 import * as msalClient from "../../../src/msal/msalClient";
 
-import { ConfidentialClientApplication } from "@azure/msal-node";
+import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+
+import { AbortError } from "@azure/abort-controller";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
-import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import sinon from "sinon";
 
-describe.only("MsalClient", function () {
-  let cleanup: any;
+describe("MsalClient", function () {
+  let cleanup: MsalTestCleanup;
+  let sandbox: sinon.SinonSandbox;
+
   afterEach(async function () {
     if (cleanup) {
       await cleanup();
@@ -20,6 +24,7 @@ describe.only("MsalClient", function () {
   beforeEach(async function () {
     const setup = await msalNodeTestSetup(this.currentTest);
     cleanup = setup.cleanup;
+    sandbox = setup.sandbox;
   });
 
   describe("#createMsalClient", function () {
@@ -109,7 +114,112 @@ describe.only("MsalClient", function () {
       assert.isAtLeast(accessToken.expiresOnTimestamp, Date.now());
     });
 
-    it("attempts silent authentication first");
+    describe("with silent authentication", function () {
+      it("uses AuthenticationRecord if provided", async function () {
+        const clientId = process.env.AZURE_CLIENT_ID!;
+        const tenantId = process.env.AZURE_TENANT_ID!;
+
+        const authenticationRecord = {
+          authority: "https://login.microsoftonline.com/tenant-id",
+          tenantId,
+          username: "testuser",
+          homeAccountId: "home-account-id",
+          clientId: "client-id",
+        };
+
+        const client = msalClient.createMsalClient(clientId, tenantId, {
+          authenticationRecord,
+        });
+
+        const silentAuthSpy = sandbox.spy(
+          ConfidentialClientApplication.prototype,
+          "acquireTokenSilent",
+        );
+
+        const scopes = ["https://vault.azure.net/.default"];
+        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+
+        await client.getTokenByClientSecret(scopes, clientSecret);
+
+        assert.equal(silentAuthSpy.callCount, 1);
+        assert.deepEqual(silentAuthSpy.firstCall.firstArg.account, {
+          ...authenticationRecord,
+          localAccountId: authenticationRecord.homeAccountId,
+          environment: "login.microsoftonline.com",
+        });
+      });
+
+      it("attempts silent authentication without AuthenticationRecord", async function () {
+        const clientId = process.env.AZURE_CLIENT_ID!;
+        const tenantId = process.env.AZURE_TENANT_ID!;
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
+        const silentAuthStub = sandbox
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .resolves({
+            accessToken: "token",
+            expiresOn: new Date(Date.now() + 3600 * 1000),
+          } as AuthenticationResult);
+
+        const clientCredentialAuthStub = sandbox
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
+          .resolves({
+            accessToken: "token",
+            expiresOn: new Date(Date.now() + 3600 * 1000),
+            account: {
+              environment: "environment",
+              homeAccountId: "homeAccountId",
+              localAccountId: "localAccountId",
+              tenantId: "tenantId",
+              username: "username",
+            },
+          } as AuthenticationResult);
+
+        const scopes = ["https://vault.azure.net/.default"];
+        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+
+        await client.getTokenByClientSecret(scopes, clientSecret);
+        await client.getTokenByClientSecret(scopes, clientSecret);
+
+        assert.equal(
+          clientCredentialAuthStub.callCount,
+          1,
+          "expected acquireTokenByClientCredential to have been called once",
+        );
+        assert.equal(
+          silentAuthStub.callCount,
+          1,
+          "expected acquireTokenSilent to have been called once",
+        );
+      });
+
+      it("throws when silentAuthentication fails unexpectedly", async function () {
+        const clientId = process.env.AZURE_CLIENT_ID!;
+        const tenantId = process.env.AZURE_TENANT_ID!;
+        const client = msalClient.createMsalClient(clientId, tenantId, {
+          // An authentication record will get us to try the silent flow
+          authenticationRecord: {
+            authority: "https://login.microsoftonline.com/tenant-id",
+            tenantId,
+            username: "testuser",
+            homeAccountId: "home-account-id",
+            clientId: "client-id",
+          },
+        });
+
+        sandbox
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get rethrown
+
+        const scopes = ["https://vault.azure.net/.default"];
+        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+
+        await assert.isRejected(
+          client.getTokenByClientSecret(scopes, clientSecret),
+          "operation has been aborted",
+        );
+      });
+    });
     it("supports configuring azure region");
   });
 });
