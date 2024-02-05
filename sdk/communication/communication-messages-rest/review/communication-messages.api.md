@@ -18,72 +18,67 @@ import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
-export type AzureCommunicationMessagesServiceClient = Client & {
-    path: Routes;
-};
-
 // @public
 export interface ClientRequestIdHeaderOutput {
 }
 
 // @public
-function createClient(connectionString: string, options: ClientOptions): AzureCommunicationMessagesServiceClient;
+function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
 
 // @public
-function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationMessagesServiceClient;
+function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
 
+// @public
+export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+
 // @public (undocumented)
-export interface DownloadMedia {
-    get(options?: DownloadMediaParameters): StreamableMethod<DownloadMedia200Response | DownloadMediaDefaultResponse>;
+export interface GetMedia {
+    get(options?: GetMediaParameters): StreamableMethod<GetMedia200Response | GetMediaDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface DownloadMedia200Headers {
+export interface GetMedia200Headers {
     "x-ms-client-request-id"?: string;
 }
 
 // @public
-export interface DownloadMedia200Response extends HttpResponse {
+export interface GetMedia200Response extends HttpResponse {
     body: Uint8Array;
     // (undocumented)
-    headers: RawHttpHeaders & DownloadMedia200Headers;
+    headers: RawHttpHeaders & GetMedia200Headers;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface DownloadMediaDefaultHeaders {
+export interface GetMediaDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface DownloadMediaDefaultResponse extends HttpResponse {
+export interface GetMediaDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & DownloadMediaDefaultHeaders;
+    headers: RawHttpHeaders & GetMediaDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export interface DownloadMediaHeaderParam {
+export interface GetMediaHeaderParam {
     // (undocumented)
-    headers?: RawHttpHeadersInput & DownloadMediaHeaders;
+    headers?: RawHttpHeadersInput & GetMediaHeaders;
 }
 
 // @public (undocumented)
-export interface DownloadMediaHeaders {
+export interface GetMediaHeaders {
     "x-ms-client-request-id"?: string;
 }
 
 // @public (undocumented)
-export type DownloadMediaParameters = DownloadMediaHeaderParam & RequestParameters;
-
-// @public
-export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
+export type GetMediaParameters = GetMediaHeaderParam & RequestParameters;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
@@ -92,62 +87,73 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 }>;
 
 // @public (undocumented)
-export interface GetTemplates {
-    get(options?: GetTemplatesParameters): StreamableMethod<GetTemplates200Response | GetTemplatesDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface GetTemplates200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface GetTemplates200Response extends HttpResponse {
-    // (undocumented)
-    body: PagedMessageTemplateItemOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTemplates200Headers;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetTemplatesDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetTemplatesDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetTemplatesDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface GetTemplatesHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & GetTemplatesHeaders;
-}
-
-// @public (undocumented)
-export interface GetTemplatesHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type GetTemplatesParameters = GetTemplatesHeaderParam & RequestParameters;
-
-// @public (undocumented)
-export function isUnexpected(response: DownloadMedia200Response | DownloadMediaDefaultResponse): response is DownloadMediaDefaultResponse;
+export function isUnexpected(response: GetMedia200Response | GetMediaDefaultResponse): response is GetMediaDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: Send202Response | SendDefaultResponse): response is SendDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: GetTemplates200Response | GetTemplatesDefaultResponse): response is GetTemplatesDefaultResponse;
+export function isUnexpected(response: ListTemplates200Response | ListTemplatesDefaultResponse): response is ListTemplatesDefaultResponse;
+
+// @public (undocumented)
+export interface ListTemplates {
+    get(options?: ListTemplatesParameters): StreamableMethod<ListTemplates200Response | ListTemplatesDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface ListTemplates200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface ListTemplates200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedMessageTemplateItemOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & ListTemplates200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListTemplatesDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface ListTemplatesDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & ListTemplatesDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface ListTemplatesHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & ListTemplatesHeaders;
+}
+
+// @public (undocumented)
+export interface ListTemplatesHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type ListTemplatesParameters = ListTemplatesQueryParam & ListTemplatesHeaderParam & RequestParameters;
+
+// @public (undocumented)
+export interface ListTemplatesQueryParam {
+    // (undocumented)
+    queryParameters?: ListTemplatesQueryParamProperties;
+}
+
+// @public (undocumented)
+export interface ListTemplatesQueryParamProperties {
+    maxpagesize?: number;
+}
 
 // @public
 export interface MediaNotificationContent extends NotificationContentParent {
@@ -161,6 +167,11 @@ export interface MessageReceiptOutput {
     messageId: string;
     to: string;
 }
+
+// @public (undocumented)
+export type MessagesServiceClient = Client & {
+    path: Routes;
+};
 
 // @public
 export interface MessageTemplate {
@@ -289,9 +300,9 @@ export type RepeatabilityResultOutput = "accepted" | "rejected";
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/messages/streams/{id}", id: string): DownloadMedia;
+    (path: "/messages/streams/{id}", id: string): GetMedia;
     (path: "/messages/notifications:send"): Send;
-    (path: "/messages/channels/{channelId}/templates", channelId: string): GetTemplates;
+    (path: "/messages/channels/{channelId}/templates", channelId: string): ListTemplates;
 }
 
 // @public (undocumented)
@@ -381,7 +392,7 @@ export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindings
 // @public
 export interface WhatsAppMessageTemplateBindingsButton {
     refValue: string;
-    subType?: string;
+    subType: string;
 }
 
 // @public

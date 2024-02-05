@@ -1,7 +1,7 @@
 import { 
-    AzureCommunicationMessagesServiceClient,
-} from "../src";
-import NotificationClient from "../src";
+    MessagesServiceClient,
+} from "@azure-rest/communication-messages";
+import NotificationClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
 import * as fs from "fs";
 
@@ -12,7 +12,7 @@ dotenv.config();
 async function main() {
     const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
     const endpoint = process.env["ACS_URL"] || "";
-    const client:AzureCommunicationMessagesServiceClient = NotificationClient(endpoint, credential);
+    const client:MessagesServiceClient = NotificationClient(endpoint, credential);
     console.log("Downloading...");
     await client.path("/messages/streams/{id}", "<MEDIA_ID>").get()
     .asNodeStream().then((resp) => {

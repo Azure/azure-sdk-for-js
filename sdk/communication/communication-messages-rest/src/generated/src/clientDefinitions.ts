@@ -2,25 +2,25 @@
 // Licensed under the MIT license.
 
 import {
-  DownloadMediaParameters,
+  GetMediaParameters,
   SendParameters,
-  GetTemplatesParameters,
+  ListTemplatesParameters,
 } from "./parameters";
 import {
-  DownloadMedia200Response,
-  DownloadMediaDefaultResponse,
+  GetMedia200Response,
+  GetMediaDefaultResponse,
   Send202Response,
   SendDefaultResponse,
-  GetTemplates200Response,
-  GetTemplatesDefaultResponse,
+  ListTemplates200Response,
+  ListTemplatesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface DownloadMedia {
+export interface GetMedia {
   /** Download the Media payload from a User to Business message. */
   get(
-    options?: DownloadMediaParameters,
-  ): StreamableMethod<DownloadMedia200Response | DownloadMediaDefaultResponse>;
+    options?: GetMediaParameters,
+  ): StreamableMethod<GetMedia200Response | GetMediaDefaultResponse>;
 }
 
 export interface Send {
@@ -30,25 +30,25 @@ export interface Send {
   ): StreamableMethod<Send202Response | SendDefaultResponse>;
 }
 
-export interface GetTemplates {
+export interface ListTemplates {
   /** List all templates for given ACS channel */
   get(
-    options?: GetTemplatesParameters,
-  ): StreamableMethod<GetTemplates200Response | GetTemplatesDefaultResponse>;
+    options?: ListTemplatesParameters,
+  ): StreamableMethod<ListTemplates200Response | ListTemplatesDefaultResponse>;
 }
 
 export interface Routes {
   /** Resource for '/messages/streams/\{id\}' has methods for the following verbs: get */
-  (path: "/messages/streams/{id}", id: string): DownloadMedia;
+  (path: "/messages/streams/{id}", id: string): GetMedia;
   /** Resource for '/messages/notifications:send' has methods for the following verbs: post */
   (path: "/messages/notifications:send"): Send;
   /** Resource for '/messages/channels/\{channelId\}/templates' has methods for the following verbs: get */
   (
     path: "/messages/channels/{channelId}/templates",
     channelId: string,
-  ): GetTemplates;
+  ): ListTemplates;
 }
 
-export type AzureCommunicationMessagesServiceClient = Client & {
+export type MessagesServiceClient = Client & {
   path: Routes;
 };

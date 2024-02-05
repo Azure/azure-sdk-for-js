@@ -1,5 +1,5 @@
-import { AzureCommunicationMessagesServiceClient, paginate } from "../src";
-import MessageTemplateClient from "../src";
+import { MessagesServiceClient, paginate } from "@azure-rest/communication-messages";
+import MessageTemplateClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 // Load the .env file if it exists
@@ -9,7 +9,7 @@ dotenv.config();
 async function main() {
     const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
     const endpoint = process.env["ACS_URL"] || "";
-    const client:AzureCommunicationMessagesServiceClient = MessageTemplateClient(endpoint, credential);
+    const client:MessagesServiceClient = MessageTemplateClient(endpoint, credential);
     console.log("Fetch Templates...");
     const response = await client.path("/messages/channels/{channelId}/templates", "<CHANNEl_ID>")
     .get({
