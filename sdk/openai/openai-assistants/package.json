@@ -46,6 +46,7 @@
     "types/openai-assistants.d.ts",
     "README.md",
     "LICENSE",
+    "CHANGELOG.md",
     "review/*"
   ],
   "engines": {

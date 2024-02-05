@@ -170,11 +170,6 @@ export type ToolDefinition =
   | RetrievalToolDefinition
   | FunctionToolDefinition;
 /** Alias for ToolCall */
-export type ToolCall =
-  | CodeInterpreterToolCall
-  | RetrievalToolCall
-  | FunctionToolCall;
+export type ToolCall = CodeInterpreterToolCall | RetrievalToolCall | FunctionToolCall;
 /** Alias for CodeInterpreterToolCallOutput */
-export type CodeInterpreterToolCallOutput =
-  | CodeInterpreterLogOutput
-  | CodeInterpreterImageOutput;
+export type CodeInterpreterToolCallOutput = CodeInterpreterLogOutput | CodeInterpreterImageOutput;
