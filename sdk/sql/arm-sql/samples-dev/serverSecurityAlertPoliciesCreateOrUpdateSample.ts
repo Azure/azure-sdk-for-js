@@ -29,7 +29,7 @@ async function updateAServerThreatDetectionPolicyWithAllParameters() {
   const serverName = "securityalert-6440";
   const securityAlertPolicyName = "Default";
   const parameters: ServerSecurityAlertPolicy = {
-    disabledAlerts: ["Access_Anomaly", "Usage_Anomaly"],
+    disabledAlerts: ["Access_Anomaly"],
     emailAccountAdmins: true,
     emailAddresses: ["testSecurityAlert@microsoft.com"],
     retentionDays: 5,
