@@ -7,6 +7,7 @@ import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 
 import { AbortError } from "@azure/abort-controller";
+import { AuthenticationRequiredError } from "../../../src/errors";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
@@ -193,7 +194,7 @@ describe("MsalClient", function () {
         );
       });
 
-      it("throws when silentAuthentication fails unexpectedly", async function () {
+      it("throws when silentAuthentication fails with a rethrowable exception", async function () {
         const clientId = process.env.AZURE_CLIENT_ID!;
         const tenantId = process.env.AZURE_TENANT_ID!;
         const client = msalClient.createMsalClient(clientId, tenantId, {
@@ -217,6 +218,34 @@ describe("MsalClient", function () {
         await assert.isRejected(
           client.getTokenByClientSecret(scopes, clientSecret),
           "operation has been aborted",
+        );
+      });
+
+      it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
+        const clientId = process.env.AZURE_CLIENT_ID!;
+        const tenantId = process.env.AZURE_TENANT_ID!;
+        const client = msalClient.createMsalClient(clientId, tenantId, {
+          disableAutomaticAuthentication: true,
+          // An authentication record will get us to try the silent flow
+          authenticationRecord: {
+            authority: "https://login.microsoftonline.com/tenant-id",
+            tenantId,
+            username: "testuser",
+            homeAccountId: "home-account-id",
+            clientId: "client-id",
+          },
+        });
+
+        const scopes = ["https://vault.azure.net/.default"];
+        sandbox
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .rejects(new AuthenticationRequiredError({ scopes }));
+
+        const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+
+        await assert.isRejected(
+          client.getTokenByClientSecret(scopes, clientSecret),
+          /Automatic authentication has been disabled/,
         );
       });
     });
