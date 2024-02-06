@@ -2,15 +2,11 @@
 
 ## 1.0.0 (Unreleased)
 
-### Features Added
+This release is the first stable release of the Azure OpenAI client library. It targets the 2024-02-01 API version by default.
 
 ### Breaking Changes
 
 - `ChatMessageImageContentItem` has been removed because vision capabilities are not available in the current release.
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 1.0.0-beta.11 (2024-01-25)
 
