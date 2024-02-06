@@ -18,7 +18,7 @@ import { TSESTree } from "@typescript-eslint/experimental-utils";
 export = {
   meta: getRuleMetaData(
     "ts-naming-subclients",
-    "require client methods returning a subclient to have names prefixed suffixed with 'get' and suffixed with 'client'"
+    "require client methods returning a subclient to have names prefixed suffixed with 'get' and suffixed with 'client'",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({
@@ -54,5 +54,5 @@ export = {
           }
         });
       },
-    } as Rule.RuleListener),
+    }) as Rule.RuleListener,
 };

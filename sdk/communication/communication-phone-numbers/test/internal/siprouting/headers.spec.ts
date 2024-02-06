@@ -45,7 +45,7 @@ describe("SipRoutingClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g"),
     );
   });
 
@@ -58,7 +58,7 @@ describe("SipRoutingClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -76,7 +76,7 @@ describe("SipRoutingClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -117,8 +117,8 @@ describe("SipRoutingClient - headers", function () {
       request.headers.get(userAgentHeader) as string,
       new RegExp(
         `siproutingclient-headers-test azsdk-js-communication-phone-numbers/${SDK_VERSION}`,
-        "g"
-      )
+        "g",
+      ),
     );
   });
 });

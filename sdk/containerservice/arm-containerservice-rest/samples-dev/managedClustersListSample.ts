@@ -24,7 +24,7 @@ async function listManagedClusters() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
-      subscriptionId
+      subscriptionId,
     )
     .get();
   const result = paginate(client, initialResponse);

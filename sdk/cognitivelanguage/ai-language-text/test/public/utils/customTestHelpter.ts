@@ -28,7 +28,7 @@ const pathName = path.join(
   "ai-language-text",
   "test",
   "public",
-  "utils"
+  "utils",
 );
 const storageInputContainerName = "documents";
 const language = "en-us";
@@ -57,7 +57,7 @@ async function createStorageBlob(): Promise<ContainerClient> {
   // Get documents containers
   const blobServiceClient = new BlobServiceClient(
     assertEnvironmentVariable("STORAGE_ENDPOINT"),
-    defaultAzureCredential
+    defaultAzureCredential,
   );
   return blobServiceClient.getContainerClient(storageInputContainerName);
 }
@@ -79,7 +79,7 @@ async function getAssetsforProject(
   projectKind:
     | "CustomEntityRecognition"
     | "CustomSingleLabelClassification"
-    | "CustomMultiLabelClassification"
+    | "CustomMultiLabelClassification",
 ): Promise<{
   assets:
     | ExportedCustomSingleLabelClassificationProjectAssets
@@ -111,7 +111,7 @@ export async function createCustomTestProject(
     | "CustomSingleLabelClassification"
     | "CustomMultiLabelClassification",
   projectName: string,
-  deploymentName: string
+  deploymentName: string,
 ): Promise<void> {
   const { assets, fileName } = await getAssetsforProject(projectKind);
   const dirName = path.join(pathName, fileName);
@@ -151,7 +151,7 @@ export async function createCustomTestProject(
     .path(
       "/authoring/analyze-text/projects/{projectName}/deployments/{deploymentName}",
       projectName,
-      deploymentName
+      deploymentName,
     )
     .put(deployParam);
   await polling(client, deployTask);

@@ -19,7 +19,7 @@ use-extension:
   "@autorest/typescript": "latest"
 azure-arm: false
 add-credentials: false
-package-version: 1.1.0
+package-version: 1.1.1
 v3: true
 
 tracing-info:

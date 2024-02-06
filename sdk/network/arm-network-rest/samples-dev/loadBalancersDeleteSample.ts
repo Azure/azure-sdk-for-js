@@ -32,7 +32,7 @@ async function deleteLoadBalancer() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

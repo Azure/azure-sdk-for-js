@@ -24,7 +24,7 @@ describe("Multi-Slot Rank Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
     if (!(await isMultiSlotEnabled(client))) {
       await enableMultiSlot(client);
@@ -51,11 +51,11 @@ describe("Multi-Slot Rank Tests", () => {
     assert.equal(slots.length, response.body.slots.length);
     assert.equal(
       0,
-      response.body.slots.findIndex((slot) => slot.rewardActionId === "NewsArticle")
+      response.body.slots.findIndex((slot) => slot.rewardActionId === "NewsArticle"),
     );
     assert.equal(
       1,
-      response.body.slots.findIndex((slot) => slot.rewardActionId === "SportsArticle")
+      response.body.slots.findIndex((slot) => slot.rewardActionId === "SportsArticle"),
     );
   });
 

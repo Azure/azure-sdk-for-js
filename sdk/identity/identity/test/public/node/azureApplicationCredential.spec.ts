@@ -68,7 +68,7 @@ describe.skip("AzureApplicationCredential", function () {
         "ChainedTokenCredential.getToken",
         "EnvironmentCredential.getToken",
         "ClientSecretCredential.getToken",
-      ]
+      ],
     );
   });
 

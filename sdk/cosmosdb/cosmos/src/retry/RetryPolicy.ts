@@ -13,6 +13,6 @@ export interface RetryPolicy {
     errorResponse: ErrorResponse,
     diagnosticNode: DiagnosticNodeInternal,
     retryContext?: RetryContext,
-    locationEndpoint?: string
+    locationEndpoint?: string,
   ) => Promise<boolean | [boolean, string]>;
 }

@@ -128,7 +128,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     assert.equal(
       result!.properties.notBefore!.getTime(),
       notBefore.getTime(),
-      "Unexpected notBefore value from createKey()."
+      "Unexpected notBefore value from createKey().",
     );
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
@@ -146,7 +146,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     assert.equal(
       result!.properties.expiresOn!.getTime(),
       expiresOn.getTime(),
-      "Unexpected expires value from createKey()."
+      "Unexpected expires value from createKey().",
     );
     assert.equal(result.name, keyName, "Unexpected key name in result from createKey().");
     await testClient.flushKey(keyName);
@@ -192,7 +192,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     assert.equal(
       result!.properties.expiresOn!.getTime(),
       expiresOn.getTime(),
-      "Unexpected expires value after attempting to update a disabled key"
+      "Unexpected expires value after attempting to update a disabled key",
     );
     await testClient.flushKey(keyName);
   });
@@ -248,7 +248,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     assert.equal(
       getResult.properties.version,
       version,
-      "Unexpected key name in result from getKey()."
+      "Unexpected key name in result from getKey().",
     );
     await testClient.flushKey(keyName);
   });
@@ -260,14 +260,14 @@ describe("Keys client - create, read, update and delete operations", () => {
     assert.equal(
       poller.getResult()!.name,
       keyName,
-      "Unexpected key name in result from beginDeleteKey()."
+      "Unexpected key name in result from beginDeleteKey().",
     );
     await poller.pollUntilDone();
     let getResult = await poller.getResult();
     assert.equal(
       getResult!.name,
       keyName,
-      "Unexpected key name in result from poller.getResult()."
+      "Unexpected key name in result from poller.getResult().",
     );
     getResult = await client.getDeletedKey(keyName);
     assert.equal(getResult!.name, keyName, "Unexpected key name in result from getDeletedKey().");
@@ -303,7 +303,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       it("rotateKey supports rotating a key", async () => {
         const keyName = recorder.variable(
           "keyrotate",
-          `keyrotate-${Math.floor(Math.random() * 1000)}`
+          `keyrotate-${Math.floor(Math.random() * 1000)}`,
         );
         const key = await client.createKey(keyName, "RSA");
         const rotatedKey = await client.rotateKey(keyName);
@@ -320,7 +320,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       it("updateKeyRotationPolicy supports creating a new rotation policy and fetching it", async () => {
         const keyName = recorder.variable(
           "keyrotationpolicy",
-          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`
+          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
         );
         const key = await client.createKey(keyName, "RSA");
 
@@ -342,7 +342,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       it("updateKeyRotationPolicy supports updating an existing policy", async () => {
         const keyName = recorder.variable(
           "keyrotationpolicy",
-          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`
+          `keyrotationpolicy-${Math.floor(Math.random() * 1000)}`,
         );
         const key = await client.createKey(keyName, "RSA");
 
@@ -384,7 +384,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       it("throws when attempting to fetch a policy of a non-existent key", async () => {
         const keyName = recorder.variable(
           "nonexistentkey",
-          `nonexistentkey-${Math.floor(Math.random() * 1000)}`
+          `nonexistentkey-${Math.floor(Math.random() * 1000)}`,
         );
         await assert.isRejected(client.getKeyRotationPolicy(keyName));
       });
@@ -392,7 +392,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       it("supports tracing", async () => {
         const keyName = recorder.variable(
           "rotationpolicytracing",
-          `rotationpolicytracing-${Math.floor(Math.random() * 1000)}`
+          `rotationpolicytracing-${Math.floor(Math.random() * 1000)}`,
         );
         const key = await client.createKey(keyName, "RSA");
 
@@ -408,11 +408,11 @@ describe("Keys client - create, read, update and delete operations", () => {
                   },
                 ],
               },
-              options
+              options,
             );
             await client.getKeyRotationPolicy(key.name, options);
           },
-          ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]
+          ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"],
         );
       });
     }
@@ -443,7 +443,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       if (!isPlaybackMode()) {
         const attestationTokenClient = createDefaultHttpClient();
         const response = await attestationTokenClient.sendRequest(
-          createPipelineRequest({ url: `${attestationUri}/generate-test-token` })
+          createPipelineRequest({ url: `${attestationUri}/generate-test-token` }),
         );
         attestation = JSON.parse(response.bodyAsText!).token;
         recorder.variable("attestation", attestation);
@@ -455,7 +455,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     it("can create an exportable key and release it", async () => {
       const keyName = recorder.variable(
         "exportkey",
-        `exportkey-${Math.floor(Math.random() * 1000)}`
+        `exportkey-${Math.floor(Math.random() * 1000)}`,
       );
       const createdKey = await client.createRsaKey(keyName, {
         exportable: true,
@@ -466,7 +466,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
       assert.exists(createdKey.properties.releasePolicy?.encodedPolicy);
       assert.isNotEmpty(
-        JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.encodedPolicy!))
+        JSON.parse(uint8ArrayToString(createdKey.properties.releasePolicy!.encodedPolicy!)),
       );
       assert.isTrue(createdKey.properties.exportable);
       const releaseResult = await client.releaseKey(keyName, attestation);
@@ -477,32 +477,32 @@ describe("Keys client - create, read, update and delete operations", () => {
     it("errors when key is exportable without a release policy", async () => {
       const keyName = recorder.variable(
         "exportablenopolicy",
-        `exportablenopolicy-${Math.floor(Math.random() * 1000)}`
+        `exportablenopolicy-${Math.floor(Math.random() * 1000)}`,
       );
       await assert.isRejected(
         client.createRsaKey(keyName, { exportable: true, hsm: true }),
-        /exportable/i
+        /exportable/i,
       );
     });
 
     it("errors when a key has a release policy but is not exportable", async () => {
       const keyName = recorder.variable(
         "policynonexportable",
-        `policynonexportable-${Math.floor(Math.random() * 1000)}`
+        `policynonexportable-${Math.floor(Math.random() * 1000)}`,
       );
       await assert.isRejected(
         client.createRsaKey(keyName, {
           hsm: true,
           releasePolicy: { encodedPolicy: encodedReleasePolicy },
         }),
-        /exportable/i
+        /exportable/i,
       );
     });
 
     it("errors when updating an immutable release policy", async () => {
       const keyName = recorder.variable(
         "immutablerelease",
-        `immutablerelease-${Math.floor(Math.random() * 1000)}`
+        `immutablerelease-${Math.floor(Math.random() * 1000)}`,
       );
       const createdKey = await client.createRsaKey(keyName, {
         exportable: true,
@@ -536,7 +536,7 @@ describe("Keys client - create, read, update and delete operations", () => {
             immutable: true,
           },
         }),
-        /Immutable Key Release/
+        /Immutable Key Release/,
       );
     });
   });
@@ -545,7 +545,7 @@ describe("Keys client - create, read, update and delete operations", () => {
     it("traces through the basic operations", async () => {
       const keyName = recorder.variable(
         "keyclienttracing",
-        `keyclienttracing-${Math.floor(Math.random() * 1000)}`
+        `keyclienttracing-${Math.floor(Math.random() * 1000)}`,
       );
       await assert.supportsTracing(
         async (options) => {
@@ -565,14 +565,14 @@ describe("Keys client - create, read, update and delete operations", () => {
           "KeyClient.listPropertiesOfKeysPage",
           "KeyClient.listPropertiesOfKeyVersionsPage",
           "KeyClient.updateKeyProperties",
-        ]
+        ],
       );
     });
 
     onVersions({ minVer: "7.3" }).it("traces through key rotation operations", async () => {
       const keyName = recorder.variable(
         "keyrotationtracing",
-        `keyrotationtracing-${Math.floor(Math.random() * 1000)}`
+        `keyrotationtracing-${Math.floor(Math.random() * 1000)}`,
       );
       await client.createKey(keyName, "RSA");
       await assert.supportsTracing(
@@ -587,11 +587,11 @@ describe("Keys client - create, read, update and delete operations", () => {
                 },
               ],
             },
-            options
+            options,
           );
           await client.getKeyRotationPolicy(keyName, options);
         },
-        ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"]
+        ["KeyClient.updateKeyRotationPolicy", "KeyClient.getKeyRotationPolicy"],
       );
     });
 
@@ -604,7 +604,7 @@ describe("Keys client - create, read, update and delete operations", () => {
             // ignore errors, as it's not worth setting up the secure key release policy for this test.
           }
         },
-        ["KeyClient.releaseKey"]
+        ["KeyClient.releaseKey"],
       );
     });
   });

@@ -32,7 +32,7 @@ async function startApplicationGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/start",
       subscriptionId,
       resourceGroupName,
-      applicationGatewayName
+      applicationGatewayName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

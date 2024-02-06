@@ -13,7 +13,7 @@ export class OfferResponse extends ResourceResponse<OfferDefinition & Resource> 
     headers: CosmosHeaders,
     statusCode: number,
     diagnostics: CosmosDiagnostics,
-    offer?: Offer
+    offer?: Offer,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.offer = offer;

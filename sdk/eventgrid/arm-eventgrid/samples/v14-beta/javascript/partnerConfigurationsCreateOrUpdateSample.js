@@ -43,7 +43,7 @@ async function partnerConfigurationsCreateOrUpdate() {
   const client = new EventGridManagementClient(credential, subscriptionId);
   const result = await client.partnerConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
-    partnerConfigurationInfo
+    partnerConfigurationInfo,
   );
   console.log(result);
 }

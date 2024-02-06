@@ -42,7 +42,7 @@ export async function main() {
         password: "<password>"
       }
       */
-    }
+    },
   );
 
   // Create a new queue
@@ -50,13 +50,13 @@ export async function main() {
   const queueClient = queueServiceClient.getQueueClient(queueName);
   const createQueueResponse = await queueClient.create();
   console.log(
-    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`
+    `Create queue ${queueName} successfully, service assigned request Id: ${createQueueResponse.requestId}`,
   );
 
   // Delete the queue.
   const deleteQueueResponse = await queueClient.delete();
   console.log(
-    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`
+    `Delete queue successfully, service assigned request Id: ${deleteQueueResponse.requestId}`,
   );
 }
 

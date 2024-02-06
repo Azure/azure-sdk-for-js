@@ -27,13 +27,13 @@ export async function generateSharedAccessSignature(
   endpointUrl: string,
   credential: KeyCredential,
   expiresOnUtc: Date,
-  options?: GenerateSharedAccessSignatureOptions
+  options?: GenerateSharedAccessSignatureOptions,
 ): Promise<string> {
   const expiresOnString = dateToServiceTimeString(expiresOnUtc);
   const unsignedSas = `r=${encodeURIComponent(
-    `${endpointUrl}?apiVersion=${options?.apiVersion || DEFAULT_API_VERSION}`
+    `${endpointUrl}?apiVersion=${options?.apiVersion || DEFAULT_API_VERSION}`,
   )}&e=${encodeURIComponent(expiresOnString)}`;
   return sha256Hmac(credential.key, unsignedSas).then(
-    (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`
+    (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`,
   );
 }

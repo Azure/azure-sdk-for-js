@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates an instance pool.
  *
  * @summary Updates an instance pool.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/PatchInstancePool.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/PatchInstancePool.json
  */
 async function patchAnInstancePool() {
   const subscriptionId =

@@ -261,47 +261,6 @@ export interface SolutionMetadataProperties {
   readonly requiredInputs?: string[];
 }
 
-/** Solution response. */
-export interface SolutionResource {
-  /**
-   * Full resource uri of the resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * Type of resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Resource name.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /** Solution result */
-  properties?: SolutionResourceProperties;
-}
-
-/** Solution result */
-export interface SolutionResourceProperties {
-  /** Solution request trigger criteria */
-  triggerCriteria?: TriggerCriterion[];
-  /** Client input parameters to run Solution */
-  parameters?: { [propertyName: string]: string };
-  /** Solution Id to identify single solution. */
-  solutionId?: string;
-  /** Status of solution provisioning. */
-  provisioningState?: SolutionProvisioningState;
-  /** The title. */
-  title?: string;
-  /** The HTML content that needs to be rendered and shown to customer. */
-  content?: string;
-  /** Solution replacement maps. */
-  replacementMaps?: ReplacementMaps;
-  /** List of section object. */
-  sections?: Section[];
-}
-
 /** Solution request trigger criterion. SolutionId/ProblemClassificationId is the only supported trigger type for Solution PUT request. ReplacementKey is the only supported trigger type for Solution PATCH request. */
 export interface TriggerCriterion {
   /** Trigger criterion name. */
@@ -438,10 +397,42 @@ export interface Section {
   replacementMaps?: ReplacementMaps;
 }
 
-/** Solution response. */
+/** Solution response */
 export interface SolutionPatchRequestBody {
-  /** Solution result */
-  properties?: SolutionResourceProperties;
+  /** Solution request trigger criteria */
+  triggerCriteria?: TriggerCriterion[];
+  /** Client input parameters to run Solution */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * Solution Id to identify single solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionId?: string;
+  /**
+   * Status of solution provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SolutionProvisioningState;
+  /**
+   * The title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * The HTML content that needs to be rendered and shown to customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * Solution replacement maps.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replacementMaps?: ReplacementMaps;
+  /**
+   * List of section object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sections?: Section[];
 }
 
 /** Troubleshooter step */
@@ -474,8 +465,8 @@ export interface Step {
 export interface StepInput {
   /** Use Index as QuestionId. */
   questionId?: string;
-  /** Text Input. Will be a single line input. */
-  questionType?: string;
+  /** Type of Question */
+  questionType?: QuestionType;
   /** User question content. */
   questionContent?: string;
   /** Default is Text. */
@@ -530,7 +521,7 @@ export interface ContinueRequestBody {
 export interface TroubleshooterResponse {
   /** id of the question. */
   questionId?: string;
-  /** Text Input. Will be a single line input. */
+  /** Type of Question */
   questionType?: QuestionType;
   /** Response key for SingleInput. For Multi-line test/open ended question it is free form text */
   response?: string;
@@ -556,7 +547,7 @@ export interface Video extends VideoGroupVideo {
 
 /** Diagnostic resource */
 export interface DiagnosticResource extends ProxyResource {
-  /** Global parameters that can be passed to all solutionIds. */
+  /** Global parameters is an optional map which can be used to add key and  value to request body to improve the diagnostics results */
   globalParameters?: { [propertyName: string]: string };
   /** SolutionIds that are needed to be invoked. */
   insights?: DiagnosticInvocation[];
@@ -581,6 +572,44 @@ export interface DiagnosticResource extends ProxyResource {
 export interface SolutionMetadataResource extends ProxyResource {
   /** List of metadata. */
   solutions?: SolutionMetadataProperties[];
+}
+
+/** Solution response. */
+export interface SolutionResource extends ProxyResource {
+  /** Solution request trigger criteria */
+  triggerCriteria?: TriggerCriterion[];
+  /** Client input parameters to run Solution */
+  parameters?: { [propertyName: string]: string };
+  /**
+   * Solution Id to identify single solution.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly solutionId?: string;
+  /**
+   * Status of solution provisioning.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: SolutionProvisioningState;
+  /**
+   * The title.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly title?: string;
+  /**
+   * The HTML content that needs to be rendered and shown to customer.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly content?: string;
+  /**
+   * Solution replacement maps.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replacementMaps?: ReplacementMaps;
+  /**
+   * List of section object.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly sections?: Section[];
 }
 
 /** Troubleshooter response. */
@@ -665,6 +694,8 @@ export enum KnownDiagnosticProvisioningState {
   PartialComplete = "PartialComplete",
   /** All Diagnostics failed to run. */
   Failed = "Failed",
+  /** All Diagnostics are still running. */
+  Running = "Running",
   /** When Diagnostic request gets canceled. */
   Canceled = "Canceled"
 }
@@ -677,6 +708,7 @@ export enum KnownDiagnosticProvisioningState {
  * **Succeeded**: All Diagnostics in the Batch succeeded. \
  * **PartialComplete**: Some Diagnostics are still running or failed. \
  * **Failed**: All Diagnostics failed to run. \
+ * **Running**: All Diagnostics are still running. \
  * **Canceled**: When Diagnostic request gets canceled.
  */
 export type DiagnosticProvisioningState = string;
@@ -794,11 +826,15 @@ export type Name = string;
 
 /** Known values of {@link SolutionProvisioningState} that the service accepts. */
 export enum KnownSolutionProvisioningState {
-  /** Succeeded */
+  /** All Solutions in the Batch succeeded. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Some Solutions are still running or failed. */
+  PartialComplete = "PartialComplete",
+  /** All Solutions failed to run. */
   Failed = "Failed",
-  /** Canceled */
+  /** All Solutions are still running. */
+  Running = "Running",
+  /** When Solutions request gets canceled. */
   Canceled = "Canceled"
 }
 
@@ -807,9 +843,11 @@ export enum KnownSolutionProvisioningState {
  * {@link KnownSolutionProvisioningState} can be used interchangeably with SolutionProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: All Solutions in the Batch succeeded. \
+ * **PartialComplete**: Some Solutions are still running or failed. \
+ * **Failed**: All Solutions failed to run. \
+ * **Running**: All Solutions are still running. \
+ * **Canceled**: When Solutions request gets canceled.
  */
 export type SolutionProvisioningState = string;
 
@@ -908,13 +946,13 @@ export type TroubleshooterProvisioningState = string;
 
 /** Known values of {@link ExecutionStatus} that the service accepts. */
 export enum KnownExecutionStatus {
-  /** Success */
+  /** Step execution succeeded. */
   Success = "Success",
-  /** Running */
+  /** Step execution running */
   Running = "Running",
-  /** Failed */
+  /** Step execution failed */
   Failed = "Failed",
-  /** Warning */
+  /** Step execution warning */
   Warning = "Warning"
 }
 
@@ -923,10 +961,10 @@ export enum KnownExecutionStatus {
  * {@link KnownExecutionStatus} can be used interchangeably with ExecutionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Success** \
- * **Running** \
- * **Failed** \
- * **Warning**
+ * **Success**: Step execution succeeded. \
+ * **Running**: Step execution running \
+ * **Failed**: Step execution failed \
+ * **Warning**: Step execution warning
  */
 export type ExecutionStatus = string;
 
@@ -953,6 +991,30 @@ export enum KnownType {
  * **AutomatedCheck**
  */
 export type Type = string;
+
+/** Known values of {@link QuestionType} that the service accepts. */
+export enum KnownQuestionType {
+  /** SingleChoice radio button */
+  RadioButton = "RadioButton",
+  /** SingleChoice dropdown. */
+  Dropdown = "Dropdown",
+  /** Text Input */
+  TextInput = "TextInput",
+  /** MultiLineInfoBox */
+  MultiLineInfoBox = "MultiLineInfoBox"
+}
+
+/**
+ * Defines values for QuestionType. \
+ * {@link KnownQuestionType} can be used interchangeably with QuestionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **RadioButton**: SingleChoice radio button \
+ * **Dropdown**: SingleChoice dropdown. \
+ * **TextInput**: Text Input \
+ * **MultiLineInfoBox**: MultiLineInfoBox
+ */
+export type QuestionType = string;
 
 /** Known values of {@link QuestionContentType} that the service accepts. */
 export enum KnownQuestionContentType {
@@ -998,30 +1060,6 @@ export enum KnownAutomatedCheckResultType {
  * **Information**
  */
 export type AutomatedCheckResultType = string;
-
-/** Known values of {@link QuestionType} that the service accepts. */
-export enum KnownQuestionType {
-  /** SingleChoice radio button */
-  RadioButton = "RadioButton",
-  /** SingleChoice dropdown. */
-  Dropdown = "Dropdown",
-  /** Text Input */
-  TextInput = "TextInput",
-  /** MultiLineInfoBox */
-  MultiLineInfoBox = "MultiLineInfoBox"
-}
-
-/**
- * Defines values for QuestionType. \
- * {@link KnownQuestionType} can be used interchangeably with QuestionType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **RadioButton**: SingleChoice radio button \
- * **Dropdown**: SingleChoice dropdown. \
- * **TextInput**: Text Input \
- * **MultiLineInfoBox**: MultiLineInfoBox
- */
-export type QuestionType = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -1071,7 +1109,7 @@ export type DiagnosticsGetResponse = DiagnosticResource;
 /** Optional parameters. */
 export interface DiscoverySolutionListOptionalParams
   extends coreClient.OperationOptions {
-  /** 'ProblemClassificationId' or 'Id' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The filter supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
+  /** 'ProblemClassificationId' is a mandatory filter to get solutions ids. It also supports optional 'ResourceType' and 'SolutionType' filters. The [$filter](https://learn.microsoft.com/en-us/odata/webapi/first-odata-api#filter) supports only 'and', 'or' and 'eq' operators. Example: $filter=ProblemClassificationId eq '1ddda5b4-cf6c-4d4f-91ad-bc38ab0e811e' */
   filter?: string;
   /** Skiptoken is only used if a previous operation returned a partial result. */
   skiptoken?: string;

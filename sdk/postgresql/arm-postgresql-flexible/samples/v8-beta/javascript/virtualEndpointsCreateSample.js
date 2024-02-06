@@ -34,7 +34,7 @@ async function createANewVirtualEndpointForAFlexibleServer() {
     resourceGroupName,
     serverName,
     virtualEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

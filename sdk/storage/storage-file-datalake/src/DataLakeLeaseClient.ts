@@ -18,7 +18,7 @@ export class DataLakeLeaseClient {
 
   public async acquireLease(
     duration: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -26,13 +26,13 @@ export class DataLakeLeaseClient {
       options,
       async (updatedOptions) => {
         return this.client.acquireLease(duration, updatedOptions);
-      }
+      },
     );
   }
 
   public async changeLease(
     proposedLeaseId: string,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -40,7 +40,7 @@ export class DataLakeLeaseClient {
       options,
       async (updatedOptions) => {
         return this.client.changeLease(proposedLeaseId, updatedOptions);
-      }
+      },
     );
   }
 
@@ -51,7 +51,7 @@ export class DataLakeLeaseClient {
       options,
       async (updatedOptions) => {
         return this.client.releaseLease(updatedOptions);
-      }
+      },
     );
   }
 
@@ -62,13 +62,13 @@ export class DataLakeLeaseClient {
       options,
       async (updatedOptions) => {
         return this.client.renewLease(updatedOptions);
-      }
+      },
     );
   }
 
   public async breakLease(
     breakPeriod: number,
-    options: LeaseOperationOptions = {}
+    options: LeaseOperationOptions = {},
   ): Promise<LeaseOperationResponse> {
     options.conditions = options.conditions || {};
     return tracingClient.withSpan(
@@ -76,7 +76,7 @@ export class DataLakeLeaseClient {
       options,
       async (updatedOptions) => {
         return this.client.breakLease(breakPeriod, updatedOptions);
-      }
+      },
     );
   }
 }

@@ -18,7 +18,7 @@ export = {
   meta: getRuleMetaData(
     "ts-config-include",
     "force tsconfig.json's 'include' value to at least contain 'src/**/*.ts', 'test/**/*.ts', and 'samples-dev/**/*.ts'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -33,7 +33,7 @@ export = {
 
           // check the node corresponding to include to see if its value contains "src/**/*.ts", "test/**/*.ts", and "samples-dev/**/*.ts"
           "ExpressionStatement > ObjectExpression > Property[key.value='include']": (
-            node: Property
+            node: Property,
           ): void => {
             // check if the value is an array of literals
             if (node.value.type !== "ArrayExpression") {
@@ -46,7 +46,7 @@ export = {
             const nodeValue = node.value as ArrayExpression;
 
             const nonLiteral = nodeValue.elements.find(
-              (element: any): boolean => element.type !== "Literal"
+              (element: any): boolean => element.type !== "Literal",
             );
 
             if (nonLiteral !== undefined && nonLiteral !== null) {
@@ -59,7 +59,7 @@ export = {
             const expected = ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"];
             const candidateArray = nodeValue.elements as Literal[];
             const candidateValues = candidateArray.map(
-              (candidate: Literal): unknown => candidate.value
+              (candidate: Literal): unknown => candidate.value,
             );
 
             // Check if the expected values is included in the array

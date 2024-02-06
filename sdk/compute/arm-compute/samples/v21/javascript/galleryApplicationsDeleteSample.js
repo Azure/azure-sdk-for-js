@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a gallery Application.
  *
  * @summary Delete a gallery Application.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryApplication_Delete.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplication_Delete.json
  */
 async function deleteAGalleryApplication() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function deleteAGalleryApplication() {
   const result = await client.galleryApplications.beginDeleteAndWait(
     resourceGroupName,
     galleryName,
-    galleryApplicationName
+    galleryApplicationName,
   );
   console.log(result);
 }

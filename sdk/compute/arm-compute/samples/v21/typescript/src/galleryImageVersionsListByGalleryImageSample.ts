@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List gallery image versions in a gallery image definition.
  *
  * @summary List gallery image versions in a gallery image definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_ListByGalleryImage.json
  */
 async function listGalleryImageVersionsInAGalleryImageDefinition() {
   const subscriptionId =

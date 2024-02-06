@@ -50,7 +50,7 @@ describe("Highlevel Node.js only", () => {
           headersForRemoval: ["x-ms-proposed-lease-id", "x-ms-lease-id", "x-ms-rename-source"],
         },
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     const serviceClient = getDataLakeServiceClient(recorder, {
       keepAliveOptions: {
@@ -113,7 +113,7 @@ describe("Highlevel Node.js only", () => {
     });
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -154,12 +154,12 @@ describe("Highlevel Node.js only", () => {
     });
     assert.ok(
       readResponse.contentLength === tempFileSmallLength,
-      "readResponse.contentLength doesn't match tempFileSmallLength"
+      "readResponse.contentLength doesn't match tempFileSmallLength",
     );
     assert.equal(
       readResponse.readableStreamBody,
       undefined,
-      "Expecting readResponse.readableStreamBody to be undefined."
+      "Expecting readResponse.readableStreamBody to be undefined.",
     );
 
     const localFileContent = fs.readFileSync(tempFileSmall);
@@ -179,7 +179,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -198,7 +198,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -314,7 +314,7 @@ describe("Highlevel Node.js only", () => {
       assert.equal(
         err.details.errorCode,
         "PathAlreadyExists",
-        "Upload should have thrown a PathAlreadyExists error."
+        "Upload should have thrown a PathAlreadyExists error.",
       );
     }
     const response = await fileClient.read();
@@ -339,7 +339,7 @@ describe("Highlevel Node.js only", () => {
       assert.equal(
         err.details.errorCode,
         "LeaseIdMissing",
-        "Upload should have thrown a LeaseIdMissing error."
+        "Upload should have thrown a LeaseIdMissing error.",
       );
     }
     const response = await fileClient.read();
@@ -383,7 +383,7 @@ describe("Highlevel Node.js only", () => {
       assert.equal(
         err.details.errorCode,
         "PathAlreadyExists",
-        "Upload should have thrown a PathAlreadyExists error."
+        "Upload should have thrown a PathAlreadyExists error.",
       );
     }
     assert.ok(errThrown, "upload with a if-not-exist check should have thrown.");
@@ -396,7 +396,7 @@ describe("Highlevel Node.js only", () => {
     const tempFile = await createRandomLocalFile(
       tempFolderPath,
       FILE_MAX_SINGLE_UPLOAD_THRESHOLD / MB,
-      MB
+      MB,
     );
     const uploadedBuffer = fs.readFileSync(tempFile);
     await fileClient.upload(uploadedBuffer);
@@ -404,7 +404,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -442,7 +442,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFilePath = path.join(
       tempFolderPath,
-      recorder.variable("readFile", getUniqueName("readFile"))
+      recorder.variable("readFile", getUniqueName("readFile")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFilePath);
 
@@ -521,7 +521,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -541,7 +541,7 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.read();
     const readFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(readResponse.readableStreamBody!, readFile);
     const readBuffer = await fs.readFileSync(readFile);
@@ -656,7 +656,7 @@ describe("Highlevel Node.js only", () => {
       }
 
       fs.unlinkSync(tempFile);
-    }
+    },
   ).timeout(timeoutForLargeFileUploadingTest);
 
   // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
@@ -736,7 +736,7 @@ describe("Highlevel Node.js only", () => {
     }
     assert.ok(
       error.message.includes("Unable to allocate the buffer of size:"),
-      "Error is not thrown when the count (size in bytes) is too large"
+      "Error is not thrown when the count (size in bytes) is too large",
     );
   });
 
@@ -814,12 +814,12 @@ describe("Highlevel Node.js only", () => {
     const readResponse = await fileClient.readToFile(readFilePath);
     assert.ok(
       readResponse.contentLength === tempFileSmallLength,
-      "readResponse.contentLength doesn't match tempFileSmallLength"
+      "readResponse.contentLength doesn't match tempFileSmallLength",
     );
     assert.equal(
       readResponse.readableStreamBody,
       undefined,
-      "Expecting readResponse.readableStreamBody to be undefined."
+      "Expecting readResponse.readableStreamBody to be undefined.",
     );
 
     const localFileContent = fs.readFileSync(tempFileSmall);

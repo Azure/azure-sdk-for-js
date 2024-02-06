@@ -36,7 +36,7 @@ async function logAnalyticsGetWafLogAnalyticsRankings() {
     dateTimeBegin,
     dateTimeEnd,
     maxRanking,
-    rankings
+    rankings,
   );
   console.log(result);
 }

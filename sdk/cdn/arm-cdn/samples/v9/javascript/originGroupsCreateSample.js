@@ -48,7 +48,7 @@ async function originGroupsCreate() {
     profileName,
     endpointName,
     originGroupName,
-    originGroup
+    originGroup,
   );
   console.log(result);
 }

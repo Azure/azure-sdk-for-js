@@ -95,101 +95,101 @@ export function isUnexpected(
   response:
     | TestCreateOrUpdate200Response
     | TestCreateOrUpdate201Response
-    | TestCreateOrUpdateDefaultResponse
+    | TestCreateOrUpdateDefaultResponse,
 ): response is TestCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: TestDelete204Response | TestDeleteDefaultResponse
+  response: TestDelete204Response | TestDeleteDefaultResponse,
 ): response is TestDeleteDefaultResponse;
 export function isUnexpected(
-  response: TestGet200Response | TestGetDefaultResponse
+  response: TestGet200Response | TestGetDefaultResponse,
 ): response is TestGetDefaultResponse;
 export function isUnexpected(
-  response: TestList200Response | TestListDefaultResponse
+  response: TestList200Response | TestListDefaultResponse,
 ): response is TestListDefaultResponse;
 export function isUnexpected(
-  response: TestUploadFile201Response | TestUploadFileDefaultResponse
+  response: TestUploadFile201Response | TestUploadFileDefaultResponse,
 ): response is TestUploadFileDefaultResponse;
 export function isUnexpected(
-  response: TestGetFile200Response | TestGetFileDefaultResponse
+  response: TestGetFile200Response | TestGetFileDefaultResponse,
 ): response is TestGetFileDefaultResponse;
 export function isUnexpected(
-  response: TestDeleteFile204Response | TestDeleteFileDefaultResponse
+  response: TestDeleteFile204Response | TestDeleteFileDefaultResponse,
 ): response is TestDeleteFileDefaultResponse;
 export function isUnexpected(
-  response: TestListFiles200Response | TestListFilesDefaultResponse
+  response: TestListFiles200Response | TestListFilesDefaultResponse,
 ): response is TestListFilesDefaultResponse;
 export function isUnexpected(
   response:
     | TestCreateOrUpdateAppComponents200Response
     | TestCreateOrUpdateAppComponents201Response
-    | TestCreateOrUpdateAppComponentsDefaultResponse
+    | TestCreateOrUpdateAppComponentsDefaultResponse,
 ): response is TestCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response: TestListAppComponents200Response | TestListAppComponentsDefaultResponse
+  response: TestListAppComponents200Response | TestListAppComponentsDefaultResponse,
 ): response is TestListAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
     | TestCreateOrUpdateServerMetricsConfig200Response
     | TestCreateOrUpdateServerMetricsConfig201Response
-    | TestCreateOrUpdateServerMetricsConfigDefaultResponse
+    | TestCreateOrUpdateServerMetricsConfigDefaultResponse,
 ): response is TestCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response: TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse
+  response: TestListServerMetricsConfig200Response | TestListServerMetricsConfigDefaultResponse,
 ): response is TestListServerMetricsConfigDefaultResponse;
 export function isUnexpected(
-  response: TestRunDelete204Response | TestRunDeleteDefaultResponse
+  response: TestRunDelete204Response | TestRunDeleteDefaultResponse,
 ): response is TestRunDeleteDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunCreateOrUpdate200Response
     | TestRunCreateOrUpdate201Response
-    | TestRunCreateOrUpdateDefaultResponse
+    | TestRunCreateOrUpdateDefaultResponse,
 ): response is TestRunCreateOrUpdateDefaultResponse;
 export function isUnexpected(
-  response: TestRunGet200Response | TestRunGetDefaultResponse
+  response: TestRunGet200Response | TestRunGetDefaultResponse,
 ): response is TestRunGetDefaultResponse;
 export function isUnexpected(
-  response: TestRunGetFile200Response | TestRunGetFileDefaultResponse
+  response: TestRunGetFile200Response | TestRunGetFileDefaultResponse,
 ): response is TestRunGetFileDefaultResponse;
 export function isUnexpected(
-  response: TestRunList200Response | TestRunListDefaultResponse
+  response: TestRunList200Response | TestRunListDefaultResponse,
 ): response is TestRunListDefaultResponse;
 export function isUnexpected(
-  response: TestRunStop200Response | TestRunStopDefaultResponse
+  response: TestRunStop200Response | TestRunStopDefaultResponse,
 ): response is TestRunStopDefaultResponse;
 export function isUnexpected(
-  response: TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesDefaultResponse
+  response: TestRunListMetricNamespaces200Response | TestRunListMetricNamespacesDefaultResponse,
 ): response is TestRunListMetricNamespacesDefaultResponse;
 export function isUnexpected(
-  response: TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsDefaultResponse
+  response: TestRunListMetricDefinitions200Response | TestRunListMetricDefinitionsDefaultResponse,
 ): response is TestRunListMetricDefinitionsDefaultResponse;
 export function isUnexpected(
-  response: TestRunListMetrics200Response | TestRunListMetricsDefaultResponse
+  response: TestRunListMetrics200Response | TestRunListMetricsDefaultResponse,
 ): response is TestRunListMetricsDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunListMetricDimensionValues200Response
-    | TestRunListMetricDimensionValuesDefaultResponse
+    | TestRunListMetricDimensionValuesDefaultResponse,
 ): response is TestRunListMetricDimensionValuesDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunCreateOrUpdateAppComponents200Response
     | TestRunCreateOrUpdateAppComponents201Response
-    | TestRunCreateOrUpdateAppComponentsDefaultResponse
+    | TestRunCreateOrUpdateAppComponentsDefaultResponse,
 ): response is TestRunCreateOrUpdateAppComponentsDefaultResponse;
 export function isUnexpected(
-  response: TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse
+  response: TestRunListAppComponents200Response | TestRunListAppComponentsDefaultResponse,
 ): response is TestRunListAppComponentsDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunCreateOrUpdateServerMetricsConfig200Response
     | TestRunCreateOrUpdateServerMetricsConfig201Response
-    | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
+    | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
 ): response is TestRunCreateOrUpdateServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
     | TestRunListServerMetricsConfig200Response
-    | TestRunListServerMetricsConfigDefaultResponse
+    | TestRunListServerMetricsConfigDefaultResponse,
 ): response is TestRunListServerMetricsConfigDefaultResponse;
 export function isUnexpected(
   response:
@@ -250,7 +250,7 @@ export function isUnexpected(
     | TestRunCreateOrUpdateServerMetricsConfig201Response
     | TestRunCreateOrUpdateServerMetricsConfigDefaultResponse
     | TestRunListServerMetricsConfig200Response
-    | TestRunListServerMetricsConfigDefaultResponse
+    | TestRunListServerMetricsConfigDefaultResponse,
 ): response is
   | TestCreateOrUpdateDefaultResponse
   | TestDeleteDefaultResponse

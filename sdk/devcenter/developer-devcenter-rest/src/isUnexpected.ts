@@ -126,120 +126,120 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ListProjects200Response | ListProjectsDefaultResponse
+  response: ListProjects200Response | ListProjectsDefaultResponse,
 ): response is ListProjectsDefaultResponse;
 export function isUnexpected(
-  response: GetProject200Response | GetProjectDefaultResponse
+  response: GetProject200Response | GetProjectDefaultResponse,
 ): response is GetProjectDefaultResponse;
 export function isUnexpected(
-  response: GetProjectOperationStatus200Response | GetProjectOperationStatusDefaultResponse
+  response: GetProjectOperationStatus200Response | GetProjectOperationStatusDefaultResponse,
 ): response is GetProjectOperationStatusDefaultResponse;
 export function isUnexpected(
-  response: ListPools200Response | ListPoolsDefaultResponse
+  response: ListPools200Response | ListPoolsDefaultResponse,
 ): response is ListPoolsDefaultResponse;
 export function isUnexpected(
-  response: GetPool200Response | GetPoolDefaultResponse
+  response: GetPool200Response | GetPoolDefaultResponse,
 ): response is GetPoolDefaultResponse;
 export function isUnexpected(
-  response: ListSchedules200Response | ListSchedulesDefaultResponse
+  response: ListSchedules200Response | ListSchedulesDefaultResponse,
 ): response is ListSchedulesDefaultResponse;
 export function isUnexpected(
-  response: GetSchedule200Response | GetScheduleDefaultResponse
+  response: GetSchedule200Response | GetScheduleDefaultResponse,
 ): response is GetScheduleDefaultResponse;
 export function isUnexpected(
-  response: ListDevBoxes200Response | ListDevBoxesDefaultResponse
+  response: ListDevBoxes200Response | ListDevBoxesDefaultResponse,
 ): response is ListDevBoxesDefaultResponse;
 export function isUnexpected(
-  response: GetDevBox200Response | GetDevBoxDefaultResponse
+  response: GetDevBox200Response | GetDevBoxDefaultResponse,
 ): response is GetDevBoxDefaultResponse;
 export function isUnexpected(
   response:
     | CreateDevBox200Response
     | CreateDevBox201Response
     | CreateDevBoxLogicalResponse
-    | CreateDevBoxDefaultResponse
+    | CreateDevBoxDefaultResponse,
 ): response is CreateDevBoxDefaultResponse;
 export function isUnexpected(
   response:
     | DeleteDevBox202Response
     | DeleteDevBox204Response
     | DeleteDevBoxLogicalResponse
-    | DeleteDevBoxDefaultResponse
+    | DeleteDevBoxDefaultResponse,
 ): response is DeleteDevBoxDefaultResponse;
 export function isUnexpected(
-  response: StartDevBox202Response | StartDevBoxLogicalResponse | StartDevBoxDefaultResponse
+  response: StartDevBox202Response | StartDevBoxLogicalResponse | StartDevBoxDefaultResponse,
 ): response is StartDevBoxDefaultResponse;
 export function isUnexpected(
-  response: StopDevBox202Response | StopDevBoxLogicalResponse | StopDevBoxDefaultResponse
+  response: StopDevBox202Response | StopDevBoxLogicalResponse | StopDevBoxDefaultResponse,
 ): response is StopDevBoxDefaultResponse;
 export function isUnexpected(
-  response: RestartDevBox202Response | RestartDevBoxLogicalResponse | RestartDevBoxDefaultResponse
+  response: RestartDevBox202Response | RestartDevBoxLogicalResponse | RestartDevBoxDefaultResponse,
 ): response is RestartDevBoxDefaultResponse;
 export function isUnexpected(
-  response: GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse
+  response: GetRemoteConnection200Response | GetRemoteConnectionDefaultResponse,
 ): response is GetRemoteConnectionDefaultResponse;
 export function isUnexpected(
-  response: ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse
+  response: ListDevBoxActions200Response | ListDevBoxActionsDefaultResponse,
 ): response is ListDevBoxActionsDefaultResponse;
 export function isUnexpected(
-  response: GetDevBoxAction200Response | GetDevBoxActionDefaultResponse
+  response: GetDevBoxAction200Response | GetDevBoxActionDefaultResponse,
 ): response is GetDevBoxActionDefaultResponse;
 export function isUnexpected(
-  response: SkipAction204Response | SkipActionDefaultResponse
+  response: SkipAction204Response | SkipActionDefaultResponse,
 ): response is SkipActionDefaultResponse;
 export function isUnexpected(
-  response: DelayAction200Response | DelayActionDefaultResponse
+  response: DelayAction200Response | DelayActionDefaultResponse,
 ): response is DelayActionDefaultResponse;
 export function isUnexpected(
-  response: DelayAllActions200Response | DelayAllActionsDefaultResponse
+  response: DelayAllActions200Response | DelayAllActionsDefaultResponse,
 ): response is DelayAllActionsDefaultResponse;
 export function isUnexpected(
-  response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse
+  response: ListAllDevBoxes200Response | ListAllDevBoxesDefaultResponse,
 ): response is ListAllDevBoxesDefaultResponse;
 export function isUnexpected(
-  response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse
+  response: ListAllDevBoxesByUser200Response | ListAllDevBoxesByUserDefaultResponse,
 ): response is ListAllDevBoxesByUserDefaultResponse;
 export function isUnexpected(
-  response: ListAllEnvironments200Response | ListAllEnvironmentsDefaultResponse
+  response: ListAllEnvironments200Response | ListAllEnvironmentsDefaultResponse,
 ): response is ListAllEnvironmentsDefaultResponse;
 export function isUnexpected(
-  response: ListEnvironments200Response | ListEnvironmentsDefaultResponse
+  response: ListEnvironments200Response | ListEnvironmentsDefaultResponse,
 ): response is ListEnvironmentsDefaultResponse;
 export function isUnexpected(
-  response: GetEnvironment200Response | GetEnvironmentDefaultResponse
+  response: GetEnvironment200Response | GetEnvironmentDefaultResponse,
 ): response is GetEnvironmentDefaultResponse;
 export function isUnexpected(
   response:
     | CreateOrUpdateEnvironment201Response
     | CreateOrUpdateEnvironmentLogicalResponse
-    | CreateOrUpdateEnvironmentDefaultResponse
+    | CreateOrUpdateEnvironmentDefaultResponse,
 ): response is CreateOrUpdateEnvironmentDefaultResponse;
 export function isUnexpected(
   response:
     | DeleteEnvironment202Response
     | DeleteEnvironment204Response
     | DeleteEnvironmentLogicalResponse
-    | DeleteEnvironmentDefaultResponse
+    | DeleteEnvironmentDefaultResponse,
 ): response is DeleteEnvironmentDefaultResponse;
 export function isUnexpected(
-  response: ListCatalogs200Response | ListCatalogsDefaultResponse
+  response: ListCatalogs200Response | ListCatalogsDefaultResponse,
 ): response is ListCatalogsDefaultResponse;
 export function isUnexpected(
-  response: GetCatalog200Response | GetCatalogDefaultResponse
+  response: GetCatalog200Response | GetCatalogDefaultResponse,
 ): response is GetCatalogDefaultResponse;
 export function isUnexpected(
-  response: ListEnvironmentDefinitions200Response | ListEnvironmentDefinitionsDefaultResponse
+  response: ListEnvironmentDefinitions200Response | ListEnvironmentDefinitionsDefaultResponse,
 ): response is ListEnvironmentDefinitionsDefaultResponse;
 export function isUnexpected(
   response:
     | ListEnvironmentDefinitionsByCatalog200Response
-    | ListEnvironmentDefinitionsByCatalogDefaultResponse
+    | ListEnvironmentDefinitionsByCatalogDefaultResponse,
 ): response is ListEnvironmentDefinitionsByCatalogDefaultResponse;
 export function isUnexpected(
-  response: GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse
+  response: GetEnvironmentDefinition200Response | GetEnvironmentDefinitionDefaultResponse,
 ): response is GetEnvironmentDefinitionDefaultResponse;
 export function isUnexpected(
-  response: ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse
+  response: ListEnvironmentTypes200Response | ListEnvironmentTypesDefaultResponse,
 ): response is ListEnvironmentTypesDefaultResponse;
 export function isUnexpected(
   response:
@@ -318,7 +318,7 @@ export function isUnexpected(
     | GetEnvironmentDefinition200Response
     | GetEnvironmentDefinitionDefaultResponse
     | ListEnvironmentTypes200Response
-    | ListEnvironmentTypesDefaultResponse
+    | ListEnvironmentTypesDefaultResponse,
 ): response is
   | ListProjectsDefaultResponse
   | GetProjectDefaultResponse
@@ -394,7 +394,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

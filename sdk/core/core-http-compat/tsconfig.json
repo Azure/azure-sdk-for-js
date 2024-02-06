@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types/latest",
-    "rootDir": "./"
+    "rootDir": "./",
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"],
 }

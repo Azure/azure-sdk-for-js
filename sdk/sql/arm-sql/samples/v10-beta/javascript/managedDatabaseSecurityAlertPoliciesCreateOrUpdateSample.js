@@ -26,7 +26,7 @@ async function updateADatabaseThreatDetectionPolicyWithAllParameters() {
   const databaseName = "testdb";
   const securityAlertPolicyName = "Default";
   const parameters = {
-    disabledAlerts: ["Sql_Injection", "Usage_Anomaly"],
+    disabledAlerts: ["Sql_Injection", "Access_Anomaly"],
     emailAccountAdmins: true,
     emailAddresses: ["test@contoso.com", "user@contoso.com"],
     retentionDays: 6,
@@ -42,7 +42,7 @@ async function updateADatabaseThreatDetectionPolicyWithAllParameters() {
     managedInstanceName,
     databaseName,
     securityAlertPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -68,7 +68,7 @@ async function updateADatabaseThreatDetectionPolicyWithMinimalParameters() {
     managedInstanceName,
     databaseName,
     securityAlertPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

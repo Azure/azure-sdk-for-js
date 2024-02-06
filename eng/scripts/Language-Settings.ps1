@@ -4,7 +4,6 @@ $LanguageDisplayName = "JavaScript"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
-$BlobStorageUrl = "https://azuresdkdocs.blob.core.windows.net/%24web?restype=container&comp=list&prefix=javascript%2F&delimiter=%2F"
 $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
 
@@ -194,7 +193,13 @@ function Get-javascript-GithubIoDocIndex() {
   # Fetch out all package metadata from csv file.
   $metadata = Get-CSVMetadata -MetadataUri $MetadataUri
   # Get the artifacts name from blob storage
-  $artifacts = Get-BlobStorage-Artifacts -blobStorageUrl $BlobStorageUrl -blobDirectoryRegex "^javascript/([a-z]*)-(.*)/$" -blobArtifactsReplacement "@`${1}/`${2}"
+  $artifacts = Get-BlobStorage-Artifacts `
+    -blobDirectoryRegex "^javascript/([a-z]*)-(.*)/$" `
+    -blobArtifactsReplacement "@`${1}/`${2}" `
+    -storageAccountName 'azuresdkdocs' `
+    -storageContainerName '$web' `
+    -storagePrefix 'javascript/'
+
   # Build up the artifact to service name mapping for GithubIo toc.
   $tocContent = Get-TocMapping -metadata $metadata -artifacts $artifacts
   # Generate yml/md toc files and build site.
@@ -441,4 +446,44 @@ function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRep
   }
 
   return $allSucceeded
+}
+
+function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {
+  $moduleFolders = Get-Content $PackageDirectoriesFile | ConvertFrom-Json
+  
+  $directoriesWithErrors = @()
+
+  foreach ($directory in $moduleFolders) {
+    $directoryPath = "$RepoRoot/sdk/$directory"
+
+    if (Test-Path "$directoryPath/tsp-location.yaml") {
+      Write-Host 'Generating project under folder ' -ForegroundColor Green -NoNewline
+      Write-Host "$directory" -ForegroundColor Yellow
+
+      Write-Host "Calling TypeSpec-Project-Sync.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Sync.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
+      }
+
+      Write-Host "Calling TypeSpec-Project-Generate.ps1 for $directory"
+      & $RepoRoot/eng/common/scripts/TypeSpec-Project-Generate.ps1 $directoryPath
+      if ($LASTEXITCODE) {
+        $directoriesWithErrors += $directory
+        continue
+      }
+    }
+    else {
+      Write-Host "No tsp-location.yaml found in $directory"
+    }
+  }
+
+  if ($directoriesWithErrors.Count -gt 0) {
+    Write-Host "##[error]Generation errors found in $($directoriesWithErrors.Count) directories:"
+    foreach ($directory in $directoriesWithErrors) {
+      Write-Host "  $directory"
+    }
+    exit 1
+  }
 }

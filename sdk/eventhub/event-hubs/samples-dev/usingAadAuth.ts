@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to instantiate EventHubsClient using AAD token credentials obtained from using service principal secrets.
@@ -42,7 +42,7 @@ export async function main(): Promise<void> {
     consumerGroup,
     eventHubsFullyQualifiedName,
     eventHubName,
-    credential
+    credential,
   );
   /*
    Refer to other samples, and place your code here

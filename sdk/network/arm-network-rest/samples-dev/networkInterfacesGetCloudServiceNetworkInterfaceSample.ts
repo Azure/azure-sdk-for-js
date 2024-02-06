@@ -35,7 +35,7 @@ async function getCloudServiceNetworkInterface() {
       resourceGroupName,
       cloudServiceName,
       roleInstanceName,
-      networkInterfaceName
+      networkInterfaceName,
     )
     .get(options);
   console.log(result);

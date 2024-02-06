@@ -29,7 +29,7 @@ async function afdOriginGroupsListResourceUsage() {
   for await (let item of client.afdOriginGroups.listResourceUsage(
     resourceGroupName,
     profileName,
-    originGroupName
+    originGroupName,
   )) {
     resArray.push(item);
   }

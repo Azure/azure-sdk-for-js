@@ -29,7 +29,7 @@ async function customDomainsListByEndpoint() {
   for await (let item of client.customDomains.listByEndpoint(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

@@ -23,7 +23,7 @@ testWithServiceTypes(() => {
 
       it("should correctly populate config properties from an EventHubs connection string and the helper methods should work as expected", function (done) {
         const config = EventHubConnectionConfig.create(
-          "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+          "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep",
         );
         config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
         config.should.have.property("sharedAccessKeyName").that.equals("sakName");
@@ -52,12 +52,12 @@ testWithServiceTypes(() => {
         config
           .getReceiverAudience("0")
           .should.equal(
-            "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+            "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
           );
         config
           .getReceiverAudience(0)
           .should.equal(
-            "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+            "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
           );
         config
           .getReceiverAudience("0", "cg")
@@ -81,7 +81,7 @@ testWithServiceTypes(() => {
       describe("setCustomEndpointAddress", () => {
         it("overwrites host", () => {
           const config = EventHubConnectionConfig.create(
-            "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+            "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep",
           );
           config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
           config.should.have.property("sharedAccessKeyName").that.equals("sakName");
@@ -110,12 +110,12 @@ testWithServiceTypes(() => {
           config
             .getReceiverAudience("0")
             .should.equal(
-              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
             );
           config
             .getReceiverAudience(0)
             .should.equal(
-              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
             );
           config
             .getReceiverAudience("0", "cg")
@@ -134,7 +134,7 @@ testWithServiceTypes(() => {
 
         it("overwrites host and port", () => {
           const config = EventHubConnectionConfig.create(
-            "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep"
+            "Endpoint=sb://hostname.servicebus.windows.net/;SharedAccessKeyName=sakName;SharedAccessKey=sak;EntityPath=ep",
           );
           config.should.have.property("host").that.equals("hostname.servicebus.windows.net");
           config.should.have.property("sharedAccessKeyName").that.equals("sakName");
@@ -163,12 +163,12 @@ testWithServiceTypes(() => {
           config
             .getReceiverAudience("0")
             .should.equal(
-              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
             );
           config
             .getReceiverAudience(0)
             .should.equal(
-              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0"
+              "sb://hostname.servicebus.windows.net/ep/ConsumerGroups/$default/Partitions/0",
             );
           config
             .getReceiverAudience("0", "cg")
@@ -179,7 +179,7 @@ testWithServiceTypes(() => {
 
           EventHubConnectionConfig.setCustomEndpointAddress(
             config,
-            "https://foo.private.endpoint:1111"
+            "https://foo.private.endpoint:1111",
           );
           config.should.have
             .property("amqpHostname")

@@ -20,7 +20,7 @@ function compareRanges(a: any, b: any): 0 | 1 | -1 {
 
 /** @hidden */
 export function createCompleteRoutingMap(
-  partitionKeyRangeInfoTuppleList: any[]
+  partitionKeyRangeInfoTuppleList: any[],
 ): InMemoryCollectionRoutingMap {
   const rangeById: any = {}; // TODO: any
   const rangeByInfo: any = {}; // TODO: any

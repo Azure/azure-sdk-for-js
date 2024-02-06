@@ -32,7 +32,7 @@ async function partnerRegistrationsCreateOrUpdate() {
   const result = await client.partnerRegistrations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     partnerRegistrationName,
-    partnerRegistrationInfo
+    partnerRegistrationInfo,
   );
   console.log(result);
 }

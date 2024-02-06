@@ -34,7 +34,7 @@ import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  */
 async function challengeFlow(
   credential: TokenCredential,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<AccessToken[]> {
   const managementScope = "https://management.azure.com/.default";
   const graphScope = "User.ReadWrite.All";
@@ -86,7 +86,7 @@ async function challengeFlow(
     // This log line helps us see how long this is taking on record mode.
     console.log(
       "Waiting for the revocation of the token. Retrying in 30 seconds. Retry number",
-      ++count
+      ++count,
     );
     await delay(30000);
   }
@@ -104,7 +104,7 @@ async function challengeFlow(
         },
         authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,
       },
-    })
+    }),
   );
   pipeline.addPolicy(recorder.configureClientOptions({}).additionalPolicies![0].policy);
   const httpClient = createDefaultHttpClient();
@@ -119,7 +119,7 @@ async function challengeFlow(
     createPipelineRequest({
       url: managementSubscriptions,
       method: "GET",
-    })
+    }),
   );
   assert.equal(finalResponse.status, 200, "Final response failed.");
 
@@ -151,7 +151,7 @@ describe.skip("CAE", function () {
   it("DeviceCodeCredential", async function (this: Context) {
     const [firstAccessToken, finalAccessToken] = await challengeFlow(
       new DeviceCodeCredential(recorder.configureClientOptions({ tenantId: env.AZURE_TENANT_ID })),
-      recorder
+      recorder,
     );
 
     assert.notDeepEqual(firstAccessToken, finalAccessToken);
@@ -166,9 +166,9 @@ describe.skip("CAE", function () {
         DeveloperSignOnClientId,
         env.AZURE_USERNAME!,
         env.AZURE_PASSWORD!,
-        recorder.configureClientOptions({})
+        recorder.configureClientOptions({}),
       ),
-      recorder
+      recorder,
     );
 
     assert.notDeepEqual(firstAccessToken, finalAccessToken);

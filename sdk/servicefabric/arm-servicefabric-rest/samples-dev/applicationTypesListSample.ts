@@ -28,7 +28,7 @@ async function getAListOfApplicationTypeNameResources() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}/applicationTypes",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .get();
   console.log(result);

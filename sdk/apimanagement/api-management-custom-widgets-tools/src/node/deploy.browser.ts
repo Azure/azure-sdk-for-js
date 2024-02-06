@@ -4,7 +4,7 @@
 async function deploy(
   _serviceInformation: unknown,
   _name: string,
-  _fallbackConfigPath: string
+  _fallbackConfigPath: string,
 ): Promise<void> {
   throw new Error("Only for Node.js");
 }

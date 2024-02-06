@@ -27,7 +27,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
   private _timeBetweenChecksMs = 1000;
 
   static async startingFromHere(
-    client: EventHubProducerClient | EventHubConsumerClient
+    client: EventHubProducerClient | EventHubConsumerClient,
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
     const startPosition: { [partitionId: string]: EventPosition } = {};
@@ -74,7 +74,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
           event,
           partitionId: context.partitionId,
         };
-      })
+      }),
     );
   }
 
@@ -82,7 +82,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     loggerForTest(`Error in partition ${context.partitionId}: ${err}`);
     should.exist(
       context.partitionId,
-      `Non-partition level errors should definitely not happen : ${err}`
+      `Non-partition level errors should definitely not happen : ${err}`,
     );
 
     if (context.partitionId) {
@@ -103,7 +103,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
   async waitForFullEvents(
     partitionIds: string[],
-    countOfExpectedEvents?: number
+    countOfExpectedEvents?: number,
   ): Promise<{ partitionId: string; event: ReceivedEventData }[]> {
     const startTime = Date.now();
 
@@ -118,7 +118,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
         if (Date.now() - startTime > this._maxTimeToWaitSeconds * 1000) {
           throw new Error(
-            `Waiting _way_ too long for messages to arrive (got ${this.events.length} out of ${countOfExpectedEvents})`
+            `Waiting _way_ too long for messages to arrive (got ${this.events.length} out of ${countOfExpectedEvents})`,
           );
         }
       } else {
@@ -137,7 +137,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
   async waitForEvents(
     partitionIds: string[],
-    countOfExpectedEvents?: number
+    countOfExpectedEvents?: number,
   ): Promise<{ partitionId: string; body: string }[]> {
     const events = await this.waitForFullEvents(partitionIds, countOfExpectedEvents);
 
@@ -178,7 +178,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
 
 export async function sendOneMessagePerPartition(
   partitionIds: string[],
-  producerClient: EventHubProducerClient
+  producerClient: EventHubProducerClient,
 ): Promise<{ body: string; partitionId: string }[]> {
   const expectedMessagePrefix = "EventProcessor test - multiple partitions - ";
   const sentMessages = [];

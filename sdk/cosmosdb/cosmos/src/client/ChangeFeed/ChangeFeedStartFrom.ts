@@ -35,7 +35,7 @@ export abstract class ChangeFeedStartFrom {
    */
   public static Time(
     startTime: Date,
-    cfResource?: PartitionKey | FeedRange
+    cfResource?: PartitionKey | FeedRange,
   ): ChangeFeedStartFromTime {
     if (!startTime) {
       throw new ErrorResponse("startTime must be present");

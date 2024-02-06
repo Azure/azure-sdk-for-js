@@ -95,7 +95,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
 
   /**
@@ -118,7 +118,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     if (credentialOrPipeline instanceof Pipeline) {
       super(url, credentialOrPipeline);
@@ -158,7 +158,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   public getDirectoryClient(directoryName: string): DataLakeDirectoryClient {
     return new DataLakeDirectoryClient(
       appendToURLPath(this.url, EscapePath(directoryName)),
-      this.pipeline
+      this.pipeline,
     );
   }
 
@@ -201,7 +201,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           tracingOptions: updatedOptions.tracingOptions,
           containerEncryptionScope: options.fileSystemEncryptionScope,
         });
-      }
+      },
     );
   }
 
@@ -214,7 +214,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options -
    */
   public async createIfNotExists(
-    options: FileSystemCreateOptions = {}
+    options: FileSystemCreateOptions = {},
   ): Promise<FileSystemCreateIfNotExistsResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-createIfNotExists",
@@ -226,7 +226,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           containerEncryptionScope: options.fileSystemEncryptionScope,
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
@@ -245,7 +245,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       options,
       async (updatedOptions) => {
         return this.blobContainerClient.exists(updatedOptions);
-      }
+      },
     );
   }
 
@@ -265,7 +265,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           ...options,
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
@@ -277,14 +277,14 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options -
    */
   public async deleteIfExists(
-    options: FileSystemDeleteOptions = {}
+    options: FileSystemDeleteOptions = {},
   ): Promise<FileSystemDeleteIfExistsResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-deleteIfExists",
       options,
       async (updatedOptions) => {
         return this.blobContainerClient.deleteIfExists(updatedOptions);
-      }
+      },
     );
   }
 
@@ -302,7 +302,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when getting file system properties.
    */
   public async getProperties(
-    options: FileSystemGetPropertiesOptions = {}
+    options: FileSystemGetPropertiesOptions = {},
   ): Promise<FileSystemGetPropertiesResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-getProperties",
@@ -323,7 +323,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
         return response;
-      }
+      },
     );
   }
 
@@ -341,7 +341,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    */
   public async setMetadata(
     metadata?: Metadata,
-    options: FileSystemSetMetadataOptions = {}
+    options: FileSystemSetMetadataOptions = {},
   ): Promise<FileSystemSetMetadataResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-setMetadata",
@@ -351,7 +351,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           ...options,
           tracingOptions: updatedOptions.tracingOptions,
         });
-      }
+      },
     );
   }
 
@@ -367,7 +367,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when getting file system access policy.
    */
   public async getAccessPolicy(
-    options: FileSystemGetAccessPolicyOptions = {}
+    options: FileSystemGetAccessPolicyOptions = {},
   ): Promise<FileSystemGetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-getAccessPolicy",
@@ -388,7 +388,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         delete rawResponse._response.parsedHeaders.blobPublicAccess;
 
         return response;
-      }
+      },
     );
   }
 
@@ -409,7 +409,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async setAccessPolicy(
     access?: PublicAccessType,
     fileSystemAcl?: SignedIdentifier<AccessPolicy>[],
-    options: FileSystemSetAccessPolicyOptions = {}
+    options: FileSystemSetAccessPolicyOptions = {},
   ): Promise<FileSystemSetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-setAccessPolicy",
@@ -421,9 +421,9 @@ export class DataLakeFileSystemClient extends StorageClient {
           {
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
-          }
+          },
         );
-      }
+      },
     );
   }
 
@@ -499,7 +499,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when listing paths.
    */
   public listPaths(
-    options: ListPathsOptions = {}
+    options: ListPathsOptions = {},
   ): PagedAsyncIterableIterator<Path, FileSystemListPathsResponse> {
     options.path = options.path === "" ? undefined : options.path;
 
@@ -528,7 +528,7 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   private async *listSegments(
     continuation?: string,
-    options: ListPathsSegmentOptions = {}
+    options: ListPathsSegmentOptions = {},
   ): AsyncIterableIterator<FileSystemListPathsResponse> {
     let response;
     if (!!continuation || continuation === undefined) {
@@ -542,7 +542,7 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   private async listPathsSegment(
     continuation?: string,
-    options: ListPathsSegmentOptions = {}
+    options: ListPathsSegmentOptions = {},
   ): Promise<FileSystemListPathsResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-listPathsSegment",
@@ -567,7 +567,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         delete rawResponse.paths;
 
         return response;
-      }
+      },
     );
   }
 
@@ -643,7 +643,7 @@ export class DataLakeFileSystemClient extends StorageClient {
    * @param options - Optional. Options when listing deleted paths.
    */
   public listDeletedPaths(
-    options: ListDeletedPathsOptions = {}
+    options: ListDeletedPathsOptions = {},
   ): PagedAsyncIterableIterator<DeletedPath, FileSystemListDeletedPathsResponse> {
     const iter = this.listDeletedItems(options);
     return {
@@ -662,7 +662,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     };
   }
   private async *listDeletedItems(
-    options: ListDeletedPathsOptions = {}
+    options: ListDeletedPathsOptions = {},
   ): AsyncIterableIterator<DeletedPath> {
     for await (const response of this.listDeletedSegments(undefined, options)) {
       yield* response.pathItems || [];
@@ -671,7 +671,7 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   private async *listDeletedSegments(
     continuation?: string,
-    options: ListDeletedPathsSegmentOptions = {}
+    options: ListDeletedPathsSegmentOptions = {},
   ): AsyncIterableIterator<FileSystemListDeletedPathsResponse> {
     let response;
     if (!!continuation || continuation === undefined) {
@@ -685,7 +685,7 @@ export class DataLakeFileSystemClient extends StorageClient {
 
   private async listDeletedPathsSegment(
     continuation?: string,
-    options: ListDeletedPathsSegmentOptions = {}
+    options: ListDeletedPathsSegmentOptions = {},
   ): Promise<FileSystemListDeletedPathsResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-listDeletedPathsSegment",
@@ -713,7 +713,7 @@ export class DataLakeFileSystemClient extends StorageClient {
         }
 
         return response;
-      }
+      },
     );
   }
 
@@ -731,7 +731,7 @@ export class DataLakeFileSystemClient extends StorageClient {
   public async undeletePath(
     deletedPath: string,
     deletionId: string,
-    options: FileSystemUndeletePathOption = {}
+    options: FileSystemUndeletePathOption = {},
   ): Promise<FileSystemUndeletePathResponse> {
     return tracingClient.withSpan(
       "DataLakeFileSystemClient-undeletePath",
@@ -739,7 +739,7 @@ export class DataLakeFileSystemClient extends StorageClient {
       async (updatedOptions) => {
         const pathClient = new PathClientInternal(
           appendToURLPath(this.blobEndpointUrl, EscapePath(deletedPath)),
-          this.pipeline
+          this.pipeline,
         );
 
         const rawResponse = assertResponse<PathUndeleteHeaders, PathUndeleteHeaders>(
@@ -747,7 +747,7 @@ export class DataLakeFileSystemClient extends StorageClient {
             undeleteSource: "?" + DeletionIdKey + "=" + deletionId,
             ...options,
             tracingOptions: updatedOptions.tracingOptions,
-          })
+          }),
         );
 
         if (rawResponse.resourceType === PathResultTypeConstants.DirectoryResourceType) {
@@ -761,7 +761,7 @@ export class DataLakeFileSystemClient extends StorageClient {
             ...rawResponse,
           };
         }
-      }
+      },
     );
   }
 
@@ -780,7 +780,7 @@ export class DataLakeFileSystemClient extends StorageClient {
     return new Promise((resolve) => {
       if (!(this.credential instanceof StorageSharedKeyCredential)) {
         throw RangeError(
-          "Can only generate the SAS when the client is initialized with a shared key credential"
+          "Can only generate the SAS when the client is initialized with a shared key credential",
         );
       }
 
@@ -789,7 +789,7 @@ export class DataLakeFileSystemClient extends StorageClient {
           fileSystemName: this.name,
           ...options,
         },
-        this.credential
+        this.credential,
       ).toString();
 
       resolve(appendToURLQuery(this.url, sas));

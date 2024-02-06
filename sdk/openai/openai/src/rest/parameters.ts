@@ -79,6 +79,18 @@ export interface GetChatCompletionsWithAzureExtensionsBodyParam {
 
 export type GetChatCompletionsWithAzureExtensionsParameters =
   GetChatCompletionsWithAzureExtensionsBodyParam & RequestParameters;
+
+export interface GetImageGenerationsBodyParam {
+  body?: ImageGenerationOptions;
+}
+
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+
+export interface GetEmbeddingsBodyParam {
+  body?: EmbeddingsOptions;
+}
+
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
 export type GetAzureBatchImageGenerationOperationStatusParameters = RequestParameters;
 
 export interface BeginAzureBatchImageGenerationBodyParam {
@@ -87,9 +99,3 @@ export interface BeginAzureBatchImageGenerationBodyParam {
 
 export type BeginAzureBatchImageGenerationParameters = BeginAzureBatchImageGenerationBodyParam &
   RequestParameters;
-
-export interface GetEmbeddingsBodyParam {
-  body?: EmbeddingsOptions;
-}
-
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;

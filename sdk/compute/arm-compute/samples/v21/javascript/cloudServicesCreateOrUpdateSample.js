@@ -67,7 +67,7 @@ async function createNewCloudServiceWithMultipleRoles() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -128,7 +128,7 @@ async function createNewCloudServiceWithMultipleRolesInASpecificAvailabilityZone
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -184,7 +184,7 @@ async function createNewCloudServiceWithSingleRole() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -255,7 +255,7 @@ async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -327,7 +327,7 @@ async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
   const result = await client.cloudServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }

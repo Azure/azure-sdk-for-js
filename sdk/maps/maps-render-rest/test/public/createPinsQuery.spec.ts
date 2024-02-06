@@ -70,7 +70,7 @@ describe("create pins query helper", () => {
 
     assert.equal(
       pinsQuery,
-      "default||'A'13.35 52.577|13.2988 52.6&pins=default|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=none|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=custom|coFFFFFF||'A'13.35 52.577|13.2988 52.6||http://contoso.com/pushpins/red.png"
+      "default||'A'13.35 52.577|13.2988 52.6&pins=default|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=none|coFFFFFF||'A'13.35 52.577|13.2988 52.6&pins=custom|coFFFFFF||'A'13.35 52.577|13.2988 52.6||http://contoso.com/pushpins/red.png",
     );
 
     /* We don't test custom pin E2E since we have no reliable image source */
@@ -106,7 +106,7 @@ describe("create pins query helper", () => {
 
     assert.equal(
       pinsQuery,
-      "default|al0.8|la10 4|lc000000|ls10|an0 0|ro90|sc2|co123456||13.35 52.577"
+      "default|al0.8|la10 4|lc000000|ls10|an0 0|ro90|sc2|co123456||13.35 52.577",
     );
 
     const res = await client.path("/map/static/{format}", "png").get({

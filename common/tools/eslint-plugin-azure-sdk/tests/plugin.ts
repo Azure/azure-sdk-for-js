@@ -187,7 +187,7 @@ describe("plugin", (): void => {
           assert.include(
             plugins,
             "@azure/azure-sdk",
-            "plugins does not contain '@azure/azure-sdk'"
+            "plugins does not contain '@azure/azure-sdk'",
           );
         });
       });
@@ -209,7 +209,7 @@ describe("plugin", (): void => {
           assert.strictEqual(
             parser,
             "@typescript-eslint/parser",
-            "parser is not set to '@typescript-eslint/parser'"
+            "parser is not set to '@typescript-eslint/parser'",
           );
         });
       });
@@ -223,7 +223,7 @@ describe("plugin", (): void => {
             assert.property(
               rules,
               `@azure/azure-sdk/${rule}`,
-              `rules does not contain a setting for ${rule}`
+              `rules does not contain a setting for ${rule}`,
             );
           });
         });

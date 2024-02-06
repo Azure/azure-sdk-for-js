@@ -22,7 +22,7 @@ import {
 export function getOperationArgumentValueFromParameter(
   operationArguments: OperationArguments,
   parameter: OperationParameter,
-  fallbackObject?: { [parameterName: string]: any }
+  fallbackObject?: { [parameterName: string]: any },
 ): any {
   let parameterPath = parameter.parameterPath;
   const parameterMapper = parameter.mapper;
@@ -66,7 +66,7 @@ export function getOperationArgumentValueFromParameter(
           parameterPath: propertyPath,
           mapper: propertyMapper,
         },
-        fallbackObject
+        fallbackObject,
       );
       if (propertyValue !== undefined) {
         if (!value) {
@@ -86,7 +86,7 @@ interface PropertySearchResult {
 
 function getPropertyFromParameterPath(
   parent: { [parameterName: string]: any },
-  parameterPath: string[]
+  parameterPath: string[],
 ): PropertySearchResult {
   const result: PropertySearchResult = { propertyFound: false };
   let i = 0;
@@ -110,7 +110,7 @@ const operationRequestMap = new WeakMap<OperationRequest, OperationRequestInfo>(
 const originalRequestSymbol = Symbol.for("@azure/core-client original request");
 
 function hasOriginalRequest(
-  request: OperationRequest
+  request: OperationRequest,
 ): request is OperationRequest & { [originalRequestSymbol]: OperationRequest } {
   return originalRequestSymbol in request;
 }

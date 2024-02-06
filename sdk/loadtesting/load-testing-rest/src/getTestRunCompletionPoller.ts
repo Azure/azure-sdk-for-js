@@ -22,7 +22,7 @@ import { sleep, isTestRunInProgress } from "./util/LROUtil";
 export async function getTestRunCompletionPoller(
   client: AzureLoadTestingClient,
   createTestRunResponse: TestRunCreateOrUpdate200Response | TestRunCreateOrUpdate201Response,
-  polledOperationOptions: PolledOperationOptions = {}
+  polledOperationOptions: PolledOperationOptions = {},
 ): Promise<TestRunCompletionPoller> {
   type Handler = (state: OperationState<TestRunGet200Response>) => void;
 

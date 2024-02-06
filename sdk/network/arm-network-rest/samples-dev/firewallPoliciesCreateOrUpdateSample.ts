@@ -105,7 +105,7 @@ async function createFirewallPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}",
       subscriptionId,
       resourceGroupName,
-      firewallPolicyName
+      firewallPolicyName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

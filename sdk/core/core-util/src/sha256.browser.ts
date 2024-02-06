@@ -24,12 +24,12 @@ interface SubtleCrypto {
     keyData: JsonWebKey,
     algorithm: HmacImportParams,
     extractable: boolean,
-    usage: KeyUsage[]
+    usage: KeyUsage[],
   ): Promise<CryptoKey>;
   sign(
     algorithm: HmacImportParams,
     key: CryptoKey,
-    data: ArrayBufferView | ArrayBuffer
+    data: ArrayBufferView | ArrayBuffer,
   ): Promise<ArrayBuffer>;
   digest(algorithm: Algorithm, data: ArrayBufferView | ArrayBuffer): Promise<ArrayBuffer>;
 }
@@ -74,7 +74,7 @@ function getCrypto(): SubtleCrypto {
 export async function computeSha256Hmac(
   key: string,
   stringToSign: string,
-  encoding: "base64" | "hex"
+  encoding: "base64" | "hex",
 ): Promise<string> {
   const crypto = getCrypto();
   const keyBytes = stringToUint8Array(key, "base64");
@@ -88,7 +88,7 @@ export async function computeSha256Hmac(
       hash: { name: "SHA-256" },
     },
     false,
-    ["sign"]
+    ["sign"],
   );
   const signature = await crypto.sign(
     {
@@ -96,7 +96,7 @@ export async function computeSha256Hmac(
       hash: { name: "SHA-256" },
     },
     cryptoKey,
-    stringToSignBytes
+    stringToSignBytes,
   );
 
   return uint8ArrayToString(new Uint8Array(signature), encoding);
@@ -109,7 +109,7 @@ export async function computeSha256Hmac(
  */
 export async function computeSha256Hash(
   content: string,
-  encoding: "base64" | "hex"
+  encoding: "base64" | "hex",
 ): Promise<string> {
   const contentBytes = stringToUint8Array(content, "utf-8");
   const digest = await getCrypto().digest({ name: "SHA-256" }, contentBytes);

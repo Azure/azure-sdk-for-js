@@ -178,12 +178,12 @@ export class AttestationClient {
   public constructor(
     endpoint: string,
     credentials: TokenCredential,
-    options?: AttestationClientOptions
+    options?: AttestationClientOptions,
   );
   public constructor(
     endpoint: string,
     credentialsOrOptions?: TokenCredential | AttestationClientOptions,
-    clientOptions: AttestationClientOptions = {}
+    clientOptions: AttestationClientOptions = {},
   ) {
     let credentialScopes: string[] | undefined = undefined;
     let credential: TokenCredential | undefined = undefined;
@@ -227,7 +227,7 @@ export class AttestationClient {
    */
   public async attestOpenEnclave(
     report: Uint8Array | Buffer | Blob,
-    options: AttestOpenEnclaveOptions = {}
+    options: AttestOpenEnclaveOptions = {},
   ): Promise<AttestationResponse<AttestationResult>> {
     return tracingClient.withSpan(
       "AttestationClient-attestOpenEnclave",
@@ -268,13 +268,13 @@ export class AttestationClient {
             runtimeData: runTimeData,
             draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
           },
-          updatedOptions
+          updatedOptions,
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
         const problems = token.getTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -286,14 +286,14 @@ export class AttestationClient {
             GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "GeneratedAttestationResult"
+          "GeneratedAttestationResult",
         ) as GeneratedAttestationResult;
 
         return createAttestationResponse<AttestationResult>(
           token,
-          _attestationResultFromGenerated(attestationResult)
+          _attestationResultFromGenerated(attestationResult),
         );
-      }
+      },
     );
   }
 
@@ -308,7 +308,7 @@ export class AttestationClient {
    */
   public async attestSgxEnclave(
     quote: Uint8Array | Buffer | Blob,
-    options: AttestSgxEnclaveOptions = {}
+    options: AttestSgxEnclaveOptions = {},
   ): Promise<AttestationResponse<AttestationResult>> {
     return tracingClient.withSpan(
       "AttestationClient-attestSgxEnclave",
@@ -348,13 +348,13 @@ export class AttestationClient {
             runtimeData: runTimeData,
             draftPolicyForAttestation: options.draftPolicyForAttestation ?? undefined,
           },
-          updatedOptions
+          updatedOptions,
         );
 
         const token = new AttestationTokenImpl(attestationResponse.token);
         const problems = token.getTokenProblems(
           await this._signingKeys(),
-          options.validationOptions ?? this._validationOptions
+          options.validationOptions ?? this._validationOptions,
         );
         if (problems.length) {
           throw new Error(problems.join(";"));
@@ -366,14 +366,14 @@ export class AttestationClient {
             GeneratedAttestationResult: Mappers.GeneratedAttestationResult,
             JsonWebKey: Mappers.JsonWebKey,
           },
-          "GeneratedAttestationResult"
+          "GeneratedAttestationResult",
         ) as GeneratedAttestationResult;
 
         return createAttestationResponse<AttestationResult>(
           token,
-          _attestationResultFromGenerated(attestationResult)
+          _attestationResultFromGenerated(attestationResult),
         );
-      }
+      },
     );
   }
 
@@ -410,14 +410,14 @@ export class AttestationClient {
       async (updatedOptions) => {
         const response = await this._client.attestation.attestTpm(
           { data: stringToBytes(request) },
-          updatedOptions
+          updatedOptions,
         );
         if (response.data) {
           return bytesToString(response.data);
         } else {
           throw Error("Internal error - response data cannot be undefined.");
         }
-      }
+      },
     );
   }
 
@@ -429,7 +429,7 @@ export class AttestationClient {
    * @returns the set of AttestationSigners which may be used to sign attestation tokens.
    */
   public async getAttestationSigners(
-    options: AttestationClientOperationOptions = {}
+    options: AttestationClientOperationOptions = {},
   ): Promise<AttestationSigner[]> {
     return tracingClient.withSpan(
       "AttestationClient-getAttestationSigners",
@@ -441,7 +441,7 @@ export class AttestationClient {
           signers.push(_attestationSignerFromGenerated(element));
         });
         return signers;
-      }
+      },
     );
   }
 
@@ -451,7 +451,7 @@ export class AttestationClient {
    * @returns The OpenID metadata discovery document for the attestation service.
    */
   public async getOpenIdMetadata(
-    options: AttestationClientOperationOptions = {}
+    options: AttestationClientOperationOptions = {},
   ): Promise<Record<string, unknown>> {
     return tracingClient.withSpan(
       "AttestationClient-getOpenIdMetadata",
@@ -459,7 +459,7 @@ export class AttestationClient {
       async (updatedOptions) => {
         const configs = await this._client.metadataConfiguration.get(updatedOptions);
         return configs;
-      }
+      },
     );
   }
 

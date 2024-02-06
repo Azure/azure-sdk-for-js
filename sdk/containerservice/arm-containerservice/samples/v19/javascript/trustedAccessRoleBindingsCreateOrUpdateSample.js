@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a trusted access role binding
  *
  * @summary Create or update a trusted access role binding
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
 async function createOrUpdateATrustedAccessRoleBinding() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function createOrUpdateATrustedAccessRoleBinding() {
     resourceGroupName,
     resourceName,
     trustedAccessRoleBindingName,
-    trustedAccessRoleBinding
+    trustedAccessRoleBinding,
   );
   console.log(result);
 }

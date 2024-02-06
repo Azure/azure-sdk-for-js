@@ -2,16 +2,17 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
-import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
-import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+
+import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
+import { CredentialUnavailableError } from "../errors";
+import child_process from "child_process";
 import { tracingClient } from "../util/tracing";
 
 /**
@@ -41,7 +42,7 @@ export const cliCredentialInternals = {
   async getAzureCliAccessToken(
     resource: string,
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -63,7 +64,7 @@ export const cliCredentialInternals = {
           { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
-          }
+          },
         );
       } catch (err: any) {
         reject(err);
@@ -99,7 +100,7 @@ export class AzureCliCredential implements TokenCredential {
       this.tenantId = options?.tenantId;
     }
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -114,12 +115,12 @@ export class AzureCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
-      this.additionallyAllowedTenantIds
+      this.additionallyAllowedTenantIds,
     );
 
     if (tenantId) {
@@ -135,7 +136,7 @@ export class AzureCliCredential implements TokenCredential {
         const obj = await cliCredentialInternals.getAzureCliAccessToken(
           resource,
           tenantId,
-          this.timeout
+          this.timeout,
         );
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
@@ -144,27 +145,23 @@ export class AzureCliCredential implements TokenCredential {
 
         if (isNotInstallError) {
           const error = new CredentialUnavailableError(
-            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
         if (isLoginError) {
           const error = new CredentialUnavailableError(
-            "Please run 'az login' from a command prompt to authenticate before using this credential."
+            "Please run 'az login' from a command prompt to authenticate before using this credential.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
         try {
           const responseData = obj.stdout;
-          const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
+          const response: AccessToken = this.parseRawResponse(responseData);
           logger.getToken.info(formatSuccess(scopes));
-          const returnValue = {
-            token: response.accessToken,
-            expiresOnTimestamp: new Date(response.expiresOn).getTime(),
-          };
-          return returnValue;
+          return response;
         } catch (e: any) {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);
@@ -176,11 +173,51 @@ export class AzureCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token"
+                (err as Error).message || "Unknown error while trying to retrieve the access token",
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
     });
+  }
+
+  /**
+   * Parses the raw JSON response from the Azure CLI into a usable AccessToken object
+   *
+   * @param rawResponse - The raw JSON response from the Azure CLI
+   * @returns An access token with the expiry time parsed from the raw response
+   *
+   * The expiryTime of the credential's access token, in milliseconds, is calculated as follows:
+   *
+   * When available, expires_on (introduced in Azure CLI v2.54.0) will be preferred. Otherwise falls back to expiresOn.
+   */
+  private parseRawResponse(rawResponse: string): AccessToken {
+    const response: any = JSON.parse(rawResponse);
+    const token = response.accessToken;
+    // if available, expires_on will be a number representing seconds since epoch.
+    // ensure it's a number or NaN
+    let expiresOnTimestamp = Number.parseInt(response.expires_on, 10) * 1000;
+    if (!isNaN(expiresOnTimestamp)) {
+      logger.getToken.info("expires_on is available and is valid, using it");
+      return {
+        token,
+        expiresOnTimestamp,
+      };
+    }
+
+    // fallback to the older expiresOn - an RFC3339 date string
+    expiresOnTimestamp = new Date(response.expiresOn).getTime();
+
+    // ensure expiresOn is well-formatted
+    if (isNaN(expiresOnTimestamp)) {
+      throw new CredentialUnavailableError(
+        `Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got: "${response.expiresOn}"`,
+      );
+    }
+
+    return {
+      token,
+      expiresOnTimestamp,
+    };
   }
 }

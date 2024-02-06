@@ -40,7 +40,7 @@ async function run(): Promise<void> {
   console.log("Create item, but exclude from index");
   const { resource: itemDef, item } = await container.items.create(
     { id: "item1", foo: "bar" },
-    { indexingDirective: "exclude" }
+    { indexingDirective: "exclude" },
   );
 
   if (itemDef) {
@@ -90,7 +90,7 @@ async function run(): Promise<void> {
   console.log("Create item, and explicitly include in index");
   const { resource: itemDef2 } = await container.items.create(
     { id: "item2", foo: "bar" },
-    { indexingDirective: "include" }
+    { indexingDirective: "include" },
   );
   if (itemDef) {
     console.log(`Item with id  ${itemDef.id} 'created`);
@@ -156,7 +156,7 @@ async function run(): Promise<void> {
         },
       ],
     },
-    { enableScanInQuery: true }
+    { enableScanInQuery: true },
   );
   const { resources: items, requestCharge } = await queryIterator.fetchNext();
   const itemDef3 = items[0];

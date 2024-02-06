@@ -46,8 +46,8 @@ if (logLevelFromEnv) {
   } else {
     console.error(
       `TYPESPEC_RUNTIME_LOG_LEVEL set to unknown log level '${logLevelFromEnv}'; logging is not enabled. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(
-        ", "
-      )}.`
+        ", ",
+      )}.`,
     );
   }
 }
@@ -64,7 +64,7 @@ if (logLevelFromEnv) {
 export function setLogLevel(level?: TypeSpecRuntimeLogLevel): void {
   if (level && !isTypeSpecRuntimeLogLevel(level)) {
     throw new Error(
-      `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`
+      `Unknown log level '${level}'. Acceptable values: ${TYPESPEC_RUNTIME_LOG_LEVELS.join(",")}`,
     );
   }
   typeSpecRuntimeLogLevel = level;
@@ -139,7 +139,7 @@ export function createClientLogger(namespace: string): TypeSpecRuntimeLogger {
 
 function patchLogMethod(
   parent: TypeSpecRuntimeClientLogger,
-  child: TypeSpecRuntimeClientLogger | TypeSpecRuntimeDebugger
+  child: TypeSpecRuntimeClientLogger | TypeSpecRuntimeDebugger,
 ): void {
   child.log = (...args) => {
     parent.log(...args);
@@ -148,7 +148,7 @@ function patchLogMethod(
 
 function createLogger(
   parent: TypeSpecRuntimeClientLogger,
-  level: TypeSpecRuntimeLogLevel
+  level: TypeSpecRuntimeLogLevel,
 ): TypeSpecRuntimeDebugger {
   const logger: TypeSpecRuntimeDebugger = Object.assign(parent.extend(level), {
     level,
@@ -168,7 +168,7 @@ function createLogger(
 
 function shouldEnable(logger: TypeSpecRuntimeDebugger): boolean {
   return Boolean(
-    typeSpecRuntimeLogLevel && levelMap[logger.level] <= levelMap[typeSpecRuntimeLogLevel]
+    typeSpecRuntimeLogLevel && levelMap[logger.level] <= levelMap[typeSpecRuntimeLogLevel],
   );
 }
 

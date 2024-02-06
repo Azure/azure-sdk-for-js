@@ -15,7 +15,7 @@ export function getGenericBSU(
   recorder: Recorder,
   accountType: string,
   accountNameSuffix: string = "",
-  config?: ShareClientConfig
+  config?: ShareClientConfig,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
   const accountSASEnvVar = `${accountType}ACCOUNT_SAS`;
@@ -25,7 +25,7 @@ export function getGenericBSU(
 
   if (!accountName || !accountSAS) {
     throw new Error(
-      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`
+      `${accountNameEnvVar} and/or ${accountSASEnvVar} environment variables not specified.`,
     );
   }
 
@@ -56,7 +56,7 @@ export function getTokenBSU(
   recorder: Recorder,
   accountType: string = "",
   accountNameSuffix: string = "",
-  shareClientConfig?: ShareClientConfig
+  shareClientConfig?: ShareClientConfig,
 ): ShareServiceClient {
   const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
 
@@ -97,7 +97,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  _length?: number
+  _length?: number,
 ): Promise<string> {
   const blob = await response.blobBody!;
   return blobToString(blob);
@@ -184,7 +184,7 @@ export async function compareBodyWithUint8Array(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  uint8arry: Uint8Array
+  uint8arry: Uint8Array,
 ): Promise<boolean> {
   const blob = await response.blobBody!;
   return arraysEqual(uint8arry, new Uint8Array(await blob.arrayBuffer()));

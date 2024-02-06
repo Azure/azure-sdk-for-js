@@ -42,7 +42,7 @@ async function domainEventSubscriptionsUpdate() {
     resourceGroupName,
     domainName,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

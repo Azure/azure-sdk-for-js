@@ -39,7 +39,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         serviceVersion,
         recorder,
-        TEST_INDEX_NAME
+        TEST_INDEX_NAME,
       ));
 
       await createSynonymMaps(indexClient);
@@ -247,7 +247,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
           serviceVersion,
           recorder,
-          TEST_INDEX_NAME
+          TEST_INDEX_NAME,
         ));
 
         await createSynonymMaps(indexClient);
@@ -319,6 +319,6 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           await indexClient.deleteIndex(index);
         }
       });
-    }
+    },
   );
 });

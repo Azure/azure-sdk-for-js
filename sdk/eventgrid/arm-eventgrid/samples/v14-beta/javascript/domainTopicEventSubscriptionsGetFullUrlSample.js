@@ -31,7 +31,7 @@ async function domainTopicEventSubscriptionsGetFullUrl() {
     resourceGroupName,
     domainName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

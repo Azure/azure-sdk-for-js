@@ -33,7 +33,7 @@ async function updateAzureFirewallTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/azureFirewalls/{azureFirewallName}",
       subscriptionId,
       resourceGroupName,
-      azureFirewallName
+      azureFirewallName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -173,7 +173,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       it("supports spanLinks from traceparentHeader", () => {
         const linkedContext = instrumenter.parseTraceparentHeader(
-          "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
+          "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01",
         );
 
         const { span } = instrumenter.startSpan("test", {
@@ -276,7 +276,7 @@ describe("OpenTelemetryInstrumenter", () => {
         context.active(),
         function (this: any) {
           assert.equal(this, 42);
-        }.bind(42)
+        }.bind(42),
       );
 
       // Arrow syntax

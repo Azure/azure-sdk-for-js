@@ -48,7 +48,7 @@ async function createNatGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/natGateways/{natGatewayName}",
       subscriptionId,
       resourceGroupName,
-      natGatewayName
+      natGatewayName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

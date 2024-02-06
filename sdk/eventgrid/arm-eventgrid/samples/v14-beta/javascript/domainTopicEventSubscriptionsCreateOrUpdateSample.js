@@ -43,7 +43,7 @@ async function domainTopicEventSubscriptionsCreateOrUpdate() {
     domainName,
     topicName,
     eventSubscriptionName,
-    eventSubscriptionInfo
+    eventSubscriptionInfo,
   );
   console.log(result);
 }

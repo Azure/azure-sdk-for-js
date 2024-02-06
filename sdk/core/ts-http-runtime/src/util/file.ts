@@ -69,7 +69,7 @@ const unimplementedMethods = {
 export function createFileFromStream(
   stream: () => ReadableStream<Uint8Array> | NodeJS.ReadableStream,
   name: string,
-  options: CreateFileFromStreamOptions = {}
+  options: CreateFileFromStreamOptions = {},
 ): File {
   return {
     ...unimplementedMethods,
@@ -96,7 +96,7 @@ export function createFileFromStream(
 export function createFile(
   content: Uint8Array,
   name: string,
-  options: CreateFileOptions = {}
+  options: CreateFileOptions = {},
 ): File {
   return {
     ...unimplementedMethods,

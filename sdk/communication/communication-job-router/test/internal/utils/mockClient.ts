@@ -20,18 +20,18 @@ export interface RecordedRouterClient {
 }
 
 export async function createRecordedRouterClientWithConnectionString(
-  context: Context
+  context: Context,
 ): Promise<RecordedRouterClient> {
   const recorder = await createRecorder(context.currentTest);
 
   return {
     client: new JobRouterClient(
       env.COMMUNICATION_CONNECTION_STRING as string,
-      recorder.configureClientOptions({}) as JobRouterClientOptions
+      recorder.configureClientOptions({}) as JobRouterClientOptions,
     ),
     administrationClient: new JobRouterAdministrationClient(
       env.COMMUNICATION_CONNECTION_STRING as string,
-      recorder.configureClientOptions({}) as JobRouterAdministrationClientOptions
+      recorder.configureClientOptions({}) as JobRouterAdministrationClientOptions,
     ),
     recorder,
   };

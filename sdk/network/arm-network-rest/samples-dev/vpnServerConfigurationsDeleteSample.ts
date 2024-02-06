@@ -32,7 +32,7 @@ async function vpnServerConfigurationDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}",
       subscriptionId,
       resourceGroupName,
-      vpnServerConfigurationName
+      vpnServerConfigurationName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

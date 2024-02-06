@@ -10,7 +10,7 @@ export async function getSchemaDefinition<
   T extends {
     blobBody?: Promise<Blob>;
     readableStreamBody?: NodeJS.ReadableStream;
-  }
+  },
 >(response: T): Promise<string> {
   return blobToString(await response.blobBody!);
 }

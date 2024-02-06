@@ -364,6 +364,22 @@ export interface SenderUsernameResourceCollection {
   nextLink?: string;
 }
 
+/** A class representing a Domains SuppressionListResource collection. */
+export interface SuppressionListResourceCollection {
+  /** List of SuppressionListResource */
+  value?: SuppressionListResource[];
+  /** The URL the client should use to fetch the next page (per server side paging). */
+  nextLink?: string;
+}
+
+/** Collection of addresses in a suppression list. Response will include a nextLink if response contains more pages. */
+export interface SuppressionListAddressResourceCollection {
+  /** List of suppressed email addresses. */
+  value?: SuppressionListAddressResource[];
+  /** The URL the client should use to fetch the next page (per server side paging). */
+  nextLink?: string;
+}
+
 /** Data POST-ed to the nameAvailability action */
 export interface NameAvailabilityParameters
   extends CheckNameAvailabilityRequest {}
@@ -496,6 +512,49 @@ export interface SenderUsernameResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+}
+
+/** A class representing a SuppressionList resource. */
+export interface SuppressionListResource extends ProxyResource {
+  /** The the name of the suppression list. This value must match one of the valid sender usernames of the sending domain. */
+  listName?: string;
+  /**
+   * The date the resource was last updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastUpdatedTimeStamp?: string;
+  /**
+   * The date the resource was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTimeStamp?: string;
+  /**
+   * The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLocation?: string;
+}
+
+/** A object that represents a SuppressionList record. */
+export interface SuppressionListAddressResource extends ProxyResource {
+  /** Email address of the recipient. */
+  email?: string;
+  /** The first name of the email recipient. */
+  firstName?: string;
+  /** The last name of the email recipient. */
+  lastName?: string;
+  /** An optional property to provide contextual notes or a description for an address. */
+  notes?: string;
+  /**
+   * The date the address was last updated in a suppression list.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastModified?: Date;
+  /**
+   * The location where the SuppressionListAddress data is stored at rest. This value is inherited from the parent Domains resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dataLocation?: string;
 }
 
 /** Defines headers for CommunicationServices_createOrUpdate operation. */
@@ -1208,6 +1267,70 @@ export interface SenderUsernamesListByDomainsNextOptionalParams
 
 /** Contains response data for the listByDomainsNext operation. */
 export type SenderUsernamesListByDomainsNextResponse = SenderUsernameResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListsListByDomainOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDomain operation. */
+export type SuppressionListsListByDomainResponse = SuppressionListResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SuppressionListsGetResponse = SuppressionListResource;
+
+/** Optional parameters. */
+export interface SuppressionListsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SuppressionListsCreateOrUpdateResponse = SuppressionListResource;
+
+/** Optional parameters. */
+export interface SuppressionListsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SuppressionListsListByDomainNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDomainNext operation. */
+export type SuppressionListsListByDomainNextResponse = SuppressionListResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SuppressionListAddressesListResponse = SuppressionListAddressResourceCollection;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SuppressionListAddressesGetResponse = SuppressionListAddressResource;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SuppressionListAddressesCreateOrUpdateResponse = SuppressionListAddressResource;
+
+/** Optional parameters. */
+export interface SuppressionListAddressesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SuppressionListAddressesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SuppressionListAddressesListNextResponse = SuppressionListAddressResourceCollection;
 
 /** Optional parameters. */
 export interface CommunicationServiceManagementClientOptionalParams

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes a managed cluster.
  *
  * @summary Deletes a managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-09-01/examples/ManagedClustersDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/ManagedClustersDelete.json
  */
 async function deleteManagedCluster() {
   const subscriptionId =

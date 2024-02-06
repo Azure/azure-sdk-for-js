@@ -121,7 +121,7 @@ export class SmsClient {
   constructor(
     connectionStringOrUrl: string,
     credentialOrOptions?: KeyCredential | TokenCredential | SmsClientOptions,
-    maybeOptions: SmsClientOptions = {}
+    maybeOptions: SmsClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
     const options = isSmsClientOptions(credentialOrOptions) ? credentialOrOptions : maybeOptions;
@@ -148,13 +148,13 @@ export class SmsClient {
    */
   public async send(
     sendRequest: SmsSendRequest,
-    options: SmsSendOptions = { enableDeliveryReport: false }
+    options: SmsSendOptions = { enableDeliveryReport: false },
   ): Promise<SmsSendResult[]> {
     const { operationOptions, restOptions } = extractOperationOptions(options);
     return tracingClient.withSpan("SmsClient-Send", operationOptions, async (updatedOptions) => {
       const response = await this.api.sms.send(
         generateSendMessageRequest(sendRequest, restOptions),
-        updatedOptions
+        updatedOptions,
       );
       return response.value;
     });

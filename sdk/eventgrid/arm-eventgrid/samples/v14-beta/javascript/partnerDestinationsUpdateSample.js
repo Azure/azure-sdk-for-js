@@ -31,7 +31,7 @@ async function partnerDestinationsUpdate() {
   const result = await client.partnerDestinations.beginUpdateAndWait(
     resourceGroupName,
     partnerDestinationName,
-    partnerDestinationUpdateParameters
+    partnerDestinationUpdateParameters,
   );
   console.log(result);
 }

@@ -29,7 +29,7 @@ async function ruleSetsListResourceUsage() {
   for await (let item of client.ruleSets.listResourceUsage(
     resourceGroupName,
     profileName,
-    ruleSetName
+    ruleSetName,
   )) {
     resArray.push(item);
   }

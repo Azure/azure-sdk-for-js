@@ -38,7 +38,7 @@ async function afdOriginsCreate() {
     profileName,
     originGroupName,
     originName,
-    origin
+    origin,
   );
   console.log(result);
 }

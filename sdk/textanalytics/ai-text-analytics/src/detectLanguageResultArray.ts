@@ -32,12 +32,12 @@ export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
  */
 export function makeDetectLanguageResultArray(
   input: TextDocumentInput[],
-  response: LanguageResult
+  response: LanguageResult,
 ): DetectLanguageResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeDetectLanguageResult,
-    makeDetectLanguageErrorResult
+    makeDetectLanguageErrorResult,
   );
 }

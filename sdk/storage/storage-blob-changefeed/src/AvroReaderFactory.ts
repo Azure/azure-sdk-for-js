@@ -13,14 +13,14 @@ export class AvroReaderFactory {
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     blockOffset: number,
-    eventIndex: number
+    eventIndex: number,
   ): AvroReader;
 
   public create(
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     blockOffset?: number,
-    eventIndex?: number
+    eventIndex?: number,
   ): AvroReader {
     if (headerStream) {
       return new AvroReader(dataStream, headerStream, blockOffset!, eventIndex!);

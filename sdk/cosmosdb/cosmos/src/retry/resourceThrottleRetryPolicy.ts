@@ -27,7 +27,7 @@ export class ResourceThrottleRetryPolicy {
   constructor(
     private maxTries: number = 9,
     private fixedRetryIntervalInMs: number = 0,
-    timeoutInSeconds: number = 30
+    timeoutInSeconds: number = 30,
   ) {
     this.timeoutInMs = timeoutInSeconds * 1000;
     this.currentRetryAttemptCount = 0;
@@ -39,7 +39,7 @@ export class ResourceThrottleRetryPolicy {
    */
   public async shouldRetry(
     err: ErrorResponse,
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<boolean> {
     // TODO: any custom error object
     if (err) {

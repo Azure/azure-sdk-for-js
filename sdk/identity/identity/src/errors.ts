@@ -138,7 +138,7 @@ export class AuthenticationError extends Error {
     }
 
     super(
-      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`
+      `${errorResponse.error} Status code: ${statusCode}\nMore details:\n${errorResponse.errorDescription}`,
     );
     this.statusCode = statusCode;
     this.errorResponse = errorResponse;
@@ -220,7 +220,7 @@ export class AuthenticationRequiredError extends Error {
     /**
      * Optional parameters. A message can be specified. The {@link GetTokenOptions} of the request can also be specified to more easily associate the error with the received parameters.
      */
-    options: AuthenticationRequiredErrorOptions
+    options: AuthenticationRequiredErrorOptions,
   ) {
     super(options.message);
     this.scopes = options.scopes;

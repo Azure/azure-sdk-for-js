@@ -26,7 +26,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
   function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     operationOptions?: Options,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): {
     span: TracingSpan;
     updatedOptions: OptionsWithTracingContext<Options>;
@@ -57,18 +57,18 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
-      span: Omit<TracingSpan, "end">
-    ) => ReturnType<Callback>
+      span: Omit<TracingSpan, "end">,
+    ) => ReturnType<Callback>,
   >(
     name: string,
     operationOptions: Options,
     callback: Callback,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): Promise<Resolved<ReturnType<Callback>>> {
     const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
     try {
       const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
-        Promise.resolve(callback(updatedOptions, span))
+        Promise.resolve(callback(updatedOptions, span)),
       );
       span.setStatus({ status: "success" });
       return result as ReturnType<typeof withSpan>;
@@ -82,7 +82,7 @@ export function createTracingClient(options: TracingClientOptions): TracingClien
 
   function withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,

@@ -24,7 +24,7 @@ async function main() {
   const poller = await client.beginAnalyzeDocumentFromUrl(
     PrebuiltReadModel,
     // The Document Intelligence service will access the following URL to a receipt image and extract data from it
-    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf"
+    "https://raw.githubusercontent.com/Azure/azure-sdk-for-js/main/sdk/formrecognizer/ai-form-recognizer/assets/forms/Invoice_1.pdf",
   );
 
   // The "prebuilt-read" model (`beginReadDocument` method) only extracts information about the textual content of the
@@ -39,7 +39,7 @@ async function main() {
       console.log("- Page", page.pageNumber, `(unit: ${page.unit})`);
       console.log(`  ${page.width}x${page.height}, angle: ${page.angle}`);
       console.log(
-        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`
+        `  ${page.lines && page.lines.length} lines, ${page.words && page.words.length} words`,
       );
 
       if (page.lines && page.lines.length > 0) {
@@ -64,7 +64,7 @@ async function main() {
     console.log("Languages:");
     for (const languageEntry of languages) {
       console.log(
-        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`
+        `- Found language: ${languageEntry.locale} (confidence: ${languageEntry.confidence})`,
       );
       for (const text of getTextOfSpans(content, languageEntry.spans)) {
         const escapedText = text.replace(/\r?\n/g, "\\n").replace(/"/g, '\\"');
@@ -79,7 +79,7 @@ async function main() {
     console.log("Styles:");
     for (const style of styles) {
       console.log(
-        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`
+        `- Handwritten: ${style.isHandwritten ? "yes" : "no"} (confidence=${style.confidence})`,
       );
 
       for (const word of getTextOfSpans(content, style.spans)) {

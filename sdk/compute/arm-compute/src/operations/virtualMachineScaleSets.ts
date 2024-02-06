@@ -60,6 +60,8 @@ import {
   VirtualMachineScaleSetsUpdateInstancesOptionalParams,
   VirtualMachineScaleSetsReimageOptionalParams,
   VirtualMachineScaleSetsReimageAllOptionalParams,
+  VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams,
+  VirtualMachineScaleSetsApproveRollingUpgradeResponse,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkOptionalParams,
   VirtualMachineScaleSetsForceRecoveryServiceFabricPlatformUpdateDomainWalkResponse,
   VMScaleSetConvertToSinglePlacementGroupInput,
@@ -1750,6 +1752,96 @@ export class VirtualMachineScaleSetsImpl implements VirtualMachineScaleSets {
   }
 
   /**
+   * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginApproveRollingUpgrade(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachineScaleSetsApproveRollingUpgradeResponse>,
+      VirtualMachineScaleSetsApproveRollingUpgradeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<VirtualMachineScaleSetsApproveRollingUpgradeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, vmScaleSetName, options },
+      spec: approveRollingUpgradeOperationSpec
+    });
+    const poller = await createHttpPoller<
+      VirtualMachineScaleSetsApproveRollingUpgradeResponse,
+      OperationState<VirtualMachineScaleSetsApproveRollingUpgradeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Approve upgrade on deferred rolling upgrades for OS disks in the virtual machines in a VM scale set.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmScaleSetName The name of the VM scale set.
+   * @param options The options parameters.
+   */
+  async beginApproveRollingUpgradeAndWait(
+    resourceGroupName: string,
+    vmScaleSetName: string,
+    options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams
+  ): Promise<VirtualMachineScaleSetsApproveRollingUpgradeResponse> {
+    const poller = await this.beginApproveRollingUpgrade(
+      resourceGroupName,
+      vmScaleSetName,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Manual platform update domain walk to update virtual machines in a service fabric virtual machine
    * scale set.
    * @param resourceGroupName The name of the resource group.
@@ -2017,7 +2109,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -2050,7 +2147,12 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.vmScaleSetName
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch
+  ],
   mediaType: "json",
   serializer
 };
@@ -2460,6 +2562,39 @@ const reimageAllOperationSpec: coreClient.OperationSpec = {
     201: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.vmInstanceIDs,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.vmScaleSetName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const approveRollingUpgradeOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/approveRollingUpgrade",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+    },
+    201: {
+      headersMapper: Mappers.VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+    },
+    202: {
+      headersMapper: Mappers.VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+    },
+    204: {
+      headersMapper: Mappers.VirtualMachineScaleSetsApproveRollingUpgradeHeaders
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }

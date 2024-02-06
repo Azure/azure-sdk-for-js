@@ -95,8 +95,8 @@ export class BatchingPartitionChannel {
           `The following error occured during batch creation or sending: ${JSON.stringify(
             e,
             undefined,
-            "  "
-          )}`
+            "  ",
+          )}`,
         );
       });
     }
@@ -178,10 +178,10 @@ export class BatchingPartitionChannel {
                 delay<void>(
                   maximumTimeToWaitForEvent,
                   abortOptions.abortSignal,
-                  abortOptions.abortErrorMsg
+                  abortOptions.abortErrorMsg,
                 ),
             ],
-            { abortSignal: this._loopAbortSignal }
+            { abortSignal: this._loopAbortSignal },
           ));
 
         if (!event) {
@@ -293,8 +293,8 @@ export class BatchingPartitionChannel {
         `The following error occurred in the onSendEventsSuccessHandler: ${JSON.stringify(
           e,
           undefined,
-          "  "
-        )}`
+          "  ",
+        )}`,
       );
     }
   }
@@ -317,8 +317,8 @@ export class BatchingPartitionChannel {
         `The following error occurred in the onSendEventsErrorHandler: ${JSON.stringify(
           e,
           undefined,
-          "  "
-        )}`
+          "  ",
+        )}`,
       );
     }
   }

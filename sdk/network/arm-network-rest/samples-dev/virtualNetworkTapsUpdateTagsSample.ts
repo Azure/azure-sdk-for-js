@@ -32,7 +32,7 @@ async function updateVirtualNetworkTapTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkTaps/{tapName}",
       subscriptionId,
       resourceGroupName,
-      tapName
+      tapName,
     )
     .patch(options);
   console.log(result);

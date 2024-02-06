@@ -28,7 +28,7 @@ async function secretsDelete() {
   const result = await client.secrets.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    secretName
+    secretName,
   );
   console.log(result);
 }

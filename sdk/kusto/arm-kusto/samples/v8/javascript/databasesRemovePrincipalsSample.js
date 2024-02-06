@@ -58,7 +58,7 @@ async function kustoDatabaseRemovePrincipals() {
     resourceGroupName,
     clusterName,
     databaseName,
-    databasePrincipalsToRemove
+    databasePrincipalsToRemove,
   );
   console.log(result);
 }

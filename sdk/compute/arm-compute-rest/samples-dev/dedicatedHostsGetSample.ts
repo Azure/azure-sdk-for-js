@@ -33,7 +33,7 @@ async function getADedicatedHost() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .get(options);
   console.log(result);

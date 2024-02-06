@@ -11,7 +11,7 @@ export class ResourceResponse<TResource> {
     public readonly headers: CosmosHeaders,
     public readonly statusCode: StatusCode,
     public readonly diagnostics: CosmosDiagnostics,
-    public readonly substatus?: SubStatusCode
+    public readonly substatus?: SubStatusCode,
   ) {}
   public get requestCharge(): number {
     return Number(this.headers[Constants.HttpHeaders.RequestCharge]) || 0;

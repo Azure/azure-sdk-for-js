@@ -81,6 +81,17 @@ export const BackupVault: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      replicatedRegions: {
+        serializedName: "replicatedRegions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -1172,7 +1183,6 @@ export const Datasource: coreClient.CompositeMapper = {
 };
 
 export const BaseResourceProperties: coreClient.CompositeMapper = {
-  serializedName: "BaseResourceProperties",
   type: {
     name: "Composite",
     className: "BaseResourceProperties",
@@ -1668,29 +1678,44 @@ export const AzureBackupRecoveryPoint: coreClient.CompositeMapper = {
   }
 };
 
-export const AzureBackupRehydrationRequest: coreClient.CompositeMapper = {
+export const FetchSecondaryRPsRequestParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AzureBackupRehydrationRequest",
+    className: "FetchSecondaryRPsRequestParameters",
     modelProperties: {
-      recoveryPointId: {
-        serializedName: "recoveryPointId",
-        required: true,
+      sourceRegion: {
+        serializedName: "sourceRegion",
         type: {
           name: "String"
         }
       },
-      rehydrationPriority: {
-        serializedName: "rehydrationPriority",
+      sourceBackupInstanceId: {
+        serializedName: "sourceBackupInstanceId",
         type: {
           name: "String"
         }
-      },
-      rehydrationRetentionDuration: {
-        serializedName: "rehydrationRetentionDuration",
-        required: true,
+      }
+    }
+  }
+};
+
+export const CrossRegionRestoreRequestObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossRegionRestoreRequestObject",
+    modelProperties: {
+      restoreRequestObject: {
+        serializedName: "restoreRequestObject",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "AzureBackupRestoreRequest"
+        }
+      },
+      crossRegionRestoreDetails: {
+        serializedName: "crossRegionRestoreDetails",
+        type: {
+          name: "Composite",
+          className: "CrossRegionRestoreDetails"
         }
       }
     }
@@ -1779,13 +1804,21 @@ export const RestoreTargetInfoBase: coreClient.CompositeMapper = {
   }
 };
 
-export const SyncBackupInstanceRequest: coreClient.CompositeMapper = {
+export const CrossRegionRestoreDetails: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SyncBackupInstanceRequest",
+    className: "CrossRegionRestoreDetails",
     modelProperties: {
-      syncType: {
-        serializedName: "syncType",
+      sourceRegion: {
+        serializedName: "sourceRegion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceBackupInstanceId: {
+        serializedName: "sourceBackupInstanceId",
+        required: true,
         type: {
           name: "String"
         }
@@ -1794,16 +1827,125 @@ export const SyncBackupInstanceRequest: coreClient.CompositeMapper = {
   }
 };
 
-export const ValidateRestoreRequestObject: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ValidateRestoreRequestObject",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ValidateCrossRegionRestoreRequestObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateCrossRegionRestoreRequestObject",
     modelProperties: {
       restoreRequestObject: {
         serializedName: "restoreRequestObject",
         type: {
           name: "Composite",
           className: "AzureBackupRestoreRequest"
+        }
+      },
+      crossRegionRestoreDetails: {
+        serializedName: "crossRegionRestoreDetails",
+        type: {
+          name: "Composite",
+          className: "CrossRegionRestoreDetails"
+        }
+      }
+    }
+  }
+};
+
+export const CrossRegionRestoreJobRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossRegionRestoreJobRequest",
+    modelProperties: {
+      sourceRegion: {
+        serializedName: "sourceRegion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceBackupVaultId: {
+        serializedName: "sourceBackupVaultId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      jobId: {
+        serializedName: "jobId",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -2101,6 +2243,19 @@ export const JobExtendedInfo: coreClient.CompositeMapper = {
           name: "Composite",
           className: "RestoreJobRecoveryPointDetails"
         }
+      },
+      warningDetails: {
+        serializedName: "warningDetails",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UserFacingWarningDetail"
+            }
+          }
+        }
       }
     }
   }
@@ -2165,6 +2320,111 @@ export const JobSubTask: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UserFacingWarningDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UserFacingWarningDetail",
+    modelProperties: {
+      resourceName: {
+        serializedName: "resourceName",
+        type: {
+          name: "String"
+        }
+      },
+      warning: {
+        serializedName: "warning",
+        type: {
+          name: "Composite",
+          className: "UserFacingError"
+        }
+      }
+    }
+  }
+};
+
+export const CrossRegionRestoreJobsRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CrossRegionRestoreJobsRequest",
+    modelProperties: {
+      sourceRegion: {
+        serializedName: "sourceRegion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      sourceBackupVaultId: {
+        serializedName: "sourceBackupVaultId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureBackupRehydrationRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureBackupRehydrationRequest",
+    modelProperties: {
+      recoveryPointId: {
+        serializedName: "recoveryPointId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      rehydrationPriority: {
+        serializedName: "rehydrationPriority",
+        type: {
+          name: "String"
+        }
+      },
+      rehydrationRetentionDuration: {
+        serializedName: "rehydrationRetentionDuration",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SyncBackupInstanceRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SyncBackupInstanceRequest",
+    modelProperties: {
+      syncType: {
+        serializedName: "syncType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ValidateRestoreRequestObject: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ValidateRestoreRequestObject",
+    modelProperties: {
+      restoreRequestObject: {
+        serializedName: "restoreRequestObject",
+        type: {
+          name: "Composite",
+          className: "AzureBackupRestoreRequest"
         }
       }
     }
@@ -3671,6 +3931,20 @@ export const DeletedBackupInstance: coreClient.CompositeMapper = {
   }
 };
 
+export const DefaultResourceProperties: coreClient.CompositeMapper = {
+  serializedName: "DefaultResourceProperties",
+  type: {
+    name: "Composite",
+    className: "DefaultResourceProperties",
+    uberParent: "BaseResourceProperties",
+    polymorphicDiscriminator:
+      BaseResourceProperties.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...BaseResourceProperties.type.modelProperties
+    }
+  }
+};
+
 export const AzureOperationalStoreParameters: coreClient.CompositeMapper = {
   serializedName: "AzureOperationalStoreParameters",
   type: {
@@ -3924,6 +4198,12 @@ export const AzureBackupDiscreteRecoveryPoint: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime"
+        }
+      },
+      recoveryPointState: {
+        serializedName: "recoveryPointState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -4618,6 +4898,125 @@ export const KubernetesClusterRestoreCriteria: coreClient.CompositeMapper = {
   }
 };
 
+export const KubernetesClusterVaultTierRestoreCriteria: coreClient.CompositeMapper = {
+  serializedName: "KubernetesClusterVaultTierRestoreCriteria",
+  type: {
+    name: "Composite",
+    className: "KubernetesClusterVaultTierRestoreCriteria",
+    uberParent: "ItemLevelRestoreCriteria",
+    polymorphicDiscriminator:
+      ItemLevelRestoreCriteria.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...ItemLevelRestoreCriteria.type.modelProperties,
+      includeClusterScopeResources: {
+        serializedName: "includeClusterScopeResources",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      includedNamespaces: {
+        serializedName: "includedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedNamespaces: {
+        serializedName: "excludedNamespaces",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      includedResourceTypes: {
+        serializedName: "includedResourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      excludedResourceTypes: {
+        serializedName: "excludedResourceTypes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      labelSelectors: {
+        serializedName: "labelSelectors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      persistentVolumeRestoreMode: {
+        serializedName: "persistentVolumeRestoreMode",
+        type: {
+          name: "String"
+        }
+      },
+      conflictPolicy: {
+        serializedName: "conflictPolicy",
+        type: {
+          name: "String"
+        }
+      },
+      namespaceMappings: {
+        serializedName: "namespaceMappings",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      restoreHookReferences: {
+        serializedName: "restoreHookReferences",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NamespacedNameResource"
+            }
+          }
+        }
+      },
+      stagingResourceGroupId: {
+        serializedName: "stagingResourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      stagingStorageAccountId: {
+        serializedName: "stagingStorageAccountId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const BackupVaultResource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4796,6 +5195,60 @@ export const BackupInstancesValidateForBackupHeaders: coreClient.CompositeMapper
   type: {
     name: "Composite",
     className: "BackupInstancesValidateForBackupHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const BackupInstancesTriggerCrossRegionRestoreHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupInstancesTriggerCrossRegionRestoreHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      azureAsyncOperation: {
+        serializedName: "azure-asyncoperation",
+        type: {
+          name: "String"
+        }
+      },
+      retryAfter: {
+        serializedName: "retry-after",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const BackupInstancesValidateCrossRegionRestoreHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "BackupInstancesValidateCrossRegionRestoreHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -5061,7 +5514,7 @@ export let discriminators = {
   FeatureValidationRequestBase: FeatureValidationRequestBase,
   FeatureValidationResponseBase: FeatureValidationResponseBase,
   BaseBackupPolicy: BaseBackupPolicy,
-  "BaseResourceProperties.BaseResourceProperties": BaseResourceProperties,
+  BaseResourceProperties: BaseResourceProperties,
   DataStoreParameters: DataStoreParameters,
   BackupDatasourceParameters: BackupDatasourceParameters,
   AuthCredentials: AuthCredentials,
@@ -5079,6 +5532,7 @@ export let discriminators = {
   "FeatureValidationRequestBase.FeatureValidationRequest": FeatureValidationRequest,
   "FeatureValidationResponseBase.FeatureValidationResponse": FeatureValidationResponse,
   "BaseBackupPolicy.BackupPolicy": BackupPolicy,
+  "BaseResourceProperties.DefaultResourceProperties": DefaultResourceProperties,
   "DataStoreParameters.AzureOperationalStoreParameters": AzureOperationalStoreParameters,
   "BackupDatasourceParameters.KubernetesClusterBackupDatasourceParameters": KubernetesClusterBackupDatasourceParameters,
   "BackupDatasourceParameters.BlobBackupDatasourceParameters": BlobBackupDatasourceParameters,
@@ -5104,5 +5558,6 @@ export let discriminators = {
   "ItemLevelRestoreCriteria.KubernetesStorageClassRestoreCriteria": KubernetesStorageClassRestoreCriteria,
   "ItemLevelRestoreCriteria.KubernetesPVRestoreCriteria": KubernetesPVRestoreCriteria,
   "ItemLevelRestoreCriteria.KubernetesClusterRestoreCriteria": KubernetesClusterRestoreCriteria,
+  "ItemLevelRestoreCriteria.KubernetesClusterVaultTierRestoreCriteria": KubernetesClusterVaultTierRestoreCriteria,
   "AzureBackupRecoveryPointBasedRestoreRequest.AzureBackupRestoreWithRehydrationRequest": AzureBackupRestoreWithRehydrationRequest
 };

@@ -33,7 +33,7 @@ async function p2SVpnGatewayUpdate() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
       subscriptionId,
       resourceGroupName,
-      gatewayName
+      gatewayName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

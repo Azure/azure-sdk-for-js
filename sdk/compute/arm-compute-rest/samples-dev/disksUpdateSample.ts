@@ -33,7 +33,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,7 +65,7 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -95,7 +95,7 @@ async function updateAManagedDiskToAddArchitecture() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -134,7 +134,7 @@ async function updateAManagedDiskToAddPurchasePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -164,7 +164,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -194,7 +194,7 @@ async function updateAManagedDiskToChangeTier() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -224,7 +224,7 @@ async function updateAManagedDiskToDisableBursting() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -254,7 +254,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -286,7 +286,7 @@ async function updateAManagedDiskWithDiskControllerTypes() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -316,7 +316,7 @@ async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}",
       subscriptionId,
       resourceGroupName,
-      diskName
+      diskName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

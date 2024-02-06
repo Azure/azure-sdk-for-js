@@ -5,6 +5,7 @@ import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communica
 import { OperationOptions } from "@azure/core-client";
 import {
   MediaStreamingConfiguration,
+  TranscriptionConfiguration,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -110,6 +111,8 @@ export interface CreateCallOptions extends OperationOptions {
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** Configuration of live transcription. */
+  transcriptionConfiguration?: TranscriptionConfiguration;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
 }
@@ -122,8 +125,14 @@ export interface AnswerCallOptions extends OperationOptions {
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** Configuration of Media streaming. */
   mediaStreamingConfiguration?: MediaStreamingConfiguration;
+  /** Configuration of live transcription. */
+  transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
+  /** The caller ID number which is a phone number that will be used when inviting a pstn target.
+   *  Required only when this is an incoming voip call and there will be a transfer call request to a PSTN target.
+   */
+  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /**
@@ -327,4 +336,22 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+}
+
+/**
+ * Options to start transcription
+ */
+export interface StartTranscriptionOptions extends OperationOptions {
+  /** Defines Locale for the transcription e,g en-US */
+  locale?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to stop transcription
+ */
+export interface StopTranscriptionOptions extends OperationOptions {
+  /** The value to identify context of the operation. */
+  operationContext?: string;
 }

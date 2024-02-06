@@ -85,7 +85,7 @@ export const EventHubConnectionConfig = {
     if (!config.entityPath) {
       throw new TypeError(
         `Either provide "path" or the "connectionString": "${connectionString}", ` +
-          `must contain EntityPath="<path-to-the-entity>".`
+          `must contain EntityPath="<path-to-the-entity>".`,
       );
     }
     return EventHubConnectionConfig.createFromConnectionConfig(config);
@@ -125,7 +125,7 @@ export const EventHubConnectionConfig = {
 
     (config as EventHubConnectionConfig).getReceiverAudience = (
       partitionId: string | number,
-      consumergroup?: string
+      consumergroup?: string,
     ) => {
       if (!consumergroup) consumergroup = "$default";
       return (
@@ -136,7 +136,7 @@ export const EventHubConnectionConfig = {
 
     (config as EventHubConnectionConfig).getReceiverAddress = (
       partitionId: string | number,
-      consumergroup?: string
+      consumergroup?: string,
     ) => {
       if (!consumergroup) consumergroup = "$default";
       return `${config.entityPath}/ConsumerGroups/${consumergroup}/Partitions/${partitionId}`;

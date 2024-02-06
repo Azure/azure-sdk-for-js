@@ -29,7 +29,7 @@ async function channelsDelete() {
   const result = await client.channels.beginDeleteAndWait(
     resourceGroupName,
     partnerNamespaceName,
-    channelName
+    channelName,
   );
   console.log(result);
 }

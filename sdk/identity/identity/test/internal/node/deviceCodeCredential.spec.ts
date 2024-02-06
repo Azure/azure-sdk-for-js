@@ -29,7 +29,7 @@ describe("DeviceCodeCredential (internal)", function () {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
-      "acquireTokenByDeviceCode"
+      "acquireTokenByDeviceCode",
     );
   });
   afterEach(async function () {
@@ -47,7 +47,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     await credential.getToken(scope);
@@ -58,12 +58,12 @@ describe("DeviceCodeCredential (internal)", function () {
     assert.equal(
       getTokenSilentSpy.callCount,
       2,
-      "getTokenSilentSpy.callCount should have been 2 (2nd time)"
+      "getTokenSilentSpy.callCount should have been 2 (2nd time)",
     );
     assert.equal(
       doGetTokenSpy.callCount,
       1,
-      "doGetTokenSpy.callCount should have been 1 (2nd time)"
+      "doGetTokenSpy.callCount should have been 1 (2nd time)",
     );
   });
 
@@ -76,7 +76,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);

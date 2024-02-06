@@ -33,7 +33,7 @@ async function migrationsListByTargetServer() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MicrosoftDatadogClient } from "@azure/arm-datadog";
+import {
+  DatadogSingleSignOnResource,
+  SingleSignOnConfigurationsCreateOrUpdateOptionalParams,
+  MicrosoftDatadogClient
+} from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,12 +32,22 @@ async function singleSignOnConfigurationsCreateOrUpdate() {
     process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const configurationName = "default";
+  const body: DatadogSingleSignOnResource = {
+    properties: {
+      enterpriseAppId: "00000000-0000-0000-0000-000000000000",
+      singleSignOnState: "Enable"
+    }
+  };
+  const options: SingleSignOnConfigurationsCreateOrUpdateOptionalParams = {
+    body
+  };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.singleSignOnConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
+    options
   );
   console.log(result);
 }

@@ -33,14 +33,14 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     try {
       const newConfig = await client.upsertDynamicAlphaIdConfiguration(
         config,
-        getConfigurationRequest
+        getConfigurationRequest,
       );
       return newConfig;
     } catch (error) {
       assert.fail(
         `There was an error calling upsertDynamicAlphaIdConfiguration. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)} `
+          "MS-CV",
+        )}, ${JSON.stringify(error)} `,
       );
     }
   };
@@ -58,8 +58,8 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     } catch (error) {
       assert.fail(
         `There was an error calling getDynamicAlphaIdConfiguration. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)}`
+          "MS-CV",
+        )}, ${JSON.stringify(error)}`,
       );
     }
   };
@@ -78,8 +78,8 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     } catch (error) {
       assert.fail(
         `There was an error calling getDynamicAlphaIdCountries. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)}`
+          "MS-CV",
+        )}, ${JSON.stringify(error)}`,
       );
     }
   };
@@ -94,7 +94,7 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     assert.isTrue(
       configuration.enabled,
       `The expected configuration: true is different than the received configuration: false
-       CV: ${configurationResponse?.headers.get("MS-CV")}`
+       CV: ${configurationResponse?.headers.get("MS-CV")}`,
     );
 
     configuration = await _getConfiguration();
@@ -105,7 +105,7 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     assert.isFalse(
       configuration.enabled,
       `The expected configuration: false is different than the received configuration: true 
-       CV: ${configurationResponse?.headers.get("MS-CV")}`
+       CV: ${configurationResponse?.headers.get("MS-CV")}`,
     );
   }).timeout(15000);
 

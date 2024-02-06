@@ -28,7 +28,7 @@ async function eventSubscriptionsListGlobalByResourceGroupForTopicType() {
   const resArray = new Array();
   for await (let item of client.eventSubscriptions.listGlobalByResourceGroupForTopicType(
     resourceGroupName,
-    topicTypeName
+    topicTypeName,
   )) {
     resArray.push(item);
   }
