@@ -142,3 +142,13 @@ export type SendReadReceiptOptions = OperationOptions;
  * Options to list read receipts.
  */
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
+
+/**
+ * Options to upload a chat image.
+ */
+export type UploadImageOptions = OperationOptions;
+
+/**
+ * Options to delete a chat image.
+ */
+export type DeleteImageOptions = OperationOptions;
