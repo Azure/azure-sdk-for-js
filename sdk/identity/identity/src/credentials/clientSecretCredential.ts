@@ -2,14 +2,13 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
-import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
-import { MsalFlow } from "../msal/flows";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
@@ -27,7 +26,8 @@ const logger = credentialLogger("ClientSecretCredential");
 export class ClientSecretCredential implements TokenCredential {
   private tenantId: string;
   private additionallyAllowedTenantIds: string[];
-  private msalFlow: MsalFlow;
+  private msalClient: MsalClient;
+  private clientSecret: string;
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
@@ -55,13 +55,11 @@ export class ClientSecretCredential implements TokenCredential {
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
       options?.additionallyAllowedTenants,
     );
+    this.clientSecret = clientSecret;
 
-    this.msalFlow = new MsalClientSecret({
+    this.msalClient = createMsalClient(clientId, tenantId, {
       ...options,
       logger,
-      clientId,
-      tenantId,
-      clientSecret,
       tokenCredentialOptions: options,
     });
   }
@@ -87,8 +85,8 @@ export class ClientSecretCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
-        // return this.msalClient.getTokenByClientSecret(arrayScopes, clientSecret, newOptions)
-        return this.msalFlow.getToken(arrayScopes, newOptions);
+        console.log("invoking client secret!!!!!");
+        return this.msalClient.getTokenByClientSecret(arrayScopes, this.clientSecret, newOptions);
       },
     );
   }
