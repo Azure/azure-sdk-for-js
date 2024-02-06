@@ -82,6 +82,9 @@ export class ClientAssertionCredential implements TokenCredential {
         );
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
+        // how this might look
+        // const assertion = await this.getassertion()
+        // return this.msalClient.getTokenByClientAssertion(arrayScopes, assertion, newOptions)
         return this.msalFlow.getToken(arrayScopes, newOptions);
       },
     );

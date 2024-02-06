@@ -87,6 +87,7 @@ export class ClientSecretCredential implements TokenCredential {
         );
 
         const arrayScopes = ensureScopes(scopes);
+        // return this.msalClient.getTokenByClientSecret(arrayScopes, clientSecret, newOptions)
         return this.msalFlow.getToken(arrayScopes, newOptions);
       },
     );
