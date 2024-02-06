@@ -755,12 +755,10 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.CheckNameAvailabilityResponse
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters104,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters100,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
@@ -773,11 +771,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ServerListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
@@ -790,11 +786,9 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ServerListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -811,11 +805,9 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.Server
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  queryParameters: [Parameters.expand, Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -842,12 +834,10 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Server
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters105,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters101,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -862,23 +852,14 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion4],
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -898,12 +879,10 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.Server
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters106,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters102,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -931,12 +910,10 @@ const importDatabaseOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.ImportExportOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  requestBody: Parameters.parameters107,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters103,
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -964,11 +941,9 @@ const refreshStatusOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.RefreshExternalGovernanceStatusOperationResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -985,9 +960,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ServerListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -1004,9 +977,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.ServerListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,

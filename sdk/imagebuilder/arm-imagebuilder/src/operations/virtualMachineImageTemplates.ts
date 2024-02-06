@@ -39,7 +39,6 @@ import {
   VirtualMachineImageTemplatesGetOptionalParams,
   VirtualMachineImageTemplatesGetResponse,
   VirtualMachineImageTemplatesDeleteOptionalParams,
-  VirtualMachineImageTemplatesDeleteResponse,
   VirtualMachineImageTemplatesRunOptionalParams,
   VirtualMachineImageTemplatesCancelOptionalParams,
   VirtualMachineImageTemplatesGetRunOutputOptionalParams,
@@ -514,16 +513,11 @@ export class VirtualMachineImageTemplatesImpl
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VirtualMachineImageTemplatesDeleteResponse>,
-      VirtualMachineImageTemplatesDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<VirtualMachineImageTemplatesDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -564,10 +558,7 @@ export class VirtualMachineImageTemplatesImpl
       args: { resourceGroupName, imageTemplateName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      VirtualMachineImageTemplatesDeleteResponse,
-      OperationState<VirtualMachineImageTemplatesDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -586,7 +577,7 @@ export class VirtualMachineImageTemplatesImpl
     resourceGroupName: string,
     imageTemplateName: string,
     options?: VirtualMachineImageTemplatesDeleteOptionalParams
-  ): Promise<VirtualMachineImageTemplatesDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       imageTemplateName,
@@ -860,7 +851,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -877,7 +868,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -907,7 +898,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters,
@@ -940,7 +931,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters1,
@@ -964,7 +955,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplate
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -982,20 +973,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.VirtualMachineImageTemplatesDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.VirtualMachineImageTemplatesDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.VirtualMachineImageTemplatesDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.VirtualMachineImageTemplatesDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1018,7 +1001,7 @@ const runOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1041,7 +1024,7 @@ const cancelOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1063,7 +1046,7 @@ const listRunOutputsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutputCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1085,7 +1068,7 @@ const getRunOutputOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutput
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -1107,7 +1090,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   urlParameters: [
@@ -1126,7 +1109,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ImageTemplateListResult
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   urlParameters: [
@@ -1146,7 +1129,7 @@ const listRunOutputsNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.RunOutputCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   urlParameters: [

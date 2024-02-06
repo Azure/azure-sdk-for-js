@@ -1044,7 +1044,7 @@ export const RunNotebookResult: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       sparkPool: {
@@ -1175,7 +1175,7 @@ export const RunNotebookSnapshotResult: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       sparkPool: {
@@ -1229,7 +1229,7 @@ export const RunNotebookSnapshot: coreClient.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         type: {
-          name: "String"
+          name: "Number"
         }
       },
       sparkPool: {
@@ -6969,6 +6969,28 @@ export const SapTablePartitionSettings: coreClient.CompositeMapper = {
   }
 };
 
+export const StoredProcedureParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StoredProcedureParameter",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        nullable: true,
+        type: {
+          name: "any"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SqlPartitionSettings: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7226,28 +7248,6 @@ export const ImportSettings: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         required: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const StoredProcedureParameter: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "StoredProcedureParameter",
-    modelProperties: {
-      value: {
-        serializedName: "value",
-        nullable: true,
-        type: {
-          name: "any"
-        }
-      },
-      type: {
-        serializedName: "type",
         type: {
           name: "String"
         }
@@ -7752,7 +7752,7 @@ export const WebActivityAuthentication: coreClient.CompositeMapper = {
       username: {
         serializedName: "username",
         type: {
-          name: "any"
+          name: "String"
         }
       },
       password: {
@@ -18341,7 +18341,10 @@ export const SqlPoolStoredProcedureActivity: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "typeProperties.storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       }
     }
@@ -19057,7 +19060,7 @@ export const AzureBlobStorageReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19279,7 +19282,7 @@ export const AmazonS3ReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19347,7 +19350,7 @@ export const FileServerReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19427,7 +19430,7 @@ export const AzureFileStorageReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19501,7 +19504,7 @@ export const GoogleCloudStorageReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19563,7 +19566,7 @@ export const FtpReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19587,7 +19590,7 @@ export const FtpReadSettings: coreClient.CompositeMapper = {
       useBinaryTransfer: {
         serializedName: "useBinaryTransfer",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       disableChunking: {
@@ -19631,7 +19634,7 @@ export const SftpReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -19711,17 +19714,11 @@ export const HttpReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
         serializedName: "partitionRootPath",
-        type: {
-          name: "any"
-        }
-      },
-      additionalColumns: {
-        serializedName: "additionalColumns",
         type: {
           name: "any"
         }
@@ -19767,7 +19764,7 @@ export const HdfsReadSettings: coreClient.CompositeMapper = {
       enablePartitionDiscovery: {
         serializedName: "enablePartitionDiscovery",
         type: {
-          name: "any"
+          name: "Boolean"
         }
       },
       partitionRootPath: {
@@ -21926,7 +21923,10 @@ export const SqlSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -21976,7 +21976,10 @@ export const SqlServerSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -22026,7 +22029,10 @@ export const AzureSqlSink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -22076,7 +22082,10 @@ export const SqlMISink: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       storedProcedureTableTypeParameterName: {
@@ -25052,12 +25061,6 @@ export const ScriptActivity: coreClient.CompositeMapper = {
     polymorphicDiscriminator: ExecutionActivity.type.polymorphicDiscriminator,
     modelProperties: {
       ...ExecutionActivity.type.modelProperties,
-      scriptBlockExecutionTimeout: {
-        serializedName: "typeProperties.scriptBlockExecutionTimeout",
-        type: {
-          name: "any"
-        }
-      },
       scripts: {
         serializedName: "typeProperties.scripts",
         type: {
@@ -25719,7 +25722,7 @@ export const SapHanaSource: coreClient.CompositeMapper = {
       partitionOption: {
         serializedName: "partitionOption",
         type: {
-          name: "any"
+          name: "String"
         }
       },
       partitionSettings: {
@@ -25864,7 +25867,7 @@ export const SapTableSource: coreClient.CompositeMapper = {
       partitionOption: {
         serializedName: "partitionOption",
         type: {
-          name: "any"
+          name: "String"
         }
       },
       partitionSettings: {
@@ -25903,7 +25906,10 @@ export const SqlSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       isolationLevel: {
@@ -25954,7 +25960,10 @@ export const SqlServerSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       isolationLevel: {
@@ -26011,7 +26020,10 @@ export const AmazonRdsForSqlServerSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       isolationLevel: {
@@ -26068,7 +26080,10 @@ export const AzureSqlSource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       isolationLevel: {
@@ -26125,7 +26140,10 @@ export const SqlMISource: coreClient.CompositeMapper = {
       storedProcedureParameters: {
         serializedName: "storedProcedureParameters",
         type: {
-          name: "any"
+          name: "Dictionary",
+          value: {
+            type: { name: "Composite", className: "StoredProcedureParameter" }
+          }
         }
       },
       isolationLevel: {

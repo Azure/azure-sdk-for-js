@@ -43,7 +43,7 @@ async function run(): Promise<void> {
 
   console.log(
     "    ## Container with id " + container.id + " created with hierarchical partition:",
-    ["/name", "/address/zip"],
+    ["/name", "/address/zip"]
   );
 
   const itemWithBothPartitionPresent = "item1";
@@ -63,7 +63,7 @@ async function run(): Promise<void> {
     .build();
   console.log(
     "    ## Item with id " + itemWithBothPartitionPresent + " created. with partition key: ",
-    itemWithBothPartitionPresentKey,
+    itemWithBothPartitionPresentKey
   );
 
   const itemWithOneMissingPartition = "item2";
@@ -80,7 +80,7 @@ async function run(): Promise<void> {
     .build();
   console.log(
     "    ## Item with id " + itemWithOneMissingPartition + " created. with partition key: ",
-    itemWithOneMissingPartitionKey,
+    itemWithOneMissingPartitionKey
   );
 
   const itemWithNullPartition = "item3";
@@ -99,7 +99,7 @@ async function run(): Promise<void> {
     .build();
   console.log(
     "    ## Item with id " + itemWithNullPartition + " created. with partition key: ",
-    itemWithNullPartitionKey,
+    itemWithNullPartitionKey
   );
 
   // Reading item created, while specifying it's hierarchical partition key.
@@ -108,7 +108,7 @@ async function run(): Promise<void> {
     .read();
   console.log(
     "    ## Item with id " + item1.id + " read. with partition key: ",
-    itemWithBothPartitionPresentKey,
+    itemWithBothPartitionPresentKey
   );
 
   // Patch item created, while specifying it's hierarchical partition key.
@@ -130,7 +130,7 @@ async function run(): Promise<void> {
     .patch(operations);
   console.log(
     "    ## Item with id " + patchedItem.id + " patched. with partition key: ",
-    itemWithBothPartitionPresentKey,
+    itemWithBothPartitionPresentKey
   );
 
   const bulkOperations = [
@@ -175,7 +175,7 @@ async function run(): Promise<void> {
   const response = await container.items.bulk(bulkOperations);
   console.log(
     "    ## bulk operation executed. responses -",
-    response.map((e) => e.statusCode),
+    response.map((e) => e.statusCode)
   );
   await finish();
 }

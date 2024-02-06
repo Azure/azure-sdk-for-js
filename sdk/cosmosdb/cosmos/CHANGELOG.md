@@ -3,12 +3,8 @@
 ## 4.0.1 (Unreleased)
 
 ### Features Added
-- Added Correlated Activity Id feature in JS SDK for better troubleshooting of queries. The correlated activity id is added in the request header for all types of queries on Items. 
 
 ### Breaking Changes
-
-####  Dropped Support for TypeScript 4.1
-- We have opted to discontinue support for TypeScript version 4.1. Consequently, the minimum supported TypeScript version has been elevated to 4.2. Kindly ensure that your environment is promptly updated to align with these changes.
 
 ### Bugs Fixed
 

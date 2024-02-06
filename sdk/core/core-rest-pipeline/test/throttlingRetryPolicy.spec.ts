@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, afterEach, assert, vi, expect } from "vitest";
-
+import { assert, use as chaiUse } from "chai";
+import chaiPromises from "chai-as-promised";
+chaiUse(chaiPromises);
+import { Context } from "mocha";
+import * as sinon from "sinon";
 import {
-  type PipelineResponse,
-  type SendRequest,
+  PipelineResponse,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   throttlingRetryPolicy,
@@ -14,7 +17,7 @@ import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("throttlingRetryPolicy", function () {
   afterEach(function () {
-    vi.useRealTimers();
+    sinon.restore();
   });
 
   const defaultDurations = [0, 10 * 1000]; // milliseconds
@@ -50,23 +53,24 @@ describe("throttlingRetryPolicy", function () {
         };
 
         const policy = throttlingRetryPolicy();
-        const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-        next.mockResolvedValueOnce(retryResponse);
-        next.mockResolvedValueOnce(successResponse);
+        const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+        next.onFirstCall().resolves(retryResponse);
+        next.onSecondCall().resolves(successResponse);
 
-        vi.useFakeTimers({ now: 0 });
+        const clock = sinon.useFakeTimers();
 
         const promise = policy.sendRequest(request, next);
-        expect(next).toHaveBeenCalledOnce();
+        assert.isTrue(next.calledOnce, "next wasn't called once");
 
         // allow the delay to occur
-        await vi.advanceTimersToNextTimerAsync();
-        assert.strictEqual(Date.now(), defaultDuration);
-        expect(next).toHaveBeenCalledTimes(2);
+        const time = await clock.nextAsync();
+        assert.strictEqual(time, defaultDuration);
+        assert.isTrue(next.calledTwice, "next wasn't called twice");
 
         const result = await promise;
 
         assert.strictEqual(result, successResponse);
+        clock.restore();
       });
     });
   });
@@ -89,27 +93,28 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValueOnce(retryResponse);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
-    vi.useFakeTimers({ now: new Date("Wed, 21 Oct 2015 07:20:00 GMT") });
+    const clock = sinon.useFakeTimers(new Date("Wed, 21 Oct 2015 07:20:00 GMT"));
 
     const promise = policy.sendRequest(request, next);
-    expect(next).toHaveBeenCalledOnce();
+    assert.isTrue(next.calledOnce);
 
     // allow the delay to occur
-    await vi.advanceTimersToNextTimerAsync();
+    const time = await clock.nextAsync();
     assert.strictEqual(
-      Date.now(),
+      time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
-    expect(next).toHaveBeenCalledTimes(2);
+    assert.isTrue(next.calledTwice);
 
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
+    clock.restore();
   });
 
   it("It should retry after a given number of seconds on a response with status code 503", async () => {
@@ -130,23 +135,24 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValueOnce(retryResponse);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
-    vi.useFakeTimers({ now: 0 });
+    const clock = sinon.useFakeTimers();
 
     const promise = policy.sendRequest(request, next);
-    expect(next).toHaveBeenCalledOnce();
+    assert.isTrue(next.calledOnce);
 
     // allow the delay to occur
-    await vi.advanceTimersToNextTimerAsync();
-    assert.strictEqual(Date.now(), 10 * 1000);
-    expect(next).toHaveBeenCalledTimes(2);
+    const time = await clock.nextAsync();
+    assert.strictEqual(time, 10 * 1000);
+    assert.isTrue(next.calledTwice);
 
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
+    clock.restore();
   });
 
   it("It should retry after a given date occurs on a response with status code 503", async () => {
@@ -167,27 +173,28 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValueOnce(retryResponse);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
-    vi.useFakeTimers({ now: new Date("Wed, 21 Oct 2015 07:20:00 GMT") });
+    const clock = sinon.useFakeTimers(new Date("Wed, 21 Oct 2015 07:20:00 GMT"));
 
     const promise = policy.sendRequest(request, next);
-    expect(next).toHaveBeenCalledOnce();
+    assert.isTrue(next.calledOnce);
 
     // allow the delay to occur
-    await vi.advanceTimersToNextTimerAsync();
+    const time = await clock.nextAsync();
     assert.strictEqual(
-      Date.now(),
+      time,
       new Date("Wed, 21 Oct 2015 07:28:00 GMT").getTime(),
-      "It should now be the time from the header.",
+      "It should now be the time from the header."
     );
-    expect(next).toHaveBeenCalledTimes(2);
+    assert.isTrue(next.calledTwice);
 
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
+    clock.restore();
   });
 
   it("It should retry after 0 seconds with status code 503 for a past date", async () => {
@@ -208,24 +215,25 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValueOnce(retryResponse);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
     const promise = policy.sendRequest(request, next);
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
-    expect(next).toHaveBeenCalledOnce();
-    await vi.advanceTimersToNextTimerAsync();
-    expect(next).toHaveBeenCalledTimes(2);
+    assert.isTrue(next.calledOnce, "next wasn't called once");
+    await clock.nextAsync();
+    assert.isTrue(next.calledTwice, "next wasn't called twice");
 
     const result = await promise;
 
     assert.strictEqual(result, successResponse);
+    clock.restore();
   });
 
-  it("It should retry up to the default max retries", async function () {
-    vi.useFakeTimers();
+  it("It should retry up to the default max retries", async function (this: Context) {
+    const clock = sinon.useFakeTimers();
 
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -239,13 +247,13 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
     let i = 0;
     for (; i < DEFAULT_RETRY_POLICY_COUNT; ++i) {
-      next.mockResolvedValueOnce(retryResponse);
+      next.onCall(i).resolves(retryResponse);
     }
     // This one should be returned
-    next.mockResolvedValueOnce({
+    next.onCall(i).resolves({
       headers: createHttpHeaders({
         "Retry-After": "1",
         "final-response": "final-response",
@@ -255,10 +263,12 @@ describe("throttlingRetryPolicy", function () {
     });
 
     const promise = policy.sendRequest(request, next);
-    await vi.advanceTimersByTimeAsync(i * 1000);
+    await clock.tickAsync(i * 1000);
     const response = await promise;
     assert.equal(response.status, 503);
     assert.equal(response.headers.get("final-response"), "final-response");
+
+    clock.restore();
   });
 
   it("throttlingRetryPolicy should honor abort signal", async () => {
@@ -280,12 +290,17 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockResolvedValueOnce(retryResponse);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().resolves(retryResponse);
+    next.onSecondCall().resolves(successResponse);
 
-    await expect(policy.sendRequest(request, next)).rejects.toThrow("The operation was aborted.");
+    await assert.isRejected(
+      policy.sendRequest(request, next),
+      "The operation was aborted.",
+      "Unexpected error thrown"
+    );
 
-    expect(next).toHaveBeenCalledOnce();
+    assert.isTrue(next.calledOnce);
+    assert.isFalse(next.calledTwice);
   });
 });

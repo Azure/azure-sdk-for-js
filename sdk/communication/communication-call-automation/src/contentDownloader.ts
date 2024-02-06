@@ -86,7 +86,7 @@ export class ContentDownloaderImpl {
    */
   async download(
     sourceLocationUrl: string,
-    options: DownloadRecordingOptions,
+    options: DownloadRecordingOptions
   ): Promise<PipelineResponse> {
     const fileLocation = new URL(sourceLocationUrl);
     const endpoint = new URL(this.client.endpoint);

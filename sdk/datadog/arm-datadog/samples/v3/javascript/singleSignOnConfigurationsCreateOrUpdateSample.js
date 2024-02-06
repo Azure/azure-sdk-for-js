@@ -24,22 +24,12 @@ async function singleSignOnConfigurationsCreateOrUpdate() {
   const resourceGroupName = process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
   const configurationName = "default";
-  const body = {
-    properties: {
-      enterpriseAppId: "00000000-0000-0000-0000-000000000000",
-      singleSignOnState: "Enable",
-    },
-  };
-  const options = {
-    body,
-  };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.singleSignOnConfigurations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     monitorName,
-    configurationName,
-    options,
+    configurationName
   );
   console.log(result);
 }

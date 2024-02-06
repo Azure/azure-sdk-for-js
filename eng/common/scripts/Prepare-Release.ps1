@@ -109,8 +109,7 @@ else
   $ParsedReleaseDate = [datetime]$ReleaseDate
 }
 
-# Use InvariantCulture so that the date format is consistent on all machines
-$releaseDateString = $ParsedReleaseDate.ToString("MM/dd/yyyy", [CultureInfo]::InvariantCulture)
+$releaseDateString = $ParsedReleaseDate.ToString("MM/dd/yyyy")
 $month = $ParsedReleaseDate.ToString("MMMM")
 
 Write-Host "Assuming release is in $month with release date $releaseDateString" -ForegroundColor Green

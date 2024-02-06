@@ -15,4 +15,11 @@
 export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient } from "./OpenAIClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";
+export {
+  AzureExtensionsOptions,
+  GetChatCompletionsOptions,
+  ContentFilterErrorResults,
+  ContentFilterSuccessResults,
+  ContentFilterResults,
+} from "./api/models.js";
 export * from "./models/audio.js";

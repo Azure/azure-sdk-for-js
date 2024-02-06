@@ -20,7 +20,7 @@ import {
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
-  ProvisionedCluster,
+  ProvisionedClusters,
   ProvisionedClusterInstancesListNextOptionalParams,
   ProvisionedClusterInstancesListOptionalParams,
   ProvisionedClusterInstancesListResponse,
@@ -54,15 +54,15 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Gets the Hybrid AKS provisioned cluster instances associated with the connected cluster
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
   public list(
     connectedClusterResourceUri: string,
     options?: ProvisionedClusterInstancesListOptionalParams
-  ): PagedAsyncIterableIterator<ProvisionedCluster> {
+  ): PagedAsyncIterableIterator<ProvisionedClusters> {
     const iter = this.listPagingAll(connectedClusterResourceUri, options);
     return {
       next() {
@@ -88,7 +88,7 @@ export class ProvisionedClusterInstancesImpl
     connectedClusterResourceUri: string,
     options?: ProvisionedClusterInstancesListOptionalParams,
     settings?: PageSettings
-  ): AsyncIterableIterator<ProvisionedCluster[]> {
+  ): AsyncIterableIterator<ProvisionedClusters[]> {
     let result: ProvisionedClusterInstancesListResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
@@ -114,7 +114,7 @@ export class ProvisionedClusterInstancesImpl
   private async *listPagingAll(
     connectedClusterResourceUri: string,
     options?: ProvisionedClusterInstancesListOptionalParams
-  ): AsyncIterableIterator<ProvisionedCluster> {
+  ): AsyncIterableIterator<ProvisionedClusters> {
     for await (const page of this.listPagingPage(
       connectedClusterResourceUri,
       options
@@ -124,8 +124,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Gets the provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Gets the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -140,15 +140,15 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Creates or updates the provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Creates the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param provisionedClusterInstance Provisioned Cluster resource definition
+   * @param provisionedClusterInstance The provisionedClusterInstances resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
     connectedClusterResourceUri: string,
-    provisionedClusterInstance: ProvisionedCluster,
+    provisionedClusterInstance: ProvisionedClusters,
     options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
   ): Promise<
     SimplePollerLike<
@@ -217,15 +217,15 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Creates or updates the provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Creates the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
-   * @param provisionedClusterInstance Provisioned Cluster resource definition
+   * @param provisionedClusterInstance The provisionedClusterInstances resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
     connectedClusterResourceUri: string,
-    provisionedClusterInstance: ProvisionedCluster,
+    provisionedClusterInstance: ProvisionedClusters,
     options?: ProvisionedClusterInstancesCreateOrUpdateOptionalParams
   ): Promise<ProvisionedClusterInstancesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
@@ -237,8 +237,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Deletes the provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Deletes the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -308,8 +308,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Deletes the provisioned cluster instance
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Deletes the Hybrid AKS provisioned cluster instance
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -322,8 +322,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Gets the Hybrid AKS provisioned cluster instances associated with the connected cluster
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -338,8 +338,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Gets the upgrade profile of a provisioned cluster
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Gets the upgrade profile of a provisioned cluster instance.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -354,8 +354,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the user credentials of the provisioned cluster (can only be used within private network)
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Lists the AAD user credentials of a provisioned cluster instance used only in direct mode.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -425,8 +425,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the user credentials of the provisioned cluster (can only be used within private network)
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Lists the AAD user credentials of a provisioned cluster instance used only in direct mode.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -442,8 +442,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the admin credentials of the provisioned cluster (can only be used within private network)
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Lists the admin credentials of a provisioned cluster instance used only in direct mode.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -513,8 +513,8 @@ export class ProvisionedClusterInstancesImpl
   }
 
   /**
-   * Lists the admin credentials of the provisioned cluster (can only be used within private network)
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * Lists the admin credentials of a provisioned cluster instance used only in direct mode.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param options The options parameters.
    */
@@ -531,7 +531,7 @@ export class ProvisionedClusterInstancesImpl
 
   /**
    * ListNext
-   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   * @param connectedClusterResourceUri The fully qualified Azure Resource manager identifier of the
    *                                    connected cluster resource.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -556,7 +556,7 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisionedCluster
+      bodyMapper: Mappers.ProvisionedClusters
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -573,16 +573,16 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisionedCluster
+      bodyMapper: Mappers.ProvisionedClusters
     },
     201: {
-      bodyMapper: Mappers.ProvisionedCluster
+      bodyMapper: Mappers.ProvisionedClusters
     },
     202: {
-      bodyMapper: Mappers.ProvisionedCluster
+      bodyMapper: Mappers.ProvisionedClusters
     },
     204: {
-      bodyMapper: Mappers.ProvisionedCluster
+      bodyMapper: Mappers.ProvisionedClusters
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -627,7 +627,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisionedClusterListResult
+      bodyMapper: Mappers.ProvisionedClustersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -712,7 +712,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ProvisionedClusterListResult
+      bodyMapper: Mappers.ProvisionedClustersListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

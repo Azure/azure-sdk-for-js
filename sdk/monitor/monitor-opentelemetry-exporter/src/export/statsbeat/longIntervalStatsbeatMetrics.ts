@@ -41,7 +41,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
   private runtimeVersion: string;
   private language: string;
   private version: string;
-  private attach: string = "Manual";
+  private attach: string = "sdk";
 
   private commonProperties: CommonStatsbeatProperties;
   private attachProperties: AttachStatsbeatProperties;
@@ -76,7 +76,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
         this.instrumentation = JSON.parse(this.AZURE_MONITOR_STATSBEAT_FEATURES).instrumentation;
       } catch (error: any) {
         diag.error(
-          `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`,
+          `LongIntervalStatsbeat: Failed to parse features/instrumentations (error ${error})`
         );
       }
     }
@@ -92,11 +92,11 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     };
 
     this.longIntervalMetricReader = new PeriodicExportingMetricReader(
-      longIntervalMetricReaderOptions,
+      longIntervalMetricReaderOptions
     );
     this.longIntervalStatsbeatMeterProvider.addMetricReader(this.longIntervalMetricReader);
     this.longIntervalStatsbeatMeter = this.longIntervalStatsbeatMeterProvider.getMeter(
-      "Azure Monitor Long Interval Statsbeat",
+      "Azure Monitor Long Interval Statsbeat"
     );
 
     // Assign Common Properties
@@ -106,15 +106,15 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.cikey = options.instrumentationKey;
 
     this.featureStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.FEATURE,
+      StatsbeatCounter.FEATURE
     );
     this.attachStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
-      StatsbeatCounter.ATTACH,
+      StatsbeatCounter.ATTACH
     );
 
     this.commonProperties = {
-      os: this.os,
-      rp: this.resourceProvider,
+      os: super.os,
+      rp: super.resourceProvider,
       cikey: this.cikey,
       runtimeVersion: this.runtimeVersion,
       language: this.language,
@@ -123,7 +123,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     };
 
     this.attachProperties = {
-      rpId: this.resourceIdentifier,
+      rpId: super.resourceIdentifier,
     };
 
     this.isInitialized = true;
@@ -147,7 +147,7 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
           if (result.code !== ExportResultCode.SUCCESS) {
             diag.error(`LongIntervalStatsbeat: metrics export failed (error ${result.error})`);
           }
-        },
+        }
       );
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");

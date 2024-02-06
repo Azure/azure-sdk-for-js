@@ -50,7 +50,7 @@ describe("Sql test", () => {
     const credential = createTestCredential();
     client = new SqlManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus";
-    resourceGroup = "myjstest";
+    resourceGroup = "czwjstest";
     databaseName = "mydatabasezzzz";
     serverName = "myserverppp";
   });
@@ -75,14 +75,6 @@ describe("Sql test", () => {
       readScale: "Disabled"
     }, testPollingOptions)
     assert.equal(res.name, databaseName);
-  });
-
-  it("databaseSecurityAlertPolicies create test", async function () {
-    const res = await client.databaseSecurityAlertPolicies.createOrUpdate(resourceGroup, serverName, databaseName, "Default", {
-      disabledAlerts: ["Sql_Injection", "Access_Anomaly"],
-      state: "Enabled",
-    })
-    assert.equal(res.name, "Default");
   });
 
   it("servers get test", async function () {

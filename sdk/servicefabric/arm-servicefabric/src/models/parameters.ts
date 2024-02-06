@@ -119,18 +119,6 @@ export const versionsDescription: OperationParameter = {
   mapper: UpgradableVersionsDescriptionMapper
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const location: OperationURLParameter = {
   parameterPath: "location",
   mapper: {
@@ -162,6 +150,18 @@ export const environment: OperationURLParameter = {
       name: "String"
     }
   }
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const applicationTypeName: OperationURLParameter = {

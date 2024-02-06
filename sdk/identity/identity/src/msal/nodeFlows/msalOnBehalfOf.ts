@@ -2,11 +2,9 @@
 // Licensed under the MIT license.
 
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
-
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { formatError } from "../../util/logging";
-import { handleMsalError } from "../utils";
 import { parseCertificate } from "./msalClientCertificate";
 
 /**
@@ -59,7 +57,7 @@ export class MsalOnBehalfOf extends MsalNode {
       try {
         const parts = await parseCertificate(
           { certificatePath: this.certificatePath },
-          this.sendCertificateChain,
+          this.sendCertificateChain
         );
         this.msalConfig.auth.clientCertificate = {
           thumbprint: parts.thumbprint,
@@ -78,7 +76,7 @@ export class MsalOnBehalfOf extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {},
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
       const result = await this.getApp("confidential", options.enableCae).acquireTokenOnBehalfOf({
@@ -88,9 +86,9 @@ export class MsalOnBehalfOf extends MsalNode {
         claims: options.claims,
         oboAssertion: this.userAssertionToken,
       });
-      return this.handleResult(scopes, result || undefined);
+      return this.handleResult(scopes, this.clientId, result || undefined);
     } catch (err: any) {
-      throw handleMsalError(scopes, err, options);
+      throw this.handleError(scopes, err, options);
     }
   }
 }

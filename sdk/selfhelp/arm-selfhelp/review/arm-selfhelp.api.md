@@ -272,7 +272,6 @@ export enum KnownDiagnosticProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
     PartialComplete = "PartialComplete",
-    Running = "Running",
     Succeeded = "Succeeded"
 }
 
@@ -330,8 +329,6 @@ export enum KnownResultType {
 export enum KnownSolutionProvisioningState {
     Canceled = "Canceled",
     Failed = "Failed",
-    PartialComplete = "PartialComplete",
-    Running = "Running",
     Succeeded = "Succeeded"
 }
 
@@ -535,32 +532,31 @@ export interface SolutionMetadataResource extends ProxyResource {
 
 // @public
 export interface SolutionPatchRequestBody {
-    readonly content?: string;
-    parameters?: {
-        [propertyName: string]: string;
-    };
-    readonly provisioningState?: SolutionProvisioningState;
-    readonly replacementMaps?: ReplacementMaps;
-    readonly sections?: Section[];
-    readonly solutionId?: string;
-    readonly title?: string;
-    triggerCriteria?: TriggerCriterion[];
+    properties?: SolutionResourceProperties;
 }
 
 // @public
 export type SolutionProvisioningState = string;
 
 // @public
-export interface SolutionResource extends ProxyResource {
-    readonly content?: string;
+export interface SolutionResource {
+    readonly id?: string;
+    readonly name?: string;
+    properties?: SolutionResourceProperties;
+    readonly type?: string;
+}
+
+// @public
+export interface SolutionResourceProperties {
+    content?: string;
     parameters?: {
         [propertyName: string]: string;
     };
-    readonly provisioningState?: SolutionProvisioningState;
-    readonly replacementMaps?: ReplacementMaps;
-    readonly sections?: Section[];
-    readonly solutionId?: string;
-    readonly title?: string;
+    provisioningState?: SolutionProvisioningState;
+    replacementMaps?: ReplacementMaps;
+    sections?: Section[];
+    solutionId?: string;
+    title?: string;
     triggerCriteria?: TriggerCriterion[];
 }
 
@@ -626,7 +622,7 @@ export interface StepInput {
     questionContent?: string;
     questionContentType?: QuestionContentType;
     questionId?: string;
-    questionType?: QuestionType;
+    questionType?: string;
     recommendedOption?: string;
     responseHint?: string;
     // (undocumented)

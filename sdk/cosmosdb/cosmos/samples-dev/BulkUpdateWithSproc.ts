@@ -40,7 +40,7 @@ function body(continuation: string): void {
       responseBody.continuation = options.continuation;
       // Update this batch of documents
       updateDocs(feed, responseBody);
-    },
+    }
   );
 
   function updateDocs(documents: any, responseBodyParam: any): void {

@@ -33,18 +33,10 @@ export class OrderByQueryExecutionContext
     collectionLink: string,
     query: string | SqlQuerySpec,
     options: FeedOptions,
-    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
-    correlatedActivityId: string,
+    partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo
   ) {
     // Calling on base class constructor
-    super(
-      clientContext,
-      collectionLink,
-      query,
-      options,
-      partitionedQueryExecutionInfo,
-      correlatedActivityId,
-    );
+    super(clientContext, collectionLink, query, options, partitionedQueryExecutionInfo);
     this.orderByComparator = new OrderByDocumentProducerComparator(this.sortOrders);
   }
   // Instance members are inherited

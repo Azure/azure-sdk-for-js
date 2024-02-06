@@ -1643,11 +1643,6 @@ export interface PrivateEndpointConnectionDeleteHeaders {
   location?: string;
 }
 
-/** Defines headers for ServerThreatProtectionSettings_createOrUpdate operation. */
-export interface ServerThreatProtectionSettingsCreateOrUpdateHeaders {
-  location?: string;
-}
-
 /** Defines headers for VirtualEndpoints_create operation. */
 export interface VirtualEndpointsCreateHeaders {
   location?: string;

@@ -29,10 +29,7 @@ const assert = chai.assert;
       {
         receiveMode: "receiveAndDelete",
         sessionId,
-        testEntityOptions: {
-          defaultMessageTimeToLive: "P101D",
-        },
-      },
+      }
     );
 
     describe("AmqpAnnotatedMessage", function (): void {
@@ -80,39 +77,39 @@ const assert = chai.assert;
         should.equal(
           rawAmqpMessage.messageAnnotations!["propMsgAnnotate"],
           testMessage.messageAnnotations!["propMsgAnnotate"],
-          "Unexpected messageAnnotations on the received message",
+          "Unexpected messageAnnotations on the received message"
         );
         should.equal(
           rawAmqpMessage.bodyType,
           testMessage.bodyType,
-          "Unexpected bodyType on the AmqpAnnotatedMessage",
+          "Unexpected bodyType on the AmqpAnnotatedMessage"
         );
         assert.deepEqual(
           rawAmqpMessage.applicationProperties,
           testMessage.applicationProperties,
-          "Unexpected applicationProperties on the AmqpAnnotatedMessage",
+          "Unexpected applicationProperties on the AmqpAnnotatedMessage"
         );
         assert.deepEqual(
           rawAmqpMessage.footer,
           testMessage.footer,
-          "Unexpected footer on the AmqpAnnotatedMessage",
+          "Unexpected footer on the AmqpAnnotatedMessage"
         );
         assert.deepEqualExcluding(
           rawAmqpMessage.header!,
           testMessage.header!,
           ["deliveryCount"],
-          "Unexpected header on the AmqpAnnotatedMessage",
+          "Unexpected header on the AmqpAnnotatedMessage"
         );
         assert.deepEqualExcluding(
           rawAmqpMessage.properties!,
           testMessage.properties!,
           ["creationTime", "absoluteExpiryTime", "groupId"],
-          "Unexpected properties on the AmqpAnnotatedMessage",
+          "Unexpected properties on the AmqpAnnotatedMessage"
         );
         assert.equal(
           rawAmqpMessage.properties!.groupId,
           testMessage.properties!.groupId,
-          "Unexpected session-id on the AmqpAnnotatedMessage",
+          "Unexpected session-id on the AmqpAnnotatedMessage"
         );
       }
 
@@ -128,40 +125,9 @@ const assert = chai.assert;
           await receiveMsg(testMessage);
 
           await testPeekMsgsLength(receiver(), 0);
-        },
+        }
       );
     });
-
-    it(
-      anyRandomTestClientType +
-        ": timeToLive should be set based on absolute_expiry_time and queue default",
-      async function (): Promise<void> {
-        const ttl = 100 * 24 * 60 * 60 * 1000; // 100 days
-        const testMessage: AmqpAnnotatedMessage = {
-          body: `test timeToLive`,
-          bodyType: "data",
-          header: {
-            timeToLive: ttl,
-          },
-          ...getSessionProperties(),
-        };
-
-        await sender().sendMessages(testMessage);
-        const msgs = await receiver().receiveMessages(1);
-
-        assert.equal(Array.isArray(msgs), true, "`ReceivedMessages` is not an array");
-        assert.equal(msgs.length, 1, "Unexpected number of messages");
-
-        assert.equal(msgs[0]._rawAmqpMessage.header?.timeToLive, ttl);
-        assert.ok(
-          msgs[0]._rawAmqpMessage.properties,
-          "Expecting valid 'msgs[0]._rawAmqpMessage.properties'",
-        );
-        const { absoluteExpiryTime, creationTime } = msgs[0]._rawAmqpMessage.properties!;
-        assert.ok(creationTime, "Expecting valid 'creationTime'");
-        assert.equal(creationTime! + ttl, absoluteExpiryTime);
-      },
-    );
 
     describe("AMQP body type encoding/decoding", () => {
       // Messaging format (describes the three types of encodable entities - 'data', 'sequence' or 'value')
@@ -186,12 +152,12 @@ const assert = chai.assert;
             assert.deepEqual(
               message._rawAmqpMessage.bodyType,
               "value",
-              `Should be identified as a value: ${valueType.toString()}`,
+              `Should be identified as a value: ${valueType.toString()}`
             );
             assert.deepEqual(
               message.body,
               valueType,
-              `Deserialized body should be equal: : ${valueType.toString()}`,
+              `Deserialized body should be equal: : ${valueType.toString()}`
             );
           }
         });
@@ -215,12 +181,12 @@ const assert = chai.assert;
             assert.deepEqual(
               message._rawAmqpMessage.bodyType,
               "sequence",
-              `Should be identified as sequence: ${sequenceType.toString()}`,
+              `Should be identified as sequence: ${sequenceType.toString()}`
             );
             assert.deepEqual(
               message.body,
               sequenceType,
-              `Deserialized body should be equal: : ${sequenceType.toString()}`,
+              `Deserialized body should be equal: : ${sequenceType.toString()}`
             );
           }
         });
@@ -243,12 +209,12 @@ const assert = chai.assert;
             assert.deepEqual(
               message._rawAmqpMessage.bodyType,
               "data",
-              `Should be identified as data: ${dataType.toString()}`,
+              `Should be identified as data: ${dataType.toString()}`
             );
             assert.deepEqual(
               message.body,
               dataType,
-              `Deserialized body should be equal: : ${dataType.toString()}`,
+              `Deserialized body should be equal: : ${dataType.toString()}`
             );
           }
         });
@@ -318,7 +284,7 @@ const assert = chai.assert;
             body: "hello",
             bodyType: "value",
           },
-        ],
+        ]
       );
     });
   });

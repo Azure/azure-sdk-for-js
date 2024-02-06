@@ -3695,7 +3695,7 @@ export interface RoutingEnrichments {
     // (undocumented)
     dynamic?: DynamicRoutingEnrichment[];
     // (undocumented)
-    static?: StaticRoutingEnrichmentUnion[];
+    static?: StaticRoutingEnrichment[];
 }
 
 // @public
@@ -3736,23 +3736,14 @@ export interface StaticDeliveryAttributeMapping extends DeliveryAttributeMapping
     value?: string;
 }
 
-// @public
+// @public (undocumented)
 export interface StaticRoutingEnrichment {
     key?: string;
-    valueType: "String";
+    valueType?: StaticRoutingEnrichmentType;
 }
 
 // @public
 export type StaticRoutingEnrichmentType = string;
-
-// @public (undocumented)
-export type StaticRoutingEnrichmentUnion = StaticRoutingEnrichment | StaticStringRoutingEnrichment;
-
-// @public (undocumented)
-export interface StaticStringRoutingEnrichment extends StaticRoutingEnrichment {
-    value?: string;
-    valueType: "String";
-}
 
 // @public
 export interface StorageBlobDeadLetterDestination extends DeadLetterDestination {

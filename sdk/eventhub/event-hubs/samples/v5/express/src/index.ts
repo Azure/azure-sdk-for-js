@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT License.
+  Licensed under the MIT Licence.
 
   This sample demonstrates how to send events to Event Hubs
   from an express service. The service will take the HTTP body of

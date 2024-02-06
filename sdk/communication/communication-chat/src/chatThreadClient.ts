@@ -72,7 +72,7 @@ export class ChatThreadClient {
     private readonly endpoint: string,
     threadId: string,
     credential: CommunicationTokenCredential,
-    options: ChatThreadClientOptions = {},
+    options: ChatThreadClientOptions = {}
   ) {
     this.threadId = threadId;
     this.tokenCredential = credential;
@@ -104,7 +104,7 @@ export class ChatThreadClient {
     return tracingClient.withSpan("ChatClient-GetProperties", options, async (updatedOptions) => {
       const result = await this.client.chatThread.getChatThreadProperties(
         this.threadId,
-        updatedOptions,
+        updatedOptions
       );
       return mapToChatThreadPropertiesSdkModel(result);
     });
@@ -123,9 +123,9 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           { topic: topic },
-          updatedOptions,
+          updatedOptions
         );
-      },
+      }
     );
   }
 
@@ -155,7 +155,7 @@ export class ChatThreadClient {
    */
   public sendMessage(
     request: SendMessageRequest,
-    options: SendMessageOptions = {},
+    options: SendMessageOptions = {}
   ): Promise<SendChatMessageResult> {
     return tracingClient.withSpan(
       "ChatThreadClient-SendMessage",
@@ -167,10 +167,10 @@ export class ChatThreadClient {
         const result = await this.client.chatThread.sendChatMessage(
           this.threadId,
           { ...request, ...options },
-          updatedOptions,
+          updatedOptions
         );
         return result;
-      },
+      }
     );
   }
 
@@ -188,21 +188,21 @@ export class ChatThreadClient {
         const result = await this.client.chatThread.getChatMessage(
           this.threadId,
           messageId,
-          updatedOptions,
+          updatedOptions
         );
         return mapToChatMessageSdkModel(result);
-      },
+      }
     );
   }
 
   private async *listMessagesPage(
     pageSettings: ListPageSettings,
-    options: ListMessagesOptions = {},
+    options: ListMessagesOptions = {}
   ): AsyncIterableIterator<ChatMessage[]> {
     if (!pageSettings.continuationToken) {
       const currentSetResponse = await this.client.chatThread.listChatMessages(
         this.threadId,
-        options,
+        options
       );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -214,7 +214,7 @@ export class ChatThreadClient {
       const currentSetResponse = await this.client.chatThread.listChatMessagesNext(
         this.threadId,
         pageSettings.continuationToken,
-        options,
+        options
       );
       pageSettings.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -239,7 +239,7 @@ export class ChatThreadClient {
   public listMessages(options: ListMessagesOptions = {}): PagedAsyncIterableIterator<ChatMessage> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ChatThreadClient-ListMessages",
-      options,
+      options
     );
 
     try {
@@ -277,7 +277,7 @@ export class ChatThreadClient {
       options,
       async (updatedOptions) => {
         await this.client.chatThread.deleteChatMessage(this.threadId, messageId, updatedOptions);
-      },
+      }
     );
   }
 
@@ -295,9 +295,9 @@ export class ChatThreadClient {
           this.threadId,
           messageId,
           options,
-          updatedOptions,
+          updatedOptions
         );
-      },
+      }
     );
   }
 
@@ -308,7 +308,7 @@ export class ChatThreadClient {
    */
   public async addParticipants(
     request: AddParticipantsRequest,
-    options: AddParticipantsOptions = {},
+    options: AddParticipantsOptions = {}
   ): Promise<AddChatParticipantsResult> {
     return tracingClient.withSpan(
       "ChatThreadClient-AddParticipants",
@@ -317,21 +317,21 @@ export class ChatThreadClient {
         const result = await this.client.chatThread.addChatParticipants(
           this.threadId,
           mapToAddChatParticipantsRequestRestModel(request),
-          updatedOptions,
+          updatedOptions
         );
         return result;
-      },
+      }
     );
   }
 
   private async *listParticipantsPage(
     continuationState: ListPageSettings,
-    options: ListParticipantsOptions = {},
+    options: ListParticipantsOptions = {}
   ): AsyncIterableIterator<ChatParticipant[]> {
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chatThread.listChatParticipants(
         this.threadId,
-        options,
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -343,7 +343,7 @@ export class ChatThreadClient {
       const currentSetResponse = await this.client.chatThread.listChatParticipantsNext(
         this.threadId,
         continuationState.continuationToken,
-        options,
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -355,7 +355,7 @@ export class ChatThreadClient {
   }
 
   private async *listParticipantsAll(
-    options: ListParticipantsOptions,
+    options: ListParticipantsOptions
   ): AsyncIterableIterator<ChatParticipant> {
     for await (const page of this.listParticipantsPage({}, options)) {
       yield* page;
@@ -368,11 +368,11 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public listParticipants(
-    options: ListParticipantsOptions = {},
+    options: ListParticipantsOptions = {}
   ): PagedAsyncIterableIterator<ChatParticipant> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ChatThreadClient-ListParticipants",
-      options,
+      options
     );
 
     try {
@@ -406,7 +406,7 @@ export class ChatThreadClient {
    */
   public async removeParticipant(
     participant: CommunicationIdentifier,
-    options: RemoveParticipantOptions = {},
+    options: RemoveParticipantOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan(
       "ChatThreadClient-RemoveParticipant",
@@ -415,9 +415,9 @@ export class ChatThreadClient {
         await this.client.chatThread.removeChatParticipant(
           this.threadId,
           serializeCommunicationIdentifier(participant),
-          updatedOptions,
+          updatedOptions
         );
-      },
+      }
     );
   }
 
@@ -428,7 +428,7 @@ export class ChatThreadClient {
    * @returns True if the typing message notification could be sent, otherwise false.
    */
   public async sendTypingNotification(
-    options: SendTypingNotificationOptions = {},
+    options: SendTypingNotificationOptions = {}
   ): Promise<boolean> {
     return tracingClient.withSpan(
       "ChatThreadClient-SendTypingNotification",
@@ -449,7 +449,7 @@ export class ChatThreadClient {
 
         logger.info(`Typing Notification NOT Send. [thread_id=${this.threadId}]`);
         return false;
-      },
+      }
     );
   }
 
@@ -460,25 +460,25 @@ export class ChatThreadClient {
    */
   public async sendReadReceipt(
     request: SendReadReceiptRequest,
-    options: SendReadReceiptOptions = {},
+    options: SendReadReceiptOptions = {}
   ): Promise<void> {
     return tracingClient.withSpan(
       "ChatThreadClient-SendReadReceipt",
       options,
       async (updatedOptions) => {
         await this.client.chatThread.sendChatReadReceipt(this.threadId, request, updatedOptions);
-      },
+      }
     );
   }
 
   private async *listReadReceiptsPage(
     continuationState: ListPageSettings,
-    options: ListReadReceiptsOptions = {},
+    options: ListReadReceiptsOptions = {}
   ): AsyncIterableIterator<ChatMessageReadReceipt[]> {
     if (!continuationState.continuationToken) {
       const currentSetResponse = await this.client.chatThread.listChatReadReceipts(
         this.threadId,
-        options,
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -490,7 +490,7 @@ export class ChatThreadClient {
       const currentSetResponse = await this.client.chatThread.listChatReadReceiptsNext(
         this.threadId,
         continuationState.continuationToken,
-        options,
+        options
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -502,7 +502,7 @@ export class ChatThreadClient {
   }
 
   private async *listReadReceiptsAll(
-    options: ListReadReceiptsOptions,
+    options: ListReadReceiptsOptions
   ): AsyncIterableIterator<ChatMessageReadReceipt> {
     for await (const page of this.listReadReceiptsPage({}, options)) {
       yield* page;
@@ -515,11 +515,11 @@ export class ChatThreadClient {
    * @param options - Get messages options.
    */
   public listReadReceipts(
-    options: ListReadReceiptsOptions = {},
+    options: ListReadReceiptsOptions = {}
   ): PagedAsyncIterableIterator<ChatMessageReadReceipt> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "ChatThreadClient-ListChatReadReceipts",
-      options,
+      options
     );
 
     try {

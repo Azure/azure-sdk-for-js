@@ -196,7 +196,7 @@ const listByLocationOperationSpec: coreClient.OperationSpec = {
   queryParameters: [
     Parameters.filter1,
     Parameters.onlyLatestPerDatabase,
-    Parameters.apiVersion9
+    Parameters.apiVersion8
   ],
   urlParameters: [
     Parameters.$host,
@@ -217,7 +217,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

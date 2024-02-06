@@ -9,7 +9,7 @@ import { StaticValueAggregator } from "./StaticValueAggregator";
 import { AggregateType } from "../../request/ErrorResponse";
 
 export function createAggregator(
-  aggregateType: AggregateType,
+  aggregateType: AggregateType
 ):
   | AverageAggregator
   | CountAggregator

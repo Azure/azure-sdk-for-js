@@ -8,11 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DatadogApiKey,
-  MonitorsSetDefaultKeyOptionalParams,
-  MicrosoftDatadogClient
-} from "@azure/arm-datadog";
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -31,14 +27,11 @@ async function monitorsSetDefaultKey() {
   const resourceGroupName =
     process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
-  const body: DatadogApiKey = { key: "1111111111111111aaaaaaaaaaaaaaaa" };
-  const options: MonitorsSetDefaultKeyOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.monitors.setDefaultKey(
     resourceGroupName,
-    monitorName,
-    options
+    monitorName
   );
   console.log(result);
 }

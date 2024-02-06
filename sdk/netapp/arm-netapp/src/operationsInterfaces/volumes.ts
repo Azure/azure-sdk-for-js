@@ -26,9 +26,6 @@ import {
   VolumeRevert,
   VolumesRevertOptionalParams,
   VolumesResetCifsPasswordOptionalParams,
-  VolumesResetCifsPasswordResponse,
-  VolumesSplitCloneFromParentOptionalParams,
-  VolumesSplitCloneFromParentResponse,
   VolumesBreakFileLocksOptionalParams,
   GetGroupIdListForLdapUserRequest,
   VolumesListGetGroupIdListForLdapUserOptionalParams,
@@ -287,12 +284,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesResetCifsPasswordOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesResetCifsPasswordResponse>,
-      VolumesResetCifsPasswordResponse
-    >
-  >;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Reset cifs password from volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -307,42 +299,7 @@ export interface Volumes {
     poolName: string,
     volumeName: string,
     options?: VolumesResetCifsPasswordOptionalParams
-  ): Promise<VolumesResetCifsPasswordResponse>;
-  /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginSplitCloneFromParent(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<VolumesSplitCloneFromParentResponse>,
-      VolumesSplitCloneFromParentResponse
-    >
-  >;
-  /**
-   *  Split operation to convert clone volume to an independent volume.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param accountName The name of the NetApp account
-   * @param poolName The name of the capacity pool
-   * @param volumeName The name of the volume
-   * @param options The options parameters.
-   */
-  beginSplitCloneFromParentAndWait(
-    resourceGroupName: string,
-    accountName: string,
-    poolName: string,
-    volumeName: string,
-    options?: VolumesSplitCloneFromParentOptionalParams
-  ): Promise<VolumesSplitCloneFromParentResponse>;
+  ): Promise<void>;
   /**
    * Break all the file locks on a volume
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

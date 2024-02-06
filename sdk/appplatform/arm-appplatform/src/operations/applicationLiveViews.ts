@@ -29,7 +29,6 @@ import {
   ApplicationLiveViewsCreateOrUpdateOptionalParams,
   ApplicationLiveViewsCreateOrUpdateResponse,
   ApplicationLiveViewsDeleteOptionalParams,
-  ApplicationLiveViewsDeleteResponse,
   ApplicationLiveViewsListNextResponse
 } from "../models";
 
@@ -282,16 +281,11 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<ApplicationLiveViewsDeleteResponse>,
-      ApplicationLiveViewsDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<ApplicationLiveViewsDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -337,10 +331,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
       },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      ApplicationLiveViewsDeleteResponse,
-      OperationState<ApplicationLiveViewsDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
@@ -361,7 +352,7 @@ export class ApplicationLiveViewsImpl implements ApplicationLiveViews {
     serviceName: string,
     applicationLiveViewName: string,
     options?: ApplicationLiveViewsDeleteOptionalParams
-  ): Promise<ApplicationLiveViewsDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       serviceName,
@@ -478,18 +469,10 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews/{applicationLiveViewName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.ApplicationLiveViewsDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

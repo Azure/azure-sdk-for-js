@@ -39,8 +39,11 @@ import {
   VectorFilterMode,
 } from "../../src/index";
 
-type IsIdentical<T1, T2> =
-  (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
+type IsIdentical<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2
+  ? true
+  : false
+  ? any
+  : never;
 
 type ExpectSearchFieldDataType = Exclude<
   `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,

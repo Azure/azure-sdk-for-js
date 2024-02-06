@@ -2,26 +2,28 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, KeyCredential, isTokenCredential } from "@azure/core-auth";
+import { GetCompletionsOptions, GetEmbeddingsOptions } from "../customizations/models/options.js";
 import { OpenAIClientOptions } from "../generated/src/index.js";
 import {
   getAudioTranscription,
   getAudioTranslation,
   getChatCompletions,
-  getCompletions,
   getImages,
-  streamChatCompletions,
-  streamCompletions,
-} from "./api/client/openAIClient/index.js";
-import { Embeddings, ImageGenerations } from "../generated/src/models/models.js";
-import { getEmbeddings } from "../generated/src/api/client/openAIClient/index.js";
+  listChatCompletions,
+  listCompletions,
+} from "./api/operations.js";
+import {
+  ChatMessage,
+  Completions,
+  Embeddings,
+  ImageGenerations,
+} from "../generated/src/models/models.js";
+import { getCompletions, getEmbeddings } from "../generated/src/api/operations.js";
+import { ChatCompletions } from "./models/models.js";
 import { OpenAIContext } from "../generated/src/rest/index.js";
 import { createOpenAI } from "../generated/src/api/OpenAIContext.js";
-import {
-  GetImagesOptions,
-  GetCompletionsOptions,
-  GetEmbeddingsOptions,
-  GetChatCompletionsOptions,
-} from "./models/options.js";
+import { GetChatCompletionsOptions } from "./api/models.js";
+import { ImageGenerationOptions } from "./models/options.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import {
   AudioResult,
@@ -30,7 +32,6 @@ import {
   GetAudioTranscriptionOptions,
   GetAudioTranslationOptions,
 } from "./models/audio.js";
-import { ChatCompletions, ChatRequestMessage, Completions, EventStream } from "./models/models.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -108,7 +109,7 @@ export class OpenAIClient {
   constructor(
     endpointOrOpenAiKey: string | KeyCredential,
     credOrOptions: KeyCredential | TokenCredential | OpenAIClientOptions = {},
-    options: OpenAIClientOptions = {},
+    options: OpenAIClientOptions = {}
   ) {
     let opts: OpenAIClientOptions;
     let endpoint: string;
@@ -146,7 +147,7 @@ export class OpenAIClient {
     });
   }
 
-  private setModel(model: string, options: Record<string, any>): void {
+  private setModel(model: string, options: { model?: string }): void {
     if (!this._isAzure) {
       options.model = model;
     }
@@ -162,10 +163,10 @@ export class OpenAIClient {
   getCompletions(
     deploymentName: string,
     prompt: string[],
-    options: GetCompletionsOptions = { requestOptions: {} },
+    options: GetCompletionsOptions = { requestOptions: {} }
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
-    return getCompletions(this._client, deploymentName, prompt, options);
+    return getCompletions(this._client, deploymentName, { prompt, ...options }, options);
   }
 
   /**
@@ -175,13 +176,13 @@ export class OpenAIClient {
    * @param options - The completions options for this completions request.
    * @returns An asynchronous iterable of completions tokens.
    */
-  streamCompletions(
+  listCompletions(
     deploymentName: string,
     prompt: string[],
-    options: GetCompletionsOptions = {},
-  ): Promise<EventStream<Omit<Completions, "usage">>> {
+    options: GetCompletionsOptions = {}
+  ): AsyncIterable<Omit<Completions, "usage">> {
     this.setModel(deploymentName, options);
-    return streamCompletions(this._client, deploymentName, prompt, options);
+    return listCompletions(this._client, prompt, deploymentName, options);
   }
 
   /**
@@ -194,7 +195,7 @@ export class OpenAIClient {
   getEmbeddings(
     deploymentName: string,
     input: string[],
-    options: GetEmbeddingsOptions = { requestOptions: {} },
+    options: GetEmbeddingsOptions = { requestOptions: {} }
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
     return getEmbeddings(this._client, deploymentName, { input, ...options }, options);
@@ -209,11 +210,11 @@ export class OpenAIClient {
    */
   getChatCompletions(
     deploymentName: string,
-    messages: ChatRequestMessage[],
-    options: GetChatCompletionsOptions = { requestOptions: {} },
+    messages: ChatMessage[],
+    options: GetChatCompletionsOptions = { requestOptions: {} }
   ): Promise<ChatCompletions> {
     this.setModel(deploymentName, options);
-    return getChatCompletions(this._client, deploymentName, messages, options);
+    return getChatCompletions(this._client, messages, deploymentName, options);
   }
 
   /**
@@ -223,29 +224,26 @@ export class OpenAIClient {
    * @param options - The chat completions options for this chat completions request.
    * @returns An asynchronous iterable of chat completions tokens.
    */
-  streamChatCompletions(
+  listChatCompletions(
     deploymentName: string,
-    messages: ChatRequestMessage[],
-    options: GetChatCompletionsOptions = { requestOptions: {} },
-  ): Promise<EventStream<ChatCompletions>> {
+    messages: ChatMessage[],
+    options: GetChatCompletionsOptions = { requestOptions: {} }
+  ): AsyncIterable<ChatCompletions> {
     this.setModel(deploymentName, options);
-    return streamChatCompletions(this._client, deploymentName, messages, options);
+    return listChatCompletions(this._client, messages, deploymentName, options);
   }
 
   /**
    * Starts the generation of a batch of images from a text caption
-   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
    * @param prompt - The prompt to use for this request.
    * @param options - The options for this image request.
    * @returns The image generation response (containing url or base64 data).
    */
   getImages(
-    deploymentName: string,
     prompt: string,
-    options: GetImagesOptions = { requestOptions: {} },
+    options: ImageGenerationOptions = { requestOptions: {} }
   ): Promise<ImageGenerations> {
-    this.setModel(deploymentName, options);
-    return getImages(this._client, deploymentName, prompt, options);
+    return getImages(this._client, prompt, options);
   }
 
   /**
@@ -258,7 +256,7 @@ export class OpenAIClient {
   async getAudioTranscription(
     deploymentName: string,
     fileContent: Uint8Array,
-    options?: GetAudioTranscriptionOptions,
+    options?: GetAudioTranscriptionOptions
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the transcription of an audio file.
@@ -272,14 +270,14 @@ export class OpenAIClient {
     deploymentName: string,
     fileContent: Uint8Array,
     format: Format,
-    options?: GetAudioTranscriptionOptions,
+    options?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranscription<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
     formatOrOptions?: Format | GetAudioTranscriptionOptions,
-    inputOptions?: GetAudioTranscriptionOptions,
+    inputOptions?: GetAudioTranscriptionOptions
   ): Promise<AudioResult<Format>> {
     const options =
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -295,7 +293,7 @@ export class OpenAIClient {
       deploymentName,
       fileContent,
       response_format,
-      options,
+      options
     );
   }
 
@@ -309,7 +307,7 @@ export class OpenAIClient {
   async getAudioTranslation(
     deploymentName: string,
     fileContent: Uint8Array,
-    options?: GetAudioTranslationOptions,
+    options?: GetAudioTranslationOptions
   ): Promise<AudioResultSimpleJson>;
   /**
    * Returns the translation of an audio file.
@@ -323,14 +321,14 @@ export class OpenAIClient {
     deploymentName: string,
     fileContent: Uint8Array,
     format: Format,
-    options?: GetAudioTranslationOptions,
+    options?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>>;
   // implementation
   async getAudioTranslation<Format extends AudioResultFormat>(
     deploymentName: string,
     fileContent: Uint8Array,
     formatOrOptions?: Format | GetAudioTranslationOptions,
-    inputOptions?: GetAudioTranslationOptions,
+    inputOptions?: GetAudioTranslationOptions
   ): Promise<AudioResult<Format>> {
     const options =
       inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});

@@ -1600,11 +1600,6 @@ export const StaticRoutingEnrichment: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "StaticRoutingEnrichment",
-    uberParent: "StaticRoutingEnrichment",
-    polymorphicDiscriminator: {
-      serializedName: "valueType",
-      clientName: "valueType"
-    },
     modelProperties: {
       key: {
         serializedName: "key",
@@ -1614,7 +1609,6 @@ export const StaticRoutingEnrichment: coreClient.CompositeMapper = {
       },
       valueType: {
         serializedName: "valueType",
-        required: true,
         type: {
           name: "String"
         }
@@ -5444,26 +5438,6 @@ export const IsNotNullAdvancedFilter: coreClient.CompositeMapper = {
   }
 };
 
-export const StaticStringRoutingEnrichment: coreClient.CompositeMapper = {
-  serializedName: "String",
-  type: {
-    name: "Composite",
-    className: "StaticStringRoutingEnrichment",
-    uberParent: "StaticRoutingEnrichment",
-    polymorphicDiscriminator:
-      StaticRoutingEnrichment.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...StaticRoutingEnrichment.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const AzureADPartnerClientAuthentication: coreClient.CompositeMapper = {
   serializedName: "AzureAD",
   type: {
@@ -6677,7 +6651,6 @@ export let discriminators = {
   EventSubscriptionDestination: EventSubscriptionDestination,
   Filter: Filter,
   AdvancedFilter: AdvancedFilter,
-  StaticRoutingEnrichment: StaticRoutingEnrichment,
   PartnerClientAuthentication: PartnerClientAuthentication,
   "PartnerDestinationInfo.WebHook": WebhookPartnerDestinationInfo,
   "PartnerUpdateDestinationInfo.WebHook": WebhookUpdatePartnerDestinationInfo,
@@ -6733,6 +6706,5 @@ export let discriminators = {
   "AdvancedFilter.StringNotContains": StringNotContainsAdvancedFilter,
   "AdvancedFilter.IsNullOrUndefined": IsNullOrUndefinedAdvancedFilter,
   "AdvancedFilter.IsNotNull": IsNotNullAdvancedFilter,
-  "StaticRoutingEnrichment.String": StaticStringRoutingEnrichment,
   "PartnerClientAuthentication.AzureAD": AzureADPartnerClientAuthentication
 };

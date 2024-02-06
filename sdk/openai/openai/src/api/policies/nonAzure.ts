@@ -28,12 +28,8 @@ export function nonAzurePolicy(): PipelinePolicy {
         case "embeddings":
           obj.pathname = `${parts[1]}/embeddings`;
           break;
-        case "generations":
-          if (parts[parts.length - 2] === "images") {
-            obj.pathname = `${parts[1]}/images/generations`;
-          } else {
-            throw new Error("Unexpected path");
-          }
+        case "generations:submit":
+          obj.pathname = `${parts[1]}/images/generations`;
           break;
         case "transcriptions":
           obj.pathname = `${parts[1]}/audio/transcriptions`;

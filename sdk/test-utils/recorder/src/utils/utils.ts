@@ -5,10 +5,7 @@ import { env } from "./env";
  * A custom error type for failed pipeline requests.
  */
 export class RecorderError extends Error {
-  constructor(
-    message: string,
-    public statusCode?: number,
-  ) {
+  constructor(message: string, public statusCode?: number) {
     super(message);
     this.name = "RecorderError";
     this.statusCode = statusCode;
@@ -306,7 +303,7 @@ export interface RecorderStartOptions {
 export function ensureExistence<T>(thing: T | undefined, label: string): thing is T {
   if (!thing) {
     throw new RecorderError(
-      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`,
+      `Something went wrong, ${label} should not have been undefined in "${getTestMode()}" mode.`
     );
   }
   return true; // Since we would throw error if undefined

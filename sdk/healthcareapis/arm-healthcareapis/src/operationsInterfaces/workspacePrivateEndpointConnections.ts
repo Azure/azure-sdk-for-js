@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   PrivateEndpointConnectionDescription,
   WorkspacePrivateEndpointConnectionsListByWorkspaceOptionalParams,
@@ -62,8 +62,10 @@ export interface WorkspacePrivateEndpointConnections {
     properties: PrivateEndpointConnectionDescription,
     options?: WorkspacePrivateEndpointConnectionsCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<
+        WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse
+      >,
       WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse
     >
   >;
@@ -96,7 +98,7 @@ export interface WorkspacePrivateEndpointConnections {
     workspaceName: string,
     privateEndpointConnectionName: string,
     options?: WorkspacePrivateEndpointConnectionsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection.
    * @param resourceGroupName The name of the resource group that contains the service instance.

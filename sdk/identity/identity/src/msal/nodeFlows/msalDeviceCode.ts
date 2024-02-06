@@ -2,13 +2,10 @@
 // Licensed under the MIT license.
 
 import * as msalNode from "@azure/msal-node";
-
 import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
-
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
-import { handleMsalError } from "../utils";
 
 /**
  * Options that can be passed to configure MSAL to handle authentication through device codes.
@@ -32,7 +29,7 @@ export class MsalDeviceCode extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
       const requestOptions: msalNode.DeviceCodeRequest = {
@@ -44,14 +41,14 @@ export class MsalDeviceCode extends MsalNode {
         claims: options?.claims,
       };
       const promise = this.getApp("public", options?.enableCae).acquireTokenByDeviceCode(
-        requestOptions,
+        requestOptions
       );
       const deviceResponse = await this.withCancellation(promise, options?.abortSignal, () => {
         requestOptions.cancel = true;
       });
-      return this.handleResult(scopes, deviceResponse || undefined);
+      return this.handleResult(scopes, this.clientId, deviceResponse || undefined);
     } catch (error: any) {
-      throw handleMsalError(scopes, error, options);
+      throw this.handleError(scopes, error, options);
     }
   }
 }

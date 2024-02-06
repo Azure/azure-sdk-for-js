@@ -14,15 +14,13 @@ import {
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
-  GetImageGenerations200Response,
-  GetImageGenerationsDefaultResponse,
-  GetEmbeddings200Response,
-  GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
   GetAzureBatchImageGenerationOperationStatusDefaultResponse,
   BeginAzureBatchImageGeneration202Response,
   BeginAzureBatchImageGenerationLogicalResponse,
   BeginAzureBatchImageGenerationDefaultResponse,
+  GetEmbeddings200Response,
+  GetEmbeddingsDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -31,11 +29,10 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
-  "POST /deployments/{deploymentId}/images/generations": ["200"],
-  "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
   "GET /images/generations:submit": ["200", "202"],
+  "POST /deployments/{deploymentId}/embeddings": ["200"],
 };
 
 export function isUnexpected(
@@ -62,12 +59,6 @@ export function isUnexpected(
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
 ): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
 export function isUnexpected(
-  response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse
-): response is GetImageGenerationsDefaultResponse;
-export function isUnexpected(
-  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
-): response is GetEmbeddingsDefaultResponse;
-export function isUnexpected(
   response:
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -78,6 +69,9 @@ export function isUnexpected(
     | BeginAzureBatchImageGenerationLogicalResponse
     | BeginAzureBatchImageGenerationDefaultResponse
 ): response is BeginAzureBatchImageGenerationDefaultResponse;
+export function isUnexpected(
+  response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse
+): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
   response:
     | GetAudioTranscriptionAsPlainText200Response
@@ -92,25 +86,22 @@ export function isUnexpected(
     | GetChatCompletionsDefaultResponse
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
-    | GetImageGenerations200Response
-    | GetImageGenerationsDefaultResponse
-    | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
     | BeginAzureBatchImageGeneration202Response
     | BeginAzureBatchImageGenerationLogicalResponse
     | BeginAzureBatchImageGenerationDefaultResponse
+    | GetEmbeddings200Response
+    | GetEmbeddingsDefaultResponse
 ): response is
   | GetAudioTranscriptionAsPlainTextDefaultResponse
   | GetAudioTranslationAsPlainTextDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
-  | GetImageGenerationsDefaultResponse
-  | GetEmbeddingsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  | BeginAzureBatchImageGenerationDefaultResponse {
+  | BeginAzureBatchImageGenerationDefaultResponse
+  | GetEmbeddingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

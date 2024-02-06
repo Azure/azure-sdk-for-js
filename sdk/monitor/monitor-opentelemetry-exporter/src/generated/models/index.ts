@@ -274,7 +274,7 @@ export enum KnownDataPointType {
   /** Measurement */
   Measurement = "Measurement",
   /** Aggregation */
-  Aggregation = "Aggregation",
+  Aggregation = "Aggregation"
 }
 
 /**
@@ -298,7 +298,7 @@ export enum KnownSeverityLevel {
   /** Error */
   Error = "Error",
   /** Critical */
-  Critical = "Critical",
+  Critical = "Critical"
 }
 
 /**
@@ -371,7 +371,7 @@ export enum KnownContextTagKeys {
   /** AiInternalAgentVersion */
   AiInternalAgentVersion = "ai.internal.agentVersion",
   /** AiInternalNodeName */
-  AiInternalNodeName = "ai.internal.nodeName",
+  AiInternalNodeName = "ai.internal.nodeName"
 }
 
 /**
@@ -411,7 +411,7 @@ export enum KnownContextTagKeys {
 export type ContextTagKeys = string;
 
 /** Optional parameters. */
-export interface TrackOptionalParams extends coreClient.OperationOptions { }
+export interface TrackOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the track operation. */
 export type TrackOperationResponse = TrackResponse;

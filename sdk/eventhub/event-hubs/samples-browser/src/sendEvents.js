@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /*
   This sample demonstrates how the send() function can be used to send events to Event Hubs.

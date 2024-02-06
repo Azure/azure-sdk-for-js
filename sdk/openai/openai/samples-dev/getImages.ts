@@ -8,7 +8,7 @@
  * @azsdk-weight 100
  */
 
-import { OpenAIClient, AzureKeyCredential } from "@azure/openai";
+import { OpenAIClient, AzureKeyCredential, ImageLocation } from "@azure/openai";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -20,7 +20,7 @@ const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 
 // The prompt to generate images from
 const prompt = "a monkey eating a banana";
-const size = "1024x1024";
+const size = "256x256";
 
 // The number of images to generate
 const n = 3;
@@ -29,10 +29,9 @@ export async function main() {
   console.log("== Batch Image Generation ==");
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
-  const deploymentName = "dall-e-3";
-  const results = await client.getImages(deploymentName, prompt, { n, size });
+  const results = await client.getImages(prompt, { n, size });
 
-  for (const image of results.data) {
+  for (const image of results.data as ImageLocation[]) {
     console.log(`Image generation result URL: ${image.url}`);
   }
 }

@@ -840,7 +840,7 @@ export interface RunNotebookResult {
   /** Timestamp of last update. */
   lastCheckedOn?: string;
   /** Livy session id. */
-  sessionId?: string;
+  sessionId?: number;
   /** SparkPool name. */
   sparkPool?: string;
   /** Run notebook session details. */
@@ -891,7 +891,7 @@ export interface RunNotebookSnapshotResult {
   /** Timestamp of last update. */
   lastCheckedOn?: string;
   /** Livy session id. */
-  sessionId?: string;
+  sessionId?: number;
   /** SparkPool name. */
   sparkPool?: string;
 }
@@ -909,7 +909,7 @@ export interface RunNotebookSnapshot {
   /** Whether session should run till time to live after run completes. */
   honorSessionTimeToLive?: boolean;
   /** Livy session id. */
-  sessionId?: string;
+  sessionId?: number;
   /** SparkPool name. */
   sparkPool?: string;
   /** Run notebook parameters */
@@ -3445,6 +3445,14 @@ export interface SapTablePartitionSettings {
   maxPartitionsNumber?: any;
 }
 
+/** SQL stored procedure parameter. */
+export interface StoredProcedureParameter {
+  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
+  value?: any;
+  /** Stored procedure parameter type. */
+  type?: StoredProcedureParameterType;
+}
+
 /** The settings that will be leveraged for Sql source partitioning. */
 export interface SqlPartitionSettings {
   /** The name of the column in integer or datetime type that will be used for proceeding partitioning. If not specified, the primary key of the table is auto-detected and used as the partition column. Type: string (or Expression with resultType string). */
@@ -3541,14 +3549,6 @@ export interface ImportSettings {
   type: "AzureDatabricksDeltaLakeImportCommand" | "SnowflakeImportCopyCommand";
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
-}
-
-/** SQL stored procedure parameter. */
-export interface StoredProcedureParameter {
-  /** Stored procedure parameter value. Type: string (or Expression with resultType string). */
-  value?: any;
-  /** Stored procedure parameter type. */
-  type?: StoredProcedureParameterType;
 }
 
 /** Notebook parameter. */
@@ -3717,8 +3717,8 @@ export interface WebActivityAuthentication {
   type: string;
   /** Base64-encoded contents of a PFX file. */
   pfx?: SecretBaseUnion;
-  /** Web activity authentication user name for basic authentication. Type: string (or Expression with resultType string). */
-  username?: any;
+  /** Web activity authentication user name for basic authentication. */
+  username?: string;
   /** Password for the PFX file or basic authentication. */
   password?: SecretBaseUnion;
   /** Resource for which Azure Auth token will be requested when using MSI Authentication. Type: string (or Expression with resultType string). */
@@ -7443,7 +7443,9 @@ export interface SqlPoolStoredProcedureActivity extends Activity {
   /** Stored procedure name. Type: string (or Expression with resultType string). */
   storedProcedureName: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
 }
 
 /** Trigger that schedules pipeline reruns for all fixed time interval windows from a requested start time to requested end time. */
@@ -7703,8 +7705,8 @@ export interface AzureBlobStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7781,8 +7783,8 @@ export interface AmazonS3ReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7805,8 +7807,8 @@ export interface FileServerReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7833,8 +7835,8 @@ export interface AzureFileStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7859,8 +7861,8 @@ export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
   prefix?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
@@ -7881,16 +7883,16 @@ export interface FtpReadSettings extends StoreReadSettings {
   wildcardFolderPath?: any;
   /** Ftp wildcardFileName. Type: string (or Expression with resultType string). */
   wildcardFileName?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Indicates whether the source files need to be deleted after copy completion. Default is false. Type: boolean (or Expression with resultType boolean). */
   deleteFilesAfterCompletion?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Specify whether to use binary transfer mode for FTP stores. Type: boolean (or Expression with resultType boolean). */
-  useBinaryTransfer?: any;
+  /** Specify whether to use binary transfer mode for FTP stores. */
+  useBinaryTransfer?: boolean;
   /** If true, disable parallel reading within each file. Default is false. Type: boolean (or Expression with resultType boolean). */
   disableChunking?: any;
 }
@@ -7905,8 +7907,8 @@ export interface SftpReadSettings extends StoreReadSettings {
   wildcardFolderPath?: any;
   /** Sftp wildcardFileName. Type: string (or Expression with resultType string). */
   wildcardFileName?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
@@ -7921,7 +7923,7 @@ export interface SftpReadSettings extends StoreReadSettings {
   disableChunking?: any;
 }
 
-/** Http read settings. */
+/** Sftp read settings. */
 export interface HttpReadSettings extends StoreReadSettings {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "HttpReadSettings";
@@ -7933,12 +7935,10 @@ export interface HttpReadSettings extends StoreReadSettings {
   additionalHeaders?: any;
   /** Specifies the timeout for a HTTP client to get HTTP response from HTTP server. */
   requestTimeout?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
-  /** Specifies the additional columns to be added to source data. Type: array of objects(AdditionalColumns) (or Expression with resultType array of objects). */
-  additionalColumns?: any;
 }
 
 /** HDFS read settings. */
@@ -7953,8 +7953,8 @@ export interface HdfsReadSettings extends StoreReadSettings {
   wildcardFileName?: any;
   /** Point to a text file that lists each file (relative path to the path configured in the dataset) that you want to copy. Type: string (or Expression with resultType string). */
   fileListPath?: any;
-  /** Indicates whether to enable partition discovery. Type: boolean (or Expression with resultType boolean). */
-  enablePartitionDiscovery?: any;
+  /** Indicates whether to enable partition discovery. */
+  enablePartitionDiscovery?: boolean;
   /** Specify the root path where partition discovery starts from. Type: string (or Expression with resultType string). */
   partitionRootPath?: any;
   /** The start of file's modified datetime. Type: string (or Expression with resultType string). */
@@ -8816,7 +8816,9 @@ export interface SqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -8834,7 +8836,9 @@ export interface SqlServerSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -8852,7 +8856,9 @@ export interface AzureSqlSink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -8870,7 +8876,9 @@ export interface SqlMISink extends CopySink {
   /** SQL pre-copy script. Type: string (or Expression with resultType string). */
   preCopyScript?: any;
   /** SQL stored procedure parameters. */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** The stored procedure parameter name of the table type. Type: string (or Expression with resultType string). */
   storedProcedureTableTypeParameterName?: any;
   /** The option to handle sink table, such as autoCreate. For now only 'autoCreate' value is supported. Type: string (or Expression with resultType string). */
@@ -9865,8 +9873,6 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 export interface ScriptActivity extends ExecutionActivity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "Script";
-  /** ScriptBlock execution timeout. Type: string (or Expression with resultType string), pattern: ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])). */
-  scriptBlockExecutionTimeout?: any;
   /** Array of script blocks. Type: array. */
   scripts?: ScriptActivityScriptBlock[];
   /** Log settings of script activity. */
@@ -10091,8 +10097,8 @@ export interface SapHanaSource extends TabularSource {
   query?: any;
   /** The packet size of data read from SAP HANA. Type: integer(or Expression with resultType integer). */
   packetSize?: any;
-  /** The partition mechanism that will be used for SAP HANA read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "SapHanaDynamicRange". */
-  partitionOption?: any;
+  /** The partition mechanism that will be used for SAP HANA read in parallel. */
+  partitionOption?: SapHanaPartitionOption;
   /** The settings that will be leveraged for SAP HANA source partitioning. */
   partitionSettings?: SapHanaPartitionSettings;
 }
@@ -10143,8 +10149,8 @@ export interface SapTableSource extends TabularSource {
   customRfcReadTableFunctionModule?: any;
   /** The single character that will be used as delimiter passed to SAP RFC as well as splitting the output data retrieved. Type: string (or Expression with resultType string). */
   sapDataColumnDelimiter?: any;
-  /** The partition mechanism that will be used for SAP table read in parallel. Possible values include: "None", "PartitionOnInt", "PartitionOnCalendarYear", "PartitionOnCalendarMonth", "PartitionOnCalendarDate", "PartitionOnTime". */
-  partitionOption?: any;
+  /** The partition mechanism that will be used for SAP table read in parallel. */
+  partitionOption?: SapTablePartitionOption;
   /** The settings that will be leveraged for SAP table source partitioning. */
   partitionSettings?: SapTablePartitionSettings;
 }
@@ -10158,7 +10164,9 @@ export interface SqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** The partition mechanism that will be used for Sql read in parallel. Possible values include: "None", "PhysicalPartitionsOfTable", "DynamicRange". */
@@ -10176,7 +10184,9 @@ export interface SqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** Which additional types to produce. */
@@ -10196,7 +10206,9 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** Which additional types to produce. */
@@ -10216,7 +10228,9 @@ export interface AzureSqlSource extends TabularSource {
   /** Name of the stored procedure for a SQL Database source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** Which additional types to produce. */
@@ -10236,7 +10250,9 @@ export interface SqlMISource extends TabularSource {
   /** Name of the stored procedure for a Azure SQL Managed Instance source. This cannot be used at the same time as SqlReaderQuery. Type: string (or Expression with resultType string). */
   sqlReaderStoredProcedureName?: any;
   /** Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}". */
-  storedProcedureParameters?: any;
+  storedProcedureParameters?: {
+    [propertyName: string]: StoredProcedureParameter;
+  };
   /** Specifies the transaction locking behavior for the SQL source. Allowed values: ReadCommitted/ReadUncommitted/RepeatableRead/Serializable/Snapshot. The default value is ReadCommitted. Type: string (or Expression with resultType string). */
   isolationLevel?: any;
   /** Which additional types to produce. */
@@ -12176,6 +12192,90 @@ export enum KnownGoogleAdWordsAuthenticationType {
  */
 export type GoogleAdWordsAuthenticationType = string;
 
+/** Known values of {@link SapHanaPartitionOption} that the service accepts. */
+export enum KnownSapHanaPartitionOption {
+  /** None */
+  None = "None",
+  /** PhysicalPartitionsOfTable */
+  PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
+  /** SapHanaDynamicRange */
+  SapHanaDynamicRange = "SapHanaDynamicRange"
+}
+
+/**
+ * Defines values for SapHanaPartitionOption. \
+ * {@link KnownSapHanaPartitionOption} can be used interchangeably with SapHanaPartitionOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **PhysicalPartitionsOfTable** \
+ * **SapHanaDynamicRange**
+ */
+export type SapHanaPartitionOption = string;
+
+/** Known values of {@link SapTablePartitionOption} that the service accepts. */
+export enum KnownSapTablePartitionOption {
+  /** None */
+  None = "None",
+  /** PartitionOnInt */
+  PartitionOnInt = "PartitionOnInt",
+  /** PartitionOnCalendarYear */
+  PartitionOnCalendarYear = "PartitionOnCalendarYear",
+  /** PartitionOnCalendarMonth */
+  PartitionOnCalendarMonth = "PartitionOnCalendarMonth",
+  /** PartitionOnCalendarDate */
+  PartitionOnCalendarDate = "PartitionOnCalendarDate",
+  /** PartitionOnTime */
+  PartitionOnTime = "PartitionOnTime"
+}
+
+/**
+ * Defines values for SapTablePartitionOption. \
+ * {@link KnownSapTablePartitionOption} can be used interchangeably with SapTablePartitionOption,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **PartitionOnInt** \
+ * **PartitionOnCalendarYear** \
+ * **PartitionOnCalendarMonth** \
+ * **PartitionOnCalendarDate** \
+ * **PartitionOnTime**
+ */
+export type SapTablePartitionOption = string;
+
+/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
+export enum KnownStoredProcedureParameterType {
+  /** String */
+  String = "String",
+  /** Int */
+  Int = "Int",
+  /** Int64 */
+  Int64 = "Int64",
+  /** Decimal */
+  Decimal = "Decimal",
+  /** Guid */
+  Guid = "Guid",
+  /** Boolean */
+  Boolean = "Boolean",
+  /** Date */
+  Date = "Date"
+}
+
+/**
+ * Defines values for StoredProcedureParameterType. \
+ * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **String** \
+ * **Int** \
+ * **Int64** \
+ * **Decimal** \
+ * **Guid** \
+ * **Boolean** \
+ * **Date**
+ */
+export type StoredProcedureParameterType = string;
+
 /** Known values of {@link OraclePartitionOption} that the service accepts. */
 export enum KnownOraclePartitionOption {
   /** None */
@@ -12280,39 +12380,6 @@ export enum KnownNetezzaPartitionOption {
  * **DynamicRange**
  */
 export type NetezzaPartitionOption = string;
-
-/** Known values of {@link StoredProcedureParameterType} that the service accepts. */
-export enum KnownStoredProcedureParameterType {
-  /** String */
-  String = "String",
-  /** Int */
-  Int = "Int",
-  /** Int64 */
-  Int64 = "Int64",
-  /** Decimal */
-  Decimal = "Decimal",
-  /** Guid */
-  Guid = "Guid",
-  /** Boolean */
-  Boolean = "Boolean",
-  /** Date */
-  Date = "Date"
-}
-
-/**
- * Defines values for StoredProcedureParameterType. \
- * {@link KnownStoredProcedureParameterType} can be used interchangeably with StoredProcedureParameterType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **String** \
- * **Int** \
- * **Int64** \
- * **Decimal** \
- * **Guid** \
- * **Boolean** \
- * **Date**
- */
-export type StoredProcedureParameterType = string;
 
 /** Known values of {@link NotebookParameterType} that the service accepts. */
 export enum KnownNotebookParameterType {
@@ -13240,57 +13307,6 @@ export enum KnownSqlPartitionOption {
  * **DynamicRange**
  */
 export type SqlPartitionOption = string;
-
-/** Known values of {@link SapHanaPartitionOption} that the service accepts. */
-export enum KnownSapHanaPartitionOption {
-  /** None */
-  None = "None",
-  /** PhysicalPartitionsOfTable */
-  PhysicalPartitionsOfTable = "PhysicalPartitionsOfTable",
-  /** SapHanaDynamicRange */
-  SapHanaDynamicRange = "SapHanaDynamicRange"
-}
-
-/**
- * Defines values for SapHanaPartitionOption. \
- * {@link KnownSapHanaPartitionOption} can be used interchangeably with SapHanaPartitionOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **PhysicalPartitionsOfTable** \
- * **SapHanaDynamicRange**
- */
-export type SapHanaPartitionOption = string;
-
-/** Known values of {@link SapTablePartitionOption} that the service accepts. */
-export enum KnownSapTablePartitionOption {
-  /** None */
-  None = "None",
-  /** PartitionOnInt */
-  PartitionOnInt = "PartitionOnInt",
-  /** PartitionOnCalendarYear */
-  PartitionOnCalendarYear = "PartitionOnCalendarYear",
-  /** PartitionOnCalendarMonth */
-  PartitionOnCalendarMonth = "PartitionOnCalendarMonth",
-  /** PartitionOnCalendarDate */
-  PartitionOnCalendarDate = "PartitionOnCalendarDate",
-  /** PartitionOnTime */
-  PartitionOnTime = "PartitionOnTime"
-}
-
-/**
- * Defines values for SapTablePartitionOption. \
- * {@link KnownSapTablePartitionOption} can be used interchangeably with SapTablePartitionOption,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **PartitionOnInt** \
- * **PartitionOnCalendarYear** \
- * **PartitionOnCalendarMonth** \
- * **PartitionOnCalendarDate** \
- * **PartitionOnTime**
- */
-export type SapTablePartitionOption = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "None" | "SystemAssigned";
 /** Defines values for DayOfWeek. */

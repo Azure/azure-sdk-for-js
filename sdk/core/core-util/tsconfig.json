@@ -2,8 +2,7 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
-    "verbatimModuleSyntax": true,
+    "declarationDir": "./types/latest"
   },
-  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"]
 }

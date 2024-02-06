@@ -39,7 +39,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest,
+        isUpsertTest
       );
       let permission = user.permission(createdPermission.id);
       assert.equal(createdPermission.id, "new permission", "permission name error");
@@ -66,12 +66,12 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest,
+        isUpsertTest
       );
       assert.equal(
         replacedPermission.permissionMode,
         PermissionMode.All,
-        "permission mode should change",
+        "permission mode should change"
       );
       assert.equal(permissionDef.id, replacedPermission.id, "permission id should stay the same");
 
@@ -100,7 +100,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
     };
 
     const permissionCRUDOverMultiplePartitionsTest = async function (
-      isUpsertTest: boolean,
+      isUpsertTest: boolean
     ): Promise<void> {
       // create database
       // create container
@@ -112,7 +112,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       const container = await getTestContainer(
         "permission CRUD over multiple partitions",
         undefined,
-        containerDefinition,
+        containerDefinition
       );
 
       // create user
@@ -135,7 +135,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDefinition,
         undefined,
-        isUpsertTest,
+        isUpsertTest
       );
       const permissionDef = response.resource;
       let permission = user.permission(permissionDef.id);
@@ -143,7 +143,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         JSON.stringify(permissionDef.resourcePartitionKey),
         JSON.stringify(permissionDefinition.resourcePartitionKey),
-        "permission resource partition key error",
+        "permission resource partition key error"
       );
 
       // list permissions after creation
@@ -169,18 +169,18 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         user,
         permissionDef,
         undefined,
-        isUpsertTest,
+        isUpsertTest
       );
       assert.equal(
         replacedPermission.permissionMode,
         PermissionMode.All,
-        "permission mode should change",
+        "permission mode should change"
       );
       assert.equal(replacedPermission.id, permissionDef.id, "permission id should stay the same");
       assert.equal(
         JSON.stringify(replacedPermission.resourcePartitionKey),
         JSON.stringify(permissionDef.resourcePartitionKey),
-        "permission resource partition key error",
+        "permission resource partition key error"
       );
 
       // to change the id of an existing resourcewe have to use replace

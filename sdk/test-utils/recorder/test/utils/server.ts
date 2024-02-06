@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import express from "express";
-import { randomUUID } from "@azure/core-util";
+import { v4 as uuidv4 } from "uuid";
 
 const app = express();
 const port = 8080;
@@ -72,7 +72,7 @@ app.post("/api/sample_request_body", function (req, res) {
 });
 
 app.get("/api/sample_uuid_in_header", function (_, res) {
-  res.header("your_uuid", randomUUID());
+  res.header("your_uuid", uuidv4());
   res.send();
 });
 

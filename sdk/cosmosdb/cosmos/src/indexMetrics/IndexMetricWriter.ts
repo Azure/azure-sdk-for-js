@@ -23,7 +23,7 @@ export class IndexMetricWriter {
 
   protected writeIndexUtilizationInfo(
     result: string,
-    indexUtilizationInfo: IndexUtilizationInfo,
+    indexUtilizationInfo: IndexUtilizationInfo
   ): string {
     result = this.appendHeaderToResult(result, Constants.UtilizedSingleIndexes, 1);
 
@@ -56,17 +56,17 @@ export class IndexMetricWriter {
 
   private writeSingleIndexUtilizationEntity(
     result: string,
-    indexUtilizationEntity: SingleIndexUtilizationEntity,
+    indexUtilizationEntity: SingleIndexUtilizationEntity
   ): string {
     result = this.appendHeaderToResult(
       result,
       `${Constants.IndexExpression}: ${indexUtilizationEntity.IndexSpec}`,
-      2,
+      2
     );
     result = this.appendHeaderToResult(
       result,
       `${Constants.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
-      2,
+      2
     );
     result = this.appendHeaderToResult(result, Constants.IndexUtilizationSeparator, 2);
     return result;
@@ -74,17 +74,17 @@ export class IndexMetricWriter {
 
   private writeCompositeIndexUtilizationEntity(
     result: string,
-    indexUtilizationEntity: CompositeIndexUtilizationEntity,
+    indexUtilizationEntity: CompositeIndexUtilizationEntity
   ): string {
     result = this.appendHeaderToResult(
       result,
       `${Constants.IndexExpression}: ${indexUtilizationEntity.IndexSpecs.join(", ")}`,
-      2,
+      2
     );
     result = this.appendHeaderToResult(
       result,
       `${Constants.IndexImpactScore}: ${indexUtilizationEntity.IndexImpactScore}`,
-      2,
+      2
     );
     result = this.appendHeaderToResult(result, Constants.IndexUtilizationSeparator, 2);
     return result;

@@ -11,17 +11,16 @@ import {
 } from "@azure/storage-file-datalake";
 
 // Expects the .env file at the same level as the "test" folder
-import dotenv from "dotenv";
-import { randomUUID } from "@azure/core-util";
-
+import * as dotenv from "dotenv";
+import { v4 as generateUuid } from "uuid";
 dotenv.config();
 
 export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
   datalakeServiceClient: DataLakeServiceClient;
   fileSystemClient: DataLakeFileSystemClient;
   directoryClient: DataLakeDirectoryClient;
-  static fileSystemName = randomUUID();
-  static directoryName = randomUUID();
+  static fileSystemName = generateUuid();
+  static directoryName = generateUuid();
 
   constructor() {
     super();
@@ -32,11 +31,11 @@ export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
 
     this.datalakeServiceClient = new DataLakeServiceClient(
       `https://${accountName}.dfs.core.windows.net`,
-      sharedKeyCredential,
+      sharedKeyCredential
     );
 
     this.fileSystemClient = this.datalakeServiceClient.getFileSystemClient(
-      StorageDFSTest.fileSystemName,
+      StorageDFSTest.fileSystemName
     );
 
     this.directoryClient = this.fileSystemClient.getDirectoryClient(StorageDFSTest.directoryName);
@@ -54,7 +53,7 @@ export abstract class StorageDFSTest<TOptions> extends PerfTest<TOptions> {
 
 export function getValueInConnString(
   connectionString: string,
-  argument: "AccountName" | "AccountKey",
+  argument: "AccountName" | "AccountKey"
 ) {
   const elements = connectionString.split(";");
   for (const element of elements) {

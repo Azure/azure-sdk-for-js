@@ -1,25 +1,14 @@
 # Release History
 
-## 4.1.0-beta.1 (2024-02-06)
+## 4.0.1 (Unreleased)
 
 ### Features Added
 
-- `AzureCliCredential`: Added support for the new response field which represents token expiration timestamp as time zone agnostic value. ([#28333](https://github.com/Azure/azure-sdk-for-js/pull/28333))
+### Breaking Changes
 
 ### Bugs Fixed
 
-- `new DefaultAzureCredential()` will no longer throw when one of the credentials in the chain fails to instantiate. Any creation errors will be logged when `getToken` is called. [#28264](https://github.com/Azure/azure-sdk-for-js/pull/28264)
-
-## 4.0.1 (2024-01-18)
-
-### Bugs Fixed
-- Initialize Public Client Application in the Interactive Browser Credential, as required by @azure/msal-browser v3 fixed in [#28292](https://github.com/Azure/azure-sdk-for-js/pull/28292). 
-
-## 3.4.1 (2023-11-13)
-
-### Bugs Fixed
-
-- Fixed regressions introduced by 3.4.0 [#27761](https://github.com/Azure/azure-sdk-for-js/pull/27761)
+### Other Changes
 
 ## 4.0.0 (2023-11-07)
 
@@ -28,12 +17,6 @@
 
 ### Breaking Changes
 - Starting with v4.0.0 of `@azure/identity`, Node.js v20 will be supported and Node.js v16 will no longer be supported.
-
-## 3.4.0 (2023-11-07)
-
-## Features Added
-
-- Upgraded version of @azure/msal-node to v2.5.0 to support all versions of Node.js - Node 16, Node 18 and Node 20.
 
 ## 4.0.0-beta.1 (2023-10-26)
 

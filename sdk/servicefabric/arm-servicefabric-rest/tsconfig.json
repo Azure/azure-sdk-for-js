@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/arm-servicefabric": ["./src/index"] },
+    "paths": { "@azure-rest/arm-servicefabric": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

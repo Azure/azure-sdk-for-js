@@ -11,6 +11,19 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface CloudError {
+    error?: CloudErrorBody;
+}
+
+// @public
+export interface CloudErrorBody {
+    code?: string;
+    details?: CloudErrorBody[];
+    message?: string;
+    target?: string;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -31,26 +44,6 @@ export interface DistributeVersionerSource extends DistributeVersioner {
 
 // @public (undocumented)
 export type DistributeVersionerUnion = DistributeVersioner | DistributeVersionerLatest | DistributeVersionerSource;
-
-// @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
 
 // @public
 export function getContinuationToken(page: unknown): string | undefined;
@@ -84,7 +77,6 @@ export interface ImageTemplate extends TrackedResource {
     buildTimeoutInMinutes?: number;
     customize?: ImageTemplateCustomizerUnion[];
     distribute?: ImageTemplateDistributorUnion[];
-    errorHandling?: ImageTemplatePropertiesErrorHandling;
     readonly exactStagingResourceGroup?: string;
     identity: ImageTemplateIdentity;
     readonly lastRunStatus?: ImageTemplateLastRunStatus;
@@ -213,12 +205,6 @@ export interface ImageTemplatePowerShellValidator extends ImageTemplateInVMValid
 }
 
 // @public
-export interface ImageTemplatePropertiesErrorHandling {
-    onCustomizerError?: OnBuildError;
-    onValidationError?: OnBuildError;
-}
-
-// @public
 export interface ImageTemplatePropertiesOptimize {
     vmBoot?: ImageTemplatePropertiesOptimizeVmBoot;
 }
@@ -288,15 +274,9 @@ export type ImageTemplateSourceUnion = ImageTemplateSource | ImageTemplatePlatfo
 // @public
 export interface ImageTemplateUpdateParameters {
     identity?: ImageTemplateIdentity;
-    properties?: ImageTemplateUpdateParametersProperties;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface ImageTemplateUpdateParametersProperties {
-    distribute?: ImageTemplateDistributorUnion[];
 }
 
 // @public
@@ -330,12 +310,6 @@ export enum KnownCreatedByType {
 }
 
 // @public
-export enum KnownOnBuildError {
-    Abort = "abort",
-    Cleanup = "cleanup"
-}
-
-// @public
 export enum KnownProvisioningErrorCode {
     BadCustomizerType = "BadCustomizerType",
     BadDistributeType = "BadDistributeType",
@@ -360,9 +334,6 @@ export enum KnownSharedImageStorageAccountType {
     StandardLRS = "Standard_LRS",
     StandardZRS = "Standard_ZRS"
 }
-
-// @public
-export type OnBuildError = string;
 
 // @public
 export interface Operation {
@@ -519,8 +490,8 @@ export type TriggerPropertiesUnion = TriggerProperties | SourceImageTriggerPrope
 export interface Triggers {
     beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TriggersCreateOrUpdateResponse>, TriggersCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, parameters: Trigger, options?: TriggersCreateOrUpdateOptionalParams): Promise<TriggersCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<TriggersDeleteResponse>, TriggersDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<TriggersDeleteResponse>;
+    beginDelete(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, imageTemplateName: string, triggerName: string, options?: TriggersGetOptionalParams): Promise<TriggersGetResponse>;
     listByImageTemplate(resourceGroupName: string, imageTemplateName: string, options?: TriggersListByImageTemplateOptionalParams): PagedAsyncIterableIterator<Trigger>;
 }
@@ -544,9 +515,6 @@ export interface TriggersDeleteOptionalParams extends coreClient.OperationOption
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type TriggersDeleteResponse = TriggersDeleteHeaders;
 
 // @public
 export interface TriggersGetOptionalParams extends coreClient.OperationOptions {
@@ -588,8 +556,8 @@ export interface VirtualMachineImageTemplates {
     beginCancelAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesCancelOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesCreateOrUpdateResponse>, VirtualMachineImageTemplatesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplate, options?: VirtualMachineImageTemplatesCreateOrUpdateOptionalParams): Promise<VirtualMachineImageTemplatesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesDeleteResponse>, VirtualMachineImageTemplatesDeleteResponse>>;
-    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<VirtualMachineImageTemplatesDeleteResponse>;
+    beginDelete(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesDeleteOptionalParams): Promise<void>;
     beginRun(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRunAndWait(resourceGroupName: string, imageTemplateName: string, options?: VirtualMachineImageTemplatesRunOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, imageTemplateName: string, parameters: ImageTemplateUpdateParameters, options?: VirtualMachineImageTemplatesUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineImageTemplatesUpdateResponse>, VirtualMachineImageTemplatesUpdateResponse>>;
@@ -626,9 +594,6 @@ export interface VirtualMachineImageTemplatesDeleteOptionalParams extends coreCl
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
-
-// @public
-export type VirtualMachineImageTemplatesDeleteResponse = VirtualMachineImageTemplatesDeleteHeaders;
 
 // @public
 export interface VirtualMachineImageTemplatesGetOptionalParams extends coreClient.OperationOptions {

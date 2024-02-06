@@ -8,11 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DatadogMonitorResource,
-  MonitorsCreateOptionalParams,
-  MicrosoftDatadogClient
-} from "@azure/arm-datadog";
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -31,35 +27,11 @@ async function monitorsCreate() {
   const resourceGroupName =
     process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
-  const body: DatadogMonitorResource = {
-    name: "myMonitor",
-    location: "West US",
-    properties: {
-      datadogOrganizationProperties: {
-        name: "myOrg",
-        cspm: false,
-        enterpriseAppId: "00000000-0000-0000-0000-000000000000",
-        id: "myOrg123",
-        linkingAuthCode: "someAuthCode",
-        linkingClientId: "00000000-0000-0000-0000-000000000000"
-      },
-      monitoringStatus: "Enabled",
-      userInfo: {
-        name: "Alice",
-        emailAddress: "alice@microsoft.com",
-        phoneNumber: "123-456-7890"
-      }
-    },
-    sku: { name: "free_Monthly" },
-    tags: { environment: "Dev" }
-  };
-  const options: MonitorsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.monitors.beginCreateAndWait(
     resourceGroupName,
-    monitorName,
-    options
+    monitorName
   );
   console.log(result);
 }

@@ -14,9 +14,9 @@ export {
   getAudioTranscription,
   getAudioTranslation,
   getChatCompletions,
-  getImages,
-  streamChatCompletions,
-  streamCompletions,
-  getEmbeddings,
   getCompletions,
-} from "./client/openAIClient/index.js";
+  getEmbeddings,
+  getImages,
+  listChatCompletions,
+  listCompletions,
+} from "./operations.js";

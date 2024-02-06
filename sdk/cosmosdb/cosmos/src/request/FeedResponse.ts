@@ -10,7 +10,7 @@ export class FeedResponse<TResource> {
     public readonly resources: TResource[],
     private readonly headers: CosmosHeaders,
     public readonly hasMoreResults: boolean,
-    public readonly diagnostics: CosmosDiagnostics,
+    public readonly diagnostics: CosmosDiagnostics
   ) {}
 
   public get continuation(): string {
@@ -32,7 +32,7 @@ export class FeedResponse<TResource> {
     const writer = new IndexMetricWriter();
     const indexUtilizationInfo = IndexUtilizationInfo.createFromString(
       this.headers[Constants.HttpHeaders.IndexUtilization],
-      true,
+      true
     );
     return writer.writeIndexMetrics(indexUtilizationInfo);
   }

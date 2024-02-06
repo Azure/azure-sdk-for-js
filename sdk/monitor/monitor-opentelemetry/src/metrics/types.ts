@@ -16,7 +16,6 @@ export interface StandardMetricBaseDimensions {
 export interface MetricRequestDimensions extends StandardMetricBaseDimensions {
   requestSuccess?: string;
   requestResultCode?: string;
-  operationSynthetic?: string;
 }
 
 export interface MetricDependencyDimensions extends StandardMetricBaseDimensions {
@@ -24,7 +23,6 @@ export interface MetricDependencyDimensions extends StandardMetricBaseDimensions
   dependencyTarget?: string;
   dependencySuccess?: string;
   dependencyResultCode?: string;
-  operationSynthetic?: string;
 }
 
 export enum StandardMetricNames {
@@ -42,32 +40,3 @@ export enum PerformanceCounterMetricNames {
   REQUEST_RATE = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Requests/Sec",
   REQUEST_DURATION = "\\ASP.NET Applications(??APP_W3SVC_PROC??)\\Request Execution Time",
 }
-
-export type MetricDimensionTypeKeys =
-  | "cloudRoleInstance"
-  | "cloudRoleName"
-  | "requestSuccess"
-  | "requestResultCode"
-  | "dependencyType"
-  | "dependencyTarget"
-  | "dependencySuccess"
-  | "dependencyResultCode"
-  | "traceSeverityLevel"
-  | "operationSynthetic"
-  | "metricId"
-  | "IsAutocollected";
-
-export const StandardMetricPropertyNames: { [key in MetricDimensionTypeKeys]: string } = {
-  cloudRoleInstance: "cloud/roleInstance",
-  cloudRoleName: "cloud/roleName",
-  operationSynthetic: "operation/synthetic",
-  requestSuccess: "Request.Success",
-  requestResultCode: "request/resultCode",
-  dependencyType: "Dependency.Type",
-  dependencyTarget: "dependency/target",
-  dependencySuccess: "Dependency.Success",
-  dependencyResultCode: "dependency/resultCode",
-  traceSeverityLevel: "trace/severityLevel",
-  metricId: "_MS.MetricId",
-  IsAutocollected: "_MS.IsAutocollected",
-};

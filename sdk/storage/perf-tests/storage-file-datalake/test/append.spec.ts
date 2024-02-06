@@ -4,8 +4,7 @@
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
-import { randomUUID } from "@azure/core-util";
-
+import { v4 as generateUuid } from "uuid";
 interface StorageDFSAppendTestOptions {
   size: number;
 }
@@ -25,7 +24,7 @@ export class StorageDFSAppendTest extends StorageDFSTest<StorageDFSAppendTestOpt
 
   constructor() {
     super();
-    this.fileClient = this.directoryClient.getFileClient(randomUUID());
+    this.fileClient = this.directoryClient.getFileClient(generateUuid());
     this.buffer = Buffer.alloc(this.parsedOptions.size.value!);
   }
 

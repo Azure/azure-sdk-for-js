@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the status of the restore for a volume
  *
  * @summary Get the status of the restore for a volume
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Volumes_RestoreStatus.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Volumes_RestoreStatus.json
  */
 async function volumesRestoreStatus() {
   const subscriptionId =

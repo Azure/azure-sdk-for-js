@@ -21,7 +21,7 @@ export async function finish(): Promise<void> {
     console.log("\nEnd of demo.");
   } catch (err: any) {
     console.log(
-      `Database: "${dbId}" might not have deleted properly. You might need to delete it manually.`,
+      `Database: "${dbId}" might not have deleted properly. You might need to delete it manually.`
     );
     process.exitCode = 1;
   }

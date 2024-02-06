@@ -13,10 +13,7 @@ import {
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { FeedOptions } from "../request";
 import { Response } from "../request";
-import {
-  DefaultQueryExecutionContext,
-  FetchFunctionCallback,
-} from "./defaultQueryExecutionContext";
+import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./index";
@@ -48,8 +45,7 @@ export class DocumentProducer {
     collectionLink: string,
     query: SqlQuerySpec,
     targetPartitionKeyRange: PartitionKeyRange,
-    options: FeedOptions,
-    correlatedActivityId: string,
+    options: FeedOptions
   ) {
     // TODO: any options
     this.collectionLink = collectionLink;
@@ -64,11 +60,7 @@ export class DocumentProducer {
     this.continuationToken = undefined;
     this.respHeaders = getInitialHeader();
 
-    this.internalExecutionContext = new DefaultQueryExecutionContext(
-      options,
-      this.fetchFunction,
-      correlatedActivityId,
-    );
+    this.internalExecutionContext = new DefaultQueryExecutionContext(options, this.fetchFunction);
   }
   /**
    * Synchronously gives the contiguous buffered results (stops at the first non result) if any
@@ -94,10 +86,9 @@ export class DocumentProducer {
     return bufferedResults;
   }
 
-  public fetchFunction: FetchFunctionCallback = async (
+  public fetchFunction = async (
     diagnosticNode: DiagnosticNodeInternal,
-    options: FeedOptions,
-    correlatedActivityId: string,
+    options: FeedOptions
   ): Promise<Response<Resource>> => {
     const path = getPathFromLink(this.collectionLink, ResourceType.item);
     diagnosticNode.addData({ partitionKeyRangeId: this.targetPartitionKeyRange.id });
@@ -112,7 +103,6 @@ export class DocumentProducer {
       options,
       diagnosticNode,
       partitionKeyRangeId: this.targetPartitionKeyRange["id"],
-      correlatedActivityId,
     });
   };
 

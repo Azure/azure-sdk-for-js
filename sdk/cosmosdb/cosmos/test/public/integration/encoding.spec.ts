@@ -49,7 +49,7 @@ describe("Create And Read Validation", function (this: Suite) {
     assert.equal(
       testDoc.content,
       resultDoc.content,
-      "read document result is different from initial document",
+      "read document result is different from initial document"
     );
   });
 });

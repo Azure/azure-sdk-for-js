@@ -28,10 +28,7 @@ class MockSpan implements TracingSpan {
   status?: SpanStatus;
   exceptions: Array<Error | string> = [];
 
-  constructor(
-    public name: string,
-    spanOptions: TracingSpanOptions = {},
-  ) {
+  constructor(public name: string, spanOptions: TracingSpanOptions = {}) {
     this.spanAttributes = spanOptions.spanAttributes ?? {};
   }
 
@@ -81,7 +78,7 @@ class MockInstrumenter implements Instrumenter {
   }
   startSpan(
     name: string,
-    spanOptions: InstrumenterSpanOptions,
+    spanOptions: InstrumenterSpanOptions
   ): {
     span: TracingSpan;
     tracingContext: TracingContext;
@@ -99,7 +96,7 @@ class MockInstrumenter implements Instrumenter {
   }
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
   >(
     _context: TracingContext,
     callback: Callback,

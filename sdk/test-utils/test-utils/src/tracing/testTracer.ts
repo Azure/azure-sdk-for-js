@@ -18,10 +18,7 @@ import { SpanGraph, SpanGraphNode } from "./spanGraphModel";
  * A mock tracer useful for testing
  */
 export class TestTracer implements Tracer {
-  constructor(
-    public name?: string,
-    public version?: string,
-  ) {}
+  constructor(public name?: string, public version?: string) {}
   private traceIdCounter = 0;
   private getNextTraceId(): string {
     this.traceIdCounter++;
@@ -84,7 +81,7 @@ export class TestTracer implements Tracer {
         const parent = nodeMap.get(span.parentSpanId);
         if (!parent) {
           throw new Error(
-            `Span with name ${node.name} has an unknown parentSpan with id ${span.parentSpanId}`,
+            `Span with name ${node.name} has an unknown parentSpan with id ${span.parentSpanId}`
           );
         }
         parent.children.push(node);
@@ -128,7 +125,7 @@ export class TestTracer implements Tracer {
       options?.kind || SpanKind.INTERNAL,
       parentContext ? parentContext.spanId : undefined,
       options?.startTime,
-      options?.attributes,
+      options?.attributes
     );
     this.knownSpans.push(span);
     if (isRootSpan) {

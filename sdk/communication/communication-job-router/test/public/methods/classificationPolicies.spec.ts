@@ -29,18 +29,19 @@ describe("JobRouterClient", function () {
 
   describe("Classification Policy Operations", function () {
     this.beforeEach(async function (this: Context) {
-      ({ administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
+        this
+      ));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest,
+        distributionPolicyRequest
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
       await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest,
+        classificationPolicyRequest
       );
     });
 
@@ -58,7 +59,7 @@ describe("JobRouterClient", function () {
     it("should create a classification policy", async function () {
       const result = await administrationClient.createClassificationPolicy(
         classificationPolicyId,
-        classificationPolicyRequest,
+        classificationPolicyRequest
       );
 
       assert.isDefined(result);
@@ -77,13 +78,13 @@ describe("JobRouterClient", function () {
       const updatePatch = { ...classificationPolicyRequest, name: "new name" };
       const updateResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
-        updatePatch,
+        updatePatch
       );
 
       const removePatch = { ...classificationPolicyRequest, name: null! };
       const removeResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
-        removePatch,
+        removePatch
       );
 
       assert.isDefined(updateResult);

@@ -45,10 +45,7 @@ export class WebPubSubEventHandler {
    * @param hub - The name of the hub to listen to
    * @param options - Options to configure the event handler
    */
-  constructor(
-    private hub: string,
-    options?: WebPubSubEventHandlerOptions,
-  ) {
+  constructor(private hub: string, options?: WebPubSubEventHandlerOptions) {
     const path = (options?.path ?? `/api/webpubsub/hubs/${hub}/`).toLowerCase();
     this.path = path.endsWith("/") ? path : path + "/";
     this._cloudEventsHandler = new CloudEventsDispatcher(this.hub, options);
@@ -61,7 +58,7 @@ export class WebPubSubEventHandler {
     return async (
       req: express.Request,
       res: express.Response,
-      next: express.NextFunction,
+      next: express.NextFunction
     ): Promise<void> => {
       // Request originalUrl can contain query while baseUrl + path not
       let requestUrl = (req.baseUrl + req.path).toLowerCase();

@@ -350,7 +350,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
       (connectionObject as any)[key] = value.join("=");
       return connectionObject;
     },
-    {} as ConnectionObject,
+    {} as ConnectionObject
   );
   if (!AccountEndpoint || !AccountKey) {
     throw new Error("Could not parse the provided connection string");

@@ -29,10 +29,7 @@ function defer<T>(): {
 
 class SimpleWebSocketFrame {
   public dataAsString: string | undefined;
-  constructor(
-    public data: Buffer | ArrayBuffer | Buffer[],
-    public isBinary: boolean,
-  ) {
+  constructor(public data: Buffer | ArrayBuffer | Buffer[], public isBinary: boolean) {
     if (!isBinary) {
       this.dataAsString = data.toString();
     }
@@ -105,7 +102,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
+      hub
     );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
@@ -149,7 +146,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
+      hub
     );
     const token = await serviceClient.getClientAccessToken({
       groups: ["group1", "group2"],
@@ -190,7 +187,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
 
     // order from different groups is not guaranteed
     assert.isTrue(
-      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1,
+      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1
     );
     assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
   });
@@ -203,7 +200,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
+      hub
     );
     const token = await serviceClient.getClientAccessToken();
     const endSignal = defer<void>();
@@ -243,11 +240,11 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[0].message.event, "connected");
     assert.equal(
       messages[1].dataAsString,
-      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}',
+      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}'
     );
     assert.equal(
       messages[2].dataAsString,
-      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}',
+      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}'
     );
   });
 
@@ -260,7 +257,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
+      hub
     );
     const token = await serviceClient.getClientAccessToken({ groups: ["groupA"] });
     const endSignal = defer<void>();
@@ -280,7 +277,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
       // Send a JSON message to anonymous connections
       await serviceClient.sendToAll(
         { message: "Hello world!" },
-        { filter: "userId eq null", messageTtlSeconds: 60 },
+        { filter: "userId eq null", messageTtlSeconds: 60 }
       );
       // Send a text message to connections in groupA but not in groupB
       const groupA = "groupA";
@@ -312,7 +309,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // Get token
     const serviceClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
+      hub
     );
     const token = await serviceClient.getClientAccessToken({ userId: "user 1" });
     const startSignal = defer<void>();
@@ -350,7 +347,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     // send to connections in both group1 and group2
     await serviceClient.sendToAll(
       { message: "Hi json!" },
-      { filter: "'group1 1' in groups and 'group2' in groups" },
+      { filter: "'group1 1' in groups and 'group2' in groups" }
     );
 
     // Send a plain text message

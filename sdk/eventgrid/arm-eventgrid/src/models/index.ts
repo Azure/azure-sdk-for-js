@@ -78,9 +78,6 @@ export type AdvancedFilterUnion =
   | StringNotContainsAdvancedFilter
   | IsNullOrUndefinedAdvancedFilter
   | IsNotNullAdvancedFilter;
-export type StaticRoutingEnrichmentUnion =
-  | StaticRoutingEnrichment
-  | StaticStringRoutingEnrichment;
 export type PartnerClientAuthenticationUnion =
   | PartnerClientAuthentication
   | AzureADPartnerClientAuthentication;
@@ -807,16 +804,15 @@ export interface TopicSpacesConfiguration {
 }
 
 export interface RoutingEnrichments {
-  static?: StaticRoutingEnrichmentUnion[];
+  static?: StaticRoutingEnrichment[];
   dynamic?: DynamicRoutingEnrichment[];
 }
 
-/** Static routing enrichment details. */
 export interface StaticRoutingEnrichment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  valueType: "String";
   /** Static routing enrichment key. */
   key?: string;
+  /** Static routing enrichment value type. For e.g. this property value can be 'String'. */
+  valueType?: StaticRoutingEnrichmentType;
 }
 
 export interface DynamicRoutingEnrichment {
@@ -2236,13 +2232,6 @@ export interface IsNullOrUndefinedAdvancedFilter extends AdvancedFilter {
 export interface IsNotNullAdvancedFilter extends AdvancedFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   operatorType: "IsNotNull";
-}
-
-export interface StaticStringRoutingEnrichment extends StaticRoutingEnrichment {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  valueType: "String";
-  /** String type routing enrichment value. */
-  value?: string;
 }
 
 /** Azure Active Directory Partner Client Authentication */

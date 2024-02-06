@@ -27,13 +27,13 @@ export class PartitionKeyRangeCache {
   public async onCollectionRoutingMap(
     collectionLink: string,
     diagnosticNode: DiagnosticNodeInternal,
-    forceRefresh: boolean = false,
+    forceRefresh: boolean = false
   ): Promise<InMemoryCollectionRoutingMap> {
     const collectionId = getIdFromLink(collectionLink);
     if (this.collectionRoutingMapByCollectionId[collectionId] === undefined || forceRefresh) {
       this.collectionRoutingMapByCollectionId[collectionId] = this.requestCollectionRoutingMap(
         collectionLink,
-        diagnosticNode,
+        diagnosticNode
       );
     }
     return this.collectionRoutingMapByCollectionId[collectionId];
@@ -47,7 +47,7 @@ export class PartitionKeyRangeCache {
     collectionLink: string,
     queryRange: QueryRange,
     diagnosticNode: DiagnosticNodeInternal,
-    forceRefresh: boolean = false,
+    forceRefresh: boolean = false
   ): Promise<PartitionKeyRange[]> {
     const crm = await this.onCollectionRoutingMap(collectionLink, diagnosticNode, forceRefresh);
     return crm.getOverlappingRanges(queryRange);
@@ -55,7 +55,7 @@ export class PartitionKeyRangeCache {
 
   private async requestCollectionRoutingMap(
     collectionLink: string,
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<InMemoryCollectionRoutingMap> {
     const { resources } = await withMetadataDiagnostics(
       async (metadataDiagnostics: DiagnosticNodeInternal) => {
@@ -64,7 +64,7 @@ export class PartitionKeyRangeCache {
           .fetchAllInternal(metadataDiagnostics);
       },
       diagnosticNode,
-      MetadataLookUpType.PartitionKeyRangeLookUp,
+      MetadataLookUpType.PartitionKeyRangeLookUp
     );
     return createCompleteRoutingMap(resources.map((r) => [r, true]));
   }

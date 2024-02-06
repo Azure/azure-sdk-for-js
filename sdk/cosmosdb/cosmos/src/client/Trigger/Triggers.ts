@@ -25,7 +25,7 @@ export class Triggers {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -101,7 +101,7 @@ export class Triggers {
         response.headers,
         response.code,
         ref,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

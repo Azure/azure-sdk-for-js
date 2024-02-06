@@ -25,7 +25,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         database,
         { id: "new user" },
         undefined,
-        isUpsertTest,
+        isUpsertTest
       );
       assert.equal(userDef.id, "new user", "user name error");
       let user = database.user(userDef.id);

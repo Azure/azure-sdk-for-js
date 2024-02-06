@@ -19,7 +19,6 @@ import {
   UpdateNetworkSiblingSetRequest as UpdateNetworkSiblingSetRequestMapper,
   NetAppAccount as NetAppAccountMapper,
   NetAppAccountPatch as NetAppAccountPatchMapper,
-  EncryptionMigrationRequest as EncryptionMigrationRequestMapper,
   CapacityPool as CapacityPoolMapper,
   CapacityPoolPatch as CapacityPoolPatchMapper,
   Volume as VolumeMapper,
@@ -36,19 +35,13 @@ import {
   SnapshotRestoreFiles as SnapshotRestoreFilesMapper,
   SnapshotPolicy as SnapshotPolicyMapper,
   SnapshotPolicyPatch as SnapshotPolicyPatchMapper,
-  Backup as BackupMapper,
-  BackupPatch as BackupPatchMapper,
   BackupPolicy as BackupPolicyMapper,
   BackupPolicyPatch as BackupPolicyPatchMapper,
   VolumeQuotaRule as VolumeQuotaRuleMapper,
   VolumeQuotaRulePatch as VolumeQuotaRulePatchMapper,
   VolumeGroupDetails as VolumeGroupDetailsMapper,
   SubvolumeInfo as SubvolumeInfoMapper,
-  SubvolumePatchRequest as SubvolumePatchRequestMapper,
-  BackupVault as BackupVaultMapper,
-  BackupVaultPatch as BackupVaultPatchMapper,
-  BackupRestoreFiles as BackupRestoreFilesMapper,
-  BackupsMigrationRequest as BackupsMigrationRequestMapper
+  SubvolumePatchRequest as SubvolumePatchRequestMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -78,7 +71,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-05-01-preview",
+    defaultValue: "2023-05-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -117,10 +110,13 @@ export const resourceGroup: OperationParameter = {
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
+    constraints: {
+      MinLength: 1
+    },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "Uuid"
+      name: "String"
     }
   }
 };
@@ -205,18 +201,6 @@ export const quotaLimitName: OperationURLParameter = {
   }
 };
 
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
@@ -256,9 +240,16 @@ export const body6: OperationParameter = {
   mapper: NetAppAccountPatchMapper
 };
 
-export const body7: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: EncryptionMigrationRequestMapper
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 
 export const poolName: OperationURLParameter = {
@@ -277,12 +268,12 @@ export const poolName: OperationURLParameter = {
   }
 };
 
-export const body8: OperationParameter = {
+export const body7: OperationParameter = {
   parameterPath: "body",
   mapper: CapacityPoolMapper
 };
 
-export const body9: OperationParameter = {
+export const body8: OperationParameter = {
   parameterPath: "body",
   mapper: CapacityPoolPatchMapper
 };
@@ -303,12 +294,12 @@ export const volumeName: OperationURLParameter = {
   }
 };
 
-export const body10: OperationParameter = {
+export const body9: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeMapper
 };
 
-export const body11: OperationParameter = {
+export const body10: OperationParameter = {
   parameterPath: "body",
   mapper: VolumePatchMapper
 };
@@ -323,42 +314,42 @@ export const forceDelete: OperationQueryParameter = {
   }
 };
 
-export const body12: OperationParameter = {
+export const body11: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeRevertMapper
 };
 
-export const body13: OperationParameter = {
+export const body12: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: BreakFileLocksRequestMapper
 };
 
-export const body14: OperationParameter = {
+export const body13: OperationParameter = {
   parameterPath: "body",
   mapper: GetGroupIdListForLdapUserRequestMapper
 };
 
-export const body15: OperationParameter = {
+export const body14: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: BreakReplicationRequestMapper
 };
 
-export const body16: OperationParameter = {
+export const body15: OperationParameter = {
   parameterPath: "body",
   mapper: ReestablishReplicationRequestMapper
 };
 
-export const body17: OperationParameter = {
+export const body16: OperationParameter = {
   parameterPath: "body",
   mapper: AuthorizeRequestMapper
 };
 
-export const body18: OperationParameter = {
+export const body17: OperationParameter = {
   parameterPath: "body",
   mapper: PoolChangeRequestMapper
 };
 
-export const body19: OperationParameter = {
+export const body18: OperationParameter = {
   parameterPath: ["options", "body"],
   mapper: RelocateVolumeRequestMapper
 };
@@ -374,12 +365,12 @@ export const snapshotName: OperationURLParameter = {
   }
 };
 
-export const body20: OperationParameter = {
+export const body19: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotMapper
 };
 
-export const body21: OperationParameter = {
+export const body20: OperationParameter = {
   parameterPath: "body",
   mapper: {
     serializedName: "body",
@@ -391,7 +382,7 @@ export const body21: OperationParameter = {
   }
 };
 
-export const body22: OperationParameter = {
+export const body21: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotRestoreFilesMapper
 };
@@ -407,72 +398,14 @@ export const snapshotPolicyName: OperationURLParameter = {
   }
 };
 
-export const body23: OperationParameter = {
+export const body22: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotPolicyMapper
 };
 
-export const body24: OperationParameter = {
+export const body23: OperationParameter = {
   parameterPath: "body",
   mapper: SnapshotPolicyPatchMapper
-};
-
-export const backupVaultName: OperationURLParameter = {
-  parameterPath: "backupVaultName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_]{0,63}$")
-    },
-    serializedName: "backupVaultName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const filter: OperationQueryParameter = {
-  parameterPath: ["options", "filter"],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const backupName: OperationURLParameter = {
-  parameterPath: "backupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9][a-zA-Z0-9\\-_]{0,255}$")
-    },
-    serializedName: "backupName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const body25: OperationParameter = {
-  parameterPath: "body",
-  mapper: BackupMapper
-};
-
-export const body26: OperationParameter = {
-  parameterPath: ["options", "body"],
-  mapper: BackupPatchMapper
-};
-
-export const includeOnlyBackupsFromDeletedVolumes: OperationQueryParameter = {
-  parameterPath: ["options", "includeOnlyBackupsFromDeletedVolumes"],
-  mapper: {
-    serializedName: "includeOnlyBackupsFromDeletedVolumes",
-    type: {
-      name: "String"
-    }
-  }
 };
 
 export const backupPolicyName: OperationURLParameter = {
@@ -486,12 +419,12 @@ export const backupPolicyName: OperationURLParameter = {
   }
 };
 
-export const body27: OperationParameter = {
+export const body24: OperationParameter = {
   parameterPath: "body",
   mapper: BackupPolicyMapper
 };
 
-export const body28: OperationParameter = {
+export const body25: OperationParameter = {
   parameterPath: "body",
   mapper: BackupPolicyPatchMapper
 };
@@ -507,12 +440,12 @@ export const volumeQuotaRuleName: OperationURLParameter = {
   }
 };
 
-export const body29: OperationParameter = {
+export const body26: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeQuotaRuleMapper
 };
 
-export const body30: OperationParameter = {
+export const body27: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeQuotaRulePatchMapper
 };
@@ -533,7 +466,7 @@ export const volumeGroupName: OperationURLParameter = {
   }
 };
 
-export const body31: OperationParameter = {
+export const body28: OperationParameter = {
   parameterPath: "body",
   mapper: VolumeGroupDetailsMapper
 };
@@ -554,32 +487,12 @@ export const subvolumeName: OperationURLParameter = {
   }
 };
 
-export const body32: OperationParameter = {
+export const body29: OperationParameter = {
   parameterPath: "body",
   mapper: SubvolumeInfoMapper
 };
 
-export const body33: OperationParameter = {
+export const body30: OperationParameter = {
   parameterPath: "body",
   mapper: SubvolumePatchRequestMapper
-};
-
-export const body34: OperationParameter = {
-  parameterPath: "body",
-  mapper: BackupVaultMapper
-};
-
-export const body35: OperationParameter = {
-  parameterPath: "body",
-  mapper: BackupVaultPatchMapper
-};
-
-export const body36: OperationParameter = {
-  parameterPath: "body",
-  mapper: BackupRestoreFilesMapper
-};
-
-export const body37: OperationParameter = {
-  parameterPath: "body",
-  mapper: BackupsMigrationRequestMapper
 };

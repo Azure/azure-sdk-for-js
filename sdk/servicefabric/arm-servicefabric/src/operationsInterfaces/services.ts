@@ -6,38 +6,23 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  ServiceResource,
-  ServicesListOptionalParams,
   ServicesGetOptionalParams,
   ServicesGetResponse,
+  ServiceResource,
   ServicesCreateOrUpdateOptionalParams,
   ServicesCreateOrUpdateResponse,
   ServiceResourceUpdate,
   ServicesUpdateOptionalParams,
   ServicesUpdateResponse,
-  ServicesDeleteOptionalParams
+  ServicesDeleteOptionalParams,
+  ServicesListOptionalParams,
+  ServicesListResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a Services. */
 export interface Services {
-  /**
-   * Gets all service resources created or in the process of being created in the Service Fabric
-   * application resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param applicationName The name of the application resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    applicationName: string,
-    options?: ServicesListOptionalParams
-  ): PagedAsyncIterableIterator<ServiceResource>;
   /**
    * Get a Service Fabric service resource created or in the process of being created in the Service
    * Fabric application resource.
@@ -73,8 +58,8 @@ export interface Services {
     parameters: ServiceResource,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   >;
@@ -114,8 +99,8 @@ export interface Services {
     parameters: ServiceResourceUpdate,
     options?: ServicesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<ServicesUpdateResponse>,
+    PollerLike<
+      PollOperationState<ServicesUpdateResponse>,
       ServicesUpdateResponse
     >
   >;
@@ -152,7 +137,7 @@ export interface Services {
     applicationName: string,
     serviceName: string,
     options?: ServicesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a Service Fabric service resource with the specified name.
    * @param resourceGroupName The name of the resource group.
@@ -169,4 +154,18 @@ export interface Services {
     serviceName: string,
     options?: ServicesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets all service resources created or in the process of being created in the Service Fabric
+   * application resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param applicationName The name of the application resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    clusterName: string,
+    applicationName: string,
+    options?: ServicesListOptionalParams
+  ): Promise<ServicesListResponse>;
 }

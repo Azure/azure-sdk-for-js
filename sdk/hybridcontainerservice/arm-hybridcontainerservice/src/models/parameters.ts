@@ -12,9 +12,10 @@ import {
   OperationQueryParameter
 } from "@azure/core-client";
 import {
-  ProvisionedCluster as ProvisionedClusterMapper,
+  ProvisionedClusters as ProvisionedClustersMapper,
   HybridIdentityMetadata as HybridIdentityMetadataMapper,
   AgentPool as AgentPoolMapper,
+  AgentPoolPatch as AgentPoolPatchMapper,
   KubernetesVersionProfile as KubernetesVersionProfileMapper,
   VmSkuProfile as VmSkuProfileMapper,
   VirtualNetwork as VirtualNetworkMapper,
@@ -60,7 +61,7 @@ export const connectedClusterResourceUri: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-01",
+    defaultValue: "2023-11-15-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -83,7 +84,7 @@ export const contentType: OperationParameter = {
 
 export const provisionedClusterInstance: OperationParameter = {
   parameterPath: "provisionedClusterInstance",
-  mapper: ProvisionedClusterMapper
+  mapper: ProvisionedClustersMapper
 };
 
 export const nextLink: OperationURLParameter = {
@@ -107,8 +108,10 @@ export const agentPoolName: OperationURLParameter = {
   parameterPath: "agentPoolName",
   mapper: {
     constraints: {
-      Pattern: new RegExp("^[a-z][a-z0-9]{2,11}$"),
-      MaxLength: 12,
+      Pattern: new RegExp(
+        "^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$"
+      ),
+      MaxLength: 64,
       MinLength: 3
     },
     serializedName: "agentPoolName",
@@ -122,6 +125,11 @@ export const agentPoolName: OperationURLParameter = {
 export const agentPool: OperationParameter = {
   parameterPath: "agentPool",
   mapper: AgentPoolMapper
+};
+
+export const agentPool1: OperationParameter = {
+  parameterPath: "agentPool",
+  mapper: AgentPoolPatchMapper
 };
 
 export const customLocationResourceUri: OperationURLParameter = {

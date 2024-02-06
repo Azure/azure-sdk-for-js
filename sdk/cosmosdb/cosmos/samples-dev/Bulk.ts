@@ -50,7 +50,7 @@ async function run() {
   const replaceItemId = addEntropy("item3");
   const patchItemId = addEntropy("item4");
   logStep(
-    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId},${patchItemId} for reading, deleting, replacing and patching`,
+    `Create items ${readItemId}, ${deleteItemId}, ${replaceItemId},${patchItemId} for reading, deleting, replacing and patching`
   );
   await v2Container.items.create({
     id: readItemId,
@@ -113,7 +113,7 @@ async function run() {
     },
   ];
   logStep(
-    `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`,
+    `Execute a simple bulk request with 5 operations: Create, Upsert, Read, Delete, Replace , Patch`
   );
   logStep("Bulk Operations Input to 'container.items.bulk(operations):'");
   console.log(operations);

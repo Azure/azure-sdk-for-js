@@ -5,7 +5,7 @@ import { ServiceClient } from "@azure/core-client";
 import { env, isPlaybackMode, Recorder } from "../src";
 import { TestMode } from "../src/utils/utils";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
-import { randomUUID } from "@azure/core-util";
+import { v4 as generateUuid } from "uuid";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -53,7 +53,7 @@ import { randomUUID } from "@azure/core-util";
           },
           {
             val: isPlaybackMode() ? "I am Variable1" : "I am the answer!",
-          },
+          }
         );
       });
     });
@@ -84,7 +84,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
       });
 
@@ -108,7 +108,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
       });
 
@@ -124,7 +124,7 @@ import { randomUUID } from "@azure/core-util";
         await makeRequestAndVerifyResponse(
           client,
           { path: `/sample_response`, method: "GET" },
-          { val: "abc" },
+          { val: "abc" }
         );
       });
 
@@ -158,7 +158,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "application/json" }],
           },
-          { bodyProvided: reqBody },
+          { bodyProvided: reqBody }
         );
       });
 
@@ -188,7 +188,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBody },
+          { bodyProvided: reqBody }
         );
       });
 
@@ -216,7 +216,7 @@ import { randomUUID } from "@azure/core-util";
             path: pathToHit,
             method: "POST",
           },
-          { bodyProvided: {} },
+          { bodyProvided: {} }
         );
       });
 
@@ -237,7 +237,7 @@ import { randomUUID } from "@azure/core-util";
             path: `/subscriptions/${isPlaybackMode() ? fakeId : id}`,
             method: "GET",
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
       });
 
@@ -263,7 +263,7 @@ import { randomUUID } from "@azure/core-util";
             path: `/api/sample_uuid_in_header`,
             method: "GET",
           },
-          undefined,
+          undefined
         );
 
         await makeRequestAndVerifyResponse(
@@ -278,7 +278,7 @@ import { randomUUID } from "@azure/core-util";
               },
             ],
           },
-          { val: "abc" },
+          { val: "abc" }
         );
       });
 
@@ -302,7 +302,7 @@ import { randomUUID } from "@azure/core-util";
             path: `/api/sample_uuid_in_header`,
             method: "GET",
           },
-          undefined,
+          undefined
         );
         // TODO: Add more tests to cover groupForReplace
       });
@@ -349,7 +349,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBody },
+          { bodyProvided: reqBody }
         );
 
         await recorder.addSanitizers({
@@ -366,7 +366,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { bodyProvided: reqBodyAfterReset },
+          { bodyProvided: reqBodyAfterReset }
         );
       });
     });
@@ -381,7 +381,7 @@ import { randomUUID } from "@azure/core-util";
           envSetupForPlayback: {},
         });
         // currentValue is dynamic
-        currentValue = randomUUID() + `-${env.TEST_MODE}`;
+        currentValue = generateUuid() + `-${env.TEST_MODE}`;
 
         // In record mode, the proxy tool santizes the value 'generateUuid() + `-${env.TEST_MODE}`' as fakeSecretValue
         // In playback mode, the proxy tool santizes the value before matching the request to fakeSecretValue and hence the request matches with what's in the recording
@@ -395,7 +395,7 @@ import { randomUUID } from "@azure/core-util";
               },
             ],
           },
-          ["record", "playback"],
+          ["record", "playback"]
         );
         await makeRequestAndVerifyResponse(
           client,
@@ -405,7 +405,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
       });
     });
@@ -428,7 +428,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
 
         await recorder.stop();
@@ -451,7 +451,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
 
         await recorder.stop();
@@ -469,7 +469,7 @@ import { randomUUID } from "@azure/core-util";
             method: "POST",
             headers: [{ headerName: "Content-Type", value: "text/plain" }],
           },
-          { val: "I am the answer!" },
+          { val: "I am the answer!" }
         );
 
         await recorder.stop();

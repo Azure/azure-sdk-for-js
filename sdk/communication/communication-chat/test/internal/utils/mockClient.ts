@@ -172,7 +172,7 @@ export const createChatClient = (mockHttpClient: HttpClient): ChatClient => {
 
 export const createChatThreadClient = (
   threadId: string,
-  mockHttpClient: HttpClient,
+  mockHttpClient: HttpClient
 ): ChatThreadClient => {
   return new ChatThreadClient(
     baseUri,
@@ -180,6 +180,6 @@ export const createChatThreadClient = (
     new AzureCommunicationTokenCredential(generateToken()),
     {
       httpClient: mockHttpClient,
-    },
+    }
   );
 };

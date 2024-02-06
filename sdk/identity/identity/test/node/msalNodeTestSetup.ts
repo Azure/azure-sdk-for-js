@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as util from "../../src/msal/utils";
-
+import Sinon, { createSandbox } from "sinon";
+import { MsalBaseUtilities } from "../../src/msal/utils";
+import { Recorder } from "@azure-tools/test-recorder";
 import {
   AuthenticationResult,
   ConfidentialClientApplication,
   PublicClientApplication,
 } from "@azure/msal-node";
-import Sinon, { createSandbox } from "sinon";
-
 import { PlaybackTenantId } from "../msalTestUtils";
-import { Recorder } from "@azure-tools/test-recorder";
 import { Test } from "mocha";
 
 export type MsalTestCleanup = () => Promise<void>;
@@ -24,7 +22,7 @@ export interface MsalTestSetupResponse {
 
 export async function msalNodeTestSetup(
   testContext?: Test,
-  playbackClientId?: string,
+  playbackClientId?: string
 ): Promise<{
   cleanup: MsalTestCleanup;
   recorder: Recorder;
@@ -38,7 +36,7 @@ export async function msalNodeTestSetup(stubbedToken: AuthenticationResult): Pro
 
 export async function msalNodeTestSetup(
   testContextOrStubbedToken?: Test | AuthenticationResult,
-  playbackClientId = "azure_client_id",
+  playbackClientId = "azure_client_id"
 ): Promise<MsalTestSetupResponse> {
   const playbackValues = {
     correlationId: "client-request-id",
@@ -46,7 +44,7 @@ export async function msalNodeTestSetup(
 
   const sandbox = createSandbox();
 
-  const stub = sandbox.stub(util, "randomUUID");
+  const stub = sandbox.stub(MsalBaseUtilities.prototype, "generateUuid");
   stub.returns(playbackValues.correlationId);
 
   if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
@@ -178,7 +176,7 @@ export async function msalNodeTestSetup(
           },
         ],
       },
-      ["record", "playback"],
+      ["record", "playback"]
     );
 
     return {
@@ -210,12 +208,12 @@ export async function msalNodeTestSetup(
     ];
 
     publicClientMethods.forEach((method) =>
-      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken),
+      sandbox.stub(PublicClientApplication.prototype, method).callsFake(async () => stubbedToken)
     );
     confidentialClientMethods.forEach((method) =>
       sandbox
         .stub(ConfidentialClientApplication.prototype, method)
-        .callsFake(async () => stubbedToken),
+        .callsFake(async () => stubbedToken)
     );
 
     return {

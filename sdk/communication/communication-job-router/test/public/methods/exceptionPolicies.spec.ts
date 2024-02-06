@@ -19,8 +19,9 @@ describe("JobRouterClient", function () {
 
   describe("Exception Policy Operations", function () {
     this.beforeEach(async function (this: Context) {
-      ({ administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+      ({ administrationClient, recorder } = await createRecordedRouterClientWithConnectionString(
+        this
+      ));
     });
 
     this.afterEach(async function (this: Context) {
@@ -32,7 +33,7 @@ describe("JobRouterClient", function () {
     it("should create an exception policy", async function () {
       const result = await administrationClient.createExceptionPolicy(
         exceptionPolicyId,
-        exceptionPolicyRequest,
+        exceptionPolicyRequest
       );
 
       assert.isDefined(result);
@@ -52,13 +53,13 @@ describe("JobRouterClient", function () {
       const updatePatch = { ...exceptionPolicyRequest, name: "new-name" };
       const updateResult = await administrationClient.updateExceptionPolicy(
         exceptionPolicyId,
-        updatePatch,
+        updatePatch
       );
 
       const removePatch = { ...exceptionPolicyRequest, name: null! };
       const removeResult = await administrationClient.updateExceptionPolicy(
         exceptionPolicyId,
-        removePatch,
+        removePatch
       );
 
       assert.isDefined(updateResult);

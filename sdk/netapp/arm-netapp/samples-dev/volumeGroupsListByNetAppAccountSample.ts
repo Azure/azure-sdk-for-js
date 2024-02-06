@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all volume groups for given account
  *
  * @summary List all volume groups for given account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/VolumeGroups_List_Oracle.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/VolumeGroups_List_Oracle.json
  */
 async function volumeGroupsListOracle() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function volumeGroupsListOracle() {
  * This sample demonstrates how to List all volume groups for given account
  *
  * @summary List all volume groups for given account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/VolumeGroups_List_SapHana.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/VolumeGroups_List_SapHana.json
  */
 async function volumeGroupsListSapHana() {
   const subscriptionId =

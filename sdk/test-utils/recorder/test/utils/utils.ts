@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
 import { env } from "../../src";
@@ -29,7 +26,7 @@ export async function makeRequestAndVerifyResponse(
     method: HttpMethods;
   },
   expectedResponse: { [key: string]: unknown } | undefined,
-  expectedHeaders?: { [key: string]: string },
+  expectedHeaders?: { [key: string]: string }
 ): Promise<PipelineResponse> {
   const req = createPipelineRequest({
     url: request.url ?? TEST_SERVER_URL + request.path,
