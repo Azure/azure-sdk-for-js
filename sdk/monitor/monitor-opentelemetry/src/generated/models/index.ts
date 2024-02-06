@@ -8,14 +8,6 @@
 
 import * as coreClient from "@azure/core-client";
 
-export type DocumentIngressUnion =
-  | DocumentIngress
-  | Request
-  | RemoteDependency
-  | Exception
-  | Event
-  | Trace;
-
 /** Monitoring data point coming from SDK, which includes metrics, documents and other metadata info. */
 export interface MonitoringDataPoint {
   /** AI SDK version. */
@@ -40,8 +32,8 @@ export interface MonitoringDataPoint {
   performanceCollectionSupported?: boolean;
   /** An array of meric data points. */
   metrics?: MetricPoint[];
-  /** An array of documents of a specific type {Request}, {RemoteDependency}, {Exception}, {Event}, or {Trace} */
-  documents?: DocumentIngressUnion[];
+  /** An array of documents of a specific type {RequestDocumentIngress}, {RemoteDependencyDocumentIngress}, {ExceptionDocumentIngress}, {EventDocumentIngress}, or {TraceDocumentIngress} */
+  documents?: DocumentIngress[];
   /** An array of top cpu consumption data point. */
   topCpuProcesses?: ProcessCpuData[];
   /** An array of error while parsing and applying . */
@@ -60,22 +52,12 @@ export interface MetricPoint {
 
 /** Base class of the specific document types. */
 export interface DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType:
-    | "Request"
-    | "RemoteDependency"
-    | "Exception"
-    | "Event"
-    | "Trace";
+  /** Telemetry type. Types not defined in enum will get replaced with a 'Unknown' type. */
+  documentType?: DocumentIngressDocumentType;
   /** An array of document streaming ids. Each id identifies a flow of documents customized by UX customers. */
   documentStreamIds?: string[];
   /** Collection of custom properties. */
-  properties?: KeyValuePairString[];
-}
-
-export interface KeyValuePairString {
-  key?: string;
-  value?: string;
+  properties?: Record<string, unknown>[];
 }
 
 /** CPU consumption datapoint. */
@@ -96,6 +78,11 @@ export interface CollectionConfigurationError {
   fullException?: string;
   /** Custom properties to add more information to the error. */
   data?: KeyValuePairString[];
+}
+
+export interface KeyValuePairString {
+  key?: string;
+  value?: string;
 }
 
 /** Represents the collection configuration - a customizable description of performance counters, metrics, and full telemetry documents to be collected by the SDK. */
@@ -164,7 +151,7 @@ export interface QuotaConfigurationInfo {
   quotaAccrualRatePerSec: number;
 }
 
-/** Optional http response body, whose existance carries additional error descriptions. */
+/** Optional http response body, whose existence carries additional error descriptions. */
 export interface ServiceError {
   /** A guid of the request that triggers the service error. */
   requestId?: string;
@@ -179,9 +166,7 @@ export interface ServiceError {
 }
 
 /** Request type document */
-export interface Request extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Request";
+export interface RequestDocumentIngress extends DocumentIngress {
   /** Name of the request, e.g., 'GET /values/{id}'. */
   name?: string;
   /** Request URL with all query string parameters. */
@@ -193,9 +178,7 @@ export interface Request extends DocumentIngress {
 }
 
 /** Dependency type document */
-export interface RemoteDependency extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "RemoteDependency";
+export interface RemoteDependencyDocumentIngress extends DocumentIngress {
   /** Name of the command initiated with this dependency call, e.g., GET /username */
   name?: string;
   /** URL of the dependency call to the target, with all query string parameters */
@@ -207,9 +190,7 @@ export interface RemoteDependency extends DocumentIngress {
 }
 
 /** Exception type document */
-export interface Exception extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Exception";
+export interface ExceptionDocumentIngress extends DocumentIngress {
   /** Exception type name. */
   exceptionType?: string;
   /** Exception message. */
@@ -217,17 +198,13 @@ export interface Exception extends DocumentIngress {
 }
 
 /** Event type document. */
-export interface Event extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Event";
+export interface EventDocumentIngress extends DocumentIngress {
   /** Event name. */
   name?: string;
 }
 
 /** Trace type name. */
-export interface Trace extends DocumentIngress {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  documentType: "Trace";
+export interface TraceDocumentIngress extends DocumentIngress {
   /** Trace message */
   message?: string;
 }
@@ -269,7 +246,7 @@ export enum KnownDocumentIngressDocumentType {
   /** Event */
   Event = "Event",
   /** Trace */
-  Trace = "Trace",
+  Trace = "Trace"
 }
 
 /**
@@ -312,7 +289,7 @@ export enum KnownCollectionConfigurationErrorType {
   /** FilterFailureToCreateUnexpected */
   FilterFailureToCreateUnexpected = "FilterFailureToCreateUnexpected",
   /** CollectionConfigurationFailureToCreateUnexpected */
-  CollectionConfigurationFailureToCreateUnexpected = "CollectionConfigurationFailureToCreateUnexpected",
+  CollectionConfigurationFailureToCreateUnexpected = "CollectionConfigurationFailureToCreateUnexpected"
 }
 
 /**
@@ -353,7 +330,7 @@ export enum KnownFilterInfoPredicate {
   /** Contains */
   Contains = "Contains",
   /** DoesNotContain */
-  DoesNotContain = "DoesNotContain",
+  DoesNotContain = "DoesNotContain"
 }
 
 /**
@@ -381,7 +358,7 @@ export enum KnownDerivedMetricInfoAggregation {
   /** Min */
   Min = "Min",
   /** Max */
-  Max = "Max",
+  Max = "Max"
 }
 
 /**
@@ -411,7 +388,7 @@ export enum KnownDocumentFilterConjunctionGroupInfoTelemetryType {
   /** PerformanceCounter */
   PerformanceCounter = "PerformanceCounter",
   /** Trace */
-  Trace = "Trace",
+  Trace = "Trace"
 }
 
 /**

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Accounts_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Accounts_CreateOrUpdate.json
  */
 async function accountsCreateOrUpdate() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function accountsCreateOrUpdate() {
  * This sample demonstrates how to Create or update the specified NetApp account within the resource group
  *
  * @summary Create or update the specified NetApp account within the resource group
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Accounts_CreateOrUpdateAD.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Accounts_CreateOrUpdateAD.json
  */
 async function accountsCreateOrUpdateWithActiveDirectory() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function accountsCreateOrUpdateWithActiveDirectory() {
     activeDirectories: [
       {
         aesEncryption: true,
-        dns: "10.10.10.3",
+        dns: "10.10.10.3, 10.10.10.4",
         domain: "10.10.10.3",
         ldapOverTLS: false,
         ldapSigning: false,

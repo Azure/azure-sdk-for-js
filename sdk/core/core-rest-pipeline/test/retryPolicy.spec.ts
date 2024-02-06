@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
+import * as sinon from "sinon";
 import {
-  type PipelineResponse,
+  PipelineResponse,
   RestError,
-  type SendRequest,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   retryPolicy,
 } from "../src";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
-import { assert, describe, it, afterEach, vi, expect } from "vitest";
+import { assert } from "chai";
 import { makeTestLogger } from "./util";
 
 describe("retryPolicy", function () {
   afterEach(function () {
-    vi.useRealTimers();
+    sinon.restore();
   });
 
   it("It should allow passing custom retry strategies", async () => {
@@ -42,21 +42,20 @@ describe("retryPolicy", function () {
         },
       },
     ]);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValueOnce(testError);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().rejects(testError);
+    next.onSecondCall().resolves(successResponse);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     const promise = policy.sendRequest(request, next);
-    expect(next).toHaveBeenCalledOnce();
-    const beforeTime = Date.now();
+    assert.isTrue(next.calledOnce);
 
     // allow the delay to occur
-    await vi.advanceTimersToNextTimerAsync();
+    const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(Date.now() - beforeTime, 100);
-    expect(next).toHaveBeenCalledTimes(2);
+    assert.isAtLeast(time, 100);
+    assert.isTrue(next.calledTwice);
 
     const result = await promise;
     assert.strictEqual(result, successResponse);
@@ -81,10 +80,10 @@ describe("retryPolicy", function () {
         },
       },
     ]);
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -92,9 +91,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 
@@ -120,13 +119,13 @@ describe("retryPolicy", function () {
       ],
       {
         maxRetries: 10,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -134,9 +133,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(11);
+    assert.strictEqual(next.callCount, 11);
     assert.isTrue(catchCalled);
   });
 
@@ -160,10 +159,10 @@ describe("retryPolicy", function () {
       },
     ]);
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -171,9 +170,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
   });
@@ -199,10 +198,10 @@ describe("retryPolicy", function () {
       },
     ]);
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -210,9 +209,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, retryError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(1);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
   });
 
@@ -241,13 +240,13 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -255,9 +254,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -271,7 +270,7 @@ describe("retryPolicy", function () {
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
         "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
-      ],
+      ]
     );
 
     assert.deepEqual(
@@ -281,7 +280,7 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-      ],
+      ]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -322,13 +321,13 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -336,9 +335,9 @@ describe("retryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, testError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(1);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -347,12 +346,12 @@ describe("retryPolicy", function () {
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
         "None of the retry strategies could work with the received error. Throwing it.",
-      ],
+      ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]"],
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -386,11 +385,11 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
     abortController.abort();
 
@@ -402,17 +401,17 @@ describe("retryPolicy", function () {
     });
 
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(1);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
       policyLogger.params.info.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Attempting to send request [Request Id]"],
+      ["Retry 0: Attempting to send request [Request Id]"]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]", "Retry 0: Request aborted."],
+      ["Retry 0: Received an error from request [Request Id]", "Retry 0: Request aborted."]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -447,13 +446,13 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -462,10 +461,10 @@ describe("retryPolicy", function () {
       assert.strictEqual(e, retryError);
     });
 
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
 
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(1);
+    assert.strictEqual(next.callCount, 1);
     assert.isTrue(catchCalled);
 
     assert.deepEqual(
@@ -473,12 +472,12 @@ describe("retryPolicy", function () {
       [
         "Retry 0: Attempting to send request [Request Id]",
         "Retry 0: Processing 1 retry strategies.",
-      ],
+      ]
     );
 
     assert.deepEqual(
       policyLogger.params.error.map((x) => x.replace(/ request .*/g, " request [Request Id]")),
-      ["Retry 0: Received an error from request [Request Id]"],
+      ["Retry 0: Received an error from request [Request Id]"]
     );
 
     assert.deepEqual(strategyLogger.params, {
@@ -514,13 +513,13 @@ describe("retryPolicy", function () {
       ],
       {
         logger: policyLogger.logger,
-      },
+      }
     );
 
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(testError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(testError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -529,10 +528,10 @@ describe("retryPolicy", function () {
       assert.strictEqual(e, testError);
     });
 
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
 
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
     assert.strictEqual(request.url, "https://not-bing.com");
 
@@ -547,7 +546,7 @@ describe("retryPolicy", function () {
         "Retry 2: Processing 1 retry strategies.",
         "Retry 3: Attempting to send request [Request Id]",
         "Retry 3: Maximum retries reached. Returning the last received response, or throwing the last received error.",
-      ],
+      ]
     );
 
     assert.deepEqual(
@@ -557,7 +556,7 @@ describe("retryPolicy", function () {
         "Retry 1: Received an error from request [Request Id]",
         "Retry 2: Received an error from request [Request Id]",
         "Retry 3: Received an error from request [Request Id]",
-      ],
+      ]
     );
 
     assert.deepEqual(strategyLogger.params, {

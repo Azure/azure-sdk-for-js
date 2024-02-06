@@ -25,7 +25,7 @@ async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
   const managedInstanceName = "securityalert-6440";
   const securityAlertPolicyName = "Default";
   const parameters = {
-    disabledAlerts: ["Access_Anomaly"],
+    disabledAlerts: ["Access_Anomaly", "Usage_Anomaly"],
     emailAccountAdmins: true,
     emailAddresses: ["testSecurityAlert@microsoft.com"],
     retentionDays: 5,
@@ -40,7 +40,7 @@ async function updateAManagedServerThreatDetectionPolicyWithAllParameters() {
     resourceGroupName,
     managedInstanceName,
     securityAlertPolicyName,
-    parameters,
+    parameters
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function updateAManagedServerThreatDetectionPolicyWithMinimalParameters() 
     resourceGroupName,
     managedInstanceName,
     securityAlertPolicyName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

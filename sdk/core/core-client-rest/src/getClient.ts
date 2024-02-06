@@ -12,30 +12,30 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common";
-import { sendRequest } from "./sendRequest";
+import { sendRequest, sendRequestAsStream } from "./sendRequest";
 import { buildRequestUrl } from "./urlHelpers";
 
 /**
  * Creates a client with a default pipeline
- * @param endpoint - Base endpoint for the client
+ * @param baseUrl - Base endpoint for the client
  * @param options - Client options
  */
-export function getClient(endpoint: string, options?: ClientOptions): Client;
+export function getClient(baseUrl: string, options?: ClientOptions): Client;
 /**
  * Creates a client with a default pipeline
- * @param endpoint - Base endpoint for the client
+ * @param baseUrl - Base endpoint for the client
  * @param credentials - Credentials to authenticate the requests
  * @param options - Client options
  */
 export function getClient(
-  endpoint: string,
+  baseUrl: string,
   credentials?: TokenCredential | KeyCredential,
-  options?: ClientOptions,
+  options?: ClientOptions
 ): Client;
 export function getClient(
-  endpoint: string,
+  baseUrl: string,
   credentialsOrPipelineOptions?: (TokenCredential | KeyCredential) | ClientOptions,
-  clientOptions: ClientOptions = {},
+  clientOptions: ClientOptions = {}
 ): Client {
   let credentials: TokenCredential | KeyCredential | undefined;
   if (credentialsOrPipelineOptions) {
@@ -46,7 +46,7 @@ export function getClient(
     }
   }
 
-  const pipeline = createDefaultPipeline(endpoint, credentials, clientOptions);
+  const pipeline = createDefaultPipeline(baseUrl, credentials, clientOptions);
   if (clientOptions.additionalPolicies?.length) {
     for (const { policy, position } of clientOptions.additionalPolicies) {
       // Sign happens after Retry and is commonly needed to occur
@@ -59,10 +59,9 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
-  const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>) => {
     const getUrl = (requestOptions: RequestParameters) =>
-      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
+      buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -72,7 +71,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       post: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -82,7 +81,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       put: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -92,7 +91,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       patch: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -102,7 +101,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       delete: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -112,7 +111,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       head: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -122,7 +121,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       options: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -132,7 +131,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
       trace: (requestOptions: RequestParameters = {}): StreamableMethod => {
@@ -142,7 +141,7 @@ export function getClient(
           pipeline,
           requestOptions,
           allowInsecureConnection,
-          httpClient,
+          httpClient
         );
       },
     };
@@ -161,7 +160,7 @@ function buildOperation(
   pipeline: Pipeline,
   options: RequestParameters,
   allowInsecureConnection?: boolean,
-  httpClient?: HttpClient,
+  httpClient?: HttpClient
 ): StreamableMethod {
   allowInsecureConnection = options.allowInsecureConnection ?? allowInsecureConnection;
   return {
@@ -171,32 +170,32 @@ function buildOperation(
         url,
         pipeline,
         { ...options, allowInsecureConnection },
-        httpClient,
+        httpClient
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequest(
+      return sendRequestAsStream<HttpBrowserStreamResponse>(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpBrowserStreamResponse>;
+        { ...options, allowInsecureConnection },
+        httpClient
+      );
     },
     async asNodeStream() {
-      return sendRequest(
+      return sendRequestAsStream<HttpNodeStreamResponse>(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection, responseAsStream: true },
-        httpClient,
-      ) as Promise<HttpNodeStreamResponse>;
+        { ...options, allowInsecureConnection },
+        httpClient
+      );
     },
   };
 }
 
 function isCredential(
-  param: (TokenCredential | KeyCredential) | PipelineOptions,
+  param: (TokenCredential | KeyCredential) | PipelineOptions
 ): param is TokenCredential | KeyCredential {
   if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
     return true;

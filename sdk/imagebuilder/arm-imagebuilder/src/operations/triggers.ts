@@ -29,7 +29,6 @@ import {
   TriggersCreateOrUpdateOptionalParams,
   TriggersCreateOrUpdateResponse,
   TriggersDeleteOptionalParams,
-  TriggersDeleteResponse,
   TriggersListByImageTemplateNextResponse
 } from "../models";
 
@@ -285,16 +284,11 @@ export class TriggersImpl implements Triggers {
     imageTemplateName: string,
     triggerName: string,
     options?: TriggersDeleteOptionalParams
-  ): Promise<
-    SimplePollerLike<
-      OperationState<TriggersDeleteResponse>,
-      TriggersDeleteResponse
-    >
-  > {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
-    ): Promise<TriggersDeleteResponse> => {
+    ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -335,10 +329,7 @@ export class TriggersImpl implements Triggers {
       args: { resourceGroupName, imageTemplateName, triggerName, options },
       spec: deleteOperationSpec
     });
-    const poller = await createHttpPoller<
-      TriggersDeleteResponse,
-      OperationState<TriggersDeleteResponse>
-    >(lro, {
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location"
@@ -359,7 +350,7 @@ export class TriggersImpl implements Triggers {
     imageTemplateName: string,
     triggerName: string,
     options?: TriggersDeleteOptionalParams
-  ): Promise<TriggersDeleteResponse> {
+  ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       imageTemplateName,
@@ -400,7 +391,7 @@ const listByImageTemplateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -422,7 +413,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Trigger
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -454,7 +445,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Trigger
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   requestBody: Parameters.parameters2,
@@ -475,20 +466,12 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers/{triggerName}",
   httpMethod: "DELETE",
   responses: {
-    200: {
-      headersMapper: Mappers.TriggersDeleteHeaders
-    },
-    201: {
-      headersMapper: Mappers.TriggersDeleteHeaders
-    },
-    202: {
-      headersMapper: Mappers.TriggersDeleteHeaders
-    },
-    204: {
-      headersMapper: Mappers.TriggersDeleteHeaders
-    },
+    200: {},
+    201: {},
+    202: {},
+    204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -510,7 +493,7 @@ const listByImageTemplateNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.TriggerCollection
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   urlParameters: [

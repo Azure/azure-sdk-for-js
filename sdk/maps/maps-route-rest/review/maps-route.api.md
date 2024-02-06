@@ -5,7 +5,6 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -224,9 +223,6 @@ function MapsRoute(credential: AzureKeyCredential, options?: ClientOptions): Map
 
 // @public
 function MapsRoute(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsRouteClient;
-
-// @public
-function MapsRoute(credential: AzureSASCredential, options?: ClientOptions): MapsRouteClient;
 export default MapsRoute;
 
 // @public (undocumented)

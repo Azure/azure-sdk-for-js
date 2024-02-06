@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * This file hooks up the "Send" and "Receive" buttons on the web page to the

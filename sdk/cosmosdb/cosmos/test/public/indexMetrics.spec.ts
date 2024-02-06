@@ -11,7 +11,7 @@ describe("Test Index Metrics Writer", function (this: Suite) {
     const result: { result: IndexUtilizationInfo } = { result: IndexUtilizationInfo.Empty };
     IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
       "eyJVdGlsaXplZFNpbmdsZUluZGV4ZXMiOlt7IkZpbHRlckV4cHJlc3Npb24iOiIiLCJJbmRleFNwZWMiOiJcL25hbWVcLz8iLCJGaWx0ZXJQcmVjaXNlU2V0Ijp0cnVlLCJJbmRleFByZWNpc2VTZXQiOnRydWUsIkluZGV4SW1wYWN0U2NvcmUiOiJIaWdoIn1dLCJQb3RlbnRpYWxTaW5nbGVJbmRleGVzIjpbXSwiVXRpbGl6ZWRDb21wb3NpdGVJbmRleGVzIjpbXSwiUG90ZW50aWFsQ29tcG9zaXRlSW5kZXhlcyI6W119",
-      result,
+      result
     );
     const indexMetricWriter = new IndexMetricWriter();
     const output =
@@ -38,7 +38,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
 
     const isParsed = IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
       delimitedString,
-      result,
+      result
     );
 
     assert.equal(isParsed, true);
@@ -53,7 +53,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
 
     const isParsed = IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
       delimitedString,
-      result,
+      result
     );
 
     assert.equal(isParsed, false);
@@ -66,7 +66,7 @@ describe("Test Index Utilization Info", function (this: Suite) {
 
     const isParsed = IndexUtilizationInfo.tryCreateFromDelimitedBase64String(
       delimitedString,
-      result,
+      result
     );
 
     assert.equal(isParsed, false);

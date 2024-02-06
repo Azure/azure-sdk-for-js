@@ -11,30 +11,17 @@ import { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { ClientOptions } from "@azure-rest/core-client";
 import { AzureKeyCredential } from "@azure/core-auth";
-import {
-  EnvironmentVariableNames,
-  EnvironmentVariableNamesForDalle,
-  EnvironmentVariableNamesForWhisper,
-  EnvironmentVariableNamesForCompletions,
-} from "./envVars.js";
-import { AuthMethod, DeploymentType } from "../types.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
-  [EnvironmentVariableNames.OPENAI_API_KEY]: "openai_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_DALLE]: "azure_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_WHISPER]: "azure_api_key",
-  [EnvironmentVariableNames.AZURE_API_KEY_COMPLETIONS]: "azure_api_key",
-  [EnvironmentVariableNames.ENDPOINT_DALLE]: "https://endpoint/",
-  [EnvironmentVariableNames.ENDPOINT_WHISPER]: "https://endpoint/",
-  [EnvironmentVariableNames.ENDPOINT_COMPLETIONS]: "https://endpoint/",
-  [EnvironmentVariableNames.RESOURCE_GROUP]: "resource_group",
-  [EnvironmentVariableNames.ACCOUNT_NAME_DALLE]: "account_name",
-  [EnvironmentVariableNames.ACCOUNT_NAME_WHISPER]: "account_name",
-  [EnvironmentVariableNames.ACCOUNT_NAME_COMPLETIONS]: "account_name",
-  [EnvironmentVariableNames.SUBSCRIPTION_ID]: "subscription_id",
-  [EnvironmentVariableNames.ENDPOINT_SEARCH]: "azure_search_endpoint",
-  [EnvironmentVariableNames.AZURE_API_KEY_SEARCH]: "azure_search_key",
-  [EnvironmentVariableNames.AZURE_SEARCH_INDEX]: "azure_search_index",
+  OPENAI_API_KEY: "openai_api_key",
+  AZURE_API_KEY: "azure_api_key",
+  ENDPOINT: "https://endpoint/",
+  RESOURCE_GROUP: "resource_group",
+  ACCOUNT_NAME: "account_name",
+  SUBSCRIPTION_ID: "subscription_id",
+  AZURE_SEARCH_ENDPOINT: "azure_search_endpoint",
+  AZURE_SEARCH_KEY: "azure_search_key",
+  AZURE_SEARCH_INDEX: "azure_search_index",
 };
 
 const recorderStartOptions: RecorderStartOptions = {
@@ -50,67 +37,31 @@ const recorderStartOptions: RecorderStartOptions = {
   },
 };
 
-const environmentVariableNamesForResourceType = {
-  dalle: EnvironmentVariableNamesForDalle,
-  whisper: EnvironmentVariableNamesForWhisper,
-  completions: EnvironmentVariableNamesForCompletions,
-};
-
-function getEndpointAndAPIKeyFromResourceType(resourceType: DeploymentType): {
-  endpoint: string;
-  apiKey: string;
-} {
-  switch (resourceType) {
-    case "dalle":
-      return {
-        endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_DALLE,
-        ),
-        apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_DALLE,
-        ),
-      };
-    case "whisper":
-      return {
-        endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_WHISPER,
-        ),
-        apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_WHISPER,
-        ),
-      };
-    case "completions":
-      return {
-        endpoint: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].ENDPOINT_COMPLETIONS,
-        ),
-        apiKey: assertEnvironmentVariable(
-          environmentVariableNamesForResourceType[resourceType].AZURE_API_KEY_COMPLETIONS,
-        ),
-      };
-  }
-}
+export type AuthMethod = "AzureAPIKey" | "OpenAIKey" | "AAD" | "DummyAPIKey";
 
 export function createClient(
   authMethod: AuthMethod,
-  resourceType: DeploymentType,
   options: {
     recorder?: Recorder;
     clientOptions?: ClientOptions;
-  },
+  }
 ): OpenAIClient {
   const { recorder, clientOptions = {} } = options;
+  const endpoint = assertEnvironmentVariable("ENDPOINT");
   const updatedOptions = recorder ? recorder.configureClientOptions(clientOptions) : clientOptions;
-  const { endpoint, apiKey } = getEndpointAndAPIKeyFromResourceType(resourceType);
 
   switch (authMethod) {
     case "AzureAPIKey": {
-      return new OpenAIClient(endpoint, new AzureKeyCredential(apiKey), updatedOptions);
+      return new OpenAIClient(
+        endpoint,
+        new AzureKeyCredential(assertEnvironmentVariable("AZURE_API_KEY")),
+        updatedOptions
+      );
     }
     case "OpenAIKey": {
       return new OpenAIClient(
-        new OpenAIKeyCredential(assertEnvironmentVariable(EnvironmentVariableNames.OPENAI_API_KEY)),
-        updatedOptions,
+        new OpenAIKeyCredential(assertEnvironmentVariable("OPENAI_API_KEY")),
+        updatedOptions
       );
     }
     case "AAD": {

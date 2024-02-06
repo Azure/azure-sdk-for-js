@@ -59,10 +59,10 @@ describe("GlobalEndpointManager", function () {
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
           200,
-          getEmptyCosmosDiagnostics(),
+          getEmptyCosmosDiagnostics()
         );
         return response;
-      },
+      }
     );
 
     it("should resolve the correct endpoint", async function () {
@@ -71,18 +71,18 @@ describe("GlobalEndpointManager", function () {
         await gem.resolveServiceEndpoint(
           createDummyDiagnosticNode(),
           ResourceType.none,
-          OperationType.Read,
+          OperationType.Read
         ),
-        "https://test.documents.azure.com:443/",
+        "https://test.documents.azure.com:443/"
       );
 
       assert.equal(
         await gem.resolveServiceEndpoint(
           createDummyDiagnosticNode(),
           ResourceType.item,
-          OperationType.Read,
+          OperationType.Read
         ),
-        "https://test-eastus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/"
       );
 
       assert.equal(gem.preferredLocationsCount, 2);
@@ -92,9 +92,9 @@ describe("GlobalEndpointManager", function () {
           createDummyDiagnosticNode(),
           ResourceType.item,
           OperationType.Read,
-          1,
+          1
         ),
-        "https://test-westus2.documents.azure.com:443/",
+        "https://test-westus2.documents.azure.com:443/"
       );
       // location index out of range, 1st available location is used
       assert.equal(
@@ -102,9 +102,9 @@ describe("GlobalEndpointManager", function () {
           createDummyDiagnosticNode(),
           ResourceType.item,
           OperationType.Read,
-          2,
+          2
         ),
-        "https://test-westus2.documents.azure.com:443/",
+        "https://test-westus2.documents.azure.com:443/"
       );
     });
 
@@ -123,19 +123,19 @@ describe("GlobalEndpointManager", function () {
             new DatabaseAccount(databaseAccountBody, headers),
             headers,
             200,
-            getEmptyCosmosDiagnostics(),
+            getEmptyCosmosDiagnostics()
           );
           return response;
-        },
+        }
       );
 
       assert.equal(
         await gem.resolveServiceEndpoint(
           createDummyDiagnosticNode(),
           ResourceType.item,
-          OperationType.Read,
+          OperationType.Read
         ),
-        "https://test-eastus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/"
       );
     });
 
@@ -161,26 +161,26 @@ describe("GlobalEndpointManager", function () {
               new DatabaseAccount(databaseAccountBody, headers),
               headers,
               200,
-              getEmptyCosmosDiagnostics(),
+              getEmptyCosmosDiagnostics()
             );
             return response;
-          },
+          }
         );
         const diagnosticNode = createDummyDiagnosticNode();
         await gem.refreshEndpointList(diagnosticNode);
         await gem.markCurrentLocationUnavailableForRead(
           diagnosticNode,
-          "https://test-westus2.documents.azure.com:443/",
+          "https://test-westus2.documents.azure.com:443/"
         );
         assert.equal(
           await gem.getReadEndpoint(diagnosticNode),
-          "https://test-eastus2.documents.azure.com:443/",
+          "https://test-eastus2.documents.azure.com:443/"
         );
         clock.tick(locationUnavailabilityExpiratationTime);
         await gem.refreshEndpointList(diagnosticNode);
         assert.equal(
           await gem.getReadEndpoint(diagnosticNode),
-          "https://test-westus2.documents.azure.com:443/",
+          "https://test-westus2.documents.azure.com:443/"
         );
         clock.uninstall();
       });
@@ -202,10 +202,10 @@ describe("GlobalEndpointManager", function () {
           new DatabaseAccount(databaseAccountBody, headers),
           headers,
           200,
-          getEmptyCosmosDiagnostics(),
+          getEmptyCosmosDiagnostics()
         );
         return response;
-      },
+      }
     );
 
     beforeEach(async () => {
@@ -216,21 +216,21 @@ describe("GlobalEndpointManager", function () {
       // We don't block on init for database account calls
       await gem.markCurrentLocationUnavailableForRead(
         createDummyDiagnosticNode(),
-        "https://test-eastus2.documents.azure.com:443/",
+        "https://test-eastus2.documents.azure.com:443/"
       );
       /* As we have marked current location unavailable for read,
         next read should go to the next location or default endpoint
       */
       assert.equal(
         await gem.getReadEndpoint(createDummyDiagnosticNode()),
-        "https://test-westus2.documents.azure.com:443/",
+        "https://test-westus2.documents.azure.com:443/"
       );
     });
     it("should mark the current location unavailable for write", async function () {
       // We don't block on init for database account calls
       await gem.markCurrentLocationUnavailableForWrite(
         createDummyDiagnosticNode(),
-        "https://test-westus2.documents.azure.com:443/",
+        "https://test-westus2.documents.azure.com:443/"
       );
 
       /* As we have marked current location unavailable for write,
@@ -238,7 +238,7 @@ describe("GlobalEndpointManager", function () {
       */
       assert.equal(
         await gem.getWriteEndpoint(createDummyDiagnosticNode()),
-        "https://test.documents.azure.com:443/",
+        "https://test.documents.azure.com:443/"
       );
     });
   });

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isBrowser, isBun, isDeno, isNode, isReactNative, isWebWorker } from "../../../src";
-import { describe, it, assert } from "vitest";
+import { assert } from "chai";
 
 describe("checkEnvironment (node)", function () {
   describe("isBun (node)", function () {

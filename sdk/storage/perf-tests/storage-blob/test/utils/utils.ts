@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 export function getValueInConnString(
   connectionString: string,
   argument:
@@ -9,7 +6,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature",
+    | "SharedAccessSignature"
 ) {
   const elements = connectionString.split(";");
   for (const element of elements) {

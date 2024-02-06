@@ -45,7 +45,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(
       readPermission.id,
       collReadPermission.id,
-      "permission to read coll1 is not created properly",
+      "permission to read coll1 is not created properly"
     );
     collReadPermission = readPermission;
 
@@ -61,7 +61,7 @@ describe("Authorization", function (this: Suite) {
     assert.equal(
       collAllPermission.id,
       allPermission.id,
-      "permission to read coll2 is not created properly",
+      "permission to read coll2 is not created properly"
     );
     collAllPermission = allPermission;
   });

@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   FhirService,
   FhirServicesListByWorkspaceOptionalParams,
@@ -63,8 +63,8 @@ export interface FhirServices {
     fhirservice: FhirService,
     options?: FhirServicesCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<FhirServicesCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<FhirServicesCreateOrUpdateResponse>,
       FhirServicesCreateOrUpdateResponse
     >
   >;
@@ -98,8 +98,8 @@ export interface FhirServices {
     fhirservicePatchResource: FhirServicePatchResource,
     options?: FhirServicesUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<FhirServicesUpdateResponse>,
+    PollerLike<
+      PollOperationState<FhirServicesUpdateResponse>,
       FhirServicesUpdateResponse
     >
   >;
@@ -130,7 +130,7 @@ export interface FhirServices {
     fhirServiceName: string,
     workspaceName: string,
     options?: FhirServicesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes a FHIR Service.
    * @param resourceGroupName The name of the resource group that contains the service instance.

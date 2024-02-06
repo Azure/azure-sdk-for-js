@@ -19,18 +19,14 @@ import {
   CommunicationServicesImpl,
   DomainsImpl,
   EmailServicesImpl,
-  SenderUsernamesImpl,
-  SuppressionListsImpl,
-  SuppressionListAddressesImpl
+  SenderUsernamesImpl
 } from "./operations";
 import {
   Operations,
   CommunicationServices,
   Domains,
   EmailServices,
-  SenderUsernames,
-  SuppressionLists,
-  SuppressionListAddresses
+  SenderUsernames
 } from "./operationsInterfaces";
 import { CommunicationServiceManagementClientOptionalParams } from "./models";
 
@@ -66,7 +62,7 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-communication/4.1.0-beta.3`;
+    const packageDetails = `azsdk-js-arm-communication/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -119,14 +115,12 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-06-01-preview";
+    this.apiVersion = options.apiVersion || "2023-04-01-preview";
     this.operations = new OperationsImpl(this);
     this.communicationServices = new CommunicationServicesImpl(this);
     this.domains = new DomainsImpl(this);
     this.emailServices = new EmailServicesImpl(this);
     this.senderUsernames = new SenderUsernamesImpl(this);
-    this.suppressionLists = new SuppressionListsImpl(this);
-    this.suppressionListAddresses = new SuppressionListAddressesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -163,6 +157,4 @@ export class CommunicationServiceManagementClient extends coreClient.ServiceClie
   domains: Domains;
   emailServices: EmailServices;
   senderUsernames: SenderUsernames;
-  suppressionLists: SuppressionLists;
-  suppressionListAddresses: SuppressionListAddresses;
 }

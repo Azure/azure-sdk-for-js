@@ -549,6 +549,114 @@ export const SolutionMetadataProperties: coreClient.CompositeMapper = {
   }
 };
 
+export const SolutionResource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionResource",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "SolutionResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const SolutionResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SolutionResourceProperties",
+    modelProperties: {
+      triggerCriteria: {
+        serializedName: "triggerCriteria",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TriggerCriterion"
+            }
+          }
+        }
+      },
+      parameters: {
+        serializedName: "parameters",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      solutionId: {
+        serializedName: "solutionId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        type: {
+          name: "String"
+        }
+      },
+      content: {
+        serializedName: "content",
+        type: {
+          name: "String"
+        }
+      },
+      replacementMaps: {
+        serializedName: "replacementMaps",
+        type: {
+          name: "Composite",
+          className: "ReplacementMaps"
+        }
+      },
+      sections: {
+        serializedName: "sections",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Section"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const TriggerCriterion: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -993,71 +1101,11 @@ export const SolutionPatchRequestBody: coreClient.CompositeMapper = {
     name: "Composite",
     className: "SolutionPatchRequestBody",
     modelProperties: {
-      triggerCriteria: {
-        serializedName: "properties.triggerCriteria",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TriggerCriterion"
-            }
-          }
-        }
-      },
-      parameters: {
-        serializedName: "properties.parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      solutionId: {
-        serializedName: "properties.solutionId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      title: {
-        serializedName: "properties.title",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      content: {
-        serializedName: "properties.content",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      replacementMaps: {
-        serializedName: "properties.replacementMaps",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ReplacementMaps"
-        }
-      },
-      sections: {
-        serializedName: "properties.sections",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Section"
-            }
-          }
+          className: "SolutionResourceProperties"
         }
       }
     }
@@ -1470,83 +1518,6 @@ export const SolutionMetadataResource: coreClient.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SolutionMetadataProperties"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const SolutionResource: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SolutionResource",
-    modelProperties: {
-      ...ProxyResource.type.modelProperties,
-      triggerCriteria: {
-        serializedName: "properties.triggerCriteria",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TriggerCriterion"
-            }
-          }
-        }
-      },
-      parameters: {
-        serializedName: "properties.parameters",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
-        }
-      },
-      solutionId: {
-        serializedName: "properties.solutionId",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      title: {
-        serializedName: "properties.title",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      content: {
-        serializedName: "properties.content",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      replacementMaps: {
-        serializedName: "properties.replacementMaps",
-        type: {
-          name: "Composite",
-          className: "ReplacementMaps"
-        }
-      },
-      sections: {
-        serializedName: "properties.sections",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Section"
             }
           }
         }

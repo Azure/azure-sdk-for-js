@@ -28,7 +28,7 @@ async function volumesUpdateMaximumSetGen() {
   const elasticSanName = "elasticsanname";
   const volumeGroupName = "volumegroupname";
   const volumeName = "volumename";
-  const parameters: VolumeUpdate = { properties: { sizeGiB: 11 } };
+  const parameters: VolumeUpdate = { sizeGiB: 11 };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.volumes.beginUpdateAndWait(

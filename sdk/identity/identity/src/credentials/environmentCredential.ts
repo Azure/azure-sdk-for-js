@@ -4,7 +4,6 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { credentialLogger, formatError, formatSuccess, processEnvVars } from "../util/logging";
-
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { EnvironmentCredentialOptions } from "./environmentCredentialOptions";
@@ -90,7 +89,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
-        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`,
+        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`
       );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, newOptions);
       return;
@@ -100,13 +99,13 @@ export class EnvironmentCredential implements TokenCredential {
     const certificatePassword = process.env.AZURE_CLIENT_CERTIFICATE_PASSWORD;
     if (tenantId && clientId && certificatePath) {
       logger.info(
-        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`,
+        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
       );
       this._credential = new ClientCertificateCredential(
         tenantId,
         clientId,
         { certificatePath, certificatePassword },
-        newOptions,
+        newOptions
       );
       return;
     }
@@ -115,14 +114,14 @@ export class EnvironmentCredential implements TokenCredential {
     const password = process.env.AZURE_PASSWORD;
     if (tenantId && clientId && username && password) {
       logger.info(
-        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`,
+        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,
         clientId,
         username,
         password,
-        newOptions,
+        newOptions
       );
     }
   }
@@ -150,7 +149,7 @@ export class EnvironmentCredential implements TokenCredential {
         }
       }
       throw new CredentialUnavailableError(
-        `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`,
+        `${credentialName} is unavailable. No underlying credential could be used. To troubleshoot, visit https://aka.ms/azsdk/js/identity/environmentcredential/troubleshoot.`
       );
     });
   }

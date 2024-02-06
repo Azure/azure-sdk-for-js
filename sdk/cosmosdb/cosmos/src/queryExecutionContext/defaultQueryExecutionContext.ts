@@ -14,8 +14,7 @@ const logger: AzureLogger = createClientLogger("ClientContext");
 /** @hidden */
 export type FetchFunctionCallback = (
   diagnosticNode: DiagnosticNodeInternal,
-  options: FeedOptions,
-  correlatedActivityId: string,
+  options: FeedOptions
 ) => Promise<Response<any>>;
 
 /** @hidden */
@@ -39,7 +38,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   }
   private state: STATES;
   private nextFetchFunction: Promise<Response<any>>;
-  private correlatedActivityId: string;
   /**
    * Provides the basic Query Execution Context.
    * This wraps the internal logic query execution using provided fetch functions
@@ -53,8 +51,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    */
   constructor(
     options: FeedOptions,
-    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[],
-    correlatedActivityId: string,
+    fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[]
   ) {
     this.resources = [];
     this.currentIndex = 0;
@@ -63,7 +60,6 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     this.options = options || {};
     this.continuationToken = this.options.continuationToken || this.options.continuation || null;
     this.state = DefaultQueryExecutionContext.STATES.start;
-    this.correlatedActivityId = correlatedActivityId;
   }
 
   /**
@@ -157,11 +153,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             this.nextFetchFunction = undefined;
           } else {
             logger.verbose("using fresh fetch");
-            p = this.fetchFunctions[this.currentPartitionIndex](
-              childDiagnosticNode,
-              this.options,
-              this.correlatedActivityId,
-            );
+            p = this.fetchFunctions[this.currentPartitionIndex](childDiagnosticNode, this.options);
           }
           const response = await p;
           resources = response.result;
@@ -175,14 +167,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           if (this.options && this.options.bufferItems === true) {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
-              ? fetchFunction(
-                  childDiagnosticNode,
-                  {
-                    ...this.options,
-                    continuationToken: this.continuationToken,
-                  },
-                  this.correlatedActivityId,
-                )
+              ? fetchFunction(childDiagnosticNode, {
+                  ...this.options,
+                  continuationToken: this.continuationToken,
+                })
               : undefined;
           }
         } catch (err: any) {
@@ -218,7 +206,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
               queryMetrics.vmExecutionTime,
               queryMetrics.runtimeExecutionTimes,
               queryMetrics.documentWriteTime,
-              new ClientSideMetrics(requestCharge),
+              new ClientSideMetrics(requestCharge)
             );
           }
 
@@ -234,7 +222,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       DiagnosticNodeType.DEFAULT_QUERY_NODE,
       {
         queryMethodIdentifier: "fetchMore",
-      },
+      }
     );
   }
 

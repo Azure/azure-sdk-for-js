@@ -4,16 +4,6 @@
 
 ```ts
 
-/// <reference types="node" />
-
-import type { IncomingMessage } from 'http';
-
-// @public
-export function createSseStream(chunkStream: ReadableStream<Uint8Array>): EventMessageStream;
-
-// @public
-export function createSseStream(chunkStream: IncomingMessage): EventMessageStream;
-
 // @public
 export interface EventMessage {
     data: string;
@@ -23,8 +13,10 @@ export interface EventMessage {
 }
 
 // @public
-export interface EventMessageStream extends ReadableStream<EventMessage>, AsyncDisposable, AsyncIterable<EventMessage> {
-}
+export function iterateSseStream(chunkIter: ReadableStream<Uint8Array>): AsyncIterable<EventMessage>;
+
+// @public
+export function iterateSseStream(chunkIter: AsyncIterable<Uint8Array>): AsyncIterable<EventMessage>;
 
 // (No @packageDocumentation comment for this package)
 

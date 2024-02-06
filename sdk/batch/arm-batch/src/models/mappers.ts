@@ -1347,20 +1347,6 @@ export const VirtualMachineConfiguration: coreClient.CompositeMapper = {
           name: "Composite",
           className: "OSDisk"
         }
-      },
-      securityProfile: {
-        serializedName: "securityProfile",
-        type: {
-          name: "Composite",
-          className: "SecurityProfile"
-        }
-      },
-      serviceArtifactReference: {
-        serializedName: "serviceArtifactReference",
-        type: {
-          name: "Composite",
-          className: "ServiceArtifactReference"
-        }
       }
     }
   }
@@ -1390,7 +1376,6 @@ export const ImageReference: coreClient.CompositeMapper = {
         }
       },
       version: {
-        defaultValue: "latest",
         serializedName: "version",
         type: {
           name: "String"
@@ -1451,7 +1436,7 @@ export const DataDisk: coreClient.CompositeMapper = {
         serializedName: "storageAccountType",
         type: {
           name: "Enum",
-          allowedValues: ["Standard_LRS", "Premium_LRS", "StandardSSD_LRS"]
+          allowedValues: ["Standard_LRS", "Premium_LRS"]
         }
       }
     }
@@ -1652,32 +1637,6 @@ export const OSDisk: coreClient.CompositeMapper = {
           name: "Composite",
           className: "DiffDiskSettings"
         }
-      },
-      caching: {
-        serializedName: "caching",
-        type: {
-          name: "Enum",
-          allowedValues: ["None", "ReadOnly", "ReadWrite"]
-        }
-      },
-      managedDisk: {
-        serializedName: "managedDisk",
-        type: {
-          name: "Composite",
-          className: "ManagedDisk"
-        }
-      },
-      diskSizeGB: {
-        serializedName: "diskSizeGB",
-        type: {
-          name: "Number"
-        }
-      },
-      writeAcceleratorEnabled: {
-        serializedName: "writeAcceleratorEnabled",
-        type: {
-          name: "Boolean"
-        }
       }
     }
   }
@@ -1692,89 +1651,6 @@ export const DiffDiskSettings: coreClient.CompositeMapper = {
         defaultValue: "CacheDisk",
         isConstant: true,
         serializedName: "placement",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ManagedDisk: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ManagedDisk",
-    modelProperties: {
-      storageAccountType: {
-        serializedName: "storageAccountType",
-        type: {
-          name: "Enum",
-          allowedValues: ["Standard_LRS", "Premium_LRS", "StandardSSD_LRS"]
-        }
-      }
-    }
-  }
-};
-
-export const SecurityProfile: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "SecurityProfile",
-    modelProperties: {
-      securityType: {
-        defaultValue: "trustedLaunch",
-        isConstant: true,
-        serializedName: "securityType",
-        type: {
-          name: "String"
-        }
-      },
-      encryptionAtHost: {
-        serializedName: "encryptionAtHost",
-        type: {
-          name: "Boolean"
-        }
-      },
-      uefiSettings: {
-        serializedName: "uefiSettings",
-        type: {
-          name: "Composite",
-          className: "UefiSettings"
-        }
-      }
-    }
-  }
-};
-
-export const UefiSettings: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "UefiSettings",
-    modelProperties: {
-      secureBootEnabled: {
-        serializedName: "secureBootEnabled",
-        type: {
-          name: "Boolean"
-        }
-      },
-      vTpmEnabled: {
-        serializedName: "vTpmEnabled",
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
-
-export const ServiceArtifactReference: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ServiceArtifactReference",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        required: true,
         type: {
           name: "String"
         }
@@ -1812,7 +1688,6 @@ export const FixedScaleSettings: coreClient.CompositeMapper = {
     className: "FixedScaleSettings",
     modelProperties: {
       resizeTimeout: {
-        defaultValue: "PT15M",
         serializedName: "resizeTimeout",
         type: {
           name: "TimeSpan"
@@ -1944,7 +1819,6 @@ export const NetworkConfiguration: coreClient.CompositeMapper = {
         }
       },
       dynamicVnetAssignmentScope: {
-        defaultValue: "none",
         serializedName: "dynamicVnetAssignmentScope",
         type: {
           name: "Enum",
@@ -2129,7 +2003,6 @@ export const TaskSchedulingPolicy: coreClient.CompositeMapper = {
     className: "TaskSchedulingPolicy",
     modelProperties: {
       nodeFillType: {
-        defaultValue: "Spread",
         serializedName: "nodeFillType",
         required: true,
         type: {
@@ -2294,7 +2167,6 @@ export const StartTask: coreClient.CompositeMapper = {
         }
       },
       maxTaskRetryCount: {
-        defaultValue: 0,
         serializedName: "maxTaskRetryCount",
         type: {
           name: "Number"
@@ -3401,7 +3273,6 @@ export const Pool: coreClient.CompositeMapper = {
         }
       },
       taskSlotsPerNode: {
-        defaultValue: 1,
         serializedName: "properties.taskSlotsPerNode",
         type: {
           name: "Number"
@@ -3513,13 +3384,6 @@ export const Pool: coreClient.CompositeMapper = {
         type: {
           name: "Enum",
           allowedValues: ["Default", "Classic", "Simplified"]
-        }
-      },
-      resourceTags: {
-        serializedName: "properties.resourceTags",
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "String" } }
         }
       }
     }

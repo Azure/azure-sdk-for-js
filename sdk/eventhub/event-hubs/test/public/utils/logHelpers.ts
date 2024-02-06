@@ -13,10 +13,7 @@ export class LogTester {
   }[];
   private _previousEnabledLoggers: string = "";
 
-  constructor(
-    private _expectedMessages: (string | RegExp)[],
-    loggers: debugModule.Debugger[],
-  ) {
+  constructor(private _expectedMessages: (string | RegExp)[], loggers: debugModule.Debugger[]) {
     this._attachedLoggers = [];
 
     for (const logger of loggers) {

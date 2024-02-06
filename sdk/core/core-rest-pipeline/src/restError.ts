@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isError } from "@azure/core-util";
-import type { PipelineRequest, PipelineResponse } from "./interfaces";
+import { PipelineRequest, PipelineResponse } from "./interfaces";
 import { custom } from "./util/inspect";
 import { Sanitizer } from "./util/sanitizer";
 

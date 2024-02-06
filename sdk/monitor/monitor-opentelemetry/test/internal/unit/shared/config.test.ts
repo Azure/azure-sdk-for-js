@@ -8,12 +8,13 @@ import nock from "nock";
 
 import { InternalConfig } from "../../../../src/shared";
 import { JsonConfig } from "../../../../src/shared/jsonConfig";
-import { Resource } from "@opentelemetry/resources";
+import { Resource, detectResourcesSync } from "@opentelemetry/resources";
 import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
+import { azureVmDetector } from "@opentelemetry/resource-detector-azure";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -36,37 +37,37 @@ describe("Library/Config", () => {
       const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(
         __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
+        "../../../../../test/internal/unit/shared/config.json"
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
       const config = new InternalConfig();
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions.connectionString,
-        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/",
+        "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;IngestionEndpoint=https://centralus-0.in.applicationinsights.azure.com/"
       );
       assert.deepStrictEqual(config.samplingRatio, 0.3, "Wrong samplingRatio");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         true,
-        "Wrong disableOfflineStorage",
+        "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.storageDirectory,
         "testPath",
-        "Wrong storageDirectory",
+        "Wrong storageDirectory"
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         true,
-        "Wrong azureSdk",
+        "Wrong azureSdk"
       );
       assert.deepStrictEqual(config.instrumentationOptions.mongoDb?.enabled, true, "Wrong mongoDb");
       assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, true, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
         true,
-        "Wrong postgreSql",
+        "Wrong postgreSql"
       );
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, true, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
@@ -117,43 +118,43 @@ describe("Library/Config", () => {
       assert.strictEqual(config.samplingRatio, jsonOptions.samplingRatio);
       assert.strictEqual(
         config.instrumentationOptions?.http?.enabled,
-        jsonOptions.instrumentationOptions.http.enabled,
+        jsonOptions.instrumentationOptions.http.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.azureSdk?.enabled,
-        jsonOptions.instrumentationOptions.azureSdk.enabled,
+        jsonOptions.instrumentationOptions.azureSdk.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.mongoDb?.enabled,
-        jsonOptions.instrumentationOptions.mongoDb.enabled,
+        jsonOptions.instrumentationOptions.mongoDb.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.mySql?.enabled,
-        jsonOptions.instrumentationOptions.mySql.enabled,
+        jsonOptions.instrumentationOptions.mySql.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.postgreSql?.enabled,
-        jsonOptions.instrumentationOptions.postgreSql.enabled,
+        jsonOptions.instrumentationOptions.postgreSql.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.redis?.enabled,
-        jsonOptions.instrumentationOptions.redis.enabled,
+        jsonOptions.instrumentationOptions.redis.enabled
       );
       assert.strictEqual(
         config.instrumentationOptions?.redis4?.enabled,
-        jsonOptions.instrumentationOptions.redis4.enabled,
+        jsonOptions.instrumentationOptions.redis4.enabled
       );
       assert.strictEqual(
         config.azureMonitorExporterOptions?.connectionString,
-        jsonOptions.azureMonitorExporterOptions.connectionString,
+        jsonOptions.azureMonitorExporterOptions.connectionString
       );
       assert.strictEqual(
         config.azureMonitorExporterOptions?.storageDirectory,
-        jsonOptions.azureMonitorExporterOptions.storageDirectory,
+        jsonOptions.azureMonitorExporterOptions.storageDirectory
       );
       assert.strictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
-        jsonOptions.azureMonitorExporterOptions.disableOfflineStorage,
+        jsonOptions.azureMonitorExporterOptions.disableOfflineStorage
       );
     });
 
@@ -163,30 +164,30 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
-        "Wrong azureSdk",
+        "Wrong azureSdk"
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.mongoDb?.enabled,
         false,
-        "Wrong mongoDb",
+        "Wrong mongoDb"
       );
       assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
         false,
-        "Wrong postgreSql",
+        "Wrong postgreSql"
       );
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, false, "Wrong redis4");
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.disableOfflineStorage,
         undefined,
-        "Wrong disableOfflineStorage",
+        "Wrong disableOfflineStorage"
       );
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.storageDirectory,
         undefined,
-        "Wrong storageDirectory",
+        "Wrong storageDirectory"
       );
     });
 
@@ -219,12 +220,12 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.storageDirectory,
         "teststorageDirectory",
-        "Wrong storageDirectory",
+        "Wrong storageDirectory"
       );
       assert.deepStrictEqual(
         config.azureMonitorExporterOptions?.connectionString,
         "testConnectionString",
-        "Wrong connectionString",
+        "Wrong connectionString"
       );
       assert.deepStrictEqual(config.instrumentationOptions.http?.enabled, false, "Wrong http");
       assert.deepStrictEqual(config.instrumentationOptions.redis4?.enabled, true, "Wrong redis4");
@@ -233,18 +234,18 @@ describe("Library/Config", () => {
       assert.deepStrictEqual(
         config.instrumentationOptions.azureSdk?.enabled,
         false,
-        "Wrong azureSdk",
+        "Wrong azureSdk"
       );
       assert.deepStrictEqual(
         config.instrumentationOptions.mongoDb?.enabled,
         false,
-        "Wrong mongoDb",
+        "Wrong mongoDb"
       );
       assert.deepStrictEqual(config.instrumentationOptions.mySql?.enabled, false, "Wrong mySql");
       assert.deepStrictEqual(
         config.instrumentationOptions.postgreSql?.enabled,
         false,
-        "Wrong postgreSql",
+        "Wrong postgreSql"
       );
       assert.deepStrictEqual(config.instrumentationOptions.redis?.enabled, false, "Wrong redis");
     });
@@ -304,15 +305,15 @@ describe("OpenTelemetry Resource", () => {
     config.resource = customResource;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
-      "testServiceName",
+      "testServiceName"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
-      "testServiceInstanceId",
+      "testServiceInstanceId"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.CONTAINER_ID],
-      "testContainerId",
+      "testContainerId"
     );
   });
 
@@ -320,22 +321,22 @@ describe("OpenTelemetry Resource", () => {
     const config = new InternalConfig();
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
-      "opentelemetry",
+      "opentelemetry"
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME]).startsWith(
-        "unknown_service:",
+        "unknown_service:"
       ),
-      "Wrong SERVICE_NAME",
+      "Wrong SERVICE_NAME"
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
         0,
-      "Wrong TELEMETRY_SDK_VERSION",
+      "Wrong TELEMETRY_SDK_VERSION"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
-      undefined,
+      undefined
     );
   });
 
@@ -354,31 +355,31 @@ describe("OpenTelemetry Resource", () => {
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
-      "opentelemetry",
+      "opentelemetry"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
-      "test-site",
+      "test-site"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
-      "test-instance-id",
+      "test-instance-id"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-      "azure",
+      "azure"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-      "test-region",
+      "test-region"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.DEPLOYMENT_ENVIRONMENT],
-      "test-slot",
+      "test-slot"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.HOST_ID],
-      "test-hostname",
+      "test-hostname"
     );
     assert.strictEqual(config.resource.attributes["azure.app.service.stamp"], "test-home-stamp");
   });
@@ -388,32 +389,35 @@ describe("OpenTelemetry Resource", () => {
     const originalEnv = process.env;
     env.WEBSITE_SITE_NAME = "test-site";
     env.REGION_NAME = "test-region";
+    env.WEBSITE_INSTANCE_ID = "test-instance-id";
     env.WEBSITE_MEMORY_LIMIT_MB = "512";
-    env.FUNCTIONS_EXTENSION_VERSION = "~3";
     process.env = env;
     const config = new InternalConfig();
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_NAME],
-      "opentelemetry",
+      "opentelemetry"
+    );
+    assert.strictEqual(
+      config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
+      "test-instance-id"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-      "azure",
+      "azure"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-      "test-region",
+      "test-region"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.FAAS_NAME],
-      "test-site",
+      "test-site"
     );
     assert.strictEqual(
       config.resource.attributes[SemanticResourceAttributes.FAAS_MAX_MEMORY],
-      "512",
+      "512"
     );
-    assert.strictEqual(config.resource.attributes[SemanticResourceAttributes.FAAS_VERSION], "~3");
   });
 
   it("Azure VM resource attributes", async () => {
@@ -421,28 +425,25 @@ describe("OpenTelemetry Resource", () => {
       .get("/metadata/instance/compute?api-version=2021-12-13&format=json")
       .reply(200, vmTestResponse);
 
-    const config = new InternalConfig();
-    assert.ok(config);
-
-    // Wait for the async VM resource detector to finish
-    await setTimeout(() => {
-      for (let i = 0; i < Object.keys(config.resource.attributes).length; i++) {
-        const key = Object.keys(config.resource.attributes)[i];
-        assert.strictEqual(config.resource.attributes[key], testAttributes[key]);
-      }
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
-        "azure",
-      );
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_REGION],
-        "westus",
-      );
-      assert.strictEqual(
-        config.resource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
-        CloudPlatformValues.AZURE_VM,
-      );
-    }, 150);
+    const azureResource: Resource = detectResourcesSync({
+      detectors: [azureVmDetector],
+    });
+    if (azureResource.waitForAsyncAttributes) {
+      await azureResource.waitForAsyncAttributes();
+    }
+    for (let i = 0; i < Object.keys(azureResource.attributes).length; i++) {
+      const key = Object.keys(azureResource.attributes)[i];
+      assert.strictEqual(azureResource.attributes[key], testAttributes[key]);
+    }
+    assert.strictEqual(
+      azureResource.attributes[SemanticResourceAttributes.CLOUD_PROVIDER],
+      "azure"
+    );
+    assert.strictEqual(azureResource.attributes[SemanticResourceAttributes.CLOUD_REGION], "westus");
+    assert.strictEqual(
+      azureResource.attributes[SemanticResourceAttributes.CLOUD_PLATFORM],
+      CloudPlatformValues.AZURE_VM
+    );
     scope.done();
   });
 
@@ -456,19 +457,19 @@ describe("OpenTelemetry Resource", () => {
     process.env = originalEnv;
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_NAME],
-      "testServiceName",
+      "testServiceName"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.SERVICE_INSTANCE_ID],
-      "testServiceInstance",
+      "testServiceInstance"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.K8S_CLUSTER_NAME],
-      "testClusterName",
+      "testClusterName"
     );
     assert.deepStrictEqual(
       config.resource.attributes[SemanticResourceAttributes.K8S_NODE_NAME],
-      "testNodeName",
+      "testNodeName"
     );
   });
 });
@@ -645,8 +646,4 @@ const testAttributes: any = {
   "os.type": "Windows",
   "os.version": "20.04.202307240",
   "service.instance.id": "02aab8a4-74ef-476e-8182-f6d2ba4166a6",
-  "service.name": "unknown_service:node",
-  "telemetry.sdk.language": "nodejs",
-  "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.21.0",
 };

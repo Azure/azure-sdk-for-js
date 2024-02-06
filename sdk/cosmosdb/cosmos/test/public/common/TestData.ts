@@ -7,10 +7,7 @@ export class TestData {
   public numberOfDocumentsWithNumbericId: number;
   public sum: number;
   public docs: any[];
-  constructor(
-    public partitionKey: string,
-    public uniquePartitionKey: string,
-  ) {
+  constructor(public partitionKey: string, public uniquePartitionKey: string) {
     this.numberOfDocuments = 50;
     this.field = "field";
     const docs = [];

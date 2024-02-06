@@ -18,18 +18,15 @@ describe("AbortSignal", () => {
       this.skip();
     }
 
-    client = createClient("OpenAIKey", "completions", {});
+    client = createClient("OpenAIKey", {});
   });
 
   it("Abort signal test for streaming method", async function () {
     const messages = [
-      {
-        role: "system",
-        content: "You are a helpful assistant. You will talk like a pirate.",
-      } as const,
-      { role: "user", content: "Can you help me?" } as const,
-      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" } as const,
-      { role: "user", content: "What's the best way to train a parrot?" } as const,
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
     ];
 
     const deploymentName = "gpt-3.5-turbo";
@@ -37,7 +34,7 @@ describe("AbortSignal", () => {
     const abortSignal = abortController.signal;
     let currentMessage = "";
     try {
-      const events = await client.streamChatCompletions(deploymentName, messages, {
+      const events = client.listChatCompletions(deploymentName, messages, {
         maxTokens: 800,
         temperature: 0.7,
         presencePenalty: 0,

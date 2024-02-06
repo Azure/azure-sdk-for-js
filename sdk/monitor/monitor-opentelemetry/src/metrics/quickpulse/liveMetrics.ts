@@ -22,14 +22,14 @@ import { LogRecord } from "@opentelemetry/sdk-logs";
 import { isExceptionTelemetry } from "../utils";
 import {
   DocumentIngress,
-  Exception,
+  ExceptionDocumentIngress,
   MonitoringDataPoint,
   PingOptionalParams,
   PingResponse,
   PostResponse,
-  RemoteDependency,
-  Request,
-  Trace,
+  RemoteDependencyDocumentIngress,
+  RequestDocumentIngress,
+  TraceDocumentIngress,
 } from "../../generated";
 import {
   getCloudRole,
@@ -37,13 +37,12 @@ import {
   getLogDocument,
   getSdkVersion,
   getSpanDocument,
-  getTransmissionTime,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
+import { QuickPulseMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 
 const POST_INTERVAL = 1000;
@@ -121,7 +120,7 @@ export class LiveMetrics {
       streamId: streamId,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
-      this.config.azureMonitorExporterOptions.connectionString,
+      this.config.azureMonitorExporterOptions.connectionString
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
@@ -151,7 +150,7 @@ export class LiveMetrics {
       // If not collecting, Ping
       try {
         let params: PingOptionalParams = {
-          xMsQpsTransmissionTime: getTransmissionTime(),
+          xMsQpsTransmissionTime: Date.now(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
         await context.with(suppressTracing(context.active()), async () => {
@@ -238,61 +237,58 @@ export class LiveMetrics {
     this.meter = this.meterProvider.getMeter("AzureMonitorLiveMetricsMeter");
 
     this.requestDurationHistogram = this.meter.createHistogram(
-      QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
+      QuickPulseMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
     this.dependencyDurationHistogram = this.meter.createHistogram(
-      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
+      QuickPulseMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
 
-    this.requestRateGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.REQUEST_RATE,
-      {
-        valueType: ValueType.DOUBLE,
-      },
-    );
+    this.requestRateGauge = this.meter.createObservableGauge(QuickPulseMetricNames.REQUEST_RATE, {
+      valueType: ValueType.DOUBLE,
+    });
     this.requestFailedRateGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
+      QuickPulseMetricNames.REQUEST_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
     this.dependencyRateGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,
+      QuickPulseMetricNames.DEPENDENCY_RATE,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
     this.dependencyFailedRateGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE,
+      QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
 
     this.memoryCommitedGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
+      QuickPulseMetricNames.COMMITTED_BYTES,
       {
         valueType: ValueType.INT,
-      },
+      }
     );
 
     this.processorTimeGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
+      QuickPulseMetricNames.PROCESSOR_TIME,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
     this.exceptionsRateGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE,
+      QuickPulseMetricNames.EXCEPTION_RATE,
       {
         valueType: ValueType.DOUBLE,
-      },
+      }
     );
 
     this.requestRateGauge.addCallback(this.getRequestRate.bind(this));
@@ -348,7 +344,8 @@ export class LiveMetrics {
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
       // Add document and calculate metrics
-      let document: Request | RemoteDependency = getSpanDocument(span);
+      let document: RequestDocumentIngress | RemoteDependencyDocumentIngress =
+        getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
       const statusCode = String(span.attributes["http.status_code"]);
@@ -386,7 +383,7 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      let document: Trace | Exception = getLogDocument(logRecord);
+      let document: TraceDocumentIngress | ExceptionDocumentIngress = getLogDocument(logRecord);
       this.addDocument(document);
       if (isExceptionTelemetry(logRecord)) {
         this.totalExceptionCount++;

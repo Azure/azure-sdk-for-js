@@ -173,9 +173,6 @@ export interface BackupShortTermRetentionPolicyListResult {
 }
 
 // @public
-export type BackupStorageAccessTier = string;
-
-// @public
 export type BackupStorageRedundancy = string;
 
 // @public
@@ -225,12 +222,6 @@ export type CapabilityStatus = "Visible" | "Available" | "Default" | "Disabled";
 
 // @public
 export type CatalogCollationType = string;
-
-// @public
-export interface ChangeLongTermRetentionBackupAccessTierParameters {
-    backupStorageAccessTier: string;
-    operationMode: string;
-}
 
 // @public
 export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
@@ -2206,26 +2197,6 @@ export interface EndpointDetail {
 }
 
 // @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export interface ExportDatabaseDefinition {
     administratorLogin: string;
     administratorLoginPassword: string;
@@ -2780,9 +2751,7 @@ export type InstanceFailoverGroupsListByLocationResponse = InstanceFailoverGroup
 
 // @public
 export interface InstancePool extends TrackedResource {
-    readonly dnsZone?: string;
     licenseType?: InstancePoolLicenseType;
-    maintenanceConfigurationId?: string;
     sku?: Sku;
     subnetId?: string;
     vCores?: number;
@@ -2888,15 +2857,9 @@ export type InstancePoolsUpdateResponse = InstancePool;
 
 // @public
 export interface InstancePoolUpdate {
-    readonly dnsZone?: string;
-    licenseType?: InstancePoolLicenseType;
-    maintenanceConfigurationId?: string;
-    sku?: Sku;
-    subnetId?: string;
     tags?: {
         [propertyName: string]: string;
     };
-    vCores?: number;
 }
 
 // @public
@@ -3223,64 +3186,6 @@ export interface JobListResult {
     readonly nextLink?: string;
     readonly value?: Job[];
 }
-
-// @public
-export interface JobPrivateEndpoint extends ProxyResource {
-    readonly privateEndpointId?: string;
-    targetServerAzureResourceId?: string;
-}
-
-// @public
-export interface JobPrivateEndpointListResult {
-    readonly nextLink?: string;
-    readonly value?: JobPrivateEndpoint[];
-}
-
-// @public
-export interface JobPrivateEndpoints {
-    beginCreateOrUpdate(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<JobPrivateEndpointsCreateOrUpdateResponse>, JobPrivateEndpointsCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, parameters: JobPrivateEndpoint, options?: JobPrivateEndpointsCreateOrUpdateOptionalParams): Promise<JobPrivateEndpointsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, serverName: string, jobAgentName: string, privateEndpointName: string, options?: JobPrivateEndpointsGetOptionalParams): Promise<JobPrivateEndpointsGetResponse>;
-    listByAgent(resourceGroupName: string, serverName: string, jobAgentName: string, options?: JobPrivateEndpointsListByAgentOptionalParams): PagedAsyncIterableIterator<JobPrivateEndpoint>;
-}
-
-// @public
-export interface JobPrivateEndpointsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type JobPrivateEndpointsCreateOrUpdateResponse = JobPrivateEndpoint;
-
-// @public
-export interface JobPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface JobPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobPrivateEndpointsGetResponse = JobPrivateEndpoint;
-
-// @public
-export interface JobPrivateEndpointsListByAgentNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobPrivateEndpointsListByAgentNextResponse = JobPrivateEndpointListResult;
-
-// @public
-export interface JobPrivateEndpointsListByAgentOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type JobPrivateEndpointsListByAgentResponse = JobPrivateEndpointListResult;
 
 // @public
 export interface Jobs {
@@ -3686,12 +3591,6 @@ export enum KnownAvailabilityZoneType {
     One = "1",
     Three = "3",
     Two = "2"
-}
-
-// @public
-export enum KnownBackupStorageAccessTier {
-    Archive = "Archive",
-    Hot = "Hot"
 }
 
 // @public
@@ -4125,15 +4024,6 @@ export enum KnownMetricType {
     Duration = "duration",
     Io = "io",
     LogIo = "logIo"
-}
-
-// @public
-export enum KnownMinimalTlsVersion {
-    None = "None",
-    One0 = "1.0",
-    One1 = "1.1",
-    One2 = "1.2",
-    One3 = "1.3"
 }
 
 // @public
@@ -4756,12 +4646,10 @@ export type LogSizeUnit = string;
 // @public
 export interface LongTermRetentionBackup extends ProxyResource {
     readonly backupExpirationTime?: Date;
-    readonly backupStorageAccessTier?: BackupStorageAccessTier;
     readonly backupStorageRedundancy?: BackupStorageRedundancy;
     readonly backupTime?: Date;
     readonly databaseDeletionTime?: Date;
     readonly databaseName?: string;
-    isBackupImmutable?: boolean;
     requestedBackupStorageRedundancy?: BackupStorageRedundancy;
     readonly serverCreateTime?: Date;
     readonly serverName?: string;
@@ -4786,10 +4674,6 @@ export interface LongTermRetentionBackupOperationResult extends ProxyResource {
 
 // @public
 export interface LongTermRetentionBackups {
-    beginChangeAccessTier(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsChangeAccessTierResponse>, LongTermRetentionBackupsChangeAccessTierResponse>>;
-    beginChangeAccessTierAndWait(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierOptionalParams): Promise<LongTermRetentionBackupsChangeAccessTierResponse>;
-    beginChangeAccessTierByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>, LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>>;
-    beginChangeAccessTierByResourceGroupAndWait(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: ChangeLongTermRetentionBackupAccessTierParameters, options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams): Promise<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>;
     beginCopy(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsCopyResponse>, LongTermRetentionBackupsCopyResponse>>;
     beginCopyAndWait(locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyOptionalParams): Promise<LongTermRetentionBackupsCopyResponse>;
     beginCopyByResourceGroup(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, longTermRetentionDatabaseName: string, backupName: string, parameters: CopyLongTermRetentionBackupParameters, options?: LongTermRetentionBackupsCopyByResourceGroupOptionalParams): Promise<SimplePollerLike<OperationState<LongTermRetentionBackupsCopyByResourceGroupResponse>, LongTermRetentionBackupsCopyByResourceGroupResponse>>;
@@ -4811,24 +4695,6 @@ export interface LongTermRetentionBackups {
     listByResourceGroupServer(resourceGroupName: string, locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
     listByServer(locationName: string, longTermRetentionServerName: string, options?: LongTermRetentionBackupsListByServerOptionalParams): PagedAsyncIterableIterator<LongTermRetentionBackup>;
 }
-
-// @public
-export interface LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse = LongTermRetentionBackup;
-
-// @public
-export interface LongTermRetentionBackupsChangeAccessTierOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type LongTermRetentionBackupsChangeAccessTierResponse = LongTermRetentionBackup;
 
 // @public
 export interface LongTermRetentionBackupsCopyByResourceGroupOptionalParams extends coreClient.OperationOptions {
@@ -5166,8 +5032,6 @@ export type LongTermRetentionPoliciesListByDatabaseResponse = LongTermRetentionP
 
 // @public
 export interface LongTermRetentionPolicy extends ProxyResource {
-    backupStorageAccessTier?: BackupStorageAccessTier;
-    makeBackupsImmutable?: boolean;
     monthlyRetention?: string;
     weeklyRetention?: string;
     weekOfYear?: number;
@@ -7454,9 +7318,6 @@ export interface MinCapacityCapability {
 }
 
 // @public
-export type MinimalTlsVersion = string;
-
-// @public
 export type MoveOperationMode = string;
 
 // @public
@@ -8554,7 +8415,7 @@ export interface Server extends TrackedResource {
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
     readonly kind?: string;
-    minimalTlsVersion?: MinimalTlsVersion;
+    minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9560,7 +9421,7 @@ export interface ServerUpdate {
     identity?: ResourceIdentity;
     isIPv6Enabled?: ServerNetworkAccessFlag;
     keyId?: string;
-    minimalTlsVersion?: MinimalTlsVersion;
+    minimalTlsVersion?: string;
     primaryUserAssignedIdentityId?: string;
     readonly privateEndpointConnections?: ServerPrivateEndpointConnection[];
     publicNetworkAccess?: ServerPublicNetworkAccessFlag;
@@ -9879,8 +9740,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     jobCredentials: JobCredentials;
     // (undocumented)
     jobExecutions: JobExecutions;
-    // (undocumented)
-    jobPrivateEndpoints: JobPrivateEndpoints;
     // (undocumented)
     jobs: Jobs;
     // (undocumented)

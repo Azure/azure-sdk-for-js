@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   Account,
   AccountsListBySubscriptionOptionalParams,
@@ -78,8 +78,8 @@ export interface Accounts {
     account: Account,
     options?: AccountsCreateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsCreateResponse>,
+    PollerLike<
+      PollOperationState<AccountsCreateResponse>,
       AccountsCreateResponse
     >
   >;
@@ -106,7 +106,7 @@ export interface Accounts {
     resourceGroupName: string,
     accountName: string,
     options?: AccountsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes account.
    * @param resourceGroupName The resource group name.
@@ -131,8 +131,8 @@ export interface Accounts {
     accountUpdatePayload: AccountUpdate,
     options?: AccountsUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<AccountsUpdateResponse>,
+    PollerLike<
+      PollOperationState<AccountsUpdateResponse>,
       AccountsUpdateResponse
     >
   >;

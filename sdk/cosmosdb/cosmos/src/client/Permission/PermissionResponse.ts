@@ -16,7 +16,7 @@ export class PermissionResponse extends ResourceResponse<
     headers: CosmosHeaders,
     statusCode: number,
     permission: Permission,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.permission = permission;

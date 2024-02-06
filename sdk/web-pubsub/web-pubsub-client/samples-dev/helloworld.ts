@@ -50,9 +50,7 @@ async function main() {
   client.on("group-message", (e) => {
     if (e.message.data instanceof ArrayBuffer) {
       console.log(
-        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString(
-          "base64",
-        )}`,
+        `Received message from ${e.message.group} ${Buffer.from(e.message.data).toString("base64")}`
       );
     } else {
       console.log(`Received message from ${e.message.group} ${JSON.stringify(e.message.data)}`);
@@ -71,7 +69,7 @@ async function main() {
   await client.sendToGroup(
     groupName,
     buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength),
-    "binary",
+    "binary"
   );
   await delay(1000);
   await client.stop();

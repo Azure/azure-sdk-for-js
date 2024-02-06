@@ -16,7 +16,7 @@ import {
   PostOptionalParams,
   PostResponse,
 } from "../../../generated";
-import { getTransmissionTime, resourceMetricsToQuickpulseDataPoint } from "../utils";
+import { resourceMetricsToQuickpulseDataPoint } from "../utils";
 
 /**
  * Quickpulse Metric Exporter.
@@ -53,16 +53,16 @@ export class QuickpulseMetricExporter implements PushMetricExporter {
    */
   async export(
     metrics: ResourceMetrics,
-    resultCallback: (result: ExportResult) => void,
+    resultCallback: (result: ExportResult) => void
   ): Promise<void> {
     diag.info(`Exporting Live metrics(s). Converting to envelopes...`);
     let optionalParams: PostOptionalParams = {
       monitoringDataPoints: resourceMetricsToQuickpulseDataPoint(
         metrics,
         this.baseMonitoringDataPoint,
-        this.getDocumentsFn(),
+        this.getDocumentsFn()
       ),
-      xMsQpsTransmissionTime: getTransmissionTime(),
+      xMsQpsTransmissionTime: Date.now(),
     };
     // Supress tracing until OpenTelemetry Metrics SDK support it
     await context.with(suppressTracing(context.active()), async () => {

@@ -16,62 +16,62 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
       version: {
         serializedName: "Version",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       invariantVersion: {
         serializedName: "InvariantVersion",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       instance: {
         serializedName: "Instance",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       roleName: {
         serializedName: "RoleName",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       machineName: {
         serializedName: "MachineName",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       streamId: {
         serializedName: "StreamId",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       timestamp: {
         serializedName: "Timestamp",
         type: {
-          name: "DateTime",
-        },
+          name: "DateTime"
+        }
       },
       transmissionTime: {
         serializedName: "TransmissionTime",
         type: {
-          name: "DateTime",
-        },
+          name: "DateTime"
+        }
       },
       isWebApp: {
         serializedName: "IsWebApp",
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       performanceCollectionSupported: {
         serializedName: "PerformanceCollectionSupported",
         type: {
-          name: "Boolean",
-        },
+          name: "Boolean"
+        }
       },
       metrics: {
         serializedName: "Metrics",
@@ -80,10 +80,10 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MetricPoint",
-            },
-          },
-        },
+              className: "MetricPoint"
+            }
+          }
+        }
       },
       documents: {
         serializedName: "Documents",
@@ -92,10 +92,10 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DocumentIngress",
-            },
-          },
-        },
+              className: "DocumentIngress"
+            }
+          }
+        }
       },
       topCpuProcesses: {
         serializedName: "TopCpuProcesses",
@@ -104,10 +104,10 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ProcessCpuData",
-            },
-          },
-        },
+              className: "ProcessCpuData"
+            }
+          }
+        }
       },
       collectionConfigurationErrors: {
         serializedName: "CollectionConfigurationErrors",
@@ -116,13 +116,13 @@ export const MonitoringDataPoint: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CollectionConfigurationError",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "CollectionConfigurationError"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const MetricPoint: coreClient.CompositeMapper = {
@@ -133,41 +133,35 @@ export const MetricPoint: coreClient.CompositeMapper = {
       name: {
         serializedName: "Name",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       value: {
         serializedName: "Value",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       weight: {
         serializedName: "Weight",
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const DocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "DocumentIngress",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: {
-      serializedName: "DocumentType",
-      clientName: "documentType",
-    },
     modelProperties: {
       documentType: {
         serializedName: "DocumentType",
-        required: true,
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       documentStreamIds: {
         serializedName: "DocumentStreamIds",
@@ -175,10 +169,10 @@ export const DocumentIngress: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String",
-            },
-          },
-        },
+              name: "String"
+            }
+          }
+        }
       },
       properties: {
         serializedName: "Properties",
@@ -186,35 +180,14 @@ export const DocumentIngress: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Composite",
-              className: "KeyValuePairString",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const KeyValuePairString: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "KeyValuePairString",
-    modelProperties: {
-      key: {
-        serializedName: "key",
-        type: {
-          name: "String",
-        },
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
+              name: "Dictionary",
+              value: { type: { name: "any" } }
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const ProcessCpuData: coreClient.CompositeMapper = {
@@ -225,17 +198,17 @@ export const ProcessCpuData: coreClient.CompositeMapper = {
       processName: {
         serializedName: "ProcessName",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       cpuPercentage: {
         serializedName: "CpuPercentage",
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const CollectionConfigurationError: coreClient.CompositeMapper = {
@@ -246,20 +219,20 @@ export const CollectionConfigurationError: coreClient.CompositeMapper = {
       collectionConfigurationErrorType: {
         serializedName: "CollectionConfigurationErrorType",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       message: {
         serializedName: "Message",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       fullException: {
         serializedName: "FullException",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       data: {
         serializedName: "Data",
@@ -268,13 +241,34 @@ export const CollectionConfigurationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "KeyValuePairString",
-            },
-          },
-        },
+              className: "KeyValuePairString"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyValuePairString: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "KeyValuePairString",
+    modelProperties: {
+      key: {
+        serializedName: "key",
+        type: {
+          name: "String"
+        }
       },
-    },
-  },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
@@ -285,8 +279,8 @@ export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
       etag: {
         serializedName: "Etag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       metrics: {
         serializedName: "Metrics",
@@ -295,10 +289,10 @@ export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DerivedMetricInfo",
-            },
-          },
-        },
+              className: "DerivedMetricInfo"
+            }
+          }
+        }
       },
       documentStreams: {
         serializedName: "DocumentStreams",
@@ -307,20 +301,20 @@ export const CollectionConfigurationInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DocumentStreamInfo",
-            },
-          },
-        },
+              className: "DocumentStreamInfo"
+            }
+          }
+        }
       },
       quotaInfo: {
         serializedName: "QuotaInfo",
         type: {
           name: "Composite",
-          className: "QuotaConfigurationInfo",
-        },
-      },
-    },
-  },
+          className: "QuotaConfigurationInfo"
+        }
+      }
+    }
+  }
 };
 
 export const DerivedMetricInfo: coreClient.CompositeMapper = {
@@ -331,14 +325,14 @@ export const DerivedMetricInfo: coreClient.CompositeMapper = {
       id: {
         serializedName: "Id",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       telemetryType: {
         serializedName: "TelemetryType",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       filterGroups: {
         serializedName: "FilterGroups",
@@ -347,25 +341,25 @@ export const DerivedMetricInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FilterConjunctionGroupInfo",
-            },
-          },
-        },
+              className: "FilterConjunctionGroupInfo"
+            }
+          }
+        }
       },
       projection: {
         serializedName: "Projection",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       aggregation: {
         serializedName: "Aggregation",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const FilterConjunctionGroupInfo: coreClient.CompositeMapper = {
@@ -380,13 +374,13 @@ export const FilterConjunctionGroupInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FilterInfo",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "FilterInfo"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const FilterInfo: coreClient.CompositeMapper = {
@@ -397,23 +391,23 @@ export const FilterInfo: coreClient.CompositeMapper = {
       fieldName: {
         serializedName: "FieldName",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       predicate: {
         serializedName: "Predicate",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       comparand: {
         serializedName: "Comparand",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const DocumentStreamInfo: coreClient.CompositeMapper = {
@@ -424,8 +418,8 @@ export const DocumentStreamInfo: coreClient.CompositeMapper = {
       id: {
         serializedName: "Id",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       documentFilterGroups: {
         serializedName: "DocumentFilterGroups",
@@ -434,13 +428,13 @@ export const DocumentStreamInfo: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "DocumentFilterConjunctionGroupInfo",
-            },
-          },
-        },
-      },
-    },
-  },
+              className: "DocumentFilterConjunctionGroupInfo"
+            }
+          }
+        }
+      }
+    }
+  }
 };
 
 export const DocumentFilterConjunctionGroupInfo: coreClient.CompositeMapper = {
@@ -451,18 +445,18 @@ export const DocumentFilterConjunctionGroupInfo: coreClient.CompositeMapper = {
       telemetryType: {
         serializedName: "TelemetryType",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       filters: {
         serializedName: "Filters",
         type: {
           name: "Composite",
-          className: "FilterConjunctionGroupInfo",
-        },
-      },
-    },
-  },
+          className: "FilterConjunctionGroupInfo"
+        }
+      }
+    }
+  }
 };
 
 export const QuotaConfigurationInfo: coreClient.CompositeMapper = {
@@ -473,25 +467,25 @@ export const QuotaConfigurationInfo: coreClient.CompositeMapper = {
       initialQuota: {
         serializedName: "InitialQuota",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       maxQuota: {
         serializedName: "MaxQuota",
         required: true,
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       quotaAccrualRatePerSec: {
         serializedName: "QuotaAccrualRatePerSec",
         required: true,
         type: {
-          name: "Number",
-        },
-      },
-    },
-  },
+          name: "Number"
+        }
+      }
+    }
+  }
 };
 
 export const ServiceError: coreClient.CompositeMapper = {
@@ -502,202 +496,187 @@ export const ServiceError: coreClient.CompositeMapper = {
       requestId: {
         serializedName: "RequestId",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       responseDateTime: {
         serializedName: "ResponseDateTime",
         type: {
-          name: "DateTime",
-        },
+          name: "DateTime"
+        }
       },
       code: {
         serializedName: "Code",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       message: {
         serializedName: "Message",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       exception: {
         serializedName: "Exception",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
-export const Request: coreClient.CompositeMapper = {
-  serializedName: "Request",
+export const RequestDocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Request",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    className: "RequestDocumentIngress",
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 1024
         },
         serializedName: "Name",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       url: {
         constraints: {
-          MaxLength: 2048,
+          MaxLength: 2048
         },
         serializedName: "Url",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       responseCode: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 1024
         },
         serializedName: "ResponseCode",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       duration: {
         serializedName: "Duration",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
-export const RemoteDependency: coreClient.CompositeMapper = {
-  serializedName: "RemoteDependency",
+export const RemoteDependencyDocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RemoteDependency",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    className: "RemoteDependencyDocumentIngress",
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 1024
         },
         serializedName: "Name",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       commandName: {
         constraints: {
-          MaxLength: 2048,
+          MaxLength: 2048
         },
         serializedName: "CommandName",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       resultCode: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 1024
         },
         serializedName: "ResultCode",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       duration: {
         serializedName: "Duration",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
-export const Exception: coreClient.CompositeMapper = {
-  serializedName: "Exception",
+export const ExceptionDocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Exception",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    className: "ExceptionDocumentIngress",
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       exceptionType: {
         constraints: {
-          MaxLength: 1024,
+          MaxLength: 1024
         },
         serializedName: "ExceptionType",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       exceptionMessage: {
         constraints: {
-          MaxLength: 32768,
+          MaxLength: 32768
         },
         serializedName: "ExceptionMessage",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
-export const Event: coreClient.CompositeMapper = {
-  serializedName: "Event",
+export const EventDocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Event",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    className: "EventDocumentIngress",
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       name: {
         constraints: {
-          MaxLength: 512,
+          MaxLength: 512
         },
         serializedName: "Name",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
-export const Trace: coreClient.CompositeMapper = {
-  serializedName: "Trace",
+export const TraceDocumentIngress: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Trace",
-    uberParent: "DocumentIngress",
-    polymorphicDiscriminator: DocumentIngress.type.polymorphicDiscriminator,
+    className: "TraceDocumentIngress",
     modelProperties: {
       ...DocumentIngress.type.modelProperties,
       message: {
         constraints: {
-          MaxLength: 32768,
+          MaxLength: 32768
         },
         serializedName: "Message",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const QuickpulseClientPingHeaders: coreClient.CompositeMapper = {
@@ -708,29 +687,29 @@ export const QuickpulseClientPingHeaders: coreClient.CompositeMapper = {
       xMsQpsSubscribed: {
         serializedName: "x-ms-qps-subscribed",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       xMsQpsConfigurationEtag: {
         serializedName: "x-ms-qps-configuration-etag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       xMsQpsServicePollingIntervalHint: {
         serializedName: "x-ms-qps-service-polling-interval-hint",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       xMsQpsServiceEndpointRedirectV2: {
         serializedName: "x-ms-qps-service-endpoint-redirect-v2",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
+          name: "String"
+        }
+      }
+    }
+  }
 };
 
 export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
@@ -741,42 +720,33 @@ export const QuickpulseClientPostHeaders: coreClient.CompositeMapper = {
       xMsQpsSubscribed: {
         serializedName: "x-ms-qps-subscribed",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       xMsQpsConfigurationEtag: {
         serializedName: "x-ms-qps-configuration-etag",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       xMsQpsServicePollingIntervalHint: {
         serializedName: "x-ms-qps-service-polling-interval-hint",
         type: {
-          name: "Number",
-        },
+          name: "Number"
+        }
       },
       xMsQpsServiceEndpointRedirect: {
         serializedName: "x-ms-qps-service-endpoint-redirect",
         type: {
-          name: "String",
-        },
+          name: "String"
+        }
       },
       xMsQpsServiceEndpointRedirectV2: {
         serializedName: "x-ms-qps-service-endpoint-redirect-v2",
         type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export let discriminators = {
-  DocumentIngress: DocumentIngress,
-  "DocumentIngress.Request": Request,
-  "DocumentIngress.RemoteDependency": RemoteDependency,
-  "DocumentIngress.Exception": Exception,
-  "DocumentIngress.Event": Event,
-  "DocumentIngress.Trace": Trace,
+          name: "String"
+        }
+      }
+    }
+  }
 };

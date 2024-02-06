@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { randomUUID } from "@azure/core-util";
+import { v4 as generateUuid } from "uuid";
 import { PerfOptionDictionary, drainStream } from "@azure/test-utils-perf";
 import { ShareFileClient } from "@azure/storage-file-share";
 
@@ -20,7 +20,7 @@ export class StorageFileShareDownloadTest extends StorageFileShareTest<StorageFi
       defaultValue: 1024,
     },
   };
-  static fileName = randomUUID();
+  static fileName = generateUuid();
   fileClient: ShareFileClient;
 
   constructor() {

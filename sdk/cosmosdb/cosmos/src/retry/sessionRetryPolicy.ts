@@ -25,7 +25,7 @@ export class SessionRetryPolicy implements RetryPolicy {
     private globalEndpointManager: GlobalEndpointManager,
     private resourceType: ResourceType,
     private operationType: OperationType,
-    private connectionPolicy: ConnectionPolicy,
+    private connectionPolicy: ConnectionPolicy
   ) {}
 
   /**
@@ -37,7 +37,7 @@ export class SessionRetryPolicy implements RetryPolicy {
   public async shouldRetry(
     err: ErrorResponse,
     diagnosticNode: DiagnosticNodeInternal,
-    retryContext?: RetryContext,
+    retryContext?: RetryContext
   ): Promise<boolean> {
     if (!err) {
       return false;

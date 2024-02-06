@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, beforeEach, afterEach, vi } from "vitest";
+import { assert } from "chai";
 import { createFetchHttpClient } from "../../src/fetchHttpClient";
 import { createPipelineRequest } from "../../src/pipelineRequest";
 import { png } from "./mocks/encodedPng";
+import sinon from "sinon";
 import { createHttpHeaders } from "../../src/httpHeaders";
-import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "../../src/util/helpers";
 
 const streamBody = new ReadableStream({
@@ -21,7 +22,7 @@ function createResponse(
   body = "",
   chunkDelay = 0,
   chunkNumber?: number,
-  abortSignal?: AbortSignalLike,
+  abortSignal?: AbortSignalLike
 ): Response {
   const stream = new ReadableStream({
     async start(controller) {
@@ -53,21 +54,23 @@ function createResponse(
 }
 
 describe("FetchHttpClient", function () {
+  let fetchMock: sinon.SinonStub;
+  let clock: sinon.SinonFakeTimers;
   beforeEach(() => {
-    vi.stubGlobal("fetch", vi.fn());
+    fetchMock = sinon.stub(self, "fetch");
   });
 
   afterEach(() => {
-    vi.clearAllMocks();
-    vi.unstubAllGlobals();
-    if (vi.isFakeTimers()) {
-      vi.useRealTimers();
+    sinon.restore();
+    fetchMock.restore();
+    if (clock) {
+      clock.restore();
     }
   });
 
   it("shouldn't throw on 404", async function () {
     const mockedResponse = createResponse(404);
-    vi.mocked(fetch).mockResolvedValue(mockedResponse);
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
 
@@ -79,11 +82,12 @@ describe("FetchHttpClient", function () {
   it("should allow canceling of requests", async function () {
     const mockedResponse = createResponse(404);
     const timeoutLength = 2000;
-    vi.useFakeTimers();
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+    clock = sinon.useFakeTimers();
+    fetchMock.callsFake(async (_url, options) => {
       await delay(timeoutLength);
-      if (options?.signal) {
+      if (options.signal) {
         const signal: AbortSignalLike = options.signal;
+        console.log(`${signal.aborted}`);
 
         if (signal.aborted) {
           throw new AbortError();
@@ -105,9 +109,9 @@ describe("FetchHttpClient", function () {
       },
     });
     const promise = client.sendRequest(request);
-    vi.advanceTimersByTime(timeoutLength - 1);
+    clock.tick(timeoutLength - 1);
     controller.abort();
-    vi.advanceTimersByTime(1);
+    clock.tick(1);
 
     try {
       await promise;
@@ -118,10 +122,10 @@ describe("FetchHttpClient", function () {
   });
 
   it("should return AbortError while reading stream", async function () {
-    vi.useFakeTimers();
+    clock = sinon.useFakeTimers();
     const body = "This is an example text for abort test";
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
-      if (!options?.signal) {
+    fetchMock.callsFake(async (_url, options) => {
+      if (!options.signal) {
         throw new Error("Abort signal is not received");
       }
       return createResponse(200, body, 0, 20, options.signal);
@@ -138,9 +142,9 @@ describe("FetchHttpClient", function () {
       streamResponseStatusCodes: new Set([200]),
     });
     const promise = client.sendRequest(request);
-    vi.advanceTimersByTime(100);
+    clock.tick(100);
     controller.abort();
-    vi.advanceTimersByTime(1);
+    clock.tick(1);
     try {
       const response = await promise;
       const reader = response.browserStreamBody!.getReader();
@@ -160,7 +164,7 @@ describe("FetchHttpClient", function () {
   it("shouldn't be affected by requests cancelled late", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });
-    vi.mocked(fetch).mockResolvedValue(mockedResponse);
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const controller = new AbortController();
@@ -178,7 +182,7 @@ describe("FetchHttpClient", function () {
   it("should allow canceling of requests before the request is made", async function () {
     const blob = new Blob();
     const mockedResponse = new Response(blob, { status: 200 });
-    vi.mocked(fetch).mockResolvedValue(mockedResponse);
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const controller = new AbortController();
@@ -199,10 +203,10 @@ describe("FetchHttpClient", function () {
   it("should load chunk by chunk", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.useFakeTimers();
+    clock = sinon.useFakeTimers();
     // Mocking fetch to send the first chunk right away but delay the next
     // chunk one second (1000ms).
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText, 1000));
+    fetchMock.returns(createResponse(200, responseText, 1000));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = 0;
     const request = createPipelineRequest({
@@ -223,7 +227,7 @@ describe("FetchHttpClient", function () {
     const chunk = await reader.read();
     // Advance the mocked clock 1000ms so that the mock response
     // enqueues the second chunk
-    vi.advanceTimersByTime(1000);
+    clock.tick(1000);
 
     // Verify that only one chunk was loaded
     assert.equal(downloadCalled, 1);
@@ -233,7 +237,7 @@ describe("FetchHttpClient", function () {
   it("should report download progress and decode chunks", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
@@ -252,11 +256,11 @@ describe("FetchHttpClient", function () {
 
   it("should report download progress and decode chunks without TransformStream", async function () {
     // Make TransformStream undefined to simulate Firefox where it is not available
-    vi.stubGlobal("TransformStream", undefined);
+    const transformStub = sinon.stub(self, "TransformStream").value(undefined);
 
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
@@ -269,7 +273,7 @@ describe("FetchHttpClient", function () {
       },
     });
     const response = await client.sendRequest(request);
-
+    transformStub.restore();
     assert.isDefined(response.bodyAsText);
     assert.isTrue(downloadCalled, "no download progress");
   });
@@ -277,7 +281,7 @@ describe("FetchHttpClient", function () {
   it("should report download progress when handling blob", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
@@ -301,7 +305,7 @@ describe("FetchHttpClient", function () {
   it("should stream response body when status code matches", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
@@ -325,7 +329,7 @@ describe("FetchHttpClient", function () {
   it("should not stream response body when status code doesn't match", async function () {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/files/stream/nonempty`;
     let downloadCalled = false;
     const request = createPipelineRequest({
@@ -347,7 +351,7 @@ describe("FetchHttpClient", function () {
   it("should report upload progress with TransformStream", async () => {
     const client = createFetchHttpClient();
     const responseText = "An appropriate response.";
-    vi.mocked(fetch).mockResolvedValue(createResponse(200, responseText));
+    fetchMock.returns(createResponse(200, responseText));
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
     let downloadCalled = false;
@@ -383,23 +387,21 @@ describe("FetchHttpClient", function () {
         controller.close();
       },
     });
-    vi.mocked(fetch).mockImplementation(
-      async (_url, options: (RequestInit & { duplex?: string }) | undefined) => {
-        const body = options?.body;
-        assert.isTrue(
-          body &&
-            typeof (body as ReadableStream).getReader === "function" &&
-            typeof (body as ReadableStream).tee === "function",
-          "expecting ReadableStream request body",
-        );
-        assert.strictEqual(options?.duplex, "half");
-        const reader = (body as ReadableStream).getReader();
-        const data = await reader.read();
-        assert.equal(data.value, requestText, "unexpected request text");
-        bodySent = true;
-        return new Response(undefined, { status: 200 });
-      },
-    );
+    fetchMock.callsFake(async (_url, options) => {
+      const body = options.body;
+      assert.isTrue(
+        body &&
+          typeof (body as ReadableStream).getReader === "function" &&
+          typeof (body as ReadableStream).tee === "function",
+        "expecting ReadableStream request body"
+      );
+      assert.strictEqual(options.duplex, "half");
+      const reader = (body as ReadableStream).getReader();
+      const data = await reader.read();
+      assert.equal(data.value, requestText, "unexpected request text");
+      bodySent = true;
+      return new Response(undefined, { status: 200 });
+    });
     const request = createPipelineRequest({
       url,
       method: "PUT",
@@ -418,7 +420,7 @@ describe("FetchHttpClient", function () {
     const url = `http://localhost:3000/formdata/stream/uploadfile`;
 
     let bodySent = false;
-    const factoryMethod = (): ReadableStream => {
+    const factoryMethod = () => {
       return new ReadableStream({
         start(controller) {
           controller.enqueue(requestText);
@@ -426,13 +428,13 @@ describe("FetchHttpClient", function () {
         },
       });
     };
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
-      const body = options?.body;
+    fetchMock.callsFake(async (_url, options) => {
+      const body = options.body;
       assert.isTrue(
         body &&
           typeof (body as ReadableStream).getReader === "function" &&
           typeof (body as ReadableStream).tee === "function",
-        "expecting ReadableStream request body",
+        "expecting ReadableStream request body"
       );
       const reader = (body as ReadableStream).getReader();
       const data = await reader.read();
@@ -455,12 +457,13 @@ describe("FetchHttpClient", function () {
   it("should honor timeout", async function () {
     const timeoutLength = 2000;
     const mockedResponse = createResponse(404);
-    vi.useFakeTimers();
-    vi.mocked(fetch).mockImplementation(async (_url, options) => {
+    clock = sinon.useFakeTimers();
+    fetchMock.callsFake(async (_url, options) => {
       await delay(timeoutLength);
 
-      if (options?.signal) {
+      if (options.signal) {
         const signal: AbortSignalLike = options.signal;
+        console.log(`${signal.aborted}`);
 
         if (signal.aborted) {
           throw new AbortError();
@@ -479,7 +482,7 @@ describe("FetchHttpClient", function () {
       method: "GET",
     });
     const promise = client.sendRequest(request);
-    vi.advanceTimersByTime(timeoutLength);
+    clock.tick(timeoutLength);
 
     try {
       await promise;
@@ -504,7 +507,7 @@ describe("FetchHttpClient", function () {
 
   it("shouldn't throw when accessing HTTP and allowInsecureConnection is true", async function () {
     const mockedResponse = createResponse(200);
-    vi.mocked(fetch).mockResolvedValue(mockedResponse);
+    fetchMock.returns(mockedResponse);
 
     const client = createFetchHttpClient();
     const request = createPipelineRequest({

@@ -34,7 +34,7 @@ const createPayload = function (id: string): ItemPayload {
 
 const executeTestCase = async function (
   scenario: TestScenario,
-  useComputeGateway: boolean = false,
+  useComputeGateway: boolean = false
 ) {
   const client: CosmosClient = useComputeGateway ? defaultComputeGatewayClient : defaultClient;
   const container: Container = await getTestContainer(scenario.name, client, {

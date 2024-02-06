@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all capacity pools in the NetApp Account
  *
  * @summary List all capacity pools in the NetApp Account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Pools_List.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Pools_List.json
  */
 async function poolsList() {
   const subscriptionId =

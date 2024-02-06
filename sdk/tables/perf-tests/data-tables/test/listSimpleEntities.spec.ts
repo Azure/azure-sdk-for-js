@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TablesTest } from "./tables.spec";
 import { TableEntityResult, TransactionAction } from "@azure/data-tables";
@@ -28,7 +25,7 @@ export class ListSimpleEntitiesTest extends TablesTest<ListSimpleEntitiesTestOpt
     await super.globalSetup(); // Calling base class' setup
     const batches: TransactionAction[][] = createBatch(
       "simple",
-      this.parsedOptions.entityCount.value!,
+      this.parsedOptions.entityCount.value!
     );
 
     for (const batch of batches) {

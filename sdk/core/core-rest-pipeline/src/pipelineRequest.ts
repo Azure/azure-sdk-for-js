@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type {
+import {
   FormDataMap,
   HttpHeaders,
   HttpMethods,
@@ -12,9 +12,9 @@ import type {
   TransferProgressEvent,
 } from "./interfaces";
 import { createHttpHeaders } from "./httpHeaders";
-import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { randomUUID } from "@azure/core-util";
-import type { OperationTracingOptions } from "@azure/core-tracing";
+import { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Settings to initialize a request.

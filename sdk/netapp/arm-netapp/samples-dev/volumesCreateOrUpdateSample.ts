@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the specified volume within the capacity pool
  *
  * @summary Create or update the specified volume within the capacity pool
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Volumes_CreateOrUpdate.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Volumes_CreateOrUpdate.json
  */
 async function volumesCreateOrUpdate() {
   const subscriptionId =
@@ -30,12 +30,10 @@ async function volumesCreateOrUpdate() {
   const volumeName = "volume1";
   const body: Volume = {
     creationToken: "my-unique-file-path",
-    encryptionKeySource: "Microsoft.KeyVault",
     location: "eastus",
     serviceLevel: "Premium",
     subnetId:
       "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3",
-    throughputMibps: 128,
     usageThreshold: 107374182400
   };
   const credential = new DefaultAzureCredential();

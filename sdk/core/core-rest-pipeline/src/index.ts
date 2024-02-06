@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export type {
+export {
   Agent,
   BodyPart,
   FormDataMap,
@@ -24,89 +24,81 @@ export type {
   TransferProgressEvent,
 } from "./interfaces";
 export {
-  type AddPolicyOptions as AddPipelineOptions,
-  type PipelinePhase,
-  type PipelinePolicy,
-  type Pipeline,
+  AddPolicyOptions as AddPipelineOptions,
+  PipelinePhase,
+  PipelinePolicy,
+  Pipeline,
   createEmptyPipeline,
 } from "./pipeline";
 export {
   createPipelineFromOptions,
-  type TelemetryOptions,
-  type InternalPipelineOptions,
-  type PipelineOptions,
+  TelemetryOptions,
+  InternalPipelineOptions,
+  PipelineOptions,
 } from "./createPipelineFromOptions";
 export { createDefaultHttpClient } from "./defaultHttpClient";
 export { createHttpHeaders } from "./httpHeaders";
-export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest";
-export { RestError, type RestErrorOptions, isRestError } from "./restError";
+export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest";
+export { RestError, RestErrorOptions, isRestError } from "./restError";
 export {
   decompressResponsePolicy,
   decompressResponsePolicyName,
 } from "./policies/decompressResponsePolicy";
 export {
   exponentialRetryPolicy,
-  type ExponentialRetryPolicyOptions,
+  ExponentialRetryPolicyOptions,
   exponentialRetryPolicyName,
 } from "./policies/exponentialRetryPolicy";
 export {
   setClientRequestIdPolicy,
   setClientRequestIdPolicyName,
 } from "./policies/setClientRequestIdPolicy";
-export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy";
+export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy";
 export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy";
 export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy";
 export {
   redirectPolicy,
   redirectPolicyName,
-  type RedirectPolicyOptions,
+  RedirectPolicyOptions,
 } from "./policies/redirectPolicy";
 export {
   systemErrorRetryPolicy,
-  type SystemErrorRetryPolicyOptions,
+  SystemErrorRetryPolicyOptions,
   systemErrorRetryPolicyName,
 } from "./policies/systemErrorRetryPolicy";
 export {
   throttlingRetryPolicy,
   throttlingRetryPolicyName,
-  type ThrottlingRetryPolicyOptions,
+  ThrottlingRetryPolicyOptions,
 } from "./policies/throttlingRetryPolicy";
-export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy";
-export type {
-  RetryStrategy,
-  RetryInformation,
-  RetryModifiers,
-} from "./retryStrategies/retryStrategy";
-export {
-  tracingPolicy,
-  tracingPolicyName,
-  type TracingPolicyOptions,
-} from "./policies/tracingPolicy";
-export { defaultRetryPolicy, type DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
+export { retryPolicy, RetryPolicyOptions } from "./policies/retryPolicy";
+export { RetryStrategy, RetryInformation, RetryModifiers } from "./retryStrategies/retryStrategy";
+export { tracingPolicy, tracingPolicyName, TracingPolicyOptions } from "./policies/tracingPolicy";
+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy";
 export {
   userAgentPolicy,
   userAgentPolicyName,
-  type UserAgentPolicyOptions,
+  UserAgentPolicyOptions,
 } from "./policies/userAgentPolicy";
 export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
 export {
   bearerTokenAuthenticationPolicy,
-  type BearerTokenAuthenticationPolicyOptions,
+  BearerTokenAuthenticationPolicyOptions,
   bearerTokenAuthenticationPolicyName,
-  type ChallengeCallbacks,
-  type AuthorizeRequestOptions,
-  type AuthorizeRequestOnChallengeOptions,
+  ChallengeCallbacks,
+  AuthorizeRequestOptions,
+  AuthorizeRequestOnChallengeOptions,
 } from "./policies/bearerTokenAuthenticationPolicy";
 export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy";
 export {
   auxiliaryAuthenticationHeaderPolicy,
-  type AuxiliaryAuthenticationHeaderPolicyOptions,
+  AuxiliaryAuthenticationHeaderPolicyOptions,
   auxiliaryAuthenticationHeaderPolicyName,
 } from "./policies/auxiliaryAuthenticationHeaderPolicy";
 export {
   createFile,
   createFileFromStream,
-  type CreateFileOptions,
-  type CreateFileFromStreamOptions,
+  CreateFileOptions,
+  CreateFileFromStreamOptions,
 } from "./util/file";

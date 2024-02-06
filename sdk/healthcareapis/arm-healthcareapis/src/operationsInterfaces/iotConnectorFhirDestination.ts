@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
   IotConnectorFhirDestinationGetOptionalParams,
   IotConnectorFhirDestinationGetResponse,
@@ -51,8 +51,8 @@ export interface IotConnectorFhirDestination {
     iotFhirDestination: IotFhirDestination,
     options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
   ): Promise<
-    SimplePollerLike<
-      OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
+    PollerLike<
+      PollOperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
       IotConnectorFhirDestinationCreateOrUpdateResponse
     >
   >;
@@ -88,7 +88,7 @@ export interface IotConnectorFhirDestination {
     iotConnectorName: string,
     fhirDestinationName: string,
     options?: IotConnectorFhirDestinationDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Deletes an IoT Connector FHIR destination.
    * @param resourceGroupName The name of the resource group that contains the service instance.

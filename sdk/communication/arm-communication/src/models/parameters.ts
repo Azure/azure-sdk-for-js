@@ -22,9 +22,7 @@ import {
   VerificationParameter as VerificationParameterMapper,
   EmailServiceResource as EmailServiceResourceMapper,
   EmailServiceResourceUpdate as EmailServiceResourceUpdateMapper,
-  SenderUsernameResource as SenderUsernameResourceMapper,
-  SuppressionListResource as SuppressionListResourceMapper,
-  SuppressionListAddressResource as SuppressionListAddressResourceMapper
+  SenderUsernameResource as SenderUsernameResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -54,7 +52,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01-preview",
+    defaultValue: "2023-04-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -228,62 +226,4 @@ export const senderUsername: OperationURLParameter = {
 export const parameters8: OperationParameter = {
   parameterPath: "parameters",
   mapper: SenderUsernameResourceMapper
-};
-
-export const domainName1: OperationURLParameter = {
-  parameterPath: "domainName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp(".*"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "domainName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const suppressionListName: OperationURLParameter = {
-  parameterPath: "suppressionListName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "suppressionListName",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters9: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SuppressionListResourceMapper
-};
-
-export const addressId: OperationURLParameter = {
-  parameterPath: "addressId",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-zA-Z0-9-]+$"),
-      MaxLength: 253,
-      MinLength: 1
-    },
-    serializedName: "addressId",
-    required: true,
-    type: {
-      name: "String"
-    }
-  }
-};
-
-export const parameters10: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: SuppressionListAddressResourceMapper
 };

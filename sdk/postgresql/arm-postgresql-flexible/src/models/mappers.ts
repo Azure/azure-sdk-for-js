@@ -3936,21 +3936,6 @@ export const PrivateEndpointConnectionDeleteHeaders: coreClient.CompositeMapper 
   }
 };
 
-export const ServerThreatProtectionSettingsCreateOrUpdateHeaders: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ServerThreatProtectionSettingsCreateOrUpdateHeaders",
-    modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const VirtualEndpointsCreateHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",

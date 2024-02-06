@@ -18,10 +18,7 @@ export function cloneRequestPolicy(): RequestPolicyFactory {
 }
 
 export class CloneRequestPolicy {
-  constructor(
-    private _nextPolicy: RequestPolicy,
-    _options: RequestPolicyOptionsLike,
-  ) {
+  constructor(private _nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike) {
     /** Nothing much to do here */
   }
 

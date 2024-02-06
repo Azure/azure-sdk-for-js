@@ -4,8 +4,7 @@
 import { drainStream, PerfOptionDictionary } from "@azure/test-utils-perf";
 import { StorageDFSTest } from "./storageTest.spec";
 import { DataLakeFileClient } from "@azure/storage-file-datalake";
-import { randomUUID } from "@azure/core-util";
-
+import { v4 as generateUuid } from "uuid";
 interface StorageDFSReadTestOptions {
   size: number;
 }
@@ -20,7 +19,7 @@ export class StorageDFSReadTest extends StorageDFSTest<StorageDFSReadTestOptions
       defaultValue: 1024,
     },
   };
-  static fileName = randomUUID();
+  static fileName = generateUuid();
   fileClient: DataLakeFileClient;
 
   constructor() {

@@ -8,11 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  DatadogMonitorResourceUpdateParameters,
-  MonitorsUpdateOptionalParams,
-  MicrosoftDatadogClient
-} from "@azure/arm-datadog";
+import { MicrosoftDatadogClient } from "@azure/arm-datadog";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -31,17 +27,11 @@ async function monitorsUpdate() {
   const resourceGroupName =
     process.env["DATADOG_RESOURCE_GROUP"] || "myResourceGroup";
   const monitorName = "myMonitor";
-  const body: DatadogMonitorResourceUpdateParameters = {
-    properties: { monitoringStatus: "Enabled" },
-    tags: { environment: "Dev" }
-  };
-  const options: MonitorsUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftDatadogClient(credential, subscriptionId);
   const result = await client.monitors.beginUpdateAndWait(
     resourceGroupName,
-    monitorName,
-    options
+    monitorName
   );
   console.log(result);
 }

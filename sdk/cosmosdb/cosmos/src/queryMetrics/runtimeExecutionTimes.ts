@@ -8,7 +8,7 @@ export class RuntimeExecutionTimes {
   constructor(
     public readonly queryEngineExecutionTime: TimeSpan,
     public readonly systemFunctionExecutionTime: TimeSpan,
-    public readonly userDefinedFunctionExecutionTime: TimeSpan,
+    public readonly userDefinedFunctionExecutionTime: TimeSpan
   ) {}
 
   /**
@@ -25,20 +25,20 @@ export class RuntimeExecutionTimes {
       }
 
       queryEngineExecutionTime = queryEngineExecutionTime.add(
-        runtimeExecutionTimes.queryEngineExecutionTime,
+        runtimeExecutionTimes.queryEngineExecutionTime
       );
       systemFunctionExecutionTime = systemFunctionExecutionTime.add(
-        runtimeExecutionTimes.systemFunctionExecutionTime,
+        runtimeExecutionTimes.systemFunctionExecutionTime
       );
       userDefinedFunctionExecutionTime = userDefinedFunctionExecutionTime.add(
-        runtimeExecutionTimes.userDefinedFunctionExecutionTime,
+        runtimeExecutionTimes.userDefinedFunctionExecutionTime
       );
     }
 
     return new RuntimeExecutionTimes(
       queryEngineExecutionTime,
       systemFunctionExecutionTime,
-      userDefinedFunctionExecutionTime,
+      userDefinedFunctionExecutionTime
     );
   }
 
@@ -59,7 +59,7 @@ export class RuntimeExecutionTimes {
   public static readonly zero = new RuntimeExecutionTimes(
     TimeSpan.zero,
     TimeSpan.zero,
-    TimeSpan.zero,
+    TimeSpan.zero
   );
 
   /**
@@ -67,7 +67,7 @@ export class RuntimeExecutionTimes {
    *  the aggregation of an array of RuntimeExecutionTimes.
    */
   public static createFromArray(
-    runtimeExecutionTimesArray: RuntimeExecutionTimes[],
+    runtimeExecutionTimesArray: RuntimeExecutionTimes[]
   ): RuntimeExecutionTimes {
     if (runtimeExecutionTimesArray == null) {
       throw new Error("runtimeExecutionTimesArray is null or undefined item(s)");
@@ -86,11 +86,11 @@ export class RuntimeExecutionTimes {
     const indexLookupTime = timeSpanFromMetrics(metrics, QueryMetricsConstants.IndexLookupTimeInMs);
     const documentLoadTime = timeSpanFromMetrics(
       metrics,
-      QueryMetricsConstants.DocumentLoadTimeInMs,
+      QueryMetricsConstants.DocumentLoadTimeInMs
     );
     const documentWriteTime = timeSpanFromMetrics(
       metrics,
-      QueryMetricsConstants.DocumentWriteTimeInMs,
+      QueryMetricsConstants.DocumentWriteTimeInMs
     );
 
     let queryEngineExecutionTime = TimeSpan.zero;
@@ -101,7 +101,7 @@ export class RuntimeExecutionTimes {
     return new RuntimeExecutionTimes(
       queryEngineExecutionTime,
       timeSpanFromMetrics(metrics, QueryMetricsConstants.SystemFunctionExecuteTimeInMs),
-      timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs),
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.UserDefinedFunctionExecutionTimeInMs)
     );
   }
 }

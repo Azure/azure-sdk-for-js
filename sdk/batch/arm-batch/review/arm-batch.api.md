@@ -961,11 +961,6 @@ export type LocationListSupportedVirtualMachineSkusResponse = SupportedSkusResul
 // @public
 export type LoginMode = "Batch" | "Interactive";
 
-// @public (undocumented)
-export interface ManagedDisk {
-    storageAccountType?: StorageAccountType;
-}
-
 // @public
 export interface MetadataItem {
     name: string;
@@ -1071,12 +1066,7 @@ export type OperationsListResponse = OperationListResult;
 
 // @public
 export interface OSDisk {
-    caching?: CachingType;
-    diskSizeGB?: number;
     ephemeralOSDiskSettings?: DiffDiskSettings;
-    // (undocumented)
-    managedDisk?: ManagedDisk;
-    writeAcceleratorEnabled?: boolean;
 }
 
 // @public
@@ -1117,9 +1107,6 @@ export interface Pool extends ProxyResource {
     readonly provisioningState?: PoolProvisioningState;
     readonly provisioningStateTransitionTime?: Date;
     readonly resizeOperationStatus?: ResizeOperationStatus;
-    resourceTags?: {
-        [propertyName: string]: string;
-    };
     scaleSettings?: ScaleSettings;
     startTask?: StartTask;
     targetNodeCommunicationMode?: NodeCommunicationMode;
@@ -1440,18 +1427,6 @@ export interface ScaleSettings {
 }
 
 // @public
-export interface SecurityProfile {
-    encryptionAtHost?: boolean;
-    securityType?: "trustedLaunch";
-    uefiSettings?: UefiSettings;
-}
-
-// @public
-export interface ServiceArtifactReference {
-    id: string;
-}
-
-// @public
 export interface SkuCapability {
     readonly name?: string;
     readonly value?: string;
@@ -1469,7 +1444,7 @@ export interface StartTask {
 }
 
 // @public
-export type StorageAccountType = "Standard_LRS" | "Premium_LRS" | "StandardSSD_LRS";
+export type StorageAccountType = "Standard_LRS" | "Premium_LRS";
 
 // @public
 export interface SupportedSku {
@@ -1495,12 +1470,6 @@ export interface TaskContainerSettings {
 // @public
 export interface TaskSchedulingPolicy {
     nodeFillType: ComputeNodeFillType;
-}
-
-// @public
-export interface UefiSettings {
-    secureBootEnabled?: boolean;
-    vTpmEnabled?: boolean;
 }
 
 // @public
@@ -1535,8 +1504,6 @@ export interface VirtualMachineConfiguration {
     nodeAgentSkuId: string;
     nodePlacementConfiguration?: NodePlacementConfiguration;
     osDisk?: OSDisk;
-    securityProfile?: SecurityProfile;
-    serviceArtifactReference?: ServiceArtifactReference;
     windowsConfiguration?: WindowsConfiguration;
 }
 

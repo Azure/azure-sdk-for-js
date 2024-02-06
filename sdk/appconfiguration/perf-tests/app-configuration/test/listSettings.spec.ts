@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { randomUUID } from "@azure/core-util";
+import { v4 as generateUuid } from "uuid";
 import { PerfOptionDictionary, executeParallel } from "@azure/test-utils-perf";
 import { AppConfigTest } from "./appConfigBase.spec";
 
@@ -13,7 +13,7 @@ interface ListTestOptions {
 }
 
 export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
-  static prefix = randomUUID();
+  static prefix = generateUuid();
   public options: PerfOptionDictionary<ListTestOptions> = {
     count: {
       required: true,
@@ -30,12 +30,12 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
     await executeParallel(
       async () => {
         await this.client.addConfigurationSetting({
-          key: ListSettingsTest.prefix + randomUUID(),
+          key: ListSettingsTest.prefix + generateUuid(),
           value: "random",
         });
       },
       this.parsedOptions.count.value,
-      32,
+      32
     );
   }
 
@@ -67,7 +67,7 @@ export class ListSettingsTest extends AppConfigTest<ListTestOptions> {
         await this.client.deleteConfigurationSetting({ key: keys[count] });
       },
       this.parsedOptions.count.value,
-      32,
+      32
     );
   }
 }

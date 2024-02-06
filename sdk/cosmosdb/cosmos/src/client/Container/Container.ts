@@ -102,7 +102,7 @@ export class Container {
   constructor(
     public readonly database: Database,
     public readonly id: string,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -141,7 +141,7 @@ export class Container {
    */
   public async readInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ContainerResponse> {
     const path = getPathFromLink(this.url);
     const id = getIdFromLink(this.url);
@@ -158,14 +158,14 @@ export class Container {
       response.headers,
       response.code,
       this,
-      getEmptyCosmosDiagnostics(),
+      getEmptyCosmosDiagnostics()
     );
   }
 
   /** Replace the container's definition */
   public async replace(
     body: ContainerDefinition,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const err = {};
@@ -188,7 +188,7 @@ export class Container {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -211,7 +211,7 @@ export class Container {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }
@@ -231,7 +231,7 @@ export class Container {
    * @hidden
    */
   public async readPartitionKeyDefinition(
-    diagnosticNode: DiagnosticNodeInternal,
+    diagnosticNode: DiagnosticNodeInternal
   ): Promise<ResourceResponse<PartitionKeyDefinition>> {
     // $ISSUE-felixfan-2016-03-17: Make name based path and link based path use the same key
     // $ISSUE-felixfan-2016-03-17: Refresh partitionKeyDefinitionCache when necessary
@@ -241,7 +241,7 @@ export class Container {
         this.clientContext.partitionKeyDefinitionCache[this.url],
         {},
         0,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }
 
@@ -250,14 +250,14 @@ export class Container {
         return this.readInternal(node);
       },
       diagnosticNode,
-      MetadataLookUpType.ContainerLookUp,
+      MetadataLookUpType.ContainerLookUp
     );
 
     return new ResourceResponse<PartitionKeyDefinition>(
       this.clientContext.partitionKeyDefinitionCache[this.url],
       headers,
       statusCode,
-      diagnostics,
+      diagnostics
     );
   }
 
@@ -287,13 +287,13 @@ export class Container {
         response.headers,
         response.code,
         getEmptyCosmosDiagnostics(),
-        offer,
+        offer
       );
     }, this.clientContext);
   }
 
   public async getQueryPlan(
-    query: string | SqlQuerySpec,
+    query: string | SqlQuerySpec
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url);
@@ -304,7 +304,7 @@ export class Container {
         getIdFromLink(this.url),
         query,
         {},
-        diagnosticNode,
+        diagnosticNode
       );
     }, this.clientContext);
   }
@@ -337,7 +337,7 @@ export class Container {
    */
   public async deleteAllItemsForPartitionKey(
     partitionKey: PartitionKey,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       let path = getPathFromLink(this.url);
@@ -357,7 +357,7 @@ export class Container {
         response.headers,
         response.code,
         this,
-        getEmptyCosmosDiagnostics(),
+        getEmptyCosmosDiagnostics()
       );
     }, this.clientContext);
   }

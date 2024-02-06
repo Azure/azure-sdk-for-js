@@ -8,15 +8,21 @@
  *
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
-
 import { StreamableMethod } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
+import { EventMessage, iterateSseStream } from "@azure/core-sse";
 import { wrapError } from "./util.js";
-import { IncomingMessage } from "http";
 
-export async function getStream<TResponse>(
-  response: StreamableMethod<TResponse>,
-): Promise<IncomingMessage> {
+export async function getSSEs(
+  response: StreamableMethod<unknown>
+): Promise<AsyncIterable<EventMessage>> {
+  const chunkIterator = await getStream(response);
+  return iterateSseStream(chunkIterator);
+}
+
+async function getStream<TResponse>(
+  response: StreamableMethod<TResponse>
+): Promise<AsyncIterable<Uint8Array>> {
   const { body, status } = await response.asNodeStream();
   if (status !== "200" && body !== undefined) {
     const text = await streamToText(body);
@@ -24,7 +30,7 @@ export async function getStream<TResponse>(
   }
 
   if (!body) throw new Error("No stream found in response. Did you enable the stream option?");
-  return body as IncomingMessage;
+  return body as AsyncIterable<Uint8Array>;
 }
 
 function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
@@ -48,7 +54,7 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
         reject(
           new RestError(`Error reading response as text: ${e.message}`, {
             code: RestError.PARSE_ERROR,
-          }),
+          })
         );
       }
     });

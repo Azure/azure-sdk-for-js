@@ -28,7 +28,7 @@ describe("Version", function () {
     assert.equal(
       constantVersion,
       packageVersion,
-      "Package.json and Constants.SDKVersion don't match",
+      "Package.json and Constants.SDKVersion don't match"
     );
   });
 });

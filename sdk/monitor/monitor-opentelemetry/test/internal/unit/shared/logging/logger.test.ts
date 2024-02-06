@@ -9,11 +9,12 @@ import sinon from "sinon";
 describe("#Logger", () => {
   describe("#SetLogLevel", () => {
     let sinonSandbox: sinon.SinonSandbox;
-    let originalEnv: NodeJS.ProcessEnv = process.env;
+    let originalEnv: NodeJS.ProcessEnv;
     beforeEach(() => {
       sinonSandbox = sinon.createSandbox();
+      originalEnv = process.env;
       // @ts-ignore Need to set the static Looger instance to undefined to reset the singleton
-      Logger["instance"] = undefined;
+      Logger["_instance"] = undefined;
     });
 
     afterEach(() => {
@@ -21,102 +22,53 @@ describe("#Logger", () => {
     });
 
     it("should set ALL logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ALL";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ALL);
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ALL";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.ALL);
     });
 
     it("should set DEBUG logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "DEBUG";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.DEBUG);
-      const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "verbose");
-      const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "debug");
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "DEBUG";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.DEBUG);
+      const debugStub = sinonSandbox.stub(Logger.getInstance()["_internalLogger"], "logMessage");
       Logger.getInstance().debug("test");
-      assert.ok(azureStub.notCalled);
-      assert.ok(otelStub.calledOnce);
-      Logger.getInstance().setLogToAzureLogger(true);
-      Logger.getInstance().setLogToOpenTelemetry(false);
-      Logger.getInstance().debug("test");
-      assert.ok(azureStub.calledOnce);
-      assert.ok(otelStub.calledOnce);
+      assert.ok(debugStub.calledOnce);
     });
 
     it("should set ERROR logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ERROR";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.ERROR);
-      const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "error");
-      const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "error");
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "ERROR";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.ERROR);
+      const errorStub = sinonSandbox.stub(Logger.getInstance()["_internalLogger"], "logMessage");
       Logger.getInstance().error("test");
-      assert.ok(azureStub.notCalled);
-      assert.ok(otelStub.calledOnce);
-      Logger.getInstance().setLogToAzureLogger(true);
-      Logger.getInstance().setLogToOpenTelemetry(false);
-      Logger.getInstance().error("test");
-      assert.ok(azureStub.calledOnce);
-      assert.ok(otelStub.calledOnce);
+      assert.ok(errorStub.calledOnce);
     });
 
     it("should set INFO logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "INFO";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.INFO);
-      const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "info");
-      const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "info");
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "INFO";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.INFO);
+      const infoStub = sinonSandbox.stub(Logger.getInstance()["_internalLogger"], "logMessage");
       Logger.getInstance().info("test");
-      assert.ok(azureStub.notCalled);
-      assert.ok(otelStub.calledOnce);
-      Logger.getInstance().setLogToAzureLogger(true);
-      Logger.getInstance().setLogToOpenTelemetry(false);
-      Logger.getInstance().info("test");
-      assert.ok(azureStub.calledOnce);
-      assert.ok(otelStub.calledOnce);
+      assert.ok(infoStub.calledOnce);
     });
 
     it("should set NONE logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "NONE";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.NONE);
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "NONE";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.NONE);
     });
 
     it("should set VERBOSE logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "VERBOSE";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.VERBOSE);
-      const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "verbose");
-      const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "verbose");
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "VERBOSE";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.VERBOSE);
+      const verboseStub = sinonSandbox.stub(Logger.getInstance()["_internalLogger"], "logMessage");
       Logger.getInstance().verbose("test");
-      assert.ok(azureStub.notCalled);
-      assert.ok(otelStub.calledOnce);
-      Logger.getInstance().setLogToAzureLogger(true);
-      Logger.getInstance().setLogToOpenTelemetry(false);
-      Logger.getInstance().verbose("test");
-      assert.ok(azureStub.calledOnce);
-      assert.ok(otelStub.calledOnce);
+      assert.ok(verboseStub.calledOnce);
     });
 
     it("should set WARN logLevel", () => {
-      const env = <{ [id: string]: string }>{};
-      env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "WARN";
-      process.env = env;
-      assert.strictEqual(Logger.getInstance()["diagLevel"], DiagLogLevel.WARN);
-      const azureStub = sinonSandbox.stub(Logger.getInstance()["azureLogger"], "warning");
-      const otelStub = sinonSandbox.stub(Logger.getInstance()["openTelemetryLogger"], "warn");
+      process.env["APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL"] = "WARN";
+      assert.strictEqual(Logger.getInstance()["_diagLevel"], DiagLogLevel.WARN);
+      const warnStub = sinonSandbox.stub(Logger.getInstance()["_internalLogger"], "logMessage");
       Logger.getInstance().warn("test");
-      assert.ok(azureStub.notCalled);
-      assert.ok(otelStub.calledOnce);
-      Logger.getInstance().setLogToAzureLogger(true);
-      Logger.getInstance().setLogToOpenTelemetry(false);
-      Logger.getInstance().warn("test");
-      assert.ok(azureStub.calledOnce);
-      assert.ok(otelStub.calledOnce);
+      assert.ok(warnStub.calledOnce);
     });
   });
 });

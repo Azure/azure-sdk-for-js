@@ -8,14 +8,14 @@
  */
 
 import { TableServiceClient, TableClient } from "@azure/data-tables";
-import { randomUUID } from "@azure/core-util";
+import { v4 } from "uuid";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 const sasConnectionString = process.env["SAS_CONNECTION_STRING"] || "";
-const tableSufix = randomUUID().replace(/-/g, "");
+const tableSufix = v4().replace(/-/g, "");
 
 async function createAndDeleteTable() {
   console.log("== Delete and create table Sample ==");

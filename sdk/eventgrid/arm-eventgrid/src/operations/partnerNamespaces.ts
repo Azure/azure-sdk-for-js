@@ -613,9 +613,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.PartnerNamespace
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   requestBody: Parameters.partnerNamespaceInfo,
   queryParameters: [Parameters.apiVersion],
@@ -633,15 +631,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -649,22 +639,13 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.partnerNamespaceName
   ],
-  headerParameters: [Parameters.accept],
   serializer
 };
 const updateOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}",
   httpMethod: "PATCH",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   requestBody: Parameters.partnerNamespaceUpdateParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -685,9 +666,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespacesListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
@@ -702,9 +681,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespacesListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter, Parameters.top],
   urlParameters: [
@@ -723,9 +700,7 @@ const listSharedAccessKeysOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespaceSharedAccessKeys
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -745,9 +720,7 @@ const regenerateKeyOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespaceSharedAccessKeys
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   requestBody: Parameters.regenerateKeyRequest3,
   queryParameters: [Parameters.apiVersion],
@@ -768,9 +741,7 @@ const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespacesListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,
@@ -787,9 +758,7 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.PartnerNamespacesListResult
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   urlParameters: [
     Parameters.$host,

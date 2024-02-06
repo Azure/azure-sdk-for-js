@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import { TablesTest } from "./tables.spec";
 import { TransactionAction } from "@azure/data-tables";
@@ -35,7 +32,7 @@ export class CreateSimpleEntityBatchTest extends TablesTest<TablesCreateSimpleEn
   async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
       "simple",
-      this.parsedOptions.batchSize.value!,
+      this.parsedOptions.batchSize.value!
     );
 
     for (const batch of batches) {

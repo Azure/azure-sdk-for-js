@@ -71,7 +71,7 @@ export function createUserUri(databaseId: string, userId: string): string {
 export function createDocumentUri(
   databaseId: string,
   collectionId: string,
-  documentId: string,
+  documentId: string
 ): string {
   documentId = trimSlashFromLeftAndRight(documentId);
   validateItemResourceId(documentId);
@@ -98,7 +98,7 @@ export function createDocumentUri(
 export function createPermissionUri(
   databaseId: string,
   userId: string,
-  permissionId: string,
+  permissionId: string
 ): string {
   permissionId = trimSlashFromLeftAndRight(permissionId);
   validateResourceId(permissionId);
@@ -127,7 +127,7 @@ export function createPermissionUri(
 export function createStoredProcedureUri(
   databaseId: string,
   collectionId: string,
-  storedProcedureId: string,
+  storedProcedureId: string
 ): string {
   storedProcedureId = trimSlashFromLeftAndRight(storedProcedureId);
   validateResourceId(storedProcedureId);
@@ -155,7 +155,7 @@ export function createStoredProcedureUri(
 export function createTriggerUri(
   databaseId: string,
   collectionId: string,
-  triggerId: string,
+  triggerId: string
 ): string {
   triggerId = trimSlashFromLeftAndRight(triggerId);
   validateResourceId(triggerId);
@@ -183,7 +183,7 @@ export function createTriggerUri(
 export function createUserDefinedFunctionUri(
   databaseId: string,
   collectionId: string,
-  udfId: string,
+  udfId: string
 ): string {
   udfId = trimSlashFromLeftAndRight(udfId);
   validateResourceId(udfId);
@@ -210,7 +210,7 @@ export function createUserDefinedFunctionUri(
 export function createConflictUri(
   databaseId: string,
   collectionId: string,
-  conflictId: string,
+  conflictId: string
 ): string {
   conflictId = trimSlashFromLeftAndRight(conflictId);
   validateResourceId(conflictId);
@@ -239,7 +239,7 @@ export function createAttachmentUri(
   databaseId: string,
   collectionId: string,
   documentId: string,
-  attachmentId: string,
+  attachmentId: string
 ): string {
   attachmentId = trimSlashFromLeftAndRight(attachmentId);
   validateResourceId(attachmentId);

@@ -4,6 +4,7 @@
 // TODO: Do a review of non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
 
+import "@azure/core-paging";
 import {
   AVRO_CODEC_KEY,
   AVRO_INIT_BYTES,
@@ -62,14 +63,14 @@ export class AvroReader {
     dataStream: AvroReadable,
     headerStream: AvroReadable,
     currentBlockOffset: number,
-    indexWithinCurrentBlock: number,
+    indexWithinCurrentBlock: number
   );
 
   constructor(
     dataStream: AvroReadable,
     headerStream?: AvroReadable,
     currentBlockOffset?: number,
-    indexWithinCurrentBlock?: number,
+    indexWithinCurrentBlock?: number
   ) {
     this._dataStream = dataStream;
     this._headerStream = headerStream || dataStream;
@@ -132,7 +133,7 @@ export class AvroReader {
   }
 
   public async *parseObjects(
-    options: AvroParseOptions = {},
+    options: AvroParseOptions = {}
   ): AsyncIterableIterator<Record<string, any> | null> {
     if (!this._initialized) {
       await this.initialize(options);

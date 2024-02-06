@@ -15,6 +15,9 @@ import {
   GatewaysGetResponse,
   GatewaysCreateOrUpdateOptionalParams,
   GatewaysCreateOrUpdateResponse,
+  SkuObject,
+  GatewaysUpdateCapacityOptionalParams,
+  GatewaysUpdateCapacityResponse,
   GatewaysDeleteOptionalParams,
   GatewaysListEnvSecretsOptionalParams,
   GatewaysListEnvSecretsResponse,
@@ -90,6 +93,43 @@ export interface Gateways {
     gatewayResource: GatewayResource,
     options?: GatewaysCreateOrUpdateOptionalParams
   ): Promise<GatewaysCreateOrUpdateResponse>;
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacity(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<GatewaysUpdateCapacityResponse>,
+      GatewaysUpdateCapacityResponse
+    >
+  >;
+  /**
+   * Operation to update an exiting Spring Cloud Gateway capacity.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param gatewayName The name of Spring Cloud Gateway.
+   * @param gatewayCapacityResource The gateway capacity for the update operation
+   * @param options The options parameters.
+   */
+  beginUpdateCapacityAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    gatewayName: string,
+    gatewayCapacityResource: SkuObject,
+    options?: GatewaysUpdateCapacityOptionalParams
+  ): Promise<GatewaysUpdateCapacityResponse>;
   /**
    * Disable the default Spring Cloud Gateway.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

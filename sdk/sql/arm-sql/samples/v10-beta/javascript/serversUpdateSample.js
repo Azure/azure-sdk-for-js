@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates a server.
  *
  * @summary Updates a server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ServerUpdate.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/ServerUpdate.json
  */
 async function updateAServer() {
   const subscriptionId =

@@ -20,7 +20,7 @@ const tempDir = path.join(
   os.tmpdir(),
   "Microsoft",
   "AzureMonitor",
-  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
+  `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
 );
 
 const deleteFolderRecursive = (dirPath: string): void => {
@@ -46,9 +46,7 @@ const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<v
 
   // Read the first file in tempDir
   const origFiles = await readdirAsync(tempDir);
-  const files = origFiles.filter((f) =>
-    path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
-  );
+  const files = origFiles.filter((f) => path.basename(f).includes(".ai.json"));
   assert.ok(files.length > 0);
 
   // Assert file matches expectation
@@ -99,7 +97,7 @@ describe("FileSystemPersist", () => {
         customPath,
         "Microsoft",
         "AzureMonitor",
-        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`,
+        `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
       );
       deleteFolderRecursive(tempDir);
       const envelope: Envelope = {

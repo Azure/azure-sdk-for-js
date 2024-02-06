@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { PipelineResponse } from "..";
+import { PipelineResponse } from "..";
 import { parseHeaderValueAsNumber } from "../util/helpers";
-import type { RetryStrategy } from "./retryStrategy";
+import { RetryStrategy } from "./retryStrategy";
 
 /**
  * The header that comes back from Azure services representing

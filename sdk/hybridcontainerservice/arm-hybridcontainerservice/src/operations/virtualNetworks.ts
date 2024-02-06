@@ -54,7 +54,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the virtual networks in the specified resource group
+   * Lists the Hybrid AKS virtual networks by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -123,7 +123,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the virtual networks in the specified subscription
+   * Lists the Hybrid AKS virtual networks by subscription
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -177,7 +177,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Gets the specified virtual network resource
+   * Gets the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -194,10 +194,10 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Creates or updates the virtual network resource
+   * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks Virtual Network resource definition
+   * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -268,10 +268,10 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Creates or updates the virtual network resource
+   * Puts the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks Virtual Network resource definition
+   * @param virtualNetworks The virtualNetworks resource definition.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -290,7 +290,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Deletes the specified virtual network resource
+   * Deletes the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -362,7 +362,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Deletes the specified virtual network resource
+   * Deletes the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
    * @param options The options parameters.
@@ -381,10 +381,10 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Patches the virtual network resource
+   * Patches the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks Virtual Network resource patch definition
+   * @param virtualNetworks The virtualNetworks resource patch definition.
    * @param options The options parameters.
    */
   async beginUpdate(
@@ -455,10 +455,10 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Patches the virtual network resource
+   * Patches the Hybrid AKS virtual network
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName Parameter for the name of the virtual network
-   * @param virtualNetworks Virtual Network resource patch definition
+   * @param virtualNetworks The virtualNetworks resource patch definition.
    * @param options The options parameters.
    */
   async beginUpdateAndWait(
@@ -477,7 +477,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the virtual networks in the specified resource group
+   * Lists the Hybrid AKS virtual networks by resource group
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
@@ -492,7 +492,7 @@ export class VirtualNetworksImpl implements VirtualNetworks {
   }
 
   /**
-   * Lists the virtual networks in the specified subscription
+   * Lists the Hybrid AKS virtual networks by subscription
    * @param options The options parameters.
    */
   private _listBySubscription(

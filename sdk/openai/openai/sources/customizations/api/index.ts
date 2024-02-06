@@ -3,16 +3,13 @@
 
 export {
   getChatCompletions,
-  streamChatCompletions,
-  streamCompletions,
+  listChatCompletions,
+  listCompletions,
   getAudioTranscription,
   getAudioTranslation,
   getImages,
-} from "./client/openAIClient/index.js";
-export {
-  getEmbeddings,
-  getCompletions,
-} from "../../generated/src/api/client/openAIClient/index.js";
+} from "./operations.js";
+export { getEmbeddings, getCompletions } from "../../generated/src/api/operations.js";
 export {
   createOpenAI,
   OpenAIContext,

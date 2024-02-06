@@ -4,7 +4,7 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
+import { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
 export type AbortablePromiseBuilder<T> = (abortOptions: {

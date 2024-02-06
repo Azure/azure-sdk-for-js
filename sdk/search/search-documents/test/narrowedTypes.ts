@@ -16,8 +16,11 @@ import {
   SuggestNarrowedModel,
 } from "../src/indexModels";
 
-type Equals<T1, T2> =
-  (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
+type Equals<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2
+  ? true
+  : false
+  ? any
+  : never;
 
 type Model = {
   key?: string;

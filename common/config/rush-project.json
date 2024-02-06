@@ -42,11 +42,7 @@
     //    * These folders should not be tracked by Git.  They must not contain symlinks.
     //    */
       "outputFolderNames": [
-        "dist",
-        "dist-esm",
-        "dist-test",
-        "types",
-        "temp"
+        "dist", "dist-esm", "types"
       ],
     //
     //   /**
@@ -58,10 +54,9 @@
     {
       "operationName": "build:test",
       "outputFolderNames": [
-        "dist",
-        "dist-esm",
         "dist-test"
       ],
+
     }
   ]
 }

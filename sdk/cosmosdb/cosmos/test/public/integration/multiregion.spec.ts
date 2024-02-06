@@ -153,7 +153,7 @@ describe("Multi-region tests", function (this: Suite) {
     const currentReadEndpoint = await client.getReadEndpoint();
     assert.equal(
       currentReadEndpoint,
-      "https://failovertest-australiaeast.documents.azure.com:443/",
+      "https://failovertest-australiaeast.documents.azure.com:443/"
     );
     await client.database("foo").container("foo").item("foo", undefined).read();
     assert.equal(lastEndpointCalled, "https://failovertest-australiaeast.documents.azure.com:443/");

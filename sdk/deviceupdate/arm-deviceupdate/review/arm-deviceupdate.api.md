@@ -6,13 +6,12 @@
 
 import * as coreAuth from '@azure/core-auth';
 import * as coreClient from '@azure/core-client';
-import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 
 // @public
 export interface Account extends TrackedResource {
-    encryption?: Encryption;
     readonly hostName?: string;
     identity?: ManagedServiceIdentity;
     readonly locations?: Location_2[];
@@ -30,11 +29,11 @@ export interface AccountList {
 
 // @public
 export interface Accounts {
-    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<PollerLike<PollOperationState<AccountsCreateResponse>, AccountsCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, account: Account, options?: AccountsCreateOptionalParams): Promise<AccountsCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, options?: AccountsDeleteOptionalParams): Promise<void>;
-    beginUpdate(resourceGroupName: string, accountName: string, accountUpdatePayload: AccountUpdate, options?: AccountsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
+    beginUpdate(resourceGroupName: string, accountName: string, accountUpdatePayload: AccountUpdate, options?: AccountsUpdateOptionalParams): Promise<PollerLike<PollOperationState<AccountsUpdateResponse>, AccountsUpdateResponse>>;
     beginUpdateAndWait(resourceGroupName: string, accountName: string, accountUpdatePayload: AccountUpdate, options?: AccountsUpdateOptionalParams): Promise<AccountsUpdateResponse>;
     get(resourceGroupName: string, accountName: string, options?: AccountsGetOptionalParams): Promise<AccountsGetResponse>;
     head(resourceGroupName: string, accountName: string, options?: AccountsHeadOptionalParams): Promise<AccountsHeadResponse>;
@@ -50,11 +49,6 @@ export interface AccountsCreateOptionalParams extends coreClient.OperationOption
 
 // @public
 export type AccountsCreateResponse = Account;
-
-// @public
-export interface AccountsDeleteHeaders {
-    location?: string;
-}
 
 // @public
 export interface AccountsDeleteOptionalParams extends coreClient.OperationOptions {
@@ -201,12 +195,6 @@ export interface DiagnosticStorageProperties {
 }
 
 // @public
-export interface Encryption {
-    keyVaultKeyUri?: string;
-    userAssignedIdentity?: string;
-}
-
-// @public
 export interface ErrorAdditionalInfo {
     readonly info?: Record<string, unknown>;
     readonly type?: string;
@@ -272,9 +260,9 @@ export interface InstanceList {
 
 // @public
 export interface Instances {
-    beginCreate(resourceGroupName: string, accountName: string, instanceName: string, instance: Instance, options?: InstancesCreateOptionalParams): Promise<SimplePollerLike<OperationState<InstancesCreateResponse>, InstancesCreateResponse>>;
+    beginCreate(resourceGroupName: string, accountName: string, instanceName: string, instance: Instance, options?: InstancesCreateOptionalParams): Promise<PollerLike<PollOperationState<InstancesCreateResponse>, InstancesCreateResponse>>;
     beginCreateAndWait(resourceGroupName: string, accountName: string, instanceName: string, instance: Instance, options?: InstancesCreateOptionalParams): Promise<InstancesCreateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, instanceName: string, options?: InstancesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, instanceName: string, options?: InstancesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, instanceName: string, options?: InstancesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, instanceName: string, options?: InstancesGetOptionalParams): Promise<InstancesGetResponse>;
     head(resourceGroupName: string, accountName: string, instanceName: string, options?: InstancesHeadOptionalParams): Promise<InstancesHeadResponse>;
@@ -290,11 +278,6 @@ export interface InstancesCreateOptionalParams extends coreClient.OperationOptio
 
 // @public
 export type InstancesCreateResponse = Instance;
-
-// @public
-export interface InstancesDeleteHeaders {
-    location?: string;
-}
 
 // @public
 export interface InstancesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -530,9 +513,9 @@ export type PrivateEndpointConnectionProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnectionProxies {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>, PrivateEndpointConnectionProxiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>, PrivateEndpointConnectionProxiesCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, privateEndpointConnectionProxy: PrivateEndpointConnectionProxy, options?: PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionProxiesCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionProxyId: string, options?: PrivateEndpointConnectionProxiesGetOptionalParams): Promise<PrivateEndpointConnectionProxiesGetResponse>;
     listByAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionProxiesListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnectionProxy>;
@@ -548,11 +531,6 @@ export interface PrivateEndpointConnectionProxiesCreateOrUpdateOptionalParams ex
 
 // @public
 export type PrivateEndpointConnectionProxiesCreateOrUpdateResponse = PrivateEndpointConnectionProxy;
-
-// @public
-export interface PrivateEndpointConnectionProxiesDeleteHeaders {
-    location?: string;
-}
 
 // @public
 export interface PrivateEndpointConnectionProxiesDeleteOptionalParams extends coreClient.OperationOptions {
@@ -605,9 +583,9 @@ export type PrivateEndpointConnectionProxyProvisioningState = string;
 
 // @public
 export interface PrivateEndpointConnections {
-    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
+    beginCreateOrUpdate(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PollerLike<PollOperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>, PrivateEndpointConnectionsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, privateEndpointConnection: PrivateEndpointConnection, options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDelete(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<PollerLike<PollOperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, accountName: string, privateEndpointConnectionName: string, options?: PrivateEndpointConnectionsGetOptionalParams): Promise<PrivateEndpointConnectionsGetResponse>;
     listByAccount(resourceGroupName: string, accountName: string, options?: PrivateEndpointConnectionsListByAccountOptionalParams): PagedAsyncIterableIterator<PrivateEndpointConnection>;
@@ -621,11 +599,6 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams extends 
 
 // @public
 export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
-
-// @public
-export interface PrivateEndpointConnectionsDeleteHeaders {
-    location?: string;
-}
 
 // @public
 export interface PrivateEndpointConnectionsDeleteOptionalParams extends coreClient.OperationOptions {

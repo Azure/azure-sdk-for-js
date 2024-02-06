@@ -5,7 +5,6 @@ import {
   AzureKeyCredential,
   AzureNamedKeyCredential,
   AzureSASCredential,
-  isKeyCredential,
   isNamedKeyCredential,
   isSASCredential,
   isTokenCredential,
@@ -62,7 +61,7 @@ describe("AzureNamedKeyCredential", () => {
     assert.throws(() => {
       void new AzureNamedKeyCredential(
         undefined as unknown as string,
-        undefined as unknown as string,
+        undefined as unknown as string
       );
     }, /name and key must be non-empty strings/);
   });
@@ -152,7 +151,7 @@ describe("isTokenCredential", function () {
             expiresOnTimestamp: 12345,
           });
         },
-      }),
+      })
     );
   });
 
@@ -163,7 +162,7 @@ describe("isTokenCredential", function () {
           return false;
         },
       }),
-      false,
+      false
     );
   });
 
@@ -172,7 +171,7 @@ describe("isTokenCredential", function () {
       isTokenCredential({
         getToken: true,
       }),
-      false,
+      false
     );
   });
 
@@ -186,7 +185,7 @@ describe("isTokenCredential", function () {
           return 1;
         },
       }),
-      false,
+      false
     );
   });
 
@@ -200,7 +199,7 @@ describe("isTokenCredential", function () {
           return 1;
         },
       }),
-      true,
+      true
     );
   });
 });
@@ -222,15 +221,5 @@ describe("isSASCredential", function () {
 
   it("should return false for an object that does not resemble a isSASCredential", () => {
     assert.strictEqual(isSASCredential({}), false);
-  });
-});
-
-describe("isKeyCredential", function () {
-  it("should return true for an object that resembles a KeyCredential", () => {
-    assert.ok(isKeyCredential({ key: "bar" }));
-  });
-
-  it("should return false for an object that does not resemble a KeyCredential", () => {
-    assert.strictEqual(isKeyCredential({}), false);
   });
 });

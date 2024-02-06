@@ -5,13 +5,13 @@ import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { LogRecord } from "@opentelemetry/sdk-logs";
 import {
   DocumentIngress,
-  Exception,
+  ExceptionDocumentIngress,
   KnownDocumentIngressDocumentType,
   MetricPoint,
   MonitoringDataPoint,
-  RemoteDependency,
-  Request,
-  Trace,
+  RemoteDependencyDocumentIngress,
+  RequestDocumentIngress,
+  TraceDocumentIngress,
 } from "../../generated";
 import { Attributes, SpanKind } from "@opentelemetry/api";
 import {
@@ -22,7 +22,6 @@ import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import { AZURE_MONITOR_OPENTELEMETRY_VERSION } from "../../types";
 import { Resource } from "@opentelemetry/resources";
-import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
 
 export function getSdkVersion(): string {
   const { node } = process.versions;
@@ -109,49 +108,17 @@ export function getCloudRoleInstance(resource: Resource): string {
 export function resourceMetricsToQuickpulseDataPoint(
   metrics: ResourceMetrics,
   baseMonitoringDataPoint: MonitoringDataPoint,
-  documents: DocumentIngress[],
+  documents: DocumentIngress[]
 ): MonitoringDataPoint[] {
   let metricPoints: MetricPoint[] = [];
   metrics.scopeMetrics.forEach((scopeMetric) => {
     scopeMetric.metrics.forEach((metric) => {
       metric.dataPoints.forEach((dataPoint) => {
         let metricPoint: MetricPoint = {
-          weight: 4,
+          // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
+          name: metric.descriptor.name.replace("_", " "),
+          weight: 1,
         };
-
-        // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
-        switch (metric.descriptor.name) {
-          case QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES:
-            metricPoint.name = QuickPulseMetricNames.COMMITTED_BYTES;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION:
-            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_DURATION;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_FAILURE_RATE:
-            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_FAILURE_RATE;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE:
-            metricPoint.name = QuickPulseMetricNames.DEPENDENCY_RATE;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE:
-            metricPoint.name = QuickPulseMetricNames.EXCEPTION_RATE;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME:
-            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION:
-            metricPoint.name = QuickPulseMetricNames.REQUEST_DURATION;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE:
-            metricPoint.name = QuickPulseMetricNames.REQUEST_FAILURE_RATE;
-            break;
-          case QuickPulseOpenTelemetryMetricNames.REQUEST_RATE:
-            metricPoint.name = QuickPulseMetricNames.REQUEST_RATE;
-            break;
-          default:
-            metricPoint.name = metric.descriptor.name;
-        }
-
         if (
           metric.dataPointType === DataPointType.SUM ||
           metric.dataPointType === DataPointType.GAUGE
@@ -173,10 +140,10 @@ export function resourceMetricsToQuickpulseDataPoint(
   return [quickpulseDataPoint];
 }
 
-export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency {
-  let document: Request | RemoteDependency = {
-    documentType: KnownDocumentIngressDocumentType.Request,
-  };
+export function getSpanDocument(
+  span: ReadableSpan
+): RequestDocumentIngress | RemoteDependencyDocumentIngress {
+  let document: RequestDocumentIngress | RemoteDependencyDocumentIngress = {};
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
   let url = "";
@@ -217,10 +184,10 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
   return document;
 }
 
-export function getLogDocument(logRecord: LogRecord): Trace | Exception {
-  let document: Trace | Exception = {
-    documentType: KnownDocumentIngressDocumentType.Exception,
-  };
+export function getLogDocument(
+  logRecord: LogRecord
+): TraceDocumentIngress | ExceptionDocumentIngress {
+  let document: TraceDocumentIngress | ExceptionDocumentIngress = {};
   const exceptionType = String(logRecord.attributes[SemanticAttributes.EXCEPTION_TYPE]);
   if (exceptionType) {
     const exceptionMessage = String(logRecord.attributes[SemanticAttributes.EXCEPTION_MESSAGE]);
@@ -272,17 +239,4 @@ function getUrl(attributes: Attributes): string {
     }
   }
   return "";
-}
-
-/**
- * @description UTC time the request was made. Expressed as the number of 100-nanosecond intervals that have elapsed since 12:00:00 midnight on January 1, 0001. This is used for clock skew calculations, so the value can never be stale (cached).
- *
- * @example
- * 8/5/2020 10:15:00 PM UTC => 637322625000000000
- * 8/5/2020 10:15:01 PM UTC => 637322625010000000
- *
- * @returns {number}
- */
-export function getTransmissionTime(): number {
-  return (Date.now() + 62135596800000) * 10000;
 }

@@ -32,7 +32,6 @@ import {
   StartHoldMusicRequest as StartHoldMusicRequestMapper,
   StopHoldMusicRequest as StopHoldMusicRequestMapper,
   StartDialogRequest as StartDialogRequestMapper,
-  UpdateDialogRequest as UpdateDialogRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper
 } from "../models/mappers";
 
@@ -257,11 +256,6 @@ export const operationCallbackUri: OperationQueryParameter = {
       name: "String"
     }
   }
-};
-
-export const updateDialogRequest: OperationParameter = {
-  parameterPath: "updateDialogRequest",
-  mapper: UpdateDialogRequestMapper
 };
 
 export const startCallRecording: OperationParameter = {

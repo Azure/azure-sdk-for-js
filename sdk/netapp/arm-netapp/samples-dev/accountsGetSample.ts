@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the NetApp account
  *
  * @summary Get the NetApp account
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/preview/2023-05-01-preview/examples/Accounts_Get.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2023-05-01/examples/Accounts_Get.json
  */
 async function accountsGet() {
   const subscriptionId =

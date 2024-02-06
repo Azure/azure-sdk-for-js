@@ -21,12 +21,12 @@ import {
 import { createLroSpec } from "../lroImpl";
 import {
   InstancePool,
-  InstancePoolsListNextOptionalParams,
-  InstancePoolsListOptionalParams,
-  InstancePoolsListResponse,
   InstancePoolsListByResourceGroupNextOptionalParams,
   InstancePoolsListByResourceGroupOptionalParams,
   InstancePoolsListByResourceGroupResponse,
+  InstancePoolsListNextOptionalParams,
+  InstancePoolsListOptionalParams,
+  InstancePoolsListResponse,
   InstancePoolsGetOptionalParams,
   InstancePoolsGetResponse,
   InstancePoolsCreateOrUpdateOptionalParams,
@@ -35,8 +35,8 @@ import {
   InstancePoolUpdate,
   InstancePoolsUpdateOptionalParams,
   InstancePoolsUpdateResponse,
-  InstancePoolsListNextResponse,
-  InstancePoolsListByResourceGroupNextResponse
+  InstancePoolsListByResourceGroupNextResponse,
+  InstancePoolsListNextResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,60 +50,6 @@ export class InstancePoolsImpl implements InstancePools {
    */
   constructor(client: SqlManagementClient) {
     this.client = client;
-  }
-
-  /**
-   * Gets a list of all instance pools in the subscription.
-   * @param options The options parameters.
-   */
-  public list(
-    options?: InstancePoolsListOptionalParams
-  ): PagedAsyncIterableIterator<InstancePool> {
-    const iter = this.listPagingAll(options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    options?: InstancePoolsListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<InstancePool[]> {
-    let result: InstancePoolsListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(continuationToken, options);
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    options?: InstancePoolsListOptionalParams
-  ): AsyncIterableIterator<InstancePool> {
-    for await (const page of this.listPagingPage(options)) {
-      yield* page;
-    }
   }
 
   /**
@@ -180,26 +126,54 @@ export class InstancePoolsImpl implements InstancePools {
    * Gets a list of all instance pools in the subscription.
    * @param options The options parameters.
    */
-  private _list(
+  public list(
     options?: InstancePoolsListOptionalParams
-  ): Promise<InstancePoolsListResponse> {
-    return this.client.sendOperationRequest({ options }, listOperationSpec);
+  ): PagedAsyncIterableIterator<InstancePool> {
+    const iter = this.listPagingAll(options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(options, settings);
+      }
+    };
   }
 
-  /**
-   * Gets a list of instance pools in the resource group
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param options The options parameters.
-   */
-  private _listByResourceGroup(
-    resourceGroupName: string,
-    options?: InstancePoolsListByResourceGroupOptionalParams
-  ): Promise<InstancePoolsListByResourceGroupResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listByResourceGroupOperationSpec
-    );
+  private async *listPagingPage(
+    options?: InstancePoolsListOptionalParams,
+    settings?: PageSettings
+  ): AsyncIterableIterator<InstancePool[]> {
+    let result: InstancePoolsListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(continuationToken, options);
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    options?: InstancePoolsListOptionalParams
+  ): AsyncIterableIterator<InstancePool> {
+    for await (const page of this.listPagingPage(options)) {
+      yield* page;
+    }
   }
 
   /**
@@ -499,18 +473,29 @@ export class InstancePoolsImpl implements InstancePools {
   }
 
   /**
-   * ListNext
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * Gets a list of instance pools in the resource group
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
    */
-  private _listNext(
-    nextLink: string,
-    options?: InstancePoolsListNextOptionalParams
-  ): Promise<InstancePoolsListNextResponse> {
+  private _listByResourceGroup(
+    resourceGroupName: string,
+    options?: InstancePoolsListByResourceGroupOptionalParams
+  ): Promise<InstancePoolsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
-      { nextLink, options },
-      listNextOperationSpec
+      { resourceGroupName, options },
+      listByResourceGroupOperationSpec
     );
+  }
+
+  /**
+   * Gets a list of all instance pools in the subscription.
+   * @param options The options parameters.
+   */
+  private _list(
+    options?: InstancePoolsListOptionalParams
+  ): Promise<InstancePoolsListResponse> {
+    return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
 
   /**
@@ -530,43 +515,25 @@ export class InstancePoolsImpl implements InstancePools {
       listByResourceGroupNextOperationSpec
     );
   }
+
+  /**
+   * ListNext
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    nextLink: string,
+    options?: InstancePoolsListNextOptionalParams
+  ): Promise<InstancePoolsListNextResponse> {
+    return this.client.sendOperationRequest(
+      { nextLink, options },
+      listNextOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/instancePools",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InstancePoolListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InstancePoolListResult
-    },
-    default: {}
-  },
-  queryParameters: [Parameters.apiVersion4],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
 const getOperationSpec: coreClient.OperationSpec = {
   path:
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}",
@@ -577,7 +544,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -606,8 +573,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters98,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters20,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -623,7 +590,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
-  queryParameters: [Parameters.apiVersion4],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -651,8 +618,8 @@ const updateOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
-  requestBody: Parameters.parameters99,
-  queryParameters: [Parameters.apiVersion4],
+  requestBody: Parameters.parameters21,
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -663,8 +630,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools",
   httpMethod: "GET",
   responses: {
     200: {
@@ -672,11 +640,26 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     },
     default: {}
   },
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName
   ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Sql/instancePools",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InstancePoolListResult
+    },
+    default: {}
+  },
+  queryParameters: [Parameters.apiVersion3],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -693,6 +676,23 @@ const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
+    Parameters.nextLink
+  ],
+  headerParameters: [Parameters.accept],
+  serializer
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InstancePoolListResult
+    },
+    default: {}
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

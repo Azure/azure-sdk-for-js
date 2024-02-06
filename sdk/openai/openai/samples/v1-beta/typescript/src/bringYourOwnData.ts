@@ -27,7 +27,7 @@ const messages = [
   {
     role: "user",
     content: "What's the most common feedback we received from our customers about the product?",
-  } as const,
+  },
 ];
 
 export async function main() {
@@ -35,7 +35,7 @@ export async function main() {
 
   const client = new OpenAIClient(endpoint, new AzureKeyCredential(azureApiKey));
   const deploymentId = "gpt-35-turbo";
-  const events = await client.streamChatCompletions(deploymentId, messages, {
+  const events = client.listChatCompletions(deploymentId, messages, {
     maxTokens: 128,
     /**
      * The `azureExtensionOptions` property is used to configure the
@@ -47,9 +47,11 @@ export async function main() {
       extensions: [
         {
           type: "AzureCognitiveSearch",
-          endpoint: azureSearchEndpoint,
-          key: azureSearchAdminKey,
-          indexName: azureSearchIndexName,
+          parameters: {
+            endpoint: azureSearchEndpoint,
+            key: azureSearchAdminKey,
+            indexName: azureSearchIndexName,
+          },
         },
       ],
     },

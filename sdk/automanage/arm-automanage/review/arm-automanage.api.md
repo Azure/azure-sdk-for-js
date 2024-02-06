@@ -373,7 +373,7 @@ export function getContinuationToken(page: unknown): string | undefined;
 // @public
 export interface HCIReports {
     get(resourceGroupName: string, clusterName: string, configurationProfileAssignmentName: string, reportName: string, options?: HCIReportsGetOptionalParams): Promise<HCIReportsGetResponse>;
-    listByConfigurationProfileAssignments(resourceGroupName: string, clusterName: string, configurationProfileAssignmentName: string, options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report_2>;
+    listByConfigurationProfileAssignments(resourceGroupName: string, clusterName: string, configurationProfileAssignmentName: string, options?: HCIReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report>;
 }
 
 // @public
@@ -381,19 +381,19 @@ export interface HCIReportsGetOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
-export type HCIReportsGetResponse = Report_2;
+export type HCIReportsGetResponse = Report;
 
 // @public
 export interface HCIReportsListByConfigurationProfileAssignmentsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type HCIReportsListByConfigurationProfileAssignmentsResponse = ReportList_2;
+export type HCIReportsListByConfigurationProfileAssignmentsResponse = ReportList;
 
 // @public
 export interface HcrpReports {
     get(resourceGroupName: string, machineName: string, configurationProfileAssignmentName: string, reportName: string, options?: HcrpReportsGetOptionalParams): Promise<HcrpReportsGetResponse>;
-    listByConfigurationProfileAssignments(resourceGroupName: string, machineName: string, configurationProfileAssignmentName: string, options?: HcrpReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report_2>;
+    listByConfigurationProfileAssignments(resourceGroupName: string, machineName: string, configurationProfileAssignmentName: string, options?: HcrpReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report>;
 }
 
 // @public
@@ -401,14 +401,14 @@ export interface HcrpReportsGetOptionalParams extends coreClient.OperationOption
 }
 
 // @public
-export type HcrpReportsGetResponse = Report_2;
+export type HcrpReportsGetResponse = Report;
 
 // @public
 export interface HcrpReportsListByConfigurationProfileAssignmentsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type HcrpReportsListByConfigurationProfileAssignmentsResponse = ReportList_2;
+export type HcrpReportsListByConfigurationProfileAssignmentsResponse = ReportList;
 
 // @public
 export enum KnownActionType {
@@ -473,7 +473,7 @@ export interface ProxyResource extends Resource {
 }
 
 // @public
-interface Report_2 extends ProxyResource {
+export interface Report extends ProxyResource {
     readonly configurationProfile?: string;
     readonly duration?: string;
     endTime?: string;
@@ -486,13 +486,11 @@ interface Report_2 extends ProxyResource {
     readonly systemData?: SystemData;
     readonly typePropertiesType?: string;
 }
-export { Report_2 as Report }
 
 // @public
-interface ReportList_2 {
-    value?: Report_2[];
+export interface ReportList {
+    value?: Report[];
 }
-export { ReportList_2 as ReportList }
 
 // @public
 export interface ReportResource {
@@ -506,7 +504,7 @@ export interface ReportResource {
 // @public
 export interface Reports {
     get(resourceGroupName: string, configurationProfileAssignmentName: string, reportName: string, vmName: string, options?: ReportsGetOptionalParams): Promise<ReportsGetResponse>;
-    listByConfigurationProfileAssignments(resourceGroupName: string, configurationProfileAssignmentName: string, vmName: string, options?: ReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report_2>;
+    listByConfigurationProfileAssignments(resourceGroupName: string, configurationProfileAssignmentName: string, vmName: string, options?: ReportsListByConfigurationProfileAssignmentsOptionalParams): PagedAsyncIterableIterator<Report>;
 }
 
 // @public
@@ -514,14 +512,14 @@ export interface ReportsGetOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReportsGetResponse = Report_2;
+export type ReportsGetResponse = Report;
 
 // @public
 export interface ReportsListByConfigurationProfileAssignmentsOptionalParams extends coreClient.OperationOptions {
 }
 
 // @public
-export type ReportsListByConfigurationProfileAssignmentsResponse = ReportList_2;
+export type ReportsListByConfigurationProfileAssignmentsResponse = ReportList;
 
 // @public
 export interface Resource {

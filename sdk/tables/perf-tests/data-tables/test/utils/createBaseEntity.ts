@@ -1,8 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
+import { v4 as uuid } from "uuid";
 import { TableEntity, TransactionAction } from "@azure/data-tables";
-import { randomUUID } from "@azure/core-util";
 
 const stringValue = "This is a string";
 const dateProperty = new Date("1970-10-04T00:00:00+00:00");
@@ -10,7 +7,7 @@ const dateProperty = new Date("1970-10-04T00:00:00+00:00");
 export function createSimpleEntity(): TableEntity {
   return {
     partitionKey: "simpleEntity",
-    rowKey: randomUUID(),
+    rowKey: uuid(),
     stringTypeProperty1: stringValue,
     stringTypeProperty2: stringValue,
     stringTypeProperty3: stringValue,
@@ -24,7 +21,7 @@ export function createSimpleEntity(): TableEntity {
 export function createComplexEntity(): TableEntity {
   return {
     partitionKey: "complexEntity",
-    rowKey: randomUUID(),
+    rowKey: uuid(),
     stringTypeProperty: stringValue,
     datetimeTypeProperty: dateProperty,
     GuidTypeProperty: "c9da6455-213d-42c9-9a79-3e9149a57833",

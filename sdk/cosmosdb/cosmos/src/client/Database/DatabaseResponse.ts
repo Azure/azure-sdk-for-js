@@ -14,7 +14,7 @@ export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Reso
     headers: CosmosHeaders,
     statusCode: number,
     database: Database,
-    diagnostics: CosmosDiagnostics,
+    diagnostics: CosmosDiagnostics
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.database = database;

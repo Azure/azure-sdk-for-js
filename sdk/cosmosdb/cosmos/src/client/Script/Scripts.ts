@@ -13,7 +13,7 @@ export class Scripts {
    */
   constructor(
     public readonly container: Container,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**

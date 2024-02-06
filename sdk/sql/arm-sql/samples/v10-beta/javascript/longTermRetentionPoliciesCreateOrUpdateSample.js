@@ -13,10 +13,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Set or update a database's long term retention policy.
+ * This sample demonstrates how to Sets a database's long term retention policy.
  *
- * @summary Set or update a database's long term retention policy.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/LongTermRetentionPolicyCreateOrUpdate.json
+ * @summary Sets a database's long term retention policy.
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/LongTermRetentionPolicyCreateOrUpdate.json
  */
 async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
   const subscriptionId =
@@ -26,8 +26,6 @@ async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
   const databaseName = "testDatabase";
   const policyName = "default";
   const parameters = {
-    backupStorageAccessTier: "Hot",
-    makeBackupsImmutable: true,
     monthlyRetention: "P1Y",
     weekOfYear: 5,
     weeklyRetention: "P1M",
@@ -40,7 +38,7 @@ async function createOrUpdateTheLongTermRetentionPolicyForTheDatabase() {
     serverName,
     databaseName,
     policyName,
-    parameters,
+    parameters
   );
   console.log(result);
 }

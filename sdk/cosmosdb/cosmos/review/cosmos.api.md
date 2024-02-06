@@ -206,7 +206,7 @@ export class ClientContext {
     getClientConfig(): ClientConfigDiagnostic;
     getDatabaseAccount(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<Response_2<DatabaseAccount>>;
     // (undocumented)
-    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal, correlatedActivityId?: string): Promise<Response_2<PartitionedQueryExecutionInfo>>;
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options: FeedOptions, diagnosticNode: DiagnosticNodeInternal): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     getReadEndpoint(diagnosticNode: DiagnosticNodeInternal): Promise<string>;
     // (undocumented)
@@ -232,7 +232,7 @@ export class ClientContext {
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, correlatedActivityId, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, diagnosticNode, partitionKeyRangeId, partitionKey, startEpk, endEpk, }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -246,7 +246,6 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         startEpk?: string | undefined;
         endEpk?: string | undefined;
-        correlatedActivityId?: string;
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
@@ -448,7 +447,6 @@ export const Constants: {
         PageSize: string;
         ItemCount: string;
         ActivityId: string;
-        CorrelatedActivityId: string;
         PreTriggerInclude: string;
         PreTriggerExclude: string;
         PostTriggerInclude: string;
@@ -917,21 +915,21 @@ export class DiagnosticNodeInternal implements DiagnosticNode {
 // @public (undocumented)
 export enum DiagnosticNodeType {
     // (undocumented)
-    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",// Top most node representing client operations.
+    BACKGROUND_REFRESH_THREAD = "BACKGROUND_REFRESH_THREAD",
     // (undocumented)
-    BATCH_REQUEST = "BATCH_REQUEST",// Node representing a metadata request.
+    BATCH_REQUEST = "BATCH_REQUEST",
     // (undocumented)
-    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",// Node representing REST call to backend services.
+    CLIENT_REQUEST_NODE = "CLIENT_REQUEST_NODE",
     // (undocumented)
-    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",// Node representing batch request.
+    DEFAULT_QUERY_NODE = "DEFAULT_QUERY_NODE",
     // (undocumented)
-    HTTP_REQUEST = "HTTP_REQUEST",// Node representing parallel query execution.
+    HTTP_REQUEST = "HTTP_REQUEST",
     // (undocumented)
-    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",// Node representing default query execution.
+    METADATA_REQUEST_NODE = "METADATA_REQUEST_NODE",
     // (undocumented)
-    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",// Node representing query repair.
+    PARALLEL_QUERY_NODE = "PARALLEL_QUERY_NODE",
     // (undocumented)
-    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",// Node representing background refresh.
+    QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",
     // (undocumented)
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
 }

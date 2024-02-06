@@ -1,13 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  createDefaultManagedIdentityCredential,
-  createEnvironmentCredential,
-} from "./defaultAzureCredential";
-
 import { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
+import { DefaultManagedIdentityCredential } from "./defaultAzureCredential";
+import { EnvironmentCredential } from "./environmentCredential";
+import { TokenCredential } from "@azure/core-auth";
+
+/**
+ * The type of a class that implements TokenCredential and accepts
+ * `ApplicationCredentialOptions`.
+ */
+interface AzureApplicationCredentialConstructor {
+  new (options?: AzureApplicationCredentialOptions): TokenCredential;
+}
+
+export const AzureApplicationCredentials: AzureApplicationCredentialConstructor[] = [
+  EnvironmentCredential,
+  DefaultManagedIdentityCredential,
+];
 
 /**
  * Provides a default {@link ChainedTokenCredential} configuration that should
@@ -29,10 +40,6 @@ export class AzureApplicationCredential extends ChainedTokenCredential {
    * @param options - Optional parameters. See {@link AzureApplicationCredentialOptions}.
    */
   constructor(options?: AzureApplicationCredentialOptions) {
-    const credentialFunctions = [
-      createEnvironmentCredential,
-      createDefaultManagedIdentityCredential,
-    ];
-    super(...credentialFunctions.map((createCredentialFn) => createCredentialFn(options)));
+    super(...AzureApplicationCredentials.map((ctor) => new ctor(options)));
   }
 }

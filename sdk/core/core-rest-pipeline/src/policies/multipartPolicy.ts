@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { concat } from "../util/concat";
+import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
+import { PipelinePolicy } from "../pipeline";
+import { toStream, concatenateStreams } from "../util/stream";
 import { isBlob } from "../util/typeGuards";
 
 function generateBoundary(): string {
@@ -26,7 +26,7 @@ function getLength(
     | Uint8Array
     | Blob
     | ReadableStream
-    | NodeJS.ReadableStream,
+    | NodeJS.ReadableStream
 ): number | undefined {
   if (source instanceof Uint8Array) {
     return source.byteLength;
@@ -46,7 +46,7 @@ function getTotalLength(
     | Blob
     | ReadableStream
     | NodeJS.ReadableStream
-  )[],
+  )[]
 ): number | undefined {
   let total = 0;
   for (const source of sources) {
@@ -60,11 +60,7 @@ function getTotalLength(
   return total;
 }
 
-async function buildRequestBody(
-  request: PipelineRequest,
-  parts: BodyPart[],
-  boundary: string,
-): Promise<void> {
+function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
@@ -82,7 +78,10 @@ async function buildRequestBody(
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = await concat(sources);
+  request.body = (() =>
+    concatenateStreams(
+      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream)
+    )) as RequestBodyType;
 }
 
 /**
@@ -92,7 +91,7 @@ export const multipartPolicyName = "multipartPolicy";
 
 const maxBoundaryLength = 70;
 const validBoundaryCharacters = new Set(
-  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`,
+  `abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'()+,-./:=?`
 );
 
 function assertValidBoundary(boundary: string): void {
@@ -111,7 +110,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    async sendRequest(request, next): Promise<PipelineResponse> {
+    sendRequest(request, next) {
       if (!request.multipartBody) {
         return next(request);
       }
@@ -126,14 +125,14 @@ export function multipartPolicy(): PipelinePolicy {
       const parsedHeader = contentTypeHeader.match(/^(multipart\/[^ ;]+)(?:; *boundary=(.+))?$/);
       if (!parsedHeader) {
         throw new Error(
-          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`,
+          `Got multipart request body, but content-type header was not multipart: ${contentTypeHeader}`
         );
       }
 
       const [, contentType, parsedBoundary] = parsedHeader;
       if (parsedBoundary && boundary && parsedBoundary !== boundary) {
         throw new Error(
-          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`,
+          `Multipart boundary was specified as ${parsedBoundary} in the header, but got ${boundary} in the request body`
         );
       }
 
@@ -144,7 +143,7 @@ export function multipartPolicy(): PipelinePolicy {
         boundary = generateBoundary();
       }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      await buildRequestBody(request, request.multipartBody.parts, boundary);
+      buildRequestBody(request, request.multipartBody.parts, boundary);
 
       request.multipartBody = undefined;
 

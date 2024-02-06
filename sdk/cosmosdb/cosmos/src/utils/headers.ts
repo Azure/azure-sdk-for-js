@@ -9,7 +9,7 @@ export async function generateHeaders(
   method: HTTPMethod,
   resourceType: ResourceType = ResourceType.none,
   resourceId: string = "",
-  date = new Date(),
+  date = new Date()
 ): Promise<{
   [x: string]: string;
 }> {
@@ -32,7 +32,7 @@ async function signature(
   method: HTTPMethod,
   resourceType: ResourceType,
   resourceId: string = "",
-  date = new Date(),
+  date = new Date()
 ): Promise<string> {
   const type = "master";
   const version = "1.0";

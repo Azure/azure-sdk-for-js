@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi, afterEach, expect } from "vitest";
-
+import { assert } from "chai";
+import * as sinon from "sinon";
 import {
-  type PipelineResponse,
+  PipelineResponse,
   RestError,
-  type SendRequest,
+  SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   systemErrorRetryPolicy,
@@ -15,7 +15,7 @@ import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants";
 
 describe("systemErrorRetryPolicy", function () {
   afterEach(function () {
-    vi.useRealTimers();
+    sinon.restore();
   });
 
   it("It should retry after a system error", async () => {
@@ -30,21 +30,20 @@ describe("systemErrorRetryPolicy", function () {
     };
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValueOnce(systemError);
-    next.mockResolvedValueOnce(successResponse);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.onFirstCall().rejects(systemError);
+    next.onSecondCall().resolves(successResponse);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     const promise = policy.sendRequest(request, next);
-    expect(next).toHaveBeenCalledOnce();
+    assert.isTrue(next.calledOnce);
 
     // allow the delay to occur
-    const before = Date.now();
-    await vi.advanceTimersToNextTimerAsync();
+    const time = await clock.nextAsync();
     // should be at least the standard delay
-    assert.isAtLeast(Date.now() - before, 500);
-    expect(next).toHaveBeenCalledTimes(2);
+    assert.isAtLeast(time, 500);
+    assert.isTrue(next.calledTwice);
 
     const result = await promise;
 
@@ -58,10 +57,10 @@ describe("systemErrorRetryPolicy", function () {
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.mockRejectedValue(systemError);
+    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.rejects(systemError);
 
-    vi.useFakeTimers();
+    const clock = sinon.useFakeTimers();
 
     let catchCalled = false;
     const promise = policy.sendRequest(request, next);
@@ -69,9 +68,9 @@ describe("systemErrorRetryPolicy", function () {
       catchCalled = true;
       assert.strictEqual(e, systemError);
     });
-    await vi.runAllTimersAsync();
+    await clock.runAllAsync();
     // should be one more than the default retry count
-    expect(next).toHaveBeenCalledTimes(DEFAULT_RETRY_POLICY_COUNT + 1);
+    assert.strictEqual(next.callCount, DEFAULT_RETRY_POLICY_COUNT + 1);
     assert.isTrue(catchCalled);
   });
 });

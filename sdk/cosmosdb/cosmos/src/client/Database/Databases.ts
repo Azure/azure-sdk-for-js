@@ -32,7 +32,7 @@ export class Databases {
    */
   constructor(
     public readonly client: CosmosClient,
-    private readonly clientContext: ClientContext,
+    private readonly clientContext: ClientContext
   ) {}
 
   /**
@@ -100,7 +100,7 @@ export class Databases {
    */
   public async create(
     body: DatabaseRequest,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<DatabaseResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.createInternal(diagnosticNode, body, options);
@@ -113,7 +113,7 @@ export class Databases {
   public async createInternal(
     diagnosticNode: DiagnosticNodeInternal,
     body: DatabaseRequest,
-    options: RequestOptions = {},
+    options: RequestOptions = {}
   ): Promise<DatabaseResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
@@ -166,7 +166,7 @@ export class Databases {
       response.headers,
       response.code,
       ref,
-      getEmptyCosmosDiagnostics(),
+      getEmptyCosmosDiagnostics()
     );
   }
 
@@ -187,7 +187,7 @@ export class Databases {
    */
   public async createIfNotExists(
     body: DatabaseRequest,
-    options?: RequestOptions,
+    options?: RequestOptions
   ): Promise<DatabaseResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");

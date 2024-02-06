@@ -6,33 +6,20 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import {
-  ApplicationTypeResource,
-  ApplicationTypesListOptionalParams,
   ApplicationTypesGetOptionalParams,
   ApplicationTypesGetResponse,
+  ApplicationTypeResource,
   ApplicationTypesCreateOrUpdateOptionalParams,
   ApplicationTypesCreateOrUpdateResponse,
-  ApplicationTypesDeleteOptionalParams
+  ApplicationTypesDeleteOptionalParams,
+  ApplicationTypesListOptionalParams,
+  ApplicationTypesListResponse
 } from "../models";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ApplicationTypes. */
 export interface ApplicationTypes {
-  /**
-   * Gets all application type name resources created or in the process of being created in the Service
-   * Fabric cluster resource.
-   * @param resourceGroupName The name of the resource group.
-   * @param clusterName The name of the cluster resource.
-   * @param options The options parameters.
-   */
-  list(
-    resourceGroupName: string,
-    clusterName: string,
-    options?: ApplicationTypesListOptionalParams
-  ): PagedAsyncIterableIterator<ApplicationTypeResource>;
   /**
    * Get a Service Fabric application type name resource created or in the process of being created in
    * the Service Fabric cluster resource.
@@ -74,7 +61,7 @@ export interface ApplicationTypes {
     clusterName: string,
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<PollerLike<PollOperationState<void>, void>>;
   /**
    * Delete a Service Fabric application type name resource with the specified name.
    * @param resourceGroupName The name of the resource group.
@@ -88,4 +75,16 @@ export interface ApplicationTypes {
     applicationTypeName: string,
     options?: ApplicationTypesDeleteOptionalParams
   ): Promise<void>;
+  /**
+   * Gets all application type name resources created or in the process of being created in the Service
+   * Fabric cluster resource.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster resource.
+   * @param options The options parameters.
+   */
+  list(
+    resourceGroupName: string,
+    clusterName: string,
+    options?: ApplicationTypesListOptionalParams
+  ): Promise<ApplicationTypesListResponse>;
 }
