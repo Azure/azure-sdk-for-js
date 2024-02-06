@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+declare global {
+  // stub these out for the browser
+  function btoa(input: string): string;
+  function atob(input: string): string;
+}
+
 /**
  * Encodes a string in base64 format.
  * @param value - the string to encode
  * @internal
  */
 export function encodeString(value: string): string {
-  return Buffer.from(value).toString("base64");
+  return btoa(value);
 }
 
 /**
@@ -16,8 +22,11 @@ export function encodeString(value: string): string {
  * @internal
  */
 export function encodeByteArray(value: Uint8Array): string {
-  const bufferValue = value instanceof Buffer ? value : Buffer.from(value.buffer as ArrayBuffer);
-  return bufferValue.toString("base64");
+  let str = "";
+  for (let i = 0; i < value.length; i++) {
+    str += String.fromCharCode(value[i]);
+  }
+  return btoa(str);
 }
 
 /**
@@ -26,7 +35,12 @@ export function encodeByteArray(value: Uint8Array): string {
  * @internal
  */
 export function decodeString(value: string): Uint8Array {
-  return Buffer.from(value, "base64");
+  const byteString = atob(value);
+  const arr = new Uint8Array(byteString.length);
+  for (let i = 0; i < byteString.length; i++) {
+    arr[i] = byteString.charCodeAt(i);
+  }
+  return arr;
 }
 
 /**
@@ -35,5 +49,5 @@ export function decodeString(value: string): Uint8Array {
  * @internal
  */
 export function decodeStringToString(value: string): string {
-  return Buffer.from(value, "base64").toString();
+  return atob(value);
 }
