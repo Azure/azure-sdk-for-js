@@ -444,7 +444,7 @@ export interface ChatCompletionsOptions {
 }
 
 /** A representation of a structured content item within a chat message. */
-export type ChatMessageContentItem = ChatMessageTextContentItem | ChatMessageImageContentItem;
+export type ChatMessageContentItem = ChatMessageTextContentItem;
 
 /** A structured chat content item containing plain text. */
 export interface ChatMessageTextContentItem {
@@ -452,14 +452,6 @@ export interface ChatMessageTextContentItem {
   type: "text";
   /** The content of the message. */
   text: string;
-}
-
-/** A structured chat content item containing an image reference. */
-export interface ChatMessageImageContentItem {
-  /** The discriminated object type: always 'image_url' for this type. */
-  type: "image_url";
-  /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
-  imageUrl: ChatMessageImageUrl;
 }
 
 /** An internet location from which the model may retrieve an image. */

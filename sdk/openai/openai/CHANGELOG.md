@@ -1,10 +1,12 @@
 # Release History
 
-## 1.0.0-beta.12 (Unreleased)
+## 1.0.0 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
+
+- `ChatMessageImageContentItem` has been removed because vision capabilities are not available in the current release.
 
 ### Bugs Fixed
 

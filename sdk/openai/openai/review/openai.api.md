@@ -265,13 +265,7 @@ export type ChatCompletionsToolSelectionPreset = "auto" | "none";
 export type ChatFinishDetails = StopFinishDetails | MaxTokensFinishDetails;
 
 // @public
-export type ChatMessageContentItem = ChatMessageTextContentItem | ChatMessageImageContentItem;
-
-// @public
-export interface ChatMessageImageContentItem {
-    imageUrl: ChatMessageImageUrl;
-    type: "image_url";
-}
+export type ChatMessageContentItem = ChatMessageTextContentItem;
 
 // @public
 export type ChatMessageImageDetailLevel = "auto" | "low" | "high";
