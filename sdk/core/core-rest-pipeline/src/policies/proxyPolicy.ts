@@ -3,6 +3,7 @@
 
 import type * as http from "node:http";
 import type * as https from "node:https";
+import * as process from "node:process";
 import createHttpsProxyAgent, { type HttpsProxyAgentOptions } from "https-proxy-agent";
 import createHttpProxyAgent, { type HttpProxyAgentOptions } from "http-proxy-agent";
 import type {

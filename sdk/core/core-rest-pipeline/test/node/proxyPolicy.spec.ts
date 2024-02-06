@@ -13,6 +13,7 @@ import {
   globalNoProxyList,
   loadNoProxy,
 } from "../../src/policies/proxyPolicy.js";
+import * as process from "node:process";
 import { describe, it, assert, vi, afterEach } from "vitest";
 
 describe("proxyPolicy (node)", function () {
