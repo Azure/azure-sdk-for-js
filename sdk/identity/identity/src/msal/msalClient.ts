@@ -116,7 +116,7 @@ interface MsalClientState {
   /** The Azure region, if specified. */
   azureRegion?: string;
 
-  /** A flag indicating whether automatic authentication is disabled. */
+  /** When true, an error will be thrown when silent authentication fails. */
   disableAutomaticAuthentication?: boolean;
 }
 
