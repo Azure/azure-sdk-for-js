@@ -22,6 +22,9 @@ import { RegionalAuthority } from "../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../util/tenantIdUtils";
 
+/**
+ * The logger for all MsalClient instances.
+ */
 const msalLogger = credentialLogger("MsalClient");
 
 /**
@@ -34,8 +37,8 @@ export interface MsalClient {
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientSecret - The client secret of the application. This is a credential that the application can use to authenticate itself.
-   * @param options - Optional. Additional options that may be provided to the method.
-   * @returns A promise that resolves to an access token.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token
    */
   getTokenByClientSecret(
     scopes: string[],
@@ -44,8 +47,10 @@ export interface MsalClient {
   ): Promise<AccessToken>;
 }
 
-// TODO: define a new type for this
-type CreateMsalClientOptions = Partial<MsalNodeOptions>;
+/**
+ * Options for creating an instance of the MsalClient.
+ */
+export type CreateMsalClientOptions = Omit<MsalNodeOptions, "clientId" | "tenantId">;
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -58,7 +63,7 @@ type CreateMsalClientOptions = Partial<MsalNodeOptions>;
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions = {},
+  createMsalClientOptions: CreateMsalClientOptions,
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
 
@@ -128,7 +133,7 @@ interface MsalClientState {
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions = {},
+  createMsalClientOptions: CreateMsalClientOptions = { logger: msalLogger },
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),
@@ -152,7 +157,6 @@ export function createMsalClient(
     _options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
     // abort requests
-    // Not doing: passing through logger
 
     if (confidentialApp === undefined) {
       // TODOs:
@@ -180,13 +184,13 @@ export function createMsalClient(
   ): Promise<AccessToken> {
     if (state.cachedAccount === null) {
       const cache = app.getTokenCache();
-      const accounts = await cache?.getAllAccounts();
+      const accounts = await cache.getAllAccounts();
 
-      if (accounts === undefined) {
+      if (accounts === undefined || accounts.length === 0) {
         throw new AuthenticationRequiredError({ scopes });
       }
 
-      if (accounts.length !== 1) {
+      if (accounts.length > 1) {
         msalLogger.info(`More than one account was found authenticated for this Client ID and Tenant ID.
 However, no "authenticationRecord" has been provided for this credential,
 therefore we're unable to pick between these accounts.
@@ -228,15 +232,22 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     }
   }
 
-  async function getTokenByClientSecret(
-    scopes: string[],
-    clientSecret: string,
-    options?: GetTokenOptions,
+  /**
+   * Performs silent authentication using MSAL to acquire an access token.
+   * If silent authentication fails, falls back to interactive authentication.
+   *
+   * @param msalApp - The MSAL application instance.
+   * @param scopes - The scopes for which to acquire the access token.
+   * @param options - The options for acquiring the access token.
+   * @param onAuthenticationRequired - A callback function to handle interactive authentication when silent authentication fails.
+   * @returns A promise that resolves to an AccessToken object containing the access token and its expiration timestamp.
+   */
+  async function withSilentAuthentication(
+    msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication,
+    scopes: Array<string>,
+    options: GetTokenOptions,
+    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
   ): Promise<AccessToken> {
-    state.msalConfig.auth.clientSecret = clientSecret;
-
-    const msalApp = await getConfidentialApp(options);
-
     try {
       return await getTokenSilent(msalApp, scopes, options);
     } catch (e: any) {
@@ -251,19 +262,15 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
             "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
+
       msalLogger.getToken.info(`Silent authentication failed, falling back to interactive method.`);
-      const result = await msalApp.acquireTokenByClientCredential({
-        scopes: scopes,
-        // TODO: correlationId
-        azureRegion: state.azureRegion,
-        authority: state.msalConfig.auth.authority,
-        claims: options?.claims,
-      });
+
+      const result = await onAuthenticationRequired();
 
       ensureValidMsalToken(scopes, result ?? undefined, options);
-      msalLogger.getToken.info(formatSuccess(scopes));
-
       state.cachedAccount = result?.account ?? null;
+
+      msalLogger.getToken.info(formatSuccess(scopes));
 
       return {
         token: result!.accessToken,
@@ -273,6 +280,22 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   }
 
   return {
-    getTokenByClientSecret,
+    async getTokenByClientSecret(scopes, clientSecret, options = {}) {
+      msalLogger.getToken.info(`Attempting to acquire token using client secret`);
+
+      // TODO: understand and implement processMultiTenantRequest
+      state.msalConfig.auth.clientSecret = clientSecret;
+
+      const msalApp = await getConfidentialApp(options);
+
+      return withSilentAuthentication(msalApp, scopes, options, () =>
+        msalApp.acquireTokenByClientCredential({
+          scopes,
+          azureRegion: state.azureRegion,
+          authority: state.msalConfig.auth.authority,
+          claims: options?.claims,
+        }),
+      );
+    },
   };
 }
