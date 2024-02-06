@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { logger } from "./models/logger";
 import {
   CommunicationIdentifier,
@@ -22,6 +23,7 @@ import {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
+  UploadChatImageResult,
 } from "./models/models";
 import {
   mapToAddChatParticipantsRequestRestModel,
@@ -29,6 +31,8 @@ import {
   mapToChatParticipantSdkModel,
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel,
+  mapToSendChatMessageRequestRestModel,
+  mapToUpdateChatMessageRequestRestModel,
 } from "./models/mappers";
 import {
   AddParticipantsOptions,
@@ -46,6 +50,8 @@ import {
   UpdateMessageOptions,
   UpdateTopicOptions,
   UpdateChatThreadPropertiesOptions,
+  DeleteImageOptions,
+  UploadImageOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
@@ -141,9 +147,9 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatThreadProperties(
           this.threadId,
           options,
-          updatedOptions
+          updatedOptions,
         );
-      }
+      },
     );
   }
 
@@ -166,7 +172,7 @@ export class ChatThreadClient {
 
         const result = await this.client.chatThread.sendChatMessage(
           this.threadId,
-          { ...request, ...options },
+          mapToSendChatMessageRequestRestModel(request, options),
           updatedOptions,
         );
         return result;
@@ -294,7 +300,7 @@ export class ChatThreadClient {
         await this.client.chatThread.updateChatMessage(
           this.threadId,
           messageId,
-          options,
+          mapToUpdateChatMessageRequestRestModel(options),
           updatedOptions,
         );
       },
@@ -558,5 +564,59 @@ export class ChatThreadClient {
     }
 
     return true;
+  }
+
+  /**
+   * Upload a image identified by threadId and imageId
+   * @param imageId - The image id of the image.
+   * @param options - Operation options.
+   */
+  // public deleteImage(imageId: string, options: DeleteImageOptions = {}): Promise<void> {
+  //   return tracingClient.withSpan(
+  //     "ChatThreadClient-DeleteImage",
+  //     options,
+  //     async (updatedOptions) => {
+  //       await this.client.chatThread.deleteChatImage(this.threadId, imageId, updatedOptions);
+  //     },
+  //   );
+  // }
+
+  /**
+   * Uploads an chat image to a thread identified by threadId.
+   * Returns the id of the created message.
+   * @param request - Request for sending a message.
+   * @param options - Operation options.
+   */
+  public async uploadImage(
+    request: HttpRequestBody,
+    options: UploadImageOptions = {},
+  ): Promise<UploadChatImageResult> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-UploadImage",
+      options,
+      async (updatedOptions) => {
+        const result = await this.client.chatThread.uploadChatImage(
+          this.threadId,
+          request, // todo
+          updatedOptions,
+        );
+        return result;
+      },
+    );
+  }
+
+  /**
+   * Deletes an image identified by threadId and imageId
+   * @param imageId - The image id of the image.
+   * @param options - Operation options.
+   */
+  public deleteImage(imageId: string, options: DeleteImageOptions = {}): Promise<void> {
+    return tracingClient.withSpan(
+      "ChatThreadClient-DeleteImage",
+      options,
+      async (updatedOptions) => {
+        await this.client.chatThread.deleteChatImage(this.threadId, imageId, updatedOptions);
+      },
+    );
   }
 }

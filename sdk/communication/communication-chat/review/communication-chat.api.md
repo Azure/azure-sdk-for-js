@@ -4,6 +4,7 @@
 
 ```ts
 
+/// <reference types="node" />
 /// <reference lib="esnext.asynciterable" />
 
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
@@ -281,6 +282,7 @@ export interface SendChatMessageResult {
 
 // @public
 export interface SendMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     metadata?: Record<string, string>;
     senderDisplayName?: string;
     type?: ChatMessageType;
@@ -314,6 +316,7 @@ export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
 
 // @public
 export interface UpdateMessageOptions extends OperationOptions {
+    attachments?: ChatAttachment[];
     content?: string;
     metadata?: Record<string, string>;
 }

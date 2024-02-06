@@ -10,13 +10,13 @@ title: ChatApiClient
 description: Chat Client
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-11-15-preview
-require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/de868d17c7e25379f826fa43963d1ce6015cded3/specification/communication/data-plane/Chat/readme.md
+tag: package-2024-03-15-preview
+require: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/00c56827fe8064415b2b378b5941a833b22f5236/specification/communication/data-plane/Chat/readme.md
 model-date-time-as-string: false
 optional-response-headers: true
 add-credentials: false
 disable-async-iterators: true
-package-version: 1.5.0-beta.1
+package-version: 1.6.0-beta.1
 use-extension:
   "@autorest/typescript": "latest"
 tracing-info:
@@ -56,4 +56,14 @@ directive:
   where: "$.definitions.ChatAttachmentType"
   transform: >
     $["x-ms-enum"].modelAsString = false;
+```
+
+### Directive renaming "appId" property to "teamsAppId"
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.MicrosoftTeamsAppIdentifierModel.properties.appId"
+  transform: >
+    $["x-ms-client-name"] = "teamsAppId";
 ```

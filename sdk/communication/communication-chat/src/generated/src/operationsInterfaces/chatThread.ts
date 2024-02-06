@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   ChatThreadListChatReadReceiptsOptionalParams,
   ChatThreadListChatReadReceiptsResponse,
@@ -33,12 +34,18 @@ import {
   ChatThreadGetChatThreadPropertiesOptionalParams,
   ChatThreadGetChatThreadPropertiesResponse,
   ChatThreadSendTypingNotificationOptionalParams,
+  ChatThreadUploadChatImageOptionalParams,
+  ChatThreadUploadChatImageResponse,
+  ImageViewType,
+  ChatThreadGetChatImageOptionalParams,
+  ChatThreadGetChatImageResponse,
+  ChatThreadDeleteChatImageOptionalParams,
   ChatThreadListChatReadReceiptsNextOptionalParams,
   ChatThreadListChatReadReceiptsNextResponse,
   ChatThreadListChatMessagesNextOptionalParams,
   ChatThreadListChatMessagesNextResponse,
   ChatThreadListChatParticipantsNextOptionalParams,
-  ChatThreadListChatParticipantsNextResponse
+  ChatThreadListChatParticipantsNextResponse,
 } from "../models";
 
 /** Interface representing a ChatThread. */
@@ -50,7 +57,7 @@ export interface ChatThread {
    */
   listChatReadReceipts(
     chatThreadId: string,
-    options?: ChatThreadListChatReadReceiptsOptionalParams
+    options?: ChatThreadListChatReadReceiptsOptionalParams,
   ): Promise<ChatThreadListChatReadReceiptsResponse>;
   /**
    * Sends a read receipt event to a thread, on behalf of a user.
@@ -61,7 +68,7 @@ export interface ChatThread {
   sendChatReadReceipt(
     chatThreadId: string,
     sendReadReceiptRequest: SendReadReceiptRequest,
-    options?: ChatThreadSendChatReadReceiptOptionalParams
+    options?: ChatThreadSendChatReadReceiptOptionalParams,
   ): Promise<void>;
   /**
    * Sends a message to a thread.
@@ -72,7 +79,7 @@ export interface ChatThread {
   sendChatMessage(
     chatThreadId: string,
     sendChatMessageRequest: SendChatMessageRequest,
-    options?: ChatThreadSendChatMessageOptionalParams
+    options?: ChatThreadSendChatMessageOptionalParams,
   ): Promise<ChatThreadSendChatMessageResponse>;
   /**
    * Gets a list of messages from a thread.
@@ -81,7 +88,7 @@ export interface ChatThread {
    */
   listChatMessages(
     chatThreadId: string,
-    options?: ChatThreadListChatMessagesOptionalParams
+    options?: ChatThreadListChatMessagesOptionalParams,
   ): Promise<ChatThreadListChatMessagesResponse>;
   /**
    * Gets a message by id.
@@ -92,7 +99,7 @@ export interface ChatThread {
   getChatMessage(
     chatThreadId: string,
     chatMessageId: string,
-    options?: ChatThreadGetChatMessageOptionalParams
+    options?: ChatThreadGetChatMessageOptionalParams,
   ): Promise<ChatThreadGetChatMessageResponse>;
   /**
    * Updates a message.
@@ -105,7 +112,7 @@ export interface ChatThread {
     chatThreadId: string,
     chatMessageId: string,
     updateChatMessageRequest: UpdateChatMessageRequest,
-    options?: ChatThreadUpdateChatMessageOptionalParams
+    options?: ChatThreadUpdateChatMessageOptionalParams,
   ): Promise<void>;
   /**
    * Deletes a message.
@@ -116,7 +123,7 @@ export interface ChatThread {
   deleteChatMessage(
     chatThreadId: string,
     chatMessageId: string,
-    options?: ChatThreadDeleteChatMessageOptionalParams
+    options?: ChatThreadDeleteChatMessageOptionalParams,
   ): Promise<void>;
   /**
    * Gets the participants of a thread.
@@ -125,7 +132,7 @@ export interface ChatThread {
    */
   listChatParticipants(
     chatThreadId: string,
-    options?: ChatThreadListChatParticipantsOptionalParams
+    options?: ChatThreadListChatParticipantsOptionalParams,
   ): Promise<ChatThreadListChatParticipantsResponse>;
   /**
    * Remove a participant from a thread.
@@ -136,7 +143,7 @@ export interface ChatThread {
   removeChatParticipant(
     chatThreadId: string,
     participantCommunicationIdentifier: CommunicationIdentifierModel,
-    options?: ChatThreadRemoveChatParticipantOptionalParams
+    options?: ChatThreadRemoveChatParticipantOptionalParams,
   ): Promise<void>;
   /**
    * Adds thread participants to a thread. If participants already exist, no change occurs.
@@ -147,7 +154,7 @@ export interface ChatThread {
   addChatParticipants(
     chatThreadId: string,
     addChatParticipantsRequest: AddChatParticipantsRequest,
-    options?: ChatThreadAddChatParticipantsOptionalParams
+    options?: ChatThreadAddChatParticipantsOptionalParams,
   ): Promise<ChatThreadAddChatParticipantsResponse>;
   /**
    * Updates a thread's properties.
@@ -158,7 +165,7 @@ export interface ChatThread {
   updateChatThreadProperties(
     chatThreadId: string,
     updateChatThreadRequest: UpdateChatThreadRequest,
-    options?: ChatThreadUpdateChatThreadPropertiesOptionalParams
+    options?: ChatThreadUpdateChatThreadPropertiesOptionalParams,
   ): Promise<void>;
   /**
    * Gets a chat thread's properties.
@@ -167,7 +174,7 @@ export interface ChatThread {
    */
   getChatThreadProperties(
     chatThreadId: string,
-    options?: ChatThreadGetChatThreadPropertiesOptionalParams
+    options?: ChatThreadGetChatThreadPropertiesOptionalParams,
   ): Promise<ChatThreadGetChatThreadPropertiesResponse>;
   /**
    * Posts a typing event to a thread, on behalf of a user.
@@ -176,7 +183,42 @@ export interface ChatThread {
    */
   sendTypingNotification(
     chatThreadId: string,
-    options?: ChatThreadSendTypingNotificationOptionalParams
+    options?: ChatThreadSendTypingNotificationOptionalParams,
+  ): Promise<void>;
+  /**
+   * Upload an image in a thread, on behalf of a user.
+   * @param chatThreadId Thread id where the uploaded image belongs to. (Teams meeting only)
+   * @param chatImageFile Image binary data, allowed image formats: jpeg, png, gif, heic, webp
+   * @param options The options parameters.
+   */
+  uploadChatImage(
+    chatThreadId: string,
+    chatImageFile: coreRestPipeline.RequestBodyType,
+    options?: ChatThreadUploadChatImageOptionalParams,
+  ): Promise<ChatThreadUploadChatImageResponse>;
+  /**
+   * Get an image by view type.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param imageViewType The view type of image.
+   * @param options The options parameters.
+   */
+  getChatImage(
+    chatThreadId: string,
+    imageId: string,
+    imageViewType: ImageViewType,
+    options?: ChatThreadGetChatImageOptionalParams,
+  ): Promise<ChatThreadGetChatImageResponse>;
+  /**
+   * Deletes a image.
+   * @param chatThreadId The thread id to which the message was sent.
+   * @param imageId The image id.
+   * @param options The options parameters.
+   */
+  deleteChatImage(
+    chatThreadId: string,
+    imageId: string,
+    options?: ChatThreadDeleteChatImageOptionalParams,
   ): Promise<void>;
   /**
    * ListChatReadReceiptsNext
@@ -187,7 +229,7 @@ export interface ChatThread {
   listChatReadReceiptsNext(
     chatThreadId: string,
     nextLink: string,
-    options?: ChatThreadListChatReadReceiptsNextOptionalParams
+    options?: ChatThreadListChatReadReceiptsNextOptionalParams,
   ): Promise<ChatThreadListChatReadReceiptsNextResponse>;
   /**
    * ListChatMessagesNext
@@ -198,7 +240,7 @@ export interface ChatThread {
   listChatMessagesNext(
     chatThreadId: string,
     nextLink: string,
-    options?: ChatThreadListChatMessagesNextOptionalParams
+    options?: ChatThreadListChatMessagesNextOptionalParams,
   ): Promise<ChatThreadListChatMessagesNextResponse>;
   /**
    * ListChatParticipantsNext
@@ -209,6 +251,6 @@ export interface ChatThread {
   listChatParticipantsNext(
     chatThreadId: string,
     nextLink: string,
-    options?: ChatThreadListChatParticipantsNextOptionalParams
+    options?: ChatThreadListChatParticipantsNextOptionalParams,
   ): Promise<ChatThreadListChatParticipantsNextResponse>;
 }

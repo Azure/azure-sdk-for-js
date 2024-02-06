@@ -126,5 +126,15 @@ export interface ListPageSettings {
   continuationToken?: string;
 }
 
+/** Result payload for uploading an image. */
+export interface UploadChatImageResult {
+  /** Id of the image. */
+  id: string;
+  /** The type of attachment. */
+  attachmentType?: ChatAttachmentType;
+  /** The name including file extension type of the attachment. */
+  name?: string;
+}
+
 /** Type of Supported Attachments. */
 export type ChatAttachmentType = "image" | "file" | "unknown";

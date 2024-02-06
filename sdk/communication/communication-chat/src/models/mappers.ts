@@ -7,9 +7,10 @@ import {
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 import * as RestModel from "../generated/src/models";
-import { AddParticipantsRequest } from "./requests";
-import { CreateChatThreadOptions } from "./options";
+import { AddParticipantsRequest, SendMessageRequest } from "./requests";
+import { CreateChatThreadOptions, SendMessageOptions, UpdateMessageOptions } from "./options";
 import {
+  ChatAttachment,
   ChatMessage,
   ChatMessageContent,
   ChatMessageReadReceipt,
@@ -58,6 +59,60 @@ export const mapToAddChatParticipantsRequestRestModel = (
 
 /**
  * @internal
+ * Mapping chat attachment SDK model to chat attachment REST model
+ */
+export const mapToChatAttachmentRestModel = (
+  chatAttachment: ChatAttachment,
+): RestModel.ChatAttachment => {
+  const { attachmentType, ...rest } = chatAttachment;
+  if (attachmentType == "unknown") {
+    throw new Error("'unknown' attachmentType not supported");
+  }
+  return {
+    ...rest,
+    attachmentType: attachmentType,
+  };
+};
+
+/**
+ * @internal
+ * Mapping send message request and options to send chat message request REST model
+ */
+export const mapToSendChatMessageRequestRestModel = (
+  sendMessageRequest: SendMessageRequest,
+  sendMessageOptions: SendMessageOptions,
+): RestModel.SendChatMessageRequest => {
+  const { attachments, ...restOptions } = sendMessageOptions;
+  let request: RestModel.SendChatMessageRequest = { ...sendMessageRequest, ...restOptions }
+  if (attachments) {
+    request = {
+      ...request,
+      attachments: attachments?.map((attachment) => mapToChatAttachmentRestModel(attachment)),
+    };
+  }
+  return request
+};
+
+/**
+ * @internal
+ * Mapping update message options to update chat message request REST model
+ */
+export const mapToUpdateChatMessageRequestRestModel = (
+  updateMessageOptions: UpdateMessageOptions,
+): RestModel.UpdateChatMessageRequest => {
+  const { attachments, ...restOptions } = updateMessageOptions;
+  let request: RestModel.UpdateChatMessageRequest = { ...restOptions }
+  if (attachments) {
+    request = {
+      ...request,
+      attachments: attachments?.map((attachment) => mapToChatAttachmentRestModel(attachment)),
+    };
+  }
+  return request
+};
+
+/**
+ * @internal
  * Mapping chat participant REST model to chat participant SDK model
  */
 export const mapToChatParticipantSdkModel = (
@@ -74,11 +129,25 @@ export const mapToChatParticipantSdkModel = (
 
 /**
  * @internal
+ * Mapping chat attachment REST model to chat attachment SDK model
+ */
+export const mapToChatAttachmentSdkModel = (
+  chatAttachment: RestModel.ChatAttachment,
+): ChatAttachment => {
+  const { attachmentType, ...rest } = chatAttachment;
+  return {
+    ...rest,
+    attachmentType: attachmentType,
+  };
+};
+
+/**
+ * @internal
  */
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent,
 ): ChatMessageContent => {
-  const { participants, initiatorCommunicationIdentifier, ...otherChatContents } = content;
+  const { participants, attachments, initiatorCommunicationIdentifier, ...otherChatContents } = content;
   let result: ChatMessageContent = { ...otherChatContents };
   if (initiatorCommunicationIdentifier) {
     const initiator = deserializeCommunicationIdentifier(
@@ -90,6 +159,12 @@ export const mapToChatContentSdkModel = (
     result = {
       ...result,
       participants: participants?.map((participant) => mapToChatParticipantSdkModel(participant)),
+    };
+  }
+  if (attachments) {
+    result = {
+      ...result,
+      attachments: attachments?.map((attachment) => mapToChatAttachmentSdkModel(attachment)),
     };
   }
   return result;

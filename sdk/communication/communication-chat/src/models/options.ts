@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant } from "./models";
+import { ChatAttachment, ChatParticipant } from "./models";
 
 export {
   RestListMessagesOptions,
@@ -57,6 +57,8 @@ export interface SendMessageOptions extends OperationOptions {
   type?: ChatMessageType;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -67,6 +69,8 @@ export interface UpdateMessageOptions extends OperationOptions {
   content?: string;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
