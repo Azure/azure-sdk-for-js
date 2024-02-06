@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import path from "node:path";
-import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
@@ -69,6 +69,18 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   if (browserTest) {
+    // Test for valid file
+    if (!existsSync(browserConfig)) {
+      log.error(`The file ${browserConfig} does not exist.`);
+      return false;
+    }
+
+    const browserConfigStat = statSync(browserConfig);
+    if (!browserConfigStat.isFile()) {
+      log.error(`The file ${browserConfig} does not exist.`);
+      return false;
+    }
+
     log.info(`Building for browser testing...`);
     const esmMap = overrides.has("esm") ? overrides.get("esm")!.map : new Map<string, string>();
     compileForEnvironment("browser", browserConfig, importMap, esmMap);
