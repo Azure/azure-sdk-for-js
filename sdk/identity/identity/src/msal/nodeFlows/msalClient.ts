@@ -4,7 +4,8 @@
 import * as msal from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { credentialLogger, formatSuccess } from "../util/logging";
+import { PluginConfiguration, generatePluginConfiguration } from "./msalPlugins";
+import { credentialLogger, formatSuccess } from "../../util/logging";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -12,13 +13,13 @@ import {
   getKnownAuthorities,
   getMSALLogLevel,
   publicToMsal,
-} from "./utils";
+} from "../utils";
 
-import { AuthenticationRequiredError } from "../errors";
-import { IdentityClient } from "../client/identityClient";
-import { MsalNodeOptions } from "./nodeFlows/msalNodeCommon";
+import { AuthenticationRequiredError } from "../../errors";
+import { IdentityClient } from "../../client/identityClient";
+import { MsalNodeOptions } from "./msalNodeCommon";
 import { getLogLevel } from "@azure/logger";
-import { resolveTenantId } from "../util/tenantIdUtils";
+import { resolveTenantId } from "../../util/tenantIdUtils";
 
 /**
  * The logger for all MsalClient instances.
@@ -111,6 +112,9 @@ interface MsalClientState {
 
   /** The cached account information, or null if no account information is cached. */
   cachedAccount: msal.AccountInfo | null;
+
+  /** Configured plugins */
+  pluginConfiguration: PluginConfiguration;
 }
 
 /**
@@ -133,10 +137,8 @@ export function createMsalClient(
     cachedAccount: createMsalClientOptions.authenticationRecord
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
+    pluginConfiguration: generatePluginConfiguration(createMsalClientOptions),
   };
-
-  // configure persistence
-  // configure broker
 
   let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
   async function getConfidentialApp(
@@ -147,9 +149,11 @@ export function createMsalClient(
     if (confidentialApp === undefined) {
       // TODOs:
       // CAE / non-CAE
-      // hook up cache plugin
-      // hook up native broker
-      confidentialApp = new msal.ConfidentialClientApplication(state.msalConfig);
+      confidentialApp = new msal.ConfidentialClientApplication({
+        ...state.msalConfig,
+        broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+        cache: { cachePlugin: await state.pluginConfiguration.cache.cachePlugin },
+      });
     }
 
     return confidentialApp;

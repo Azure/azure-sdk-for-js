@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalClient from "../../../src/msal/msalClient";
+import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
 import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
 
