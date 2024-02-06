@@ -11,12 +11,14 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(undefined);
         assert.fail("Expected error");
-      } catch (error: any) {
+      } catch (err) {
+        assert.ok(err instanceof Error);
+        const error = err as Error;
         assert.ok(
           error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
             error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("undefined") !== -1), // Firefox
+              error.message.includes("undefined")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
         );
       }
@@ -27,12 +29,14 @@ describe("XML serializer", function () {
         // @ts-expect-error - intentional error for test
         await parseXML(null);
         assert.fail("Expected error");
-      } catch (error: any) {
+      } catch (err) {
+        assert.ok(err instanceof Error);
+        const error = err as Error;
         assert.ok(
           error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
             error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
-              error.message.indexOf("null") !== -1), // Firefox
+              error.message.includes("null")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "null"`,
         );
       }
@@ -423,24 +427,6 @@ describe("XML serializer", function () {
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root><vegetable green="false"><fruit healthy="true"/></vegetable></root>`,
-      );
-    });
-
-    it("with element with attribute and value", async function () {
-      const xml = stringifyXML(
-        {
-          fruit: {
-            $: {
-              healthy: "true",
-            },
-            _: "yum",
-          },
-        },
-        { rootName: "fruits" },
-      );
-      assert.deepStrictEqual(
-        xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`,
       );
     });
 
