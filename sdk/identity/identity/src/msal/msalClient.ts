@@ -50,7 +50,7 @@ export interface MsalClient {
 /**
  * Options for creating an instance of the MsalClient.
  */
-export type CreateMsalClientOptions = Omit<MsalNodeOptions, "clientId" | "tenantId">;
+export type CreateMsalClientOptions = Partial<Omit<MsalNodeOptions, "clientId" | "tenantId">>;
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
@@ -63,7 +63,7 @@ export type CreateMsalClientOptions = Omit<MsalNodeOptions, "clientId" | "tenant
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions,
+  createMsalClientOptions: CreateMsalClientOptions = {},
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
 
@@ -133,7 +133,7 @@ interface MsalClientState {
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions = { logger: msalLogger },
+  createMsalClientOptions: CreateMsalClientOptions = {},
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),
