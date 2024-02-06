@@ -37,7 +37,6 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { get } from "./utils.js";
 import { stringToUint8Array } from "@azure/core-util";
 import { getImageDimensionsFromResponse } from "./images.js";
-import { RestError } from "@azure/core-rest-pipeline";
 
 function ifDefined(
   val: any,
