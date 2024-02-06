@@ -34,7 +34,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         value: {
           secretId: `https://vault_name.vault.azure.net/secrets/${recorder.variable(
             "name-2",
-            `name-2${Math.floor(Math.random() * 1000)}`
+            `name-2${Math.floor(Math.random() * 1000)}`,
           )}`,
         },
         isReadOnly: false,
@@ -46,7 +46,7 @@ describe("AppConfigurationClient - SecretReference", () => {
 
     function assertSecretReferenceProps(
       actual: Omit<AddConfigurationSettingResponse, "_response">,
-      expected: ConfigurationSetting<SecretReferenceValue>
+      expected: ConfigurationSetting<SecretReferenceValue>,
     ): void {
       assert.equal(isSecretReference(actual), true, "Expected to get the SecretReference");
       const actualSecretReference = parseSecretReference(actual);
@@ -54,7 +54,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         assert.equal(
           actual.key,
           expected.key,
-          "Key from the response from get request is not as expected"
+          "Key from the response from get request is not as expected",
         );
         assert.equal(actualSecretReference.value.secretId, expected.value.secretId);
         assert.equal(actual.isReadOnly, expected.isReadOnly);
@@ -76,7 +76,7 @@ describe("AppConfigurationClient - SecretReference", () => {
           key: baseSetting.key,
           label: baseSetting.label,
         },
-        false
+        false,
       );
       await client.deleteConfigurationSetting({
         key: baseSetting.key,
@@ -100,7 +100,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       });
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
         "name-4",
-        `name-4${Math.floor(Math.random() * 1000)}`
+        `name-4${Math.floor(Math.random() * 1000)}`,
       )}`;
 
       assertSecretReferenceProps(getResponse, baseSetting);
@@ -130,7 +130,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       };
       const newSecretId = `https://vault_name.vault.azure.net/secrets/${recorder.variable(
         "name-5",
-        `name-5${Math.floor(Math.random() * 1000)}`
+        `name-5${Math.floor(Math.random() * 1000)}`,
       )}`;
       await client.addConfigurationSetting(secondSetting);
 
@@ -149,7 +149,7 @@ describe("AppConfigurationClient - SecretReference", () => {
           assertSecretReferenceProps(setting, secondSetting);
           await client.setReadOnly(
             { key: setting.key, label: setting.label },
-            !secondSetting.isReadOnly
+            !secondSetting.isReadOnly,
           );
         }
       }
@@ -171,7 +171,7 @@ describe("AppConfigurationClient - SecretReference", () => {
       assert.equal(
         numberOFSecretReferencesReceived,
         0,
-        "Unexpected number of SecretReferences seen after updating"
+        "Unexpected number of SecretReferences seen after updating",
       );
       await client.setReadOnly({ key: secondSetting.key, label: secondSetting.label }, false);
       await client.deleteConfigurationSetting({
@@ -195,7 +195,7 @@ describe("AppConfigurationClient - SecretReference", () => {
         assert.equal(
           (await client.getConfigurationSetting({ key: setting.key })).value,
           value,
-          "message"
+          "message",
         );
         await client.deleteConfigurationSetting({ key: setting.key });
       });

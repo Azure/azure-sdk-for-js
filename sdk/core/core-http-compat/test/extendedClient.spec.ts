@@ -26,7 +26,7 @@ describe("Extended Client", () => {
     });
 
     const disableKeepAlivePolicyFound = pipelineContainsDisableKeepAlivePolicy(
-      extendedClient.pipeline
+      extendedClient.pipeline,
     );
 
     assert.isTrue(disableKeepAlivePolicyFound);
@@ -121,7 +121,7 @@ describe("Extended Client", () => {
         responses: {
           200: {},
         },
-      }
+      },
     );
 
     assert.isNotNull(result._response.headers);

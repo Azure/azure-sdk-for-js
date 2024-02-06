@@ -32,7 +32,7 @@ async function vpnSiteLinkListByVpnSite() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnSites/{vpnSiteName}/vpnSiteLinks",
       subscriptionId,
       resourceGroupName,
-      vpnSiteName
+      vpnSiteName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

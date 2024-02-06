@@ -26,7 +26,7 @@ async function eventSubscriptionsGetDeliveryAttributes() {
   const client = new EventGridManagementClient(credential);
   const result = await client.eventSubscriptions.getDeliveryAttributes(
     scope,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

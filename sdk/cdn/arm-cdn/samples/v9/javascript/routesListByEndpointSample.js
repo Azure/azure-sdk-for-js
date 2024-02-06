@@ -29,7 +29,7 @@ async function routesListByEndpoint() {
   for await (let item of client.routes.listByEndpoint(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

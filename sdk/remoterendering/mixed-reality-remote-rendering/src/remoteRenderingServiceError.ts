@@ -36,7 +36,7 @@ export class RemoteRenderingServiceError extends Error {
 
 /** Create a RemoteRenderingServiceError from a RemoteRenderingServiceErrorInternal */
 export function createRemoteRenderingServiceError(
-  serviceError: RemoteRenderingServiceErrorInternal
+  serviceError: RemoteRenderingServiceErrorInternal,
 ): RemoteRenderingServiceError {
   const newError = new RemoteRenderingServiceError(serviceError.message, serviceError.code);
   newError.details = serviceError.details?.map((x) => createRemoteRenderingServiceError(x));

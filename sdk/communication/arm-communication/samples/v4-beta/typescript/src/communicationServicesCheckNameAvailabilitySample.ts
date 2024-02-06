@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/checkNameAvailabilityAvailable.json
  */
 async function checkNameAvailabilityAvailable() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function checkNameAvailabilityAvailable() {
  * This sample demonstrates how to Checks that the CommunicationService name is valid and is not already in use.
  *
  * @summary Checks that the CommunicationService name is valid and is not already in use.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/communicationServices/checkNameAvailabilityUnavailable.json
  */
 async function checkNameAvailabilityUnavailable() {
   const subscriptionId =

@@ -84,7 +84,7 @@ export interface PartitionReceiver {
   readonly receiveBatch: (
     maxMessageCount: number,
     maxWaitTimeInSeconds?: number,
-    abortSignal?: AbortSignalLike
+    abortSignal?: AbortSignalLike,
   ) => Promise<ReceivedEventData[]>;
   /** Needed for tests only */
   readonly _onError?: (error: MessagingError | Error) => void;
@@ -109,7 +109,7 @@ export function createReceiver(
   consumerId: string,
   partitionId: string,
   eventPosition: EventPosition,
-  options: PartitionReceiverOptions = {}
+  options: PartitionReceiverOptions = {},
 ): PartitionReceiver {
   const address = ctx.config.getReceiverAddress(partitionId, consumerGroup);
   const name = getRandomName(address);
@@ -176,7 +176,7 @@ export function createReceiver(
               eventPosition,
               logger,
               options,
-              abortSignal
+              abortSignal,
             ),
           ctx,
           audience,
@@ -184,13 +184,13 @@ export function createReceiver(
           logger,
           {
             abortSignal,
-          }
+          },
         );
       } catch (err) {
         state.isConnecting = false;
         const error = translate(err);
         logger.error(
-          `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`
+          `an error occurred while creating the receiver: ${error?.name}: ${error?.message}`,
         );
         logErrorStackTrace(err);
         throw error;
@@ -199,7 +199,7 @@ export function createReceiver(
     receiveBatch: (
       maxMessageCount: number,
       maxWaitTimeInSeconds: number = 60,
-      abortSignal?: AbortSignalLike
+      abortSignal?: AbortSignalLike,
     ) => {
       const prefetchCount = options.prefetchCount ?? maxMessageCount * 3;
       const cleanupBeforeAbort = (): Promise<void> => {
@@ -209,7 +209,7 @@ export function createReceiver(
       const retrieveEvents = (): Promise<ReceivedEventData[]> => {
         const eventsToRetrieveCount = Math.max(maxMessageCount - queue.length, 0);
         logger.verbose(
-          `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`
+          `already has ${queue.length} events and wants to receive ${eventsToRetrieveCount} more events`,
         );
         if (abortSignal?.aborted) {
           cleanupBeforeAbort();
@@ -239,16 +239,16 @@ export function createReceiver(
                         logger.info(
                           `${Math.min(
                             maxMessageCount,
-                            queue.length
-                          )} messages received within ${maxWaitTimeInSeconds} seconds`
+                            queue.length,
+                          )} messages received within ${maxWaitTimeInSeconds} seconds`,
                         ),
                       receivedAlready: () =>
                         logger.info(`${maxMessageCount} messages already received`),
                       receivedNone: () =>
                         logger.info(
-                          `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`
+                          `no messages received when max wait time in seconds ${maxWaitTimeInSeconds} is over`,
                         ),
-                    }
+                    },
                   );
                 })
                 .catch(reject)
@@ -274,8 +274,8 @@ export function createReceiver(
               enumerable: true,
               get: () => ctx.config.host,
             },
-          }
-        ) as RetryConfig<ReceivedEventData[]>
+          },
+        ) as RetryConfig<ReceivedEventData[]>,
       );
     },
   };
@@ -288,7 +288,7 @@ function delay(
     abortSignal?: AbortSignalLike;
     cleanupBeforeAbort?: () => void;
     abortErrorMsg?: string;
-  }
+  },
 ): Promise<void> {
   let token: ReturnType<typeof setTimeout>;
   return createAbortablePromise<void>((resolve) => {
@@ -306,7 +306,7 @@ export function checkOnInterval(
     abortSignal?: AbortSignalLike;
     cleanupBeforeAbort?: () => void;
     abortErrorMsg?: string;
-  }
+  },
 ): Promise<void> {
   let token: ReturnType<typeof setInterval>;
   return createAbortablePromise<void>((resolve) => {
@@ -339,7 +339,7 @@ export function waitForEvents(
     receivedAfterWait?: () => void;
     receivedAlready?: () => void;
     receivedNone?: () => void;
-  } = {}
+  } = {},
 ): Promise<void> {
   const {
     abortSignal: clientAbortSignal,
@@ -420,7 +420,7 @@ function onMessage(
   context: EventContext,
   obj: WritableReceiver,
   queue: ReceivedEventData[],
-  options: PartitionReceiverOptions
+  options: PartitionReceiverOptions,
 ): void {
   if (!context.message) {
     return;
@@ -438,7 +438,7 @@ function onError(
   context: EventContext,
   obj: PartitionReceiver,
   receiver: Link | undefined,
-  logger: SimpleLogger
+  logger: SimpleLogger,
 ): void {
   const rheaReceiver = receiver || context.receiver;
   const amqpError = rheaReceiver?.error;
@@ -463,13 +463,13 @@ function onSessionError(context: EventContext, obj: PartitionReceiver, logger: S
 async function onClose(
   context: EventContext,
   state: ReceiverState,
-  logger: SimpleLogger
+  logger: SimpleLogger,
 ): Promise<void> {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'receiver_close' event occurred. Value for isItselfClosed on the receiver is: '${rheaReceiver
       ?.isItselfClosed()
-      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`
+      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
     return rheaReceiver.close().catch((err) => {
@@ -481,13 +481,13 @@ async function onClose(
 async function onSessionClose(
   context: EventContext,
   state: ReceiverState,
-  logger: SimpleLogger
+  logger: SimpleLogger,
 ): Promise<void> {
   const rheaReceiver = state.link || context.receiver;
   logger.verbose(
     `'session_close' event occurred. Value for isSessionItselfClosed on the session is: '${rheaReceiver
       ?.isSessionItselfClosed()
-      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`
+      .toString()}' Value for isConnecting on the session is: '${state.isConnecting}'`,
   );
   if (rheaReceiver && !state.isConnecting) {
     return rheaReceiver.close().catch((err) => {
@@ -505,7 +505,7 @@ function createRheaOptions(
   queue: ReceivedEventData[],
   eventPosition: EventPosition,
   logger: SimpleLogger,
-  options: PartitionReceiverOptions
+  options: PartitionReceiverOptions,
 ): RheaReceiverOptions {
   const rheaOptions: RheaReceiverOptions & { source: Source; properties: Record<string, any> } = {
     name,
@@ -532,7 +532,7 @@ function createRheaOptions(
     rheaOptions.desired_capabilities = Constants.enableReceiverRuntimeMetricName;
   }
   const filterClause = getEventPositionFilter(
-    obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition
+    obj.checkpoint > -1 ? { sequenceNumber: obj.checkpoint } : eventPosition,
   );
   rheaOptions.source.filter = {
     "apache.org:selector-filter:string": types.wrap_described(filterClause, 0x468c00000004),
@@ -551,7 +551,7 @@ async function setupLink(
   eventPosition: EventPosition,
   logger: SimpleLogger,
   options: PartitionReceiverOptions,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<void> {
   const rheaOptions = createRheaOptions(
     consumerId,
@@ -562,7 +562,7 @@ async function setupLink(
     queue,
     eventPosition,
     logger,
-    options
+    options,
   );
   logger.verbose(`trying to be created with options ${logObj(rheaOptions)}`);
   state.link = await ctx.connection.createReceiver({

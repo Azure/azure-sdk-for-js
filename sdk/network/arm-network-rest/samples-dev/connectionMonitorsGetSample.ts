@@ -33,7 +33,7 @@ async function getConnectionMonitor() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .get(options);
   console.log(result);

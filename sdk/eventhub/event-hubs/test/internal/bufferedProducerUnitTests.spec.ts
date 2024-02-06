@@ -38,11 +38,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -59,7 +59,7 @@ testWithServiceTypes((serviceVersion) => {
       fakeGetPartitionIds.onCall(1).resolves(["0", "1", "2"]);
       fakeGetPartitionIds.onCall(2).resolves(["0"]);
       const fakeGetPartitionChannel = (
-        _id: string
+        _id: string,
       ): SinonStubbedInstance<BatchingPartitionChannel> => {
         return createStubInstance(BatchingPartitionChannel);
       };

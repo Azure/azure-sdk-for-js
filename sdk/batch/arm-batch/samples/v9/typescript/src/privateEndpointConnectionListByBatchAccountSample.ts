@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the private endpoint connections in the specified account.
  *
  * @summary Lists all of the private endpoint connections in the specified account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PrivateEndpointConnectionsList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PrivateEndpointConnectionsList.json
  */
 async function listPrivateEndpointConnections() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

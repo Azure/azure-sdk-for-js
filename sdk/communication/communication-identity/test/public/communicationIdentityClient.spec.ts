@@ -64,7 +64,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         assert.isString(newUser.communicationUserId);
         assert.isString(token);
         assert.instanceOf(expiresOn, Date);
-      })
+      }),
     );
 
     tokenScopeScenarios.forEach((scenario) =>
@@ -73,7 +73,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         const { token, expiresOn } = await client.getToken(user, scenario.scopes as TokenScope[]);
         assert.isString(token);
         assert.instanceOf(expiresOn, Date);
-      })
+      }),
     );
 
     it("successfully revokes tokens issued for a user", async function () {

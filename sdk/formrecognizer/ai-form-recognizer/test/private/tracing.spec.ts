@@ -32,7 +32,7 @@ const fakeHttpClient: HttpClient = {
 };
 
 function fakeIt<Args extends unknown[]>(
-  h: (...args: Args) => Promise<void>
+  h: (...args: Args) => Promise<void>,
 ): (...args: Args) => Promise<void> {
   return async (...args) => {
     try {
@@ -64,10 +64,10 @@ describe("supports tracing", function () {
           await dac.beginAnalyzeDocument(
             "test",
             "test" as unknown as FormRecognizerRequestBody,
-            options
+            options,
           );
         }),
-        ["DocumentAnalysisClient.beginAnalyzeDocument"]
+        ["DocumentAnalysisClient.beginAnalyzeDocument"],
       ));
   });
 
@@ -80,7 +80,7 @@ describe("supports tracing", function () {
         new AzureKeyCredential("fake"),
         {
           httpClient: fakeHttpClient,
-        }
+        },
       );
     });
 
@@ -89,7 +89,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.getDocumentModel"]
+        ["DocumentModelAdministrationClient.getDocumentModel"],
       ));
 
     it("getOperation", () =>
@@ -97,7 +97,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getOperation("test", options);
         }),
-        ["DocumentModelAdministrationClient.getOperation"]
+        ["DocumentModelAdministrationClient.getOperation"],
       ));
 
     it("getInfo", () =>
@@ -105,7 +105,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getResourceDetails(options);
         }),
-        ["DocumentModelAdministrationClient.getResourceDetails"]
+        ["DocumentModelAdministrationClient.getResourceDetails"],
       ));
 
     it("deleteModel", () =>
@@ -113,7 +113,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.deleteDocumentModel("test", options);
         }),
-        ["DocumentModelAdministrationClient.deleteDocumentModel"]
+        ["DocumentModelAdministrationClient.deleteDocumentModel"],
       ));
 
     it("beginBuildDocumentModel", () =>
@@ -121,7 +121,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await (await dmac.beginBuildDocumentModel("test", "test", "neural", options)).poll();
         }),
-        ["DocumentModelAdministrationClient.beginBuildDocumentModel"]
+        ["DocumentModelAdministrationClient.beginBuildDocumentModel"],
       ));
 
     it("beginComposeDocumentModel", () =>
@@ -129,7 +129,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.beginComposeDocumentModel("test", [], options);
         }),
-        ["DocumentModelAdministrationClient.beginComposeDocumentModel"]
+        ["DocumentModelAdministrationClient.beginComposeDocumentModel"],
       ));
 
     it("getCopyAuthorization", () =>
@@ -137,7 +137,7 @@ describe("supports tracing", function () {
         fakeIt(async (options: { tracingOptions?: OperationTracingOptions }) => {
           await dmac.getCopyAuthorization("test", options);
         }),
-        ["DocumentModelAdministrationClient.getCopyAuthorization"]
+        ["DocumentModelAdministrationClient.getCopyAuthorization"],
       ));
 
     it("beginCopyModel", () =>
@@ -153,10 +153,10 @@ describe("supports tracing", function () {
               accessToken: "test",
               expirationDateTime: new Date(),
             } as CopyAuthorization,
-            options
+            options,
           );
         }),
-        ["DocumentModelAdministrationClient.beginCopyModel"]
+        ["DocumentModelAdministrationClient.beginCopyModel"],
       ));
   });
 });

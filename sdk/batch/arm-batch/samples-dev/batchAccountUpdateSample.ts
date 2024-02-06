@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Updates the properties of an existing Batch account.
  *
  * @summary Updates the properties of an existing Batch account.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/BatchAccountUpdate.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountUpdate.json
  */
 async function batchAccountUpdate() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

@@ -36,7 +36,7 @@ async function kustoManagedPrivateEndpointsUpdate() {
     resourceGroupName,
     clusterName,
     managedPrivateEndpointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -29,7 +29,7 @@ async function domainsRegenerateKey() {
   const result = await client.domains.regenerateKey(
     resourceGroupName,
     domainName,
-    regenerateKeyRequest
+    regenerateKeyRequest,
   );
   console.log(result);
 }

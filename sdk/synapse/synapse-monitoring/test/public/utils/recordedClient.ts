@@ -29,7 +29,7 @@ export function createClient(options?: {
   return new MonitoringClient(
     createTestCredential(),
     assertEnvironmentVariable("ENDPOINT"),
-    updatedOptions
+    updatedOptions,
   );
 }
 

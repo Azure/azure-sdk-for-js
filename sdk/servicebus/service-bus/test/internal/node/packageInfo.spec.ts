@@ -26,12 +26,12 @@ describe("Ensure package name and version are consistent in SDK and package.json
     should.equal(
       packageJsonInfo.name,
       name,
-      `${name} from package.json is not same as 'name' used in constants.ts`
+      `${name} from package.json is not same as 'name' used in constants.ts`,
     );
     should.equal(
       packageJsonInfo.version,
       version,
-      `${version} from package.json is not same as 'version' used in constants.ts`
+      `${version} from package.json is not same as 'version' used in constants.ts`,
     );
   });
 });

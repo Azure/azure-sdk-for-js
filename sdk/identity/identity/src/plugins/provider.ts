@@ -16,8 +16,8 @@ export type IdentityPlugin = (context: unknown) => void;
 export interface CachePluginControl {
   setPersistence(
     persistenceFactory: (
-      options?: TokenCachePersistenceOptions
-    ) => Promise<import("@azure/msal-node").ICachePlugin>
+      options?: TokenCachePersistenceOptions,
+    ) => Promise<import("@azure/msal-node").ICachePlugin>,
   ): void;
 }
 

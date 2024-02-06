@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
@@ -335,6 +336,9 @@ function MapsSearch(credential: AzureKeyCredential, options?: ClientOptions): Ma
 
 // @public
 function MapsSearch(credential: TokenCredential, mapsAccountClientId: string, options?: ClientOptions): MapsSearchClient;
+
+// @public
+function MapsSearch(credential: AzureSASCredential, options?: ClientOptions): MapsSearchClient;
 export default MapsSearch;
 
 // @public (undocumented)

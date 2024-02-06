@@ -51,7 +51,7 @@ const replaceableVariables: { [k: string]: string } = {
 
 export async function createRecordedAdminClient(
   context: Context,
-  apiKey: TokenCredential | MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential,
 ): Promise<RecordedAdminClient> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start({
@@ -61,7 +61,7 @@ export async function createRecordedAdminClient(
     client: new MetricsAdvisorAdministrationClient(
       assertEnvironmentVariable("METRICS_ADVISOR_ENDPOINT"),
       apiKey,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     ),
     recorder,
   };
@@ -69,7 +69,7 @@ export async function createRecordedAdminClient(
 
 export async function createRecordedAdvisorClient(
   context: Context,
-  apiKey: TokenCredential | MetricsAdvisorKeyCredential
+  apiKey: TokenCredential | MetricsAdvisorKeyCredential,
 ): Promise<RecordedAdvisorClient> {
   const recorder = new Recorder(context.currentTest);
   await recorder.start({
@@ -79,7 +79,7 @@ export async function createRecordedAdvisorClient(
     client: new MetricsAdvisorClient(
       assertEnvironmentVariable("METRICS_ADVISOR_ENDPOINT"),
       apiKey,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     ),
     recorder,
   };
@@ -93,7 +93,7 @@ export function makeCredential(useAad: boolean): TokenCredential | MetricsAdviso
     ? createTestCredential()
     : new MetricsAdvisorKeyCredential(
         assertEnvironmentVariable("METRICS_ADVISOR_SUBSCRIPTION_KEY"),
-        assertEnvironmentVariable("METRICS_ADVISOR_API_KEY")
+        assertEnvironmentVariable("METRICS_ADVISOR_API_KEY"),
       );
 }
 

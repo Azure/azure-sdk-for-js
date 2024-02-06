@@ -61,7 +61,7 @@ async function routesCreate() {
     profileName,
     endpointName,
     routeName,
-    route
+    route,
   );
   console.log(result);
 }

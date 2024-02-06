@@ -50,7 +50,7 @@ export type CreateClientMode =
 export async function createTableClient(
   tableName: string,
   mode: CreateClientMode = "SASConnectionString",
-  recorder?: Recorder
+  recorder?: Recorder,
 ): Promise<TableClient> {
   let options: TableServiceClientOptions = {};
 
@@ -65,7 +65,7 @@ export async function createTableClient(
     case "SASConnectionString":
       if (!env.SAS_CONNECTION_STRING) {
         throw new Error(
-          "SASConnectionString is not defined, make sure that SAS_CONNECTION_STRING is defined in the environment"
+          "SASConnectionString is not defined, make sure that SAS_CONNECTION_STRING is defined in the environment",
         );
       }
 
@@ -75,7 +75,7 @@ export async function createTableClient(
     case "SASToken":
       if (!env.SAS_TOKEN || !env.TABLES_URL) {
         throw new Error(
-          "SAS Token and AccountURL must be defined, make sure that SAS_TOKEN and  TABLES_URL are defined in the environment"
+          "SAS Token and AccountURL must be defined, make sure that SAS_TOKEN and  TABLES_URL are defined in the environment",
         );
       }
 
@@ -83,14 +83,14 @@ export async function createTableClient(
         env.TABLES_URL,
         tableName,
         new AzureSASCredential(env.SAS_TOKEN ?? ""),
-        options
+        options,
       );
       break;
 
     case "AccountKey":
       if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
         throw new Error(
-          "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment"
+          "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment",
         );
       }
 
@@ -98,14 +98,14 @@ export async function createTableClient(
         env.TABLES_URL,
         tableName,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
-        options
+        options,
       );
       break;
 
     case "TokenCredential": {
       if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
         throw new Error(
-          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment",
         );
       }
 
@@ -117,7 +117,7 @@ export async function createTableClient(
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {
         throw new Error(
-          "AccountConnectionString is not defined, make sure that ACCOUNT_CONNECTION_STRING is defined in the environment"
+          "AccountConnectionString is not defined, make sure that ACCOUNT_CONNECTION_STRING is defined in the environment",
         );
       }
       client = TableClient.fromConnectionString(env.ACCOUNT_CONNECTION_STRING, tableName, options);
@@ -132,7 +132,7 @@ export async function createTableClient(
 
 export async function createTableServiceClient(
   mode: CreateClientMode = "SASConnectionString",
-  recorder?: Recorder
+  recorder?: Recorder,
 ): Promise<TableServiceClient> {
   let options: TableServiceClientOptions = {};
 
@@ -148,7 +148,7 @@ export async function createTableServiceClient(
     case "SASConnectionString":
       if (!env.SAS_CONNECTION_STRING) {
         throw new Error(
-          "SASConnectionString is not defined, make sure that SAS_CONNECTION_STRING is defined in the environment"
+          "SASConnectionString is not defined, make sure that SAS_CONNECTION_STRING is defined in the environment",
         );
       }
 
@@ -158,7 +158,7 @@ export async function createTableServiceClient(
     case "SASToken":
       if (!env.SAS_TOKEN || !env.TABLES_URL) {
         throw new Error(
-          "SAS Token and AccountURL must be defined, make sure that SAS_TOKEN and  TABLES_URL are defined in the environment"
+          "SAS Token and AccountURL must be defined, make sure that SAS_TOKEN and  TABLES_URL are defined in the environment",
         );
       }
 
@@ -168,21 +168,21 @@ export async function createTableServiceClient(
     case "AccountKey":
       if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
         throw new Error(
-          "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment"
+          "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment",
         );
       }
 
       client = new TableServiceClient(
         env.TABLES_URL,
         new AzureNamedKeyCredential(env.ACCOUNT_NAME, env.ACCOUNT_KEY),
-        options
+        options,
       );
       break;
 
     case "TokenCredential": {
       if (!env.AZURE_TENANT_ID || !env.AZURE_CLIENT_ID || !env.AZURE_CLIENT_SECRET) {
         throw new Error(
-          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment"
+          "AZURE_TENANT_ID, AZURE_CLIENT_ID and AZURE_CLIENT_SECRET must be defined, make sure that they are in the environment",
         );
       }
 
@@ -197,7 +197,7 @@ export async function createTableServiceClient(
     case "AccountConnectionString":
       if (!env.ACCOUNT_CONNECTION_STRING) {
         throw new Error(
-          "AccountConnectionString is not defined, make sure that ACCOUNT_CONNECTION_STRING is defined in the environment"
+          "AccountConnectionString is not defined, make sure that ACCOUNT_CONNECTION_STRING is defined in the environment",
         );
       }
 

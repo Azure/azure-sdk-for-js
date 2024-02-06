@@ -30,7 +30,7 @@ async function rotateClusterCertificates() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post();
   const poller = getLongRunningPoller(client, initialResponse);

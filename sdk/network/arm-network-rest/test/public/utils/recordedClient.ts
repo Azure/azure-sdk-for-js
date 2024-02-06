@@ -36,11 +36,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
 export function createTestNetworkManagementClient(
   recorder: Recorder,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): NetworkManagementClient {
   const client = createNetworkManagementClient(
     credentials,
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return client;
 }

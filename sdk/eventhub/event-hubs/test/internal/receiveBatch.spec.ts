@@ -44,11 +44,11 @@ testWithServiceTypes((serviceVersion) => {
     before("validate environment", async function (): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -57,7 +57,7 @@ testWithServiceTypes((serviceVersion) => {
       consumerClient = new EventHubConsumerClient(
         EventHubConsumerClient.defaultConsumerGroupName,
         service.connectionString,
-        service.path
+        service.path,
       );
       partitionIds = await producerClient.getPartitionIds({});
     });
@@ -70,9 +70,8 @@ testWithServiceTypes((serviceVersion) => {
     describe("EventHubConsumer receiveBatch", function (): void {
       it("should not lose messages on error", async () => {
         const partitionId = partitionIds[0];
-        const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
-          partitionId
-        );
+        const { lastEnqueuedSequenceNumber } =
+          await producerClient.getPartitionProperties(partitionId);
 
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
@@ -95,7 +94,7 @@ testWithServiceTypes((serviceVersion) => {
             retryOptions: {
               maxRetries: 0,
             },
-          }
+          },
         );
 
         // Periodically check that the receiver's checkpoint has been updated.
@@ -126,9 +125,8 @@ testWithServiceTypes((serviceVersion) => {
 
       it("should not lose messages between retries", async () => {
         const partitionId = partitionIds[0];
-        const { lastEnqueuedSequenceNumber } = await producerClient.getPartitionProperties(
-          partitionId
-        );
+        const { lastEnqueuedSequenceNumber } =
+          await producerClient.getPartitionProperties(partitionId);
 
         // Ensure the receiver only looks at new messages.
         const startPosition: EventPosition = {
@@ -151,7 +149,7 @@ testWithServiceTypes((serviceVersion) => {
             retryOptions: {
               maxRetries: 1,
             },
-          }
+          },
         );
 
         // Periodically check that the receiver's checkpoint has been updated.

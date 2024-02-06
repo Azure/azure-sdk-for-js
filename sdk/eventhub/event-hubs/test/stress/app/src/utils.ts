@@ -31,7 +31,7 @@ export interface SnapshotOptions {
 export async function loopForever(
   fn: () => Promise<void>,
   duration: number,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ) {
   while (!abortSignal?.aborted) {
     await delay(duration);
@@ -40,28 +40,28 @@ export async function loopForever(
 }
 
 export function createEventHubsConsumerClient(
-  options?: EventHubConsumerClientOptions
+  options?: EventHubConsumerClientOptions,
 ): EventHubConsumerClient {
   const consumerGroup = process.env.EVENTHUBS_CONSUMER_GROUP || "$Default";
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
   const hubName = process.env.EVENTHUB_NAME;
   if (!connectionString || !consumerGroup || !hubName) {
     throw new Error(
-      "EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!"
+      "EVENTHUBS_CONNECTION_STRING, EVENTHUB_NAME and EVENTHUBS_CONSUMER_GROUP have to be populated in the environment and are not!",
     );
   }
   return new EventHubConsumerClient(consumerGroup, connectionString, hubName, options);
 }
 
 export function createEventHubsProducerClient(
-  options?: EventHubClientOptions
+  options?: EventHubClientOptions,
 ): EventHubProducerClient {
   const eventHubName = process.env.EVENTHUB_NAME;
   const connectionString = process.env.EVENTHUBS_CONNECTION_STRING;
 
   if (!connectionString || !eventHubName) {
     throw new Error(
-      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!"
+      "EVENTHUBS_CONNECTION_STRING and EVENTHUB_NAME have to be populated in the environment and are not!",
     );
   }
 

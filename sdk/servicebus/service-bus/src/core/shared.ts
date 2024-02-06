@@ -39,7 +39,7 @@ export interface DeferredPromiseAndTimer {
 export function onMessageSettled(
   logPrefix: string,
   delivery: Delivery | undefined,
-  deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>
+  deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>,
 ): void {
   if (delivery) {
     const id = delivery.id;
@@ -50,7 +50,7 @@ export function onMessageSettled(
       logPrefix,
       id,
       settled,
-      state && state.error ? state.error : state
+      state && state.error ? state.error : state,
     );
     if (settled && deliveryDispositionMap.has(id)) {
       const promise = deliveryDispositionMap.get(id) as DeferredPromiseAndTimer;
@@ -58,14 +58,14 @@ export function onMessageSettled(
       receiverLogger.verbose(
         "%s Found the delivery with id %d in the map and cleared the timer.",
         logPrefix,
-        id
+        id,
       );
       const deleteResult = deliveryDispositionMap.delete(id);
       receiverLogger.verbose(
         "%s Successfully deleted the delivery with id %d from the map.",
         logPrefix,
         id,
-        deleteResult
+        deleteResult,
       );
       if (state && state.error && (state.error.condition || state.error.description)) {
         const error = translateServiceBusError(state.error);
@@ -90,7 +90,7 @@ export function createReceiverOptions(
   source: Source,
   clientId: string,
   handlers: ReceiverHandlers,
-  timeoutInMs?: number
+  timeoutInMs?: number,
 ): ReceiverOptions {
   const properties =
     timeoutInMs !== undefined

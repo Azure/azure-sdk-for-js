@@ -5,7 +5,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 export async function abortablePromise<T>(
   promise: Promise<T>,
-  signal: AbortSignalLike
+  signal: AbortSignalLike,
 ): Promise<T> {
   if (signal.aborted) {
     throw new AbortError("The operation was aborted.");

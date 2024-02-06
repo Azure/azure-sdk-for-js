@@ -147,7 +147,7 @@ export class EventHubProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options?: EventHubClientOptions, // eslint-disable-line @azure/azure-sdk/ts-naming-options
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -157,13 +157,13 @@ export class EventHubProducerClient {
       | NamedKeyCredential
       | SASCredential
       | EventHubClientOptions,
-    options4?: EventHubClientOptions // eslint-disable-line @azure/azure-sdk/ts-naming-options
+    options4?: EventHubClientOptions, // eslint-disable-line @azure/azure-sdk/ts-naming-options
   ) {
     this._context = createConnectionContext(
       fullyQualifiedNamespaceOrConnectionString1,
       eventHubNameOrOptions2,
       credentialOrOptions3,
-      options4
+      options4,
     );
     if (typeof eventHubNameOrOptions2 !== "string") {
       this._clientOptions = eventHubNameOrOptions2 || {};
@@ -249,7 +249,7 @@ export class EventHubProducerClient {
     if (options.maxSizeInBytes) {
       if (options.maxSizeInBytes > maxMessageSize) {
         const error = new Error(
-          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`
+          `Max message size (${options.maxSizeInBytes} bytes) is greater than maximum message size (${maxMessageSize} bytes) on the AMQP sender link.`,
         );
         logger.warning(`[${this._context.connectionId}] ${error.message}`);
         logErrorStackTrace(error);
@@ -262,7 +262,7 @@ export class EventHubProducerClient {
       maxMessageSize,
       Boolean(this._enableIdempotentRetries),
       options.partitionKey,
-      partitionId
+      partitionId,
     );
   }
 
@@ -281,11 +281,11 @@ export class EventHubProducerClient {
   // @ts-ignore this is called in EventHubBufferedProducerClient via cast-to-any workaround
   private async getPartitionPublishingProperties(
     partitionId: string,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<PartitionPublishingProperties> {
     if (!isDefined(partitionId)) {
       throw new TypeError(
-        `getPartitionPublishingProperties called without required argument "partitionId"`
+        `getPartitionPublishingProperties called without required argument "partitionId"`,
       );
     }
 
@@ -335,7 +335,7 @@ export class EventHubProducerClient {
    */
   async sendBatch(
     batch: EventData[] | AmqpAnnotatedMessage[],
-    options?: SendBatchOptions
+    options?: SendBatchOptions,
   ): Promise<void>;
   /**
    * Sends a batch of events created using `EventHubProducerClient.createBatch()` to the associated Event Hub.
@@ -378,7 +378,7 @@ export class EventHubProducerClient {
   async sendBatch(batch: EventDataBatch, options?: OperationOptions): Promise<void>; // eslint-disable-line @azure/azure-sdk/ts-naming-options
   async sendBatch(
     batch: EventDataBatch | EventData[],
-    options: SendBatchOptions | OperationOptions = {}
+    options: SendBatchOptions | OperationOptions = {},
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     throwTypeErrorIfParameterMissing(this._context.connectionId, "sendBatch", "batch", batch);
@@ -423,7 +423,7 @@ export class EventHubProducerClient {
           options,
           this._context.config.entityPath,
           this._context.config.host,
-          "publish"
+          "publish",
         ).event;
         eventDataTracingProperties[i] = batch[i].properties;
       }
@@ -464,7 +464,7 @@ export class EventHubProducerClient {
           return { tracingContext };
         }),
         ...toSpanOptions(this._context.config, "publish", "client"),
-      }
+      },
     );
   }
 
@@ -526,7 +526,7 @@ export class EventHubProducerClient {
    */
   getPartitionProperties(
     partitionId: string,
-    options: GetPartitionPropertiesOptions = {}
+    options: GetPartitionPropertiesOptions = {},
   ): Promise<PartitionProperties> {
     return this._context.managementSession!.getPartitionProperties(partitionId, {
       ...options,
@@ -560,7 +560,7 @@ function extractPartitionAssignmentFromOptions(options: SendBatchOptions = {}): 
  */
 function extractPartitionAssignmentFromBatch(
   batch: EventDataBatch,
-  options: SendBatchOptions
+  options: SendBatchOptions,
 ): { partitionKey?: string; partitionId?: string } {
   const result: ReturnType<typeof extractPartitionAssignmentFromBatch> = {};
   const partitionId = batch.partitionId;
@@ -570,12 +570,12 @@ function extractPartitionAssignmentFromBatch(
     extractPartitionAssignmentFromOptions(options);
   if (unexpectedPartitionKey && partitionKey !== unexpectedPartitionKey) {
     throw new Error(
-      `The partitionKey (${unexpectedPartitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`
+      `The partitionKey (${unexpectedPartitionKey}) set on sendBatch does not match the partitionKey (${partitionKey}) set when creating the batch.`,
     );
   }
   if (unexpectedPartitionId && unexpectedPartitionId !== partitionId) {
     throw new Error(
-      `The partitionId (${unexpectedPartitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`
+      `The partitionId (${unexpectedPartitionId}) set on sendBatch does not match the partitionId (${partitionId}) set when creating the batch.`,
     );
   }
 

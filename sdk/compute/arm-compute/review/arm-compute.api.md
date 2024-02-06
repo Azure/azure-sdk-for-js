@@ -80,9 +80,16 @@ export type Architecture = string;
 export type ArchitectureTypes = string;
 
 // @public
+export interface AttachDetachDataDisksRequest {
+    dataDisksToAttach?: DataDisksToAttach[];
+    dataDisksToDetach?: DataDisksToDetach[];
+}
+
+// @public
 export interface AutomaticOSUpgradePolicy {
     disableAutomaticRollback?: boolean;
     enableAutomaticOSUpgrade?: boolean;
+    osRollingUpgradeDeferral?: boolean;
     useRollingUpgradePolicy?: boolean;
 }
 
@@ -249,6 +256,7 @@ export interface CapacityReservation extends Resource {
 export interface CapacityReservationGroup extends Resource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
     zones?: string[];
 }
@@ -256,6 +264,7 @@ export interface CapacityReservationGroup extends Resource {
 // @public (undocumented)
 export interface CapacityReservationGroupInstanceView {
     readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
+    readonly sharedSubscriptionIds?: SubResourceReadOnly[];
 }
 
 // @public
@@ -337,6 +346,7 @@ export type CapacityReservationGroupsUpdateResponse = CapacityReservationGroup;
 export interface CapacityReservationGroupUpdate extends UpdateResource {
     readonly capacityReservations?: SubResourceReadOnly[];
     readonly instanceView?: CapacityReservationGroupInstanceView;
+    sharingProfile?: ResourceSharingProfile;
     readonly virtualMachinesAssociated?: SubResourceReadOnly[];
 }
 
@@ -931,12 +941,21 @@ export type CommunityGalleriesGetResponse = CommunityGallery;
 
 // @public
 export interface CommunityGallery extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    communityMetadata?: CommunityGalleryMetadata;
+    disclaimer?: string;
 }
 
 // @public
 export interface CommunityGalleryImage extends PirCommunityGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
+    disclaimer?: string;
     endOfLifeDate?: Date;
     eula?: string;
     features?: GalleryImageFeature[];
@@ -991,6 +1010,10 @@ export type CommunityGalleryImagesListResponse = CommunityGalleryImageList;
 
 // @public
 export interface CommunityGalleryImageVersion extends PirCommunityGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
+    disclaimer?: string;
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -1037,6 +1060,15 @@ export interface CommunityGalleryInfo {
     publicNamePrefix?: string;
     readonly publicNames?: string[];
     publisherContact?: string;
+    publisherUri?: string;
+}
+
+// @public
+export interface CommunityGalleryMetadata {
+    eula?: string;
+    privacyStatementUri?: string;
+    publicNames: string[];
+    publisherContact: string;
     publisherUri?: string;
 }
 
@@ -1191,6 +1223,7 @@ export interface CreationData {
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
     performancePlus?: boolean;
+    provisionedBandwidthCopySpeed?: ProvisionedBandwidthCopyOption;
     securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
@@ -1228,6 +1261,18 @@ export interface DataDiskImage {
 // @public
 export interface DataDiskImageEncryption extends DiskImageEncryption {
     lun: number;
+}
+
+// @public
+export interface DataDisksToAttach {
+    diskId: string;
+    lun?: number;
+}
+
+// @public
+export interface DataDisksToDetach {
+    detachOption?: DiskDetachOptionTypes;
+    diskId: string;
 }
 
 // @public
@@ -1382,6 +1427,8 @@ export interface DedicatedHosts {
     beginCreateOrUpdateAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHost, options?: DedicatedHostsCreateOrUpdateOptionalParams): Promise<DedicatedHostsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsDeleteOptionalParams): Promise<void>;
+    beginRedeploy(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsRedeployResponse>, DedicatedHostsRedeployResponse>>;
+    beginRedeployAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRedeployOptionalParams): Promise<DedicatedHostsRedeployResponse>;
     beginRestart(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginRestartAndWait(resourceGroupName: string, hostGroupName: string, hostName: string, options?: DedicatedHostsRestartOptionalParams): Promise<void>;
     beginUpdate(resourceGroupName: string, hostGroupName: string, hostName: string, parameters: DedicatedHostUpdate, options?: DedicatedHostsUpdateOptionalParams): Promise<SimplePollerLike<OperationState<DedicatedHostsUpdateResponse>, DedicatedHostsUpdateResponse>>;
@@ -1439,6 +1486,21 @@ export interface DedicatedHostsListByHostGroupOptionalParams extends coreClient.
 
 // @public
 export type DedicatedHostsListByHostGroupResponse = DedicatedHostListResult;
+
+// @public
+export interface DedicatedHostsRedeployHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface DedicatedHostsRedeployOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type DedicatedHostsRedeployResponse = DedicatedHostsRedeployHeaders;
 
 // @public
 export interface DedicatedHostsRestartOptionalParams extends coreClient.OperationOptions {
@@ -2095,6 +2157,11 @@ export interface Encryption {
 }
 
 // @public
+export interface EncryptionIdentity {
+    userAssignedIdentityResourceId?: string;
+}
+
+// @public
 export interface EncryptionImages {
     dataDiskImages?: DataDiskImageEncryption[];
     osDiskImage?: OSDiskImageEncryption;
@@ -2636,6 +2703,7 @@ export interface GalleryImageVersion extends Resource {
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2721,11 +2789,18 @@ export interface GalleryImageVersionsUpdateOptionalParams extends coreClient.Ope
 export type GalleryImageVersionsUpdateResponse = GalleryImageVersion;
 
 // @public
+export interface GalleryImageVersionUefiSettings {
+    additionalSignatures?: UefiKeySignatures;
+    signatureTemplateNames?: UefiSignatureTemplateName[];
+}
+
+// @public
 export interface GalleryImageVersionUpdate extends UpdateResourceDefinition {
     readonly provisioningState?: GalleryProvisioningState;
     publishingProfile?: GalleryImageVersionPublishingProfile;
     readonly replicationStatus?: ReplicationStatus;
     safetyProfile?: GalleryImageVersionSafetyProfile;
+    securityProfile?: ImageVersionSecurityProfile;
     storageProfile?: GalleryImageVersionStorageProfile;
 }
 
@@ -2972,6 +3047,11 @@ export interface ImageUpdate extends UpdateResource {
 }
 
 // @public
+export interface ImageVersionSecurityProfile {
+    uefiSettings?: GalleryImageVersionUefiSettings;
+}
+
+// @public
 export interface InnerError {
     errordetail?: string;
     exceptiontype?: string;
@@ -3106,7 +3186,8 @@ export enum KnownCloudServiceUpgradeMode {
 export enum KnownConfidentialVMEncryptionType {
     EncryptedVMGuestStateOnlyWithPmk = "EncryptedVMGuestStateOnlyWithPmk",
     EncryptedWithCmk = "EncryptedWithCmk",
-    EncryptedWithPmk = "EncryptedWithPmk"
+    EncryptedWithPmk = "EncryptedWithPmk",
+    NonPersistedTPM = "NonPersistedTPM"
 }
 
 // @public
@@ -3202,6 +3283,7 @@ export enum KnownDiskEncryptionSetType {
 export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
+    ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
     ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
@@ -3386,6 +3468,12 @@ export enum KnownLinuxVMGuestPatchMode {
 }
 
 // @public
+export enum KnownMode {
+    Audit = "Audit",
+    Enforce = "Enforce"
+}
+
+// @public
 export enum KnownNetworkAccessPolicy {
     AllowAll = "AllowAll",
     AllowPrivate = "AllowPrivate",
@@ -3493,6 +3581,12 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
 }
 
 // @public
+export enum KnownProvisionedBandwidthCopyOption {
+    Enhanced = "Enhanced",
+    None = "None"
+}
+
+// @public
 export enum KnownProximityPlacementGroupType {
     Standard = "Standard",
     Ultra = "Ultra"
@@ -3545,7 +3639,8 @@ export enum KnownReplicationState {
 
 // @public
 export enum KnownReplicationStatusTypes {
-    ReplicationStatus = "ReplicationStatus"
+    ReplicationStatus = "ReplicationStatus",
+    UefiSettings = "UefiSettings"
 }
 
 // @public
@@ -3568,6 +3663,7 @@ export enum KnownRestorePointExpandOptions {
 // @public
 export enum KnownSecurityEncryptionTypes {
     DiskWithVMGuestState = "DiskWithVMGuestState",
+    NonPersistedTPM = "NonPersistedTPM",
     VMGuestStateOnly = "VMGuestStateOnly"
 }
 
@@ -3624,6 +3720,12 @@ export enum KnownSnapshotStorageAccountTypes {
 }
 
 // @public
+export enum KnownSshEncryptionTypes {
+    Ed25519 = "Ed25519",
+    RSA = "RSA"
+}
+
+// @public
 export enum KnownStorageAccountType {
     PremiumLRS = "Premium_LRS",
     StandardLRS = "Standard_LRS",
@@ -3639,6 +3741,19 @@ export enum KnownStorageAccountTypes {
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownUefiKeyType {
+    Sha256 = "sha256",
+    X509 = "x509"
+}
+
+// @public
+export enum KnownUefiSignatureTemplateName {
+    MicrosoftUefiCertificateAuthorityTemplate = "MicrosoftUefiCertificateAuthorityTemplate",
+    MicrosoftWindowsTemplate = "MicrosoftWindowsTemplate",
+    NoSignatureTemplate = "NoSignatureTemplate"
 }
 
 // @public
@@ -4068,6 +4183,9 @@ export interface ManagedDiskParameters extends SubResource {
 }
 
 // @public
+export type Mode = string;
+
+// @public
 export type NetworkAccessPolicy = string;
 
 // @public
@@ -4376,6 +4494,9 @@ export interface PropertyUpdatesInProgress {
 export type ProtocolTypes = "Http" | "Https";
 
 // @public
+export type ProvisionedBandwidthCopyOption = string;
+
+// @public
 export interface ProximityPlacementGroup extends Resource {
     readonly availabilitySets?: SubResourceWithColocationStatus[];
     colocationStatus?: InstanceViewStatus;
@@ -4466,6 +4587,13 @@ export type ProximityPlacementGroupType = string;
 
 // @public
 export interface ProximityPlacementGroupUpdate extends UpdateResource {
+}
+
+// @public
+export interface ProxyAgentSettings {
+    enabled?: boolean;
+    keyIncarnationId?: number;
+    mode?: Mode;
 }
 
 // @public
@@ -4566,6 +4694,22 @@ export interface RequestRateByIntervalInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export interface ResiliencyPolicy {
+    resilientVMCreationPolicy?: ResilientVMCreationPolicy;
+    resilientVMDeletionPolicy?: ResilientVMDeletionPolicy;
+}
+
+// @public
+export interface ResilientVMCreationPolicy {
+    enabled?: boolean;
+}
+
+// @public
+export interface ResilientVMDeletionPolicy {
+    enabled?: boolean;
+}
+
+// @public
 export interface Resource {
     readonly id?: string;
     location: string;
@@ -4592,6 +4736,11 @@ export interface ResourceInstanceViewStatus {
 export interface ResourceRange {
     max?: number;
     min?: number;
+}
+
+// @public (undocumented)
+export interface ResourceSharingProfile {
+    subscriptionIds?: SubResource[];
 }
 
 // @public
@@ -4913,6 +5062,7 @@ export interface RestorePointSourceVmosDisk {
 // @public
 export interface RestorePointSourceVMStorageProfile {
     dataDisks?: RestorePointSourceVMDataDisk[];
+    readonly diskControllerType?: DiskControllerTypes;
     osDisk?: RestorePointSourceVmosDisk;
 }
 
@@ -5091,6 +5241,8 @@ export interface SecurityPostureReference {
 // @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
+    encryptionIdentity?: EncryptionIdentity;
+    proxyAgentSettings?: ProxyAgentSettings;
     securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
@@ -5139,6 +5291,9 @@ export type SharedGalleriesListResponse = SharedGalleryList;
 
 // @public
 export interface SharedGallery extends PirSharedGalleryResource {
+    readonly artifactTags?: {
+        [propertyName: string]: string;
+    };
 }
 
 // @public
@@ -5158,6 +5313,9 @@ export type SharedGalleryHostCaching = string;
 // @public
 export interface SharedGalleryImage extends PirSharedGalleryResource {
     architecture?: Architecture;
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     disallowed?: Disallowed;
     endOfLifeDate?: Date;
     eula?: string;
@@ -5207,6 +5365,9 @@ export type SharedGalleryImagesListResponse = SharedGalleryImageList;
 
 // @public
 export interface SharedGalleryImageVersion extends PirSharedGalleryResource {
+    artifactTags?: {
+        [propertyName: string]: string;
+    };
     endOfLifeDate?: Date;
     excludeFromLatest?: boolean;
     publishedDate?: Date;
@@ -5488,6 +5649,14 @@ export interface SshConfiguration {
 }
 
 // @public
+export type SshEncryptionTypes = string;
+
+// @public
+export interface SshGenerateKeyPairInputParameters {
+    encryptionType?: SshEncryptionTypes;
+}
+
+// @public
 export interface SshPublicKey {
     keyData?: string;
     path?: string;
@@ -5529,6 +5698,7 @@ export interface SshPublicKeysDeleteOptionalParams extends coreClient.OperationO
 
 // @public
 export interface SshPublicKeysGenerateKeyPairOptionalParams extends coreClient.OperationOptions {
+    parameters?: SshGenerateKeyPairInputParameters;
 }
 
 // @public
@@ -5658,10 +5828,30 @@ export interface ThrottledRequestsInput extends LogAnalyticsInputBase {
 }
 
 // @public
+export interface UefiKey {
+    type?: UefiKeyType;
+    value?: string[];
+}
+
+// @public
+export interface UefiKeySignatures {
+    db?: UefiKey[];
+    dbx?: UefiKey[];
+    kek?: UefiKey[];
+    pk?: UefiKey;
+}
+
+// @public
+export type UefiKeyType = string;
+
+// @public
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
 }
+
+// @public
+export type UefiSignatureTemplateName = string;
 
 // @public
 export interface UpdateDomain {
@@ -5815,6 +6005,7 @@ export interface VirtualMachine extends Resource {
     billingProfile?: BillingProfile;
     capacityReservation?: CapacityReservationProfile;
     diagnosticsProfile?: DiagnosticsProfile;
+    readonly etag?: string;
     evictionPolicy?: VirtualMachineEvictionPolicyTypes;
     extendedLocation?: ExtendedLocation;
     extensionsTimeBudget?: string;
@@ -5824,6 +6015,7 @@ export interface VirtualMachine extends Resource {
     identity?: VirtualMachineIdentity;
     readonly instanceView?: VirtualMachineInstanceView;
     licenseType?: string;
+    readonly managedBy?: string;
     networkProfile?: NetworkProfile;
     osProfile?: OSProfile;
     plan?: Plan;
@@ -6207,6 +6399,7 @@ export interface VirtualMachineInstanceView {
     disks?: DiskInstanceView[];
     extensions?: VirtualMachineExtensionInstanceView[];
     hyperVGeneration?: HyperVGenerationType;
+    readonly isVMInStandbyPool?: boolean;
     maintenanceRedeployStatus?: MaintenanceRedeployStatus;
     osName?: string;
     osVersion?: string;
@@ -6450,6 +6643,8 @@ export interface VirtualMachineRunCommandUpdate extends UpdateResource {
 export interface VirtualMachines {
     beginAssessPatches(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAssessPatchesResponse>, VirtualMachinesAssessPatchesResponse>>;
     beginAssessPatchesAndWait(resourceGroupName: string, vmName: string, options?: VirtualMachinesAssessPatchesOptionalParams): Promise<VirtualMachinesAssessPatchesResponse>;
+    beginAttachDetachDataDisks(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesAttachDetachDataDisksResponse>, VirtualMachinesAttachDetachDataDisksResponse>>;
+    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmName: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachinesAttachDetachDataDisksOptionalParams): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
     beginCapture(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachinesCaptureResponse>, VirtualMachinesCaptureResponse>>;
     beginCaptureAndWait(resourceGroupName: string, vmName: string, parameters: VirtualMachineCaptureParameters, options?: VirtualMachinesCaptureOptionalParams): Promise<VirtualMachinesCaptureResponse>;
     beginConvertToManagedDisks(resourceGroupName: string, vmName: string, options?: VirtualMachinesConvertToManagedDisksOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6501,11 +6696,27 @@ export interface VirtualMachinesAssessPatchesOptionalParams extends coreClient.O
 export type VirtualMachinesAssessPatchesResponse = VirtualMachineAssessPatchesResult;
 
 // @public
+export interface VirtualMachinesAttachDetachDataDisksHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachinesAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachinesAttachDetachDataDisksResponse = StorageProfile;
+
+// @public
 export interface VirtualMachineScaleSet extends Resource {
     additionalCapabilities?: AdditionalCapabilities;
     automaticRepairsPolicy?: AutomaticRepairsPolicy;
     constrainedMaximumCapacity?: boolean;
     doNotRunExtensionsOnOverprovisionedVMs?: boolean;
+    readonly etag?: string;
     extendedLocation?: ExtendedLocation;
     hostGroup?: SubResource;
     identity?: VirtualMachineScaleSetIdentity;
@@ -6516,6 +6727,7 @@ export interface VirtualMachineScaleSet extends Resource {
     priorityMixPolicy?: PriorityMixPolicy;
     readonly provisioningState?: string;
     proximityPlacementGroup?: SubResource;
+    resiliencyPolicy?: ResiliencyPolicy;
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
@@ -6843,6 +7055,8 @@ export interface VirtualMachineScaleSetRollingUpgradesStartOSUpgradeOptionalPara
 
 // @public
 export interface VirtualMachineScaleSets {
+    beginApproveRollingUpgrade(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetsApproveRollingUpgradeResponse>, VirtualMachineScaleSetsApproveRollingUpgradeResponse>>;
+    beginApproveRollingUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams): Promise<VirtualMachineScaleSetsApproveRollingUpgradeResponse>;
     beginCreateOrUpdate(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetsCreateOrUpdateResponse>, VirtualMachineScaleSetsCreateOrUpdateResponse>>;
     beginCreateOrUpdateAndWait(resourceGroupName: string, vmScaleSetName: string, parameters: VirtualMachineScaleSet, options?: VirtualMachineScaleSetsCreateOrUpdateOptionalParams): Promise<VirtualMachineScaleSetsCreateOrUpdateResponse>;
     beginDeallocate(resourceGroupName: string, vmScaleSetName: string, options?: VirtualMachineScaleSetsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -6885,6 +7099,22 @@ export interface VirtualMachineScaleSets {
 }
 
 // @public
+export interface VirtualMachineScaleSetsApproveRollingUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetsApproveRollingUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+    vmInstanceIDs?: VirtualMachineScaleSetVMInstanceIDs;
+}
+
+// @public
+export type VirtualMachineScaleSetsApproveRollingUpgradeResponse = VirtualMachineScaleSetsApproveRollingUpgradeHeaders;
+
+// @public
 export type VirtualMachineScaleSetScaleInRules = string;
 
 // @public
@@ -6893,6 +7123,8 @@ export interface VirtualMachineScaleSetsConvertToSinglePlacementGroupOptionalPar
 
 // @public
 export interface VirtualMachineScaleSetsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7119,6 +7351,8 @@ export interface VirtualMachineScaleSetsUpdateInstancesOptionalParams extends co
 
 // @public
 export interface VirtualMachineScaleSetsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7136,6 +7370,7 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
     plan?: Plan;
     priorityMixPolicy?: PriorityMixPolicy;
     proximityPlacementGroup?: SubResource;
+    resiliencyPolicy?: ResiliencyPolicy;
     scaleInPolicy?: ScaleInPolicy;
     singlePlacementGroup?: boolean;
     sku?: Sku;
@@ -7237,6 +7472,7 @@ export interface VirtualMachineScaleSetVM extends Resource {
     additionalCapabilities?: AdditionalCapabilities;
     availabilitySet?: SubResource;
     diagnosticsProfile?: DiagnosticsProfile;
+    readonly etag?: string;
     hardwareProfile?: HardwareProfile;
     identity?: VirtualMachineIdentity;
     readonly instanceId?: string;
@@ -7418,6 +7654,7 @@ export interface VirtualMachineScaleSetVMProfile {
     securityProfile?: SecurityProfile;
     serviceArtifactReference?: ServiceArtifactReference;
     storageProfile?: VirtualMachineScaleSetStorageProfile;
+    readonly timeCreated?: Date;
     userData?: string;
 }
 
@@ -7492,6 +7729,10 @@ export type VirtualMachineScaleSetVMRunCommandsUpdateResponse = VirtualMachineRu
 
 // @public
 export interface VirtualMachineScaleSetVMs {
+    beginApproveRollingUpgrade(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>, VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>>;
+    beginApproveRollingUpgradeAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams): Promise<VirtualMachineScaleSetVMsApproveRollingUpgradeResponse>;
+    beginAttachDetachDataDisks(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<SimplePollerLike<OperationState<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>, VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>>;
+    beginAttachDetachDataDisksAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, parameters: AttachDetachDataDisksRequest, options?: VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams): Promise<VirtualMachineScaleSetVMsAttachDetachDataDisksResponse>;
     beginDeallocate(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeallocateAndWait(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeallocateOptionalParams): Promise<void>;
     beginDelete(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
@@ -7520,6 +7761,36 @@ export interface VirtualMachineScaleSetVMs {
     retrieveBootDiagnosticsData(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataOptionalParams): Promise<VirtualMachineScaleSetVMsRetrieveBootDiagnosticsDataResponse>;
     simulateEviction(resourceGroupName: string, vmScaleSetName: string, instanceId: string, options?: VirtualMachineScaleSetVMsSimulateEvictionOptionalParams): Promise<void>;
 }
+
+// @public
+export interface VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsApproveRollingUpgradeOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineScaleSetVMsApproveRollingUpgradeResponse = VirtualMachineScaleSetVMsApproveRollingUpgradeHeaders;
+
+// @public
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface VirtualMachineScaleSetVMsAttachDetachDataDisksOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type VirtualMachineScaleSetVMsAttachDetachDataDisksResponse = StorageProfile;
 
 // @public
 export interface VirtualMachineScaleSetVMsDeallocateOptionalParams extends coreClient.OperationOptions {
@@ -7633,6 +7904,8 @@ export interface VirtualMachineScaleSetVMsStartOptionalParams extends coreClient
 
 // @public
 export interface VirtualMachineScaleSetVMsUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7657,6 +7930,8 @@ export interface VirtualMachinesConvertToManagedDisksOptionalParams extends core
 
 // @public
 export interface VirtualMachinesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -7877,6 +8152,8 @@ export interface VirtualMachineStatusCodeCount {
 
 // @public
 export interface VirtualMachinesUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }

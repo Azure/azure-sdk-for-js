@@ -13,7 +13,7 @@ import { base64EncodeByteArray, hexToByteArray } from "./base64";
  */
 export function verifyAttestationSigningKey(
   privateKey: string,
-  certificate: string
+  certificate: string,
 ): { certificate: string; privateKey: string } {
   //
   // Ensure that the key and certificate are associated with each other.

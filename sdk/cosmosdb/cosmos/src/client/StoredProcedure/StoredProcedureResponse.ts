@@ -15,7 +15,7 @@ export class StoredProcedureResponse extends ResourceResponse<
     headers: CosmosHeaders,
     statusCode: number,
     storedProcedure: StoredProcedure,
-    diagnostics: CosmosDiagnostics
+    diagnostics: CosmosDiagnostics,
   ) {
     super(resource, headers, statusCode, diagnostics);
     this.storedProcedure = storedProcedure;

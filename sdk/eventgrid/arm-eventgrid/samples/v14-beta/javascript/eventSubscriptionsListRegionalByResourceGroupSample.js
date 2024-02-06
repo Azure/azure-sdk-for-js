@@ -28,7 +28,7 @@ async function eventSubscriptionsListRegionalByResourceGroup() {
   const resArray = new Array();
   for await (let item of client.eventSubscriptions.listRegionalByResourceGroup(
     resourceGroupName,
-    location
+    location,
   )) {
     resArray.push(item);
   }

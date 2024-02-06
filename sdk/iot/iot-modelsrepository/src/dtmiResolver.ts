@@ -26,7 +26,7 @@ export class DtmiResolver {
   async resolve(
     dtmis: string[],
     expandedModel: boolean,
-    options?: OperationOptions
+    options?: OperationOptions,
   ): Promise<{ [dtmi: string]: DTDL }> {
     const modelMap: { [dtmi: string]: DTDL } = {};
     const dtdlPromises = dtmis.map(async (dtmi) => {
@@ -38,7 +38,7 @@ export class DtmiResolver {
           const modelIds: string[] = (dtdl as DTDL[]).map((model: DTDL) => model["@id"]);
           if (!modelIds.includes(dtmi)) {
             throw new ModelError(
-              `DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`
+              `DTMI mismatch on expanded DTDL - Request: ${dtmi}, Response: ${modelIds}`,
             );
           }
           for (const model of dtdl) {

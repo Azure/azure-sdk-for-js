@@ -94,12 +94,14 @@
     "mkdirp",
     "mongodb",
     "MPNS",
+    "msal",
     "MSRC",
     "nise",
     "northcentralus",
     "npmjs",
     "ODATA",
     "Odbc",
+    "openai",
     "perfstress",
     "personalizer",
     "Personalizer",
@@ -299,6 +301,7 @@
         "Ssml",
         "answeredby",
         "playsourcacheid",
+        "playsourcecacheid",
         "sipx",
         "sipuui"
       ]

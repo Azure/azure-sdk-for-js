@@ -246,7 +246,7 @@ export function toShareProtocolsString(protocols: ShareProtocols = {}): string |
   }
   if (protocols.nfsEnabled === true) {
     logger.info(
-      `Using "NFS" in favor of "SMB" for the share protocol as currently they can't be supported at the same time.`
+      `Using "NFS" in favor of "SMB" for the share protocol as currently they can't be supported at the same time.`,
     );
     protocolStr = "NFS";
   }
@@ -255,7 +255,7 @@ export function toShareProtocolsString(protocols: ShareProtocols = {}): string |
 
 export function validateFilePermissionOptions(
   filePermission?: string,
-  filePermissionKey?: string
+  filePermissionKey?: string,
 ): void {
   if (filePermission && filePermissionKey) {
     throw new RangeError("Only one of filePermission or filePermissionKey can be specified.");
@@ -263,7 +263,7 @@ export function validateFilePermissionOptions(
 }
 
 export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
-  options: FileAndDirectoryCreateCommonOptions
+  options: FileAndDirectoryCreateCommonOptions,
 ): FileAndDirectoryCreateCommonOptions {
   // Would better deep copy params set by user.
 
@@ -289,7 +289,7 @@ export function validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions(
 }
 
 export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions(
-  options: FileAndDirectorySetPropertiesCommonOptions
+  options: FileAndDirectorySetPropertiesCommonOptions,
 ): FileAndDirectorySetPropertiesCommonOptions {
   // Would better deep copy params set by user.
 
@@ -319,7 +319,7 @@ export function validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOpti
 }
 
 export function fileAttributesToString(
-  fileAttributes: FileSystemAttributes | FileAttributesPreserveType
+  fileAttributes: FileSystemAttributes | FileAttributesPreserveType,
 ): string {
   return fileAttributes instanceof FileSystemAttributes
     ? fileAttributes.toString()
@@ -327,19 +327,19 @@ export function fileAttributesToString(
 }
 
 export function fileCreationTimeToString(
-  time: Date | TimeNowType | TimePreserveType | undefined
+  time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
 
 export function fileLastWriteTimeToString(
-  time: Date | TimeNowType | TimePreserveType | undefined
+  time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }
 
 export function fileChangeTimeToString(
-  time: Date | TimeNowType | TimePreserveType | undefined
+  time: Date | TimeNowType | TimePreserveType | undefined,
 ): string | undefined {
   return time instanceof Date ? truncatedISO8061Date(time) : time;
 }

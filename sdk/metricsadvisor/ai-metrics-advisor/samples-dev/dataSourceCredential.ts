@@ -51,7 +51,7 @@ async function listDataSourceCredentials(client: MetricsAdvisorAdministrationCli
   const iterator = client.listDataSourceCredential();
   for await (const datasourceCredential of iterator) {
     console.log(
-      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`
+      `id :${datasourceCredential.id}, name: ${datasourceCredential.name}, type: ${datasourceCredential.type}`,
     );
   }
 
@@ -72,7 +72,7 @@ async function listDataSourceCredentials(client: MetricsAdvisorAdministrationCli
 }
 
 async function createDataSourceCredential(
-  client: MetricsAdvisorAdministrationClient
+  client: MetricsAdvisorAdministrationClient,
 ): Promise<DataSourceCredentialEntityUnion> {
   console.log("Creating DataSource credential...");
   const datasourceCredential: DataSourceSqlConnectionString = {
@@ -88,7 +88,7 @@ async function createDataSourceCredential(
 
 async function getDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  datasourceCredentialId: string
+  datasourceCredentialId: string,
 ) {
   console.log("Retrieving datasourceCredential by id...");
   const result = await client.getDataSourceCredential(datasourceCredentialId);
@@ -100,7 +100,7 @@ async function getDataSourceCredential(
 
 async function updateDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  credentialId: string
+  credentialId: string,
 ) {
   const patch = {
     name: "update-credential-name",
@@ -121,7 +121,7 @@ async function updateDataSourceCredential(
 
 async function deleteDataSourceCredential(
   client: MetricsAdvisorAdministrationClient,
-  credentialId: string
+  credentialId: string,
 ) {
   console.log(`Deleting datasource credential ${credentialId}...`);
   await client.deleteDataSourceCredential(credentialId);

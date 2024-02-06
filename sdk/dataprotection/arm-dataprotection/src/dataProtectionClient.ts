@@ -26,6 +26,9 @@ import {
   BackupPoliciesImpl,
   BackupInstancesImpl,
   RecoveryPointsImpl,
+  FetchSecondaryRecoveryPointsImpl,
+  FetchCrossRegionRestoreJobImpl,
+  FetchCrossRegionRestoreJobsImpl,
   JobsImpl,
   RestorableTimeRangesImpl,
   ExportJobsImpl,
@@ -46,6 +49,9 @@ import {
   BackupPolicies,
   BackupInstances,
   RecoveryPoints,
+  FetchSecondaryRecoveryPoints,
+  FetchCrossRegionRestoreJob,
+  FetchCrossRegionRestoreJobs,
   Jobs,
   RestorableTimeRanges,
   ExportJobs,
@@ -102,7 +108,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-dataprotection/1.2.1`;
+    const packageDetails = `azsdk-js-arm-dataprotection/2.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -155,7 +161,7 @@ export class DataProtectionClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2023-11-01";
     this.backupVaults = new BackupVaultsImpl(this);
     this.operationResult = new OperationResultImpl(this);
     this.operationStatus = new OperationStatusImpl(this);
@@ -173,6 +179,13 @@ export class DataProtectionClient extends coreClient.ServiceClient {
     this.backupPolicies = new BackupPoliciesImpl(this);
     this.backupInstances = new BackupInstancesImpl(this);
     this.recoveryPoints = new RecoveryPointsImpl(this);
+    this.fetchSecondaryRecoveryPoints = new FetchSecondaryRecoveryPointsImpl(
+      this
+    );
+    this.fetchCrossRegionRestoreJob = new FetchCrossRegionRestoreJobImpl(this);
+    this.fetchCrossRegionRestoreJobs = new FetchCrossRegionRestoreJobsImpl(
+      this
+    );
     this.jobs = new JobsImpl(this);
     this.restorableTimeRanges = new RestorableTimeRangesImpl(this);
     this.exportJobs = new ExportJobsImpl(this);
@@ -222,6 +235,9 @@ export class DataProtectionClient extends coreClient.ServiceClient {
   backupPolicies: BackupPolicies;
   backupInstances: BackupInstances;
   recoveryPoints: RecoveryPoints;
+  fetchSecondaryRecoveryPoints: FetchSecondaryRecoveryPoints;
+  fetchCrossRegionRestoreJob: FetchCrossRegionRestoreJob;
+  fetchCrossRegionRestoreJobs: FetchCrossRegionRestoreJobs;
   jobs: Jobs;
   restorableTimeRanges: RestorableTimeRanges;
   exportJobs: ExportJobs;

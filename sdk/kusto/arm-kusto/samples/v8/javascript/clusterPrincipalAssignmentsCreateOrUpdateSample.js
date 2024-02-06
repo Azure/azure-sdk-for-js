@@ -36,7 +36,7 @@ async function kustoClusterPrincipalAssignmentsCreateOrUpdate() {
     resourceGroupName,
     clusterName,
     principalAssignmentName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

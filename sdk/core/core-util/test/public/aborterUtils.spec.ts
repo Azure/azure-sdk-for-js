@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as sinon from "sinon";
-import { AbortSignalLike } from "@azure/abort-controller";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { describe, it, assert, expect, afterEach, vi } from "vitest";
 import { cancelablePromiseRace, createAbortablePromise } from "../../src";
-
-chai.use(chaiAsPromised);
-const { assert } = chai;
 
 describe("createAbortablePromise", function () {
   let token: ReturnType<typeof setTimeout>;
@@ -25,19 +20,19 @@ describe("createAbortablePromise", function () {
         cleanupBeforeAbort: () => clearTimeout(token),
         abortSignal,
         abortErrorMsg,
-      }
+      },
     );
   afterEach(function () {
-    sinon.restore();
+    vi.useRealTimers();
   });
 
   it("should resolve if not aborted nor rejected", async function () {
-    const clock = sinon.useFakeTimers();
+    const clock = vi.useFakeTimers();
     const promise = createPromise();
-    const time = await clock.nextAsync();
-    clock.restore();
-    assert.strictEqual(time, delayTime);
-    await assert.isFulfilled(promise);
+    await clock.advanceTimersToNextTimerAsync();
+    assert.strictEqual(clock.getTimerCount(), 0);
+    clock.useRealTimers();
+    await expect(promise).resolves.toBeUndefined();
   });
 
   it("should reject when aborted", async function () {
@@ -48,7 +43,7 @@ describe("createAbortablePromise", function () {
       abortErrorMsg,
     });
     aborter.abort();
-    await assert.isRejected(promise, abortErrorMsg);
+    await expect(promise).rejects.toThrowError(abortErrorMsg);
   });
 });
 
@@ -74,7 +69,7 @@ describe("cancelablePromiseRace", function () {
           function1Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -90,7 +85,7 @@ describe("cancelablePromiseRace", function () {
           function2Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -109,7 +104,7 @@ describe("cancelablePromiseRace", function () {
           function3Aborted = true;
         },
         abortSignal: abortOptions.abortSignal,
-      }
+      },
     );
   };
 
@@ -132,7 +127,7 @@ describe("cancelablePromiseRace", function () {
     function2Delay = function1Delay / 2;
     assert.strictEqual(
       await cancelablePromiseRace<[number, string, void]>([function1, function2, function3]),
-      function2Message
+      function2Message,
     ); // 2 rejects and finishes first, 1&3 are aborted
     assert.isTrue(function1Aborted); // checks 1 is aborted
     assert.isFalse(function2Aborted); // checks 2 is not aborted

@@ -215,6 +215,27 @@ export const ImageTemplateDistributor: coreClient.CompositeMapper = {
   }
 };
 
+export const ImageTemplatePropertiesErrorHandling: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplatePropertiesErrorHandling",
+    modelProperties: {
+      onCustomizerError: {
+        serializedName: "onCustomizerError",
+        type: {
+          name: "String"
+        }
+      },
+      onValidationError: {
+        serializedName: "onValidationError",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ProvisioningError: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -487,55 +508,96 @@ export const SystemData: coreClient.CompositeMapper = {
   }
 };
 
-export const CloudError: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudError",
+    className: "ErrorResponse",
     modelProperties: {
       error: {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CloudErrorBody"
+          className: "ErrorDetail"
         }
       }
     }
   }
 };
 
-export const CloudErrorBody: coreClient.CompositeMapper = {
+export const ErrorDetail: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudErrorBody",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
         serializedName: "message",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       target: {
         serializedName: "target",
+        readOnly: true,
         type: {
           name: "String"
         }
       },
       details: {
         serializedName: "details",
+        readOnly: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "CloudErrorBody"
+              className: "ErrorDetail"
             }
           }
+        }
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } }
         }
       }
     }
@@ -559,6 +621,34 @@ export const ImageTemplateUpdateParameters: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "String" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ImageTemplateUpdateParametersProperties"
+        }
+      }
+    }
+  }
+};
+
+export const ImageTemplateUpdateParametersProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ImageTemplateUpdateParametersProperties",
+    modelProperties: {
+      distribute: {
+        serializedName: "distribute",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ImageTemplateDistributor"
+            }
+          }
         }
       }
     }
@@ -1567,6 +1657,13 @@ export const ImageTemplate: coreClient.CompositeMapper = {
               className: "ImageTemplateDistributor"
             }
           }
+        }
+      },
+      errorHandling: {
+        serializedName: "properties.errorHandling",
+        type: {
+          name: "Composite",
+          className: "ImageTemplatePropertiesErrorHandling"
         }
       },
       provisioningState: {

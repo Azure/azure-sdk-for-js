@@ -23,7 +23,6 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/src/operationsInterfaces";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
@@ -179,7 +178,7 @@ export class QueueServiceClient extends StorageClient {
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ): QueueServiceClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
@@ -187,7 +186,7 @@ export class QueueServiceClient extends StorageClient {
       if (isNode) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
-          extractedCreds.accountKey
+          extractedCreds.accountKey,
         );
         if (!options.proxyOptions) {
           options.proxyOptions = getDefaultProxySettings(extractedCreds.proxyUri);
@@ -202,7 +201,7 @@ export class QueueServiceClient extends StorageClient {
       return new QueueServiceClient(extractedCreds.url + "?" + extractedCreds.accountSas, pipeline);
     } else {
       throw new Error(
-        "Connection string must be either an Account connection string or a SAS connection string"
+        "Connection string must be either an Account connection string or a SAS connection string",
       );
     }
   }
@@ -256,7 +255,7 @@ export class QueueServiceClient extends StorageClient {
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   );
   /**
    * Creates an instance of QueueServiceClient.
@@ -277,7 +276,7 @@ export class QueueServiceClient extends StorageClient {
       | Pipeline,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: StoragePipelineOptions
+    options?: StoragePipelineOptions,
   ) {
     let pipeline: Pipeline;
     if (credentialOrPipeline instanceof Pipeline) {
@@ -329,7 +328,7 @@ export class QueueServiceClient extends StorageClient {
    */
   private async listQueuesSegment(
     marker?: string,
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): Promise<ServiceListQueuesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -348,9 +347,9 @@ export class QueueServiceClient extends StorageClient {
             ...updatedOptions,
             marker,
             include: options.include === undefined ? undefined : [options.include],
-          })
+          }),
         );
-      }
+      },
     );
   }
 
@@ -368,7 +367,7 @@ export class QueueServiceClient extends StorageClient {
    */
   private async *listSegments(
     marker?: string,
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): AsyncIterableIterator<ServiceListQueuesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -388,7 +387,7 @@ export class QueueServiceClient extends StorageClient {
    * @param options - Options to list queues operation.
    */
   private async *listItems(
-    options: ServiceListQueuesSegmentOptions = {}
+    options: ServiceListQueuesSegmentOptions = {},
   ): AsyncIterableIterator<QueueItem> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -480,7 +479,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns An asyncIterableIterator that supports paging.
    */
   public listQueues(
-    options: ServiceListQueuesOptions = {}
+    options: ServiceListQueuesOptions = {},
   ): PagedAsyncIterableIterator<QueueItem, ServiceListQueuesSegmentResponse> {
     if (options.prefix === "") {
       options.prefix = undefined;
@@ -527,7 +526,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns Response data including the queue service properties.
    */
   public async getProperties(
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceGetPropertiesResponse> {
     return tracingClient.withSpan(
       "QueueServiceClient-getProperties",
@@ -538,7 +537,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetPropertiesHeaders,
           QueueServiceProperties
         >(await this.serviceContext.getProperties(updatedOptions));
-      }
+      },
     );
   }
 
@@ -553,16 +552,16 @@ export class QueueServiceClient extends StorageClient {
    */
   public async setProperties(
     properties: QueueServiceProperties,
-    options: ServiceGetPropertiesOptions = {}
+    options: ServiceGetPropertiesOptions = {},
   ): Promise<ServiceSetPropertiesResponse> {
     return tracingClient.withSpan(
       "QueueServiceClient-setProperties",
       options,
       async (updatedOptions) => {
         return assertResponse<ServiceSetPropertiesHeaders, ServiceSetPropertiesHeaders>(
-          await this.serviceContext.setProperties(properties, updatedOptions)
+          await this.serviceContext.setProperties(properties, updatedOptions),
         );
-      }
+      },
     );
   }
 
@@ -576,7 +575,7 @@ export class QueueServiceClient extends StorageClient {
    * @returns Response data for get statistics the operation.
    */
   public async getStatistics(
-    options: ServiceGetStatisticsOptions = {}
+    options: ServiceGetStatisticsOptions = {},
   ): Promise<ServiceGetStatisticsResponse> {
     return tracingClient.withSpan(
       "QueueServiceClient-getStatistics",
@@ -587,7 +586,7 @@ export class QueueServiceClient extends StorageClient {
           ServiceGetStatisticsHeaders,
           QueueServiceStatistics
         >(await this.serviceContext.getStatistics(updatedOptions));
-      }
+      },
     );
   }
 
@@ -601,14 +600,14 @@ export class QueueServiceClient extends StorageClient {
    */
   public async createQueue(
     queueName: string,
-    options: QueueCreateOptions = {}
+    options: QueueCreateOptions = {},
   ): Promise<QueueCreateResponse> {
     return tracingClient.withSpan(
       "QueueServiceClient-createQueue",
       options,
       async (updatedOptions) => {
         return this.getQueueClient(queueName).create(updatedOptions);
-      }
+      },
     );
   }
 
@@ -622,14 +621,14 @@ export class QueueServiceClient extends StorageClient {
    */
   public async deleteQueue(
     queueName: string,
-    options: QueueDeleteOptions = {}
+    options: QueueDeleteOptions = {},
   ): Promise<QueueDeleteResponse> {
     return tracingClient.withSpan(
       "QueueServiceClient-deleteQueue",
       options,
       async (updatedOptions) => {
         return this.getQueueClient(queueName).delete(updatedOptions);
-      }
+      },
     );
   }
 
@@ -651,11 +650,11 @@ export class QueueServiceClient extends StorageClient {
     expiresOn?: Date,
     permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
     resourceTypes: string = "sco",
-    options: ServiceGenerateAccountSasUrlOptions = {}
+    options: ServiceGenerateAccountSasUrlOptions = {},
   ): string {
     if (!(this.credential instanceof StorageSharedKeyCredential)) {
       throw RangeError(
-        "Can only generate the account SAS when the client is initialized with a shared key credential"
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
       );
     }
 
@@ -672,7 +671,7 @@ export class QueueServiceClient extends StorageClient {
         services: AccountSASServices.parse("q").toString(),
         ...options,
       },
-      this.credential
+      this.credential,
     ).toString();
 
     return appendToURLQuery(this.url, sas);

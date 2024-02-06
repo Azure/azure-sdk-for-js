@@ -37,13 +37,13 @@ export interface TracingClient {
     Options extends { tracingOptions?: OperationTracingOptions },
     Callback extends (
       updatedOptions: Options,
-      span: Omit<TracingSpan, "end">
-    ) => ReturnType<Callback>
+      span: Omit<TracingSpan, "end">,
+    ) => ReturnType<Callback>,
   >(
     name: string,
     operationOptions: Options,
     callback: Callback,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): Promise<Resolved<ReturnType<Callback>>>;
   /**
    * Starts a given span but does not set it as the active span.
@@ -61,7 +61,7 @@ export interface TracingClient {
   startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
     name: string,
     operationOptions?: Options,
-    spanOptions?: TracingSpanOptions
+    spanOptions?: TracingSpanOptions,
   ): {
     span: TracingSpan;
     updatedOptions: OptionsWithTracingContext<Options>;
@@ -78,7 +78,7 @@ export interface TracingClient {
    */
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,
@@ -148,7 +148,7 @@ export interface Instrumenter {
    */
   startSpan(
     name: string,
-    spanOptions: InstrumenterSpanOptions
+    spanOptions: InstrumenterSpanOptions,
   ): { span: TracingSpan; tracingContext: TracingContext };
   /**
    * Wraps a callback with an active context and calls the callback.
@@ -160,7 +160,7 @@ export interface Instrumenter {
    */
   withContext<
     CallbackArgs extends unknown[],
-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>
+    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
   >(
     context: TracingContext,
     callback: Callback,
@@ -287,7 +287,7 @@ export interface OperationTracingOptions {
  * as part of an operation's options.
  */
 export type OptionsWithTracingContext<
-  Options extends { tracingOptions?: OperationTracingOptions }
+  Options extends { tracingOptions?: OperationTracingOptions },
 > = Options & {
   tracingOptions: {
     tracingContext: TracingContext;

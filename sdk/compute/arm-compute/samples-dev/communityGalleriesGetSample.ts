@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a community gallery by gallery public name.
  *
  * @summary Get a community gallery by gallery public name.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/communityGalleryExamples/CommunityGallery_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/communityGalleryExamples/CommunityGallery_Get.json
  */
 async function getACommunityGallery() {
   const subscriptionId =

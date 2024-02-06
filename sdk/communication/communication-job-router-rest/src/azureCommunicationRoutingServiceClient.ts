@@ -18,7 +18,7 @@ import {
  */
 export default function createClient(
   connectionString: string,
-  options: ClientOptions
+  options: ClientOptions,
 ): AzureCommunicationRoutingServiceClient;
 
 /**
@@ -30,14 +30,14 @@ export default function createClient(
 export default function createClient(
   endpoint: string,
   credentialOrOptions?: KeyCredential | TokenCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): AzureCommunicationRoutingServiceClient;
 
 // Implementation
 export default function createClient(
   arg1: string,
   arg2?: ClientOptions | (KeyCredential | TokenCredential),
-  arg3?: ClientOptions
+  arg3?: ClientOptions,
 ): AzureCommunicationRoutingServiceClient {
   let credentialOrOptions: KeyCredential | TokenCredential | undefined;
   let options: ClientOptions | undefined;

@@ -684,7 +684,7 @@ describe("deserializationPolicy", function () {
         assert.strictEqual(e.response.parsedBody.code, "ContainerAlreadyExists");
         assert.strictEqual(
           e.response.parsedBody.message,
-          "The specified container already exists."
+          "The specified container already exists.",
         );
       }
     });
@@ -805,7 +805,7 @@ async function getDeserializedResponse(
     bodyAsText?: string;
     xmlContentTypes?: string[];
     serializerOptions?: SerializerOptions;
-  } = {}
+  } = {},
 ): Promise<FullOperationResponse> {
   const policy = deserializationPolicy({
     expectedContentTypes: { xml: options.xmlContentTypes },

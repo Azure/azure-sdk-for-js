@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { UnknownObject, isObject } from "@azure/core-util";
+import { type UnknownObject, isObject } from "@azure/core-util";
 
 /**
  * @internal
@@ -128,7 +128,7 @@ export class Sanitizer {
 
         return value;
       },
-      2
+      2,
     );
   }
 

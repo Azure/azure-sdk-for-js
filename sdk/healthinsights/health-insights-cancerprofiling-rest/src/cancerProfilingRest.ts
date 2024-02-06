@@ -15,7 +15,7 @@ import { CancerProfilingRestClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): CancerProfilingRestClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/healthinsights`;
   options.apiVersion = options.apiVersion ?? "2023-03-01-preview";

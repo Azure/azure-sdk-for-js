@@ -25,9 +25,8 @@ matrix([[true, false]], async function (useAad: boolean) {
         ({ identityClient, relayClient, recorder } =
           await createRecordedCommunicationRelayClientWithToken(this));
       } else {
-        ({ identityClient, relayClient, recorder } = await createRecordedCommunicationRelayClient(
-          this
-        ));
+        ({ identityClient, relayClient, recorder } =
+          await createRecordedCommunicationRelayClient(this));
       }
     });
 
@@ -144,7 +143,7 @@ matrix([[true, false]], async function (useAad: boolean) {
       if (!isPlaybackMode()) {
         // The token should expire between the requestedTime and the expectedExpirationTime
         assert.isTrue(
-          requestedTime <= turnTokenExpiresOn && turnTokenExpiresOn <= expectedExpirationTime
+          requestedTime <= turnTokenExpiresOn && turnTokenExpiresOn <= expectedExpirationTime,
         );
       }
 

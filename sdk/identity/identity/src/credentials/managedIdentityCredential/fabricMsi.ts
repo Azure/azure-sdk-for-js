@@ -33,7 +33,7 @@ const logger = credentialLogger(msiName);
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
-  resourceId?: string
+  resourceId?: string,
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -84,24 +84,24 @@ export const fabricMsi: MSI = {
     }
     const env = process.env;
     const result = Boolean(
-      env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT
+      env.IDENTITY_ENDPOINT && env.IDENTITY_HEADER && env.IDENTITY_SERVER_THUMBPRINT,
     );
     if (!result) {
       logger.info(
-        `${msiName}: Unavailable. The environment variables needed are: IDENTITY_ENDPOINT, IDENTITY_HEADER and IDENTITY_SERVER_THUMBPRINT`
+        `${msiName}: Unavailable. The environment variables needed are: IDENTITY_ENDPOINT, IDENTITY_HEADER and IDENTITY_SERVER_THUMBPRINT`,
       );
     }
     return result;
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { scopes, identityClient, clientId, resourceId } = configuration;
 
     if (resourceId) {
       logger.warning(
-        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`
+        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId might be ignored by the service.`,
       );
     }
 
@@ -112,7 +112,7 @@ export const fabricMsi: MSI = {
         `IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT},`,
         "IDENTITY_HEADER=[REDACTED] and",
         "IDENTITY_SERVER_THUMBPRINT=[REDACTED].",
-      ].join(" ")
+      ].join(" "),
     );
 
     const request = createPipelineRequest({

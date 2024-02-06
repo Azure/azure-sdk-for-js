@@ -100,7 +100,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       | string
       | ManagedIdentityCredentialClientIdOptions
       | ManagedIdentityCredentialResourceIdOptions,
-    options?: TokenCredentialOptions
+    options?: TokenCredentialOptions,
   ) {
     let _options: TokenCredentialOptions | undefined;
     if (typeof clientIdOrOptions === "string") {
@@ -114,7 +114,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     // For JavaScript users.
     if (this.clientId && this.resourceId) {
       throw new Error(
-        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`
+        `${ManagedIdentityCredential.name} - Client Id and Resource Id can't be provided at the same time.`,
       );
     }
     this.identityClient = new IdentityClient(_options);
@@ -151,7 +151,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private async cachedAvailableMSI(
     scopes: string | string[],
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSI> {
     if (this.cachedMSI) {
       return this.cachedMSI;
@@ -183,17 +183,17 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     throw new CredentialUnavailableError(
-      `${ManagedIdentityCredential.name} - No MSI credential available`
+      `${ManagedIdentityCredential.name} - No MSI credential available`,
     );
   }
 
   private async authenticateManagedIdentity(
     scopes: string | string[],
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null> {
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.authenticateManagedIdentity`,
-      getTokenOptions
+      getTokenOptions,
     );
 
     try {
@@ -206,7 +206,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           clientId: this.clientId,
           resourceId: this.resourceId,
         },
-        updatedOptions
+        updatedOptions,
       );
     } catch (err: any) {
       span.setStatus({
@@ -230,12 +230,12 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken> {
     let result: AccessToken | null = null;
     const { span, updatedOptions } = tracingClient.startSpan(
       `${ManagedIdentityCredential.name}.getToken`,
-      options
+      options,
     );
     try {
       // isEndpointAvailable can be true, false, or null,
@@ -269,7 +269,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           // It also means that the endpoint answered with either 200 or 201 (see the sendTokenRequest method),
           // yet we had no access token. For this reason, we'll throw once with a specific message:
           const error = new CredentialUnavailableError(
-            "The managed identity endpoint was reached, yet no tokens were received."
+            "The managed identity endpoint was reached, yet no tokens were received.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -283,7 +283,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         // We've previously determined that the endpoint was unavailable,
         // either because it was unreachable or permanently unable to authenticate.
         const error = new CredentialUnavailableError(
-          "The managed identity endpoint is not currently available"
+          "The managed identity endpoint is not currently available",
         );
         logger.getToken.info(formatError(scopes, error));
         throw error;
@@ -313,7 +313,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -324,7 +324,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // we can safely assume the credential is unavailable.
       if (err.code === "EHOSTUNREACH") {
         const error = new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Unavailable. No managed identity endpoint found. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: Unavailable. No managed identity endpoint found. Message: ${err.message}`,
         );
 
         logger.getToken.info(formatError(scopes, error));
@@ -334,7 +334,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`
+          `${ManagedIdentityCredential.name}: The managed identity endpoint is indicating there's no available identity. Message: ${err.message}`,
         );
       }
 
@@ -343,7 +343,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       if (err.statusCode === 403 || err.code === 403) {
         if (err.message.includes("A socket operation was attempted to an unreachable network")) {
           const error = new CredentialUnavailableError(
-            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`
+            `${ManagedIdentityCredential.name}: Unavailable. Network unreachable. Message: ${err.message}`,
           );
 
           logger.getToken.info(formatError(scopes, error));
@@ -355,7 +355,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       // This will throw silently during any ChainedTokenCredential.
       if (err.statusCode === undefined) {
         throw new CredentialUnavailableError(
-          `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`
+          `${ManagedIdentityCredential.name}: Authentication failed. Message ${err.message}`,
         );
       }
 
@@ -378,7 +378,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private handleResult(
     scopes: string | string[],
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): AccessToken {
     this.ensureValidMsalToken(scopes, result, getTokenOptions);
     logger.getToken.info(formatSuccess(scopes));
@@ -395,7 +395,7 @@ export class ManagedIdentityCredential implements TokenCredential {
   private ensureValidMsalToken(
     scopes: string | string[],
     msalToken?: MsalToken,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): void {
     const error = (message: string): Error => {
       logger.getToken.info(message);
@@ -421,20 +421,20 @@ export class ManagedIdentityCredential implements TokenCredential {
       this.confidentialApp.SetAppTokenProvider(async (appTokenProviderParameters) => {
         logger.info(
           `SetAppTokenProvider invoked with parameters- ${JSON.stringify(
-            appTokenProviderParameters
-          )}`
+            appTokenProviderParameters,
+          )}`,
         );
         const getTokenOptions: GetTokenOptions = {
           ...appTokenProviderParameters,
         };
         logger.info(
           `authenticateManagedIdentity invoked with scopes- ${JSON.stringify(
-            appTokenProviderParameters.scopes
-          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`
+            appTokenProviderParameters.scopes,
+          )} and getTokenOptions - ${JSON.stringify(getTokenOptions)}`,
         );
         const resultToken = await this.authenticateManagedIdentity(
           appTokenProviderParameters.scopes,
-          getTokenOptions
+          getTokenOptions,
         );
 
         if (resultToken) {
@@ -449,7 +449,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           };
         } else {
           logger.info(
-            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`
+            `SetAppTokenProvider token has "no_access_token_returned" as the saved token`,
           );
           return {
             accessToken: "no_access_token_returned",

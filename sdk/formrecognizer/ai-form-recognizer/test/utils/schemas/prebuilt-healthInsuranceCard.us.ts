@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from US health insurance cards.
  */
 export const PrebuiltHealthInsuranceCardUsModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltHealthInsuranceCardUsResult>;
 
 export interface PrebuiltHealthInsuranceCardUsResult extends fr.AnalyzeResultCommon {

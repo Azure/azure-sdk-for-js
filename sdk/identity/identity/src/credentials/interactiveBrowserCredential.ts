@@ -44,7 +44,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options - Options for configuring the client which makes the authentication requests.
    */
   constructor(
-    options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions
+    options: InteractiveBrowserCredentialNodeOptions | InteractiveBrowserCredentialInBrowserOptions,
   ) {
     const redirectUri =
       typeof options.redirectUri === "function"
@@ -53,14 +53,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.tenantId = options?.tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     const ibcNodeOptions = options as InteractiveBrowserCredentialNodeOptions;
     if (ibcNodeOptions?.brokerOptions?.enabled) {
       if (!ibcNodeOptions?.brokerOptions?.parentWindowHandle) {
         throw new Error(
-          "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter"
+          "In order to do WAM authentication, `parentWindowHandle` under `brokerOptions` is a required parameter",
         );
       } else {
         this.msalFlow = new MsalOpenBrowser({
@@ -109,7 +109,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
@@ -117,7 +117,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
@@ -136,7 +136,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
@@ -145,7 +145,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         const arrayScopes = ensureScopes(scopes);
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
-      }
+      },
     );
   }
 }

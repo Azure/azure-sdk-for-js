@@ -39,7 +39,7 @@ async function eventSubscriptionsUpdateForCustomTopic() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination() 
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -110,7 +110,7 @@ async function eventSubscriptionsUpdateForCustomTopicEventHubDestination() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -143,7 +143,7 @@ async function eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -181,7 +181,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -214,7 +214,7 @@ async function eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -254,7 +254,7 @@ async function eventSubscriptionsUpdateForCustomTopicStorageQueueDestination() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -286,7 +286,7 @@ async function eventSubscriptionsUpdateForCustomTopicWebhookDestination() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -318,7 +318,7 @@ async function eventSubscriptionsUpdateForResource() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -350,7 +350,7 @@ async function eventSubscriptionsUpdateForResourceGroup() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }
@@ -381,7 +381,7 @@ async function eventSubscriptionsUpdateForSubscription() {
   const result = await client.eventSubscriptions.beginUpdateAndWait(
     scope,
     eventSubscriptionName,
-    eventSubscriptionUpdateParameters
+    eventSubscriptionUpdateParameters,
   );
   console.log(result);
 }

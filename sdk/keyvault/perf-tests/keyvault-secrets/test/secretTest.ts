@@ -18,7 +18,7 @@ export abstract class SecretTest<TOptions = Record<string, unknown>> extends Per
         if (deletedSecret.recoveryId) {
           await this.secretClient.purgeDeletedSecret(name);
         }
-      })
+      }),
     );
   }
 }

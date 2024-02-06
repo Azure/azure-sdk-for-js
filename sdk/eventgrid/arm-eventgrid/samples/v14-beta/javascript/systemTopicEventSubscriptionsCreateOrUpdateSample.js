@@ -41,7 +41,7 @@ async function systemTopicEventSubscriptionsCreateOrUpdate() {
     resourceGroupName,
     systemTopicName,
     eventSubscriptionName,
-    eventSubscriptionInfo
+    eventSubscriptionInfo,
   );
   console.log(result);
 }

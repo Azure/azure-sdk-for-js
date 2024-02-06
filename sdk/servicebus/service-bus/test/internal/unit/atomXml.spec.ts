@@ -83,7 +83,7 @@ const ruleProperties = ["Filter", "Action", "Name"];
 
 const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient =
   new ServiceBusAdministrationClient(
-    "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
+    "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test",
   );
 
 describe("ATOM Serializers", () => {
@@ -106,16 +106,16 @@ describe("ATOM Serializers", () => {
           mockServiceBusAtomManagementClient,
           request,
           new MockSerializer(),
-          {}
+          {},
         );
         assert.fail("Error must be thrown");
       } catch (err: any) {
         assert.equal(
           err.message.startsWith(
-            "Error occurred while parsing the response body - expected the service to return valid xml content."
+            "Error occurred while parsing the response body - expected the service to return valid xml content.",
           ),
           true,
-          `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `
+          `"${err.message}" was expected to begin with "Error occurred while parsing the response body - expected the service to return valid xml content." `,
         );
         assert.equal(err.code, "PARSE_ERROR");
       }
@@ -138,7 +138,7 @@ describe("ATOM Serializers", () => {
         request,
         new MockSerializer(),
         {},
-        requestObject
+        requestObject,
       );
 
       const expectedRequestBody = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated>2019-10-15T19:55:26.821Z</updated><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT3M</LockDuration><MaxSizeInMegabytes>2048</MaxSizeInMegabytes></QueueDescription></content></entry>`;
@@ -152,12 +152,12 @@ describe("ATOM Serializers", () => {
       assert.equal(
         requestBody.substring(0, indexOfOpenUpdateTag),
         expectedRequestBody.substring(0, indexOfOpenUpdateTag),
-        "Atom XML serialization failure"
+        "Atom XML serialization failure",
       );
       assert.equal(
         requestBody.substring(indexOfCloseUpdateTag),
         expectedRequestBody.substring(indexOfCloseUpdateTag),
-        "Atom XML serialization failure"
+        "Atom XML serialization failure",
       );
     });
   });
@@ -182,7 +182,7 @@ describe("ATOM Serializers", () => {
         assert.equal(
           err.message,
           "Error occurred while parsing the response body - expected the service to return atom xml content with either feed or entry elements.",
-          `Unexpected error message found.`
+          `Unexpected error message found.`,
         );
         assert.equal(err.code, "PARSE_ERROR");
       }
@@ -206,7 +206,7 @@ describe("ATOM Serializers", () => {
         assert.equal(
           err.message,
           "Service returned an error response with an unrecognized HTTP status code - 666",
-          `Unexpected error message found.`
+          `Unexpected error message found.`,
         );
         assert.equal(err.code, "ServiceError", `Unexpected error code found.`);
       }
@@ -267,7 +267,7 @@ describe("ATOM Serializers", () => {
         request,
         new QueueResourceSerializer(),
         {},
-        buildQueueOptions(queueOptions)
+        buildQueueOptions(queueOptions),
       );
 
       if (!request.body) {
@@ -328,7 +328,7 @@ describe("ATOM Serializers", () => {
         request,
         new TopicResourceSerializer(),
         {},
-        buildTopicOptions(topicOptions)
+        buildTopicOptions(topicOptions),
       );
 
       if (!request.body) {
@@ -366,7 +366,7 @@ describe("ATOM Serializers", () => {
         request,
         new SubscriptionResourceSerializer(),
         {},
-        buildSubscriptionOptions(subscriptionOptions)
+        buildSubscriptionOptions(subscriptionOptions),
       );
 
       if (!request.body) {
@@ -402,7 +402,7 @@ describe("ATOM Serializers", () => {
         request,
         new RuleResourceSerializer(),
         {},
-        ruleOptions
+        ruleOptions,
       );
 
       if (!request.body) {
@@ -414,7 +414,7 @@ describe("ATOM Serializers", () => {
 
   function checkXmlHasPropertiesInExpectedOrder(
     xml: string,
-    expectedOrderedProperties: Array<string>
+    expectedOrderedProperties: Array<string>,
   ): void {
     const orderedPropertyIndices: Array<number> = [];
     for (let i = 0; i < expectedOrderedProperties.length; i++) {
@@ -432,7 +432,7 @@ describe("ATOM Serializers", () => {
       assert.equal(
         curr < next,
         true,
-        "The properties in constructed request are not in expected order"
+        "The properties in constructed request are not in expected order",
       );
     }
   }
@@ -583,20 +583,20 @@ describe("ATOM Serializers", () => {
             request,
             new RuleResourceSerializer(),
             {},
-            testCase.input as any // casting because invalid input won't satisfy type requirement
+            testCase.input as any, // casting because invalid input won't satisfy type requirement
           );
           assert.fail("Error must be thrown");
         } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -728,20 +728,20 @@ describe("ATOM Serializers", () => {
             request,
             new RuleResourceSerializer(),
             {},
-            testCase.input as any // invalid input won't satisfy type requirement so need cast
+            testCase.input as any, // invalid input won't satisfy type requirement so need cast
           );
           assert.fail("Error must be thrown");
         } catch (err: any) {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -791,13 +791,13 @@ describe("ATOM Serializers", () => {
           assert.equal(
             err.message,
             testCase.output.testErrorMessage,
-            `Unexpected error message found.`
+            `Unexpected error message found.`,
           );
 
           assert.equal(
             err instanceof testCase.output.testErrorType,
             true,
-            `Expected error type to be "${testCase.output.testErrorType}"`
+            `Expected error type to be "${testCase.output.testErrorType}"`,
           );
         }
       });
@@ -956,7 +956,7 @@ describe("ATOM Serializers", () => {
             assert.equal(
               err.message,
               testCase.output.errorMessage,
-              `Unexpected error message found.`
+              `Unexpected error message found.`,
             );
           }
         }
@@ -1186,7 +1186,7 @@ describe("ATOM Serializers", () => {
       };
       const result = await mockServiceBusAtomManagementClient["getRules"](
         "testTopic",
-        "testSubscription"
+        "testSubscription",
       );
       assertEmptyArray(result);
     });

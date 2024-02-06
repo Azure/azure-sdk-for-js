@@ -56,7 +56,7 @@ async function rulesCreate() {
     profileName,
     ruleSetName,
     ruleName,
-    rule
+    rule,
   );
   console.log(result);
 }

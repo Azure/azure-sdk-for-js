@@ -18,6 +18,7 @@ import {
   getRequestDimensions,
   getTraceDimensions,
   isExceptionTelemetry,
+  isSyntheticLoad,
   isTraceTelemetry,
 } from "./utils";
 
@@ -60,13 +61,13 @@ export class StandardMetrics {
       "azureMonitor.http.requestDuration",
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
     this._outgoingRequestDurationHistogram = this._meter.createHistogram(
       "azureMonitor.http.dependencyDuration",
       {
         valueType: ValueType.DOUBLE,
-      }
+      },
     );
 
     this._exceptionsCounter = this._meter.createCounter("azureMonitor.exceptionCount", {
@@ -144,6 +145,9 @@ export class StandardMetrics {
    * @internal
    */
   public recordLog(logRecord: LogRecord): void {
+    if (isSyntheticLoad(logRecord)) {
+      logRecord.setAttribute("operation/synthetic", "True");
+    }
     if (isExceptionTelemetry(logRecord)) {
       logRecord.setAttribute("_MS.ProcessedByMetricExtractors", "(Name:'Exceptions', Ver:'1.1')");
       this._exceptionsCounter.add(1, getExceptionDimensions(logRecord.resource));

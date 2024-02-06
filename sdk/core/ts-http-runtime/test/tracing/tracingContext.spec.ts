@@ -112,7 +112,7 @@ describe("TracingContext", () => {
     it("can be initialized from an existing context", () => {
       const parentContext = createTracingContext().setValue(
         knownContextKeys.namespace,
-        "test-namespace"
+        "test-namespace",
       );
       const newContext = createTracingContext({ parentContext: parentContext });
       assert.equal(newContext.getValue(knownContextKeys.namespace), "test-namespace");

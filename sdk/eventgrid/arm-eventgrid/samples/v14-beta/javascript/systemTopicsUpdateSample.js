@@ -31,7 +31,7 @@ async function systemTopicsUpdate() {
   const result = await client.systemTopics.beginUpdateAndWait(
     resourceGroupName,
     systemTopicName,
-    systemTopicUpdateParameters
+    systemTopicUpdateParameters,
   );
   console.log(result);
 }

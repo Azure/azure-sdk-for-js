@@ -28,7 +28,7 @@ async function updateCloudServiceToSpecifiedDomain() {
   const result = await client.cloudServicesUpdateDomain.beginWalkUpdateDomainAndWait(
     resourceGroupName,
     cloudServiceName,
-    updateDomain
+    updateDomain,
   );
   console.log(result);
 }

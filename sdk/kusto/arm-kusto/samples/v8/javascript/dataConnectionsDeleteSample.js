@@ -31,7 +31,7 @@ async function kustoDataConnectionsDelete() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }

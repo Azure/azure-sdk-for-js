@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePoint_Copy_BetweenRegions.json
  */
 async function copyARestorePointToADifferentRegion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -34,7 +34,7 @@ async function copyARestorePointToADifferentRegion() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -43,7 +43,7 @@ async function copyARestorePointToADifferentRegion() {
  * This sample demonstrates how to The operation to create the restore point. Updating properties of an existing restore point is not allowed
  *
  * @summary The operation to create the restore point. Updating properties of an existing restore point is not allowed
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/restorePointExamples/RestorePoint_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/restorePointExamples/RestorePoint_Create.json
  */
 async function createARestorePoint() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -63,7 +63,7 @@ async function createARestorePoint() {
     resourceGroupName,
     restorePointCollectionName,
     restorePointName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

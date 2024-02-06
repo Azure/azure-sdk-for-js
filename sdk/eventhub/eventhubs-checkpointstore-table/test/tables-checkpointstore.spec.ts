@@ -28,11 +28,11 @@ const service = {
 
 const credential = new AzureNamedKeyCredential(
   service.storageAccountName,
-  service.storageAccountKey
+  service.storageAccountKey,
 );
 const serviceClient = new TableServiceClient(
   `https://${service.storageAccountName}.table.core.windows.net`,
-  credential
+  credential,
 );
 
 describe("TableCheckpointStore", function (): void {
@@ -43,7 +43,7 @@ describe("TableCheckpointStore", function (): void {
     client = new TableClient(
       `https://${service.storageAccountName}.table.core.windows.net`,
       tableName,
-      credential
+      credential,
     );
     await serviceClient.createTable(tableName);
   });
@@ -58,7 +58,7 @@ describe("TableCheckpointStore", function (): void {
         const listOwnership = await checkpointStore.listOwnership(
           "test.servicebus.windows.net",
           "testHub",
-          "testConsumerGroup"
+          "testConsumerGroup",
         );
         should.equal(listOwnership.length, 0);
       });
@@ -70,7 +70,7 @@ describe("TableCheckpointStore", function (): void {
         const checkpoints = await checkpointStore.listCheckpoints(
           "test.servicebus.windows.net",
           "testHub",
-          "testConsumerGroup"
+          "testConsumerGroup",
         );
         should.equal(checkpoints.length, 0);
       });
@@ -87,7 +87,7 @@ describe("TableCheckpointStore", function (): void {
         let checkpoints = await checkpointStore.listCheckpoints(
           eventHubProperties.fullyQualifiedNamespace,
           eventHubProperties.eventHubName,
-          eventHubProperties.consumerGroup
+          eventHubProperties.consumerGroup,
         );
         checkpoints.length.should.equal(0);
         // Create the checkpoint to add.
@@ -105,7 +105,7 @@ describe("TableCheckpointStore", function (): void {
         checkpoints = await checkpointStore.listCheckpoints(
           eventHubProperties.fullyQualifiedNamespace,
           eventHubProperties.eventHubName,
-          eventHubProperties.consumerGroup
+          eventHubProperties.consumerGroup,
         );
 
         checkpoints.length.should.equal(1);
@@ -147,7 +147,7 @@ describe("TableCheckpointStore", function (): void {
         const listOwnership = await checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
-          "testConsumerGroup"
+          "testConsumerGroup",
         );
         should.equal(listOwnership.length, 0);
 
@@ -164,41 +164,41 @@ describe("TableCheckpointStore", function (): void {
         const ownershipList = await checkpointStore.listOwnership(
           "testNamespace.servicebus.windows.net",
           "testEventHub",
-          "testConsumerGroup"
+          "testConsumerGroup",
         );
 
         should.equal(ownershipList.length, 1, "Unexpected number of ownerships in list.");
         should.equal(
           ownershipList[0].ownerId,
           "Id1",
-          "The 1st ownership item has the wrong ownerId."
+          "The 1st ownership item has the wrong ownerId.",
         );
         should.equal(
           ownershipList[0].consumerGroup,
           "testConsumerGroup",
-          "The 1st ownership item has the wrong consumerGroup."
+          "The 1st ownership item has the wrong consumerGroup.",
         );
         should.equal(
           ownershipList[0].fullyQualifiedNamespace,
           "testNamespace.servicebus.windows.net",
-          "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+          "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace.",
         );
         should.equal(
           ownershipList[0].eventHubName,
           "testEventHub",
-          "The 1st ownership item has the wrong eventHubName."
+          "The 1st ownership item has the wrong eventHubName.",
         );
         should.equal(
           ownershipList[0].partitionId,
           "0",
-          "The 1st ownership item has the wrong partitionId."
+          "The 1st ownership item has the wrong partitionId.",
         );
         should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
         should.exist(ownershipList[0].etag, "etag should exist.");
         debug(
           `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
             ownershipList[0].etag
-          }`
+          }`,
         );
       });
     });
@@ -233,7 +233,7 @@ describe("TableCheckpointStore", function (): void {
         const listOwnership = await checkpointStore.listOwnership(
           "blue.servicebus.windows.net",
           "blueHub",
-          "$default"
+          "$default",
         );
         should.equal(listOwnership.length, 1);
       });
@@ -244,7 +244,7 @@ describe("TableCheckpointStore", function (): void {
           const listCheckpoint = await checkpointStore.listCheckpoints(
             "blue.servicebus.windows.net",
             "blueHub",
-            "$default"
+            "$default",
           );
           should.equal(listCheckpoint.length, 1);
         });
@@ -260,7 +260,7 @@ describe("TableCheckpointStore", function (): void {
           const listOwnership = await checkpointStore.listOwnership(
             "blue.servicebus.windows.net",
             "blueHub",
-            "$default"
+            "$default",
           );
 
           const originalClaimedOwnerships = await checkpointStore.claimOwnership([
@@ -268,9 +268,8 @@ describe("TableCheckpointStore", function (): void {
           ]);
 
           const originalETag = originalClaimedOwnerships[0].etag;
-          const newClaimedOwnerships = await checkpointStore.claimOwnership(
-            originalClaimedOwnerships
-          );
+          const newClaimedOwnerships =
+            await checkpointStore.claimOwnership(originalClaimedOwnerships);
 
           newClaimedOwnerships.length.should.equal(1);
 
@@ -298,7 +297,7 @@ describe("TableCheckpointStore", function (): void {
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
             "testEventHub",
-            "testConsumerGroup"
+            "testConsumerGroup",
           );
           should.equal(listOwnership.length, 0);
           const partitionOwnershipArray: PartitionOwnership[] = [];
@@ -320,41 +319,41 @@ describe("TableCheckpointStore", function (): void {
           const ownershipList = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
             "testEventHub",
-            "testConsumerGroup"
+            "testConsumerGroup",
           );
           should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
           should.equal(
             ownershipList[0].ownerId,
             "Id1",
-            "The 1st ownership item has the wrong ownerId."
+            "The 1st ownership item has the wrong ownerId.",
           );
           should.equal(
             ownershipList[0].consumerGroup,
             "testConsumerGroup",
-            "The 1st ownership item has the wrong consumerGroup."
+            "The 1st ownership item has the wrong consumerGroup.",
           );
           should.equal(
             ownershipList[0].fullyQualifiedNamespace,
             "testNamespace.servicebus.windows.net",
-            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace.",
           );
 
           should.equal(
             ownershipList[0].eventHubName,
             "testEventHub",
-            "The 1st ownership item has the wrong eventHubName."
+            "The 1st ownership item has the wrong eventHubName.",
           );
           should.equal(
             ownershipList[0].partitionId,
             "0",
-            "The 1st ownership item has the wrong partitionId."
+            "The 1st ownership item has the wrong partitionId.",
           );
           should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
           should.exist(ownershipList[0].etag, "etag should exist.");
           debug(
             `LastModifiedTime: ${ownershipList[0].lastModifiedTimeInMs!}, ETag: ${
               ownershipList[0].etag
-            }`
+            }`,
           );
         });
 
@@ -363,7 +362,7 @@ describe("TableCheckpointStore", function (): void {
           const listOwnership = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
             "testEventHub",
-            "testConsumerGroup"
+            "testConsumerGroup",
           );
           should.equal(listOwnership.length, 0);
 
@@ -386,40 +385,40 @@ describe("TableCheckpointStore", function (): void {
           const ownershipList = await checkpointStore.listOwnership(
             "testNamespace.servicebus.windows.net",
             "testEventHub",
-            "testConsumerGroup"
+            "testConsumerGroup",
           );
 
           should.equal(ownershipList.length, 3, "Unexpected number of ownerships in list.");
           should.equal(
             ownershipList[0].ownerId,
             "Id1",
-            "The 1st ownership item has the wrong ownerId."
+            "The 1st ownership item has the wrong ownerId.",
           );
           should.equal(
             ownershipList[0].consumerGroup,
             "testConsumerGroup",
-            "The 1st ownership item has the wrong consumerGroup."
+            "The 1st ownership item has the wrong consumerGroup.",
           );
 
           should.equal(
             ownershipList[0].fullyQualifiedNamespace,
             "testNamespace.servicebus.windows.net",
-            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace."
+            "The 1st fullyQualifiedNamespace item has the wrong fullyQualifiedNamespace.",
           );
           should.equal(
             ownershipList[0].eventHubName,
             "testEventHub",
-            "The 1st ownership item has the wrong eventHubName."
+            "The 1st ownership item has the wrong eventHubName.",
           );
           should.equal(
             ownershipList[0].eventHubName,
             "testEventHub",
-            "The 1st ownership item has the wrong eventHubName."
+            "The 1st ownership item has the wrong eventHubName.",
           );
           should.equal(
             ownershipList[0].partitionId,
             "0",
-            "The 1st ownership item has the wrong partitionId."
+            "The 1st ownership item has the wrong partitionId.",
           );
           should.exist(ownershipList[0].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
           should.exist(ownershipList[0].etag, "etag should exist.");
@@ -427,7 +426,7 @@ describe("TableCheckpointStore", function (): void {
           should.equal(
             ownershipList[1].partitionId,
             "1",
-            "The 2nd ownership item has the wrong partitionId."
+            "The 2nd ownership item has the wrong partitionId.",
           );
           should.exist(ownershipList[1].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
           should.exist(ownershipList[1].etag, "etag should exist.");
@@ -435,7 +434,7 @@ describe("TableCheckpointStore", function (): void {
           should.equal(
             ownershipList[2].partitionId,
             "2",
-            "The 3rd ownership item has the wrong partitionId."
+            "The 3rd ownership item has the wrong partitionId.",
           );
           should.exist(ownershipList[2].lastModifiedTimeInMs, "lastModifiedTimeInMs should exist.");
           should.exist(ownershipList[2].etag, "etag should exist.");
@@ -466,7 +465,7 @@ describe("TableCheckpointStore", function (): void {
         let checkpoints = await checkpointStore.listCheckpoints(
           eventHubProperties.fullyQualifiedNamespace,
           eventHubProperties.eventHubName,
-          eventHubProperties.consumerGroup
+          eventHubProperties.consumerGroup,
         );
         checkpoints.length.should.equal(3);
         checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));
@@ -490,7 +489,7 @@ describe("TableCheckpointStore", function (): void {
         checkpoints = await checkpointStore.listCheckpoints(
           eventHubProperties.fullyQualifiedNamespace,
           eventHubProperties.eventHubName,
-          eventHubProperties.consumerGroup
+          eventHubProperties.consumerGroup,
         );
         checkpoints.length.should.equal(3);
         checkpoints.sort((a, b) => a.partitionId.localeCompare(b.partitionId));

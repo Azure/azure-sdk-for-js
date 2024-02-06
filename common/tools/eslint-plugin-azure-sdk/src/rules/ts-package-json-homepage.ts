@@ -17,7 +17,7 @@ import { Rule } from "eslint";
 export = {
   meta: getRuleMetaData(
     "ts-package-json-homepage",
-    "force package.json's homepage value to be a URL pointing to your library's readme inside the git repo"
+    "force package.json's homepage value to be a URL pointing to your library's readme inside the git repo",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -32,13 +32,13 @@ export = {
 
           // check the node corresponding to homepage to see if its value is a URL pointing to your library's readme inside the git repo
           "ExpressionStatement > ObjectExpression > Property[key.value='homepage']": (
-            node: Property
+            node: Property,
           ): void => {
             const nodeValue = node.value as Literal;
 
             if (
               !/^https:\/\/github.com\/Azure\/azure-sdk-for-js\/(blob|tree)\/main\/sdk\/(([a-z]+-)*[a-z]+\/)+(README\.md)?$/.test(
-                nodeValue.value as string
+                nodeValue.value as string,
               )
             ) {
               context.report({

@@ -34,7 +34,7 @@ async function createOrUpdateAppServicePlan() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .put(appServicePlan);
   console.log(result);

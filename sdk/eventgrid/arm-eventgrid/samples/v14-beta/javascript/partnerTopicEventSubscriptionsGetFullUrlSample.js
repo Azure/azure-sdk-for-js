@@ -29,7 +29,7 @@ async function partnerTopicEventSubscriptionsGetFullUrl() {
   const result = await client.partnerTopicEventSubscriptions.getFullUrl(
     resourceGroupName,
     partnerTopicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

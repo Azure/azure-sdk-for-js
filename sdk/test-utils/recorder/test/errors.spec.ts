@@ -17,7 +17,7 @@ describe("State Manager", function () {
     } catch (error: any) {
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
-        "Already started, should not have called start again."
+        "Already started, should not have called start again.",
       );
     }
   });
@@ -30,7 +30,7 @@ describe("State Manager", function () {
     } catch (error: any) {
       expect((error as RecorderError).name).to.equal("RecorderError");
       expect((error as RecorderError).message).to.equal(
-        "Already stopped, should not have called stop again."
+        "Already stopped, should not have called stop again.",
       );
     }
   });

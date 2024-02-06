@@ -45,7 +45,7 @@ async function createPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -87,7 +87,7 @@ async function createPeeringWithRemoteVirtualNetworkEncryption() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -132,7 +132,7 @@ async function syncPeering() {
       subscriptionId,
       resourceGroupName,
       virtualNetworkName,
-      virtualNetworkPeeringName
+      virtualNetworkPeeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -46,7 +46,7 @@ const client = new CosmosClient({ endpoint, key });
 
 async function iterateChangeFeedTillNow(
   container: Container,
-  feedRange: FeedRange
+  feedRange: FeedRange,
 ): Promise<string> {
   console.log("fetching changefeed until now");
 

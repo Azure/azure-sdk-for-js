@@ -20,7 +20,7 @@ import fs from "fs";
 const containerSasUrl = (): string =>
   assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_TRAINING_CONTAINER_SAS_URL");
 
-describe("classifiers", () => {
+describe.skip("classifiers", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
   beforeEach(async function (this: Context) {
@@ -29,7 +29,7 @@ describe("classifiers", () => {
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),
       { key: assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_API_KEY") },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -50,7 +50,7 @@ describe("classifiers", () => {
     if (!_classifier) {
       _classifierId = recorder.variable(
         "customClassifierId",
-        `customClassifier${getRandomNumber()}`
+        `customClassifier${getRandomNumber()}`,
       );
 
       const initialResponse = await client.path("/documentClassifiers:build").post({

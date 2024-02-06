@@ -32,7 +32,7 @@ async function endpointsUpdate() {
     resourceGroupName,
     profileName,
     endpointName,
-    endpointUpdateProperties
+    endpointUpdateProperties,
   );
   console.log(result);
 }

@@ -31,7 +31,7 @@ async function namespaceTopicEventSubscriptionsGet() {
     resourceGroupName,
     namespaceName,
     topicName,
-    eventSubscriptionName
+    eventSubscriptionName,
   );
   console.log(result);
 }

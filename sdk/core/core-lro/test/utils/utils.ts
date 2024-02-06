@@ -68,7 +68,7 @@ export async function assertError(
     statusCode?: number;
     messagePattern?: RegExp;
     name?: string;
-  } = {}
+  } = {},
 ): Promise<void> {
   const { statusCode, messagePattern, name } = options;
   try {

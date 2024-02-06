@@ -32,7 +32,7 @@ async function deletePublicIPAddress() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

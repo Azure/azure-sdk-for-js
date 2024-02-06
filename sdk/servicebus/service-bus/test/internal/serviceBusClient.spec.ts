@@ -41,13 +41,13 @@ describe("ServiceBusClient live tests", () => {
   describe("Create ServiceBusClient", function (): void {
     it("hostname gets populated from the connection string", function (): void {
       const sbClient = new ServiceBusClient(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d",
       );
       sbClient.should.be.an.instanceof(ServiceBusClient);
       should.equal(
         sbClient.fullyQualifiedNamespace,
         "a",
-        "Name of the namespace is different than expected"
+        "Name of the namespace is different than expected",
       );
     });
   });
@@ -61,7 +61,7 @@ describe("ServiceBusClient live tests", () => {
 
       // Create a sb client, sender, receiver with relaxed endpoint
       const sbClientWithRelaxedEndPoint = new ServiceBusClient(
-        getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+        getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://"),
       );
       const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
       const receiver = entities.queue
@@ -88,13 +88,13 @@ describe("ServiceBusClient live tests", () => {
         should.equal(
           msgs[0].messageId,
           testMessages.messageId,
-          "MessageId is different than expected"
+          "MessageId is different than expected",
         );
         should.equal(msgs[0].deliveryCount, 0, "DeliveryCount is different than expected");
         should.equal(
           typeof msgs[0].applicationProperties!["date1"],
           "number",
-          "expect date1 to be an epoch value"
+          "expect date1 to be an epoch value",
         );
 
         await receiver.completeMessage(msgs[0]);
@@ -119,7 +119,7 @@ describe("ServiceBusClient live tests", () => {
 
         // Create a sb client, sender, receiver with relaxed endpoint
         const sbClientWithRelaxedEndPoint = new ServiceBusClient(
-          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://"),
         );
         const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
         const receiveOptions = { skipConvertingDate: true };
@@ -128,7 +128,7 @@ describe("ServiceBusClient live tests", () => {
           : sbClientWithRelaxedEndPoint.createReceiver(
               entities.topic!,
               entities.subscription!,
-              receiveOptions
+              receiveOptions,
             );
 
         try {
@@ -149,7 +149,7 @@ describe("ServiceBusClient live tests", () => {
           should.equal(
             isObjectWithProperties(msgs[0].applicationProperties!["date1"], ["getTime"]),
             true,
-            "expect date1 to be an instance of Date"
+            "expect date1 to be an instance of Date",
           );
           await receiver.completeMessage(msgs[0]);
 
@@ -161,7 +161,7 @@ describe("ServiceBusClient live tests", () => {
           await receiver.close();
           await sbClientWithRelaxedEndPoint.close();
         }
-      }
+      },
     );
 
     it.skip(
@@ -174,7 +174,7 @@ describe("ServiceBusClient live tests", () => {
 
         // Create a sb client, sender, receiver with relaxed endpoint
         const sbClientWithRelaxedEndPoint = new ServiceBusClient(
-          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://"),
         );
         const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
         const receiver = entities.queue
@@ -195,10 +195,10 @@ describe("ServiceBusClient live tests", () => {
           should.not.exist(peekedMsgs[0].body);
           should.exist(
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
-            "expecting deliveryAnnotations"
+            "expecting deliveryAnnotations",
           );
           const omittedSize = Number(
-            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"]
+            peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
           );
           should.equal(omittedSize > 0, true);
 
@@ -210,11 +210,11 @@ describe("ServiceBusClient live tests", () => {
           should.exist(peekedMsgs[0].body);
           should.exist(
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
-            "expecting deliveryAnnotations"
+            "expecting deliveryAnnotations",
           );
           should.not.exist(
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
-            "Not expecting omitted-message-body-size"
+            "Not expecting omitted-message-body-size",
           );
 
           peekedMsgs = await receiver.peekMessages(2, { fromSequenceNumber: Long.ZERO });
@@ -222,11 +222,11 @@ describe("ServiceBusClient live tests", () => {
           should.exist(peekedMsgs[0].body);
           should.exist(
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations,
-            "expecting deliveryAnnotations"
+            "expecting deliveryAnnotations",
           );
           should.not.exist(
             peekedMsgs[0]._rawAmqpMessage.deliveryAnnotations!["omitted-message-body-size"],
-            "Not expecting omitted-message-body-size"
+            "Not expecting omitted-message-body-size",
           );
 
           await receiver.receiveMessages(2);
@@ -238,7 +238,7 @@ describe("ServiceBusClient live tests", () => {
           await receiver.close();
           await sbClientWithRelaxedEndPoint.close();
         }
-      }
+      },
     );
 
     it(
@@ -251,7 +251,7 @@ describe("ServiceBusClient live tests", () => {
 
         // Create a sb client, sender, receiver with relaxed endpoint
         const sbClientWithRelaxedEndPoint = new ServiceBusClient(
-          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://")
+          getEnvVars().SERVICEBUS_CONNECTION_STRING.replace("sb://", "CheeseBurger://"),
         );
         const sender = sbClientWithRelaxedEndPoint.createSender(entities.queue || entities.topic!);
         const receiverOptions: ServiceBusReceiverOptions = {
@@ -263,7 +263,7 @@ describe("ServiceBusClient live tests", () => {
           : sbClientWithRelaxedEndPoint.createReceiver(
               entities.topic!,
               entities.subscription!,
-              receiverOptions
+              receiverOptions,
             );
         try {
           // Send and receive messages
@@ -299,7 +299,7 @@ describe("ServiceBusClient live tests", () => {
           await receiver.close();
           await sbClientWithRelaxedEndPoint.close();
         }
-      }
+      },
     );
   });
 
@@ -308,7 +308,7 @@ describe("ServiceBusClient live tests", () => {
     let errorWasThrown: boolean;
     beforeEach(() => {
       sbClient = new ServiceBusClient(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue"
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue",
       );
       errorWasThrown = false;
     });
@@ -324,13 +324,13 @@ describe("ServiceBusClient live tests", () => {
           should.equal(
             err.code === "GeneralError",
             true,
-            `Error code ${err.code} is different than expected`
+            `Error code ${err.code} is different than expected`,
           );
         } else {
           should.equal(
             err.code,
             "ServiceCommunicationProblem",
-            "Error code is different than expected"
+            "Error code is different than expected",
           );
         }
 
@@ -377,7 +377,7 @@ describe("ServiceBusClient live tests", () => {
         should.equal(
           await checkWithTimeout(() => errorWasThrown === true, 10, 3000),
           true,
-          "Error thrown flag must be true"
+          "Error thrown flag must be true",
         );
       } finally {
         await receiver.close();
@@ -405,10 +405,10 @@ describe("ServiceBusClient live tests", () => {
         if (entityPath) {
           should.equal(
             err.message.includes(
-              `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`
+              `The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found.`,
             ),
             true,
-            `Expecting error message to contain "The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found." but got ${err.message}`
+            `Expecting error message to contain "The messaging entity 'sb://${sbClient.fullyQualifiedNamespace}/${entityPath}' could not be found." but got ${err.message}`,
           );
         }
         errorWasThrown = true;
@@ -445,7 +445,7 @@ describe("ServiceBusClient live tests", () => {
         should.equal(
           new RegExp(entityPattern).test(err.message),
           true,
-          `Expect error message to contain pattern "${entityPattern}" but got ${err.message}`
+          `Expect error message to contain pattern "${entityPattern}" but got ${err.message}`,
         );
       });
 
@@ -482,7 +482,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         await checkWithTimeout(() => errorWasThrown === true, 10, 5000),
         true,
-        "Error thrown flag must be true"
+        "Error thrown flag must be true",
       );
       await receiver.close();
     });
@@ -520,10 +520,10 @@ describe("ServiceBusClient live tests", () => {
         await checkWithTimeout(
           () => errorWasThrown === true,
           1000,
-          CoreAmqpConstants.defaultOperationTimeoutInMs * 2 // arbitrary, just don't want it to be too short.
+          CoreAmqpConstants.defaultOperationTimeoutInMs * 2, // arbitrary, just don't want it to be too short.
         ),
         true,
-        "Error thrown flag must be true"
+        "Error thrown flag must be true",
       );
 
       await receiver.close();
@@ -564,7 +564,7 @@ describe("ServiceBusClient live tests", () => {
           should.equal(
             new RegExp(entityPattern).test(args.error.message),
             true,
-            `Expect error message to contain pattern "${entityPattern}" but got ${args.error.message}`
+            `Expect error message to contain pattern "${entityPattern}" but got ${args.error.message}`,
           );
         },
       });
@@ -573,10 +573,10 @@ describe("ServiceBusClient live tests", () => {
         await checkWithTimeout(
           () => errorWasThrown === true,
           1000,
-          CoreAmqpConstants.defaultOperationTimeoutInMs * 2 // arbitrary, just don't want it to be too short.
+          CoreAmqpConstants.defaultOperationTimeoutInMs * 2, // arbitrary, just don't want it to be too short.
         ),
         true,
-        "Error thrown flag must be true"
+        "Error thrown flag must be true",
       );
 
       await receiver.close();
@@ -588,7 +588,7 @@ describe("ServiceBusClient live tests", () => {
 
     const env = getEnvVars();
     const serviceBusEndpoint = (env.SERVICEBUS_CONNECTION_STRING.match(
-      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))"
+      "Endpoint=sb://((.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn))",
     ) || "")[1];
 
     /**
@@ -597,19 +597,19 @@ describe("ServiceBusClient live tests", () => {
     function getDefaultTokenCredential(): EnvironmentCredential {
       should.exist(
         env[EnvVarNames.AZURE_CLIENT_ID],
-        "define AZURE_CLIENT_ID in your environment before running integration tests."
+        "define AZURE_CLIENT_ID in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarNames.AZURE_TENANT_ID],
-        "define AZURE_TENANT_ID in your environment before running integration tests."
+        "define AZURE_TENANT_ID in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarNames.AZURE_CLIENT_SECRET],
-        "define AZURE_CLIENT_SECRET in your environment before running integration tests."
+        "define AZURE_CLIENT_SECRET in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests."
+        "define SERVICEBUS_CONNECTION_STRING in your environment before running integration tests.",
       );
       return new EnvironmentCredential();
     }
@@ -623,7 +623,7 @@ describe("ServiceBusClient live tests", () => {
           err.message,
           "Connection string malformed: each part of the connection string must have an `=` assignment.",
           // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
-          "ErrorMessage is different than expected"
+          "ErrorMessage is different than expected",
         );
       }
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -638,7 +638,7 @@ describe("ServiceBusClient live tests", () => {
           err.message,
           "Connection string malformed: each part of the connection string must have an `=` assignment.",
           // "'credentials' is a required parameter and must be an implementation of TokenCredential when using host based constructor overload.",
-          "ErrorMessage is different than expected"
+          "ErrorMessage is different than expected",
         );
       }
       should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -653,7 +653,7 @@ describe("ServiceBusClient live tests", () => {
           should.equal(
             error.message,
             "`host` parameter is not a string",
-            "ErrorMessage is different than expected"
+            "ErrorMessage is different than expected",
           );
         }
         should.equal(errorWasThrown, true, "Error thrown flag must be true");
@@ -686,7 +686,7 @@ describe("ServiceBusClient live tests", () => {
           } finally {
             await sbClient.close();
           }
-        }
+        },
       );
     }
   });
@@ -705,13 +705,13 @@ describe("ServiceBusClient live tests", () => {
 
     async function beforeEachTest(
       entityType: TestClientType,
-      entityToClose: string
+      entityToClose: string,
     ): Promise<void> {
       sbClient = createServiceBusClientForTests();
       entityName = await sbClient.test.createTestEntities(entityType);
 
       sender = sbClient.test.addToCleanup(
-        sbClient.createSender(entityName.queue ?? entityName.topic!)
+        sbClient.createSender(entityName.queue ?? entityName.topic!),
       );
       receiver = await sbClient.test.createPeekLockReceiver(entityName);
 
@@ -778,7 +778,7 @@ describe("ServiceBusClient live tests", () => {
 
       const expectedErrorMsg = getReceiverClosedErrorMsg(
         receiver.entityPath,
-        receivedMessage.sessionId
+        receivedMessage.sessionId,
       );
       should.equal(caughtError && caughtError.message, expectedErrorMsg);
     }
@@ -803,7 +803,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorCreateBatch,
         expectedErrorMsg,
-        "Expected error not thrown for createBatch()"
+        "Expected error not thrown for createBatch()",
       );
 
       let errorSendBatch: string = "";
@@ -819,7 +819,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorScheduleMsgs,
         expectedErrorMsg,
-        "Expected error not thrown for scheduleMessages()"
+        "Expected error not thrown for scheduleMessages()",
       );
 
       let errorCancelMsgs: string = "";
@@ -829,7 +829,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorCancelMsgs,
         expectedErrorMsg,
-        "Expected error not thrown for cancelScheduledMessages()"
+        "Expected error not thrown for cancelScheduledMessages()",
       );
     }
 
@@ -846,7 +846,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorNewSender,
         expectedErrorMsg,
-        "Expected error not thrown for createSender()"
+        "Expected error not thrown for createSender()",
       );
     }
 
@@ -863,7 +863,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorReceiveBatch,
         expectedErrorMsg,
-        "Expected error not thrown for receiveMessages()"
+        "Expected error not thrown for receiveMessages()",
       );
 
       let errorReceiveStream: string = "";
@@ -882,7 +882,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorReceiveStream,
         expectedErrorMsg,
-        "Expected error not thrown for registerMessageHandler()"
+        "Expected error not thrown for registerMessageHandler()",
       );
 
       let errorDeferredMsgs: string = "";
@@ -892,7 +892,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorDeferredMsgs,
         expectedErrorMsg,
-        "Expected error not thrown for receiveDeferredMessages()"
+        "Expected error not thrown for receiveDeferredMessages()",
       );
 
       let errorPeek: string = "";
@@ -902,7 +902,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorPeek,
         expectedErrorMsg,
-        "Expected error not thrown for peekMessages() from receiver"
+        "Expected error not thrown for peekMessages() from receiver",
       );
     }
 
@@ -919,7 +919,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorNewReceiver,
         expectedErrorMsg,
-        "Expected error not thrown for createReceiver()"
+        "Expected error not thrown for createReceiver()",
       );
     }
 
@@ -937,7 +937,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorPeek,
         expectedErrorMsg,
-        "Expected error not thrown for peek() from sessionReceiver"
+        "Expected error not thrown for peek() from sessionReceiver",
       );
 
       let errorPeekBySequence: string = "";
@@ -947,7 +947,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorPeekBySequence,
         expectedErrorMsg,
-        "Expected error not thrown for peekBySequenceNumber() from sessionReceiver"
+        "Expected error not thrown for peekBySequenceNumber() from sessionReceiver",
       );
 
       let errorGetState: string = "";
@@ -957,7 +957,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorGetState,
         expectedErrorMsg,
-        "Expected error not thrown for getSessionState()"
+        "Expected error not thrown for getSessionState()",
       );
 
       let errorSetState: string = "";
@@ -967,7 +967,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         errorSetState,
         expectedErrorMsg,
-        "Expected error not thrown for setSessionState()"
+        "Expected error not thrown for setSessionState()",
       );
     }
 
@@ -984,7 +984,7 @@ describe("ServiceBusClient live tests", () => {
           await testCreateSender(expectedErrorMsg);
           await testReceiver(expectedErrorMsg);
           await testCreateReceiver(expectedErrorMsg);
-        }
+        },
       );
 
       it(
@@ -996,7 +996,7 @@ describe("ServiceBusClient live tests", () => {
           await testCreateSender(expectedErrorMsg);
           await testSessionReceiver(expectedErrorMsg);
           await testCreateReceiver(expectedErrorMsg);
-        }
+        },
       );
     });
 
@@ -1011,7 +1011,7 @@ describe("ServiceBusClient live tests", () => {
           await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath));
 
           await testAllDispositions();
-        }
+        },
       );
 
       it(
@@ -1022,7 +1022,7 @@ describe("ServiceBusClient live tests", () => {
           await testReceiver(getReceiverClosedErrorMsg(receiver.entityPath, TestMessage.sessionId));
 
           await testAllDispositions();
-        }
+        },
       );
     });
 
@@ -1034,7 +1034,7 @@ describe("ServiceBusClient live tests", () => {
         async function (): Promise<void> {
           await beforeEachTest(noSessionTestClientType, entityToClose);
           await testSender(getSenderClosedErrorMsg(sender.entityPath));
-        }
+        },
       );
     });
   });
@@ -1059,7 +1059,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         sender.entityPath,
         dummyQueueOrTopicName,
-        "Entity path on the sender did not match!"
+        "Entity path on the sender did not match!",
       );
     });
 
@@ -1069,7 +1069,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         receiver.entityPath,
         dummyQueueName,
-        "Entity path on the receiver for queue did not match!"
+        "Entity path on the receiver for queue did not match!",
       );
     });
 
@@ -1079,7 +1079,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         receiver.entityPath,
         `${dummyQueueName}/$DeadLetterQueue`,
-        "Entity path on the receiver for queue did not match!"
+        "Entity path on the receiver for queue did not match!",
       );
     });
 
@@ -1090,7 +1090,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         receiver.entityPath,
         `${dummyTopicName}/Subscriptions/${dummySubscriptionName}`,
-        "Entity path on the receiver for subscription did not match!"
+        "Entity path on the receiver for subscription did not match!",
       );
     });
 
@@ -1103,7 +1103,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         receiver.entityPath,
         `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,
-        "Entity path on the receiver for subscription did not match!"
+        "Entity path on the receiver for subscription did not match!",
       );
     });
 
@@ -1117,7 +1117,7 @@ describe("ServiceBusClient live tests", () => {
       should.equal(
         receiver.entityPath,
         expectedEntityPath,
-        "Entity path on the session receiver for did not match!"
+        "Entity path on the session receiver for did not match!",
       );
     });
   });

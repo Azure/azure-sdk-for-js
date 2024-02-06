@@ -33,7 +33,7 @@ async function getNetworkInterfaceTapConfigurations() {
       subscriptionId,
       resourceGroupName,
       networkInterfaceName,
-      tapConfigurationName
+      tapConfigurationName,
     )
     .get(options);
   console.log(result);

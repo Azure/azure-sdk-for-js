@@ -33,7 +33,7 @@ async function validateSecret() {
   const result = await client.afdProfiles.validateSecret(
     resourceGroupName,
     profileName,
-    validateSecretInput
+    validateSecretInput,
   );
   console.log(result);
 }

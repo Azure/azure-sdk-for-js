@@ -29,7 +29,7 @@ async function domainTopicsDelete() {
   const result = await client.domainTopics.beginDeleteAndWait(
     resourceGroupName,
     domainName,
-    domainTopicName
+    domainTopicName,
   );
   console.log(result);
 }

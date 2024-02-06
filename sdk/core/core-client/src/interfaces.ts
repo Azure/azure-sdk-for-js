@@ -83,7 +83,7 @@ export interface OperationRequestInfo {
    */
   operationResponseGetter?: (
     operationSpec: OperationSpec,
-    response: PipelineResponse
+    response: PipelineResponse,
   ) => undefined | OperationResponseMap;
 
   /**
@@ -360,7 +360,7 @@ export interface FullOperationResponse extends PipelineResponse {
 export type RawResponseCallback = (
   rawResponse: FullOperationResponse,
   flatResponse: unknown,
-  error?: unknown
+  error?: unknown,
 ) => void;
 
 /**
@@ -411,7 +411,7 @@ export interface Serializer {
     mapper: Mapper,
     responseBody: any,
     objectName: string,
-    options?: SerializerOptions
+    options?: SerializerOptions,
   ): any;
 }
 

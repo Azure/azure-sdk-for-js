@@ -48,12 +48,12 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options?: ClientSecretCredentialOptions
+    options?: ClientSecretCredentialOptions,
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.clientId = clientId;
     this.clientSecret = clientSecret;
@@ -71,7 +71,7 @@ export class ClientSecretCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken | null> {
     return tracingClient.withSpan(
       `${this.constructor.name}.getToken`,
@@ -80,7 +80,7 @@ export class ClientSecretCredential implements TokenCredential {
         const tenantId = processMultiTenantRequest(
           this.tenantId,
           newOptions,
-          this.additionallyAllowedTenantIds
+          this.additionallyAllowedTenantIds,
         );
 
         const query = new URLSearchParams({
@@ -112,7 +112,7 @@ export class ClientSecretCredential implements TokenCredential {
           logger.getToken.info(formatError(scopes, err));
           throw err;
         }
-      }
+      },
     );
   }
 }

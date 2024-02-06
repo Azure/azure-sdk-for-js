@@ -34,7 +34,7 @@ export class Shard {
     chunkFactory: ChunkFactory,
     chunks: string[],
     currentChunk: Chunk | undefined,
-    public readonly shardPath: string
+    public readonly shardPath: string,
   ) {
     this.containerClient = containerClient;
     this.chunkFactory = chunkFactory;
@@ -49,7 +49,7 @@ export class Shard {
   }
 
   public async getChange(
-    options: ShardGetChangeOptions = {}
+    options: ShardGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("Shard-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;
@@ -66,7 +66,7 @@ export class Shard {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
         }
       }

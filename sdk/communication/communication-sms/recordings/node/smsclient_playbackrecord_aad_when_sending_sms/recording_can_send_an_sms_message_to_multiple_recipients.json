@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "348",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "2f545159-7cd0-498d-83f3-7b56dc4f0a6b"
+        "User-Agent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "b63e2f63-02cf-4d70-aeac-2d67520cbcfb"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -34,31 +34,31 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "359",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 10:28:04 GMT",
-        "MS-CV": "JwBzEZJyCUCl/SM94XfbVA.0",
+        "Date": "Thu, 14 Dec 2023 16:15:46 GMT",
+        "MS-CV": "xRXn4auHMkS4qgrCEcZAEQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0tdCSZAAAAAA1H24cTxmSSogohZvoDUwTSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Mip7ZQAAAABA4jnAOcxUQ73UPRNolYaaU1ZHMjBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "304ms"
+        "X-Processing-Time": "218ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_202306211028052cdf3797-ad97-4b59-9461-462d258d13fd_noam",
+            "messageId": "Outgoing_202312141615465450efa1-26a1-46f9-8b59-3b2e3ed6114a_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
           },
           {
             "to": "\u002B1425555012345",
-            "messageId": "Outgoing_202306211028052fa2a65d-c17a-4319-b6ba-a8f3c4df1d53_noam",
-            "httpStatusCode": 202,
+            "httpStatusCode": 400,
+            "errorMessage": "Invalid To phone number format.",
             "repeatabilityResult": "accepted",
-            "successful": true
+            "successful": false
           }
         ]
       }

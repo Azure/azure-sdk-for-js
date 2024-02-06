@@ -32,7 +32,7 @@ async function kustoClusterMigrate() {
   const result = await client.clusters.beginMigrateAndWait(
     resourceGroupName,
     clusterName,
-    clusterMigrateRequest
+    clusterMigrateRequest,
   );
   console.log(result);
 }

@@ -58,7 +58,7 @@ async function kustoDatabaseAddPrincipals() {
     resourceGroupName,
     clusterName,
     databaseName,
-    databasePrincipalsToAdd
+    databasePrincipalsToAdd,
   );
   console.log(result);
 }

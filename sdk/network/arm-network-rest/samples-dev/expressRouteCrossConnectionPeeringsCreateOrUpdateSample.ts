@@ -46,7 +46,7 @@ async function expressRouteCrossConnectionBgpPeeringCreate() {
       subscriptionId,
       resourceGroupName,
       crossConnectionName,
-      peeringName
+      peeringName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

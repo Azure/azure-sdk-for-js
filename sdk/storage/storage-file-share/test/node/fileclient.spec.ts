@@ -61,7 +61,7 @@ describe("FileClient Node.js only", () => {
         },
         uriSanitizers,
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
     shareName = recorder.variable("share", getUniqueName("share"));
     shareClient = serviceClient.getShareClient(shareName);
@@ -97,7 +97,7 @@ describe("FileClient Node.js only", () => {
     const downloadResponse = await fileClient.download();
     const downloadedFile = path.join(
       tempFolderPath,
-      recorder.variable("downloadfile.", getUniqueName("downloadfile."))
+      recorder.variable("downloadfile.", getUniqueName("downloadfile.")),
     );
     await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadedFile);
 
@@ -136,7 +136,7 @@ describe("FileClient Node.js only", () => {
         return duplexStream;
       },
       0,
-      body.length
+      body.length,
     );
     const result = await fileClient.download(0);
     assert.deepStrictEqual(await bodyToString(result, body.length), body);
@@ -237,7 +237,7 @@ describe("FileClient Node.js only", () => {
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const fileName2 = recorder.variable("file2", getUniqueName("file2"));
@@ -272,7 +272,7 @@ describe("FileClient Node.js only", () => {
         filePath: `${dirName}/${fileName}`,
         permissions: FileSASPermissions.parse("r"),
       },
-      credential
+      credential,
     );
 
     const fileName2 = recorder.variable("file2", getUniqueName("file2"));
@@ -286,12 +286,12 @@ describe("FileClient Node.js only", () => {
       512,
       {
         fileLastWrittenMode: "Preserve",
-      }
+      },
     );
     assert.deepStrictEqual(
       createResult.fileLastWriteOn,
       uploadRangeResult.fileLastWriteTime,
-      "File last write time should be expected."
+      "File last write time should be expected.",
     );
 
     await fileURL2.uploadRangeFromURL(`${fileClient.url}?${sas}`, 512, 512, 512, {
@@ -308,11 +308,11 @@ describe("FileClient Node.js only", () => {
   it("uploadRangeFromURL - source bearer token", async function (this: Context) {
     const blobServiceClient = getBlobServiceClient(recorder);
     const containerClient = blobServiceClient.getContainerClient(
-      recorder.variable("container", getUniqueName("container"))
+      recorder.variable("container", getUniqueName("container")),
     );
     await containerClient.create();
     const blockBlob = containerClient.getBlockBlobClient(
-      recorder.variable("blockBlob", getUniqueName("blockBlob"))
+      recorder.variable("blockBlob", getUniqueName("blockBlob")),
     );
 
     const blobContent = "a".repeat(512) + "b".repeat(512);

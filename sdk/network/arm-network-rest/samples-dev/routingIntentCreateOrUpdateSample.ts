@@ -52,7 +52,7 @@ async function routeTablePut() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routingIntentName
+      routingIntentName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
