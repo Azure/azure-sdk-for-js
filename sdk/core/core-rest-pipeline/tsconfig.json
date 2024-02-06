@@ -7,7 +7,7 @@
       "@azure/core-rest-pipeline": ["./src/index"],
     },
     "lib": ["dom", "dom.iterable"],
-    "verbatimModuleSyntax": true,
+    "verbatimModuleSyntax": true
   },
-  "include": ["src/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "samples-dev/**/*.ts"]
 }

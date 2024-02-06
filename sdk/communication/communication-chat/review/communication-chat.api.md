@@ -23,6 +23,7 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
+import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -151,6 +152,7 @@ export interface ChatParticipant {
 export class ChatThreadClient {
     constructor(endpoint: string, threadId: string, credential: CommunicationTokenCredential, options?: ChatThreadClientOptions);
     addParticipants(request: AddParticipantsRequest, options?: AddParticipantsOptions): Promise<AddChatParticipantsResult>;
+    deleteImage(imageId: string, options?: DeleteImageOptions): Promise<void>;
     deleteMessage(messageId: string, options?: DeleteMessageOptions): Promise<void>;
     getMessage(messageId: string, options?: GetMessageOptions): Promise<ChatMessage>;
     getProperties(options?: GetPropertiesOptions): Promise<ChatThreadProperties>;
@@ -165,6 +167,7 @@ export class ChatThreadClient {
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
+    uploadImage(request: RequestBodyType, options?: UploadImageOptions): Promise<UploadChatImageResult>;
 }
 
 // @public
@@ -215,6 +218,9 @@ export interface CreateChatThreadResult {
 
 // @public
 export type DeleteChatThreadOptions = OperationOptions;
+
+// @public
+export type DeleteImageOptions = OperationOptions;
 
 // @public
 export type DeleteMessageOptions = OperationOptions;
@@ -324,6 +330,16 @@ export interface UpdateMessageOptions extends OperationOptions {
 // @public
 export interface UpdateTopicOptions extends OperationOptions {
 }
+
+// @public
+export interface UploadChatImageResult {
+    attachmentType?: ChatAttachmentType;
+    id: string;
+    name?: string;
+}
+
+// @public
+export type UploadImageOptions = OperationOptions;
 
 // (No @packageDocumentation comment for this package)
 
