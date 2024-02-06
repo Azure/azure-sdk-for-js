@@ -6,7 +6,7 @@ import path from "path";
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { hrTimeToTimeStamp } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
 import {
   DbSystemValues,
@@ -16,10 +16,11 @@ import {
 
 import { Tags, Properties, Measurements } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
+import { hrTimeToDate } from "../../src/utils/common";
 
 const context = getInstance();
 
@@ -112,7 +113,7 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RequestData> = {
           source: undefined,
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "123",
@@ -161,7 +162,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
@@ -213,12 +214,63 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
           target: "test peer service",
           type: "GRPC",
+          name: `parent span`,
+          version: 2,
+          properties: expectedProperties,
+          measurements: {},
+        };
+
+        const envelope = readableSpanToEnvelope(span, "ikey");
+        assertEnvelope(
+          envelope,
+          "Microsoft.ApplicationInsights.RemoteDependency",
+          100,
+          "RemoteDependencyData",
+          expectedTags,
+          expectedProperties,
+          emptyMeasurements,
+          expectedBaseData,
+        );
+      });
+      it("should create a Dependency Envelope for Client Spans WCF defined as the RPC system", () => {
+        const span = new Span(
+          tracer,
+          ROOT_CONTEXT,
+          "parent span",
+          { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+          SpanKind.CLIENT,
+          "parentSpanId",
+        );
+        span.setAttributes({
+          "extra.attribute": "foo",
+          [SemanticAttributes.RPC_GRPC_STATUS_CODE]: 123,
+          [SemanticAttributes.RPC_SYSTEM]: DependencyTypes.Wcf,
+        });
+        span.setStatus({
+          code: SpanStatusCode.OK,
+        });
+        span.end();
+        const expectedTags: Tags = {
+          [KnownContextTagKeys.AiOperationId]: "traceid",
+          [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
+        };
+        const expectedProperties = {
+          "extra.attribute": "foo",
+        };
+
+        const expectedBaseData: Partial<RemoteDependencyData> = {
+          duration: hrTimeToTimeStamp(span.duration),
+          id: `${span.spanContext().spanId}`,
+          success: true,
+          resultCode: "123",
+          type: "WCF Service",
+          target: "WCF Service",
           name: `parent span`,
           version: 2,
           properties: expectedProperties,
@@ -255,14 +307,14 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
+        const expectedTime = hrTimeToDate(span.startTime);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
           [KnownContextTagKeys.AiOperationName]: "parent span",
         };
         const expectedBaseData: Partial<RequestData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "0",
@@ -303,7 +355,7 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
+        const expectedTime = hrTimeToDate(span.startTime);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
@@ -312,7 +364,7 @@ describe("spanUtils.ts", () => {
           "az.namespace": "Microsoft.EventHub",
         };
         const expectedBaseData: Partial<RequestData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           name: "parent span",
           success: true,
@@ -362,7 +414,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
@@ -419,7 +471,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "200",
@@ -474,7 +526,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "200",
@@ -528,7 +580,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "0",
@@ -579,7 +631,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "200",
@@ -628,7 +680,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -672,7 +724,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -718,7 +770,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -772,7 +824,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -823,7 +875,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -874,7 +926,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -925,7 +977,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -976,7 +1028,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -1029,7 +1081,7 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+          duration: hrTimeToTimeStamp(span.duration),
           id: `spanId`,
           success: true,
           resultCode: "0",

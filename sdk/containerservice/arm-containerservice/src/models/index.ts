@@ -312,6 +312,8 @@ export interface AgentPoolUpgradeSettings {
   maxSurge?: string;
   /** The amount of time (in minutes) to wait on eviction of pods and graceful termination per node. This eviction wait time honors waiting on pod disruption budgets. If this time is exceeded, the upgrade fails. If not specified, the default is 30 minutes. */
   drainTimeoutInMinutes?: number;
+  /** The amount of time (in minutes) to wait after draining a node and before reimaging it and moving on to next node. If not specified, the default is 0 minutes. */
+  nodeSoakDurationInMinutes?: number;
 }
 
 /** See [AKS custom node configuration](https://docs.microsoft.com/azure/aks/custom-node-configuration) for more details. */

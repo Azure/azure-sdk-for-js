@@ -75,7 +75,6 @@ const options: AzureMonitorOpenTelemetryOptions = {
     browserSdkLoaderOptions: {
         enabled: false,
         connectionString: "",
-        config: {}
     },
     resource: resource
 };

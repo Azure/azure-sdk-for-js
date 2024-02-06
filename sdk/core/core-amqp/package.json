@@ -1,7 +1,7 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "4.1.1",
+  "version": "4.2.1",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -98,7 +98,7 @@
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "ws": "^8.2.0"
   },
   "//metadata": {
