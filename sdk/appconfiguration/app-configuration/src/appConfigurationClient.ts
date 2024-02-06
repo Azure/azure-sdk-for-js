@@ -161,7 +161,7 @@ export class AppConfigurationClient {
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
+          ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -332,27 +332,74 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        try {
           const response = await this.sendConfigurationSettingsRequest(options, pageLink);
-          const currentResponse = {
+          const currentResponse: ListConfigurationSettingPage = {
             ...response,
             items: response.items != null ? response.items?.map(transformKeyValue) : [],
             continuationToken: response.nextLink
               ? extractAfterTokenFromNextLink(response.nextLink)
               : undefined,
+            _response: response._response
           };
+          console.log(response._response.status);
+          console.log(response._response.headers);
           return {
             page: currentResponse,
             nextPageLink: currentResponse.continuationToken,
           };
-        },
-        toElements: (page) => page.items,
-      };
+        } catch (error) {
+          const err = error as RestError;
+          console.log(err);
+          console.log(err.response?.headers);
+          // Service does not return an error message. Raise a 412 error similar to .NET
+          if (err.statusCode === 304) {
+            err.message = `Status 412: Setting was already present`;
+          }
+          return {
+            page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
+            nextPageLink: undefined
+          };
+        }
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
+  async getListedPageByEtag(continuationToken: string | undefined, options: ListConfigurationSettingsOptions = {}): Promise<{
+    page: ListConfigurationSettingPage;
+    continuationToken: string | undefined;
+  }> {
+    try {
+      const response = await this.sendConfigurationSettingsRequest(options, continuationToken);
+      const currentResponse: ListConfigurationSettingPage = {
+        ...response,
+        items: response.items != null ? response.items?.map(transformKeyValue) : [],
+        continuationToken: response.nextLink
+          ? extractAfterTokenFromNextLink(response.nextLink)
+          : undefined,
+        _response: response._response
+      };
+      return {
+        page: currentResponse,
+        continuationToken: currentResponse.continuationToken,
+      };
+    } catch (error) {
+      const err = error as RestError;
+      // Service does not return an error message. Raise a 412 error similar to .NET
+      if (err.statusCode === 304) {
+        err.message = `Status 412: Setting was already present`;
+      }
+      return {
+        page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
+        continuationToken: undefined
+      };
+    }
+  }
   /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
@@ -368,27 +415,27 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-      {
-        firstPageLink: undefined,
-        getPage: async (pageLink: string | undefined) => {
-          const response = await this.sendConfigurationSettingsRequest(
-            { snapshotName, ...options },
-            pageLink,
-          );
-          const currentResponse = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        },
-        toElements: (page) => page.items,
-      };
+    {
+      firstPageLink: undefined,
+      getPage: async (pageLink: string | undefined) => {
+        const response = await this.sendConfigurationSettingsRequest(
+          { snapshotName, ...options },
+          pageLink,
+        );
+        const currentResponse = {
+          ...response,
+          items: response.items != null ? response.items?.map(transformKeyValue) : [],
+          continuationToken: response.nextLink
+            ? extractAfterTokenFromNextLink(response.nextLink)
+            : undefined,
+        };
+        return {
+          page: currentResponse,
+          nextPageLink: currentResponse.continuationToken,
+        };
+      },
+      toElements: (page) => page.items,
+    };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -404,6 +451,7 @@ export class AppConfigurationClient {
           ...updatedOptions,
           ...formatAcceptDateTime(options),
           ...formatConfigurationSettingsFiltersAndSelect(options),
+          ...checkAndFormatIfAndIfNoneMatch({ etag: options.etag }, { onlyIfChanged: true }),
           after: pageLink,
         });
 

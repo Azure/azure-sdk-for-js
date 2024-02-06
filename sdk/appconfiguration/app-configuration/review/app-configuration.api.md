@@ -207,6 +207,8 @@ export enum KnownSnapshotComposition {
 
 // @public
 export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings {
+    // (undocumented)
+    etag?: string | undefined;
     items: ConfigurationSetting[];
 }
 
@@ -228,8 +230,9 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 }
 
 // @public
-export interface ListSettingsOptions extends OptionalFields {
+export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedField {
     acceptDateTime?: Date;
+    etag?: string;
     keyFilter?: string;
     labelFilter?: string;
 }

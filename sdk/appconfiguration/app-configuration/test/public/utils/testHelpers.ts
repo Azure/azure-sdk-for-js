@@ -174,8 +174,8 @@ export async function toSortedSnapshotArray(
     compareFn
       ? compareFn(a, b)
       : `${a.name}-${a.itemCount}-${a.status}`.localeCompare(
-          `${b.name}-${b.itemCount}-${b.status}`,
-        ),
+        `${b.name}-${b.itemCount}-${b.status}`,
+      ),
   );
   return snapshots;
 }
