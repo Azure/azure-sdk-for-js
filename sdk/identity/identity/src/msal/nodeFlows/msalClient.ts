@@ -97,6 +97,9 @@ export function generateMsalConfiguration(
       },
     },
   };
+
+  console.log("Generated msalClient config");
+  console.log(msalConfig);
   return msalConfig;
 }
 
@@ -245,6 +248,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
   return {
     async getTokenByClientSecret(scopes, clientSecret, options = {}) {
+      console.log("attempting to acquire token using client secret");
       msalLogger.getToken.info(`Attempting to acquire token using client secret`);
 
       // TODO: understand and implement processMultiTenantRequest
