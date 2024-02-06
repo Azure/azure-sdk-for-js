@@ -2,12 +2,12 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/logger": ["./src/index.ts"],
+      "@azure/logger": ["./src/index.ts"]
     },
     "downlevelIteration": true,
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": ".",
+    "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"]
 }

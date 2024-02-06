@@ -2,12 +2,12 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "paths": {
-      "@azure/core-sse": ["./src/index.ts"],
+      "@azure/core-sse": ["./src/index.ts"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "lib": ["esnext", "dom"],
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "samples-dev/**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "samples-dev/**/*.ts"]
 }
