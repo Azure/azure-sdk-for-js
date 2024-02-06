@@ -112,9 +112,6 @@ interface MsalClientState {
   /** The cached account information, or null if no account information is cached. */
   cachedAccount: msal.AccountInfo | null;
 
-  /** The Azure region, if specified. */
-  azureRegion?: string;
-
   /** When true, an error will be thrown when silent authentication fails. */
   disableAutomaticAuthentication?: boolean;
 }
@@ -258,7 +255,6 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       return withSilentAuthentication(msalApp, scopes, options, () =>
         msalApp.acquireTokenByClientCredential({
           scopes,
-          azureRegion: state.azureRegion,
           authority: state.msalConfig.auth.authority,
           claims: options?.claims,
         }),
