@@ -63,8 +63,10 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     metricReader: metricHandler.getMetricReader(),
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
+    logRecordProcessor: logHandler.getBAzureLogRecordProcessor(),
     resource: config.resource,
     sampler: traceHandler.getSampler(),
+    spanProcessor: traceHandler.getAzureMonitorSpanProcessor(),
   };
   sdk = new NodeSDK(sdkConfig);
   sdk.start();
@@ -74,13 +76,11 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
   let spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
-  spanProcessors.push(traceHandler.getAzureMonitorSpanProcessor());
   // Add batch processor as the last one
   spanProcessors.push(traceHandler.getBatchSpanProcessor());
 
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
   let logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
-  logRecordProcessors.push(logHandler.getBAzureLogRecordProcessor());
   // Add batch processor as the last one
   logRecordProcessors.push(logHandler.getBatchLogRecordProcessor());
 
