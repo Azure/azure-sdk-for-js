@@ -206,6 +206,15 @@ export class Recorder {
     }
   }
 
+  private async preStart(): Promise<void> {
+    if (isBrowser && isPlaybackMode()) {
+      if (!this.matcherSet) {
+        await this.setMatcher("CustomDefaultMatcher");
+        this.matcherSet = true;
+      }
+    }
+  }
+
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
@@ -217,12 +226,8 @@ export class Recorder {
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
-    if (isBrowser && isPlaybackMode()) {
-      if (!this.matcherSet) {
-        await this.setMatcher("CustomDefaultMatcher");
-        this.matcherSet = true;
-      }
-    }
+    await this.preStart();
+
     if (isLiveMode()) return;
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
@@ -392,6 +397,10 @@ export class Recorder {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
+      // See discussion in https://github.com/Azure/azure-sdk-tools/pull/6152
+      // Ideally this should be handled by the test-proxy.  However, it was suggested that
+      // there may be scenarios where it is desired to include this header.
+      // Thus we are ignoring Accept-Language header  in recorder for browser.
       const excludedHeaders = isBrowser
         ? (options.excludedHeaders ?? []).concat("Accept-Language")
         : options.excludedHeaders;
