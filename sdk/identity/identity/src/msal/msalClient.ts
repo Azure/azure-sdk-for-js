@@ -111,9 +111,6 @@ interface MsalClientState {
 
   /** The cached account information, or null if no account information is cached. */
   cachedAccount: msal.AccountInfo | null;
-
-  /** When true, an error will be thrown when silent authentication fails. */
-  disableAutomaticAuthentication?: boolean;
 }
 
 /**
@@ -133,7 +130,6 @@ export function createMsalClient(
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),
-    disableAutomaticAuthentication: createMsalClientOptions.disableAutomaticAuthentication,
     cachedAccount: createMsalClientOptions.authenticationRecord
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
@@ -216,7 +212,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (e.name !== "AuthenticationRequiredError") {
         throw e;
       }
-      if (state.disableAutomaticAuthentication) {
+      if (createMsalClientOptions.disableAutomaticAuthentication) {
         throw new AuthenticationRequiredError({
           scopes,
           getTokenOptions: options,
