@@ -23,6 +23,6 @@ export function setPlatformSpecificData(map: Map<string, string>): void {
   } else if (versions.node) {
     map.set("Node", versions.node);
   }
-  
+
   map.set("OS", `(${os.arch()}-${os.type()}-${os.release()})`);
 }
