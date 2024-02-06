@@ -19272,7 +19272,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-K6kRivY54c9jcRfPNPYuzbuaSaU55Gr0HaDZjl1toUubwIlOQF9S++xMOHpMHqwoqebDUXPp0EXHh2s05ZCGdg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-6KI5sdv2IauD0ufRwx53A/J7+dkc3TGUEKWDpt7qAJeBrOJK2MiVG7qZ/eJNaCbSXo5+YS7OtXR6ODloc/TVbA==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -19974,7 +19974,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-ylSkGDLi7sv7WZkt8ZvUDFrwX1t8nvAaAKhyKI9I/tIE5zajBroPU9pW0gQn+hfpvcL+VNIOfX3xiILKnuu0zA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-sAmQpau4Yt0j6ZWlakq60s7g0PJlloqpTh3opxH6LgYqH5ZMNQVHFUaoAHVVCEj4y7Al/hF68AfuyOYt8yX2LA==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
