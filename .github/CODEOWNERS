@@ -162,7 +162,7 @@
 /sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
-/sdk/openai/ @deyaaeldeen @minhanh-phan
+/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
