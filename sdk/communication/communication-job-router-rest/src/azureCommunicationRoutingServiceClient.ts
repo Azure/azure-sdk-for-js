@@ -30,7 +30,7 @@ export default function createClient(
 export default function createClient(
   endpoint: string,
   credentialOrOptions?: KeyCredential | TokenCredential,
-  options: ClientOptions = {},
+  options?: ClientOptions,
 ): AzureCommunicationRoutingServiceClient;
 
 // Implementation
