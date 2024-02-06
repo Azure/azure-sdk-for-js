@@ -1,23 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function polyfillStream<T>(
-  stream: ReadableStream<T>,
-  dispose: () => PromiseLike<void>,
-): ReadableStream<T> & AsyncIterable<T> & AsyncDisposable {
+export function polyfillStream<T>(stream: ReadableStream<T>): ReadableStream<T> & AsyncIterable<T> {
   makeAsyncIterable<T>(stream);
-  makeAsyncDisposable(stream, dispose);
   return stream;
-}
-
-function makeAsyncDisposable<T>(
-  webStream: any,
-  dispose: () => PromiseLike<void>,
-): asserts webStream is ReadableStream<T> & AsyncDisposable {
-  (Symbol.asyncDispose as any) ??= Symbol("Symbol.asyncDispose");
-  if (!webStream[Symbol.asyncDispose]) {
-    webStream[Symbol.asyncDispose] = () => dispose();
-  }
 }
 
 function makeAsyncIterable<T>(

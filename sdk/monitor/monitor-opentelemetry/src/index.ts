@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { metrics, trace } from "@opentelemetry/api";
+import { ProxyTracerProvider, metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import { NodeSDK, NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { InternalConfig } from "./shared/config";
@@ -17,6 +17,9 @@ import {
   StatsbeatInstrumentation,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
+import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
+import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 
 export {
   AzureMonitorOpenTelemetryOptions,
@@ -57,19 +60,51 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
-    logRecordProcessor: logHandler.getLogRecordProcessor(),
     metricReader: metricHandler.getMetricReader(),
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
     resource: config.resource,
     sampler: traceHandler.getSampler(),
-    spanProcessor: traceHandler.getSpanProcessor(),
   };
   sdk = new NodeSDK(sdkConfig);
   sdk.start();
+
+  // TODO: Send processors as NodeSDK config once arrays are supported
+  // https://github.com/open-telemetry/opentelemetry-js/issues/4451
+
   // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
-  traceHandler.start();
-  logHandler.start();
+  let spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
+  spanProcessors.push(traceHandler.getAzureMonitorSpanProcessor());
+  // Add batch processor as the last one
+  spanProcessors.push(traceHandler.getBatchSpanProcessor());
+
+  // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
+  let logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
+  logRecordProcessors.push(logHandler.getBAzureLogRecordProcessor());
+  // Add batch processor as the last one
+  logRecordProcessors.push(logHandler.getBatchLogRecordProcessor());
+
+  try {
+    const tracerProvider = (
+      trace.getTracerProvider() as ProxyTracerProvider
+    ).getDelegate() as NodeTracerProvider;
+    spanProcessors.forEach((spanProcessor) => {
+      tracerProvider.addSpanProcessor(spanProcessor);
+    });
+  } catch (error) {
+    InternalLogger.getInstance().error("Failed to add SpanProcessors to TracerProvider.", error);
+  }
+  try {
+    const logProvider = logs.getLoggerProvider() as LoggerProvider;
+    logRecordProcessors.forEach((logRecordProcessor) => {
+      logProvider.addLogRecordProcessor(logRecordProcessor);
+    });
+  } catch (error) {
+    InternalLogger.getInstance().error(
+      "Failed to add LogRecordProcessors to LoggerProvider.",
+      error,
+    );
+  }
 }
 
 /**

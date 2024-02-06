@@ -4,6 +4,8 @@
 import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
 import { InstrumentationConfig } from "@opentelemetry/instrumentation";
 import { Resource } from "@opentelemetry/resources";
+import { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor OpenTelemetry Options
@@ -19,14 +21,14 @@ export interface AzureMonitorOpenTelemetryOptions {
   enableLiveMetrics?: boolean;
   /** Enable Standard Metrics feature */
   enableStandardMetrics?: boolean;
-  /**
-   * OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4)
-   */
+  /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
-  /**
-   * Application Insights Web Instrumentation options (enabled, connectionString, src, config)
-   */
+  /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/
   browserSdkLoaderOptions?: BrowserSdkLoaderOptions;
+  /** An array of log record processors to register to the logger provider.*/
+  logRecordProcessors?: [LogRecordProcessor];
+  /** An array of span processors to register to the tracer provider.*/
+  spanProcessors?: [SpanProcessor];
 }
 
 /**
