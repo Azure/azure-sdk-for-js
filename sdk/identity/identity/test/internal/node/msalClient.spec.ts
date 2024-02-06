@@ -4,7 +4,6 @@
 import * as msalClient from "../../../src/msal/msalClient";
 
 import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
@@ -14,20 +13,6 @@ import { credentialLogger } from "../../../src/util/logging";
 import sinon from "sinon";
 
 describe("MsalClient", function () {
-  let cleanup: MsalTestCleanup;
-  let sandbox: sinon.SinonSandbox;
-
-  afterEach(async function () {
-    if (cleanup) {
-      await cleanup();
-    }
-  });
-  beforeEach(async function () {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-    sandbox = setup.sandbox;
-  });
-
   describe("#createMsalClient", function () {
     it("can create an msal client with minimal configuration", function () {
       const clientId = "client-id";
@@ -39,7 +24,6 @@ describe("MsalClient", function () {
   });
 
   describe("#generateMsalConfiguration", function () {
-    // TODO: integration tests, ie exercise the msal library using this config
     describe("with valid data", function () {
       it("generates a configuration with minimal input", function () {
         const clientId = "client-id";
@@ -59,8 +43,6 @@ describe("MsalClient", function () {
         const config = msalClient.generateMsalConfiguration(clientId, tenantId, {});
         assert.instanceOf(config.system!.networkClient, IdentityClient);
       });
-
-      it("handles known authorities");
 
       it("configures logging options", function () {
         const clientId = "client-id";
@@ -101,14 +83,32 @@ describe("MsalClient", function () {
   });
 
   describe("#getTokenByClientSecret", function () {
-    it("is supported", async function () {
-      // TODO: helper to fetch env vars
-      const clientId = process.env.AZURE_CLIENT_ID!;
-      const tenantId = process.env.AZURE_TENANT_ID!;
+    let sandbox: sinon.SinonSandbox;
 
-      const client = msalClient.createMsalClient(clientId, tenantId);
+    // TODO: helper to fetch env vars
+    const clientId = process.env.AZURE_CLIENT_ID!;
+    const tenantId = process.env.AZURE_TENANT_ID!;
+
+    afterEach(async function () {
+      sandbox.restore();
+    });
+
+    beforeEach(async function () {
+      sandbox = sinon.createSandbox();
+    });
+
+    it("is supported", async function () {
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+
+      const client = msalClient.createMsalClient(clientId, tenantId);
+
+      sandbox
+        .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
+        .resolves({
+          accessToken: "token",
+          expiresOn: new Date(Date.now() + 3600 * 1000),
+        } as AuthenticationResult);
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
       assert.isNotEmpty(accessToken.token);
@@ -117,9 +117,6 @@ describe("MsalClient", function () {
 
     describe("with silent authentication", function () {
       it("uses AuthenticationRecord if provided", async function () {
-        const clientId = process.env.AZURE_CLIENT_ID!;
-        const tenantId = process.env.AZURE_TENANT_ID!;
-
         const authenticationRecord = {
           authority: "https://login.microsoftonline.com/tenant-id",
           tenantId,
@@ -132,10 +129,12 @@ describe("MsalClient", function () {
           authenticationRecord,
         });
 
-        const silentAuthSpy = sandbox.spy(
-          ConfidentialClientApplication.prototype,
-          "acquireTokenSilent",
-        );
+        const silentAuthSpy = sandbox
+          .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
+          .resolves({
+            accessToken: "token",
+            expiresOn: new Date(),
+          } as AuthenticationResult);
 
         const scopes = ["https://vault.azure.net/.default"];
         const clientSecret = process.env.AZURE_CLIENT_SECRET!;
@@ -151,15 +150,11 @@ describe("MsalClient", function () {
       });
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
-        const clientId = process.env.AZURE_CLIENT_ID!;
-        const tenantId = process.env.AZURE_TENANT_ID!;
-        const client = msalClient.createMsalClient(clientId, tenantId);
-
         const silentAuthStub = sandbox
           .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
           .resolves({
             accessToken: "token",
-            expiresOn: new Date(Date.now() + 3600 * 1000),
+            expiresOn: new Date(),
           } as AuthenticationResult);
 
         const clientCredentialAuthStub = sandbox
@@ -179,6 +174,8 @@ describe("MsalClient", function () {
         const scopes = ["https://vault.azure.net/.default"];
         const clientSecret = process.env.AZURE_CLIENT_SECRET!;
 
+        const client = msalClient.createMsalClient(clientId, tenantId);
+
         await client.getTokenByClientSecret(scopes, clientSecret);
         await client.getTokenByClientSecret(scopes, clientSecret);
 
@@ -195,8 +192,6 @@ describe("MsalClient", function () {
       });
 
       it("throws when silentAuthentication fails with a rethrowable exception", async function () {
-        const clientId = process.env.AZURE_CLIENT_ID!;
-        const tenantId = process.env.AZURE_TENANT_ID!;
         const client = msalClient.createMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
           authenticationRecord: {
@@ -222,8 +217,6 @@ describe("MsalClient", function () {
       });
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
-        const clientId = process.env.AZURE_CLIENT_ID!;
-        const tenantId = process.env.AZURE_TENANT_ID!;
         const client = msalClient.createMsalClient(clientId, tenantId, {
           disableAutomaticAuthentication: true,
           // An authentication record will get us to try the silent flow
@@ -249,6 +242,5 @@ describe("MsalClient", function () {
         );
       });
     });
-    it("supports configuring azure region");
   });
 });

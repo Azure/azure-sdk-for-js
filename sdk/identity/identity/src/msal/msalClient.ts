@@ -11,14 +11,12 @@ import {
   getAuthority,
   getKnownAuthorities,
   getMSALLogLevel,
-  handleMsalError,
   publicToMsal,
 } from "./utils";
 
 import { AuthenticationRequiredError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
 import { MsalNodeOptions } from "./nodeFlows/msalNodeCommon";
-import { RegionalAuthority } from "../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import { resolveTenantId } from "../util/tenantIdUtils";
 
@@ -67,6 +65,7 @@ export function generateMsalConfiguration(
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
 
+  // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(
     resolvedTenant,
     createMsalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
@@ -142,12 +141,6 @@ export function createMsalClient(
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
   };
-  state.azureRegion =
-    createMsalClientOptions.regionalAuthority ?? process.env.AZURE_REGIONAL_AUTHORITY;
-  if (state.azureRegion === RegionalAuthority.AutoDiscoverRegion) {
-    state.azureRegion = "AUTO_DISCOVER";
-  }
-  // additionallyAllowedTenantIds
 
   // configure persistence
   // configure broker
@@ -163,14 +156,6 @@ export function createMsalClient(
       // CAE / non-CAE
       // hook up cache plugin
       // hook up native broker
-      // clientAssertion (todo: push getAssertion call to getTokenByClientAssertion)
-      if (
-        state.msalConfig.auth.clientSecret === undefined /* TODO: add cert and assertion checks */
-      ) {
-        throw new Error(
-          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
-        );
-      }
       confidentialApp = new msal.ConfidentialClientApplication(state.msalConfig);
     }
 
@@ -181,7 +166,7 @@ export function createMsalClient(
     app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: string[],
     options?: GetTokenOptions,
-  ): Promise<AccessToken> {
+  ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
       const cache = app.getTokenCache();
       const accounts = await cache.getAllAccounts();
@@ -202,34 +187,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       state.cachedAccount = accounts[0];
     }
 
-    const silentRequest: msal.SilentFlowRequest = {
+    // TODO: broker
+    msalLogger.getToken.info("Attempting to acquire token silently");
+    return app.acquireTokenSilent({
       account: state.cachedAccount,
       scopes,
-      // TODO: is this needed?
-      authority: state.msalConfig.auth.authority,
       claims: options?.claims,
-    };
-
-    // TODO: broker
-
-    try {
-      msalLogger.getToken.info("Attempting to acquire token silently");
-      const response = await app.acquireTokenSilent(silentRequest);
-      ensureValidMsalToken(scopes, response, options);
-
-      if (response?.account) {
-        state.cachedAccount = response.account;
-      }
-
-      msalLogger.getToken.info(formatSuccess(scopes));
-
-      return {
-        token: response.accessToken!,
-        expiresOnTimestamp: response.expiresOn!.getTime(),
-      };
-    } catch (err: any) {
-      throw handleMsalError(scopes, err, options);
-    }
+    });
   }
 
   /**
@@ -248,8 +212,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     options: GetTokenOptions,
     onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
   ): Promise<AccessToken> {
+    let response: msal.AuthenticationResult | null = null;
     try {
-      return await getTokenSilent(msalApp, scopes, options);
+      response = await getTokenSilent(msalApp, scopes, options);
     } catch (e: any) {
       if (e.name !== "AuthenticationRequiredError") {
         throw e;
@@ -262,21 +227,23 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
             "Automatic authentication has been disabled. You may call the authentication() method.",
         });
       }
-
-      msalLogger.getToken.info(`Silent authentication failed, falling back to interactive method.`);
-
-      const result = await onAuthenticationRequired();
-
-      ensureValidMsalToken(scopes, result ?? undefined, options);
-      state.cachedAccount = result?.account ?? null;
-
-      msalLogger.getToken.info(formatSuccess(scopes));
-
-      return {
-        token: result!.accessToken,
-        expiresOnTimestamp: result!.expiresOn!.getTime(),
-      };
     }
+
+    // Silent authentication failed
+    if (response === null) {
+      response = await onAuthenticationRequired();
+    }
+
+    // At this point we should have a token, process it
+    ensureValidMsalToken(scopes, response, options);
+    state.cachedAccount = response?.account ?? null;
+
+    msalLogger.getToken.info(formatSuccess(scopes));
+
+    return {
+      token: response!.accessToken,
+      expiresOnTimestamp: response!.expiresOn!.getTime(),
+    };
   }
 
   return {
