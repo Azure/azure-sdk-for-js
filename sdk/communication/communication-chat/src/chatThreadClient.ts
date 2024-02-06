@@ -143,7 +143,7 @@ export class ChatThreadClient {
           options,
           updatedOptions
         );
-      }
+      },
     );
   }
 
