@@ -1,5 +1,15 @@
 # Release History
 
+## 7.9.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 7.9.4 (2024-02-06)
 
 ### Bugs Fixed
