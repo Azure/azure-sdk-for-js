@@ -2,7 +2,7 @@
   "name": "@azure/openai-assistants",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for Azure OpenAI Assistants.",
   "keywords": [
     "node",
@@ -46,6 +46,7 @@
     "types/openai-assistants.d.ts",
     "README.md",
     "LICENSE",
+    "CHANGELOG.md",
     "review/*"
   ],
   "engines": {
