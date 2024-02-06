@@ -2762,7 +2762,7 @@ export type FunctionsListByStreamingJobResponse = FunctionListResult;
 export interface FunctionsTestOptionalParams
   extends coreClient.OperationOptions {
   /** If the function specified does not already exist, this parameter must contain the full function definition intended to be tested. If the function specified already exists, this parameter can be left null to test the existing function as is or if specified, the properties specified will overwrite the corresponding properties in the existing function (exactly like a PATCH operation) and the resulting function will be tested. */
-  functionParam?: FunctionModel;
+  function?: FunctionModel;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

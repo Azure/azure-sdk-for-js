@@ -165,7 +165,7 @@ export const select: OperationQueryParameter = {
 };
 
 export const functionParam1: OperationParameter = {
-  parameterPath: ["options", "functionParam"],
+  parameterPath: ["options", "function"],
   mapper: FunctionModelMapper,
 };
 

@@ -1,6 +1,6 @@
 # Release History
     
-## 5.0.0-beta.1 (2024-01-22)
+## 5.0.0-beta.1 (2024-02-06)
     
 **Features**
 
@@ -126,6 +126,7 @@
   - Interface FunctionProperties has a new optional parameter binding
   - Interface FunctionProperties has a new optional parameter inputs
   - Interface FunctionProperties has a new optional parameter output
+  - Interface FunctionsTestOptionalParams has a new optional parameter function
   - Interface Identity has a new optional parameter userAssignedIdentities
   - Interface InputProperties has a new optional parameter watermarkSettings
   - Interface Output has a new optional parameter lastOutputEventTimestamps
@@ -164,6 +165,7 @@
   - Interface Cluster no longer has parameter clusterId
   - Interface Cluster no longer has parameter createdDate
   - Interface Cluster no longer has parameter provisioningState
+  - Interface FunctionsTestOptionalParams no longer has parameter functionParam
   - Interface PrivateEndpoint no longer has parameter createdDate
   - Interface PrivateEndpoint no longer has parameter manualPrivateLinkServiceConnections
   - Interface StreamAnalyticsManagementClientOptionalParams no longer has parameter apiVersion

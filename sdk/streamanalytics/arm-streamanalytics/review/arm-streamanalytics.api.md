@@ -773,7 +773,7 @@ export type FunctionsRetrieveDefaultDefinitionResponse = FunctionModel;
 
 // @public
 export interface FunctionsTestOptionalParams extends coreClient.OperationOptions {
-    functionParam?: FunctionModel;
+    function?: FunctionModel;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
