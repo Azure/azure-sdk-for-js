@@ -8159,8 +8159,8 @@ packages:
     hasBin: true
     dev: false
 
-  /prettier@3.2.4:
-    resolution: {integrity: sha512-FWu1oLHKCrtpO1ypU6J0SbK2d9Ckwysq6bHj/uaCP26DxrPpppCLQRGVuqAxSTvhF00AcvDRyYrLNW7ocBhFFQ==}
+  /prettier@3.2.5:
+    resolution: {integrity: sha512-3/GWa9aOC0YeD7LUfvOG2NiDyhOWRvt1k+rcKhOuYnMY24iiCphgneUfJDyFXd6rZCAnuLBv6UeAULtrhT/F4A==}
     engines: {node: '>=14'}
     hasBin: true
     dev: false
@@ -10411,7 +10411,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-wG4BwPrfBREj47Z9B8CAAYGCIkUQsrAxOWtqlUvKoOI1EF52KTTxgDnA2JOcukBas8JlOv6zZcRrTUu/SL6sgQ==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-g9v1BulTnEQFBoXJ8qwKsKd4fEo+WalQJoc2XeoOWVRJbT6oQZIn219SwcXImrOGf4SBTW3kOuJyysz05xelPQ==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -10441,7 +10441,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       magic-string: 0.27.0
       mocha: 10.2.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 3.0.2
       rollup: 4.9.6
       sinon: 17.0.1
@@ -10796,7 +10796,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
-    resolution: {integrity: sha512-Dxj2Dly3rHpNIYmqc/xZ/mprYmXMDFfuoRkvy5tuyoLg4A7xbrCENaV5MgUgbE0XfwaRXUGy3ynx9Z30QzFZ+A==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
+    resolution: {integrity: sha512-dDM6J8kGhMnmFDFKOWnmQtVZ4Z28iC80dYKZFNbU/re7TKwc5VFHe/n1EwHeYioCrkPr115WxIW1cS8+pZklTA==, tarball: file:projects/api-management-custom-widgets-scaffolder.tgz}
     name: '@rush-temp/api-management-custom-widgets-scaffolder'
     version: 0.0.0
     dependencies:
@@ -10821,7 +10821,7 @@ packages:
       magic-string: 0.27.0
       mocha: 10.2.0
       mustache: 4.2.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 3.0.2
       rollup: 4.9.6
       sinon: 17.0.1
@@ -10838,7 +10838,7 @@ packages:
     dev: false
 
   file:projects/api-management-custom-widgets-tools.tgz:
-    resolution: {integrity: sha512-wlonrtfpX3fS4dC4nxIt3NJXJ1Yty7YdbuoHR1BtNsUm+y2mqBef0aNydInH2uwZMSz7Z14LeBWMtSvyx3EnuQ==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
+    resolution: {integrity: sha512-N1vVkFhj3U7zL2bANGhQewhsO0FSoAqhDS4Ph/28ElvO+qACivERBQgG+0m8eF74bzwNVYdHEOnt6HAFUTN2bw==, tarball: file:projects/api-management-custom-widgets-tools.tgz}
     name: '@rush-temp/api-management-custom-widgets-tools'
     version: 0.0.0
     dependencies:
@@ -10871,7 +10871,7 @@ packages:
       mime: 4.0.1
       mocha: 10.2.0
       mustache: 4.2.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 3.0.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.11)(typescript@5.3.3)
@@ -18328,7 +18328,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-pAnv620f5vDpx/hnTauedeMe56yIKVUVeJLS7W0qzL66bzeB5erpr3XVDnJLPtwqZMBowwY8ACnAS3K+LGthNg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-IuEOWtvK+Zjljt+YNL7yFmrCCuwWYKyE99yFaDPzrqeQSPkT4onP45CGxF3F4CjRnVSfhbn2TgOsxM7f2vcTEA==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18367,7 +18367,7 @@ packages:
       minimist: 1.2.8
       mkdirp: 3.0.1
       mocha: 10.2.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 5.0.5
       rollup: 4.9.6
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.9.6)
@@ -18497,7 +18497,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-s3LNVS/9sokeZBxOF8BCe7Qdupa8j5xl6E24wxgwGik4+wuuJemIw9WSDywMSDtonbCxJ4AOS3zM3uvxCLL5gg==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-QWCQpxYTL732c0p0LhhgoNH+PBuwMeWeCUVO6p/y5HVftrAf1V7fCMuNTH6MkVmX6OhcHY941iWQMGnzskrITw==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -18522,7 +18522,7 @@ packages:
       glob: 9.3.5
       json-schema: 0.4.0
       mocha: 10.2.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 3.0.2
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.11)(typescript@5.3.3)
@@ -21834,13 +21834,13 @@ packages:
     dev: false
 
   file:projects/vite-plugin-browser-test-map.tgz:
-    resolution: {integrity: sha512-gC6f2ICdYw8k0OXjikon0MXViBINdVCh+QNc4YQD8qMoYSZr2xbxcYCglJaEaRJy/7QNelhvzB9Ftb2I21+nEA==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
+    resolution: {integrity: sha512-8Jg44N2Xy3VsZaSgcBDkWDjjpT8NcU+0TXvb3PCravbYHdMtI8K/XpI6fkpZnisjjl6dEE2MCUX6ecPAoFvvnQ==, tarball: file:projects/vite-plugin-browser-test-map.tgz}
     name: '@rush-temp/vite-plugin-browser-test-map'
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.11
       eslint: 8.56.0
-      prettier: 3.2.4
+      prettier: 3.2.5
       rimraf: 3.0.2
       tslib: 2.6.2
       typescript: 5.3.3

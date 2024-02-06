@@ -5,8 +5,8 @@
     "declarationDir": "./types",
     "lib": ["ES2018.AsyncIterable"],
     "paths": {
-      "@azure/eventgrid": ["./src/index"],
-    },
+      "@azure/eventgrid": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
