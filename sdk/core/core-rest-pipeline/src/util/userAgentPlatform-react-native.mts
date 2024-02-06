@@ -5,7 +5,7 @@
  * NOTE: When moving this file, please update "react-native" section in package.json.
  */
 /* @ts-ignore */
-const { Platform } = await import("react-native"); // eslint-disable-line import/no-extraneous-dependencies, @typescript-eslint/no-require-imports
+const { Platform } = await import("react-native");
 
 /**
  * @internal
