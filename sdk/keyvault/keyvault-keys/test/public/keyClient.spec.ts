@@ -505,7 +505,12 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it("errors when updating an immutable release policy", async () => {
+    it("errors when updating an immutable release policy", async function (this: Context) {
+      // Recorder sanitizer issue
+      // https://github.com/Azure/azure-sdk-for-js/issues/28455
+      if (isPlaybackMode() && isBrowser) {
+        this.skip();
+      }
       const keyName = recorder.variable(
         "immutablerelease",
         `immutablerelease-${Math.floor(Math.random() * 1000)}`,
