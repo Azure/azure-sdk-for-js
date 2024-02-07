@@ -78,4 +78,4 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 <!-- LINKS -->
 [health_insights]: https://learn.microsoft.com/azure/azure-health-insights/overview
-[radiology_insights_docs]: https://azure.microsoft.com/services/
+[radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
