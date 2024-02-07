@@ -137,20 +137,20 @@ export class InternalConfig implements AzureMonitorOpenTelemetryOptions {
       detectors: [envDetectorSync],
     };
     const envResource = detectResourcesSync(detectResourceConfig);
-    resource = resource.merge(envResource);
+    resource = resource.merge(envResource) as Resource;
 
     // Load resource attributes from Azure
     const azureResource: Resource = detectResourcesSync({
       detectors: [azureAppServiceDetector, azureFunctionsDetector],
     });
-    this._resource = resource.merge(azureResource);
+    this._resource = resource.merge(azureResource) as Resource;
 
     const vmResource = detectResourcesSync({
       detectors: [azureVmDetector],
     });
     if (vmResource.asyncAttributesPending) {
       vmResource.waitForAsyncAttributes?.().then(() => {
-        this._resource = this._resource.merge(vmResource);
+        this._resource = this._resource.merge(vmResource) as Resource;
       });
     }
   }

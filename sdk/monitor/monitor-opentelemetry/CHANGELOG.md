@@ -9,6 +9,7 @@
 ### Bugs Fixed
 
 - Detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
+- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
 
 ### Other Changes
 

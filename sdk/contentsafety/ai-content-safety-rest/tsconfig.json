@@ -5,8 +5,8 @@
     "declarationDir": "./types",
     "lib": ["es6", "dom"],
     "paths": {
-      "@azure-rest/ai-content-safety": ["./src/index"],
-    },
+      "@azure-rest/ai-content-safety": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
