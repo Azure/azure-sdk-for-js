@@ -35,7 +35,7 @@ export class LogHandler {
     this._initializeInstrumentations();
   }
 
-  public getBAzureLogRecordProcessor(): AzureLogRecordProcessor {
+  public getAzureLogRecordProcessor(): AzureLogRecordProcessor {
     return this._azureLogRecordProcessor;
   }
 
