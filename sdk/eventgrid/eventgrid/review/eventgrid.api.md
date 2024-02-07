@@ -694,6 +694,72 @@ export interface AppServicePlanEventTypeDetail {
 // @public
 export type AsyncStatus = string;
 
+// @public
+export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+
+// @public
+export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+
+// @public
+export interface AvsClusterEventData {
+    addedHostNames: string[];
+    inMaintenanceHostNames: string[];
+    operationId: string;
+    removedHostNames: string[];
+}
+
+// @public
+export type AvsClusterFailedEventData = AvsClusterEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+
+// @public
+export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+
+// @public
+export interface AvsPrivateCloudEventData {
+    operationId: string;
+}
+
+// @public
+export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+
+// @public
+export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+
+// @public
+export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+
+// @public
+export interface AvsScriptExecutionEventData {
+    cmdletId: string;
+    operationId: string;
+    output: string[];
+}
+
+// @public
+export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+    namedOutputs: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
+
 export { AzureKeyCredential }
 
 export { AzureSASCredential }
@@ -1334,6 +1400,14 @@ export const enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
     Public = "Public"
+}
+
+// @public
+export const enum KnownStorageTaskAssignmentCompletedStatus {
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -2092,6 +2166,24 @@ export interface StorageLifecyclePolicyCompletedEventData {
 }
 
 // @public
+export interface StorageTaskAssignmentCompletedEventData {
+    completedOn: string;
+    status: StorageTaskAssignmentCompletedStatus;
+    summaryReportBlobUri: string;
+    taskExecutionId: string;
+    taskName: string;
+}
+
+// @public
+export type StorageTaskAssignmentCompletedStatus = string;
+
+// @public
+export interface StorageTaskAssignmentQueuedEventData {
+    queuedOn: string;
+    taskExecutionId: string;
+}
+
+// @public
 export interface StorageTaskCompletedEventData {
     completedDateTime: string;
     status: StorageTaskCompletedStatus;
@@ -2152,6 +2244,18 @@ export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
     "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
+    "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
+    "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
+    "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+    "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
+    "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
+    "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
+    "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
+    "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
+    "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
+    "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
+    "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
+    "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2295,6 +2399,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
     "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
     "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
     "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
     "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
