@@ -19,7 +19,11 @@ import {
   TagsObject,
   ClusterPoolsUpdateTagsOptionalParams,
   ClusterPoolsUpdateTagsResponse,
-  ClusterPoolsDeleteOptionalParams
+  ClusterPoolsDeleteOptionalParams,
+  ClusterPoolsDeleteResponse,
+  ClusterPoolUpgrade,
+  ClusterPoolsUpgradeOptionalParams,
+  ClusterPoolsUpgradeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +34,7 @@ export interface ClusterPools {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClusterPoolsListBySubscriptionOptionalParams
+    options?: ClusterPoolsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPool>;
   /**
    * Lists the HDInsight cluster pools under a resource group.
@@ -39,7 +43,7 @@ export interface ClusterPools {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClusterPoolsListByResourceGroupOptionalParams
+    options?: ClusterPoolsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ClusterPool>;
   /**
    * Gets a cluster pool.
@@ -50,7 +54,7 @@ export interface ClusterPools {
   get(
     resourceGroupName: string,
     clusterPoolName: string,
-    options?: ClusterPoolsGetOptionalParams
+    options?: ClusterPoolsGetOptionalParams,
   ): Promise<ClusterPoolsGetResponse>;
   /**
    * Creates or updates a cluster pool.
@@ -63,7 +67,7 @@ export interface ClusterPools {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterPool: ClusterPool,
-    options?: ClusterPoolsCreateOrUpdateOptionalParams
+    options?: ClusterPoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterPoolsCreateOrUpdateResponse>,
@@ -81,7 +85,7 @@ export interface ClusterPools {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterPool: ClusterPool,
-    options?: ClusterPoolsCreateOrUpdateOptionalParams
+    options?: ClusterPoolsCreateOrUpdateOptionalParams,
   ): Promise<ClusterPoolsCreateOrUpdateResponse>;
   /**
    * Updates an existing Cluster Pool Tags.
@@ -94,7 +98,7 @@ export interface ClusterPools {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterPoolTags: TagsObject,
-    options?: ClusterPoolsUpdateTagsOptionalParams
+    options?: ClusterPoolsUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterPoolsUpdateTagsResponse>,
@@ -112,7 +116,7 @@ export interface ClusterPools {
     resourceGroupName: string,
     clusterPoolName: string,
     clusterPoolTags: TagsObject,
-    options?: ClusterPoolsUpdateTagsOptionalParams
+    options?: ClusterPoolsUpdateTagsOptionalParams,
   ): Promise<ClusterPoolsUpdateTagsResponse>;
   /**
    * Deletes a Cluster Pool.
@@ -123,8 +127,13 @@ export interface ClusterPools {
   beginDelete(
     resourceGroupName: string,
     clusterPoolName: string,
-    options?: ClusterPoolsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: ClusterPoolsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClusterPoolsDeleteResponse>,
+      ClusterPoolsDeleteResponse
+    >
+  >;
   /**
    * Deletes a Cluster Pool.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -134,6 +143,37 @@ export interface ClusterPools {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterPoolName: string,
-    options?: ClusterPoolsDeleteOptionalParams
-  ): Promise<void>;
+    options?: ClusterPoolsDeleteOptionalParams,
+  ): Promise<ClusterPoolsDeleteResponse>;
+  /**
+   * Upgrade a cluster pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterPoolUpgradeRequest Upgrade a cluster pool.
+   * @param options The options parameters.
+   */
+  beginUpgrade(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterPoolUpgradeRequest: ClusterPoolUpgrade,
+    options?: ClusterPoolsUpgradeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClusterPoolsUpgradeResponse>,
+      ClusterPoolsUpgradeResponse
+    >
+  >;
+  /**
+   * Upgrade a cluster pool.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterPoolUpgradeRequest Upgrade a cluster pool.
+   * @param options The options parameters.
+   */
+  beginUpgradeAndWait(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterPoolUpgradeRequest: ClusterPoolUpgrade,
+    options?: ClusterPoolsUpgradeOptionalParams,
+  ): Promise<ClusterPoolsUpgradeResponse>;
 }

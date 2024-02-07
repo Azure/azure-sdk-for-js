@@ -13491,7 +13491,7 @@ packages:
     dev: false
 
   file:projects/arm-hdinsightcontainers.tgz:
-    resolution: {integrity: sha512-heoeFJ8PxN1Iw01OncZyrEsQp8E+4p9/86zCcRTfO3YEw//6LZlbANu8hdc+0cHTy+7KHkczXb3wjdCh6CHotQ==, tarball: file:projects/arm-hdinsightcontainers.tgz}
+    resolution: {integrity: sha512-hONA9Iv42jEFbA3doZxyHKqpRgsIqBaXNtk8pNJcPKJSrDPFTMoXsdJw/8KooReYxVVgGhTBThVcKJ1VCmMM9g==, tarball: file:projects/arm-hdinsightcontainers.tgz}
     name: '@rush-temp/arm-hdinsightcontainers'
     version: 0.0.0
     dependencies:
@@ -13504,9 +13504,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -19974,7 +19975,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-ylSkGDLi7sv7WZkt8ZvUDFrwX1t8nvAaAKhyKI9I/tIE5zajBroPU9pW0gQn+hfpvcL+VNIOfX3xiILKnuu0zA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-sAmQpau4Yt0j6ZWlakq60s7g0PJlloqpTh3opxH6LgYqH5ZMNQVHFUaoAHVVCEj4y7Al/hF68AfuyOYt8yX2LA==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
