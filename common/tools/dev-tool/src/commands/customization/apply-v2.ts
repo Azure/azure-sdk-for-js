@@ -10,7 +10,7 @@ import { makeCommandInfo } from "../../framework/command";
 
 import { execSync } from "child_process";
 import fs from "fs-extra";
-import os, { tmpdir } from "os";
+import os from "os";
 import { copySync } from "fs-extra";
 
 const log = createPrinter("apply-customization");
