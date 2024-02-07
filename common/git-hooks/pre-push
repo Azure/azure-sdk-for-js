@@ -7,7 +7,7 @@ function getLocalCommitsNotMerged() {
   execSync('git fetch');
 
   // Get the list of commits not merged to the remote main branch
-  const localCommitsNotMerged = execSync('git log origin/main..HEAD --oneline')
+  const localCommitsNotMerged = execSync('git log main..HEAD --oneline')
     .toString()
     .trim()
     .split('\n');
