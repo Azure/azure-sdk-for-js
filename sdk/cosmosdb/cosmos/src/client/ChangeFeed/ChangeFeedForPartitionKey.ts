@@ -39,14 +39,11 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
     this.isInstantiated = false;
-
-    if (changeFeedOptions.startTime) {
-      // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
-      if (typeof changeFeedOptions.startTime === "string") {
-        this.startFromNow = true;
-      } else {
-        this.startTime = changeFeedOptions.startTime.toUTCString();
-      }
+    // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
+    if (changeFeedOptions.startFromNow) {
+      this.startFromNow = true;
+    } else if (changeFeedOptions.startTime) {
+      this.startTime = changeFeedOptions.startTime.toUTCString();
     }
   }
 

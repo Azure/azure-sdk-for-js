@@ -14,7 +14,9 @@ export interface InternalChangeFeedIteratorOptions {
 
   continuationToken?: string;
 
-  startTime?: Date | string;
+  startTime?: Date;
 
   changeFeedMode?: ChangeFeedMode;
+
+  startFromNow?: boolean;
 }

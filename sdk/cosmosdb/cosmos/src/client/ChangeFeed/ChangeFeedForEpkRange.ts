@@ -45,15 +45,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     this.continuationToken = changeFeedOptions.continuationToken
       ? JSON.parse(changeFeedOptions.continuationToken)
       : undefined;
-    if (changeFeedOptions.startTime) {
-      // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
-      if (typeof changeFeedOptions.startTime === "string") {
-        this.startFromNow = true;
-      } else {
-        this.startTime = changeFeedOptions.startTime.toUTCString();
-      }
-    }
     this.isInstantiated = false;
+    // startTime is used to store and specify time from which change feed should start reading new changes. StartFromNow flag is used to indicate fetching changes from now.
+    if (changeFeedOptions.startFromNow) {
+      this.startFromNow = true;
+    } else if (changeFeedOptions.startTime) {
+      this.startTime = changeFeedOptions.startTime.toUTCString();
+    }
   }
 
   private async setIteratorRid(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
@@ -341,7 +339,6 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         oldFeedRange,
         resolvedRanges[i]
       );
-
       const newFeedRange = new ChangeFeedRange(
         resolvedRanges[i].minInclusive,
         resolvedRanges[i].maxExclusive,
