@@ -98,6 +98,9 @@ dependencies:
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-astro':
+    specifier: file:./projects/arm-astro.tgz
+    version: file:projects/arm-astro.tgz
   '@rush-temp/arm-attestation':
     specifier: file:./projects/arm-attestation.tgz
     version: file:projects/arm-attestation.tgz
@@ -3255,7 +3258,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3302,7 +3305,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.5:
@@ -3424,7 +3427,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3532,7 +3535,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -11336,6 +11339,34 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-astro.tgz:
+    resolution: {integrity: sha512-pfLYFPuJdkULAxrnj9El8VyRO+vaLNJgInb0OAgAWYtrvXpn5IUO2uSSrnAFHcQbi405BS+X6gCMQDZhmPC+DA==, tarball: file:projects/arm-astro.tgz}
+    name: '@rush-temp/arm-astro'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.39.5(@types/node@18.19.14)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.14
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.1
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-attestation.tgz:
@@ -19974,7 +20005,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-ylSkGDLi7sv7WZkt8ZvUDFrwX1t8nvAaAKhyKI9I/tIE5zajBroPU9pW0gQn+hfpvcL+VNIOfX3xiILKnuu0zA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-sAmQpau4Yt0j6ZWlakq60s7g0PJlloqpTh3opxH6LgYqH5ZMNQVHFUaoAHVVCEj4y7Al/hF68AfuyOYt8yX2LA==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
