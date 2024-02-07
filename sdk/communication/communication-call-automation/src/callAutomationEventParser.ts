@@ -30,6 +30,8 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
+  TeamsRecordingStateChanged,
+  TeamsComplianceRecordingStateChanged,
   TranscriptionStarted,
   TranscriptionStopped,
   TranscriptionUpdated,
@@ -138,6 +140,12 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
+      break;
+    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
+      callbackEvent = { kind: "TeamsComplianceRecordingStateChanged" } as TeamsComplianceRecordingStateChanged;
+      break;
+    case "Microsoft.Communication.TeamsRecordingStateChanged":
+      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
       break;
     case "Microsoft.Communication.TranscriptionStarted":
       callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
