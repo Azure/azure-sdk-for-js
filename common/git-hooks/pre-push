@@ -2,12 +2,22 @@
 
 const { execSync } = require('child_process');
 
+function getRemoteName() {
+  const remoteName = execSync(`git rev-parse --abbrev-ref --symbolic-full-name @{u}`)
+    .toString()
+    .trim()
+    .split('/');
+  return remoteName[0];
+}
+
 function getLocalCommitsNotMerged() {
   // Fetch updates from the remote repository
   execSync('git fetch');
 
+  const remoteName = getRemoteName();
+
   // Get the list of commits not merged to the remote main branch
-  const localCommitsNotMerged = execSync('git log main..HEAD --oneline')
+  const localCommitsNotMerged = execSync(`git log ${remoteName}/main..HEAD --oneline`)
     .toString()
     .trim()
     .split('\n');
