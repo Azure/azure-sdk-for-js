@@ -372,7 +372,7 @@ async function createAnAzureDataWarehouseOutput() {
       type: "Microsoft.Sql/Server/DataWarehouse",
       authenticationMode: "Msi",
       database: "zhayaSQLpool",
-      password: "password123",
+      password: "",
       server: "asatestserver",
       table: "test2",
       user: "tolladmin",
