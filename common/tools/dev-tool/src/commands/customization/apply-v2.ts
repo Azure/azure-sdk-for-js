@@ -1,22 +1,52 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import path from "path";
-
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
 import { leafCommand } from "../../framework/command";
 import { makeCommandInfo } from "../../framework/command";
 
-import { execSync } from "child_process";
-import fs from "fs-extra";
-import os from "os";
-import { copySync } from "fs-extra";
+import { SpawnOptions, spawn } from "node:child_process";
+import path from "node:path";
+import fs from "node:fs/promises";
+import os from "node:os";
+
+async function run(command: string[] | string, options: SpawnOptions = {}) {
+  const [executable, ...argv] = typeof command === "string" ? command.split(" ") : command;
+
+  let output = "";
+
+  await new Promise((resolve, reject) => {
+    const proc = spawn(executable, argv, options);
+    proc.stdout?.setEncoding("utf8");
+    proc.stderr?.setEncoding("utf8");
+    proc.on("exit", (exitCode, signal) => {
+      if (exitCode === null) {
+        reject(new Error(`subprocess exited with signal ${signal}`));
+      } else if (exitCode === 0) {
+        resolve(output);
+      } else {
+        reject(new Error(`subprocess exited with exit code ${exitCode}.\nOutput:\n${output}`));
+      }
+    });
+
+    proc.on("error", reject);
+
+    proc.stdout?.on("data", (data) => {
+      output += data;
+    });
+    proc.stderr?.on("data", (data) => {
+      output += data;
+    });
+  });
+
+  return output;
+}
 
 const log = createPrinter("apply-customization");
 
 export const commandInfo = makeCommandInfo(
-  "apply",
+  "apply-v2",
   "applies existing customizations to new generated code",
   {
     sourceDirectory: {
@@ -49,18 +79,15 @@ export default leafCommand(commandInfo, async (options) => {
   try {
     // Create a temporary git repo to work in
     const stagingDir = path.join(tempDir, "src");
-    execSync(`git init`, { cwd: tempDir });
-    execSync(`git branch -m newly-generated`, { cwd: tempDir });
+    await run("git init", { cwd: tempDir });
+    await run("git branch -m newly-generated", { cwd: tempDir });
 
     log("Creating baseline using git stash");
 
     // 1. Our baseline is the old generated code. Stash unstaged changes to the generated code to get at them
     let stashOutput: string;
     try {
-      stashOutput = execSync(`git stash push -- ${sourceDirectory}`, {
-        stdio: [],
-        encoding: "utf-8",
-      });
+      stashOutput = await run(["git", "stash", "push", "--", sourceDirectory]);
     } catch (e: unknown) {
       log(
         "Failed to stash changes to the generated code. This is likely because the generated code is not tracked. Commit the generated code and try again.",
@@ -74,30 +101,34 @@ export default leafCommand(commandInfo, async (options) => {
     }
 
     // Copy old generated code to the staging directory and make an initial commit
-    await fs.copy(sourceDirectory, stagingDir);
-    execSync(`git stash pop`);
-    execSync(`git add .`, { cwd: tempDir });
-    execSync(`git commit -m "Existing code"`, { cwd: tempDir });
+    try {
+      await fs.cp(sourceDirectory, stagingDir, { recursive: true });
+    } finally {
+      await run(`git stash pop`, {});
+    }
+
+    await run(`git add .`, { cwd: tempDir });
+    await run(["git", "commit", "-m", "Existing code"], { cwd: tempDir });
 
     // 2. Commit the new generated changes on top of it
     await fs.rm(stagingDir, { recursive: true, force: true });
-    copySync(sourceDirectory, stagingDir);
-    execSync(`git add .`, { cwd: tempDir });
-    execSync(`git commit --allow-empty -m "New codegen"`, { cwd: tempDir });
+    await fs.cp(sourceDirectory, stagingDir, { recursive: true });
+    await run(`git add .`, { cwd: tempDir });
+    await run(["git", "commit", "--allow-empty", "-m", "New codegen"], { cwd: tempDir });
 
     // 3. Commit the customizations on top of the old changes on another branch
-    execSync(`git checkout HEAD~`, { cwd: tempDir });
-    execSync(`git checkout -b customization`, { cwd: tempDir });
+    await run(`git checkout HEAD~`, { cwd: tempDir });
+    await run(`git checkout -b customization`, { cwd: tempDir });
     await fs.rm(stagingDir, { recursive: true, force: true });
-    copySync(targetDirectory, stagingDir);
-    execSync(`git add .`, { cwd: tempDir });
-    execSync(`git commit --allow-empty -m "Customizations"`, { cwd: tempDir });
+    await fs.cp(targetDirectory, stagingDir, { recursive: true });
+    await run(`git add .`, { cwd: tempDir });
+    await run(`git commit --allow-empty -m Customizations`, { cwd: tempDir });
 
     // 4. Try and merge (but don't try make a merge commit); conflict markers may be present
-    execSync(`git checkout newly-generated`, { cwd: tempDir });
+    await run(`git checkout newly-generated`, { cwd: tempDir });
 
     try {
-      execSync(`git merge --no-commit --into-name newly-generated customization`, {
+      await run(`git merge --no-commit --into-name newly-generated customization`, {
         cwd: tempDir,
       });
       log(
@@ -113,7 +144,7 @@ export default leafCommand(commandInfo, async (options) => {
 
     // 5. Copy result to target directory. User can fix merge conflict themselves if markers are present
     await fs.rm(targetDirectory, { force: true, recursive: true });
-    await fs.copy(stagingDir, targetDirectory);
+    await fs.cp(stagingDir, targetDirectory, { recursive: true });
   } finally {
     if (options["no-cleanup"]) {
       log("Temporary git dir is available for inspection at", tempDir);
