@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { ClientOptions, getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { KeyCredential } from "@azure/core-auth";
 import { AzureHealthInsightsClient } from "./clientDefinitions";
@@ -38,11 +38,9 @@ export default function createClient(
     },
   };
 
-  const client = getClient(
+ return getClient(
     baseUrl,
     credentials,
     options,
   ) as AzureHealthInsightsClient;
-
-  return client;
 }
