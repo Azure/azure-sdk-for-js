@@ -3,17 +3,14 @@
 /**
  * @summary Exception policy crud
  */
-import { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router"
-import JobRouter from "@azure-rest/communication-job-router"; import * as dotenv from "dotenv";
+import JobRouter, {
+  AzureCommunicationRoutingServiceClient,
+  QueueLengthExceptionTrigger
+} from "@azure-rest/communication-job-router";
+import * as dotenv from "dotenv";
 dotenv.config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-
-
-
-import { QueueLengthExceptionTrigger } from "@azure-rest/communication-job-router";
-
-
-
 
 // Create an exception policy
 async function createExceptionPolicy(): Promise<void> {

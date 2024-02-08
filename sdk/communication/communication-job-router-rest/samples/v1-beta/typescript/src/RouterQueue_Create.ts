@@ -3,13 +3,13 @@
 /**
  * @summary job queue crud
  */
-import {
+import JobRouter, {
   AzureCommunicationRoutingServiceClient,
 } from "@azure-rest/communication-job-router";
-import JobRouter from "@azure-rest/communication-job-router"; import * as dotenv from "dotenv";
+import * as dotenv from "dotenv";
 dotenv.config();
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Create a router jobQueue
 async function createJobQueue(): Promise<void> {

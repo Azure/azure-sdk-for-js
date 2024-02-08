@@ -4,13 +4,13 @@
 /**
  * @summary Classification policy crud
  */
-import {
+import JobRouter, {
   AzureCommunicationRoutingServiceClient,
 } from "@azure-rest/communication-job-router";
-import JobRouter from "@azure-rest/communication-job-router"; import * as dotenv from "dotenv";
+import * as dotenv from "dotenv";
 dotenv.config();
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Update a classification policy
 async function updateClassificationPolicy(): Promise<void> {

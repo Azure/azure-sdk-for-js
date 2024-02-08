@@ -3,9 +3,12 @@
 /**
  * @summary router job crud
  */
-import { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router"
-import JobRouter from "@azure-rest/communication-job-router"; import * as dotenv from "dotenv";
+import JobRouter, {
+  AzureCommunicationRoutingServiceClient
+} from "@azure-rest/communication-job-router";
+import * as dotenv from "dotenv";
 dotenv.config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Get a router job

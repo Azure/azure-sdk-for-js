@@ -1,3 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+/**
+ * @summary Exception policy crud
+ */
+
 const JobRouter = require("@azure-rest/communication-job-router").default;
 require("dotenv").config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
