@@ -265,7 +265,10 @@ export interface RecordingStateChanged
 
 /** Event when Teams Compliance Recording state has been changed. */
 export interface TeamsComplianceRecordingStateChanged
-  extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestTeamsComplianceRecordingStateChanged,
+    "callConnectionId" | "serverCallId" | "correlationId"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
@@ -278,7 +281,10 @@ export interface TeamsComplianceRecordingStateChanged
 
 /** Event when Teams Recording state has been changed. */
 export interface TeamsRecordingStateChanged
-  extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestTeamsRecordingStateChanged,
+    "callConnectionId" | "serverCallId" | "correlationId"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */

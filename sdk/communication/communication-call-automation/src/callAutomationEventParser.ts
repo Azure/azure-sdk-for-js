@@ -96,7 +96,9 @@ export function parseCallAutomationEvent(
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
     case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
-      callbackEvent = { kind: "TeamsComplianceRecordingStateChanged" } as TeamsComplianceRecordingStateChanged;
+      callbackEvent = {
+        kind: "TeamsComplianceRecordingStateChanged",
+      } as TeamsComplianceRecordingStateChanged;
       break;
     case "Microsoft.Communication.TeamsRecordingStateChanged":
       callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
