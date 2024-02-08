@@ -2452,8 +2452,6 @@ export enum KnownTranscriptionStatus {
   TranscriptionStarted = "transcriptionStarted",
   /** TranscriptionFailed */
   TranscriptionFailed = "transcriptionFailed",
-  /** TranscriptionResumed */
-  TranscriptionResumed = "transcriptionResumed",
   /** TranscriptionUpdated */
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
@@ -2469,7 +2467,6 @@ export enum KnownTranscriptionStatus {
  * ### Known values supported by the service
  * **transcriptionStarted** \
  * **transcriptionFailed** \
- * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
  * **unspecifiedError**

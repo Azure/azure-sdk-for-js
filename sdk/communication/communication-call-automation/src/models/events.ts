@@ -69,7 +69,6 @@ export type CallAutomationEvent =
   | TranscriptionStarted
   | TranscriptionStopped
   | TranscriptionUpdated
-  | TranscriptionResumed
   | TranscriptionFailed;
 
 export interface ResultInformation
