@@ -89,7 +89,7 @@
   },
   "dependencies": {
     "mustache": "^4.2.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "glob": "^9.0.0",
     "tslib": "^2.2.0",
     "typescript": "~5.3.3",
