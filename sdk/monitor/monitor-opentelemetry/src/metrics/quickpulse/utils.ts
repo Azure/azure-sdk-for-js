@@ -36,7 +36,7 @@ export function getSdkVersion(): string {
   const nodeVersion = node.split(".");
   const opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
   const version = `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
-  const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX]}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
+  const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
 }
 
