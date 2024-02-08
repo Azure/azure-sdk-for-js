@@ -1452,6 +1452,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
