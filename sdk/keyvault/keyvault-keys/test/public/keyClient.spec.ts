@@ -17,6 +17,7 @@ import { testPollerProperties } from "./utils/recorderUtils";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
 import TestClient from "./utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto";
+import { isBrowser } from "@azure/core-util";
 
 describe("Keys client - create, read, update and delete operations", () => {
   const keyPrefix = `CRUD${env.KEY_NAME || "KeyName"}`;
@@ -30,7 +31,7 @@ describe("Keys client - create, read, update and delete operations", () => {
 
     // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
     // Using a bodiless matcher to ignore the differences that this causes.
-    recorder.setMatcher("BodilessMatcher");
+    await recorder.setMatcher("BodilessMatcher");
     await recorder.start(envSetupForPlayback);
 
     const authentication = await authenticate(getServiceVersion(), recorder);
@@ -263,7 +264,7 @@ describe("Keys client - create, read, update and delete operations", () => {
       "Unexpected key name in result from beginDeleteKey().",
     );
     await poller.pollUntilDone();
-    let getResult = await poller.getResult();
+    let getResult = poller.getResult();
     assert.equal(
       getResult!.name,
       keyName,
@@ -452,7 +453,12 @@ describe("Keys client - create, read, update and delete operations", () => {
       }
     });
 
-    it("can create an exportable key and release it", async () => {
+    it("can create an exportable key and release it", async function (this: Context) {
+      // Recorder sanitizer issue
+      // https://github.com/Azure/azure-sdk-for-js/issues/28455
+      if (isPlaybackMode() && isBrowser) {
+        this.skip();
+      }
       const keyName = recorder.variable(
         "exportkey",
         `exportkey-${Math.floor(Math.random() * 1000)}`,
@@ -499,7 +505,12 @@ describe("Keys client - create, read, update and delete operations", () => {
       );
     });
 
-    it("errors when updating an immutable release policy", async () => {
+    it("errors when updating an immutable release policy", async function (this: Context) {
+      // Recorder sanitizer issue
+      // https://github.com/Azure/azure-sdk-for-js/issues/28455
+      if (isPlaybackMode() && isBrowser) {
+        this.skip();
+      }
       const keyName = recorder.variable(
         "immutablerelease",
         `immutablerelease-${Math.floor(Math.random() * 1000)}`,
