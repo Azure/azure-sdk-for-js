@@ -6,7 +6,9 @@
 
 import { AzureMonitorExporterOptions } from '@azure/monitor-opentelemetry-exporter';
 import { InstrumentationConfig } from '@opentelemetry/instrumentation';
+import { LogRecordProcessor } from '@opentelemetry/sdk-logs';
 import { Resource } from '@opentelemetry/resources';
+import { SpanProcessor } from '@opentelemetry/sdk-trace-base';
 
 // @public
 export interface AzureMonitorOpenTelemetryOptions {
@@ -15,8 +17,10 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
+    logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
+    spanProcessors?: SpanProcessor[];
 }
 
 // @public
