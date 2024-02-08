@@ -36,10 +36,12 @@ To use this client library in the browser, first you need to use a bundler. For 
 ### Initialize CallAutomationClient
 ```JavaScript
 import { CallAutomationClient } from '@azure/communication-call-automation';
+import { DefaultAzureCredential } from "@azure/identity"; 
 
 // Your unique Azure Communication service endpoint
-const endpointUrl = '<ENDPOINT>';
-const callAutomationClient = new CallAutomationClient(endpointUrl);
+const credential = new DefaultAzureCredential(); 
+const endpointUrl = '<ENDPOINT>' 
+const callAutomationClient = new CallAutomationClient(endpointUrl, credential); 
 ```
 
 ### Create Call
@@ -54,7 +56,7 @@ const target: CommunicationUserIdentifier = {
 }
 
 // make invitation
-const callInvite = new CallInvite(target);
+const callInvite:CallInvite = {targetParticipant:target};
 
 // callback url to recieve callback events
 const callbackUrl = "https://<MY-EVENT-HANDLER-URL>/events";
