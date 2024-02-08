@@ -215,8 +215,8 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
     ensureValidMsalToken(scopes, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
     return {
-      token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime(),
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime(),
     };
   }
 }
