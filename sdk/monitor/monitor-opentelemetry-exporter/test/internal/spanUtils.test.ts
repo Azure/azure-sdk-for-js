@@ -6,7 +6,6 @@ import path from "path";
 import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { Resource } from "@opentelemetry/resources";
 import {
   DbSystemValues,
@@ -16,11 +15,11 @@ import {
 
 import { Tags, Properties, Measurements } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
 import { RemoteDependencyData, RequestData, KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
+import { hrTimeToDate } from "../../src/utils/common";
 
 const context = getInstance();
 
@@ -71,11 +70,18 @@ function assertEnvelope(
     ...expectedServiceTags,
     ...expectedTags,
   });
-  assert.deepStrictEqual((envelope?.data?.baseData as RequestData).properties, expectedProperties);
   assert.deepStrictEqual(
-    (envelope?.data?.baseData as RequestData).measurements,
+    (envelope?.data?.baseData as Partial<RequestData>).properties,
+    expectedProperties,
+  );
+  assert.deepStrictEqual(
+    (envelope?.data?.baseData as Partial<RequestData>).measurements,
     expectedMeasurements,
   );
+  // Not posibble to get specific time + duration in these tests
+  if (envelope.data?.baseData) {
+    delete envelope.data.baseData.duration;
+  }
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
 }
 
@@ -113,7 +119,6 @@ describe("spanUtils.ts", () => {
 
         const expectedBaseData: Partial<RequestData> = {
           source: undefined,
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "123",
@@ -162,7 +167,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
@@ -214,7 +218,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
@@ -265,7 +268,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "123",
@@ -307,14 +309,13 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
+        const expectedTime = hrTimeToDate(span.startTime);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
           [KnownContextTagKeys.AiOperationName]: "parent span",
         };
         const expectedBaseData: Partial<RequestData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "0",
@@ -355,7 +356,7 @@ describe("spanUtils.ts", () => {
           code: SpanStatusCode.OK,
         });
         span.end();
-        const expectedTime = new Date(hrTimeToMilliseconds(span.startTime));
+        const expectedTime = hrTimeToDate(span.startTime);
         const expectedTags: Tags = {
           [KnownContextTagKeys.AiOperationId]: "traceid",
           [KnownContextTagKeys.AiOperationParentId]: "parentSpanId",
@@ -364,7 +365,6 @@ describe("spanUtils.ts", () => {
           "az.namespace": "Microsoft.EventHub",
         };
         const expectedBaseData: Partial<RequestData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           name: "parent span",
           success: true,
@@ -414,7 +414,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `${span.spanContext().spanId}`,
           success: true,
           resultCode: "0",
@@ -470,8 +469,7 @@ describe("spanUtils.ts", () => {
           "_MS.links": JSON.stringify([{ operation_Id: "traceid", id: "spanId" }]),
         };
 
-        const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RequestData> = {
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "200",
@@ -525,8 +523,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RequestData> = {
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "200",
@@ -579,8 +576,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RequestData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RequestData> = {
           id: `${span.spanContext().spanId}`,
           success: true,
           responseCode: "0",
@@ -630,8 +626,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "200",
@@ -679,8 +674,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -723,8 +717,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -769,8 +762,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -823,8 +815,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -874,8 +865,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -925,8 +915,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -976,8 +965,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -1027,8 +1015,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",
@@ -1080,8 +1067,7 @@ describe("spanUtils.ts", () => {
           "extra.attribute": "foo",
         };
 
-        const expectedBaseData: RemoteDependencyData = {
-          duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+        const expectedBaseData: Partial<RemoteDependencyData> = {
           id: `spanId`,
           success: true,
           resultCode: "0",

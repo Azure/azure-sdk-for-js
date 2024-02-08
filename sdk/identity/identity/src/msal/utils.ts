@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as msalCommon from "@azure/msal-node";
-
-import { AuthenticationRecord, MsalAccountInfo, MsalToken } from "./types";
+import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
 import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+import { randomUUID as coreRandomUUID, isNode } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
 import { AzureLogLevel } from "@azure/logger";
 import { GetTokenOptions } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { msalCommon } from "./msal";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
@@ -36,7 +35,7 @@ export function ensureValidMsalToken(
   scopes: string | string[],
   msalToken?: MsalToken,
   getTokenOptions?: GetTokenOptions,
-): void {
+): asserts msalToken is ValidMsalToken {
   const error = (message: string): Error => {
     logger.getToken.info(message);
     return new AuthenticationRequiredError({
@@ -139,6 +138,17 @@ export function getMSALLogLevel(logLevel: AzureLogLevel | undefined): msalCommon
       // default msal logging level should be Info
       return msalCommon.LogLevel.Info;
   }
+}
+
+/**
+ * Wraps core-util's randomUUID in order to allow for mocking in tests.
+ * This prepares the library for the upcoming core-util update to ESM.
+ *
+ * @internal
+ * @returns A string containing a random UUID
+ */
+export function randomUUID(): string {
+  return coreRandomUUID();
 }
 
 /**
