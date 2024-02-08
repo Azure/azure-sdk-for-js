@@ -42,7 +42,7 @@ export interface InstrumentationOptions {
 }
 
 // @public
-export function shutdownAzureMonitor(): void;
+export function shutdownAzureMonitor(): Promise<void>;
 
 // @public
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;
