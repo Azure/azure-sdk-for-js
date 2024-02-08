@@ -9,13 +9,13 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   PhoneNumberSearchRequest as PhoneNumberSearchRequestMapper,
   PhoneNumberPurchaseRequest as PhoneNumberPurchaseRequestMapper,
   PhoneNumberCapabilitiesRequest as PhoneNumberCapabilitiesRequestMapper,
-  OperatorInformationRequest as OperatorInformationRequestMapper
+  OperatorInformationRequest as OperatorInformationRequestMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -25,9 +25,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -36,10 +36,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const countryCode: OperationURLParameter = {
@@ -48,9 +48,9 @@ export const countryCode: OperationURLParameter = {
     serializedName: "countryCode",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const phoneNumberType: OperationQueryParameter = {
@@ -60,9 +60,9 @@ export const phoneNumberType: OperationQueryParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["geographic", "tollFree"]
-    }
-  }
+      allowedValues: ["geographic", "tollFree"],
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -71,9 +71,9 @@ export const skip: OperationQueryParameter = {
     defaultValue: 0,
     serializedName: "skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const maxPageSize: OperationQueryParameter = {
@@ -82,9 +82,9 @@ export const maxPageSize: OperationQueryParameter = {
     defaultValue: 100,
     serializedName: "maxPageSize",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const assignmentType: OperationQueryParameter = {
@@ -93,9 +93,9 @@ export const assignmentType: OperationQueryParameter = {
     serializedName: "assignmentType",
     type: {
       name: "Enum",
-      allowedValues: ["person", "application"]
-    }
-  }
+      allowedValues: ["person", "application"],
+    },
+  },
 };
 
 export const locality: OperationQueryParameter = {
@@ -103,9 +103,9 @@ export const locality: OperationQueryParameter = {
   mapper: {
     serializedName: "locality",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const administrativeDivision: OperationQueryParameter = {
@@ -113,9 +113,9 @@ export const administrativeDivision: OperationQueryParameter = {
   mapper: {
     serializedName: "administrativeDivision",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -125,9 +125,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const acceptLanguage: OperationParameter = {
@@ -135,9 +135,9 @@ export const acceptLanguage: OperationParameter = {
   mapper: {
     serializedName: "accept-language",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const phoneNumberType1: OperationQueryParameter = {
@@ -146,9 +146,9 @@ export const phoneNumberType1: OperationQueryParameter = {
     serializedName: "phoneNumberType",
     type: {
       name: "Enum",
-      allowedValues: ["geographic", "tollFree"]
-    }
-  }
+      allowedValues: ["geographic", "tollFree"],
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -158,34 +158,34 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const phoneNumberType2: OperationParameter = {
   parameterPath: "phoneNumberType",
-  mapper: PhoneNumberSearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper,
 };
 
 export const assignmentType1: OperationParameter = {
   parameterPath: "assignmentType",
-  mapper: PhoneNumberSearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper,
 };
 
 export const capabilities: OperationParameter = {
   parameterPath: "capabilities",
-  mapper: PhoneNumberSearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper,
 };
 
 export const areaCode: OperationParameter = {
   parameterPath: ["options", "areaCode"],
-  mapper: PhoneNumberSearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper,
 };
 
 export const quantity: OperationParameter = {
   parameterPath: ["options", "quantity"],
-  mapper: PhoneNumberSearchRequestMapper
+  mapper: PhoneNumberSearchRequestMapper,
 };
 
 export const searchId: OperationURLParameter = {
@@ -194,14 +194,14 @@ export const searchId: OperationURLParameter = {
     serializedName: "searchId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const searchId1: OperationParameter = {
   parameterPath: ["options", "searchId"],
-  mapper: PhoneNumberPurchaseRequestMapper
+  mapper: PhoneNumberPurchaseRequestMapper,
 };
 
 export const operationId: OperationURLParameter = {
@@ -210,9 +210,9 @@ export const operationId: OperationURLParameter = {
     serializedName: "operationId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -222,19 +222,19 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const calling: OperationParameter = {
   parameterPath: ["options", "calling"],
-  mapper: PhoneNumberCapabilitiesRequestMapper
+  mapper: PhoneNumberCapabilitiesRequestMapper,
 };
 
 export const sms: OperationParameter = {
   parameterPath: ["options", "sms"],
-  mapper: PhoneNumberCapabilitiesRequestMapper
+  mapper: PhoneNumberCapabilitiesRequestMapper,
 };
 
 export const phoneNumber: OperationURLParameter = {
@@ -243,9 +243,9 @@ export const phoneNumber: OperationURLParameter = {
     serializedName: "phoneNumber",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -254,19 +254,19 @@ export const top: OperationQueryParameter = {
     defaultValue: 100,
     serializedName: "top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const phoneNumbers: OperationParameter = {
-  parameterPath: ["options", "phoneNumbers"],
-  mapper: OperatorInformationRequestMapper
+  parameterPath: "phoneNumbers",
+  mapper: OperatorInformationRequestMapper,
 };
 
 export const options: OperationParameter = {
   parameterPath: ["options", "options"],
-  mapper: OperatorInformationRequestMapper
+  mapper: OperatorInformationRequestMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -275,8 +275,8 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
