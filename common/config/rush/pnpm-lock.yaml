@@ -863,6 +863,9 @@ dependencies:
   '@rush-temp/health-insights-clinicalmatching':
     specifier: file:./projects/health-insights-clinicalmatching.tgz
     version: file:projects/health-insights-clinicalmatching.tgz
+  '@rush-temp/health-insights-radiologyinsights':
+    specifier: file:./projects/health-insights-radiologyinsights.tgz
+    version: file:projects/health-insights-radiologyinsights.tgz
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
@@ -2097,7 +2100,7 @@ packages:
     engines: {node: ^8.13.0 || >=10.10.0}
     dependencies:
       '@grpc/proto-loader': 0.7.10
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@grpc/proto-loader@0.7.10:
@@ -3175,7 +3178,7 @@ packages:
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3207,7 +3210,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/debug@4.1.12:
@@ -3284,7 +3287,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/istanbul-lib-coverage@2.0.6:
@@ -3302,19 +3305,19 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.5:
     resolution: {integrity: sha512-VRLSGzik+Unrup6BsouBeHsf4d1hOEgYWTm/7Nmw1sXoN1+tRly/Gy/po3yeahnP4jfnQWWAhQAqcNfH7ngOkA==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jws@3.2.9:
     resolution: {integrity: sha512-xAqC7PI7QSBY3fXV1f2pbcdbBFoR4dF8+lH2z6MfZQVcGe14twYVfjzJ3CHhLS1NHxE+DnjUR5xaHu2/U9GGaQ==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/linkify-it@3.0.5:
@@ -3365,13 +3368,13 @@ packages:
   /@types/mysql@2.15.22:
     resolution: {integrity: sha512-wK1pzsJVVAjYCSZWQoWHziQZbNggXFDUEIGf54g4ZM/ERuP86uGdWeKZWMYlqTPMZfHJJvLPyogXGvCOg87yLQ==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/node-fetch@2.6.11:
     resolution: {integrity: sha512-24xFj9R5+rfQJLRyM56qh+wnVSYhyXC2tkoBndtY0U+vubqNsYXGjufB2nn8Q6gt0LrARwL6UBtMCSVCwl4B1g==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
       form-data: 4.0.0
     dev: false
 
@@ -3404,7 +3407,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
       pg-protocol: 1.6.0
       pg-types: 2.2.0
     dev: false
@@ -3424,7 +3427,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3443,7 +3446,7 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/serve-static@1.15.5:
@@ -3471,13 +3474,13 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/trusted-types@2.0.7:
@@ -3487,7 +3490,7 @@ packages:
   /@types/tunnel@0.0.3:
     resolution: {integrity: sha512-sOUTGn6h1SfQ+gbgqC364jLFBw2lnFqkgF3q0WovEHRLMrVD1sd5aufqi/aJObLekJO+Aq5z646U4Oxy6shXMA==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/underscore@1.11.15:
@@ -3505,7 +3508,7 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
 
   /@types/ws@8.5.10:
@@ -3532,7 +3535,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
     dev: false
     optional: true
 
@@ -5005,7 +5008,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.4.2
@@ -8280,7 +8283,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 18.19.14
+      '@types/node': 20.10.8
       long: 5.2.3
     dev: false
 
@@ -18915,6 +18918,50 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/health-insights-radiologyinsights.tgz:
+    resolution: {integrity: sha512-MgqSqs4TL6lf77N+K1LLcTc0OArMhm7942eyZq4LOE5RQoYx+STFg+wOpncRL0oYlXQ5mLl0XjISd/DmTXb7Hg==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    name: '@rush-temp/health-insights-radiologyinsights'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.39.5(@types/node@18.19.14)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.14
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.1
+      eslint: 8.56.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/identity-broker.tgz:
     resolution: {integrity: sha512-a/KZOx0Pwrya7fEF9ymMit270zWaZ6nOQ8yHJ1UUSX0QyShYcmUe3GjQWOSVn1N2HiODZbmfhZGKx2IXJAexFw==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
@@ -19974,7 +20021,7 @@ packages:
     dev: false
 
   file:projects/openai-assistants.tgz:
-    resolution: {integrity: sha512-ylSkGDLi7sv7WZkt8ZvUDFrwX1t8nvAaAKhyKI9I/tIE5zajBroPU9pW0gQn+hfpvcL+VNIOfX3xiILKnuu0zA==, tarball: file:projects/openai-assistants.tgz}
+    resolution: {integrity: sha512-sAmQpau4Yt0j6ZWlakq60s7g0PJlloqpTh3opxH6LgYqH5ZMNQVHFUaoAHVVCEj4y7Al/hF68AfuyOYt8yX2LA==, tarball: file:projects/openai-assistants.tgz}
     name: '@rush-temp/openai-assistants'
     version: 0.0.0
     dependencies:
