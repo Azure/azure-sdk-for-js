@@ -3,45 +3,13 @@
 
 import { resolveProject } from "../../util/resolveProject";
 import { createPrinter } from "../../util/printer";
+import { run } from "../../util/run";
 import { leafCommand } from "../../framework/command";
 import { makeCommandInfo } from "../../framework/command";
 
-import { SpawnOptions, spawn } from "node:child_process";
 import path from "node:path";
 import fs from "node:fs/promises";
 import os from "node:os";
-
-async function run(command: string[] | string, options: SpawnOptions = {}) {
-  const [executable, ...argv] = typeof command === "string" ? command.split(" ") : command;
-
-  let output = "";
-
-  await new Promise((resolve, reject) => {
-    const proc = spawn(executable, argv, options);
-    proc.stdout?.setEncoding("utf8");
-    proc.stderr?.setEncoding("utf8");
-    proc.on("exit", (exitCode, signal) => {
-      if (exitCode === null) {
-        reject(new Error(`subprocess exited with signal ${signal}`));
-      } else if (exitCode === 0) {
-        resolve(output);
-      } else {
-        reject(new Error(`subprocess exited with exit code ${exitCode}.\nOutput:\n${output}`));
-      }
-    });
-
-    proc.on("error", reject);
-
-    proc.stdout?.on("data", (data) => {
-      output += data;
-    });
-    proc.stderr?.on("data", (data) => {
-      output += data;
-    });
-  });
-
-  return output;
-}
 
 const log = createPrinter("apply-customization");
 
@@ -87,7 +55,9 @@ export default leafCommand(commandInfo, async (options) => {
     // 1. Our baseline is the old generated code. Stash unstaged changes to the generated code to get at them
     let stashOutput: string;
     try {
-      stashOutput = await run(["git", "stash", "push", "--", sourceDirectory]);
+      stashOutput = await run(["git", "stash", "push", "--", sourceDirectory], {
+        captureOutput: true,
+      });
     } catch (e: unknown) {
       log(
         "Failed to stash changes to the generated code. This is likely because the generated code is not tracked. Commit the generated code and try again.",
