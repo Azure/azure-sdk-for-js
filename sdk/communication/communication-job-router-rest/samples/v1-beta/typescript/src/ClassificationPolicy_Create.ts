@@ -7,10 +7,10 @@ import * as dotenv from "dotenv";
  */
 import {
   QueueLengthExceptionTrigger
-} from "../src";
+} from "@azure-rest/communication-job-router";
 
-import { AzureCommunicationRoutingServiceClient } from "../src"
-import JobRouter from "../src";
+import { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router"
+import JobRouter from "@azure-rest/communication-job-router";
 
 dotenv.config();
 

@@ -1,5 +1,5 @@
-const JobRouter = require("../src").default;
-const { paginate } = require("../src");
+const JobRouter = require("@azure-rest/communication-job-router").default;
+const { paginate } = require("@azure-rest/communication-job-router");
 require("dotenv").config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

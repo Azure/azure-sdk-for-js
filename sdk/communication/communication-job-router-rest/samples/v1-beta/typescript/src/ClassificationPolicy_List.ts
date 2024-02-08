@@ -6,9 +6,9 @@
  */
 import {
   AzureCommunicationRoutingServiceClient
-} from "../src";
-import JobRouter from "../src";
-import { paginate } from "../src";
+} from "@azure-rest/communication-job-router";
+import JobRouter from "@azure-rest/communication-job-router";
+import { paginate } from "@azure-rest/communication-job-router";
 import * as dotenv from "dotenv";
 dotenv.config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";

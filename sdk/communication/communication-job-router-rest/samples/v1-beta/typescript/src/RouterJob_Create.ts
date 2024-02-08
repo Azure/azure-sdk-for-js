@@ -3,8 +3,8 @@
 /**
  * @summary router job crud
  */
-import { AzureCommunicationRoutingServiceClient, QueueLengthExceptionTrigger } from "../src";
-import JobRouter from "../src"; import * as dotenv from "dotenv";
+import { AzureCommunicationRoutingServiceClient, QueueLengthExceptionTrigger } from "@azure-rest/communication-job-router";
+import JobRouter from "@azure-rest/communication-job-router"; import * as dotenv from "dotenv";
 dotenv.config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 

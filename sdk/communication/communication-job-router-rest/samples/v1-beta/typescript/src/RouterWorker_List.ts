@@ -3,11 +3,11 @@
 /**
  * @summary router worker crud
  */
-import JobRouter, { paginate } from "../src";
+import JobRouter, { paginate } from "@azure-rest/communication-job-router";
 import * as dotenv from "dotenv";
 dotenv.config();
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-import { AzureCommunicationRoutingServiceClient } from "../src";
+import { AzureCommunicationRoutingServiceClient } from "@azure-rest/communication-job-router";
 
 
 // List exception policies
