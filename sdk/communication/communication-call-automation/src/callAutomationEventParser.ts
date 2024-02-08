@@ -15,6 +15,8 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
+  TeamsComplianceRecordingStateChanged,
+  TeamsRecordingStateChanged,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -30,8 +32,6 @@ import {
   SendDtmfTonesFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
-  TeamsComplianceRecordingStateChanged,
-  TeamsRecordingStateChanged,
   TranscriptionStarted,
   TranscriptionStopped,
   TranscriptionUpdated,
@@ -95,6 +95,12 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
+    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
+      callbackEvent = { kind: "TeamsComplianceRecordingStateChanged" } as TeamsComplianceRecordingStateChanged;
+      break;
+    case "Microsoft.Communication.TeamsRecordingStateChanged":
+      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
+      break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;
       break;
@@ -139,12 +145,6 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
-      break;
-    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
-      callbackEvent = { kind: "TeamsComplianceRecordingStateChanged" } as TeamsComplianceRecordingStateChanged;
-      break;
-    case "Microsoft.Communication.TeamsRecordingStateChanged":
-      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
       break;
     case "Microsoft.Communication.TranscriptionStarted":
       callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
