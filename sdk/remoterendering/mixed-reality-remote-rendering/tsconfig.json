@@ -4,8 +4,8 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/mixed-reality-remote-rendering": ["./src/index"],
-    },
+      "@azure/mixed-reality-remote-rendering": ["./src/index"]
+    }
   },
   "exclude": [
     "node_modules",
@@ -15,7 +15,7 @@
     "dist",
     "dist-samples",
     "dist-esm",
-    "./samples/**/*.ts",
+    "./samples/**/*.ts"
   ],
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

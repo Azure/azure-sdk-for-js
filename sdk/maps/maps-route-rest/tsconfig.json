@@ -5,7 +5,7 @@
     "declarationDir": "./types",
     // Configuring the path so that the Samples engine could resolve the sample-dev package against the source code of the SDK.
     // Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-quickstart.md#how-to-write-samples
-    "paths": { "@azure-rest/maps-route": ["./src/index"] },
+    "paths": { "@azure-rest/maps-route": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

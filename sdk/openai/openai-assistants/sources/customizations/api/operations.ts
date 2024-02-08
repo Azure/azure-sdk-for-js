@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  MessageContent,
-  ThreadMessage,
-  ListResponseOf,
-  ThreadRun,
-} from "../models/models.js";
+import { MessageContent, ThreadMessage, ListResponseOf, ThreadRun } from "../models/models.js";
 import {
   Assistant,
   AssistantFile,
@@ -59,7 +54,11 @@ import {
   GetRun200Response,
   SubmitToolOutputsToRun200Response,
 } from "../../generated/src/rest/index.js";
-import { StreamableMethod, operationOptionsToRequestParameters, createRestError } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  operationOptionsToRequestParameters,
+  createRestError,
+} from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
 import { camelCaseKeys } from "./util.js";
 import { ListRunSteps200Response } from "../rest/responses.js";
@@ -91,8 +90,9 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
           submitToolOutputs: !required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  required_action?.submit_tool_outputs?.tool_calls?.map(parseRequiredToolCallOutput),
+                toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !last_error
@@ -203,10 +203,9 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -250,10 +249,9 @@ export async function _submitToolOutputsToRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -297,10 +295,9 @@ export async function _createThreadAndRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -342,10 +339,9 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error

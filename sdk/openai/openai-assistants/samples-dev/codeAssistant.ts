@@ -27,11 +27,7 @@ export async function main() {
   console.log(assistantThread);
 
   const question = "I need to solve the equation '3x + 11 = 14'. Can you help me?";
-  const threadResponse = await assistantsClient.createMessage(
-    assistantThread.id,
-    "user",
-    question
-  );
+  const threadResponse = await assistantsClient.createMessage(assistantThread.id, "user", question);
   console.log(threadResponse);
   let runResponse = await assistantsClient.createRun(
     assistantThread.id,
@@ -40,7 +36,7 @@ export async function main() {
       instructions: "Please address the user as Jane Doe. The user has a premium account.",
     },
     {
-      requestOptions: { timeout: 10000 }
+      requestOptions: { timeout: 10000 },
     }
   );
   console.log(runResponse);
@@ -48,13 +44,9 @@ export async function main() {
   do {
     await new Promise((r) => setTimeout(r, 500));
     runResponse = await assistantsClient.getRun(assistantThread.id, runResponse.id);
-    const runSteps = await assistantsClient.listRunSteps(
-      assistantThread.id,
-      runResponse.id,
-      {
-        limit: 1,
-      }
-    );
+    const runSteps = await assistantsClient.listRunSteps(assistantThread.id, runResponse.id, {
+      limit: 1,
+    });
     console.log(runSteps);
   } while (runResponse.status === "queued" || runResponse.status === "in_progress");
 
