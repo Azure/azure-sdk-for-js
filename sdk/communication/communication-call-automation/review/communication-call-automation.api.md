@@ -950,17 +950,6 @@ export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "call
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionResumed" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionResumed extends Omit<RestTranscriptionResumed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId?: string;
-    correlationId?: string;
-    kind: "TranscriptionResumed";
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
-}
-
 // Warning: (ae-forgotten-export) The symbol "RestTranscriptionStarted" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)

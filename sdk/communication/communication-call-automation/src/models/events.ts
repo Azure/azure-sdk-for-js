@@ -576,23 +576,6 @@ export interface TranscriptionUpdated
   kind: "TranscriptionUpdated";
 }
 
-export interface TranscriptionResumed
-  extends Omit<
-    RestTranscriptionResumed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionResumed";
-}
-
 export interface TranscriptionFailed
   extends Omit<
     RestTranscriptionFailed,
