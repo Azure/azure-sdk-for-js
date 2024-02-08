@@ -1,16 +1,24 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.1 (Unreleased)
 
 ### Features Added
-
-- Added the `isKeyCredential` typeguard function similar to the existing `isTokenCredential`.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.0 (2024-02-01)
+
+### Features Added
+
+- Added the `isKeyCredential` typeguard function similar to the existing `isTokenCredential`.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.5.0 (2023-08-03)
 

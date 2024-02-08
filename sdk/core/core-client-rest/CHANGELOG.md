@@ -1,5 +1,19 @@
 # Release History
 
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+- Allow customers to set request content type by `option.contentType` or `content-type` request headers.
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Set the content-type as `undefined` if it's a non-json string in the body and we are unknown of the content-type, but remain to be `application/json` if it's json string.
+
+### Other Changes
+
 ## 1.2.0 (2024-02-01)
 
 ### Features Added
