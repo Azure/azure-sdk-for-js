@@ -32,8 +32,7 @@ import { getResourceProvider } from "../../utils/common";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
-  const { node } = process.versions;
-  const nodeVersion = node.split(".");
+  const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
   const version = `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
