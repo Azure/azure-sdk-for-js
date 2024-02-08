@@ -892,16 +892,6 @@ export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsRecordingStateChanged";
-    serverCallId: string;
-}
-
 // Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
 //
 // @public
@@ -909,6 +899,16 @@ export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComp
     callConnectionId: string;
     correlationId: string;
     kind: "TeamsComplianceRecordingStateChanged";
+    serverCallId: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "TeamsRecordingStateChanged";
     serverCallId: string;
 }
 
