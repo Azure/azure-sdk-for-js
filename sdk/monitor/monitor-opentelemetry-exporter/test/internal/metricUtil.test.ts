@@ -81,8 +81,8 @@ function assertEnvelope(
 }
 
 describe("metricUtil.ts", () => {
-  const prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
-    ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
+  const prefix = process.env["AZURE_MONITOR_PREFIX"]
+    ? process.env["AZURE_MONITOR_PREFIX"]
     : "";
   const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
     ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`

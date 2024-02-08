@@ -30,7 +30,7 @@ describe("context.ts", () => {
       "Wrong ai.internal.sdkVersion",
     );
 
-    process.env["AZURE_MONITOR_AGENT_PREFIX"] = "testPrefix_";
+    process.env["AZURE_MONITOR_PREFIX"] = "testPrefix_";
     process.env["AZURE_MONITOR_DISTRO_VERSION"] = "_testDistroVersion";
     context["_loadInternalContext"]();
     assert.ok(
