@@ -17,10 +17,10 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
-    logRecordProcessors?: [LogRecordProcessor];
+    logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
-    spanProcessors?: [SpanProcessor];
+    spanProcessors?: SpanProcessor[];
 }
 
 // @public
