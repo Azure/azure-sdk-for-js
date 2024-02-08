@@ -61,7 +61,7 @@ describe("Main functions", () => {
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
-  
+
   it("should shutdown azureMonitor - async", async () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
@@ -73,7 +73,7 @@ describe("Main functions", () => {
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
-  
+
   it("should add custom spanProcessors", () => {
     let processor: SpanProcessor = {
       forceFlush: () => {

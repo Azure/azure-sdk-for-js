@@ -111,7 +111,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
  */
 export function shutdownAzureMonitor(): Promise<void> {
   browserSdkLoader?.dispose();
-  return sdk?.shutdown()
+  return sdk?.shutdown();
 }
 
 function _setStatsbeatFeatures(config: InternalConfig, browserSdkLoader?: BrowserSdkLoader) {
