@@ -46,9 +46,7 @@ describe("OpenAIAssistants", () => {
         it("creates, gets, lists, modifies, and deletes an assistant", async function () {
           const assistantResponse = await client.createAssistant(codeAssistant);
           assertAssistantEquality(codeAssistant, assistantResponse);
-          const getAssistantResponse = await client.getAssistant(
-            assistantResponse.id
-          );
+          const getAssistantResponse = await client.getAssistant(assistantResponse.id);
           assertAssistantEquality(codeAssistant, getAssistantResponse);
           codeAssistant.name = "Completely different name";
           const updateAssistantResponse = await client.updateAssistant(
@@ -63,9 +61,7 @@ describe("OpenAIAssistants", () => {
           assert.equal(oneAssistantList.firstId, oneAssistantList.lastId);
           assert.equal(oneAssistantList.data[0].id, oneAssistantList.firstId);
 
-          const deleteAssistantResponse = await client.deleteAssistant(
-            assistantResponse.id
-          );
+          const deleteAssistantResponse = await client.deleteAssistant(assistantResponse.id);
           assert.equal(deleteAssistantResponse.deleted, true);
         });
 
@@ -84,15 +80,10 @@ describe("OpenAIAssistants", () => {
           const newMetadataValue = "other value";
           thread.metadata.foo = newMetadataValue;
 
-          const updateThreadResponse = await client.updateThread(
-            threadResponse.id,
-            thread
-          );
+          const updateThreadResponse = await client.updateThread(threadResponse.id, thread);
           assert.equal(threadResponse.id, updateThreadResponse.id);
           assert.equal(updateThreadResponse.metadata?.foo, newMetadataValue);
-          const deleteThreadResponse = await client.deleteThread(
-            threadResponse.id
-          );
+          const deleteThreadResponse = await client.deleteThread(threadResponse.id);
           assert.equal(deleteThreadResponse.deleted, true);
         });
         it("creates, gets, modifies, and lists a message", async function () {
@@ -186,12 +177,10 @@ describe("OpenAIAssistants", () => {
           const metadata = { foo: metadataValue };
           const instructions =
             "Please address the user as Jane Doe. The user has a premium account.";
-          const run = await client.createRun(
-            thread.id,
-            {
-              assistantId: assistant.id,
-              instructions,
-              metadata,
+          const run = await client.createRun(thread.id, {
+            assistantId: assistant.id,
+            instructions,
+            metadata,
           });
           assert.isNotNull(run.id);
           assert.equal(run.threadId, thread.id);
@@ -270,11 +259,7 @@ describe("OpenAIAssistants", () => {
               assert.isNotNull(runStep.id);
               assert.equal(runSteps.data.length, listLength);
 
-              const runMessage = await client.getRunStep(
-                thread.id,
-                run.id,
-                runStep.id
-              );
+              const runMessage = await client.getRunStep(thread.id, run.id, runStep.id);
               assert.equal(runStep.id, runMessage.id);
               assert.equal(runMessage.runId, run.id);
               assert.equal(runMessage.threadId, thread.id);
@@ -395,13 +380,16 @@ describe("OpenAIAssistants", () => {
           const message = await client.createMessage(thread.id, role, content);
           assert.isNotNull(message.id);
           assert.equal(message.threadId, thread.id);
-          let run = await client.createRun(thread.id, {
-            assistantId: assistant.id,
-            tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[]
-          }, 
-          {
-            requestOptions: { timeout: 10000 },
-          });
+          let run = await client.createRun(
+            thread.id,
+            {
+              assistantId: assistant.id,
+              tools: [getUserFavoriteCityTool, getCityNicknameTool] as ToolDefinition[],
+            },
+            {
+              requestOptions: { timeout: 10000 },
+            }
+          );
 
           const runId = run.id;
           assert.isNotNull(runId);

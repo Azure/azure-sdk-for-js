@@ -4,8 +4,8 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure-rest/ai-document-translator": ["./src/index"],
-    },
+      "@azure-rest/ai-document-translator": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts", "../documentTranslation.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts", "../documentTranslation.ts"]
 }

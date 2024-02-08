@@ -1034,8 +1034,9 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
           submitToolOutputs: !required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  required_action?.submit_tool_outputs?.tool_calls?.map(parseRequiredToolCallOutput),
+                toolCalls: required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !last_error
@@ -1146,10 +1147,9 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -1193,10 +1193,9 @@ export async function _submitToolOutputsToRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -1240,10 +1239,9 @@ export async function _createThreadAndRunDeserialize(
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error
@@ -1285,10 +1283,9 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
           submitToolOutputs: !result.body.required_action?.submit_tool_outputs?.["tool_calls"]
             ? undefined
             : {
-                toolCalls:
-                  result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
-                    parseRequiredToolCallOutput
-                  ),
+                toolCalls: result.body.required_action?.submit_tool_outputs?.tool_calls?.map(
+                  parseRequiredToolCallOutput
+                ),
               },
         },
     lastError: !result.body.last_error

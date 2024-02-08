@@ -100,7 +100,7 @@ export interface UpdateAssistantOptions {
 export interface DeletionStatus {
   /** The ID of the resource specified for deletion. */
   id: string;
-    /** A value indicating whether deletion was successful. */
+  /** A value indicating whether deletion was successful. */
   deleted: boolean;
 }
 
@@ -159,7 +159,7 @@ export interface AssistantThread {
 }
 
 /** The status of a thread deletion operation. */
-export interface ThreadDeletionStatus extends DeletionStatus {} 
+export interface ThreadDeletionStatus extends DeletionStatus {}
 
 /** A single, existing message within an assistant thread. */
 export interface ThreadMessage {
@@ -203,7 +203,7 @@ export interface MessageTextDetails {
 export interface MessageTextFileCitationAnnotation {
   /** The object type, which is always 'file_citation'. */
   type: "file_citation";
-/** The textual content associated with this text annotation item. */
+  /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
   startIndex: number;
@@ -228,7 +228,7 @@ export interface MessageTextFileCitationDetails {
 export interface MessageTextFilePathAnnotation {
   /** The object type, which is always 'file_path'. */
   type: "file_path";
-/** The textual content associated with this text annotation item. */
+  /** The textual content associated with this text annotation item. */
   text: string;
   /** The first text index associated with this text annotation. */
   startIndex: number;
@@ -560,7 +560,7 @@ export interface InputFile {
 export interface FileDeletionStatus extends DeletionStatus {
   /** The ID of the deleted file. */
   id: string;
-  }
+}
 
 /** An abstract representation of an annotation to text thread message content. */
 export interface ThreadMessageTextAnnotation {
@@ -610,22 +610,17 @@ export type FilePurpose = string;
 /** Alias for MessageContent */
 export type MessageContent = MessageTextContent | MessageImageFileContent;
 /** Alias for MessageTextAnnotation */
-export type MessageTextAnnotation = MessageTextFileCitationAnnotation | MessageTextFilePathAnnotation;
+export type MessageTextAnnotation =
+  | MessageTextFileCitationAnnotation
+  | MessageTextFilePathAnnotation;
 /** Alias for RequiredToolCall */
 export type RequiredToolCall = RequiredFunctionToolCall;
 /** Alias for RunStepDetails */
-export type RunStepDetails =
-  | RunStepMessageCreationDetails
-  | RunStepToolCallDetails
+export type RunStepDetails = RunStepMessageCreationDetails | RunStepToolCallDetails;
 /** Alias for ToolCall */
-export type ToolCall =
-  | CodeInterpreterToolCall
-  | RetrievalToolCall
-  | FunctionToolCall;
+export type ToolCall = CodeInterpreterToolCall | RetrievalToolCall | FunctionToolCall;
 /** Alias for CodeInterpreterToolCallOutput */
-export type CodeInterpreterToolCallOutput =
-  | CodeInterpreterLogOutput
-  | CodeInterpreterImageOutput;
+export type CodeInterpreterToolCallOutput = CodeInterpreterLogOutput | CodeInterpreterImageOutput;
 /** An abstract representation of an input tool definition that an assistant can use. */
 export type ToolDefinition =
   | CodeInterpreterToolDefinition
