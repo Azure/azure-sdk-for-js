@@ -29,6 +29,9 @@ It provides a place to centralize scripts, resources, and processes for developm
   - `reset` (reset the assets, referenced by assets.json, from git to their original files referenced by the tag. Will prompt if there's pending changes)
   - `restore` (restore the assets, referenced by assets.json, from git)
   - `wait-for-proxy-endpoint` (waits until the proxy endpoint is ready or aborts in 120 seconds, whichever happens first)
+- `customize`
+  - `init` (initializes the `src` folder with the generated code for customizations)
+  - `apply` (applies customizations to the generated code)
 - `run`
 
   - `test:node-ts-input` (runs the node tests with TS input files with the default mocha configs, and concurrently runs the proxy tool in record/playback modes if it is not already active)

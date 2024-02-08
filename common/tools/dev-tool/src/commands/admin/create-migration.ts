@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import path from "node:path";
-import readline from "node:readline";
 import { spawnSync } from "node:child_process";
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -12,6 +11,7 @@ import { createPrinter } from "../../util/printer";
 import { ensureDir, pathExists, writeFile } from "fs-extra";
 
 import { format } from "../../util/prettier";
+import { prompt } from "../../util/prompt";
 
 const log = createPrinter("create-migration");
 
@@ -41,26 +41,6 @@ export const commandInfo = makeCommandInfo("create-migration", "scaffolds a new 
     default: false,
   },
 });
-
-/**
- * Prompt a user for input.
- *
- * @param prompt - The prompt to display to the user.
- * @returns The user's input.
- */
-async function prompt(prompt: string): Promise<string> {
-  const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-  });
-
-  return new Promise((resolve) => {
-    rl.question(prompt, (answer) => {
-      rl.close();
-      resolve(answer);
-    });
-  });
-}
 
 export default leafCommand(commandInfo, async (options) => {
   log.info("Creating a new migration...");
