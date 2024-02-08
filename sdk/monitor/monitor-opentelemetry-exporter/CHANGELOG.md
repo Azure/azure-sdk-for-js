@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Changed the environment variable used to pass the sdk prefix.
+
 ## 1.0.0-beta.19 (2024-01-23)
 
 ### Features Added

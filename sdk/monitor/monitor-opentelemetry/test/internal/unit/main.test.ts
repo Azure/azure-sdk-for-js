@@ -127,7 +127,7 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    assert.strictEqual(process.env["AZURE_MONITOR_AGENT_PREFIX"], `a${os}m_`);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `a${os}m_`);
   });
 
   it("should capture the azure function SDK prefix correctly", () => {
@@ -141,7 +141,7 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    assert.strictEqual(process.env["AZURE_MONITOR_AGENT_PREFIX"], `f${os}m_`);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `f${os}m_`);
   });
 
   it("should capture the AKS SDK prefix correctly", () => {
@@ -155,6 +155,6 @@ describe("Main functions", () => {
       },
     };
     useAzureMonitor(config);
-    assert.strictEqual(process.env["AZURE_MONITOR_AGENT_PREFIX"], `k${os}m_`);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
 });

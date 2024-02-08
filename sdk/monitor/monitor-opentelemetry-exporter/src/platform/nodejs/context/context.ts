@@ -40,8 +40,8 @@ export class Context {
     Context.opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
 
-    const prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
-      ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
+    const prefix = process.env["AZURE_MONITOR_PREFIX"]
+      ? process.env["AZURE_MONITOR_PREFIX"]
       : "";
     const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
       ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`

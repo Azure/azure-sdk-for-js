@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- Add SDK prefix including attach type.
+- Add SDK prefix including attach type in both manual and auto-attach scenarios.
 
 ## 1.2.0 (2024-01-23)
 
