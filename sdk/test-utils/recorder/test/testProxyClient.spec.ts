@@ -133,7 +133,7 @@ describe("TestProxyClient functions", () => {
         env.TEST_MODE = testMode;
         const recordingId = "dummy-recording-id";
         clientHttpClient.sendRequest = (req): Promise<PipelineResponse> => {
-          if (req.url.endsWith(paths.setRecordingOptions)) {
+          if (req.url.endsWith(paths.setRecordingOptions) || req.url.endsWith(paths.setMatcher)) {
             return Promise.resolve({
               headers: createHttpHeaders(),
               status: 200,

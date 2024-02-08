@@ -6,8 +6,8 @@
     "lib": ["dom"],
     "resolveJsonModule": true,
     "paths": {
-      "@azure/keyvault-certificates": ["./src/index"],
-    },
+      "@azure/keyvault-certificates": ["./src/index"]
+    }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

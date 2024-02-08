@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/health-insights-cancerprofiling": ["./src/index"] },
+    "paths": { "@azure-rest/health-insights-cancerprofiling": ["./src/index"] }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

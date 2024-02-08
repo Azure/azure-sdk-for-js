@@ -31,7 +31,7 @@ import { addTransform, Transform } from "./transform";
 import { createRecordingRequest } from "./utils/createRecordingRequest";
 import { logger } from "./log";
 import { setRecordingOptions } from "./options";
-import { isNode } from "@azure/core-util";
+import { isBrowser, isNode } from "@azure/core-util";
 import { env } from "./utils/env";
 import { decodeBase64 } from "./utils/encoding";
 import { AdditionalPolicyConfig } from "@azure/core-client";
@@ -52,6 +52,7 @@ export class Recorder {
   private sessionFile?: string;
   private assetsJson?: string;
   private variables: Record<string, string>;
+  private matcherSet = false;
 
   constructor(private testContext?: Test | undefined) {
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
@@ -205,6 +206,15 @@ export class Recorder {
     }
   }
 
+  private async preStart(): Promise<void> {
+    if (isBrowser && isPlaybackMode()) {
+      if (!this.matcherSet) {
+        await this.setMatcher("CustomDefaultMatcher");
+        this.matcherSet = true;
+      }
+    }
+  }
+
   /**
    * Call this method to ping the proxy-tool with a start request
    * signalling to start recording in the record mode
@@ -216,6 +226,8 @@ export class Recorder {
    * - sanitizerOptions - Generated recordings are updated by the "proxy-tool" based on the sanitizer options provided, these santizers are applied only in "record" mode.
    */
   async start(options: RecorderStartOptions): Promise<void> {
+    await this.preStart();
+
     if (isLiveMode()) return;
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
@@ -379,13 +391,37 @@ export class Recorder {
   /**
    * Sets the matcher for the current recording to the matcher specified.
    */
-  async setMatcher(matcher: Matcher, options?: CustomMatcherOptions): Promise<void> {
+  async setMatcher(matcher: Matcher, options: CustomMatcherOptions = {}): Promise<void> {
     if (isPlaybackMode()) {
       if (!this.httpClient) {
         throw new RecorderError("httpClient should be defined in playback mode");
       }
 
-      await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, options);
+      // See discussion in https://github.com/Azure/azure-sdk-tools/pull/6152
+      // Ideally this should be handled by the test-proxy.  However, it was suggested that
+      // there may be scenarios where it is desired to include this header.
+      // Thus we are ignoring Accept-Language header  in recorder for browser.
+      const excludedHeaders = isBrowser
+        ? (options.excludedHeaders ?? []).concat("Accept-Language")
+        : options.excludedHeaders;
+
+      const updatedOptions = {
+        ...options,
+        excludedHeaders,
+      };
+      if (matcher === "BodilessMatcher") {
+        updatedOptions.compareBodies = false;
+        await setMatcher(
+          Recorder.url,
+          this.httpClient,
+          "CustomDefaultMatcher",
+          this.recordingId,
+          updatedOptions,
+        );
+      } else {
+        await setMatcher(Recorder.url, this.httpClient, matcher, this.recordingId, updatedOptions);
+      }
+      this.matcherSet = true;
     }
   }
 
