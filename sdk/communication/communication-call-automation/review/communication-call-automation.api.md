@@ -106,7 +106,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -708,26 +708,6 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
     serverCallId: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsComplianceRecordingStateChanged";
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsRecordingStateChanged";
-    serverCallId: string;
-}
-
 // @public
 export interface RecordingStateResult {
     // (undocumented)
@@ -910,6 +890,26 @@ export type StopRecordingOptions = OperationOptions;
 // @public
 export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "TeamsComplianceRecordingStateChanged";
+    serverCallId: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "TeamsRecordingStateChanged";
+    serverCallId: string;
 }
 
 // @public
