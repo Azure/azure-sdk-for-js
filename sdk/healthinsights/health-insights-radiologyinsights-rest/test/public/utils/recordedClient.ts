@@ -2,8 +2,13 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
+/*
+import { assertEnvironmentVariable, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+*/
 import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
+import { AzureKeyCredential } from "@azure/core-auth";
+import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",
@@ -27,3 +32,11 @@ export async function createRecorder(context: Context): Promise<Recorder> {
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
+
+export async function createClient(recorder: Recorder): Promise<AzureHealthInsightsClient> {
+  const endpoint = assertEnvironmentVariable("AZURE_HEALTH_INSIGHTS_ENDPOINT");
+  const key = assertEnvironmentVariable("AZURE_HEALTH_INSIGHTS_KEY");
+  const credential = new AzureKeyCredential(key);
+  return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
+}
+0 comments on comm
