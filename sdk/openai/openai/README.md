@@ -469,7 +469,7 @@ The `gpt-4-vision-preview` model allows you to use images as input components in
 To do this, provide distinct content items on the user message(s) for the chat completions request:
 
 ```js
-const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
+const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
 const deploymentName = "gpt-4-1106-preview";
 const messages: ChatRequestMessage[] = [{role: "user", content: [{
   type: "image_url",

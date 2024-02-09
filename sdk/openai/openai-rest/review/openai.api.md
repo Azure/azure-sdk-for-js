@@ -4,23 +4,22 @@
 
 ```ts
 
+import { AzureKeyCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { ErrorModel } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { OperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
-import { SimplePollerLike } from '@azure/core-lro';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AudioSpeechOptions {
     input: string;
+    model?: string;
     response_format?: string;
     speed?: number;
     voice: string;
@@ -28,7 +27,7 @@ export interface AudioSpeechOptions {
 
 // @public
 export interface AudioTranscriptionOptions {
-    file: string;
+    file: File;
     filename?: string;
     language?: string;
     model?: string;
@@ -62,7 +61,7 @@ export interface AudioTranscriptionSegmentOutput {
 
 // @public
 export interface AudioTranslationOptions {
-    file: string;
+    file: File;
     filename?: string;
     model?: string;
     prompt?: string;
@@ -193,6 +192,8 @@ export interface AzureGroundingEnhancementOutput {
     lines: Array<AzureGroundingEnhancementLineOutput>;
 }
 
+export { AzureKeyCredential }
+
 // @public
 export interface AzureMachineLearningIndexChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
     parameters: AzureMachineLearningIndexChatExtensionParameters;
@@ -244,68 +245,6 @@ export interface AzureSearchIndexFieldMappingOptions {
     url_field?: string;
     vector_fields?: string[];
 }
-
-// @public
-export interface BatchImageGenerationOperationResponseOutput {
-    created: number;
-    error?: ErrorModel;
-    expires?: number;
-    id: string;
-    result?: ImageGenerationsOutput;
-    status: string;
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGeneration {
-    post(options?: BeginAzureBatchImageGenerationParameters): StreamableMethod<BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse>;
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGeneration202Headers {
-    "operation-location": string;
-}
-
-// @public
-export interface BeginAzureBatchImageGeneration202Response extends HttpResponse {
-    // (undocumented)
-    body: BatchImageGenerationOperationResponseOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & BeginAzureBatchImageGeneration202Headers;
-    // (undocumented)
-    status: "202";
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationBodyParam {
-    // (undocumented)
-    body?: ImageGenerationOptions;
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface BeginAzureBatchImageGenerationDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & BeginAzureBatchImageGenerationDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public
-export interface BeginAzureBatchImageGenerationLogicalResponse extends HttpResponse {
-    // (undocumented)
-    body: BatchImageGenerationOperationResponseOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type BeginAzureBatchImageGenerationParameters = BeginAzureBatchImageGenerationBodyParam & RequestParameters;
 
 // @public
 export interface ChatChoiceLogProbabilityInfoOutput {
@@ -937,37 +876,6 @@ export interface GetAudioTranslationAsResponseObjectMediaTypesParam {
 export type GetAudioTranslationAsResponseObjectParameters = GetAudioTranslationAsResponseObjectMediaTypesParam & GetAudioTranslationAsResponseObjectBodyParam & RequestParameters;
 
 // @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatus {
-    get(options?: GetAzureBatchImageGenerationOperationStatusParameters): StreamableMethod<GetAzureBatchImageGenerationOperationStatus200Response | GetAzureBatchImageGenerationOperationStatusDefaultResponse>;
-}
-
-// @public
-export interface GetAzureBatchImageGenerationOperationStatus200Response extends HttpResponse {
-    // (undocumented)
-    body: BatchImageGenerationOperationResponseOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface GetAzureBatchImageGenerationOperationStatusDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & GetAzureBatchImageGenerationOperationStatusDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export type GetAzureBatchImageGenerationOperationStatusParameters = RequestParameters;
-
-// @public (undocumented)
 export interface GetChatCompletions {
     post(options?: GetChatCompletionsParameters): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
@@ -1116,9 +1024,6 @@ export interface GetImageGenerationsDefaultResponse extends HttpResponse {
 export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
 
 // @public
-export function getLongRunningPoller<TResult extends BeginAzureBatchImageGenerationLogicalResponse | BeginAzureBatchImageGenerationDefaultResponse>(client: Client, initialResponse: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
-
-// @public
 export interface ImageGenerationDataOutput {
     b64_json?: string;
     revised_prompt?: string;
@@ -1175,12 +1080,6 @@ export function isUnexpected(response: GetAudioSpeech200Response | GetAudioSpeec
 
 // @public (undocumented)
 export function isUnexpected(response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse): response is GetEmbeddingsDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: GetAzureBatchImageGenerationOperationStatus200Response | GetAzureBatchImageGenerationOperationStatusDefaultResponse): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
-
-// @public (undocumented)
-export function isUnexpected(response: BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationLogicalResponse | BeginAzureBatchImageGenerationDefaultResponse): response is BeginAzureBatchImageGenerationDefaultResponse;
 
 // @public
 export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
@@ -1308,8 +1207,6 @@ export interface Routes {
     (path: "/deployments/{deploymentId}/images/generations", deploymentId: string): GetImageGenerations;
     (path: "/deployments/{deploymentId}/audio/speech", deploymentId: string): GetAudioSpeech;
     (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
-    (path: "/operations/images/{operationId}", operationId: string): GetAzureBatchImageGenerationOperationStatus;
-    (path: "/images/generations:submit"): BeginAzureBatchImageGeneration;
 }
 
 // @public
