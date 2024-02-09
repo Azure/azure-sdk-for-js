@@ -9,7 +9,7 @@ Key links:
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/openai/rlc-generated/sdk/openai/openai-rest)
 - [Package (NPM)](https://aka.ms/npm-azure-rest-openai)
 - [API reference documentation](https://aka.ms/AAp1kxa)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/openai/rlc-generated/sdk/openai/openai-rest/samples)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/samples)
 
 ## Getting started
 
