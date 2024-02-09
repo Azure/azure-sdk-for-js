@@ -70,6 +70,11 @@ export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURE
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
 
+export enum AttachTypePrefix {
+  INTEGRATED_AUTO = "i",
+  MANUAL = "m",
+}
+
 /**
  * Default Browser SDK Loader Source
  * @internal

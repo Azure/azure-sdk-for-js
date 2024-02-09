@@ -24,6 +24,7 @@ import {
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
+  AttachTypePrefix,
 } from "../../types";
 import { Resource } from "@opentelemetry/resources";
 import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
@@ -34,7 +35,7 @@ import { getResourceProvider } from "../../utils/common";
 export function getSdkVersion(): string {
   const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
-  const version = `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  const version = `ext${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
   const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
 }
@@ -42,7 +43,10 @@ export function getSdkVersion(): string {
 /** Set the version prefix to a string in the format {ResourceProvider}{OS}m_ */
 export function setSdkPrefix(): void {
   if (!process.env[AZURE_MONITOR_PREFIX]) {
-    const prefixAttachType: string = process.env[AZURE_MONITOR_AUTO_ATTACH] === "true" ? "i" : "m";
+    const prefixAttachType: string =
+      process.env[AZURE_MONITOR_AUTO_ATTACH] === "true"
+        ? AttachTypePrefix.INTEGRATED_AUTO
+        : AttachTypePrefix.MANUAL;
     process.env[AZURE_MONITOR_PREFIX] =
       `${getResourceProvider()}${getOsPrefix()}${prefixAttachType}_`;
   }
