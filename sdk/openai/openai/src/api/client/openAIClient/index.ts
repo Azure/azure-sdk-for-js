@@ -9,11 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import {
-  StreamableMethod,
-  createRestError,
-  operationOptionsToRequestParameters,
-} from "@azure-rest/core-client";
+import { StreamableMethod, createRestError, operationOptionsToRequestParameters } from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
