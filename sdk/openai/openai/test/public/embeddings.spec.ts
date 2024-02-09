@@ -51,13 +51,13 @@ describe("OpenAI", function () {
           const expectations = {
             messagePattern: /'\$.input' is invalid/,
             type: `invalid_request_error`,
-          }
+          };
           try {
-             await client.getEmbeddings(modelName, true as any);
+            await client.getEmbeddings(modelName, true as any);
           } catch (e: any) {
             assert.match(e.message, expectations.messagePattern);
             assert.equal(e.type, expectations.type);
-          }           
+          }
         });
       });
     });
