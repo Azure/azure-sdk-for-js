@@ -97,7 +97,7 @@ export function buildInternalChangeFeedOptions(
   options: ChangeFeedIteratorOptions,
   continuationToken?: string,
   startTime?: Date,
-  startFromNow?: boolean
+  startFromNow?: boolean,
 ): InternalChangeFeedIteratorOptions {
   const internalCfOptions = {} as InternalChangeFeedIteratorOptions;
   internalCfOptions.maxItemCount = options?.maxItemCount;

@@ -81,7 +81,7 @@ export function changeFeedIteratorBuilder(
       cfOptions,
       undefined,
       startTime,
-      startFromNow
+      startFromNow,
     );
     const cfResource = changeFeedStartFrom.getCfResource();
     if (isPartitionKey(cfResource)) {

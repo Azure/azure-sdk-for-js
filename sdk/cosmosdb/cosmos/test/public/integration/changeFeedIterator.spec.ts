@@ -468,7 +468,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
       "Changefeed allVersionsAndDeletes-EntireContainer",
       undefined,
       containerDef,
-      throughput
+      throughput,
     );
     await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
@@ -488,7 +488,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
       );
       return;
     }
@@ -605,7 +605,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
       "Changefeed allVersionsAndDeletes-FeedRange",
       undefined,
       containerDef,
-      throughput
+      throughput,
     );
     await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
@@ -626,7 +626,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
       );
       return;
     }
@@ -743,7 +743,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
       "Changefeed allVersionsAndDeletes-PartitionKey",
       undefined,
       containerDef,
-      throughput
+      throughput,
     );
     await changeFeedAllVersionsInsertItems(container, 1, 5);
   });
@@ -763,7 +763,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header.")
+        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
       );
       return;
     }

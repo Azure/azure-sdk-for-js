@@ -644,7 +644,7 @@ export async function assertThrowsAsync(test: () => Promise<any>, error?: any): 
 export async function changeFeedAllVersionsInsertItems(
   container: Container,
   startIndex: number,
-  endIndex: number
+  endIndex: number,
 ): Promise<void> {
   for (let i = startIndex; i <= endIndex; i++) {
     await container.items.create({ id: `sample1+${i}`, name: "sample1", key: i });
@@ -658,7 +658,7 @@ export async function changeFeedAllVersionsUpsertItems(
   container: Container,
   startIndex: number,
   endIndex: number,
-  newValue: number
+  newValue: number,
 ): Promise<void> {
   for (let i = startIndex; i <= endIndex; i++) {
     await container.items.upsert({ id: `sample1+${i}`, name: "sample1", key: newValue });
@@ -671,7 +671,7 @@ export async function changeFeedAllVersionsUpsertItems(
 export async function changeFeedAllVersionsDeleteItems(
   container: Container,
   startIndex: number,
-  endIndex: number
+  endIndex: number,
 ): Promise<void> {
   for (let i = startIndex; i <= endIndex; i++) {
     await container.item(`sample1+${i}`, "sample1").delete();

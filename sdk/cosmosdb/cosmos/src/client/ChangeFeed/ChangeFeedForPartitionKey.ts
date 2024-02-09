@@ -173,14 +173,13 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         response.result ? response.result.length : 0,
         response.code,
         response.headers,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
       if (err.code >= 400 && err.code !== StatusCodes.Gone) {
         const errorResponse = new ErrorResponse(err.message);
         errorResponse.code = err.code;
         errorResponse.headers = err.headers;
-
         throw errorResponse;
       }
       return new ChangeFeedIteratorResponse(
@@ -188,7 +187,7 @@ export class ChangeFeedForPartitionKey<T> implements ChangeFeedPullModelIterator
         0,
         err.code,
         err.headers,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     }
   }
