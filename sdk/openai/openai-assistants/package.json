@@ -17,7 +17,7 @@
   ],
   "license": "MIT",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "./dist-esm/src/index.js",
   "types": "./types/openai-assistants.d.ts",
   "exports": {
@@ -33,6 +33,10 @@
     "./models": {
       "types": "./types/src/models/index.d.ts",
       "import": "./dist-esm/src/models/index.js"
+    },
+    "./rest": {
+      "types": "./types/src/rest/index.d.ts",
+      "import": "./dist-esm/src/rest/index.js"
     }
   },
   "repository": "github:Azure/azure-sdk-for-js",
