@@ -5,8 +5,8 @@
   // to authenticate.
   "cacheProvider": "azure-blob-storage",
   "azureBlobStorageConfiguration": {
-    "storageAccountName": "azsdkjsrush",
-    "storageContainerName": "rush-build-cache",
+    "storageAccountName": "azuresdkartifacts",
+    "storageContainerName": "azure-sdk-for-js-rush-cache",
     "isCacheWriteAllowed": false
   }
 }
