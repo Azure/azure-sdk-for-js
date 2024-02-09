@@ -8,7 +8,6 @@ import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { getDeployments, getModels } from "./utils/utils.js";
 import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
-import { assertOpenAiError } from "./utils/asserts.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -49,11 +48,16 @@ describe("OpenAI", function () {
         });
 
         it("wrong prompt type", async function () {
-          // TODO: Update the error message expectations
-          assertOpenAiError(client.getEmbeddings(modelName, true as any), {
-            messagePattern: /\$.input invalid/,
+          const expectations = {
+            messagePattern: /'\$.input' is invalid/,
             type: `invalid_request_error`,
-          });
+          }
+          try {
+             await client.getEmbeddings(modelName, true as any);
+          } catch (e: any) {
+            assert.match(e.message, expectations.messagePattern);
+            assert.equal(e.type, expectations.type);
+          }           
         });
       });
     });
