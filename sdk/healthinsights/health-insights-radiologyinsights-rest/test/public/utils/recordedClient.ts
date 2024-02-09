@@ -39,4 +39,3 @@ export async function createClient(recorder: Recorder): Promise<AzureHealthInsig
   const credential = new AzureKeyCredential(key);
   return AHIClient(endpoint, credential, recorder.configureClientOptions({}));
 }
-0 comments on comm
