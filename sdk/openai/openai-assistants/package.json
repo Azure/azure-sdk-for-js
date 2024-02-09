@@ -48,6 +48,7 @@
     "dist/",
     "dist-esm/src/",
     "types/openai-assistants.d.ts",
+    "types/src",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
