@@ -3,11 +3,15 @@
 const { execSync } = require('child_process');
 
 function getRemoteName() {
-  const remoteName = execSync(`git rev-parse --abbrev-ref --symbolic-full-name @{u}`)
+  try {
+    const remoteName = execSync(`git rev-parse --abbrev-ref --symbolic-full-name @{u}`)
     .toString()
     .trim()
     .split('/');
-  return remoteName[0];
+    return remoteName[0];
+  } catch (e) {
+    return '';
+  }
 }
 
 function getLocalCommitsNotMerged() {
@@ -15,6 +19,7 @@ function getLocalCommitsNotMerged() {
   execSync('git fetch');
 
   const remoteName = getRemoteName();
+  if (remoteName == '') return [];
 
   // Get the list of commits not merged to the remote main branch
   const localCommitsNotMerged = execSync(`git log ${remoteName}/main..HEAD --oneline`)
@@ -113,7 +118,7 @@ console.log("About to Push the code to Github\n");
 
 async function main() {
   const localCommits = getLocalCommitsNotMerged();
-  if (localCommits[0].trim() == '') {
+  if (localCommits.length != 0 && localCommits[0].trim() == '') {
     console.log('No local commits to push');
     process.exit(0);
   }
