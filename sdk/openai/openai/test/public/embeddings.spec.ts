@@ -49,22 +49,21 @@ describe("OpenAI", function () {
 
         it("wrong prompt type", async function () {
           // TODO: Update the error message expectations
-            const expectations = {
-              messagePattern:
-                /'\$.input' is invalid. Please check the API reference: https:\/\/platform.openai.com\/docs\/api-reference./,
-              type: `invalid_request_error`,
-              statusCode: 400,
-            };
-            try {
-              await client.getEmbeddings(modelName, true as any);
-            } catch (e: any) {
-              assert.isTrue(e instanceof Error);
-              assert.match(e.message, expectations.messagePattern);
-              assert.equal(e.statusCode, expectations.statusCode);
-            }
-          });
+          const expectations = {
+            messagePattern:
+              /'\$.input' is invalid. Please check the API reference: https:\/\/platform.openai.com\/docs\/api-reference./,
+            type: `invalid_request_error`,
+            statusCode: 400,
+          };
+          try {
+            await client.getEmbeddings(modelName, true as any);
+          } catch (e: any) {
+            assert.isTrue(e instanceof Error);
+            assert.match(e.message, expectations.messagePattern);
+            assert.equal(e.statusCode, expectations.statusCode);
+          }
         });
       });
-    }
-  );
+    });
+  });
 });
