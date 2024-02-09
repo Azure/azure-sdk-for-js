@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHttpHeaders } from "../src/httpHeaders";
-import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces";
-import { createPipelineRequest } from "../src/pipelineRequest";
-import { multipartPolicy } from "../src/policies/multipartPolicy";
-import { assert, describe, it, vi, expect } from "vitest";
-import type { PipelineRequestOptions } from "../src/pipelineRequest";
+import { createHttpHeaders } from "../src/httpHeaders.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
+import { createPipelineRequest } from "../src/pipelineRequest.js";
+import { multipartPolicy } from "../src/policies/multipartPolicy.js";
+import { describe, it, assert, expect, vi } from "vitest";
+import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "@azure/core-util";
-import { assertBodyMatches } from "./util";
+import { assertBodyMatches } from "./util.js";
 
 export async function performRequest(
   requestOptions: Omit<PipelineRequestOptions, "url" | "method">,
