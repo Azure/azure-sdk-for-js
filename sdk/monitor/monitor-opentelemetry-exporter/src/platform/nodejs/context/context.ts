@@ -42,7 +42,7 @@ export class Context {
 
     const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";
     const version = process.env["AZURE_MONITOR_DISTRO_VERSION"]
-      ? `dst${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
+      ? `ext${process.env["AZURE_MONITOR_DISTRO_VERSION"]}`
       : `ext${Context.sdkVersion}`;
     const internalSdkVersion = `${prefix}node${Context.nodeVersion}:otel${Context.opentelemetryVersion}:${version}`;
     this.tags[KnownContextTagKeys.AiInternalSdkVersion] = internalSdkVersion;

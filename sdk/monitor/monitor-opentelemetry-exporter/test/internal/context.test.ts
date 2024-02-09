@@ -42,7 +42,7 @@ describe("context.ts", () => {
       "Wrong ai.internal.sdkVersion",
     );
     assert.ok(
-      context.tags["ai.internal.sdkVersion"].endsWith(":dst_testDistroVersion"),
+      context.tags["ai.internal.sdkVersion"].endsWith(":ext_testDistroVersion"),
       "Wrong ai.internal.sdkVersion",
     );
   });
