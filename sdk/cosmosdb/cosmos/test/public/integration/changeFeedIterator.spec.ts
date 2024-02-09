@@ -488,7 +488,7 @@ describe("test changefeed allVersionsAndDeletes mode for entire container", func
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
+        err.message.includes("You must read the change feed from within the retention period."),
       );
       return;
     }
@@ -626,7 +626,7 @@ describe("test changefeed allVersionsAndDeletes mode for a feed range", function
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
+        err.message.includes("You must read the change feed from within the retention period."),
       );
       return;
     }
@@ -763,7 +763,7 @@ describe("test changefeed allVersionsAndDeletes mode for a partition key", funct
       assert.strictEqual(err.code, StatusCodes.BadRequest);
       assert.strictEqual(
         true,
-        err.message.includes("FullFidelity Change Feed must have valid If-None-Match header."),
+        err.message.includes("You must read the change feed from within the retention period."),
       );
       return;
     }
