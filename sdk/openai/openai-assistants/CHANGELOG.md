@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.3 (2024-02-09)
 
 ### Bugs Fixed
 
-### Other Changes
+- Re-fixed issue 28529 - import error for TypeScript users - add types/src to build output
 
 ## 1.0.0-beta.2 (2024-02-09)
 
