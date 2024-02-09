@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { ErrorModel } from "@azure-rest/core-client";
 
 /** A specific deployment */
@@ -24,7 +16,7 @@ export interface AudioTranscriptionOutput {
   /**
    * The label that describes which operation type generated the accompanying response data.
    *
-   * Possible values: transcribe, translate
+   * Possible values: "transcribe", "translate"
    */
   task?: string;
   /**
@@ -79,7 +71,7 @@ export interface AudioTranslationOutput {
   /**
    * The label that describes which operation type generated the accompanying response data.
    *
-   * Possible values: transcribe, translate
+   * Possible values: "transcribe", "translate"
    */
   task?: string;
   /**
@@ -208,7 +200,7 @@ export interface ContentFilterResultOutput {
   /**
    * Ratings for the intensity and risk level of filtered content.
    *
-   * Possible values: safe, low, medium, high
+   * Possible values: "safe", "low", "medium", "high"
    */
   severity: string;
   /** A value indicating whether or not the content has been filtered. */
@@ -347,7 +339,8 @@ export interface ChatCompletionsToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
+export interface ChatCompletionsFunctionToolCallOutput
+  extends ChatCompletionsToolCallOutputParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -390,12 +383,12 @@ export interface ChatCompletionsOutput {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  prompt_filter_results: Array<ContentFilterResultsForPromptOutput>;
+  prompt_filter_results?: Array<ContentFilterResultsForPromptOutput>;
   /**
    * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
    * might impact determinism.
    */
-  system_fingerprint: string;
+  system_fingerprint?: string;
   /** Usage information for tokens processed and generated as part of this completions operation. */
   usage: CompletionsUsageOutput;
 }
@@ -438,7 +431,7 @@ export interface ChatResponseMessageOutput {
   /**
    * The chat role associated with the message.
    *
-   * Possible values: system, assistant, user, function, tool
+   * Possible values: "system", "assistant", "user", "function", "tool"
    */
   role: string;
   /** The content of the message. */
@@ -492,7 +485,8 @@ export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
  * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
  * complete.
  */
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
+export interface MaxTokensFinishDetailsOutput
+  extends ChatFinishDetailsOutputParent {
   /** The object type, which is always 'max_tokens' for this object. */
   type: "max_tokens";
 }
@@ -541,6 +535,53 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   x: number;
   /** The y-coordinate (vertical axis) of the point. */
   y: number;
+}
+
+/** Represents the request data used to generate images. */
+export interface ImageGenerationOptionsOutput {
+  /**
+   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
+   * inferred as a default.
+   */
+  model?: string;
+  /** A description of the desired images. */
+  prompt: string;
+  /**
+   * The number of images to generate.
+   * Dall-e-2 models support values between 1 and 10.
+   * Dall-e-3 models only support a value of 1.
+   */
+  n?: number;
+  /**
+   * The desired dimensions for generated images.
+   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
+   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
+   *
+   * Possible values: "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"
+   */
+  size?: string;
+  /**
+   * The format in which image generation response items should be presented.
+   *
+   * Possible values: "url", "b64_json"
+   */
+  response_format?: string;
+  /**
+   * The desired image generation quality level to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: "standard", "hd"
+   */
+  quality?: string;
+  /**
+   * The desired image generation style to use.
+   * Only configurable with dall-e-3 models.
+   *
+   * Possible values: "natural", "vivid"
+   */
+  style?: string;
+  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
+  user?: string;
 }
 
 /** The result of a successful image generation operation. */
@@ -614,64 +655,22 @@ export interface BatchImageGenerationOperationResponseOutput {
   /**
    * The status of the operation
    *
-   * Possible values: notRunning, running, succeeded, canceled, failed
+   * Possible values: "notRunning", "running", "succeeded", "canceled", "failed"
    */
   status: string;
   /** The error if the operation failed. */
   error?: ErrorModel;
 }
 
-/** Represents the request data used to generate images. */
-export interface ImageGenerationOptionsOutput {
-  /**
-   * The model name or Azure OpenAI model deployment name to use for image generation. If not specified, dall-e-2 will be
-   * inferred as a default.
-   */
-  model?: string;
-  /** A description of the desired images. */
-  prompt: string;
-  /**
-   * The number of images to generate.
-   * Dall-e-2 models support values between 1 and 10.
-   * Dall-e-3 models only support a value of 1.
-   */
-  n?: number;
-  /**
-   * The desired dimensions for generated images.
-   * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
-   * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
-   *
-   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
-   */
-  size?: string;
-  /**
-   * The format in which image generation response items should be presented.
-   *
-   * Possible values: url, b64_json
-   */
-  response_format?: string;
-  /**
-   * The desired image generation quality level to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: standard, hd
-   */
-  quality?: string;
-  /**
-   * The desired image generation style to use.
-   * Only configurable with dall-e-3 models.
-   *
-   * Possible values: natural, vivid
-   */
-  style?: string;
-  /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
-  user?: string;
-}
-
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
-export type ChatCompletionsToolCallOutput = ChatCompletionsFunctionToolCallOutput;
+export type ChatCompletionsToolCallOutput =
+  | ChatCompletionsToolCallOutputParent
+  | ChatCompletionsFunctionToolCallOutput;
 /** An abstract representation of structured information about why a chat completions response terminated. */
-export type ChatFinishDetailsOutput = StopFinishDetailsOutput | MaxTokensFinishDetailsOutput;
+export type ChatFinishDetailsOutput =
+  | ChatFinishDetailsOutputParent
+  | StopFinishDetailsOutput
+  | MaxTokensFinishDetailsOutput;

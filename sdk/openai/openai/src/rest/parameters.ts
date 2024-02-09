@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   AudioTranscriptionOptions,
@@ -23,8 +15,8 @@ export interface GetAudioTranscriptionAsPlainTextBodyParam {
   body?: AudioTranscriptionOptions;
 }
 
-export type GetAudioTranscriptionAsPlainTextParameters = GetAudioTranscriptionAsPlainTextBodyParam &
-  RequestParameters;
+export type GetAudioTranscriptionAsPlainTextParameters =
+  GetAudioTranscriptionAsPlainTextBodyParam & RequestParameters;
 
 export interface GetAudioTranscriptionAsResponseObjectBodyParam {
   body?: AudioTranscriptionOptions;
@@ -44,8 +36,8 @@ export interface GetAudioTranslationAsPlainTextBodyParam {
   body?: AudioTranslationOptions;
 }
 
-export type GetAudioTranslationAsPlainTextParameters = GetAudioTranslationAsPlainTextBodyParam &
-  RequestParameters;
+export type GetAudioTranslationAsPlainTextParameters =
+  GetAudioTranslationAsPlainTextBodyParam & RequestParameters;
 
 export interface GetAudioTranslationAsResponseObjectBodyParam {
   body?: AudioTranslationOptions;
@@ -65,13 +57,15 @@ export interface GetCompletionsBodyParam {
   body?: CompletionsOptions;
 }
 
-export type GetCompletionsParameters = GetCompletionsBodyParam & RequestParameters;
+export type GetCompletionsParameters = GetCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetChatCompletionsBodyParam {
   body?: ChatCompletionsOptions;
 }
 
-export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
+export type GetChatCompletionsParameters = GetChatCompletionsBodyParam &
+  RequestParameters;
 
 export interface GetChatCompletionsWithAzureExtensionsBodyParam {
   body?: ChatCompletionsOptions;
@@ -84,18 +78,21 @@ export interface GetImageGenerationsBodyParam {
   body?: ImageGenerationOptions;
 }
 
-export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+export type GetImageGenerationsParameters = GetImageGenerationsBodyParam &
+  RequestParameters;
 
 export interface GetEmbeddingsBodyParam {
   body?: EmbeddingsOptions;
 }
 
-export type GetEmbeddingsParameters = GetEmbeddingsBodyParam & RequestParameters;
-export type GetAzureBatchImageGenerationOperationStatusParameters = RequestParameters;
+export type GetEmbeddingsParameters = GetEmbeddingsBodyParam &
+  RequestParameters;
+export type GetAzureBatchImageGenerationOperationStatusParameters =
+  RequestParameters;
 
 export interface BeginAzureBatchImageGenerationBodyParam {
   body?: ImageGenerationOptions;
 }
 
-export type BeginAzureBatchImageGenerationParameters = BeginAzureBatchImageGenerationBodyParam &
-  RequestParameters;
+export type BeginAzureBatchImageGenerationParameters =
+  BeginAzureBatchImageGenerationBodyParam & RequestParameters;

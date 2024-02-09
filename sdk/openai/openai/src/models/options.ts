@@ -1,14 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { OperationOptions } from "@azure-rest/core-client";
 import {
   AzureExtensionsOptions,
@@ -24,33 +16,32 @@ import {
   ImageSize,
 } from "./models.js";
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions
+export interface GetAudioTranscriptionAsPlainTextOptions
   extends OperationOptions {}
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions
+export interface GetAudioTranscriptionAsResponseObjectOptions
   extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface ClientOpenAIClientGetAudioTranslationAsPlainTextOptions extends OperationOptions {}
+export interface GetAudioTranslationAsPlainTextOptions
+  extends OperationOptions {}
 
-export interface ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions
+export interface GetAudioTranslationAsResponseObjectOptions
   extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface ClientOpenAIClientGetCompletionsOptions extends OperationOptions {}
+export interface GetCompletionsOptions extends OperationOptions {}
 
-export interface ClientOpenAIClientGetChatCompletionsOptions extends OperationOptions {}
+export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
-export interface ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions
+export interface GetChatCompletionsWithAzureExtensionsOptions
   extends OperationOptions {}
-
-export interface ClientOpenAIClientGetImageGenerationsOptions extends OperationOptions {}
-
-export interface ClientOpenAIClientGetEmbeddingsOptions extends OperationOptions {}
+  
+export interface GetImageGenerationsOptions extends OperationOptions { }
 
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {
