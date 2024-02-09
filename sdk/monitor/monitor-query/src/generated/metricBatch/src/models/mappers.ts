@@ -121,6 +121,13 @@ export const Metric: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      type: {
+        serializedName: "type",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -130,14 +137,18 @@ export const Metric: coreClient.CompositeMapper = {
       },
       displayDescription: {
         serializedName: "displayDescription",
-        required: true,
         type: {
           name: "String"
         }
       },
-      type: {
-        serializedName: "type",
-        required: true,
+      errorCode: {
+        serializedName: "errorCode",
+        type: {
+          name: "String"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
         type: {
           name: "String"
         }
@@ -146,22 +157,7 @@ export const Metric: coreClient.CompositeMapper = {
         serializedName: "unit",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "Count",
-            "Bytes",
-            "Seconds",
-            "CountPerSecond",
-            "BytesPerSecond",
-            "Percent",
-            "MilliSeconds",
-            "ByteSeconds",
-            "Unspecified",
-            "Cores",
-            "MilliCores",
-            "NanoCores",
-            "BitsPerSecond"
-          ]
+          name: "String"
         }
       },
       timeseries: {
@@ -175,18 +171,6 @@ export const Metric: coreClient.CompositeMapper = {
               className: "TimeSeriesElement"
             }
           }
-        }
-      },
-      errorCode: {
-        serializedName: "errorCode",
-        type: {
-          name: "String"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
         }
       }
     }
@@ -388,10 +372,10 @@ export const AdditionalInfoErrorResponseErrorAdditionalInfoItem: coreClient.Comp
   }
 };
 
-export const MetricsBatchExceptionHeaders: coreClient.CompositeMapper = {
+export const MetricsBatchBatchExceptionHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "MetricsBatchExceptionHeaders",
+    className: "MetricsBatchBatchExceptionHeaders",
     modelProperties: {
       xMsErrorCode: {
         serializedName: "x-ms-error-code",

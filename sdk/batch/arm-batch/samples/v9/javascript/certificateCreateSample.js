@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/CertificateCreate_Full.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_Full.json
  */
 async function createCertificateFull() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function createCertificateFull() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -45,7 +45,7 @@ async function createCertificateFull() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/CertificateCreate_MinimalCer.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_MinimalCer.json
  */
 async function createCertificateMinimalCer() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -62,7 +62,7 @@ async function createCertificateMinimalCer() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -71,7 +71,7 @@ async function createCertificateMinimalCer() {
  * This sample demonstrates how to Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
  *
  * @summary Warning: This operation is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/CertificateCreate_Minimal.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/CertificateCreate_Minimal.json
  */
 async function createCertificateMinimalPfx() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -88,7 +88,7 @@ async function createCertificateMinimalPfx() {
     resourceGroupName,
     accountName,
     certificateName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

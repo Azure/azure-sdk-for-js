@@ -44,6 +44,6 @@ export default leafCommand(commandInfo, async (options) => {
             from '${customDirectory}' 
             to '${sourceDirectory}'
             writing to ${targetDirectory}.`);
-  customize(sourceDirectory, customDirectory, targetDirectory);
+  await customize(sourceDirectory, customDirectory, targetDirectory);
   return true;
 });

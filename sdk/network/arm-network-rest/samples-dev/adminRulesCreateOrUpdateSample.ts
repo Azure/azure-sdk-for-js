@@ -38,7 +38,7 @@ async function createADefaultAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .put(options);
   console.log(result);
@@ -85,7 +85,7 @@ async function createAnAdminRule() {
       networkManagerName,
       configurationName,
       ruleCollectionName,
-      ruleName
+      ruleName,
     )
     .put(options);
   console.log(result);

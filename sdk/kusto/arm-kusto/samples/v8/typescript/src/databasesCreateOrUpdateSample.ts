@@ -23,7 +23,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabaseReadonlyUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabaseReadonlyUpdate.json
  */
 async function kustoReadOnlyDatabaseUpdate() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function kustoReadOnlyDatabaseUpdate() {
  * This sample demonstrates how to Creates or updates a database.
  *
  * @summary Creates or updates a database.
- * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-05-02/examples/KustoDatabasesCreateOrUpdate.json
+ * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2023-08-15/examples/KustoDatabasesCreateOrUpdate.json
  */
 async function kustoReadWriteDatabaseCreateOrUpdate() {
   const subscriptionId =

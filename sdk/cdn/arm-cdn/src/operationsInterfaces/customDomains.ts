@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CustomDomain,
   CustomDomainsListByEndpointOptionalParams,
@@ -71,8 +71,8 @@ export interface CustomDomains {
     customDomainProperties: CustomDomainParameters,
     options?: CustomDomainsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsCreateResponse>,
       CustomDomainsCreateResponse
     >
   >;
@@ -107,7 +107,7 @@ export interface CustomDomains {
     endpointName: string,
     customDomainName: string,
     options?: CustomDomainsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing custom domain within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
@@ -138,8 +138,8 @@ export interface CustomDomains {
     customDomainName: string,
     options?: CustomDomainsDisableCustomHttpsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsDisableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsDisableCustomHttpsResponse>,
       CustomDomainsDisableCustomHttpsResponse
     >
   >;
@@ -173,8 +173,8 @@ export interface CustomDomains {
     customDomainName: string,
     options?: CustomDomainsEnableCustomHttpsOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CustomDomainsEnableCustomHttpsResponse>,
+    SimplePollerLike<
+      OperationState<CustomDomainsEnableCustomHttpsResponse>,
       CustomDomainsEnableCustomHttpsResponse
     >
   >;

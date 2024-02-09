@@ -41,13 +41,13 @@ const REGEX_STACK: Array<[RegExp | (() => RegExp), string]> = [
 /**
  * Handles the formatting of the resulting JS text.
  */
-function postTransform(outText: string): string {
+async function postTransform(outText: string): Promise<string> {
   // Replace the sigils that we inserted
   let text = outText.split(NEWLINE_SIGIL_SEARCH).join("\n\n");
 
   // Format first so that we can write matching regexps
   // that are humanly comprehensible
-  text = format(text, "babel");
+  text = await format(text, "babel");
 
   for (const [rx, replacement] of REGEX_STACK) {
     const match = typeof rx === "function" ? rx() : rx;
@@ -55,7 +55,7 @@ function postTransform(outText: string): string {
   }
 
   // Format once more for the final output.
-  return format(text, "babel");
+  return await format(text, "babel");
 }
 
 /**
@@ -66,7 +66,10 @@ function postTransform(outText: string): string {
  * @param transpileOptions - optiona transpileOptions overrides (compilerOptions will be merged)
  * @returns - an equivalent JavaScript module source
  */
-export function convert(srcText: string, transpileOptions?: ts.TranspileOptions): string {
+export async function convert(
+  srcText: string,
+  transpileOptions?: ts.TranspileOptions,
+): Promise<string> {
   // TypeScript doesn't preserve newlines in compiled JS output,
   // but we can pre-process each blank line by replacing it with a special
   // sigil (in a comment, since TS preserves comments

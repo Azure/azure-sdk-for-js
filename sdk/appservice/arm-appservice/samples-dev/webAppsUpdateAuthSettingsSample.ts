@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Updates the Authentication / Authorization settings associated with web app.
  *
  * @summary Description for Updates the Authentication / Authorization settings associated with web app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/UpdateAuthSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/UpdateAuthSettings.json
  */
 async function updateAuthSettings() {
   const subscriptionId =

@@ -1,5 +1,4 @@
 import { enterStage, exitStage } from "./barrier";
-import { AbortController } from "@azure/abort-controller";
 import { multicoreUtils, WorkerData, WorkerMulticoreUtils } from "./multicore";
 import { PerfTestBase, PerfTestConstructor } from "./perfTestBase";
 import { PerfProgram } from "./program";

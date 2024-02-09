@@ -20,7 +20,7 @@ const OPERATION_NAME = "cancelScheduledNotification";
 export function cancelScheduledNotification(
   context: NotificationHubsClientContext,
   notificationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function cancelScheduledNotification(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationSendResponse(response);
-    }
+    },
   );
 }

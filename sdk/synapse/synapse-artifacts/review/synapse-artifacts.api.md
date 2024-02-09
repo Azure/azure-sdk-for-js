@@ -168,9 +168,7 @@ export interface AmazonRdsForSqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AmazonRdsForSqlServerSource";
 }
 
@@ -241,7 +239,7 @@ export interface AmazonS3Location extends DatasetLocation {
 // @public
 export interface AmazonS3ReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -511,7 +509,7 @@ export interface AzureBlobStorageLocation extends DatasetLocation {
 // @public
 export interface AzureBlobStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -750,7 +748,7 @@ export interface AzureFileStorageLocation extends DatasetLocation {
 // @public
 export interface AzureFileStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -1034,9 +1032,7 @@ export interface AzureSqlSink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "AzureSqlSink";
@@ -1050,9 +1046,7 @@ export interface AzureSqlSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "AzureSqlSource";
 }
 
@@ -2605,7 +2599,7 @@ export interface FileServerLocation extends DatasetLocation {
 // @public
 export interface FileServerReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileFilter?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
@@ -2698,12 +2692,12 @@ export type FtpAuthenticationType = string;
 export interface FtpReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     partitionRootPath?: any;
     recursive?: any;
     type: "FtpReadSettings";
-    useBinaryTransfer?: boolean;
+    useBinaryTransfer?: any;
     wildcardFileName?: any;
     wildcardFolderPath?: any;
 }
@@ -2847,7 +2841,7 @@ export interface GoogleCloudStorageLocation extends DatasetLocation {
 // @public
 export interface GoogleCloudStorageReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -2938,7 +2932,7 @@ export interface HdfsLocation extends DatasetLocation {
 export interface HdfsReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     distcpSettings?: DistcpSettings;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -3165,8 +3159,9 @@ export interface HttpLinkedService extends LinkedService {
 
 // @public
 export interface HttpReadSettings extends StoreReadSettings {
+    additionalColumns?: any;
     additionalHeaders?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     partitionRootPath?: any;
     requestBody?: any;
     requestMethod?: any;
@@ -6431,7 +6426,7 @@ export interface RunNotebookResult {
     runId?: string;
     runStatus?: string;
     sessionDetail?: any;
-    sessionId?: number;
+    sessionId?: string;
     sparkPool?: string;
 }
 
@@ -6445,7 +6440,7 @@ export interface RunNotebookSnapshot {
     parameters?: {
         [propertyName: string]: RunNotebookParameter;
     };
-    sessionId?: number;
+    sessionId?: string;
     sessionOptions?: RunNotebookSparkSessionOptions;
     sparkPool?: string;
 }
@@ -6462,7 +6457,7 @@ export interface RunNotebookSnapshotResult {
     lastCheckedOn?: string;
     runId: string;
     runStatus: string;
-    sessionId?: number;
+    sessionId?: string;
     snapshot: RunNotebookSnapshot;
     sparkPool?: string;
 }
@@ -6714,7 +6709,7 @@ export interface SapHanaPartitionSettings {
 // @public
 export interface SapHanaSource extends TabularSource {
     packetSize?: any;
-    partitionOption?: SapHanaPartitionOption;
+    partitionOption?: any;
     partitionSettings?: SapHanaPartitionSettings;
     query?: any;
     type: "SapHanaSource";
@@ -6841,7 +6836,7 @@ export interface SapTableResourceDataset extends Dataset {
 export interface SapTableSource extends TabularSource {
     batchSize?: any;
     customRfcReadTableFunctionModule?: any;
-    partitionOption?: SapTablePartitionOption;
+    partitionOption?: any;
     partitionSettings?: SapTablePartitionSettings;
     rfcTableFields?: any;
     rfcTableOptions?: any;
@@ -6882,6 +6877,7 @@ export interface ScriptAction {
 // @public
 export interface ScriptActivity extends ExecutionActivity {
     logSettings?: ScriptActivityTypePropertiesLogSettings;
+    scriptBlockExecutionTimeout?: any;
     scripts?: ScriptActivityScriptBlock[];
     type: "Script";
 }
@@ -7004,7 +7000,7 @@ export interface SftpLocation extends DatasetLocation {
 export interface SftpReadSettings extends StoreReadSettings {
     deleteFilesAfterCompletion?: any;
     disableChunking?: any;
-    enablePartitionDiscovery?: boolean;
+    enablePartitionDiscovery?: any;
     fileListPath?: any;
     modifiedDatetimeEnd?: any;
     modifiedDatetimeStart?: any;
@@ -7594,9 +7590,7 @@ export interface SqlMISink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlMISink";
@@ -7610,9 +7604,7 @@ export interface SqlMISource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlMISource";
 }
 
@@ -7679,9 +7671,7 @@ export type SqlPoolsListResponse = SqlPoolInfoListResult;
 export interface SqlPoolStoredProcedureActivity extends Activity {
     sqlPool: SqlPoolReference;
     storedProcedureName: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlPoolStoredProcedure";
 }
 
@@ -7803,9 +7793,7 @@ export interface SqlServerSink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlServerSink";
@@ -7819,9 +7807,7 @@ export interface SqlServerSource extends TabularSource {
     produceAdditionalTypes?: any;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlServerSource";
 }
 
@@ -7845,9 +7831,7 @@ export interface SqlSink extends CopySink {
     preCopyScript?: any;
     sqlWriterStoredProcedureName?: any;
     sqlWriterTableType?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     storedProcedureTableTypeParameterName?: any;
     tableOption?: any;
     type: "SqlSink";
@@ -7860,9 +7844,7 @@ export interface SqlSource extends TabularSource {
     partitionSettings?: SqlPartitionSettings;
     sqlReaderQuery?: any;
     sqlReaderStoredProcedureName?: any;
-    storedProcedureParameters?: {
-        [propertyName: string]: StoredProcedureParameter;
-    };
+    storedProcedureParameters?: any;
     type: "SqlSource";
 }
 
@@ -8579,7 +8561,7 @@ export interface WebActivityAuthentication {
     pfx?: SecretBaseUnion;
     resource?: any;
     type: string;
-    username?: string;
+    username?: any;
     userTenant?: any;
 }
 

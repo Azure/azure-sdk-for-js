@@ -29,7 +29,7 @@ describe("test feedRangeQueue", function () {
     const newChangeFeedRange = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
-      feedRanges[0].continuation
+      feedRanges[0].continuation,
     );
     feedRangeQueue.enqueue(newChangeFeedRange);
     assert.equal(feedRangeQueue.isEmpty(), false);
@@ -46,17 +46,17 @@ describe("test feedRangeQueue", function () {
     const firstElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
-      feedRanges[0].continuation
+      feedRanges[0].continuation,
     );
     const secondElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
-      feedRanges[0].continuation
+      feedRanges[0].continuation,
     );
     const thirdElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
-      feedRanges[0].continuation
+      feedRanges[0].continuation,
     );
 
     feedRangeQueue.enqueue(firstElement);
@@ -76,7 +76,7 @@ describe("test feedRangeQueue", function () {
     const newFirstElement = new ChangeFeedRange(
       feedRanges[0].minInclusive,
       feedRanges[0].maxExclusive,
-      "'100'"
+      "'100'",
     );
     feedRangeQueue.modifyFirstElement(newFirstElement);
     assert.equal(feedRangeQueue.peek(), newFirstElement);

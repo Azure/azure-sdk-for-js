@@ -32,7 +32,7 @@ async function loadBalancerNetworkInterfaceListSimple() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -64,7 +64,7 @@ async function loadBalancerNetworkInterfaceListVmss() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/networkInterfaces",
       subscriptionId,
       resourceGroupName,
-      loadBalancerName
+      loadBalancerName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

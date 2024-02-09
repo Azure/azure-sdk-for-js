@@ -31,7 +31,7 @@ async function routeTableGet() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      routingIntentName
+      routingIntentName,
     )
     .get(options);
   console.log(result);

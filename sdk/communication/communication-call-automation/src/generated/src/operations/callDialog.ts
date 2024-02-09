@@ -15,7 +15,9 @@ import {
   StartDialogRequest,
   CallDialogStartDialogOptionalParams,
   CallDialogStartDialogResponse,
-  CallDialogStopDialogOptionalParams
+  CallDialogStopDialogOptionalParams,
+  UpdateDialogRequest,
+  CallDialogUpdateDialogOptionalParams
 } from "../models";
 
 /** Class containing CallDialog operations. */
@@ -65,6 +67,25 @@ export class CallDialogImpl implements CallDialog {
       stopDialogOperationSpec
     );
   }
+
+  /**
+   * Update a dialog.
+   * @param callConnectionId The call connection id
+   * @param dialogId The dialog id
+   * @param updateDialogRequest The update dialog request
+   * @param options The options parameters.
+   */
+  updateDialog(
+    callConnectionId: string,
+    dialogId: string,
+    updateDialogRequest: UpdateDialogRequest,
+    options?: CallDialogUpdateDialogOptionalParams
+  ): Promise<void> {
+    return this.client.sendOperationRequest(
+      { callConnectionId, dialogId, updateDialogRequest, options },
+      updateDialogOperationSpec
+    );
+  }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
@@ -100,12 +121,32 @@ const stopDialogOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.operationCallbackUri],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
     Parameters.dialogId
   ],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const updateDialogOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}/dialogs/{dialogId}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {},
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: Parameters.updateDialogRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.callConnectionId,
+    Parameters.dialogId
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
   serializer
 };

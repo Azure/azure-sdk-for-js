@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AFDOrigin,
   AfdOriginsListByOriginGroupNextOptionalParams,
@@ -198,8 +202,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     origin: AFDOrigin,
     options?: AfdOriginsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginsCreateResponse>,
       AfdOriginsCreateResponse
     >
   > {
@@ -209,7 +213,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     ): Promise<AfdOriginsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -242,9 +246,9 @@ export class AfdOriginsImpl implements AfdOrigins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         originGroupName,
@@ -252,12 +256,15 @@ export class AfdOriginsImpl implements AfdOrigins {
         origin,
         options
       },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AfdOriginsCreateResponse,
+      OperationState<AfdOriginsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -310,8 +317,8 @@ export class AfdOriginsImpl implements AfdOrigins {
     originUpdateProperties: AFDOriginUpdateParameters,
     options?: AfdOriginsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdOriginsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AfdOriginsUpdateResponse>,
       AfdOriginsUpdateResponse
     >
   > {
@@ -321,7 +328,7 @@ export class AfdOriginsImpl implements AfdOrigins {
     ): Promise<AfdOriginsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -354,9 +361,9 @@ export class AfdOriginsImpl implements AfdOrigins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         originGroupName,
@@ -364,12 +371,15 @@ export class AfdOriginsImpl implements AfdOrigins {
         originUpdateProperties,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AfdOriginsUpdateResponse,
+      OperationState<AfdOriginsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -419,14 +429,14 @@ export class AfdOriginsImpl implements AfdOrigins {
     originGroupName: string,
     originName: string,
     options?: AfdOriginsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -459,15 +469,21 @@ export class AfdOriginsImpl implements AfdOrigins {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, originGroupName, originName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        profileName,
+        originGroupName,
+        originName,
+        options
+      },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -541,7 +557,7 @@ const listByOriginGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName
   ],
   headerParameters: [Parameters.accept],
@@ -564,7 +580,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName,
     Parameters.originName
   ],
@@ -598,7 +614,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName,
     Parameters.originName
   ],
@@ -633,7 +649,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName,
     Parameters.originName
   ],
@@ -659,7 +675,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.originGroupName,
     Parameters.originName
   ],
@@ -677,12 +693,11 @@ const listByOriginGroupNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.originGroupName
   ],

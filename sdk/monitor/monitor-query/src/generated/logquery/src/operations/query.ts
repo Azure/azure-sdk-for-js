@@ -44,8 +44,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param query The Analytics query. Learn more about the [Analytics query
    *              syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
    * @param options The options parameters.
@@ -63,10 +63,10 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data.
-   * [Here](https://dev.loganalytics.io/documentation/Using-the-API) is an example for using POST with an
-   * Analytics query.
-   * @param workspaceId ID of the workspace. This is Workspace ID from the Properties blade in the Azure
-   *                    portal.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/request-format) is an example for
+   * using POST with an Analytics query.
+   * @param workspaceId Primary Workspace ID of the query. This is the Workspace ID from the Properties
+   *                    blade in the Azure portal.
    * @param body The Analytics query. Learn more about the [Analytics query
    *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
    * @param options The options parameters.
@@ -84,8 +84,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data in the context of a resource.
-   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
-   * for using POST with an Analytics query.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an
+   * example for using POST with an Analytics query.
    * @param resourceId The identifier of the resource.
    * @param query The Analytics query. Learn more about the [Analytics query
    *              syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
@@ -104,8 +104,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data in the context of a resource.
-   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
-   * for using POST with an Analytics query.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an
+   * example for using POST with an Analytics query.
    * @param resourceId The identifier of the resource.
    * @param body The Analytics query. Learn more about the [Analytics query
    *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
@@ -124,8 +124,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes a batch of Analytics queries for data.
-   * [Here](https://dev.loganalytics.io/documentation/Using-the-API) is an example for using POST with an
-   * Analytics query.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/batch-queries) is an example for
+   * using POST with an Analytics query.
    * @param body The batch request body
    * @param options The options parameters.
    */
@@ -141,8 +141,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data in the context of a resource.
-   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
-   * for using POST with an Analytics query.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an
+   * example for using POST with an Analytics query.
    * @param resourceId The identifier of the resource.
    * @param query The Analytics query. Learn more about the [Analytics query
    *              syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)
@@ -161,8 +161,8 @@ export class QueryImpl implements Query {
 
   /**
    * Executes an Analytics query for data in the context of a resource.
-   * [Here](https://docs.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an example
-   * for using POST with an Analytics query.
+   * [Here](https://learn.microsoft.com/azure/azure-monitor/logs/api/azure-resource-queries) is an
+   * example for using POST with an Analytics query.
    * @param resourceId The identifier of the resource.
    * @param body The Analytics query. Learn more about the [Analytics query
    *             syntax](https://azure.microsoft.com/documentation/articles/app-insights-analytics-reference/)

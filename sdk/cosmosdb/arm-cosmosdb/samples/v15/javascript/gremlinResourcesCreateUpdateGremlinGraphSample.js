@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB Gremlin graph
  *
  * @summary Create or update an Azure Cosmos DB Gremlin graph
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBGremlinGraphCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBGremlinGraphCreateUpdate.json
  */
 async function cosmosDbGremlinGraphCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -60,7 +60,7 @@ async function cosmosDbGremlinGraphCreateUpdate() {
     accountName,
     databaseName,
     graphName,
-    createUpdateGremlinGraphParameters
+    createUpdateGremlinGraphParameters,
   );
   console.log(result);
 }

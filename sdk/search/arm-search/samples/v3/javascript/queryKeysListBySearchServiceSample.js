@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Returns the list of query API keys for the given Azure Cognitive Search service.
  *
  * @summary Returns the list of query API keys for the given Azure Cognitive Search service.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListQueryKeysBySearchService.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchListQueryKeysBySearchService.json
  */
 async function searchListQueryKeysBySearchService() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const credential = new DefaultAzureCredential();
   const client = new SearchManagementClient(credential, subscriptionId);
@@ -33,4 +34,8 @@ async function searchListQueryKeysBySearchService() {
   console.log(resArray);
 }
 
-searchListQueryKeysBySearchService().catch(console.error);
+async function main() {
+  searchListQueryKeysBySearchService();
+}
+
+main().catch(console.error);

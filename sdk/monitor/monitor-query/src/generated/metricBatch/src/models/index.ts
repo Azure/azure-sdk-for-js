@@ -39,22 +39,22 @@ export interface MetricResultsResponseValuesItem {
 
 /** The result data of a query. */
 export interface Metric {
-  /** The metric Id. */
+  /** the metric Id. */
   id: string;
-  /** The name and the display name of the metric, i.e. it is localizable string. */
-  name: LocalizableString;
-  /** Description of this metric */
-  displayDescription: string;
-  /** The resource type of the metric resource. */
+  /** the resource type of the metric resource. */
   type: string;
-  /** The unit of the metric. */
-  unit: MetricUnit;
-  /** The time series returned when a data query is performed. */
-  timeseries: TimeSeriesElement[];
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
   /** 'Success' or the error details on query failures for this metric. */
   errorCode?: string;
   /** Error message encountered querying this specific metric. */
   errorMessage?: string;
+  /** The unit of the metric. */
+  unit: MetricUnit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
 }
 
 /** The localizable string class. */
@@ -67,7 +67,7 @@ export interface LocalizableString {
 
 /** A time series result type. The discriminator value is always TimeSeries in this case. */
 export interface TimeSeriesElement {
-  /** The metadata values returned if filter was specified in the call. */
+  /** the metadata values returned if $filter was specified in the call. */
   metadatavalues?: MetadataValue[];
   /** An array of data points representing the metric values.  This is only returned if a result type of data is specified. */
   data?: MetricValue[];
@@ -120,8 +120,8 @@ export interface AdditionalInfoErrorResponseErrorAdditionalInfoItem {
   info?: string;
 }
 
-/** Defines headers for Metrics_batch operation. */
-export interface MetricsBatchExceptionHeaders {
+/** Defines headers for MetricsBatch_batch operation. */
+export interface MetricsBatchBatchExceptionHeaders {
   /** Error code for specific error that occurred. */
   xMsErrorCode?: string;
 }
@@ -140,24 +140,47 @@ export enum KnownApiVersion20230501Preview {
  * **2023-05-01-preview**: Api Version '2023-05-01-preview'
  */
 export type ApiVersion20230501Preview = string;
-/** Defines values for MetricUnit. */
-export type MetricUnit =
-  | "Count"
-  | "Bytes"
-  | "Seconds"
-  | "CountPerSecond"
-  | "BytesPerSecond"
-  | "Percent"
-  | "MilliSeconds"
-  | "ByteSeconds"
-  | "Unspecified"
-  | "Cores"
-  | "MilliCores"
-  | "NanoCores"
-  | "BitsPerSecond";
+
+/** Known values of {@link MetricUnit} that the service accepts. */
+export enum KnownMetricUnit {
+  Count = "Count",
+  Bytes = "Bytes",
+  Seconds = "Seconds",
+  CountPerSecond = "CountPerSecond",
+  BytesPerSecond = "BytesPerSecond",
+  Percent = "Percent",
+  MilliSeconds = "MilliSeconds",
+  ByteSeconds = "ByteSeconds",
+  Unspecified = "Unspecified",
+  Cores = "Cores",
+  MilliCores = "MilliCores",
+  NanoCores = "NanoCores",
+  BitsPerSecond = "BitsPerSecond"
+}
+
+/**
+ * Defines values for MetricUnit. \
+ * {@link KnownMetricUnit} can be used interchangeably with MetricUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Count** \
+ * **Bytes** \
+ * **Seconds** \
+ * **CountPerSecond** \
+ * **BytesPerSecond** \
+ * **Percent** \
+ * **MilliSeconds** \
+ * **ByteSeconds** \
+ * **Unspecified** \
+ * **Cores** \
+ * **MilliCores** \
+ * **NanoCores** \
+ * **BitsPerSecond**
+ */
+export type MetricUnit = string;
 
 /** Optional parameters. */
-export interface MetricsBatchOptionalParams
+export interface MetricsBatchBatchOptionalParams
   extends coreClient.OperationOptions {
   /**
    * The start time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. If you have specified the endtime parameter, then this parameter is required.
@@ -194,7 +217,7 @@ export interface MetricsBatchOptionalParams
 }
 
 /** Contains response data for the batch operation. */
-export type MetricsBatchResponse = MetricResultsResponse;
+export type MetricsBatchBatchResponse = MetricResultsResponse;
 
 /** Optional parameters. */
 export interface AzureMonitorMetricBatchOptionalParams

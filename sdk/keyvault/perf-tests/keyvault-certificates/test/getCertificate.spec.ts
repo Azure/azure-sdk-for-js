@@ -16,14 +16,14 @@ export abstract class CertificateTest extends PerfTest {
   async globalSetup() {
     const poller = await this.certificateClient.beginCreateCertificate(
       CertificateTest.certificateName,
-      { issuerName: WellKnownIssuer.Self, subject: "CN=Azure SDK" }
+      { issuerName: WellKnownIssuer.Self, subject: "CN=Azure SDK" },
     );
     await poller.pollUntilDone();
   }
 
   async globalCleanup() {
     const poller = await this.certificateClient.beginDeleteCertificate(
-      CertificateTest.certificateName
+      CertificateTest.certificateName,
     );
     const result = await poller.pollUntilDone();
     if (result.recoveryId) {

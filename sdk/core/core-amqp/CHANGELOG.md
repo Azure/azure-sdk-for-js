@@ -1,6 +1,6 @@
 # Release History
 
-## 4.0.1 (Unreleased)
+## 4.2.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,22 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 4.2.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Correct timeToLive calculation to use absolute expiry time.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
+## 4.1.0 (2023-11-07)
+
+### Other Changes
+
+- Add a retryable client error that is thrown when the sender link is not ready.
 
 ## 4.0.0 (2023-10-10)
 

@@ -21,6 +21,7 @@ export const testSchemaObject: avro.schema.RecordType = {
 };
 
 export const testGroup = env.SCHEMA_REGISTRY_GROUP || "azsdk_js_test_group";
+export const testSchemaName = `${testSchemaObject.namespace}.${testSchemaObject.name}`;
 
 export const testSchemaIds = [
   "{773E17BE-793E-40B0-98F1-0A6EA3C11895}",

@@ -50,7 +50,7 @@ node dist/sampleCreateDevBox.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_TENANT_ID="<azure tenant id>" AZURE_DEVCENTER_NAME="<azure devcenter name>" node dist/sampleCreateDevBox.js
+npx cross-env DEVCENTER_ENDPOINT="<devcenter endpoint>" node dist/sampleCreateDevBox.js
 ```
 
 ## Next Steps

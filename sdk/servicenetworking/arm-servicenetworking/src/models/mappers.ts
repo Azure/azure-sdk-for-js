@@ -242,6 +242,60 @@ export const TrafficControllerListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const TrafficControllerProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TrafficControllerProperties",
+    modelProperties: {
+      configurationEndpoints: {
+        serializedName: "configurationEndpoints",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      frontends: {
+        serializedName: "frontends",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceId"
+            }
+          }
+        }
+      },
+      associations: {
+        serializedName: "associations",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceId"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ResourceId: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -384,6 +438,36 @@ export const AssociationListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AssociationProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssociationProperties",
+    modelProperties: {
+      associationType: {
+        serializedName: "associationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "subnet",
+        type: {
+          name: "Composite",
+          className: "AssociationSubnet"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const AssociationSubnet: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -412,14 +496,30 @@ export const AssociationUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AssociationUpdateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AssociationUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AssociationUpdateProperties",
+    modelProperties: {
       associationType: {
-        serializedName: "properties.associationType",
+        serializedName: "associationType",
         type: {
           name: "String"
         }
       },
       subnet: {
-        serializedName: "properties.subnet",
+        serializedName: "subnet",
         type: {
           name: "Composite",
           className: "AssociationSubnetUpdate"
@@ -464,6 +564,29 @@ export const FrontendListResult: coreClient.CompositeMapper = {
       },
       nextLink: {
         serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const FrontendProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "FrontendProperties",
+    modelProperties: {
+      fqdn: {
+        serializedName: "fqdn",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
         type: {
           name: "String"
         }
@@ -518,49 +641,11 @@ export const TrafficController: coreClient.CompositeMapper = {
     className: "TrafficController",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      configurationEndpoints: {
-        serializedName: "properties.configurationEndpoints",
-        readOnly: true,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
-      frontends: {
-        serializedName: "properties.frontends",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceId"
-            }
-          }
-        }
-      },
-      associations: {
-        serializedName: "properties.associations",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ResourceId"
-            }
-          }
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "TrafficControllerProperties"
         }
       }
     }
@@ -573,24 +658,11 @@ export const Association: coreClient.CompositeMapper = {
     className: "Association",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      associationType: {
-        serializedName: "properties.associationType",
-        type: {
-          name: "String"
-        }
-      },
-      subnet: {
-        serializedName: "properties.subnet",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "AssociationSubnet"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
+          className: "AssociationProperties"
         }
       }
     }
@@ -603,18 +675,11 @@ export const Frontend: coreClient.CompositeMapper = {
     className: "Frontend",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      fqdn: {
-        serializedName: "properties.fqdn",
-        readOnly: true,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "FrontendProperties"
         }
       }
     }
@@ -641,16 +706,16 @@ export const TrafficControllerInterfaceDeleteHeaders: coreClient.CompositeMapper
     name: "Composite",
     className: "TrafficControllerInterfaceDeleteHeaders",
     modelProperties: {
-      location: {
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
       retryAfter: {
         serializedName: "retry-after",
         type: {
           name: "Number"
+        }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
         }
       }
     }

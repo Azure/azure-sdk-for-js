@@ -32,7 +32,7 @@ async function getRushJson(): Promise<any> {
 
   const rushJsonText = await readFile(
     path.resolve(__dirname, "../../../../../../../rush.json"),
-    "utf-8"
+    "utf-8",
   );
 
   return (_rushJson = JSON.parse(stripJsonComments(rushJsonText)));
@@ -57,7 +57,7 @@ export async function getProjects(service?: string): Promise<RushJsonProject[]> 
 
   return service
     ? rushJson.projects.filter((p: RushJsonProject) =>
-        p.projectFolder.startsWith(`sdk/${service}/`)
+        p.projectFolder.startsWith(`sdk/${service}/`),
       )
     : rushJson.projects;
 }

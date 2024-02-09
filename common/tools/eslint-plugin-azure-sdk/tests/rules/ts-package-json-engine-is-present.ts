@@ -9,7 +9,7 @@
 "use strict";
 
 import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-engine-is-present";
+import rule, { LTS } from "../../src/rules/ts-package-json-engine-is-present";
 
 //------------------------------------------------------------------------------
 // Example files
@@ -42,7 +42,7 @@ const examplePackageGood = `{
   },
   "types": "./typings/service-bus.d.ts",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@azure/amqp-common": "^1.0.0-preview.5",
@@ -66,7 +66,7 @@ const examplePackageGood = `{
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -177,7 +177,7 @@ const examplePackageBad = `{
     "@types/debug": "^0.0.31",
     "@types/dotenv": "^6.1.0",
     "@types/mocha": "^5.2.5",
-    "@types/node": "^16.0.0",
+    "@types/node": "^18.0.0",
     "@types/ws": "^6.0.1",
     "@typescript-eslint/eslint-plugin": "~1.9.0",
     "@typescript-eslint/parser": "^1.7.0",
@@ -253,7 +253,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
   valid: [
     {
       // only the fields we care about
-      code: '{"engines": { "node": ">=16.0.0" }}',
+      code: '{"engines": { "node": ">=18.0.0" }}',
       filename: "package.json",
     },
     {
@@ -289,7 +289,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
     },
     {
       // engines is in a nested object
-      code: '{"outer": {"engines": { "node": ">=16.0.0" }}}',
+      code: '{"outer": {"engines": { "node": ">=18.0.0" }}}',
       filename: "package.json",
       errors: [
         {
@@ -313,10 +313,10 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=16.0.0",
+          message: `engines.node is set to >=8.0.0 when it should be set to ${LTS}`,
         },
       ],
-      output: '{"engines": { "node": ">=16.0.0" }}',
+      output: '{"engines": { "node": ">=18.0.0" }}',
     },
     {
       // example file with engines.node set to >=8.0.0
@@ -324,7 +324,7 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=8.0.0 when it should be set to >=16.0.0",
+          message: `engines.node is set to >=8.0.0 when it should be set to ${LTS}`,
         },
       ],
       output: examplePackageGood,
@@ -335,15 +335,15 @@ ruleTester.run("ts-package-json-engine-is-present", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "engines.node is set to >=15.0.0 when it should be set to >=16.0.0",
+          message: `engines.node is set to >=15.0.0 when it should be set to >=17.0.0`,
         },
       ],
       options: [
         {
-          nodeVersionOverride: ">=16.0.0",
+          nodeVersionOverride: ">=17.0.0",
         },
       ],
-      output: '{"engines": { "node": ">=16.0.0" }}',
+      output: '{"engines": { "node": ">=17.0.0" }}',
     },
   ],
 });

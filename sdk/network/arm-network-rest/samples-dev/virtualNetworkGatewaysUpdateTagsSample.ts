@@ -33,7 +33,7 @@ async function updateVirtualNetworkGatewayTags() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkGatewayName
+      virtualNetworkGatewayName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

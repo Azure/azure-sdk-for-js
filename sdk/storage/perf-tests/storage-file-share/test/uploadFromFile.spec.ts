@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
 import fs from "fs";
 import util from "util";
 import { ShareFileClient } from "@azure/storage-file-share";
+
 const writeFile = util.promisify(fs.writeFile);
 const fileExists = util.promisify(fs.exists);
 const mkdir = util.promisify(fs.mkdir);
@@ -33,7 +34,7 @@ export class StorageFileShareUploadFromFileTest extends StorageFileShareTest<Sto
 
   constructor() {
     super();
-    const fileName = generateUuid();
+    const fileName = randomUUID();
     this.fileClient = this.directoryClient.getFileClient(fileName);
   }
 

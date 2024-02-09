@@ -125,6 +125,9 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
     properties: {
         [propertyName: string]: any;
     };
+    metadata: {
+        [propertyName: string]: string;
+    };
     participants: AcsChatThreadParticipant[];
 };
 
@@ -137,6 +140,9 @@ export type AcsChatThreadEventBase = AcsChatEventBase & {
 // @public
 export interface AcsChatThreadParticipant {
     displayName: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     participantCommunicationIdentifier: CommunicationIdentifierModel;
 }
 
@@ -144,6 +150,9 @@ export interface AcsChatThreadParticipant {
 export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventBase & {
     editedByCommunicationIdentifier: CommunicationIdentifierModel;
     editTime: string;
+    metadata: {
+        [propertyName: string]: string;
+    };
     properties: {
         [propertyName: string]: any;
     };
@@ -684,6 +693,72 @@ export interface AppServicePlanEventTypeDetail {
 
 // @public
 export type AsyncStatus = string;
+
+// @public
+export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+
+// @public
+export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+
+// @public
+export interface AvsClusterEventData {
+    addedHostNames: string[];
+    inMaintenanceHostNames: string[];
+    operationId: string;
+    removedHostNames: string[];
+}
+
+// @public
+export type AvsClusterFailedEventData = AvsClusterEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+
+// @public
+export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+
+// @public
+export interface AvsPrivateCloudEventData {
+    operationId: string;
+}
+
+// @public
+export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+
+// @public
+export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+
+// @public
+export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+
+// @public
+export interface AvsScriptExecutionEventData {
+    cmdletId: string;
+    operationId: string;
+    output: string[];
+}
+
+// @public
+export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+    failureMessage: string;
+};
+
+// @public
+export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+    namedOutputs: {
+        [propertyName: string]: string;
+    };
+};
+
+// @public
+export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
 
 export { AzureKeyCredential }
 
@@ -1227,6 +1302,16 @@ export interface KeyVaultSecretNewVersionCreatedEventData {
 }
 
 // @public
+export const enum KnownAcsEmailDeliveryReportStatus {
+    Bounced = "Bounced",
+    Delivered = "Delivered",
+    Failed = "Failed",
+    FilteredSpam = "FilteredSpam",
+    Quarantined = "Quarantined",
+    Suppressed = "Suppressed"
+}
+
+// @public
 export const enum KnownAcsRouterJobStatus {
     // (undocumented)
     Assigned = "Assigned",
@@ -1276,6 +1361,14 @@ export const enum KnownAcsRouterWorkerSelectorState {
 }
 
 // @public
+export const enum KnownAcsUserEngagement {
+    // (undocumented)
+    Click = "click",
+    // (undocumented)
+    View = "view"
+}
+
+// @public
 export const enum KnownAppAction {
     ChangedAppSettings = "ChangedAppSettings",
     Completed = "Completed",
@@ -1295,6 +1388,23 @@ export const enum KnownAsyncStatus {
     Completed = "Completed",
     Failed = "Failed",
     Started = "Started"
+}
+
+// @public
+export const enum KnownCommunicationCloudEnvironmentModel {
+    // (undocumented)
+    Dod = "dod",
+    // (undocumented)
+    Gcch = "gcch",
+    // (undocumented)
+    Public = "public"
+}
+
+// @public
+export const enum KnownDataBoxStageName {
+    CopyCompleted = "CopyCompleted",
+    CopyStarted = "CopyStarted",
+    OrderCompleted = "OrderCompleted"
 }
 
 // @public
@@ -1321,10 +1431,217 @@ export const enum KnownEventGridMqttClientState {
 }
 
 // @public
+export const enum KnownHealthcareFhirResourceType {
+    Account = "Account",
+    ActivityDefinition = "ActivityDefinition",
+    AdverseEvent = "AdverseEvent",
+    AllergyIntolerance = "AllergyIntolerance",
+    Appointment = "Appointment",
+    AppointmentResponse = "AppointmentResponse",
+    AuditEvent = "AuditEvent",
+    Basic = "Basic",
+    Binary = "Binary",
+    BiologicallyDerivedProduct = "BiologicallyDerivedProduct",
+    BodySite = "BodySite",
+    BodyStructure = "BodyStructure",
+    Bundle = "Bundle",
+    CapabilityStatement = "CapabilityStatement",
+    CarePlan = "CarePlan",
+    CareTeam = "CareTeam",
+    CatalogEntry = "CatalogEntry",
+    ChargeItem = "ChargeItem",
+    ChargeItemDefinition = "ChargeItemDefinition",
+    Claim = "Claim",
+    ClaimResponse = "ClaimResponse",
+    ClinicalImpression = "ClinicalImpression",
+    CodeSystem = "CodeSystem",
+    Communication = "Communication",
+    CommunicationRequest = "CommunicationRequest",
+    CompartmentDefinition = "CompartmentDefinition",
+    Composition = "Composition",
+    ConceptMap = "ConceptMap",
+    Condition = "Condition",
+    Consent = "Consent",
+    Contract = "Contract",
+    Coverage = "Coverage",
+    CoverageEligibilityRequest = "CoverageEligibilityRequest",
+    CoverageEligibilityResponse = "CoverageEligibilityResponse",
+    DataElement = "DataElement",
+    DetectedIssue = "DetectedIssue",
+    Device = "Device",
+    DeviceComponent = "DeviceComponent",
+    DeviceDefinition = "DeviceDefinition",
+    DeviceMetric = "DeviceMetric",
+    DeviceRequest = "DeviceRequest",
+    DeviceUseStatement = "DeviceUseStatement",
+    DiagnosticReport = "DiagnosticReport",
+    DocumentManifest = "DocumentManifest",
+    DocumentReference = "DocumentReference",
+    DomainResource = "DomainResource",
+    EffectEvidenceSynthesis = "EffectEvidenceSynthesis",
+    EligibilityRequest = "EligibilityRequest",
+    EligibilityResponse = "EligibilityResponse",
+    Encounter = "Encounter",
+    Endpoint = "Endpoint",
+    EnrollmentRequest = "EnrollmentRequest",
+    EnrollmentResponse = "EnrollmentResponse",
+    EpisodeOfCare = "EpisodeOfCare",
+    EventDefinition = "EventDefinition",
+    Evidence = "Evidence",
+    EvidenceVariable = "EvidenceVariable",
+    ExampleScenario = "ExampleScenario",
+    ExpansionProfile = "ExpansionProfile",
+    ExplanationOfBenefit = "ExplanationOfBenefit",
+    FamilyMemberHistory = "FamilyMemberHistory",
+    Flag = "Flag",
+    Goal = "Goal",
+    GraphDefinition = "GraphDefinition",
+    Group = "Group",
+    GuidanceResponse = "GuidanceResponse",
+    HealthcareService = "HealthcareService",
+    ImagingManifest = "ImagingManifest",
+    ImagingStudy = "ImagingStudy",
+    Immunization = "Immunization",
+    ImmunizationEvaluation = "ImmunizationEvaluation",
+    ImmunizationRecommendation = "ImmunizationRecommendation",
+    ImplementationGuide = "ImplementationGuide",
+    InsurancePlan = "InsurancePlan",
+    Invoice = "Invoice",
+    Library = "Library",
+    Linkage = "Linkage",
+    List = "List",
+    Location = "Location",
+    Measure = "Measure",
+    MeasureReport = "MeasureReport",
+    Media = "Media",
+    Medication = "Medication",
+    MedicationAdministration = "MedicationAdministration",
+    MedicationDispense = "MedicationDispense",
+    MedicationKnowledge = "MedicationKnowledge",
+    MedicationRequest = "MedicationRequest",
+    MedicationStatement = "MedicationStatement",
+    MedicinalProduct = "MedicinalProduct",
+    MedicinalProductAuthorization = "MedicinalProductAuthorization",
+    MedicinalProductContraindication = "MedicinalProductContraindication",
+    MedicinalProductIndication = "MedicinalProductIndication",
+    MedicinalProductIngredient = "MedicinalProductIngredient",
+    MedicinalProductInteraction = "MedicinalProductInteraction",
+    MedicinalProductManufactured = "MedicinalProductManufactured",
+    MedicinalProductPackaged = "MedicinalProductPackaged",
+    MedicinalProductPharmaceutical = "MedicinalProductPharmaceutical",
+    MedicinalProductUndesirableEffect = "MedicinalProductUndesirableEffect",
+    MessageDefinition = "MessageDefinition",
+    MessageHeader = "MessageHeader",
+    MolecularSequence = "MolecularSequence",
+    NamingSystem = "NamingSystem",
+    NutritionOrder = "NutritionOrder",
+    Observation = "Observation",
+    ObservationDefinition = "ObservationDefinition",
+    OperationDefinition = "OperationDefinition",
+    OperationOutcome = "OperationOutcome",
+    Organization = "Organization",
+    OrganizationAffiliation = "OrganizationAffiliation",
+    Parameters = "Parameters",
+    Patient = "Patient",
+    PaymentNotice = "PaymentNotice",
+    PaymentReconciliation = "PaymentReconciliation",
+    Person = "Person",
+    PlanDefinition = "PlanDefinition",
+    Practitioner = "Practitioner",
+    PractitionerRole = "PractitionerRole",
+    Procedure = "Procedure",
+    ProcedureRequest = "ProcedureRequest",
+    ProcessRequest = "ProcessRequest",
+    ProcessResponse = "ProcessResponse",
+    Provenance = "Provenance",
+    Questionnaire = "Questionnaire",
+    QuestionnaireResponse = "QuestionnaireResponse",
+    ReferralRequest = "ReferralRequest",
+    RelatedPerson = "RelatedPerson",
+    RequestGroup = "RequestGroup",
+    ResearchDefinition = "ResearchDefinition",
+    ResearchElementDefinition = "ResearchElementDefinition",
+    ResearchStudy = "ResearchStudy",
+    ResearchSubject = "ResearchSubject",
+    Resource = "Resource",
+    RiskAssessment = "RiskAssessment",
+    RiskEvidenceSynthesis = "RiskEvidenceSynthesis",
+    Schedule = "Schedule",
+    SearchParameter = "SearchParameter",
+    Sequence = "Sequence",
+    ServiceDefinition = "ServiceDefinition",
+    ServiceRequest = "ServiceRequest",
+    Slot = "Slot",
+    Specimen = "Specimen",
+    SpecimenDefinition = "SpecimenDefinition",
+    StructureDefinition = "StructureDefinition",
+    StructureMap = "StructureMap",
+    Subscription = "Subscription",
+    Substance = "Substance",
+    SubstanceNucleicAcid = "SubstanceNucleicAcid",
+    SubstancePolymer = "SubstancePolymer",
+    SubstanceProtein = "SubstanceProtein",
+    SubstanceReferenceInformation = "SubstanceReferenceInformation",
+    SubstanceSourceMaterial = "SubstanceSourceMaterial",
+    SubstanceSpecification = "SubstanceSpecification",
+    SupplyDelivery = "SupplyDelivery",
+    SupplyRequest = "SupplyRequest",
+    Task = "Task",
+    TerminologyCapabilities = "TerminologyCapabilities",
+    TestReport = "TestReport",
+    TestScript = "TestScript",
+    ValueSet = "ValueSet",
+    VerificationResult = "VerificationResult",
+    VisionPrescription = "VisionPrescription"
+}
+
+// @public
+export const enum KnownRecordingChannelType {
+    // (undocumented)
+    Mixed = "Mixed",
+    // (undocumented)
+    Unmixed = "Unmixed"
+}
+
+// @public
+export const enum KnownRecordingContentType {
+    // (undocumented)
+    Audio = "Audio",
+    // (undocumented)
+    AudioVideo = "AudioVideo"
+}
+
+// @public
+export const enum KnownRecordingFormatType {
+    // (undocumented)
+    Mp3 = "Mp3",
+    // (undocumented)
+    Mp4 = "Mp4",
+    // (undocumented)
+    Wav = "Wav"
+}
+
+// @public
 export const enum KnownStampKind {
     AseV1 = "AseV1",
     AseV2 = "AseV2",
     Public = "Public"
+}
+
+// @public
+export const enum KnownStorageTaskAssignmentCompletedStatus {
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
+}
+
+// @public
+export const enum KnownStorageTaskCompletedStatus {
+    // (undocumented)
+    Failed = "Failed",
+    // (undocumented)
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -1811,6 +2128,25 @@ export interface ResourceNotificationsOperationalDetails {
 }
 
 // @public
+export interface ResourceNotificationsResourceDeletedDetails {
+    id: string;
+    name: string;
+    type: string;
+}
+
+// @public
+export interface ResourceNotificationsResourceDeletedEventData {
+    operationalDetails: ResourceNotificationsOperationalDetails;
+    resourceDetails: ResourceNotificationsResourceDeletedDetails;
+}
+
+// @public
+export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+// @public
+export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
+// @public
 export interface ResourceNotificationsResourceUpdatedDetails {
     id: string;
     location: string;
@@ -1818,7 +2154,9 @@ export interface ResourceNotificationsResourceUpdatedDetails {
     properties: {
         [propertyName: string]: any;
     };
-    tags: string;
+    tags: {
+        [propertyName: string]: string;
+    };
     type: string;
 }
 
@@ -2062,6 +2400,24 @@ export interface StorageLifecyclePolicyCompletedEventData {
 }
 
 // @public
+export interface StorageTaskAssignmentCompletedEventData {
+    completedOn: string;
+    status: StorageTaskAssignmentCompletedStatus;
+    summaryReportBlobUri: string;
+    taskExecutionId: string;
+    taskName: string;
+}
+
+// @public
+export type StorageTaskAssignmentCompletedStatus = string;
+
+// @public
+export interface StorageTaskAssignmentQueuedEventData {
+    queuedOn: string;
+    taskExecutionId: string;
+}
+
+// @public
 export interface StorageTaskCompletedEventData {
     completedDateTime: string;
     status: StorageTaskCompletedStatus;
@@ -2122,6 +2478,18 @@ export interface SystemEventNameToEventData {
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
     "Microsoft.AppConfiguration.SnapshotCreated": AppConfigurationSnapshotCreatedEventData;
     "Microsoft.AppConfiguration.SnapshotModified": AppConfigurationSnapshotModifiedEventData;
+    "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
+    "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
+    "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+    "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
+    "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
+    "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
+    "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
+    "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
+    "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
+    "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
+    "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
+    "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2242,6 +2610,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.PolicyInsights.PolicyStateDeleted": PolicyInsightsPolicyStateDeletedEventData;
     "Microsoft.ResourceNotifications.HealthResources.AvailabilityStatusChanged": ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventData;
     "Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated": ResourceNotificationsHealthResourcesAnnotatedEventData;
+    "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
+    "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
     "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
     "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
     "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
@@ -2263,6 +2633,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
     "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+    "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
     "Microsoft.Storage.StorageTaskCompleted": StorageTaskCompletedEventData;
     "Microsoft.Storage.StorageTaskQueued": StorageTaskQueuedEventData;
     "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;

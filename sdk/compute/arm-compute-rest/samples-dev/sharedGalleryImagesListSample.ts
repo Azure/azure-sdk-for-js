@@ -32,7 +32,7 @@ async function listSharedGalleryImages() {
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images",
       subscriptionId,
       location,
-      galleryUniqueName
+      galleryUniqueName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

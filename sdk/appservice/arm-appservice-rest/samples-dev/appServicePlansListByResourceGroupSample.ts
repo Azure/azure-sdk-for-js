@@ -24,7 +24,7 @@ async function listAppServicePlansByResourceGroup() {
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
       subscriptionId,
-      resourceGroupName
+      resourceGroupName,
     )
     .get();
   const res = paginate(client, initialResposne);

@@ -24,7 +24,7 @@ const logger = credentialLogger(msiName);
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
-  resourceId?: string
+  resourceId?: string,
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -71,7 +71,7 @@ function readFileAsync(path: string, options: { encoding: BufferEncoding }): Pro
         reject(err);
       }
       resolve(data);
-    })
+    }),
   );
 }
 
@@ -80,7 +80,7 @@ function readFileAsync(path: string, options: { encoding: BufferEncoding }): Pro
  */
 async function filePathRequest(
   identityClient: IdentityClient,
-  requestPrepareOptions: PipelineRequestOptions
+  requestPrepareOptions: PipelineRequestOptions,
 ): Promise<string | undefined> {
   const response = await identityClient.sendRequest(createPipelineRequest(requestPrepareOptions));
 
@@ -91,7 +91,7 @@ async function filePathRequest(
     }
     throw new AuthenticationError(
       response.status,
-      `${msiName}: To authenticate with Azure Arc MSI, status code 401 is expected on the first request. ${message}`
+      `${msiName}: To authenticate with Azure Arc MSI, status code 401 is expected on the first request. ${message}`,
     );
   }
 
@@ -117,25 +117,25 @@ export const arcMsi: MSI = {
     const result = Boolean(process.env.IMDS_ENDPOINT && process.env.IDENTITY_ENDPOINT);
     if (!result) {
       logger.info(
-        `${msiName}: The environment variables needed are: IMDS_ENDPOINT and IDENTITY_ENDPOINT`
+        `${msiName}: The environment variables needed are: IMDS_ENDPOINT and IDENTITY_ENDPOINT`,
       );
     }
     return result;
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (clientId) {
       logger.warning(
-        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`
+        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`,
       );
     }
     if (resourceId) {
       logger.warning(
-        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId will be ignored.`
+        `${msiName}: user defined managed Identity by resource Id is not supported. Argument resourceId will be ignored.`,
       );
     }
 

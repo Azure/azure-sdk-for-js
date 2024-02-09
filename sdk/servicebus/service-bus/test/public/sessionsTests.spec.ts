@@ -51,7 +51,7 @@ describe("session tests", () => {
     }
 
     sender = serviceBusClient.test.addToCleanup(
-      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
+      serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
 
     // Observation -
@@ -96,7 +96,7 @@ describe("session tests", () => {
       should.equal(
         expectedErrorThrown,
         true,
-        `Instead of ServiceTimeout or SessionCannotBeLocked, found ${unexpectedError}`
+        `Instead of ServiceTimeout or SessionCannotBeLocked, found ${unexpectedError}`,
       );
       await serviceBusClient.close();
     });
@@ -107,7 +107,7 @@ describe("session tests", () => {
       try {
         await serviceBusClient.test.acceptSessionWithPeekLock(
           { queue: receiver.entityPath, usesSessions: true },
-          "boo"
+          "boo",
         );
       } catch (error: any) {
         if (isServiceBusError(error) && error.code === "SessionCannotBeLocked") {
@@ -119,7 +119,7 @@ describe("session tests", () => {
       should.equal(
         expectedErrorThrown,
         true,
-        `Instead of SessionCannotBeLockedError, found ${unexpectedError}`
+        `Instead of SessionCannotBeLockedError, found ${unexpectedError}`,
       );
       await serviceBusClient.close();
     });
@@ -147,7 +147,7 @@ describe("session tests", () => {
       should.equal(
         msgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       await receiver.completeMessage(msgs[0]);
       await testPeekMsgsLength(receiver, 0);
@@ -184,14 +184,14 @@ describe("session tests", () => {
             should.equal(
               msg.messageId,
               testMessage.messageId,
-              "MessageId is different than expected"
+              "MessageId is different than expected",
             );
             await receiver.completeMessage(msg);
             receivedMsgs.push(msg);
           },
           processError,
         },
-        { autoCompleteMessages: false }
+        { autoCompleteMessages: false },
       );
 
       const msgsCheck = await checkWithTimeout(() => receivedMsgs.length === 1);
@@ -214,12 +214,12 @@ describe("session tests", () => {
       should.equal(
         msgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(
         msgs[0].sessionId,
         testMessage.sessionId,
-        "SessionId is different than expected"
+        "SessionId is different than expected",
       );
 
       let testState = await receiver.getSessionState();
@@ -243,12 +243,12 @@ describe("session tests", () => {
       should.equal(
         msgs[0].messageId,
         testMessage.messageId,
-        "MessageId is different than expected"
+        "MessageId is different than expected",
       );
       should.equal(
         msgs[0].sessionId,
         testMessage.sessionId,
-        "SessionId is different than expected"
+        "SessionId is different than expected",
       );
 
       testState = await receiver.getSessionState();
@@ -338,7 +338,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
       testMessage.sessionId,
       {
         maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
-      }
+      },
     );
     const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
@@ -430,7 +430,7 @@ describe("SessionReceiver - disconnects", function (): void {
       testMessage.sessionId,
       {
         maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
-      }
+      },
     );
 
     let receiverSecondMessageResolver: (value: unknown) => void;
@@ -446,7 +446,7 @@ describe("SessionReceiver - disconnects", function (): void {
     should.equal(receiver.isClosed, false, "Receiver should not have been closed");
     const isCloseCalledSpy = sinon.spy(
       (receiver as ServiceBusSessionReceiverImpl)["_messageSession"],
-      "close"
+      "close",
     );
 
     // Send a message so we can be sure when the receiver is open and active.
@@ -461,7 +461,7 @@ describe("SessionReceiver - disconnects", function (): void {
           errorIsThrownResolver(err);
         },
       },
-      { autoCompleteMessages: false }
+      { autoCompleteMessages: false },
     );
 
     const err = await errorIsThrown;
@@ -469,7 +469,7 @@ describe("SessionReceiver - disconnects", function (): void {
     should.equal(
       (err.error as ServiceBusError).code,
       "SessionLockLost",
-      "error code is not SessionLockLost"
+      "error code is not SessionLockLost",
     );
 
     // NOTE: this is a hokey workaround. It used to be that you'd only get the single error
@@ -488,7 +488,7 @@ describe("SessionReceiver - disconnects", function (): void {
       testMessage.sessionId,
       {
         maxAutoLockRenewalDurationInMs: 10000, // Lower this value so that test can complete in time.
-      }
+      },
     );
     receiver2.subscribe({
       async processMessage(_message: ServiceBusReceivedMessage) {

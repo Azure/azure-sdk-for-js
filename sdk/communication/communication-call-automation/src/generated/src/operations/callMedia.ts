@@ -24,10 +24,11 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams,
-  UpdateTranscriptionDataRequest,
-  CallMediaUpdateTranscriptionDataOptionalParams,
+  SendDtmfTonesRequest,
+  CallMediaSendDtmfTonesOptionalParams,
+  CallMediaSendDtmfTonesResponse,
+  UpdateTranscriptionRequest,
+  CallMediaUpdateTranscriptionOptionalParams,
   StartHoldMusicRequest,
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
@@ -166,34 +167,34 @@ export class CallMediaImpl implements CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfRequest The send dtmf request
+   * @param sendDtmfTonesRequest The send dtmf tones request
    * @param options The options parameters.
    */
-  sendDtmf(
+  sendDtmfTones(
     callConnectionId: string,
-    sendDtmfRequest: SendDtmfRequest,
-    options?: CallMediaSendDtmfOptionalParams
-  ): Promise<void> {
+    sendDtmfTonesRequest: SendDtmfTonesRequest,
+    options?: CallMediaSendDtmfTonesOptionalParams
+  ): Promise<CallMediaSendDtmfTonesResponse> {
     return this.client.sendOperationRequest(
-      { callConnectionId, sendDtmfRequest, options },
-      sendDtmfOperationSpec
+      { callConnectionId, sendDtmfTonesRequest, options },
+      sendDtmfTonesOperationSpec
     );
   }
 
   /**
    * API to change transcription language.
    * @param callConnectionId The call connection id
-   * @param updateTranscriptionDataRequest The updateTranscriptionData request
+   * @param updateTranscriptionRequest The UpdateTranscription request
    * @param options The options parameters.
    */
-  updateTranscriptionData(
+  updateTranscription(
     callConnectionId: string,
-    updateTranscriptionDataRequest: UpdateTranscriptionDataRequest,
-    options?: CallMediaUpdateTranscriptionDataOptionalParams
+    updateTranscriptionRequest: UpdateTranscriptionRequest,
+    options?: CallMediaUpdateTranscriptionOptionalParams
   ): Promise<void> {
     return this.client.sendOperationRequest(
-      { callConnectionId, updateTranscriptionDataRequest, options },
-      updateTranscriptionDataOperationSpec
+      { callConnectionId, updateTranscriptionRequest, options },
+      updateTranscriptionOperationSpec
     );
   }
 
@@ -251,7 +252,7 @@ const playOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const startTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:StartTranscription",
+  path: "/calling/callConnections/{callConnectionId}:startTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -267,7 +268,7 @@ const startTranscriptionOperationSpec: coreClient.OperationSpec = {
   serializer
 };
 const stopTranscriptionOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:StopTranscription",
+  path: "/calling/callConnections/{callConnectionId}:stopTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -346,24 +347,31 @@ const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const sendDtmfOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:sendDtmf",
+const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
   httpMethod: "POST",
   responses: {
-    202: {},
+    202: {
+      bodyMapper: Mappers.SendDtmfTonesResult
+    },
     default: {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.sendDtmfRequest,
+  requestBody: Parameters.sendDtmfTonesRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
-  headerParameters: [Parameters.contentType, Parameters.accept],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.repeatabilityRequestID,
+    Parameters.repeatabilityFirstSent
+  ],
   mediaType: "json",
   serializer
 };
-const updateTranscriptionDataOperationSpec: coreClient.OperationSpec = {
-  path: "/calling/callConnections/{callConnectionId}:updateTranscriptionData",
+const updateTranscriptionOperationSpec: coreClient.OperationSpec = {
+  path: "/calling/callConnections/{callConnectionId}:updateTranscription",
   httpMethod: "POST",
   responses: {
     202: {},
@@ -371,7 +379,7 @@ const updateTranscriptionDataOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.CommunicationErrorResponse
     }
   },
-  requestBody: Parameters.updateTranscriptionDataRequest,
+  requestBody: Parameters.updateTranscriptionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],

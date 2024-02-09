@@ -8,7 +8,7 @@
         }
       },
       "TestType": "node",
-      "NodeTestVersion": "16.x",
+      "NodeTestVersion": "18.x",
       "ServiceVersion": ["7.0", "7.1", "7.2"]
     }
   ],

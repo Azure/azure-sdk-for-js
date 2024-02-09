@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get site detector response
  *
  * @summary Description for Get site detector response
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteDetectorResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteDetectorResponse.json
  */
 async function getAppDetectorResponse() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function getAppDetectorResponse() {
  * This sample demonstrates how to Description for Get site detector response
  *
  * @summary Description for Get site detector response
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/Diagnostics_GetSiteDetectorResponseSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/Diagnostics_GetSiteDetectorResponseSlot.json
  */
 async function getAppSlotDetectorResponse() {
   const subscriptionId =

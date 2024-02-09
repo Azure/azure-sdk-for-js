@@ -253,7 +253,7 @@ async function createIndex(client, name) {
           name: "vector-search-vectorizer",
           kind: "azureOpenAI",
           azureOpenAIParameters: {
-            resourceUri: env.OPENAI_ENDPOINT,
+            resourceUri: env.AZURE_OPENAI_ENDPOINT,
             apiKey: env.OPENAI_KEY,
             deploymentId: env.OPENAI_DEPLOYMENT_NAME,
           },

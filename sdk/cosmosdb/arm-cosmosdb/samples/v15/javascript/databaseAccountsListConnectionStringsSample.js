@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountListConnectionStrings.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountListConnectionStrings.json
  */
 async function cosmosDbDatabaseAccountListConnectionStrings() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -26,7 +26,7 @@ async function cosmosDbDatabaseAccountListConnectionStrings() {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.listConnectionStrings(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }
@@ -35,7 +35,7 @@ async function cosmosDbDatabaseAccountListConnectionStrings() {
  * This sample demonstrates how to Lists the connection strings for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the connection strings for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountListConnectionStringsMongo.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountListConnectionStringsMongo.json
  */
 async function cosmosDbDatabaseAccountListConnectionStringsMongo() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -45,7 +45,7 @@ async function cosmosDbDatabaseAccountListConnectionStringsMongo() {
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const result = await client.databaseAccounts.listConnectionStrings(
     resourceGroupName,
-    accountName
+    accountName,
   );
   console.log(result);
 }

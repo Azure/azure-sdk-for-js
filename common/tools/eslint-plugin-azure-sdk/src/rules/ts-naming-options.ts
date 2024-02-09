@@ -18,7 +18,7 @@ import { Rule } from "eslint";
 export = {
   meta: getRuleMetaData(
     "ts-naming-options",
-    "require client method option parameter type names to be suffixed with Options and prefixed with the method name"
+    "require client method option parameter type names to be suffixed with Options and prefixed with the method name",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const parserServices = context.sourceCode.parserServices as ParserServices;

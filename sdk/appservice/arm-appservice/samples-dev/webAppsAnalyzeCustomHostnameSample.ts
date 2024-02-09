@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Analyze a custom hostname.
  *
  * @summary Description for Analyze a custom hostname.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AnalyzeCustomHostName.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AnalyzeCustomHostName.json
  */
 async function analyzeCustomHostnameForWebapp() {
   const subscriptionId =

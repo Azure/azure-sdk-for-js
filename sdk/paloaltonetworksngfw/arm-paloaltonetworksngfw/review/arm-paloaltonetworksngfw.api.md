@@ -1391,6 +1391,7 @@ export interface NetworkProfile {
     enableEgressNat: EgressNat;
     networkType: NetworkType;
     publicIps: IPAddress[];
+    trustedRanges?: string[];
     vnetConfiguration?: VnetConfiguration;
     vwanConfiguration?: VwanConfiguration;
 }

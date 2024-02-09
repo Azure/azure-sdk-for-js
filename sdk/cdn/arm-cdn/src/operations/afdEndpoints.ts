@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { CdnManagementClient } from "../cdnManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   AFDEndpoint,
   AfdEndpointsListByProfileNextOptionalParams,
@@ -140,7 +144,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor endpoint under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -289,8 +293,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpoint: AFDEndpoint,
     options?: AfdEndpointsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdEndpointsCreateResponse>,
+    SimplePollerLike<
+      OperationState<AfdEndpointsCreateResponse>,
       AfdEndpointsCreateResponse
     >
   > {
@@ -300,7 +304,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     ): Promise<AfdEndpointsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -333,15 +337,18 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, endpointName, endpoint, options },
-      createOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, endpointName, endpoint, options },
+      spec: createOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AfdEndpointsCreateResponse,
+      OperationState<AfdEndpointsCreateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -393,8 +400,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpointUpdateProperties: AFDEndpointUpdateParameters,
     options?: AfdEndpointsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<AfdEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<AfdEndpointsUpdateResponse>,
       AfdEndpointsUpdateResponse
     >
   > {
@@ -404,7 +411,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     ): Promise<AfdEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -437,21 +444,24 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         profileName,
         endpointName,
         endpointUpdateProperties,
         options
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: updateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      AfdEndpointsUpdateResponse,
+      OperationState<AfdEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -500,14 +510,14 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     profileName: string,
     endpointName: string,
     options?: AfdEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -540,15 +550,15 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, endpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, endpointName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -595,14 +605,14 @@ export class AfdEndpointsImpl implements AfdEndpoints {
     endpointName: string,
     contents: AfdPurgeParameters,
     options?: AfdEndpointsPurgeContentOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -635,15 +645,15 @@ export class AfdEndpointsImpl implements AfdEndpoints {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, profileName, endpointName, contents, options },
-      purgeContentOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, profileName, endpointName, contents, options },
+      spec: purgeContentOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
@@ -678,7 +688,7 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Checks the quota and actual usage of the given AzureFrontDoor endpoint under the given CDN profile.
+   * Checks the quota and actual usage of endpoints under the given Azure Front Door profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -698,8 +708,8 @@ export class AfdEndpointsImpl implements AfdEndpoints {
   }
 
   /**
-   * Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.This api
-   * isn't work for apex domain.
+   * Validates the custom domain mapping to ensure it maps to the correct Azure Front Door endpoint in
+   * DNS.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the Azure Front Door Standard or Azure Front Door Premium profile which
    *                    is unique within the resource group.
@@ -788,7 +798,7 @@ const listByProfileOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName
+    Parameters.profileName1
   ],
   headerParameters: [Parameters.accept],
   serializer
@@ -810,7 +820,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -843,7 +853,7 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -877,7 +887,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -902,7 +912,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -927,7 +937,7 @@ const purgeContentOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -951,7 +961,7 @@ const listResourceUsageOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.accept],
@@ -975,7 +985,7 @@ const validateCustomDomainOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.endpointName
   ],
   headerParameters: [Parameters.contentType, Parameters.accept],
@@ -993,12 +1003,11 @@ const listByProfileNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],
@@ -1015,12 +1024,11 @@ const listResourceUsageNextOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AfdErrorResponse
     }
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.profileName,
+    Parameters.profileName1,
     Parameters.nextLink,
     Parameters.endpointName
   ],

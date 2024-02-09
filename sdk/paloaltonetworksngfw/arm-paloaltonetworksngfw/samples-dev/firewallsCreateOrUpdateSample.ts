@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a FirewallResource
  *
  * @summary Create a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function firewallsCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -99,6 +99,7 @@ async function firewallsCreateOrUpdateMaximumSetGen() {
             "/subscriptions/01c7d41f-afaf-464e-8a8b-5c6f9f98cee8/resourceGroups/mj-liftr-integration/providers/Microsoft.Network/publicIPAddresses/mj-liftr-integration-PublicIp1"
         }
       ],
+      trustedRanges: ["20.22.92.11"],
       vnetConfiguration: {
         ipOfTrustSubnetForUdr: {
           address: "10.1.1.0/24",
@@ -169,7 +170,7 @@ async function firewallsCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a FirewallResource
  *
  * @summary Create a FirewallResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/Firewalls_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function firewallsCreateOrUpdateMinimumSetGen() {
   const subscriptionId =

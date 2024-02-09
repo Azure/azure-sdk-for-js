@@ -12,25 +12,25 @@ import { assert } from "chai";
 
 const assertSerialize = (
   identifier: CommunicationIdentifier,
-  expected: SerializedCommunicationIdentifier
+  expected: SerializedCommunicationIdentifier,
 ): void => {
   assert.deepEqual(serializeCommunicationIdentifier(identifier), expected);
 };
 
 const assertDeserialize = (
   serializedIdentifier: SerializedCommunicationIdentifier,
-  expected: CommunicationIdentifierKind
+  expected: CommunicationIdentifierKind,
 ): void => {
   assert.deepEqual(deserializeCommunicationIdentifier(serializedIdentifier), expected);
 };
 
 const assertThrowsMissingProperty = <
   P extends keyof SerializedCommunicationIdentifier,
-  Q extends string & keyof Required<SerializedCommunicationIdentifier>[P]
+  Q extends string & keyof Required<SerializedCommunicationIdentifier>[P],
 >(
   serializedIdentifier: SerializedCommunicationIdentifier,
   identifierType: P,
-  missingPropertyName: Q
+  missingPropertyName: Q,
 ): void => {
   assert.throws(() => {
     deserializeCommunicationIdentifier(serializedIdentifier);
@@ -38,7 +38,7 @@ const assertThrowsMissingProperty = <
 };
 
 const assertThrowsTooManyProperties = (
-  serializedIdentifier: SerializedCommunicationIdentifier
+  serializedIdentifier: SerializedCommunicationIdentifier,
 ): void => {
   assert.throws(() => {
     deserializeCommunicationIdentifier(serializedIdentifier);
@@ -57,7 +57,7 @@ describe("Identifier model serializer", function () {
         communicationUser: {
           id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
         },
-      }
+      },
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14" },
@@ -68,7 +68,7 @@ describe("Identifier model serializer", function () {
           isAnonymous: false,
           cloud: "public",
         },
-      }
+      },
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", isAnonymous: false },
@@ -79,7 +79,7 @@ describe("Identifier model serializer", function () {
           isAnonymous: false,
           cloud: "public",
         },
-      }
+      },
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", isAnonymous: true },
@@ -90,7 +90,7 @@ describe("Identifier model serializer", function () {
           isAnonymous: true,
           cloud: "public",
         },
-      }
+      },
     );
     assertSerialize(
       { microsoftTeamsUserId: "37691ec4-57fb-4c0f-ae31-32791610cb14", rawId: "override" },
@@ -101,7 +101,7 @@ describe("Identifier model serializer", function () {
           isAnonymous: false,
           cloud: "public",
         },
-      }
+      },
     );
     assertSerialize(
       {
@@ -115,7 +115,7 @@ describe("Identifier model serializer", function () {
           isAnonymous: false,
           cloud: "dod",
         },
-      }
+      },
     );
     assertSerialize(
       { phoneNumber: "+12345556789" },
@@ -124,7 +124,7 @@ describe("Identifier model serializer", function () {
         phoneNumber: {
           value: "+12345556789",
         },
-      }
+      },
     );
     assertSerialize(
       { phoneNumber: "+12345556789", rawId: "override" },
@@ -133,11 +133,11 @@ describe("Identifier model serializer", function () {
         phoneNumber: {
           value: "+12345556789",
         },
-      }
+      },
     );
     assertSerialize(
       { id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
-      { rawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" }
+      { rawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
     );
   });
 
@@ -158,7 +158,7 @@ describe("Identifier model serializer", function () {
         kind: "communicationUser",
         communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -171,7 +171,7 @@ describe("Identifier model serializer", function () {
         kind: "communicationUser",
         communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -184,7 +184,7 @@ describe("Identifier model serializer", function () {
         kind: "communicationUser",
         communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -194,7 +194,7 @@ describe("Identifier model serializer", function () {
       {
         kind: "unknown",
         id: "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -207,7 +207,7 @@ describe("Identifier model serializer", function () {
         kind: "communicationUser",
         communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -220,19 +220,19 @@ describe("Identifier model serializer", function () {
         kind: "communicationUser",
         communicationUserId:
           "8:acs:37691ec4-57fb-4c0f-ae31-32791610cb14_37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       { phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" }
+      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" },
     );
     assertDeserialize(
       { kind: "phoneNumber", phoneNumber: { value: "+1234555000" }, rawId: "4:+1234555000" },
-      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" }
+      { kind: "phoneNumber", phoneNumber: "+1234555000", rawId: "4:+1234555000" },
     );
     assertDeserialize(
       { kind: "phoneNumber", rawId: "4:+1234555000" },
-      { kind: "unknown", id: "4:+1234555000" }
+      { kind: "unknown", id: "4:+1234555000" },
     );
     assertDeserialize(
       {
@@ -249,7 +249,7 @@ describe("Identifier model serializer", function () {
         isAnonymous: false,
         cloud: "public",
         rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -266,7 +266,7 @@ describe("Identifier model serializer", function () {
         isAnonymous: true,
         cloud: "public",
         rawId: "8:teamsvisitor:37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -283,7 +283,7 @@ describe("Identifier model serializer", function () {
         isAnonymous: false,
         cloud: "gcch",
         rawId: "8:gcch:37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -301,7 +301,7 @@ describe("Identifier model serializer", function () {
         isAnonymous: false,
         cloud: "public",
         rawId: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       {
@@ -311,15 +311,15 @@ describe("Identifier model serializer", function () {
       {
         kind: "unknown",
         id: "8:orgid:37691ec4-57fb-4c0f-ae31-32791610cb14",
-      }
+      },
     );
     assertDeserialize(
       { rawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
-      { kind: "unknown", id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" }
+      { kind: "unknown", id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
     );
     assertDeserialize(
       { kind: "unknown", rawId: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
-      { kind: "unknown", id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" }
+      { kind: "unknown", id: "48:37691ec4-57fb-4c0f-ae31-32791610cb14" },
     );
   });
 
@@ -336,14 +336,14 @@ describe("Identifier model serializer", function () {
         communicationUser: {} as any,
       },
       "communicationUser",
-      "id"
+      "id",
     );
     assertThrowsMissingProperty(
       {
         phoneNumber: {} as any,
       },
       "phoneNumber",
-      "value"
+      "value",
     );
     assertThrowsMissingProperty(
       {
@@ -352,7 +352,7 @@ describe("Identifier model serializer", function () {
         } as any,
       },
       "microsoftTeamsUser",
-      "userId"
+      "userId",
     );
     assertThrowsMissingProperty(
       {
@@ -362,7 +362,7 @@ describe("Identifier model serializer", function () {
         } as any,
       },
       "microsoftTeamsUser",
-      "isAnonymous"
+      "isAnonymous",
     );
     assertThrowsMissingProperty(
       {
@@ -372,7 +372,7 @@ describe("Identifier model serializer", function () {
         } as any,
       },
       "microsoftTeamsUser",
-      "cloud"
+      "cloud",
     );
 
     assert.throws(() => {

@@ -71,7 +71,7 @@ describe("KeyVaultAccessControlClient", () => {
     describe("getRoleDefinition", function () {
       it("returns a role definition by name", async function () {
         const anyRoleDefinition = getYieldedValue(
-          await client.listRoleDefinitions(globalScope).next()
+          await client.listRoleDefinitions(globalScope).next(),
         );
 
         const roleDefinition = await client.getRoleDefinition(globalScope, anyRoleDefinition.name);
@@ -126,7 +126,7 @@ describe("KeyVaultAccessControlClient", () => {
       for await (const definition of client.listRoleDefinitions(globalScope)) {
         if (definition.id === roleDefinition.id) {
           assert.fail(
-            "expected to successfully delete custom role definition, but it still exists."
+            "expected to successfully delete custom role definition, but it still exists.",
           );
         }
       }
@@ -139,7 +139,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleDefinitionName: "foo unique value",
             roleName: "foo role definition name",
             permissions: [],
-          })
+          }),
         );
       });
 
@@ -161,7 +161,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleDefinitionName: builtInDefinition.name,
             roleName: builtInDefinition.roleName,
             permissions,
-          })
+          }),
         );
       });
     });
@@ -233,7 +233,7 @@ describe("KeyVaultAccessControlClient", () => {
         globalScope,
         assignmentName,
         roleDefinition.id,
-        assertEnvironmentVariable("CLIENT_OBJECT_ID")
+        assertEnvironmentVariable("CLIENT_OBJECT_ID"),
       );
       assert.equal(assignment.name, assignmentName);
       assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
@@ -282,7 +282,7 @@ describe("KeyVaultAccessControlClient", () => {
             roleAssignmentName,
             roleDefinition.id,
             assertEnvironmentVariable("CLIENT_OBJECT_ID"),
-            options
+            options,
           );
           await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
           await client.listRoleAssignments(KnownRoleScope.Global, options).next();
@@ -299,7 +299,7 @@ describe("KeyVaultAccessControlClient", () => {
           "KeyVaultAccessControlClient.listRoleDefinitionsPage",
           "KeyVaultAccessControlClient.deleteRoleAssignment",
           "KeyVaultAccessControlClient.deleteRoleDefinition",
-        ]
+        ],
       );
     });
   });

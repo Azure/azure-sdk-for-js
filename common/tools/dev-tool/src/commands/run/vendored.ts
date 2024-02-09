@@ -26,7 +26,10 @@ const DOT_BIN_PATH = path.resolve(__dirname, "..", "..", "..", "node_modules", "
  * @returns a function that executes the command and returns a boolean status
  */
 function makeCommandExecutor(commandName: string): (...args: string[]) => Promise<boolean> {
-  const commandPath = path.join(DOT_BIN_PATH, commandName);
+  const commandPath =
+    process.platform !== "win32"
+      ? path.join(DOT_BIN_PATH, commandName)
+      : path.join(DOT_BIN_PATH, `${commandName}.CMD`);
 
   return (...args: string[]) =>
     new Promise<boolean>((resolve, reject) => {
@@ -34,7 +37,9 @@ function makeCommandExecutor(commandName: string): (...args: string[]) => Promis
       const command = spawn(commandPath, args, { stdio: "inherit" });
 
       // If the command exited 0, then we treat that as a success
-      command.on("exit", (code) => resolve(code === 0));
+      command.on("exit", (code) => {
+        resolve(code === 0);
+      });
       command.on("error", reject);
     });
 }
@@ -56,8 +61,8 @@ export default async (...args: string[]): Promise<boolean> => {
         };
 
         return [commandName, () => Promise.resolve(moduleSham)];
-      })
-    )
+      }),
+    ),
   );
 
   return executor(...args);

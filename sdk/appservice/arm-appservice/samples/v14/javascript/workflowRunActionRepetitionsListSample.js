@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all of a workflow run action repetitions.
  *
  * @summary Get all of a workflow run action repetitions.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActionRepetitions_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActionRepetitions_List.json
  */
 async function listRepetitions() {
   const subscriptionId =

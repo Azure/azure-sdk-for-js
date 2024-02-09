@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets the config reference and status of an app
  *
  * @summary Description for Gets the config reference and status of an app
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetKeyVaultReferencesForAppSetting.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetKeyVaultReferencesForAppSetting.json
  */
 async function getAzureKeyVaultAppSettingReference() {
   const subscriptionId =

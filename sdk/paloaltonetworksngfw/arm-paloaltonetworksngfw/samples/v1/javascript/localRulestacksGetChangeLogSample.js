@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get changelog
  *
  * @summary Get changelog
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_getChangeLog_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getChangeLog_MaximumSet_Gen.json
  */
 async function localRulestacksGetChangeLogMaximumSetGen() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function localRulestacksGetChangeLogMaximumSetGen() {
  * This sample demonstrates how to Get changelog
  *
  * @summary Get changelog
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_getChangeLog_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_getChangeLog_MinimumSet_Gen.json
  */
 async function localRulestacksGetChangeLogMinimumSetGen() {
   const subscriptionId =

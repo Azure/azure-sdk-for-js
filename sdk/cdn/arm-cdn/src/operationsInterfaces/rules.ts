@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Rule,
   RulesListByRuleSetOptionalParams,
@@ -72,7 +72,7 @@ export interface Rules {
     rule: Rule,
     options?: RulesCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RulesCreateResponse>, RulesCreateResponse>
+    SimplePollerLike<OperationState<RulesCreateResponse>, RulesCreateResponse>
   >;
   /**
    * Creates a new delivery rule within the specified rule set.
@@ -110,7 +110,7 @@ export interface Rules {
     ruleUpdateProperties: RuleUpdateParameters,
     options?: RulesUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<RulesUpdateResponse>, RulesUpdateResponse>
+    SimplePollerLike<OperationState<RulesUpdateResponse>, RulesUpdateResponse>
   >;
   /**
    * Updates an existing delivery rule within a rule set.
@@ -145,7 +145,7 @@ export interface Rules {
     ruleSetName: string,
     ruleName: string,
     options?: RulesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing delivery rule within a rule set.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

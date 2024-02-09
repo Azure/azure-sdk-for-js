@@ -19,10 +19,11 @@ import {
   ContinuousDtmfRecognitionRequest,
   CallMediaStartContinuousDtmfRecognitionOptionalParams,
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
-  SendDtmfRequest,
-  CallMediaSendDtmfOptionalParams,
-  UpdateTranscriptionDataRequest,
-  CallMediaUpdateTranscriptionDataOptionalParams,
+  SendDtmfTonesRequest,
+  CallMediaSendDtmfTonesOptionalParams,
+  CallMediaSendDtmfTonesResponse,
+  UpdateTranscriptionRequest,
+  CallMediaUpdateTranscriptionOptionalParams,
   StartHoldMusicRequest,
   CallMediaStartHoldMusicOptionalParams,
   StopHoldMusicRequest,
@@ -109,24 +110,24 @@ export interface CallMedia {
   /**
    * Send dtmf tones.
    * @param callConnectionId The call connection id
-   * @param sendDtmfRequest The send dtmf request
+   * @param sendDtmfTonesRequest The send dtmf tones request
    * @param options The options parameters.
    */
-  sendDtmf(
+  sendDtmfTones(
     callConnectionId: string,
-    sendDtmfRequest: SendDtmfRequest,
-    options?: CallMediaSendDtmfOptionalParams
-  ): Promise<void>;
+    sendDtmfTonesRequest: SendDtmfTonesRequest,
+    options?: CallMediaSendDtmfTonesOptionalParams
+  ): Promise<CallMediaSendDtmfTonesResponse>;
   /**
    * API to change transcription language.
    * @param callConnectionId The call connection id
-   * @param updateTranscriptionDataRequest The updateTranscriptionData request
+   * @param updateTranscriptionRequest The UpdateTranscription request
    * @param options The options parameters.
    */
-  updateTranscriptionData(
+  updateTranscription(
     callConnectionId: string,
-    updateTranscriptionDataRequest: UpdateTranscriptionDataRequest,
-    options?: CallMediaUpdateTranscriptionDataOptionalParams
+    updateTranscriptionRequest: UpdateTranscriptionRequest,
+    options?: CallMediaUpdateTranscriptionOptionalParams
   ): Promise<void>;
   /**
    * Hold participant from the call using identifier.

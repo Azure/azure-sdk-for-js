@@ -29,7 +29,7 @@ export const tracingClient = createTracingClient({
 export function toSpanOptions(
   eventHubConfig: Pick<EventHubConnectionConfig, "entityPath" | "host">,
   operation?: MessagingOperationNames,
-  spanKind?: TracingSpanKind
+  spanKind?: TracingSpanKind,
 ): TracingSpanOptions {
   const propertyName =
     operation === "process" || operation === "receive"

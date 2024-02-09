@@ -9,6 +9,6 @@ export function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
       typeof (body as ReadableStream).getReader === "function" &&
-      typeof (body as ReadableStream).tee === "function"
+      typeof (body as ReadableStream).tee === "function",
   );
 }

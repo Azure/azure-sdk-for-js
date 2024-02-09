@@ -72,7 +72,7 @@ export interface ServiceBusMessageBatch {
    */
   tryAddMessage(
     message: ServiceBusMessage | AmqpAnnotatedMessage,
-    options?: TryAddOptions
+    options?: TryAddOptions,
   ): boolean;
 
   /**
@@ -119,7 +119,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @internal
    * @hidden
    */
-  constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
+  constructor(
+    private _context: ConnectionContext,
+    private _maxSizeInBytes: number,
+  ) {
     this._sizeInBytes = 0;
     this._batchMessageProperties = {};
   }
@@ -170,7 +173,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
     encodedMessages: Buffer[],
     annotations?: MessageAnnotations,
     applicationProperties?: { [key: string]: any },
-    messageProperties?: { [key: string]: string }
+    messageProperties?: { [key: string]: string },
   ): Buffer {
     const batchEnvelope: RheaMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
@@ -202,7 +205,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
       this._encodedMessages,
       this._batchAnnotations,
       this._batchApplicationProperties,
-      this._batchMessageProperties
+      this._batchMessageProperties,
     );
   }
 
@@ -235,7 +238,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    */
   public tryAddMessage(
     originalMessage: ServiceBusMessage | AmqpAnnotatedMessage,
-    options: TryAddOptions = {}
+    options: TryAddOptions = {},
   ): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", originalMessage);
     throwIfNotValidServiceBusMessage(originalMessage, errorInvalidMessageTypeSingle);
@@ -245,7 +248,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
       options,
       this._context.config.entityPath!,
       this._context.config.host,
-      "publish"
+      "publish",
     );
 
     // Convert ServiceBusMessage to AmqpMessage.
@@ -276,7 +279,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
         [],
         this._batchAnnotations,
         this._batchApplicationProperties,
-        this._batchMessageProperties
+        this._batchMessageProperties,
       ).length;
     }
 

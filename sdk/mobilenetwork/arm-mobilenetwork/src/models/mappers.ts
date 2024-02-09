@@ -1046,6 +1046,74 @@ export const DiagnosticsUploadConfiguration: coreClient.CompositeMapper = {
   }
 };
 
+export const EventHubConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "EventHubConfiguration",
+    modelProperties: {
+      id: {
+        constraints: {
+          Pattern: new RegExp(
+            "^\\/[sS][uU][bB][sS][cC][rR][iI][pP][tT][iI][oO][nN][sS]\\/[^/?#]+\\/[rR][eE][sS][oO][uU][rR][cC][eE][gG][rR][oO][uU][pP][sS]\\/[^/?#]+\\/[pP][rR][oO][vV][iI][dD][eE][rR][sS]\\/[mM][iI][cC][rR][oO][sS][oO][fF][tT]\\.[eE][vV][eE][nN][tT][hH][uU][bB]\\/[nN][aA][mM][eE][sS][pP][aA][cC][eE][sS]\\/[^/?#]+\\/[eV][vV][eE][nN][tT][hH][uU][bB][sS]\\/[^/?#]+$"
+          )
+        },
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      reportingInterval: {
+        defaultValue: 1800,
+        constraints: {
+          InclusiveMaximum: 3600,
+          InclusiveMinimum: 30
+        },
+        serializedName: "reportingInterval",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SignalingConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SignalingConfiguration",
+    modelProperties: {
+      nasReroute: {
+        serializedName: "nasReroute",
+        type: {
+          name: "Composite",
+          className: "NASRerouteConfiguration"
+        }
+      }
+    }
+  }
+};
+
+export const NASRerouteConfiguration: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NASRerouteConfiguration",
+    modelProperties: {
+      macroMmeGroupId: {
+        constraints: {
+          InclusiveMaximum: 65535,
+          InclusiveMinimum: 0
+        },
+        serializedName: "macroMmeGroupId",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const ManagedServiceIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2904,6 +2972,25 @@ export const PacketCoreControlPlane: coreClient.CompositeMapper = {
           className: "InterfaceProperties"
         }
       },
+      controlPlaneAccessVirtualIpv4Addresses: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "properties.controlPlaneAccessVirtualIpv4Addresses",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
       sku: {
         serializedName: "properties.sku",
         required: true,
@@ -2936,6 +3023,20 @@ export const PacketCoreControlPlane: coreClient.CompositeMapper = {
           className: "DiagnosticsUploadConfiguration"
         }
       },
+      eventHub: {
+        serializedName: "properties.eventHub",
+        type: {
+          name: "Composite",
+          className: "EventHubConfiguration"
+        }
+      },
+      signaling: {
+        serializedName: "properties.signaling",
+        type: {
+          name: "Composite",
+          className: "SignalingConfiguration"
+        }
+      },
       interopSettings: {
         serializedName: "properties.interopSettings",
         type: {
@@ -2965,6 +3066,25 @@ export const PacketCoreDataPlane: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "InterfaceProperties"
+        }
+      },
+      userPlaneAccessVirtualIpv4Addresses: {
+        constraints: {
+          UniqueItems: true
+        },
+        serializedName: "properties.userPlaneAccessVirtualIpv4Addresses",
+        type: {
+          name: "Sequence",
+          element: {
+            constraints: {
+              Pattern: new RegExp(
+                "^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])$"
+              )
+            },
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -3292,7 +3412,7 @@ export const PacketCapture: coreClient.CompositeMapper = {
         defaultValue: 67108864,
         constraints: {
           InclusiveMaximum: 4294967295,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 1000
         },
         serializedName: "properties.totalBytesPerSession",
         type: {
@@ -3303,11 +3423,23 @@ export const PacketCapture: coreClient.CompositeMapper = {
         defaultValue: 18000,
         constraints: {
           InclusiveMaximum: 18000,
-          InclusiveMinimum: 0
+          InclusiveMinimum: 5
         },
         serializedName: "properties.timeLimitInSeconds",
         type: {
           name: "Number"
+        }
+      },
+      outputFiles: {
+        serializedName: "properties.outputFiles",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }

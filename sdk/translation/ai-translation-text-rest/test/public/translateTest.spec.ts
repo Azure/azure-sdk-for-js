@@ -176,7 +176,7 @@ describe("Translate tests", () => {
     assert.isTrue(translations[0].translations.length === 1);
     assert.isTrue(translations[0].translations[0].transliteration != null);
     assert.isTrue(
-      translations[0].translations[0].transliteration?.text.includes("eppadi irukkiraai?")
+      translations[0].translations[0].transliteration?.text.includes("eppadi irukkiraai?"),
     );
   });
 

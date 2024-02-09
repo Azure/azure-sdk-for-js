@@ -13,11 +13,10 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
-import { createTagsFromResource } from "./common";
+import { createTagsFromResource, hrTimeToDate } from "./common";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 import { Measurements, Properties, Tags } from "../types";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -38,7 +37,7 @@ import {
  * @internal
  */
 export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | undefined {
-  const time = log.hrTime ? new Date(hrTimeToMilliseconds(log.hrTime)) : new Date();
+  const time = hrTimeToDate(log.hrTime);
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);

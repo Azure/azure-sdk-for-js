@@ -22,7 +22,7 @@ export function updateInstallation(
   context: NotificationHubsClientContext,
   installationId: string,
   installationPatches: JsonPatch[],
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubsResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -39,6 +39,6 @@ export function updateInstallation(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationResponse(response);
-    }
+    },
   );
 }

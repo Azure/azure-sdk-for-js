@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Handles requests to list all resources in a resource group.
  *
  * @summary Handles requests to list all resources in a resource group.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/emailServices/listByResourceGroup.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/emailServices/listByResourceGroup.json
  */
 async function listEmailServiceResourcesByResourceGroup() {
   const subscriptionId =

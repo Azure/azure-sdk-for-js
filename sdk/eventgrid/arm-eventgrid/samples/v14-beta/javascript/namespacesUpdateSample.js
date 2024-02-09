@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Asynchronously updates a namespace with the specified parameters.
  *
  * @summary Asynchronously updates a namespace with the specified parameters.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/Namespaces_Update.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/Namespaces_Update.json
  */
 async function namespacesUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function namespacesUpdate() {
   const result = await client.namespaces.beginUpdateAndWait(
     resourceGroupName,
     namespaceName,
-    namespaceUpdateParameters
+    namespaceUpdateParameters,
   );
   console.log(result);
 }

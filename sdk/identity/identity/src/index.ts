@@ -28,6 +28,12 @@ export { AuthorityValidationOptions } from "./credentials/authorityValidationOpt
 // TODO: Export again once we're ready to release this feature.
 // export { RegionalAuthority } from "./regionalAuthority";
 
+export { BrokerAuthOptions } from "./credentials/brokerAuthOptions";
+export {
+  BrokerOptions,
+  BrokerEnabledOptions,
+  BrokerDisabledOptions,
+} from "./msal/nodeFlows/brokerOptions";
 export { InteractiveCredentialOptions } from "./credentials/interactiveCredentialOptions";
 
 export { ChainedTokenCredential } from "./credentials/chainedTokenCredential";
@@ -93,7 +99,7 @@ export { VisualStudioCodeCredentialOptions } from "./credentials/visualStudioCod
 export { OnBehalfOfCredential } from "./credentials/onBehalfOfCredential";
 export { WorkloadIdentityCredential } from "./credentials/workloadIdentityCredential";
 export { WorkloadIdentityCredentialOptions } from "./credentials/workloadIdentityCredentialOptions";
-
+export { BrowserCustomizationOptions } from "./credentials/browserCustomizationOptions";
 export { TokenCachePersistenceOptions } from "./msal/nodeFlows/tokenCachePersistenceOptions";
 
 export { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";

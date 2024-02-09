@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove an MSIX Package.
  *
  * @summary Remove an MSIX Package.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/MsixPackage_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_Delete.json
  */
 async function msixPackageDelete() {
   const subscriptionId =

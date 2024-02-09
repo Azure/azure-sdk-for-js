@@ -1,5 +1,45 @@
 # Release History
 
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
+
+### Other Changes
+
+## 1.2.0 (2024-01-23)
+
+### Features Added
+
+- Implement browser SDK loader.
+- Use OpenTelemetry resource detectors for App Service, Functions, and VM.
+- Add Bunyan Log Instrumentation.
+- Implement Live Metrics.
+
+### Other Changes
+
+- Add performance tests to pipeline.
+- Update OpenTelemetry dependencies.
+- Integrate with the Azure SDK internal logger.
+- Set synthetic flags on Standard Metrics.
+
+## 1.1.1 (2023-11-09)
+
+### Bugs Fixed
+
+- Add AKS resource provider in Statsbeat, add missing resource identifiers.
+- Handle issue of custom MeterReaders not being able to collect metrics for instrumentations.
+
+### Other Changes
+- Update OpenTelemetry dependencies.
+- Change JSON config values precedence.
+- Fix broken link in README.
+
 ## 1.1.0 (2023-10-09)
 
 ### Bugs Fixed

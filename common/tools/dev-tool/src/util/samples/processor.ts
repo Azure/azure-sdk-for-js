@@ -18,7 +18,7 @@ export async function processSources(
   sourceDirectory: string,
   sources: string[],
   fail: (...values: unknown[]) => never,
-  requireInScope: (moduleSpecifier: string) => unknown
+  requireInScope: (moduleSpecifier: string) => unknown,
 ): Promise<ModuleInfo[]> {
   // Project-scoped information (shared between all source files)
   let hadUnsupportedSyntax = false;
@@ -107,13 +107,13 @@ export async function processSources(
         return addCommonJsExports(
           context,
           ts.visitNode(sourceFile, visitor) as ts.SourceFile,
-          accumulator.exports
+          accumulator.exports,
         );
       };
 
     // Where the work happens. This runs the conversion step from the ts-to-js command with the visitor we've defined
     // above and the CommonJS transforms (see transforms.ts).
-    const jsModuleText = convert(sourceText, {
+    const jsModuleText = await convert(sourceText, {
       fileName: source,
       transformers: {
         before: [sourceProcessor],
@@ -126,7 +126,7 @@ export async function processSources(
     for (const relativeModule of accumulator.importedModules
       .filter(isRelativePath)
       .map((modulePath) =>
-        path.normalize(path.join(path.dirname(relativeSourcePath), modulePath))
+        path.normalize(path.join(path.dirname(relativeSourcePath), modulePath)),
       )) {
       importedRelativeModules.add(relativeModule);
     }
@@ -149,7 +149,7 @@ export async function processSources(
 
     if (hadUnsupportedSyntax) {
       fail(
-        "Samples must support the latest Node LTS well. See the errors above for more information."
+        "Samples must support the latest Node LTS well. See the errors above for more information.",
       );
     }
 
@@ -160,7 +160,7 @@ export async function processSources(
         !result.azSdkTags.util
       ) {
         fail(
-          `${result.relativeSourcePath} does not include an @summary tag, is not imported by any other module, and is not marked as a util (using @azsdk-util true).`
+          `${result.relativeSourcePath} does not include an @summary tag, is not imported by any other module, and is not marked as a util (using @azsdk-util true).`,
         );
       }
     }
@@ -198,7 +198,7 @@ function isImportOrStaticRequire(node: ts.Node): node is ts.ImportDeclaration | 
  */
 function isProcessEnvAccess(
   node: ts.Node,
-  sourceFile?: ts.SourceFile
+  sourceFile?: ts.SourceFile,
 ): node is ts.PropertyAccessExpression | ts.ElementAccessExpression {
   return (
     (ts.isPropertyAccessExpression(node) || ts.isElementAccessExpression(node)) &&
@@ -222,7 +222,7 @@ function extractAzSdkTags(
   relativeSourcePath: string,
   node: ts.Node,
   sourceFile: ts.SourceFile,
-  azSdkTags: AzSdkMetaTags
+  azSdkTags: AzSdkMetaTags,
 ): string | undefined {
   let summary: string | undefined;
   for (const tag of tags) {
@@ -241,7 +241,7 @@ function extractAzSdkTags(
       // We ran into an `azsdk` directive in the metadata
       const metaTag = tag.tagName.text.replace(
         new RegExp(`^${AZSDK_META_TAG_PREFIX}`),
-        ""
+        "",
       ) as keyof AzSdkMetaTags;
       log.debug(`File ${relativeSourcePath} has azsdk tag ${tag.tagName.text}`);
       if (VALID_AZSDK_META_TAGS.includes(metaTag)) {
@@ -271,7 +271,7 @@ function extractAzSdkTags(
 function addCommonJsExports(
   context: ts.TransformationContext,
   sourceFile: ts.SourceFile | undefined,
-  exports: string[]
+  exports: string[],
 ): ts.SourceFile {
   log.debug("Adding exports:", exports);
 
@@ -282,7 +282,7 @@ function addCommonJsExports(
   const factory = context.factory;
 
   const exportEntries: ts.ObjectLiteralElementLike[] = exports.map((name) =>
-    factory.createShorthandPropertyAssignment(name)
+    factory.createShorthandPropertyAssignment(name),
   );
 
   const transformedOriginalStatements = processExportDefault(sourceFile, factory, exportEntries);
@@ -295,11 +295,11 @@ function addCommonJsExports(
         factory.createAssignment(
           factory.createPropertyAccessExpression(
             factory.createIdentifier("module"),
-            factory.createIdentifier("exports")
+            factory.createIdentifier("exports"),
           ),
-          factory.createObjectLiteralExpression(exportEntries)
-        )
-      )
+          factory.createObjectLiteralExpression(exportEntries),
+        ),
+      ),
     );
   }
 
@@ -324,7 +324,7 @@ function addCommonJsExports(
 function processExportDefault(
   sourceFile: ts.SourceFile,
   factory: ts.NodeFactory,
-  exportEntries: ts.ObjectLiteralElementLike[]
+  exportEntries: ts.ObjectLiteralElementLike[],
 ): ts.Statement[] {
   return sourceFile.statements.map((statement) => {
     if (!ts.canHaveModifiers(statement)) {
@@ -341,7 +341,7 @@ function processExportDefault(
     // The only forms that can have `export default` modifiers are the following.
     const decl = statement as ts.FunctionDeclaration | ts.ClassDeclaration;
     const updatedModifiers = decl.modifiers?.filter(
-      ({ kind }) => kind !== ts.SyntaxKind.DefaultKeyword && kind !== ts.SyntaxKind.ExportKeyword
+      ({ kind }) => kind !== ts.SyntaxKind.DefaultKeyword && kind !== ts.SyntaxKind.ExportKeyword,
     );
 
     if (!decl.name) {
@@ -352,19 +352,19 @@ function processExportDefault(
             undefined,
             decl.typeParameters,
             decl.heritageClauses,
-            decl.members
+            decl.members,
           )
         : decl.body === undefined // This is a strange case that I assume has to do with overload declarations.
-        ? undefined
-        : factory.createFunctionExpression(
-            updatedModifiers as readonly ts.Modifier[], // it's not legal to decorate function expressions so these should all be modifiers.
-            decl.asteriskToken,
-            undefined,
-            decl.typeParameters,
-            decl.parameters,
-            decl.type,
-            decl.body
-          );
+          ? undefined
+          : factory.createFunctionExpression(
+              updatedModifiers as readonly ts.Modifier[], // it's not legal to decorate function expressions so these should all be modifiers.
+              decl.asteriskToken,
+              undefined,
+              decl.typeParameters,
+              decl.parameters,
+              decl.type,
+              decl.body,
+            );
 
       if (initializer) {
         exportEntries.push(factory.createPropertyAssignment("default", initializer));
@@ -382,7 +382,7 @@ function processExportDefault(
           decl.name,
           decl.typeParameters,
           decl.heritageClauses,
-          decl.members
+          decl.members,
         )
       : factory.updateFunctionDeclaration(
           decl,
@@ -392,7 +392,7 @@ function processExportDefault(
           decl.typeParameters,
           decl.parameters,
           decl.type,
-          decl.body
+          decl.body,
         );
   });
 }

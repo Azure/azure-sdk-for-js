@@ -26,7 +26,7 @@ import { tracingClient } from "../utils/tracing.js";
 export function sendNotification(
   context: NotificationHubsClientContext,
   notification: Notification,
-  options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false }
+  options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false },
 ): Promise<NotificationHubsMessageResponse> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.sendNotification`,
@@ -47,7 +47,7 @@ export function sendNotification(
 
       const headers = await context.createHeaders(
         "sendNotification",
-        notification.headers as NonNullableRecord
+        notification.headers as NonNullableRecord,
       );
       headers.set("ServiceBusNotification-Format", notification.platform);
 
@@ -86,6 +86,6 @@ export function sendNotification(
       const response = await sendRequest(context, request, 201);
 
       return parseNotificationSendResponse(response);
-    }
+    },
   );
 }

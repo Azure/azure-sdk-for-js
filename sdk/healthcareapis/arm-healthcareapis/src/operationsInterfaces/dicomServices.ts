@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DicomService,
   DicomServicesListByWorkspaceOptionalParams,
@@ -63,8 +63,8 @@ export interface DicomServices {
     dicomservice: DicomService,
     options?: DicomServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesCreateOrUpdateResponse>,
       DicomServicesCreateOrUpdateResponse
     >
   >;
@@ -98,8 +98,8 @@ export interface DicomServices {
     dicomservicePatchResource: DicomServicePatchResource,
     options?: DicomServicesUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<DicomServicesUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DicomServicesUpdateResponse>,
       DicomServicesUpdateResponse
     >
   >;
@@ -130,7 +130,7 @@ export interface DicomServices {
     dicomServiceName: string,
     workspaceName: string,
     options?: DicomServicesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a DICOM Service.
    * @param resourceGroupName The name of the resource group that contains the service instance.

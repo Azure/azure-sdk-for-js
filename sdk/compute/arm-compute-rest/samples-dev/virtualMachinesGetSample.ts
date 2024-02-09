@@ -31,7 +31,7 @@ async function getAVirtualMachine() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
@@ -58,7 +58,7 @@ async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlac
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
@@ -85,7 +85,7 @@ async function getAVirtualMachineWithDiskControllerTypeProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);
@@ -112,7 +112,7 @@ async function getAVirtualMachineWithVMSizeProperties() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}",
       subscriptionId,
       resourceGroupName,
-      vmName
+      vmName,
     )
     .get(options);
   console.log(result);

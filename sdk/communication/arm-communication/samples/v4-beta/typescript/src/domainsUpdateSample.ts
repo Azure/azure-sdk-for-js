@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to update an existing Domains resource.
  *
  * @summary Operation to update an existing Domains resource.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/domains/update.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/domains/update.json
  */
 async function updateDomainsResource() {
   const subscriptionId =

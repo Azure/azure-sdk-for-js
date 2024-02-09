@@ -140,7 +140,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
       if (feedback.feedbackType === "Anomaly") {
         console.log(`      feedback value: ${feedback.value}`);
         console.log(
-          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+          `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`,
         );
       } else if (feedback.feedbackType === "ChangePoint") {
         console.log(`      feedback value: ${feedback.value}`);
@@ -162,7 +162,7 @@ async function listFeedback(client: MetricsAdvisorClient, metricId: string) {
         if (feedback.feedbackType === "Anomaly") {
           console.log(`      feedback value: ${feedback.value}`);
           console.log(
-            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`
+            `      anomaly detection config id: ${feedback.anomalyDetectionConfigurationId}`,
           );
         } else if (feedback.feedbackType === "ChangePoint") {
           console.log(`      feedback value: ${feedback.value}`);

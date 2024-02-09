@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-10-01",
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2023-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,10 @@
         "Connection": "keep-alive",
         "Content-Length": "62",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.10.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
-        "x-ms-content-sha256": "8ME8ZQyouQTAWHWGL/DbRXzkAcab771yT5y3IgRwgxQ=",
-        "x-ms-date": "Mon, 16 Jan 2023 10:12:04 GMT"
+        "x-ms-content-sha256": "MxkA2DppBECMHwe7FX0JNlYqIRZByKEilHQZUyhWoT4=",
+        "x-ms-date": "Wed, 18 Oct 2023 15:34:38 GMT"
       },
       "RequestBody": {
         "token": "sanitized",
@@ -22,17 +22,17 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-10-31-preview, 2022-06-01, 2022-10-01",
+        "api-supported-versions": "2021-10-31-preview, 2022-06-01, 2022-10-01, 2023-10-01",
         "Content-Type": "application/json",
-        "Date": "Mon, 16 Jan 2023 10:12:05 GMT",
-        "MS-CV": "/p7MO12QvkKqjrDyUGmpMQ.0",
+        "Date": "Wed, 18 Oct 2023 15:34:37 GMT",
+        "MS-CV": "fU7S37zkmUCsd4YGv4QEBA.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "09SLFYwAAAADUIq157qSYT6g\u002B4bbGrsauSEVMMDFFREdFMjAxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0DfsvZQAAAADOtj3IE15BQZWpgAlEwjWGU1RPRURHRTE4MTEAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "379ms"
+        "X-Processing-Time": "13ms"
       },
       "ResponseBody": {
         "error": {

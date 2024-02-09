@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete a virtual machine.
  *
  * @summary The operation to delete a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineExamples/VirtualMachine_Delete_Force.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineExamples/VirtualMachine_Delete_Force.json
  */
 async function forceDeleteAVM() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -29,7 +29,7 @@ async function forceDeleteAVM() {
   const result = await client.virtualMachines.beginDeleteAndWait(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }

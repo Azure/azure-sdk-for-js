@@ -35,7 +35,7 @@ describe("Functions", () => {
     augmentFunction(customFunction, originalFunction, originalFile);
 
     expect(
-      originalFile.getFunction("myFunction")?.getParameter("param")?.getType().getText()
+      originalFile.getFunction("myFunction")?.getParameter("param")?.getType().getText(),
     ).to.equal("string");
   });
 

@@ -4,14 +4,14 @@
     ],
     "exclude": [
       "**/*.d.ts",
-      "dist-esm/src/StorageBrowserPolicyFactory.js",
-      "dist-esm/src/policies/StorageBrowserPolicy.js",
-      "dist-esm/src/FileDownloadResponse.browser.js",
-      "dist-esm/src/credentials/StorageSharedKeyCredential.browser.js",
-      "dist-esm/src/models.js",
-      "dist-esm/src/index.browser.js",
-      "dist-esm/src/utils/utils.browser.js",
-      "dist-esm/src/generated/src/storageClient.js"
+      "dist-esm/storage-file-share/src/StorageBrowserPolicyFactory.js",
+      "dist-esm/storage-file-share/src/policies/StorageBrowserPolicy.js",
+      "dist-esm/storage-file-share/src/FileDownloadResponse.browser.js",
+      "dist-esm/storage-file-share/src/credentials/StorageSharedKeyCredential.browser.js",
+      "dist-esm/storage-file-share/src/models.js",
+      "dist-esm/storage-file-share/src/index.browser.js",
+      "dist-esm/storage-file-share/src/utils/utils.browser.js",
+      "dist-esm/storage-file-share/src/generated/src/storageClient.js"
     ],
     "reporter": [
       "text-summary",

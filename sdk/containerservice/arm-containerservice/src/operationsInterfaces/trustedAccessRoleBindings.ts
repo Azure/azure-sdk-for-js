@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   TrustedAccessRoleBinding,
   TrustedAccessRoleBindingsListOptionalParams,
@@ -14,7 +15,8 @@ import {
   TrustedAccessRoleBindingsGetResponse,
   TrustedAccessRoleBindingsCreateOrUpdateOptionalParams,
   TrustedAccessRoleBindingsCreateOrUpdateResponse,
-  TrustedAccessRoleBindingsDeleteOptionalParams
+  TrustedAccessRoleBindingsDeleteOptionalParams,
+  TrustedAccessRoleBindingsDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +54,27 @@ export interface TrustedAccessRoleBindings {
    * @param trustedAccessRoleBinding A trusted access role binding
    * @param options The options parameters.
    */
-  createOrUpdate(
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    resourceName: string,
+    trustedAccessRoleBindingName: string,
+    trustedAccessRoleBinding: TrustedAccessRoleBinding,
+    options?: TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrustedAccessRoleBindingsCreateOrUpdateResponse>,
+      TrustedAccessRoleBindingsCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Create or update a trusted access role binding
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param trustedAccessRoleBinding A trusted access role binding
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
@@ -66,10 +88,28 @@ export interface TrustedAccessRoleBindings {
    * @param trustedAccessRoleBindingName The name of trusted access role binding.
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     resourceName: string,
     trustedAccessRoleBindingName: string,
     options?: TrustedAccessRoleBindingsDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrustedAccessRoleBindingsDeleteResponse>,
+      TrustedAccessRoleBindingsDeleteResponse
+    >
+  >;
+  /**
+   * Delete a trusted access role binding.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param resourceName The name of the managed cluster resource.
+   * @param trustedAccessRoleBindingName The name of trusted access role binding.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    trustedAccessRoleBindingName: string,
+    options?: TrustedAccessRoleBindingsDeleteOptionalParams
+  ): Promise<TrustedAccessRoleBindingsDeleteResponse>;
 }

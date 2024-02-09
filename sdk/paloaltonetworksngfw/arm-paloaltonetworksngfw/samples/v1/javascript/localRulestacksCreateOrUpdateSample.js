@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a LocalRulestackResource
  *
  * @summary Create a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMaximumSetGen() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function localRulestacksCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a LocalRulestackResource
  *
  * @summary Create a LocalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/LocalRulestacks_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function localRulestacksCreateOrUpdateMinimumSetGen() {
   const subscriptionId =

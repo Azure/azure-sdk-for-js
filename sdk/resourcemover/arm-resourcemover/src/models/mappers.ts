@@ -113,14 +113,18 @@ export const MoveCollectionProperties: coreClient.CompositeMapper = {
     modelProperties: {
       sourceRegion: {
         serializedName: "sourceRegion",
-        required: true,
         type: {
           name: "String"
         }
       },
       targetRegion: {
         serializedName: "targetRegion",
-        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      moveRegion: {
+        serializedName: "moveRegion",
         type: {
           name: "String"
         }
@@ -128,6 +132,18 @@ export const MoveCollectionProperties: coreClient.CompositeMapper = {
       provisioningState: {
         serializedName: "provisioningState",
         readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      moveType: {
+        serializedName: "moveType",
         type: {
           name: "String"
         }
@@ -846,7 +862,12 @@ export const ResourceSettings: coreClient.CompositeMapper = {
       },
       targetResourceName: {
         serializedName: "targetResourceName",
-        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceGroupName: {
+        serializedName: "targetResourceGroupName",
         type: {
           name: "String"
         }

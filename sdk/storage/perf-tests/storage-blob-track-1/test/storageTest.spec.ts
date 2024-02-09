@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { v4 as generateUuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 import {
   Aborter,
   ContainerURL,
   ServiceURL,
   SharedKeyCredential,
-  StorageURL
+  StorageURL,
 } from "@azure/storage-blob";
 import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
 
@@ -18,7 +18,7 @@ dotenv.config();
 export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
   blobServiceClient: ServiceURL;
   containerClient: ContainerURL;
-  static containerName = generateUuid();
+  static containerName = randomUUID();
 
   constructor() {
     super();

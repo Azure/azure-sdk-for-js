@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Asynchronously creates or updates an event subscription with the specified parameters. Existing event subscriptions will be updated with this API.
  *
  * @summary Asynchronously creates or updates an event subscription with the specified parameters. Existing event subscriptions will be updated with this API.
- * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-06-01-preview/examples/SystemTopicEventSubscriptions_CreateOrUpdate.json
+ * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2023-12-15-preview/examples/SystemTopicEventSubscriptions_CreateOrUpdate.json
  */
 async function systemTopicEventSubscriptionsCreateOrUpdate() {
   const subscriptionId =

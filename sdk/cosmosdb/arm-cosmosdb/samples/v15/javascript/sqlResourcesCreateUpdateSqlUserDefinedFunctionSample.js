@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an Azure Cosmos DB SQL userDefinedFunction
  *
  * @summary Create or update an Azure Cosmos DB SQL userDefinedFunction
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBSqlUserDefinedFunctionCreateUpdate.json
  */
 async function cosmosDbSqlUserDefinedFunctionCreateUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -37,7 +37,7 @@ async function cosmosDbSqlUserDefinedFunctionCreateUpdate() {
     databaseName,
     containerName,
     userDefinedFunctionName,
-    createUpdateSqlUserDefinedFunctionParameters
+    createUpdateSqlUserDefinedFunctionParameters,
   );
   console.log(result);
 }

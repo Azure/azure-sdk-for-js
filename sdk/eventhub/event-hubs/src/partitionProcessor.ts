@@ -69,7 +69,7 @@ export class PartitionProcessor implements PartitionContext {
     private _checkpointStore: CheckpointStore,
     private _context: BasicPartitionProperties & {
       eventProcessorId: string;
-    }
+    },
   ) {}
 
   /**

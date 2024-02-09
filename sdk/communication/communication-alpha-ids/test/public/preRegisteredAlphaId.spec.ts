@@ -38,8 +38,8 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     } catch (error) {
       assert.fail(
         `There was an error calling getAlphaIds. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)}`
+          "MS-CV",
+        )}, ${JSON.stringify(error)}`,
       );
     }
 
@@ -63,8 +63,8 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     } catch (error) {
       assert.fail(
         `There was an error calling getAlphaIds by page. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)}`
+          "MS-CV",
+        )}, ${JSON.stringify(error)}`,
       );
     }
   }).timeout(40000);
@@ -85,8 +85,8 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     } catch (error) {
       assert.fail(
         `There was an error calling getPreRegisteredAlphaIdCountries by page. MS-CV: ${configurationResponse?.headers.get(
-          "MS-CV"
-        )}, ${JSON.stringify(error)}`
+          "MS-CV",
+        )}, ${JSON.stringify(error)}`,
       );
     }
   }).timeout(20000);

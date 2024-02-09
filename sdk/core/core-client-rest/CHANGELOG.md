@@ -1,14 +1,51 @@
 # Release History
 
-## 1.1.5 (Unreleased)
+## 1.2.1 (Unreleased)
 
 ### Features Added
+
+- Allow customers to set request content type by `option.contentType` or `content-type` request headers.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+- Set the content-type as `undefined` if it's a non-json string in the body and we are unknown of the content-type, but remain to be `application/json` if it's json string.
+
 ### Other Changes
+
+## 1.2.0 (2024-02-01)
+
+### Features Added
+
+- Add a new property endpoint in ClientOptions and mark the baseUri as deprecated to encourage people to use endpoint.
+
+### Bugs Fixed
+
+- Fixed an issue where `multipart/form-data` requests with an array of files as a parameter would not work if any of the files were supplied as a `Uint8Array`.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` to `^2.0.0`.
+
+## 1.1.7 (2024-01-02)
+
+### Bugs Fixed
+
+- Fix serialization of binary data in `multipart/form-data` requests and in binary request bodies.
+- Fix the issue where onResponse is not called when `asNodeStream` or `asBrowserStream` are called.
+
+## 1.1.6 (2023-11-30)
+
+### Features Added
+
+- Add an overload for `createRestError` to accept `PathUncheckedResponse` only.
+
+## 1.1.5 (2023-11-20)
+
+### Bugs Fixed
+
+- Keeps request body of raw bytes for requests with `application/octet-stream` content type.
 
 ## 1.1.4 (2023-07-06)
 

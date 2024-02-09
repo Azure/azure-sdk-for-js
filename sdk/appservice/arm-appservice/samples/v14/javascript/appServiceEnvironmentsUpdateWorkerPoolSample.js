@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Create or update a worker pool.
  *
  * @summary Description for Create or update a worker pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/AppServiceEnvironments_CreateOrUpdateWorkerPool.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/AppServiceEnvironments_CreateOrUpdateWorkerPool.json
  */
 async function getPropertiesOfAWorkerPool() {
   const subscriptionId =

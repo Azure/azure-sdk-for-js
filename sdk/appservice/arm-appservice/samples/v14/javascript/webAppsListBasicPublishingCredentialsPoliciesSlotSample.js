@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
  *
  * @summary Description for Returns whether Scm basic auth is allowed and whether Ftp is allowed for a given site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListPublishingCredentialsPoliciesSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListPublishingCredentialsPoliciesSlot.json
  */
 async function listPublishingCredentialsPolicies() {
   const subscriptionId =

@@ -34,7 +34,7 @@ async function vpnConnectionDelete() {
       subscriptionId,
       resourceGroupName,
       gatewayName,
-      connectionName
+      connectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

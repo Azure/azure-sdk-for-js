@@ -18,37 +18,53 @@ import {
   MarketplaceAgreementsImpl,
   OrganizationOperationsImpl,
   OrganizationImpl,
-  ValidationsImpl
+  ValidationsImpl,
+  AccessImpl
 } from "./operations";
 import {
   MarketplaceAgreements,
   OrganizationOperations,
   Organization,
-  Validations
+  Validations,
+  Access
 } from "./operationsInterfaces";
 import { ConfluentManagementClientOptionalParams } from "./models";
 
 export class ConfluentManagementClient extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the ConfluentManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Microsoft Azure subscription id
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
     options?: ConfluentManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: ConfluentManagementClientOptionalParams
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: ConfluentManagementClientOptionalParams | string,
+    options?: ConfluentManagementClientOptionalParams
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -60,7 +76,7 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-confluent/3.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-confluent/3.0.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -113,11 +129,12 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2021-09-01-preview";
+    this.apiVersion = options.apiVersion || "2023-08-22";
     this.marketplaceAgreements = new MarketplaceAgreementsImpl(this);
     this.organizationOperations = new OrganizationOperationsImpl(this);
     this.organization = new OrganizationImpl(this);
     this.validations = new ValidationsImpl(this);
+    this.access = new AccessImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -153,4 +170,5 @@ export class ConfluentManagementClient extends coreClient.ServiceClient {
   organizationOperations: OrganizationOperations;
   organization: Organization;
   validations: Validations;
+  access: Access;
 }

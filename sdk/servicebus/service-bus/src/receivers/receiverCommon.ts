@@ -52,7 +52,7 @@ export function assertValidMessageHandlers(handlers: {
  */
 export async function* getMessageIterator(
   receiver: Pick<ServiceBusReceiver, "receiveMessages">,
-  options?: OperationOptionsBase
+  options?: OperationOptionsBase,
 ): AsyncIterableIterator<ServiceBusReceivedMessage> {
   while (true) {
     const messages = await receiver.receiveMessages(1, options);
@@ -70,7 +70,7 @@ export async function* getMessageIterator(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers, "processError">,
-  loggerParam: ServiceBusLogger = receiverLogger
+  loggerParam: ServiceBusLogger = receiverLogger,
 ): MessageHandlers["processError"] {
   return async (args: ProcessErrorArgs) => {
     try {
@@ -90,12 +90,12 @@ export function completeMessage(
   message: ServiceBusMessageImpl,
   context: ConnectionContext,
   entityPath: string,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Completing the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -109,7 +109,7 @@ export function completeMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -122,12 +122,12 @@ export function abandonMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Abandoning the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -142,7 +142,7 @@ export function abandonMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -155,12 +155,12 @@ export function deferMessage(
   context: ConnectionContext,
   entityPath: string,
   propertiesToModify: { [key: string]: number | boolean | string | Date | null } | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deferring the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
   const tracingContext = extractSpanContextFromServiceBusMessage(message);
   const spanLinks: TracingSpanLink[] = tracingContext ? [{ tracingContext }] : [];
@@ -175,7 +175,7 @@ export function deferMessage(
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -190,12 +190,12 @@ export function deadLetterMessage(
   propertiesToModify:
     | (DeadLetterOptions & { [key: string]: number | boolean | string | Date | null })
     | undefined,
-  retryOptions: RetryOptions | undefined
+  retryOptions: RetryOptions | undefined,
 ): Promise<void> {
   receiverLogger.verbose(
     "[%s] Deadlettering the message with id '%s'.",
     context.connectionId,
-    message.messageId
+    message.messageId,
   );
 
   const actualPropertiesToModify: Partial<DeadLetterOptions> = {
@@ -225,12 +225,12 @@ export function deadLetterMessage(
         DispositionType.deadletter,
         context,
         entityPath,
-        dispositionStatusOptions
+        dispositionStatusOptions,
       ),
     {
       spanLinks,
       ...toSpanOptions({ entityPath, host: context.config.host }, "settle", "client"),
-    }
+    },
   );
 }
 
@@ -243,7 +243,7 @@ export function settleMessage(
   context: ConnectionContext,
   entityPath: string,
   options: DispositionStatusOptions,
-  _settleMessageOperation: typeof settleMessageOperation = settleMessageOperation
+  _settleMessageOperation: typeof settleMessageOperation = settleMessageOperation,
 ): Promise<void> {
   return retry({
     connectionId: context.connectionId,
@@ -268,7 +268,7 @@ export async function settleMessageOperation(
   operation: DispositionType,
   context: ConnectionContext,
   entityPath: string,
-  options: DispositionStatusOptions
+  options: DispositionStatusOptions,
 ): Promise<void> {
   const isDeferredMessage = !message.delivery.link;
   const receiver = isDeferredMessage
@@ -297,7 +297,7 @@ export async function settleMessageOperation(
       error,
       "[%s] An error occurred when settling a message with id '%s'",
       context.connectionId,
-      message.messageId
+      message.messageId,
     );
     throw error;
   }
@@ -338,7 +338,7 @@ function calculateDelay(
   attemptCount: number,
   retryDelayInMs: number,
   maxRetryDelayInMs: number,
-  mode: RetryMode
+  mode: RetryMode,
 ): number {
   if (mode === RetryMode.Exponential) {
     const boundedRandDelta =
@@ -363,7 +363,7 @@ function calculateDelay(
  */
 export async function retryForever<T>(
   args: RetryForeverArgs<T>,
-  retryFn: typeof retry = retry
+  retryFn: typeof retry = retry,
 ): Promise<T> {
   let numRetryCycles = 0;
   const config = args.retryConfig;
@@ -413,20 +413,20 @@ export async function retryForever<T>(
       args.logger.logError(
         err,
         `${args.logPrefix} Error thrown in retry cycle ${numRetryCycles}, restarting retry cycle with retry options`,
-        args.retryConfig
+        args.retryConfig,
       );
 
       const delayInMs = calculateDelay(
         numRetryCycles,
         config.retryOptions.retryDelayInMs,
         config.retryOptions.maxRetryDelayInMs,
-        config.retryOptions.mode
+        config.retryOptions.mode,
       );
       logger.verbose(
         "[%s] Sleeping for %d milliseconds for '%s'.",
         config.connectionId,
         delayInMs,
-        config.operationType
+        config.operationType,
       );
       await delay(delayInMs, {
         abortSignal: config.abortSignal,

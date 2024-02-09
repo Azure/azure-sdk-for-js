@@ -86,6 +86,8 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
     **On Linux, development headers for `libsecret` are also required.** Typically, these are available in a package called `libsecret-1-dev` (Debian/Ubuntu) or `libsecret-devel` (Fedora/Red Hat).
 
+    **[setuptools](https://pypi.org/project/setuptools/) is also a required Python library**. It can be installed using `pip install setuptools`.
+
 - Rush 5.x
   - Install / update Rush globally via `npm install -g @microsoft/rush`.
   - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.

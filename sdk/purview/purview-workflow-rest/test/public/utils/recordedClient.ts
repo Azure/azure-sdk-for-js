@@ -21,7 +21,7 @@ const recorderEnvSetup: RecorderStartOptions = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewWorkflowClient> {
   const credential = isPlaybackMode()
     ? new NoOpCredential()
@@ -29,7 +29,7 @@ export async function createClient(
         env["AZURE_TENANT_ID"] ?? "",
         env["AZURE_CLIENT_ID"] ?? "",
         env["USERNAME"] ?? "",
-        env["PASSWORD"] ?? ""
+        env["PASSWORD"] ?? "",
       );
   await recorder.start(recorderEnvSetup);
   return PurviewWorkflow(
@@ -37,6 +37,6 @@ export async function createClient(
     credential,
     recorder.configureClientOptions({
       options,
-    })
+    }),
   );
 }

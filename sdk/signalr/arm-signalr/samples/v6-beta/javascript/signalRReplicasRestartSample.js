@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to restart a replica.
  *
  * @summary Operation to restart a replica.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRReplicas_Restart.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRReplicas_Restart.json
  */
 async function signalRReplicasRestart() {
   const subscriptionId =

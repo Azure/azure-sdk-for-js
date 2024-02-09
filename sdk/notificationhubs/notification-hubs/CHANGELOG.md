@@ -1,17 +1,26 @@
 # Release History
 
-## 1.0.3 (Unreleased)
+## 1.0.4 (Unreleased)
 
 ### Features Added
-
-- Added support for [Live Activity Apple message types](https://developer.apple.com/documentation/activitykit/updating-and-ending-your-live-activity-with-activitykit-push-notifications).
-- Added typings for APNs and WNS headers via the `createAppleNotification` and the `createWindowsNotification` factory methods.
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.0.3 (2023-11-13)
+
+### Features Added
+
+- Added support for [Live Activity Apple message types](https://developer.apple.com/documentation/activitykit/updating-and-ending-your-live-activity-with-activitykit-push-notifications).
+- Added typings for APNs and WNS headers via the `createAppleNotification` and the `createWindowsNotification` factory methods.
+
+### Bugs Fixed
+
+- Fixed WNS Message Platform to use the correct `platform`
+
 
 ## 1.0.2 (2023-06-15)
 

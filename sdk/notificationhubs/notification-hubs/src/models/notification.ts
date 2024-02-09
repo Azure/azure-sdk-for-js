@@ -197,7 +197,7 @@ export interface FcmLegacyNotificationParams {
  * @returns A newly created Firebase notification.
  */
 export function createFcmLegacyNotification(
-  notification: FcmLegacyNotificationParams
+  notification: FcmLegacyNotificationParams,
 ): FcmLegacyNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
@@ -267,7 +267,7 @@ export interface WindowsNotification extends NotificationCommon {
   /**
    * The platform for the push notification.
    */
-  platform: "wns";
+  platform: "windows";
 
   /**
    * The content type for the push notification.
@@ -296,7 +296,7 @@ export interface WnsNotificationParams {
  * @returns A newly created WNS message.
  */
 export function createWindowsNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   if (notification?.headers && notification.headers["X-WNS-Type"]) {
     const wnsType = notification.headers["X-WNS-Type"];
@@ -323,11 +323,11 @@ export function createWindowsNotification(
  * @returns A newly created WNS badge.
  */
 export function createWindowsBadgeNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -348,11 +348,11 @@ export function createWindowsBadgeNotification(
  * @returns A newly created WNS tile.
  */
 export function createWindowsTileNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -373,11 +373,11 @@ export function createWindowsTileNotification(
  * @returns A newly created WNS toast.
  */
 export function createWindowsToastNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.XML_CONTENT_TYPE,
   };
 
@@ -398,11 +398,11 @@ export function createWindowsToastNotification(
  * @returns A newly created WNS message using XML.
  */
 export function createWindowsRawNotification(
-  notification: WnsNotificationParams
+  notification: WnsNotificationParams,
 ): WindowsNotification {
   const result: WindowsNotification = {
     ...notification,
-    platform: "wns",
+    platform: "windows",
     contentType: Constants.STREAM_CONTENT_TYPE,
   };
 

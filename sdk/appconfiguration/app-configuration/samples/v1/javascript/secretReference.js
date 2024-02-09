@@ -7,14 +7,13 @@
 const {
   AppConfigurationClient,
   secretReferenceContentType,
-  parseSecretReference
+  parseSecretReference,
 } = require("@azure/app-configuration");
 const { parseKeyVaultSecretIdentifier, SecretClient } = require("@azure/keyvault-secrets");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
-dotenv.config();
+require("dotenv").config();
 
 async function main() {
   console.log(`Running secretReference sample`);
@@ -31,7 +30,7 @@ async function main() {
   const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "";
   const appConfigClient = new AppConfigurationClient(connectionString);
   const getResponse = await appConfigClient.getConfigurationSetting({
-    key
+    key,
   });
   // You can use the `isSecretReference` global method to check if the content type is secretReferenceContentType ("application/vnd.microsoft.appconfig.keyvaultref+json;charset=utf-8")
 
@@ -104,7 +103,7 @@ async function createConfigSetting(key, secretId) {
     key,
     value: { secretId },
     isReadOnly: false,
-    contentType: secretReferenceContentType
+    contentType: secretReferenceContentType,
   };
 
   await cleanupSampleValues([key], appConfigClient);
@@ -117,7 +116,7 @@ async function createConfigSetting(key, secretId) {
 
 async function cleanupSampleValues(keys, client) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(",")
+    keyFilter: keys.join(","),
   });
 
   for await (const setting of settingsIterator) {
@@ -129,3 +128,5 @@ main().catch((err) => {
   console.error("Failed to run sample:", err);
   process.exit(1);
 });
+
+module.exports = { main };

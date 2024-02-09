@@ -128,7 +128,7 @@ export interface FcmLegacyInstallation extends DeviceTokenInstallation {
  * @returns The newly created Baidu installation.
  */
 export function createFcmLegacyInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): FcmLegacyInstallation {
   return {
     ...installation,
@@ -152,7 +152,7 @@ export interface XiaomiInstallation extends DeviceTokenInstallation {
  * @returns The newly created Xiaomi installation.
  */
 export function createXiaomiInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): XiaomiInstallation {
   return {
     ...installation,
@@ -176,7 +176,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
  * @returns The newly created WNS installation.
  */
 export function createWindowsInstallation(
-  installation: DeviceTokenInstallation
+  installation: DeviceTokenInstallation,
 ): WindowsInstallation {
   return {
     ...installation,
@@ -230,7 +230,7 @@ export interface BrowserInstallation extends BrowserInstallationCommon {
  * @returns The newly created Web Push installation.
  */
 export function createBrowserInstallation(
-  installation: BrowserInstallationCommon
+  installation: BrowserInstallationCommon,
 ): BrowserInstallation {
   return {
     ...installation,

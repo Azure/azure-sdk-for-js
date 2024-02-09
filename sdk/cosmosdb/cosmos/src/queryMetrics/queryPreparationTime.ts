@@ -9,7 +9,7 @@ export class QueryPreparationTimes {
     public readonly queryCompilationTime: TimeSpan,
     public readonly logicalPlanBuildTime: TimeSpan,
     public readonly physicalPlanBuildTime: TimeSpan,
-    public readonly queryOptimizationTime: TimeSpan
+    public readonly queryOptimizationTime: TimeSpan,
   ) {}
 
   /**
@@ -29,10 +29,10 @@ export class QueryPreparationTimes {
       queryCompilationTime = queryCompilationTime.add(queryPreparationTimes.queryCompilationTime);
       logicalPlanBuildTime = logicalPlanBuildTime.add(queryPreparationTimes.logicalPlanBuildTime);
       physicalPlanBuildTime = physicalPlanBuildTime.add(
-        queryPreparationTimes.physicalPlanBuildTime
+        queryPreparationTimes.physicalPlanBuildTime,
       );
       queryOptimizationTime = queryOptimizationTime.add(
-        queryPreparationTimes.queryOptimizationTime
+        queryPreparationTimes.queryOptimizationTime,
       );
     }
 
@@ -40,7 +40,7 @@ export class QueryPreparationTimes {
       queryCompilationTime,
       logicalPlanBuildTime,
       physicalPlanBuildTime,
-      queryOptimizationTime
+      queryOptimizationTime,
     );
   }
 
@@ -68,7 +68,7 @@ export class QueryPreparationTimes {
     TimeSpan.zero,
     TimeSpan.zero,
     TimeSpan.zero,
-    TimeSpan.zero
+    TimeSpan.zero,
   );
 
   /**
@@ -76,7 +76,7 @@ export class QueryPreparationTimes {
    * aggregation of an array of QueryPreparationTimes.
    */
   public static createFromArray(
-    queryPreparationTimesArray: QueryPreparationTimes[]
+    queryPreparationTimesArray: QueryPreparationTimes[],
   ): QueryPreparationTimes {
     if (queryPreparationTimesArray == null) {
       throw new Error("queryPreparationTimesArray is null or undefined item(s)");
@@ -95,7 +95,7 @@ export class QueryPreparationTimes {
       timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryCompileTimeInMs),
       timeSpanFromMetrics(metrics, QueryMetricsConstants.LogicalPlanBuildTimeInMs),
       timeSpanFromMetrics(metrics, QueryMetricsConstants.PhysicalPlanBuildTimeInMs),
-      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs)
+      timeSpanFromMetrics(metrics, QueryMetricsConstants.QueryOptimizationTimeInMs),
     );
   }
 }

@@ -35,7 +35,7 @@ async function createANewSshPublicKeyResource() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}",
       subscriptionId,
       resourceGroupName,
-      sshPublicKeyName
+      sshPublicKeyName,
     )
     .put(options);
   console.log(result);

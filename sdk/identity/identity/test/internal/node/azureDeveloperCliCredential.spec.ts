@@ -49,7 +49,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
       },
-      { cwd: true }
+      { cwd: true },
     );
   });
 
@@ -78,7 +78,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
       },
-      { cwd: true }
+      { cwd: true },
     );
   });
 
@@ -107,7 +107,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       {
         cwd: [process.env.SystemRoot, "/bin"].includes(azdOptions[0].cwd),
       },
-      { cwd: true }
+      { cwd: true },
     );
   });
 
@@ -122,7 +122,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
         );
       }
     } else {
@@ -135,7 +135,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+          "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
         );
       }
     }
@@ -179,16 +179,18 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   ]) {
     const tenantIdErrorMessage =
       "Invalid tenant id provided. You can locate your tenant id by following the instructions listed here: https://learn.microsoft.com/partner-center/find-ids-and-domain-names.";
-    it(`rejects invalid tenant id "${tenantId}" in getToken`, async function () {
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
       const credential = new AzureDeveloperCliCredential();
       await assert.isRejected(
         credential.getToken("https://service/.default", {
           tenantId: tenantId,
         }),
-        tenantIdErrorMessage
+        tenantIdErrorMessage,
       );
     });
-    it(`rejects invalid tenant id "${tenantId}" in constructor`, function () {
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
       assert.throws(() => {
         new AzureDeveloperCliCredential({ tenantId: tenantId });
       }, tenantIdErrorMessage);
@@ -196,11 +198,17 @@ describe("AzureDeveloperCliCredential (internal)", function () {
   }
 
   for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
-    it(`rejects invalid scope "${inputScope}"`, async function () {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+          ? "null character"
+          : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzureDeveloperCliCredential();
       await assert.isRejected(
         credential.getToken(inputScope),
-        "Invalid scope was specified by the user or calling client"
+        "Invalid scope was specified by the user or calling client",
       );
     });
   }

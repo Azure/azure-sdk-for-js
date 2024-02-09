@@ -82,7 +82,7 @@ export function getServiceVersion(): SUPPORTED_API_VERSIONS {
  */
 export function onVersions(
   supportedVersions: SupportedVersions,
-  serviceVersion?: SUPPORTED_API_VERSIONS
+  serviceVersion?: SUPPORTED_API_VERSIONS,
 ): TestFunctionWrapper {
   return supports(serviceVersion || getServiceVersion(), supportedVersions, serviceVersions);
 }

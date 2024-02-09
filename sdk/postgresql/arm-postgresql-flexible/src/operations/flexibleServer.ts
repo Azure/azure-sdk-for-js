@@ -171,7 +171,7 @@ const triggerLtrPreBackupOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.FlexibleServerTriggerLtrPreBackupExceptionHeaders
     }
   },
-  requestBody: Parameters.parameters12,
+  requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -209,7 +209,7 @@ const startLtrBackupOperationSpec: coreClient.OperationSpec = {
       headersMapper: Mappers.FlexibleServerStartLtrBackupExceptionHeaders
     }
   },
-  requestBody: Parameters.parameters13,
+  requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

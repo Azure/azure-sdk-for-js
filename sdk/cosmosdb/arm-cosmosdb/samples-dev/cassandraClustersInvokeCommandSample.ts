@@ -18,18 +18,15 @@ dotenv.config();
  * This sample demonstrates how to Invoke a command like nodetool for cassandra maintenance
  *
  * @summary Invoke a command like nodetool for cassandra maintenance
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBManagedCassandraCommand.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBManagedCassandraCommand.json
  */
 async function cosmosDbManagedCassandraCommand() {
-  const subscriptionId =
-    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName =
     process.env["COSMOSDB_RESOURCE_GROUP"] || "cassandra-prod-rg";
   const clusterName = "cassandra-prod";
   const body: CommandPostBody = {
-    arguments: { status: "" },
-    command: "nodetool",
+    command: "nodetool status",
     host: "10.0.1.12"
   };
   const credential = new DefaultAzureCredential();

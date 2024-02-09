@@ -19,7 +19,7 @@ export async function createOrUpdateRegistrationDescription(
   context: NotificationHubsClientContext,
   registration: RegistrationDescription,
   operationName: "create" | "createOrUpdate" | "update",
-  options: OperationOptions
+  options: OperationOptions,
 ): Promise<RegistrationDescription> {
   const endpoint = context.requestUrl();
   endpoint.pathname += "/registrations";

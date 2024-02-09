@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Update.json
  */
 async function updateASimpleGalleryImageVersionManagedImageAsSource() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -48,7 +48,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
     galleryName,
     galleryImageName,
     galleryImageVersionName,
-    galleryImageVersion
+    galleryImageVersion,
   );
   console.log(result);
 }
@@ -57,7 +57,7 @@ async function updateASimpleGalleryImageVersionManagedImageAsSource() {
  * This sample demonstrates how to Update a gallery image version.
  *
  * @summary Update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
  */
 async function updateASimpleGalleryImageVersionWithoutSourceId() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -85,7 +85,7 @@ async function updateASimpleGalleryImageVersionWithoutSourceId() {
     galleryName,
     galleryImageName,
     galleryImageVersionName,
-    galleryImageVersion
+    galleryImageVersion,
   );
   console.log(result);
 }

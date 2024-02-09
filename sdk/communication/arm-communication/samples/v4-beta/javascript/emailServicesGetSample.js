@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the EmailService and its properties.
  *
  * @summary Get the EmailService and its properties.
- * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-04-01-preview/examples/emailServices/get.json
+ * x-ms-original-file: specification/communication/resource-manager/Microsoft.Communication/preview/2023-06-01-preview/examples/emailServices/get.json
  */
 async function getEmailServiceResource() {
   const subscriptionId =

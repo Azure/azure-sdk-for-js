@@ -26,7 +26,7 @@ export const developerCliCredentialInternals = {
     if (process.platform === "win32") {
       if (!process.env.SystemRoot) {
         throw new Error(
-          "Azure Developer CLI credential expects a 'SystemRoot' environment variable"
+          "Azure Developer CLI credential expects a 'SystemRoot' environment variable",
         );
       }
       return process.env.SystemRoot;
@@ -43,7 +43,7 @@ export const developerCliCredentialInternals = {
   async getAzdAccessToken(
     scopes: string[],
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -60,7 +60,7 @@ export const developerCliCredentialInternals = {
             "json",
             ...scopes.reduce<string[]>(
               (previous, current) => previous.concat("--scope", current),
-              []
+              [],
             ),
             ...tenantSection,
           ],
@@ -70,7 +70,7 @@ export const developerCliCredentialInternals = {
           },
           (error, stdout, stderr) => {
             resolve({ stdout, stderr, error });
-          }
+          },
         );
       } catch (err: any) {
         reject(err);
@@ -125,7 +125,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
       this.tenantId = options?.tenantId;
     }
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -140,12 +140,12 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
-      this.additionallyAllowedTenantIds
+      this.additionallyAllowedTenantIds,
     );
     if (tenantId) {
       checkTenantId(logger, tenantId);
@@ -166,7 +166,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
         const obj = await developerCliCredentialInternals.getAzdAccessToken(
           scopeList,
           tenantId,
-          this.timeout
+          this.timeout,
         );
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
@@ -177,7 +177,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -185,7 +185,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -209,7 +209,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token"
+                (err as Error).message || "Unknown error while trying to retrieve the access token",
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;

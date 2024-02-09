@@ -26,7 +26,7 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "output only the directory name with no extra formatting",
     },
-  }
+  },
 );
 
 export default leafCommand(commandInfo, async (options) => {

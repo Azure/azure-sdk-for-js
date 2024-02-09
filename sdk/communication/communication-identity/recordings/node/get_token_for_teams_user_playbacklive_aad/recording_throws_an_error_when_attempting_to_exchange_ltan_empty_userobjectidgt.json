@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2022-10-01",
+      "RequestUri": "https://endpoint/teamsUser/:exchangeAccessToken?api-version=2023-10-01",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,7 +10,7 @@
         "Connection": "keep-alive",
         "Content-Length": "62",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.10.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-identity/1.2.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": {
@@ -21,15 +21,15 @@
       "StatusCode": 400,
       "ResponseHeaders": {
         "Content-Type": "application/json",
-        "Date": "Mon, 16 Jan 2023 10:12:00 GMT",
-        "MS-CV": "XTqD5WlMSEGPD\u002B/om2Ksrw.0",
+        "Date": "Wed, 18 Oct 2023 15:34:32 GMT",
+        "MS-CV": "6qhbPPz\u002BB0qp8MtOH0ujjw.0",
         "Request-Context": "appId=",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "08SLFYwAAAAD8ep9z\u002BlLgSrgYi/PMxaXeSEVMMDFFREdFMjAxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0CPsvZQAAAAD2fw3lnbmgRpHFqIYpFcx1U1RPRURHRTE4MTEAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
         "X-Cache": "CONFIG_NOCACHE",
         "x-ms-client-request-id": "sanitized",
-        "X-Processing-Time": "21ms"
+        "X-Processing-Time": "13ms"
       },
       "ResponseBody": {
         "error": {

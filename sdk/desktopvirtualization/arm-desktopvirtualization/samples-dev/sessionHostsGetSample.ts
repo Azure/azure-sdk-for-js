@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a session host.
  *
  * @summary Get a session host.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/SessionHost_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/SessionHost_Get.json
  */
 async function sessionHostGet() {
   const subscriptionId =

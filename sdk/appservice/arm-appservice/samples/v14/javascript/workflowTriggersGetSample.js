@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a workflow trigger.
  *
  * @summary Gets a workflow trigger.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowTriggers_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowTriggers_Get.json
  */
 async function getAWorkflowTrigger() {
   const subscriptionId =

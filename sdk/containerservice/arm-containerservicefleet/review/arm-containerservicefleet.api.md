@@ -13,18 +13,6 @@ import { SimplePollerLike } from '@azure/core-lro';
 // @public
 export type ActionType = string;
 
-// @public
-export interface AgentProfile {
-    subnetId?: string;
-}
-
-// @public
-export interface APIServerAccessProfile {
-    enablePrivateCluster?: boolean;
-    enableVnetIntegration?: boolean;
-    subnetId?: string;
-}
-
 // @public (undocumented)
 export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     // (undocumented)
@@ -36,6 +24,8 @@ export class ContainerServiceFleetClient extends coreClient.ServiceClient {
     fleetMembers: FleetMembers;
     // (undocumented)
     fleets: Fleets;
+    // (undocumented)
+    fleetUpdateStrategies: FleetUpdateStrategies;
     // (undocumented)
     operations: Operations;
     // (undocumented)
@@ -77,7 +67,6 @@ export interface ErrorResponse {
 // @public
 export interface Fleet extends TrackedResource {
     readonly eTag?: string;
-    hubProfile?: FleetHubProfile;
     identity?: ManagedServiceIdentity;
     readonly provisioningState?: FleetProvisioningState;
 }
@@ -91,15 +80,6 @@ export interface FleetCredentialResult {
 // @public
 export interface FleetCredentialResults {
     readonly kubeconfigs?: FleetCredentialResult[];
-}
-
-// @public
-export interface FleetHubProfile {
-    agentProfile?: AgentProfile;
-    apiServerAccessProfile?: APIServerAccessProfile;
-    dnsPrefix?: string;
-    readonly fqdn?: string;
-    readonly kubernetesVersion?: string;
 }
 
 // @public
@@ -321,6 +301,82 @@ export interface FleetsUpdateOptionalParams extends coreClient.OperationOptions 
 export type FleetsUpdateResponse = Fleet;
 
 // @public
+export interface FleetUpdateStrategies {
+    beginCreateOrUpdate(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FleetUpdateStrategiesCreateOrUpdateResponse>, FleetUpdateStrategiesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, resource: FleetUpdateStrategy, options?: FleetUpdateStrategiesCreateOrUpdateOptionalParams): Promise<FleetUpdateStrategiesCreateOrUpdateResponse>;
+    beginDelete(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDeleteAndWait(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, fleetName: string, updateStrategyName: string, options?: FleetUpdateStrategiesGetOptionalParams): Promise<FleetUpdateStrategiesGetResponse>;
+    listByFleet(resourceGroupName: string, fleetName: string, options?: FleetUpdateStrategiesListByFleetOptionalParams): PagedAsyncIterableIterator<FleetUpdateStrategy>;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateHeaders {
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type FleetUpdateStrategiesCreateOrUpdateResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesDeleteHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface FleetUpdateStrategiesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesGetResponse = FleetUpdateStrategy;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetNextResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategiesListByFleetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type FleetUpdateStrategiesListByFleetResponse = FleetUpdateStrategyListResult;
+
+// @public
+export interface FleetUpdateStrategy extends ProxyResource {
+    readonly eTag?: string;
+    readonly provisioningState?: FleetUpdateStrategyProvisioningState;
+    strategy?: UpdateRunStrategy;
+}
+
+// @public
+export interface FleetUpdateStrategyListResult {
+    nextLink?: string;
+    value: FleetUpdateStrategy[];
+}
+
+// @public
+export type FleetUpdateStrategyProvisioningState = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -354,6 +410,13 @@ export enum KnownFleetProvisioningState {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownFleetUpdateStrategyProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -550,6 +613,7 @@ export interface UpdateRun extends ProxyResource {
     readonly provisioningState?: UpdateRunProvisioningState;
     readonly status?: UpdateRunStatus;
     strategy?: UpdateRunStrategy;
+    updateStrategyId?: string;
 }
 
 // @public

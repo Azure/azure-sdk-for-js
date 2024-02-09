@@ -1,22 +1,58 @@
 # Release History
 
-## 1.12.2 (Unreleased)
+## 1.14.1 (Unreleased)
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
-- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API.
+
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
 
 ### Other Changes
+
+- In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+
+## 1.14.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
+- Guard against unrecognized value types in the form data policy.
+- Form file uploads now have content type `application/octet-stream` if no other content type was specified.
+- Fix `multipart/form-data` requests failing in versions of Node 18 below 18.13 and versions of Node 20 below 20.6.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
+
+## 1.13.0 (2023-12-07)
+
+### Features Added
+
+- Add `multipartPolicy` and `MultipartRequestBody` to allow for making multipart requests.
+- Add `createFile` and `createFileFromStream` to allow creation of `File` objects for `multipart/form-data` requests.
+
+### Other Changes
+
+- `formDataPolicy` now uses `multipartPolicy` when content type is `multipart/form-data`.
+- Trim leading and trailing whitespace from header values.
+
+## 1.12.2 (2023-10-23)
+
+### Bugs Fixed
+
+- Support Cloudflare workers by only setting the available fields in the `Request` class for the Fetch API. [PR #27423](https://github.com/Azure/azure-sdk-for-js/pull/27423)
+- Add `ENOTFOUND` code to exponential retry policy. [PR #27437](https://github.com/Azure/azure-sdk-for-js/pull/27437)
+- Wait before stop listening to the abort signal until after the response stream has been drained to allow for aborting prolonged responses [PR #27205](https://github.com/Azure/azure-sdk-for-js/pull/27205)
 
 ## 1.12.1 (2023-09-07)
 
 ### Other Changes
 
 - Set `init.duplex` to `"half"` when streaming body via `fetch()` [PR #26890](https://github.com/Azure/azure-sdk-for-js/pull/26890)
-- Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897) 
+- Defer Error construction [PR #26897](https://github.com/Azure/azure-sdk-for-js/pull/26897)
 
 ## 1.12.0 (2023-08-08)
 

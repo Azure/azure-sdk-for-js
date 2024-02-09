@@ -1,0 +1,8 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "rules": {
+    "@azure/azure-sdk/ts-package-json-engine-is-present": "off",
+    "@azure/azure-sdk/ts-package-json-name": "off"
+  }
+}

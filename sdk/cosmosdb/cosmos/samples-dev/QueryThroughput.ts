@@ -42,7 +42,7 @@ async function run() {
       const start = Date.now();
       await runScenario(scenario.container, scenario.query, scenario.options);
       console.log(
-        'Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s"
+        'Scenario complete: "' + scenario.query + '" - took ' + (Date.now() - start) / 1000 + "s",
       );
     } catch (e: any) {
       console.log("Scenario failed: " + scenario.query + " - " + JSON.stringify(scenario.options));
@@ -53,7 +53,7 @@ async function run() {
 async function runScenario(
   container: Container,
   query: string | SqlQuerySpec,
-  options: FeedOptions
+  options: FeedOptions,
 ) {
   const queryIterator = container.items.query(query, options);
   let count = 0;

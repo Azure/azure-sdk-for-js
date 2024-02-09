@@ -410,6 +410,26 @@ export interface DiagnosticsUploadConfiguration {
   storageAccountContainerUrl: string;
 }
 
+/** Configuration for sending packet core events to Azure Event Hub. */
+export interface EventHubConfiguration {
+  /** Resource ID  of Azure Event Hub to send packet core events to. */
+  id: string;
+  /** The duration (in seconds) between UE usage reports. */
+  reportingInterval?: number;
+}
+
+/** Signaling configuration for the packet core. */
+export interface SignalingConfiguration {
+  /** Configuration enabling 4G NAS reroute. */
+  nasReroute?: NASRerouteConfiguration;
+}
+
+/** Configuration enabling NAS reroute. */
+export interface NASRerouteConfiguration {
+  /** The macro network's MME group ID. This is where unknown UEs are sent to via NAS reroute. */
+  macroMmeGroupId: number;
+}
+
 /** Managed service identity (User assigned identity) */
 export interface ManagedServiceIdentity {
   /** Type of managed service identity (currently only UserAssigned allowed). */
@@ -1026,6 +1046,8 @@ export interface PacketCoreControlPlane extends TrackedResource {
   readonly rollbackVersion?: string;
   /** The control plane interface on the access network. For 5G networks, this is the N2 interface. For 4G networks, this is the S1-MME interface. */
   controlPlaneAccessInterface: InterfaceProperties;
+  /** The virtual IP address(es) for the control plane on the access network in a High Availability (HA) system. In an HA deployment the access network router should be configured to anycast traffic for this address to the control plane access interfaces on the active and standby nodes. In non-HA system this list should be omitted or empty. */
+  controlPlaneAccessVirtualIpv4Addresses?: string[];
   /** The SKU defining the throughput and SIM allowances for this packet core control plane deployment. */
   sku: BillingSku;
   /** The MTU (in bytes) signaled to the UE. The same MTU is set on the user plane data links for all data networks. The MTU set on the user plane access link is calculated to be 60 bytes greater than this value to allow for GTP encapsulation. */
@@ -1034,6 +1056,10 @@ export interface PacketCoreControlPlane extends TrackedResource {
   localDiagnosticsAccess: LocalDiagnosticsAccessConfiguration;
   /** Configuration for uploading packet core diagnostics */
   diagnosticsUpload?: DiagnosticsUploadConfiguration;
+  /** Configuration for sending packet core events to an Azure Event Hub. */
+  eventHub?: EventHubConfiguration;
+  /** Signaling configuration for the packet core. */
+  signaling?: SignalingConfiguration;
   /** Settings to allow interoperability with third party components e.g. RANs and UEs. */
   interopSettings?: Record<string, unknown>;
 }
@@ -1047,6 +1073,8 @@ export interface PacketCoreDataPlane extends TrackedResource {
   readonly provisioningState?: ProvisioningState;
   /** The user plane interface on the access network. For 5G networks, this is the N3 interface. For 4G networks, this is the S1-U interface. */
   userPlaneAccessInterface: InterfaceProperties;
+  /** The virtual IP address(es) for the user plane on the access network in a High Availability (HA) system. In an HA deployment the access network router should be configured to forward traffic for this address to the control plane access interface on the active or standby node. In non-HA system this list should be omitted or empty. */
+  userPlaneAccessVirtualIpv4Addresses?: string[];
 }
 
 /** Service resource. Must be created in the same location as its parent mobile network. */
@@ -1181,6 +1209,11 @@ export interface PacketCapture extends ProxyResource {
   totalBytesPerSession?: number;
   /** Maximum duration of the capture session in seconds. */
   timeLimitInSeconds?: number;
+  /**
+   * The list of output files of a packet capture session.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outputFiles?: string[];
 }
 
 /** Packet core control plane version resource. */
@@ -1439,12 +1472,24 @@ export type ReinstallRequired = string;
 
 /** Known values of {@link InstallationReason} that the service accepts. */
 export enum KnownInstallationReason {
-  /** The mobile network does not have any applicable configured slices. */
+  /** The packet core has not been installed as the mobile network does not have any applicable configured slices. */
   NoSlices = "NoSlices",
-  /** There is no configured data plane for this packet core. */
+  /** The packet core has not been installed as there is no configured data plane for this packet core. */
   NoPacketCoreDataPlane = "NoPacketCoreDataPlane",
-  /** The packet core has no attached data networks. */
-  NoAttachedDataNetworks = "NoAttachedDataNetworks"
+  /** The packet core has not been installed as the packet core has no attached data networks. */
+  NoAttachedDataNetworks = "NoAttachedDataNetworks",
+  /** A reinstall is required as the packet core is running with out-of-date PLMN ID. */
+  PublicLandMobileNetworkIdentifierHasChanged = "PublicLandMobileNetworkIdentifierHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date control plane access interface information. */
+  ControlPlaneAccessInterfaceHasChanged = "ControlPlaneAccessInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane core interface. */
+  UserPlaneAccessInterfaceHasChanged = "UserPlaneAccessInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane access interface. */
+  UserPlaneDataInterfaceHasChanged = "UserPlaneDataInterfaceHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. */
+  ControlPlaneAccessVirtualIpv4AddressesHasChanged = "ControlPlaneAccessVirtualIpv4AddressesHasChanged",
+  /** A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address. */
+  UserPlaneAccessVirtualIpv4AddressesHasChanged = "UserPlaneAccessVirtualIpv4AddressesHasChanged"
 }
 
 /**
@@ -1452,9 +1497,15 @@ export enum KnownInstallationReason {
  * {@link KnownInstallationReason} can be used interchangeably with InstallationReason,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **NoSlices**: The mobile network does not have any applicable configured slices. \
- * **NoPacketCoreDataPlane**: There is no configured data plane for this packet core. \
- * **NoAttachedDataNetworks**: The packet core has no attached data networks.
+ * **NoSlices**: The packet core has not been installed as the mobile network does not have any applicable configured slices. \
+ * **NoPacketCoreDataPlane**: The packet core has not been installed as there is no configured data plane for this packet core. \
+ * **NoAttachedDataNetworks**: The packet core has not been installed as the packet core has no attached data networks. \
+ * **PublicLandMobileNetworkIdentifierHasChanged**: A reinstall is required as the packet core is running with out-of-date PLMN ID. \
+ * **ControlPlaneAccessInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date control plane access interface information. \
+ * **UserPlaneAccessInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane core interface. \
+ * **UserPlaneDataInterfaceHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane access interface. \
+ * **ControlPlaneAccessVirtualIpv4AddressesHasChanged**: A reinstall is required as the packet core is running with out-of-date control plane access network virtual IP address. \
+ * **UserPlaneAccessVirtualIpv4AddressesHasChanged**: A reinstall is required as the packet core is running with out-of-date user plane access network virtual IP address.
  */
 export type InstallationReason = string;
 

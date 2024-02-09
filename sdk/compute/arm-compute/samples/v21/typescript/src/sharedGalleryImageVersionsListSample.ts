@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List shared gallery image versions by subscription id or tenant id.
  *
  * @summary List shared gallery image versions by subscription id or tenant id.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
  */
 async function listSharedGalleryImageVersions() {
   const subscriptionId =

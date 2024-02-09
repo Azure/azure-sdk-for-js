@@ -31,6 +31,7 @@ This troubleshooting guide covers the following areas of the Azure Identity clie
 - [Troubleshoot Azure PowerShell authentication issues](#troubleshoot-azure-powershell-authentication-issues)
 - [Troubleshoot WorkloadIdentityCredential authentication issues](#troubleshoot-workloadidentitycredential-authentication-issues)
 - [Troubleshoot multi-tenant authentication issues](#troubleshoot-multi-tenant-authentication-issues)
+- [Troubleshoot Web Account Manager (WAM) and Microsoft account (MSA) login issues](#troubleshoot-web-account-manager-and-microsoft-account-login-issues)
 
 ## Handle Azure Identity errors
 
@@ -468,5 +469,28 @@ If the preceding command isn't working properly, follow the instructions to reso
 |---|---|---|
 |The current credential is not configured to acquire tokens for tenant <tenant ID>|<p>The application must configure the credential to allow token acquisition from the requested tenant.|Make one of the following changes in your app:<ul><li>Add the requested tenant ID to `additionallyAllowedTenants` on the credential options.</li><li>Add `*` to `additionallyAllowedTenants` to allow token acquisition for any tenant.</li></ul></p><p>This exception was added as part of a breaking change to multi-tenant authentication in version `3.0.0`. Users experiencing this error after upgrading can find details on the change and migration in [BREAKING_CHANGES.md](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/BREAKING_CHANGES.md#300).</p> |
 
+## Troubleshoot Web Account Manager and Microsoft account login issues
+
+| Error Message |Description| Mitigation |
+|---|---|---|
+|AADSTS50011|The application is missing the expected redirect URI.|Ensure that one of redirect URIs registered for the Microsoft Entra application matches the following URI pattern: `ms-appx-web://Microsoft.AAD.BrokerPlugin/{client_id}`|
+
+### Unable to log in with Microsoft account (MSA) on Windows
+
+When using `brokerOptions` in `InteractiveBrowserCredential` via the `@azure/identity-broker` package on Windows, only Microsoft Entra accounts are listed by default:
+
+![MSA Microsoft Entra ID only](./images/MSA1.png)
+
+If you choose "Use another account" and type in an MSA outlook.com account, it fails:
+
+![Fail on use another account](./images/MSA2.png)
+
+Since version `1.0.0-beta.1` of [@azure/identity-broker](https://www.npmjs.com/package/@azure/identity-broker), you can set the `legacyMsaPassthroughEnabled` property on `brokerOptions` under `InteractiveBrowserCredentialNodeOptions` to `true`. MSA outlook.com accounts that are logged in to Windows are automatically listed:
+
+![Enable MSA](./images/MSA3.png)
+
+You may also log in another MSA account by selecting "Microsoft account":
+
+![Microsoft account](./images/MSA4.png)
 ------------------------------------------------------------------------------------------------------------------------------------
 If this guide doesn't help you diagnose the errors you're experiencing, [open an issue](https://github.com/Azure/azure-sdk-for-js/issues). To contribute to the SDK, read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md).

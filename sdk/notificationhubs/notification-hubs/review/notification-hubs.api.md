@@ -834,7 +834,7 @@ export interface WindowsInstallation extends DeviceTokenInstallation {
 // @public
 export interface WindowsNotification extends NotificationCommon {
     contentType: WindowsContentType;
-    platform: "wns";
+    platform: "windows";
 }
 
 // @public

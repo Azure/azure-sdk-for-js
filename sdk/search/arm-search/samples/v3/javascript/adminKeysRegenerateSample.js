@@ -10,16 +10,17 @@
 // Licensed under the MIT License.
 const { SearchManagementClient } = require("@azure/arm-search");
 const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 /**
  * This sample demonstrates how to Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
  *
  * @summary Regenerates either the primary or secondary admin API key. You can only regenerate one key at a time.
- * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchRegenerateAdminKey.json
+ * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2023-11-01/examples/SearchRegenerateAdminKey.json
  */
 async function searchRegenerateAdminKey() {
-  const subscriptionId = "subid";
-  const resourceGroupName = "rg1";
+  const subscriptionId = process.env["SEARCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["SEARCH_RESOURCE_GROUP"] || "rg1";
   const searchServiceName = "mysearchservice";
   const keyKind = "primary";
   const credential = new DefaultAzureCredential();
@@ -28,4 +29,8 @@ async function searchRegenerateAdminKey() {
   console.log(result);
 }
 
-searchRegenerateAdminKey().catch(console.error);
+async function main() {
+  searchRegenerateAdminKey();
+}
+
+main().catch(console.error);

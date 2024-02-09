@@ -299,6 +299,28 @@ export interface StorageTaskCompletedEventData {
   summaryReportBlobUrl: string;
 }
 
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentQueued event. */
+export interface StorageTaskAssignmentQueuedEventData {
+  /** The time at which a storage task was queued. */
+  queuedOn: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentCompleted event. */
+export interface StorageTaskAssignmentCompletedEventData {
+  /** The status for a storage task. */
+  status: StorageTaskAssignmentCompletedStatus;
+  /** The time at which a storage task was completed. */
+  completedOn: string;
+  /** The execution id for a storage task. */
+  taskExecutionId: string;
+  /** The task name for a storage task. */
+  taskName: string;
+  /** The summary report blob url for a storage task */
+  summaryReportBlobUri: string;
+}
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
 export interface EventHubCaptureFileCreatedEventData {
   /** The path to the capture file. */
@@ -2199,6 +2221,8 @@ export interface AcsChatThreadParticipant {
   displayName: string;
   /** The communication identifier of the user */
   participantCommunicationIdentifier: CommunicationIdentifierModel;
+  /** The metadata of the user */
+  metadata: { [propertyName: string]: string };
 }
 
 /** Schema for details of a delivery attempt */
@@ -2630,7 +2654,7 @@ export interface ResourceNotificationsResourceUpdatedDetails {
   /** the location of the resource for which the event is being emitted */
   location: string;
   /** the tags on the resource for which the event is being emitted */
-  tags: string;
+  tags: { [propertyName: string]: string };
   /** properties in the payload of the resource for which the event is being emitted */
   properties: { [propertyName: string]: any };
 }
@@ -2649,6 +2673,52 @@ export interface ResourceNotificationsResourceUpdatedEventData {
   operationalDetails: ResourceNotificationsOperationalDetails;
   /** api version of the resource properties bag */
   apiVersion: string;
+}
+
+/** Describes the schema of the properties under resource info which are common across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedDetails {
+  /** id of the resource for which the event is being emitted */
+  id: string;
+  /** name of the resource for which the event is being emitted */
+  name: string;
+  /** the type of the resource for which the event is being emitted */
+  type: string;
+}
+
+/** Describes the schema of the common properties across all ARN system topic delete events */
+export interface ResourceNotificationsResourceDeletedEventData {
+  /** resourceInfo details for delete event */
+  resourceDetails: ResourceNotificationsResourceDeletedDetails;
+  /** details about operational info */
+  operationalDetails: ResourceNotificationsOperationalDetails;
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/privateClouds events. */
+export interface AvsPrivateCloudEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/clusters events. */
+export interface AvsClusterEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Hosts added to the cluster in this event, if any. */
+  addedHostNames: string[];
+  /** Hosts removed to the cluster in this event, if any. */
+  removedHostNames: string[];
+  /** Hosts in Maintenance mode in the cluster, if any. */
+  inMaintenanceHostNames: string[];
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/scriptExecutions events. */
+export interface AvsScriptExecutionEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Cmdlet referenced in the execution that caused this event. */
+  cmdletId: string;
+  /** Stdout outputs from the execution, if any. */
+  output: string[];
 }
 
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
@@ -2910,6 +2980,60 @@ export type ResourceNotificationsHealthResourcesAvailabilityStatusChangedEventDa
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.HealthResources.ResourceAnnotated event. */
 export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event. */
+export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
+export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
+export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
+export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
+export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterCreated event. */
+export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterDeleted event. */
+export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdating event. */
+export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdated event. */
+export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterFailed event. */
+export type AvsClusterFailedEventData = AvsClusterEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
+export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
+export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+  /** Named outputs of completed execution, if any. */
+  namedOutputs: { [propertyName: string]: string };
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
+export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
+export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCancelled event */
 export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
   /** Router Job Note */
@@ -3136,6 +3260,8 @@ export type AcsChatThreadCreatedWithUserEventData = AcsChatThreadEventBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };
@@ -3154,6 +3280,8 @@ export type AcsChatThreadPropertiesUpdatedPerUserEventData = AcsChatThreadEventB
   editedByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The time at which the properties of the thread were updated */
   editTime: string;
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
 };
@@ -3208,6 +3336,8 @@ export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The chat thread created metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };
@@ -3228,6 +3358,8 @@ export type AcsChatThreadPropertiesUpdatedEventData = AcsChatThreadEventInThread
   editTime: string;
   /** The updated thread properties */
   properties: { [propertyName: string]: any };
+  /** The thread metadata */
+  metadata: { [propertyName: string]: string };
 };
 
 /** Known values of {@link StorageTaskCompletedStatus} that the service accepts. */
@@ -3245,6 +3377,22 @@ export const enum KnownStorageTaskCompletedStatus {
  * **Failed**
  */
 export type StorageTaskCompletedStatus = string;
+
+/** Known values of {@link StorageTaskAssignmentCompletedStatus} that the service accepts. */
+export const enum KnownStorageTaskAssignmentCompletedStatus {
+  Succeeded = "Succeeded",
+  Failed = "Failed"
+}
+
+/**
+ * Defines values for StorageTaskAssignmentCompletedStatus. \
+ * {@link KnownStorageTaskAssignmentCompletedStatus} can be used interchangeably with StorageTaskAssignmentCompletedStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed**
+ */
+export type StorageTaskAssignmentCompletedStatus = string;
 
 /** Known values of {@link EventGridMqttClientState} that the service accepts. */
 export const enum KnownEventGridMqttClientState {

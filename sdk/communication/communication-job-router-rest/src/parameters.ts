@@ -9,11 +9,12 @@ import {
   ExceptionPolicy,
   RouterQueue,
   RouterJob,
-  CancelJobRequest,
-  CompleteJobRequest,
-  CloseJobRequest,
-  UnassignJobRequest,
-  DeclineJobOfferRequest,
+  ReclassifyJobOptions,
+  CancelJobOptions,
+  CompleteJobOptions,
+  CloseJobOptions,
+  UnassignJobOptions,
+  DeclineJobOfferOptions,
   RouterWorker,
 } from "./models";
 
@@ -218,33 +219,33 @@ export type UpsertJobParameters = UpsertJobHeaderParam &
 export type GetJobParameters = RequestParameters;
 export type DeleteJobParameters = RequestParameters;
 
-export interface ReclassifyJobActionBodyParam {
+export interface ReclassifyBodyParam {
   /** Request object for reclassifying a job. */
-  body?: Record<string, string>;
+  body?: ReclassifyJobOptions;
 }
 
-export type ReclassifyJobActionParameters = ReclassifyJobActionBodyParam & RequestParameters;
+export type ReclassifyParameters = ReclassifyBodyParam & RequestParameters;
 
-export interface CancelJobActionBodyParam {
+export interface CancelBodyParam {
   /** Request model for cancelling job. */
-  body?: CancelJobRequest;
+  body?: CancelJobOptions;
 }
 
-export type CancelJobActionParameters = CancelJobActionBodyParam & RequestParameters;
+export type CancelParameters = CancelBodyParam & RequestParameters;
 
-export interface CompleteJobActionBodyParam {
+export interface CompleteBodyParam {
   /** Request model for completing job. */
-  body: CompleteJobRequest;
+  body?: CompleteJobOptions;
 }
 
-export type CompleteJobActionParameters = CompleteJobActionBodyParam & RequestParameters;
+export type CompleteParameters = CompleteBodyParam & RequestParameters;
 
-export interface CloseJobActionBodyParam {
+export interface CloseBodyParam {
   /** Request model for closing job. */
-  body: CloseJobRequest;
+  body?: CloseJobOptions;
 }
 
-export type CloseJobActionParameters = CloseJobActionBodyParam & RequestParameters;
+export type CloseParameters = CloseBodyParam & RequestParameters;
 
 export interface ListJobsQueryParamProperties {
   /** Number of objects to return per page. */
@@ -261,15 +262,9 @@ export interface ListJobsQueryParamProperties {
   channelId?: string;
   /** If specified, filter jobs by classificationPolicy. */
   classificationPolicyId?: string;
-  /**
-   * If specified, filter on jobs that was scheduled before or at given timestamp.
-   * Range: (-Inf, scheduledBefore].
-   */
+  /** If specified, filter on jobs that was scheduled before or at given timestamp. Range: (-Inf, scheduledBefore]. */
   scheduledBefore?: Date | string;
-  /**
-   * If specified, filter on jobs that was scheduled at or after given value. Range:
-   * [scheduledAfter, +Inf).
-   */
+  /** If specified, filter on jobs that was scheduled at or after given value. Range: [scheduledAfter, +Inf). */
   scheduledAfter?: Date | string;
 }
 
@@ -280,20 +275,20 @@ export interface ListJobsQueryParam {
 export type ListJobsParameters = ListJobsQueryParam & RequestParameters;
 export type GetInQueuePositionParameters = RequestParameters;
 
-export interface UnassignJobActionBodyParam {
+export interface UnassignBodyParam {
   /** Request body for unassign route. */
-  body?: UnassignJobRequest;
+  body?: UnassignJobOptions;
 }
 
-export type UnassignJobActionParameters = UnassignJobActionBodyParam & RequestParameters;
-export type AcceptJobActionParameters = RequestParameters;
+export type UnassignParameters = UnassignBodyParam & RequestParameters;
+export type AcceptParameters = RequestParameters;
 
-export interface DeclineJobActionBodyParam {
+export interface DeclineBodyParam {
   /** Request model for declining offer. */
-  body?: DeclineJobOfferRequest;
+  body?: DeclineJobOfferOptions;
 }
 
-export type DeclineJobActionParameters = DeclineJobActionBodyParam & RequestParameters;
+export type DeclineParameters = DeclineBodyParam & RequestParameters;
 export type GetQueueStatisticsParameters = RequestParameters;
 
 export interface UpsertWorkerHeaders {
@@ -340,12 +335,7 @@ export interface ListWorkersQueryParamProperties {
   channelId?: string;
   /** If specified, select workers who are assigned to this queue. */
   queueId?: string;
-  /**
-   * If set to true, select only workers who have capacity for the channel specified
-   * by `channelId` or for any channel if `channelId` not specified. If set to
-   * false, then will return all workers including workers without any capacity for
-   * jobs. Defaults to false.
-   */
+  /** If set to true, select only workers who have capacity for the channel specified by `channelId` or for any channel if `channelId` not specified. If set to false, then will return all workers including workers without any capacity for jobs. Defaults to false. */
   hasCapacity?: boolean;
 }
 

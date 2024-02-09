@@ -6,20 +6,21 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not.A/Brand\u0022;v=\u00228\u0022, \u0022Chromium\u0022;v=\u0022114\u0022, \u0022HeadlessChrome\u0022;v=\u0022114\u0022",
+        "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/114.0.5735.133 Safari/537.36",
-        "x-ms-client-request-id": "392df4fb-249a-473d-b7bc-be6581f4ef6e",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "8cc885ec-26d9-4c45-b616-4e555472e3fa",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 OS"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -38,21 +39,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "184",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 14:27:58 GMT",
-        "MS-CV": "bSYoCyBINEOPu0nNNWdDcw.0",
+        "Date": "Thu, 14 Dec 2023 16:16:01 GMT",
+        "MS-CV": "PAFTK/v2IEqqSLFAiAG7Ow.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07giTZAAAAABISTvU7BakQLaKq1MiHG9OSEVMMDFFREdFMjAxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0QSp7ZQAAAAD6FyjqMrWxRZOiR3yQHakFU1ZHMjBFREdFMDYwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "188ms"
+        "X-Processing-Time": "192ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20230621142758c2cad792-98c3-420f-a339-4506e971eb1a_noam",
+            "messageId": "Outgoing_2023121416160173c683fa-6aff-4ab4-ad89-7d7b7a6ad4ca_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
@@ -66,20 +67,21 @@
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
         "Referer": "http://localhost:9876/",
-        "sec-ch-ua": "\u0022Not.A/Brand\u0022;v=\u00228\u0022, \u0022Chromium\u0022;v=\u0022114\u0022, \u0022HeadlessChrome\u0022;v=\u0022114\u0022",
+        "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "\u0022Windows\u0022",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/114.0.5735.133 Safari/537.36",
-        "x-ms-client-request-id": "82178191-f706-4ed5-ba6f-6d469c921c2a",
-        "x-ms-useragent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 OS/Windows"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "87d06bce-0585-418f-8b89-278ce12619b9",
+        "x-ms-useragent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 OS"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -98,21 +100,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "184",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 14:27:58 GMT",
-        "MS-CV": "I0pCHEWQJ0uOxLTLRAy6Gg.0",
+        "Date": "Thu, 14 Dec 2023 16:16:01 GMT",
+        "MS-CV": "HZ/Cpjxmc0O3DYUDSBgVnQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "07giTZAAAAABlQWS33FnDRJkkkniYox/rSEVMMDFFREdFMjAxMwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0QSp7ZQAAAABWW8jdhKS6TrxKsvpTLH1XU1ZHMjBFREdFMDYwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "168ms"
+        "X-Processing-Time": "187ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_202306211427589613da0e-a2a6-4313-8257-b19681bcc50b_noam",
+            "messageId": "Outgoing_20231214161601d124a4f0-36d4-441a-9d98-a4f0ee03d1d3_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

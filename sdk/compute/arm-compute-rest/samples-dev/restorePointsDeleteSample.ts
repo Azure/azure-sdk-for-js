@@ -34,7 +34,7 @@ async function restorePointsDeleteMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,7 +65,7 @@ async function restorePointsDeleteMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       restorePointCollectionName,
-      restorePointName
+      restorePointName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

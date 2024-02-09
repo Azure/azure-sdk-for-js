@@ -427,7 +427,7 @@ export interface FirebaseLegacyWebNativePayload {
  * @returns The JSON body to send to Notification Hubs.
  */
 export function createFirebaseLegacyNotificationBody(
-  nativeMessage: FirebaseLegacyNativeMessage
+  nativeMessage: FirebaseLegacyNativeMessage,
 ): string {
   return JSON.stringify(nativeMessage);
 }
@@ -723,7 +723,7 @@ export interface WindowsBadgeNativeMessage {
  * @returns The WNS XML created with the badge information.
  */
 export function createWindowsBadgeNotificationBody(
-  nativeMessage: WindowsBadgeNativeMessage
+  nativeMessage: WindowsBadgeNativeMessage,
 ): string {
   const badge = {
     $: { value: nativeMessage.value },

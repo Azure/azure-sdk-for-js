@@ -42,7 +42,7 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(
       deletePoller.getResult()!.name,
       keyName,
-      "Unexpected key name in result from deletePoller.getResult()."
+      "Unexpected key name in result from deletePoller.getResult().",
     );
     await deletePoller.pollUntilDone();
 
@@ -138,7 +138,7 @@ describe("Keys client - restore keys and recover backups", () => {
     assert.equal(
       error.message,
       "Backup blob contains invalid or corrupt version.",
-      "Unexpected error from restoreKeyBackup()"
+      "Unexpected error from restoreKeyBackup()",
     );
   });
 });

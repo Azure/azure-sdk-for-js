@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create a CertificateObjectGlobalRulestackResource
  *
  * @summary Create a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MaximumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackCreateOrUpdateMaximumSetGen() {
   const globalRulestackName = "praval";
@@ -43,7 +43,7 @@ async function certificateObjectGlobalRulestackCreateOrUpdateMaximumSetGen() {
  * This sample demonstrates how to Create a CertificateObjectGlobalRulestackResource
  *
  * @summary Create a CertificateObjectGlobalRulestackResource
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/CertificateObjectGlobalRulestack_CreateOrUpdate_MinimumSet_Gen.json
  */
 async function certificateObjectGlobalRulestackCreateOrUpdateMinimumSetGen() {
   const globalRulestackName = "praval";

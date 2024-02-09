@@ -233,6 +233,11 @@ export enum ConditionErrorNameMapper {
    */
   "client.sender:not-enough-link-credit" = "SenderBusyError", // Retryable
   /**
+   * Error is thrown when the client sender's link isn't ready
+   */
+  "client.sender:link-not-ready" = "SenderNotReadyError", // Retryable
+
+  /**
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/dist/latest-v8.x/docs/api/all.html#errors_class_system_error}
    */
@@ -430,6 +435,10 @@ export enum ErrorNameConditionMapper {
    */
   SenderBusyError = "client.sender:not-enough-link-credit", // Retryable
   /**
+   * Error is thrown when the client sender's link isn't ready
+   */
+  SenderNotReadyError = "client.sender:link-not-ready", // Retryable
+  /**
    * Error is thrown when a low level system error is thrown by node.js.
    * {@link https://nodejs.org/api/errors.html#errors_class_systemerror}
    */
@@ -540,7 +549,7 @@ export class MessagingError extends Error {
 /**
  * Provides a list of retryable AMQP errors.
  * "InternalServerError", "ServerBusyError", "ServiceUnavailableError", "OperationCancelledError",
- * "SenderBusyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
+ * "SenderBusyError", "SenderNotReadyError", "MessagingError", "DetachForcedError", "ConnectionForcedError",
  * "TransferLimitExceededError"
  */
 export const retryableErrors: string[] = [
@@ -558,6 +567,7 @@ export const retryableErrors: string[] = [
   "OperationTimeoutError",
 
   "SenderBusyError",
+  "SenderNotReadyError",
   "MessagingError",
   "DetachForcedError",
   "ConnectionForcedError",

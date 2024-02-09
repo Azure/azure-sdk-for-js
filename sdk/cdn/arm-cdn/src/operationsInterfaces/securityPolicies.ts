@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   SecurityPolicy,
   SecurityPoliciesListByProfileOptionalParams,
@@ -66,8 +66,8 @@ export interface SecurityPolicies {
     securityPolicy: SecurityPolicy,
     options?: SecurityPoliciesCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecurityPoliciesCreateResponse>,
+    SimplePollerLike<
+      OperationState<SecurityPoliciesCreateResponse>,
       SecurityPoliciesCreateResponse
     >
   >;
@@ -103,8 +103,8 @@ export interface SecurityPolicies {
     securityPolicyUpdateProperties: SecurityPolicyUpdateParameters,
     options?: SecurityPoliciesPatchOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<SecurityPoliciesPatchResponse>,
+    SimplePollerLike<
+      OperationState<SecurityPoliciesPatchResponse>,
       SecurityPoliciesPatchResponse
     >
   >;
@@ -137,7 +137,7 @@ export interface SecurityPolicies {
     profileName: string,
     securityPolicyName: string,
     options?: SecurityPoliciesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing security policy within profile.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

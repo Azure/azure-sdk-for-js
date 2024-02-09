@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the AAD administrators for a given server.
  *
  * @summary List all the AAD administrators for a given server.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/AdministratorsListByServer.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/AdministratorsListByServer.json
  */
 async function administratorsListByServer() {
   const subscriptionId =

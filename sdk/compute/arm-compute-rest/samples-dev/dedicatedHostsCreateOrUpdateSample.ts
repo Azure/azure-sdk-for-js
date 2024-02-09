@@ -40,7 +40,7 @@ async function createOrUpdateADedicatedHost() {
       subscriptionId,
       resourceGroupName,
       hostGroupName,
-      hostName
+      hostName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

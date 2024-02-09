@@ -25,7 +25,7 @@ import {
  * Shapes the exposed {@link KeyVaultKey} based on either a received key bundle or deleted key bundle.
  */
 export function getKeyFromKeyBundle(
-  bundle: KeyBundle | DeletedKeyBundle
+  bundle: KeyBundle | DeletedKeyBundle,
 ): KeyVaultKey | DeletedKey {
   const keyBundle = bundle as KeyBundle;
   const deletedKeyBundle = bundle as DeletedKeyBundle;
@@ -142,7 +142,7 @@ function getNormalizedActionType(caseInsensitiveActionType: string): ActionType 
  */
 export const keyRotationTransformations = {
   propertiesToGenerated: function (
-    parameters: KeyRotationPolicyProperties
+    parameters: KeyRotationPolicyProperties,
   ): Partial<GeneratedPolicy> {
     const policy: GeneratedPolicy = {
       attributes: {

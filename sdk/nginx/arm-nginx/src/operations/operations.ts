@@ -35,7 +35,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2022-08-01 api version.
+   * List all operations provided by Nginx.NginxPlus for the 2023-04-01 api version.
    * @param options The options parameters.
    */
   public list(
@@ -89,7 +89,7 @@ export class OperationsImpl implements Operations {
   }
 
   /**
-   * List all operations provided by Nginx.NginxPlus for the 2022-08-01 api version.
+   * List all operations provided by Nginx.NginxPlus for the 2023-04-01 api version.
    * @param options The options parameters.
    */
   private _list(

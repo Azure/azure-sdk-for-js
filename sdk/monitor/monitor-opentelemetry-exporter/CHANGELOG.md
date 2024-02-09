@@ -1,5 +1,40 @@
 # Release History
 
+## 1.0.0-beta.20 ()
+
+### Features Added
+
+### Bugs Fixed
+
+- Added exception handling for reading files to avoid concurrency errors.
+
+### Other Changes
+
+## 1.0.0-beta.19 (2024-01-23)
+
+### Features Added
+
+- Capture WCF as an RPC dependency type.
+
+### Other Changes
+
+- Statsbeat will stop being exported when user iKey is invalid.
+- Statsbeat attach type name updated to follow spec.
+- Update OpenTelemetry dependencies.
+- Update generated files.
+
+## 1.0.0-beta.18 (2023-11-09)
+
+### Bugs Fixed
+
+- Fix Feature and Instrumentation Statsbeat type value.
+
+### Other Changes
+
+- Update OpenTelemetry dependencies.
+- Add instructions to export Logs in readme.
+
+
 ## 1.0.0-beta.17 (2023-10-09)
 
 ### Features Added

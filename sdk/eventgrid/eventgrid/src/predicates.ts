@@ -188,6 +188,22 @@ import {
   AcsRouterWorkerOfferExpiredEventData,
   AcsRouterWorkerOfferIssuedEventData,
   AcsRouterWorkerOfferRevokedEventData,
+  ResourceNotificationsResourceManagementCreatedOrUpdatedEventData,
+  ResourceNotificationsResourceManagementDeletedEventData,
+  StorageTaskAssignmentQueuedEventData,
+  AvsScriptExecutionStartedEventData,
+  AvsScriptExecutionCancelledEventData,
+  AvsClusterCreatedEventData,
+  AvsPrivateCloudFailedEventData,
+  AvsPrivateCloudUpdatingEventData,
+  AvsPrivateCloudUpdatedEventData,
+  AvsClusterUpdatingEventData,
+  AvsClusterDeletedEventData,
+  AvsScriptExecutionFailedEventData,
+  AvsScriptExecutionFinishedEventData,
+  StorageTaskAssignmentCompletedEventData,
+  AvsClusterUpdatedEventData,
+  AvsClusterFailedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -574,6 +590,38 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
   /** An interface for the event data of a "Microsoft.Communication.RouterWorkerOfferRevoked" event. */
   "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated" event. */
+  "Microsoft.ResourceNotifications.Resources.CreatedOrUpdated": ResourceNotificationsResourceManagementCreatedOrUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.Resources.Deleted" event. */
+  "Microsoft.ResourceNotifications.Resources.Deleted": ResourceNotificationsResourceManagementDeletedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentQueued" event. */
+  "Microsoft.Storage.StorageTaskAssignmentQueued": StorageTaskAssignmentQueuedEventData;
+  /** An interface for the event data of a "Microsoft.Storage.StorageTaskAssignmentCompleted" event. */
+  "Microsoft.Storage.StorageTaskAssignmentCompleted": StorageTaskAssignmentCompletedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionStarted" event. */
+  "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionFinished" event. */
+  "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionCancelled" event. */
+  "Microsoft.AVS.ScriptExecutionCancelled": AvsScriptExecutionCancelledEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ScriptExecutionFailed" event. */
+  "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudUpdating" event. */
+  "Microsoft.AVS.PrivateCloudUpdating": AvsPrivateCloudUpdatingEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudUpdated" event. */
+  "Microsoft.AVS.PrivateCloudUpdated": AvsPrivateCloudUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.PrivateCloudFailed" event. */
+  "Microsoft.AVS.PrivateCloudFailed": AvsPrivateCloudFailedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterCreated" event. */
+  "Microsoft.AVS.ClusterCreated": AvsClusterCreatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterDeleted" event. */
+  "Microsoft.AVS.ClusterDeleted": AvsClusterDeletedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterUpdating" event. */
+  "Microsoft.AVS.ClusterUpdating": AvsClusterUpdatingEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterUpdated" event. */
+  "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.AVS.ClusterFailed" event. */
+  "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
 }
 
 /**
@@ -582,7 +630,7 @@ export interface SystemEventNameToEventData {
  * @param o - Either an EventGrid our CloudEvent event.
  */
 function isCloudEventLike(
-  o: EventGridEvent<unknown> | CloudEvent<unknown>
+  o: EventGridEvent<unknown> | CloudEvent<unknown>,
 ): o is CloudEvent<unknown> {
   return (o as any).source !== undefined;
 }
@@ -597,7 +645,7 @@ function isCloudEventLike(
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: EventGridEvent<unknown>
+  event: EventGridEvent<unknown>,
 ): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
 /**
@@ -610,12 +658,12 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: CloudEvent<unknown>
+  event: CloudEvent<unknown>,
 ): event is CloudEvent<SystemEventNameToEventData[T]>;
 
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
+  event: EventGridEvent<unknown> | CloudEvent<unknown>,
 ): event is
   | EventGridEvent<SystemEventNameToEventData[T]>
   | CloudEvent<SystemEventNameToEventData[T]> {

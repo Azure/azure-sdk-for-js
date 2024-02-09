@@ -31,7 +31,7 @@ async function getServiceEndPointPolicy() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}",
       subscriptionId,
       resourceGroupName,
-      serviceEndpointPolicyName
+      serviceEndpointPolicyName,
     )
     .get(options);
   console.log(result);

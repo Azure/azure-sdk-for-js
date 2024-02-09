@@ -35,7 +35,7 @@ describe("AzurePowerShellCredential", function () {
   it("command stack is configured correctly by platform", function () {
     assert.deepStrictEqual(
       commandStack,
-      process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"]
+      process.platform === "win32" ? ["pwsh.exe", "powershell.exe"] : ["pwsh"],
     );
   });
 
@@ -109,7 +109,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to execute PowerShell. Ensure that it is installed in your system. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
+      `Error: Unable to execute PowerShell. Ensure that it is installed in your system. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
     );
 
     sandbox.restore();
@@ -137,7 +137,7 @@ describe("AzurePowerShellCredential", function () {
     assert.equal(error?.name, "CredentialUnavailableError");
     assert.equal(
       error?.message,
-      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
+      `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
     );
 
     sandbox.restore();
@@ -167,7 +167,7 @@ describe("AzurePowerShellCredential", function () {
       assert.equal(error?.name, "CredentialUnavailableError");
       assert.equal(
         error?.message,
-        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`
+        `Error: Unable to parse the output of PowerShell. Received output: Not valid JSON. To troubleshoot, visit https://aka.ms/azsdk/js/identity/powershellcredential/troubleshoot.`,
       );
 
       sandbox.restore();
@@ -245,16 +245,18 @@ describe("AzurePowerShellCredential", function () {
     "12345678-1234-1234-1234-123456789012;",
     "12345678-1234-1234-1234-123456789012,",
   ]) {
-    it(`rejects invalid tenant id "${tenantId}" in getToken`, async function () {
+    const testCase =
+      tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
+    it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
       const credential = new AzurePowerShellCredential();
       await assert.isRejected(
         credential.getToken("https://service/.default", {
           tenantId: tenantId,
         }),
-        tenantIdErrorMessage
+        tenantIdErrorMessage,
       );
     });
-    it(`rejects invalid tenant id "${tenantId}" in constructor`, function () {
+    it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
       assert.throws(() => {
         new AzurePowerShellCredential({ tenantId: tenantId });
       }, tenantIdErrorMessage);
@@ -262,11 +264,17 @@ describe("AzurePowerShellCredential", function () {
   }
 
   for (const inputScope of ["scope |", "", "\0", "scope;", "scope,", "scope'", "scope&"]) {
-    it(`rejects invalid scope "${inputScope}"`, async function () {
+    const testCase =
+      inputScope === ""
+        ? "empty string"
+        : inputScope === "\0"
+          ? "null character"
+          : `"${inputScope}"`;
+    it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzurePowerShellCredential();
       await assert.isRejected(
         credential.getToken(inputScope),
-        "Invalid scope was specified by the user or calling client"
+        "Invalid scope was specified by the user or calling client",
       );
     });
   }

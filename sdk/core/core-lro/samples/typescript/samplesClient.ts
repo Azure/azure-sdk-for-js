@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Poller, PollOperation, PollerLike, PollOperationState } from "@azure/core-lro";
-import { delay } from "@azure/core-http";
+import { delay } from "@azure/core-util";
 
 // This sample implements a poller, a client and runs the poller operation until it finishes.
 

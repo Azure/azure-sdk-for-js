@@ -21,7 +21,7 @@
         "SKIP_UPDATE_CAPABILITIES_LIVE_TESTS": "true"
       }
     },
-    "NodeTestVersion": ["16.x", "18.x", "20.x"],
+    "NodeTestVersion": ["18.x", "20.x"],
     "TestType": "node",
     "TestResultsFiles": "**/test-results.xml"
   },

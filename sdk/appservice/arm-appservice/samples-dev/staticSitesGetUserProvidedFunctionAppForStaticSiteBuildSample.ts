@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets the details of the user provided function app registered with a static site build
  *
  * @summary Description for Gets the details of the user provided function app registered with a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/GetUserProvidedFunctionAppForStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/GetUserProvidedFunctionAppForStaticSiteBuild.json
  */
 async function getDetailsOfTheUserProvidedFunctionAppRegisteredWithAStaticSiteBuild() {
   const subscriptionId =

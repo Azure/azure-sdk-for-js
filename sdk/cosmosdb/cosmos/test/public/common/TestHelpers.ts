@@ -69,8 +69,8 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
 
     await Promise.all(
       databases.map<Promise<Response<DatabaseDefinition>>>(async (database: DatabaseDefinition) =>
-        client.database(database.id).delete()
-      )
+        client.database(database.id).delete(),
+      ),
     );
   } catch (err: any) {
     console.log("An error occured", err);
@@ -80,7 +80,7 @@ export async function removeAllDatabases(client: CosmosClient = defaultClient): 
 }
 
 export function createDummyDiagnosticNode(
-  diagnosticLevel: CosmosDbDiagnosticLevel = CosmosDbDiagnosticLevel.info
+  diagnosticLevel: CosmosDbDiagnosticLevel = CosmosDbDiagnosticLevel.info,
 ): DiagnosticNodeInternal {
   return new DiagnosticNodeInternal(diagnosticLevel, DiagnosticNodeType.CLIENT_REQUEST_NODE, null);
 }
@@ -110,7 +110,7 @@ export type CosmosDiagnosticsTestSpec = {
 export async function testForDiagnostics<Callback extends () => Promise<any>>(
   callback: Callback,
   spec: CosmosDiagnosticsTestSpec,
-  parallelExecutions: boolean = false
+  parallelExecutions: boolean = false,
 ): Promise<ExtractPromise<ReturnType<Callback>>> {
   try {
     if (!spec.requestStartTimeUTCInMsLowerLimit) {
@@ -123,7 +123,7 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
     }
     expect(
       response.diagnostics,
-      "Diagnostics object should not be undefined or null, in Response object"
+      "Diagnostics object should not be undefined or null, in Response object",
     ).to.exist;
     validateDiagnostics(response.diagnostics, spec, parallelExecutions);
     return response;
@@ -137,7 +137,7 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
     }
     expect(
       ex.diagnostics,
-      "Diagnostics object should not be undefined or null, in Exception objection"
+      "Diagnostics object should not be undefined or null, in Exception objection",
     ).to.exist;
     validateDiagnostics(ex.diagnostics, spec, parallelExecutions);
     throw ex;
@@ -153,7 +153,7 @@ export async function testForDiagnostics<Callback extends () => Promise<any>>(
 export function validateDiagnostics(
   diagnostics: CosmosDiagnostics,
   spec: CosmosDiagnosticsTestSpec,
-  parallelExecutions: boolean
+  parallelExecutions: boolean,
 ): void {
   expect(diagnostics, "Diagnostics object should not be undefined or null").to.exist;
 
@@ -175,22 +175,22 @@ export function validateDiagnostics(
     const totalTimeSpentInMetadataRequest =
       diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups.reduce(
         (total, current) => total + current.durationInMs,
-        0
+        0,
       );
     const totalTimeSpentInRetries =
       diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.reduce(
         (total, current) => total + current.durationInMs,
-        0
+        0,
       );
     const timeInMainRequest = diagnostics.clientSideRequestStatistics.gatewayStatistics.reduce(
       (total, current) => total + current.durationInMs,
-      0
+      0,
     );
     const totalOperationTime = diagnostics.clientSideRequestStatistics.requestDurationInMs;
     expect(
       totalTimeSpentInMetadataRequest + totalTimeSpentInRetries + timeInMainRequest,
       "In CosmosDiagnostics, Sum of time spent in metadata request, retries and main requests should be less than\
-       total operation time, for Sequential operations."
+       total operation time, for Sequential operations.",
     ).to.be.lte(totalOperationTime);
   }
 }
@@ -198,7 +198,7 @@ export function validateDiagnostics(
 function validateGatewayStatisticsForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics,
-  parallelExecutions: boolean
+  parallelExecutions: boolean,
 ): void {
   const gatewayStatistics = diagnostics.clientSideRequestStatistics.gatewayStatistics;
   if (spec.gatewayStatisticsTestSpec !== undefined) {
@@ -206,7 +206,7 @@ function validateGatewayStatisticsForDiagnostics(
       .exist;
     expect(
       gatewayStatistics.length,
-      "In CosmosDiagnostics, Number of gatewayStatistics should match the spec."
+      "In CosmosDiagnostics, Number of gatewayStatistics should match the spec.",
     ).to.be.equal(spec.gatewayStatisticsTestSpec.length);
 
     for (let i = 0; i < spec.gatewayStatisticsTestSpec.length; i++) {
@@ -215,7 +215,7 @@ function validateGatewayStatisticsForDiagnostics(
       compareObjects(
         currentGatewayStatistics,
         gatewayStatisticsSpec,
-        "In CosmosDiagnostics, gatewayStatisticsSpec properties should match the spec."
+        "In CosmosDiagnostics, gatewayStatisticsSpec properties should match the spec.",
       );
     }
   }
@@ -225,11 +225,11 @@ function validateGatewayStatisticsForDiagnostics(
     if (gatewayStat.resourceType !== "") {
       expect(
         gatewayStat.activityId,
-        "In CosmosDiagnostics, ActivityId for gatewayStatistics should not be empty."
+        "In CosmosDiagnostics, ActivityId for gatewayStatistics should not be empty.",
       ).to.not.be.empty;
       expect(
         activityIds.has(gatewayStat.activityId),
-        "In CosmosDiagnostics, gatewayStatistics should not contain duplicate activityId."
+        "In CosmosDiagnostics, gatewayStatistics should not contain duplicate activityId.",
       ).to.be.false;
     }
   });
@@ -237,7 +237,7 @@ function validateGatewayStatisticsForDiagnostics(
   if (!parallelExecutions) {
     verifyForOverlappingRanges(
       gatewayStatistics,
-      "In CosmosDiagnostics, Verifying gatewayStatistics"
+      "In CosmosDiagnostics, Verifying gatewayStatistics",
     );
   }
 }
@@ -257,7 +257,7 @@ function compareObjects(test: any, target: any, message: string): void {
 
   if (mismatchedProperties.length > 0) {
     const errorMessage = `${message} Properties [${mismatchedProperties.join(
-      ", "
+      ", ",
     )}] did not match.`;
     throw new AssertionError(errorMessage);
   }
@@ -265,12 +265,12 @@ function compareObjects(test: any, target: any, message: string): void {
 
 function verifyForOverlappingRanges(
   ranges: MetadataLookUpDiagnostic[] | FailedRequestAttemptDiagnostic[] | GatewayStatistics[],
-  msg: string
+  msg: string,
 ): void {
   ranges.sort((a, b) =>
     a.startTimeUTCInMs === b.startTimeUTCInMs
       ? a.durationInMs - b.durationInMs
-      : a.startTimeUTCInMs - b.startTimeUTCInMs
+      : a.startTimeUTCInMs - b.startTimeUTCInMs,
   ); // Sort ranges by start time
   for (let i = 1; i < ranges.length; i++) {
     expect(
@@ -278,23 +278,23 @@ function verifyForOverlappingRanges(
       msg +
         `. Overlapping Ranges: [${ranges[i - 1].startTimeUTCInMs}, ${
           ranges[i - 1].durationInMs
-        }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`
+        }] & [${ranges[i].startTimeUTCInMs}, ${ranges[i].durationInMs}]`,
     ).to.be.gte(ranges[i - 1].startTimeUTCInMs + ranges[i - 1].durationInMs);
   }
 }
 
 function validateLocationEndpointsContactedForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
-  diagnostics: CosmosDiagnostics
+  diagnostics: CosmosDiagnostics,
 ): void {
   if (spec.locationEndpointsContacted !== undefined) {
     expect(
       diagnostics.clientSideRequestStatistics.locationEndpointsContacted,
-      "In CosmosDiagnostics, locationEndpointsContacted should have existed."
+      "In CosmosDiagnostics, locationEndpointsContacted should have existed.",
     ).to.exist;
     expect(
       diagnostics.clientSideRequestStatistics.locationEndpointsContacted.length,
-      "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec."
+      "In CosmosDiagnostics, Number of locationEndpointsContacted should match the spec.",
     ).to.be.equal(spec.locationEndpointsContacted);
   }
 }
@@ -302,18 +302,18 @@ function validateLocationEndpointsContactedForDiagnostics(
 function validateMetadataCallsForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics,
-  parallelExecutions: boolean
+  parallelExecutions: boolean,
 ): void {
   const metadataLookups =
     diagnostics.clientSideRequestStatistics.metadataDiagnostics.metadataLookups;
   if (spec.metadataCallCount !== undefined) {
     expect(
       metadataLookups,
-      "In CosmosDiagnostics, metadataDiagnostics.metadataLookups should have existed."
+      "In CosmosDiagnostics, metadataDiagnostics.metadataLookups should have existed.",
     ).to.exist;
     expect(
       metadataLookups.length,
-      "In CosmosDiagnostics, Number of metadataLookups should match the spec."
+      "In CosmosDiagnostics, Number of metadataLookups should match the spec.",
     ).to.be.equal(spec.metadataCallCount);
   }
 
@@ -325,11 +325,11 @@ function validateMetadataCallsForDiagnostics(
     ) {
       expect(
         metadataLookup.activityId,
-        "In CosmosDiagnostics, metadataLookups should contain activityId."
+        "In CosmosDiagnostics, metadataLookups should contain activityId.",
       ).to.not.be.empty;
       expect(
         activityIds.has(metadataLookup.activityId),
-        "In CosmosDiagnostics, metadataLookups should not contain duplicate activityId."
+        "In CosmosDiagnostics, metadataLookups should not contain duplicate activityId.",
       ).to.be.false;
     }
   });
@@ -341,22 +341,22 @@ function validateMetadataCallsForDiagnostics(
 function validateRetriesForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
   diagnostics: CosmosDiagnostics,
-  parallelExecutions: boolean
+  parallelExecutions: boolean,
 ): void {
   if (spec.retryCount !== undefined) {
     expect(
       diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts,
-      "In CosmosDiagnostics, retryDiagnostics.failedAttempts should have existed."
+      "In CosmosDiagnostics, retryDiagnostics.failedAttempts should have existed.",
     ).to.exist;
     expect(
       diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts.length,
-      "In CosmosDiagnostics, Number of failedAttempts should match the spec."
+      "In CosmosDiagnostics, Number of failedAttempts should match the spec.",
     ).to.be.equal(spec.retryCount);
   }
   if (!parallelExecutions) {
     verifyForOverlappingRanges(
       diagnostics.clientSideRequestStatistics.retryDiagnostics.failedAttempts,
-      "In CosmosDiagnostics, Verifying retryDiagnostics"
+      "In CosmosDiagnostics, Verifying retryDiagnostics",
     );
   }
 }
@@ -365,52 +365,52 @@ function validateRequestPayloadSizeForDiagnostics(diagnostics: CosmosDiagnostics
   const totalRequestPayloadForGatewayRequests =
     diagnostics.clientSideRequestStatistics.gatewayStatistics.reduce(
       (total, current) => total + current.requestPayloadLengthInBytes,
-      0
+      0,
     );
   expect(
     diagnostics.clientSideRequestStatistics.totalRequestPayloadLengthInBytes,
-    "In CosmosDiagnostics, totalRequestPayloadLengthInBytes should be greater than or equal to cumulative payload lengths of all gatewayStatistics"
+    "In CosmosDiagnostics, totalRequestPayloadLengthInBytes should be greater than or equal to cumulative payload lengths of all gatewayStatistics",
   ).to.be.greaterThanOrEqual(totalRequestPayloadForGatewayRequests);
 }
 
 function validateRequestDurationForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
-  diagnostics: CosmosDiagnostics
+  diagnostics: CosmosDiagnostics,
 ): void {
   if (spec.requestDurationInMsUpperLimit !== undefined) {
     expect(
       diagnostics.clientSideRequestStatistics.requestDurationInMs,
-      "In CosmosDiagnostics, clientSideRequestStatistics.requestDurationInMs should exist"
+      "In CosmosDiagnostics, clientSideRequestStatistics.requestDurationInMs should exist",
     ).to.exist;
     expect(
       spec.requestDurationInMsUpperLimit,
-      "In CosmosDiagnostics, requestDurationInMs should be less than given limit."
+      "In CosmosDiagnostics, requestDurationInMs should be less than given limit.",
     ).to.be.greaterThanOrEqual(diagnostics.clientSideRequestStatistics.requestDurationInMs);
   } else {
     expect(
       diagnostics.clientSideRequestStatistics.requestDurationInMs,
-      "In CosmosDiagnostics, clientSideRequestStatistics.requestDurationInMs should not be 0."
+      "In CosmosDiagnostics, clientSideRequestStatistics.requestDurationInMs should not be 0.",
     ).is.not.eqls(0);
   }
 }
 
 function validateRequestStartTimeForDiagnostics(
   spec: CosmosDiagnosticsTestSpec,
-  diagnostics: CosmosDiagnostics
+  diagnostics: CosmosDiagnostics,
 ): void {
   if (spec.requestStartTimeUTCInMsLowerLimit !== undefined) {
     expect(
       diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
-      "In CosmosDiagnostics, requestStartTimeUTCInMs should exist"
+      "In CosmosDiagnostics, requestStartTimeUTCInMs should exist",
     ).to.exist;
     expect(
       spec.requestStartTimeUTCInMsLowerLimit,
-      "In CosmosDiagnostics, requestStartTimeUTCInMs should be later than given timestamp."
+      "In CosmosDiagnostics, requestStartTimeUTCInMs should be later than given timestamp.",
     ).to.be.lessThanOrEqual(diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs);
   } else {
     expect(
       diagnostics.clientSideRequestStatistics.requestStartTimeUTCInMs,
-      "In CosmosDiagnostics, clientSideRequestStatistics.requestStartTimeUTCInMs should not be 0."
+      "In CosmosDiagnostics, clientSideRequestStatistics.requestStartTimeUTCInMs should not be 0.",
     ).is.not.eqls(0);
   }
 }
@@ -418,7 +418,7 @@ function validateRequestStartTimeForDiagnostics(
 export async function getTestDatabase(
   testName: string,
   client: CosmosClient = defaultClient,
-  attrs?: Partial<DatabaseRequest>
+  attrs?: Partial<DatabaseRequest>,
 ): Promise<Database> {
   const entropy = Math.floor(Math.random() * 10000);
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
@@ -430,7 +430,7 @@ export async function getTestContainer(
   testName: string,
   client: CosmosClient = defaultClient,
   containerDef?: ContainerRequest,
-  options?: RequestOptions
+  options?: RequestOptions,
 ): Promise<Container> {
   const db = await getTestDatabase(testName, client);
   const entropy = Math.floor(Math.random() * 10000);
@@ -441,20 +441,20 @@ export async function getTestContainer(
 
 export async function bulkInsertItems(
   container: Container,
-  documents: any[]
+  documents: any[],
 ): Promise<Array<ItemDefinition & Resource>> {
   return Promise.all(
     documents.map(async (doc) => {
       const { resource: document } = await container.items.create(doc);
       return document;
-    })
+    }),
   );
 }
 
 export async function bulkReadItems(
   container: Container,
   documents: any[],
-  partitionKeyDef: PartitionKeyDefinition
+  partitionKeyDef: PartitionKeyDefinition,
 ): Promise<void[]> {
   return Promise.all(
     documents.map(async (document) => {
@@ -463,14 +463,14 @@ export async function bulkReadItems(
       // TODO: should we block or do all requests in parallel?
       const { resource: doc } = await container.item(document.id, partitionKey).read();
       assert.deepStrictEqual(doc, document);
-    })
+    }),
   );
 }
 
 export async function bulkReplaceItems(
   container: Container,
   documents: any[],
-  partitionKeyDef: PartitionKeyDefinition
+  partitionKeyDef: PartitionKeyDefinition,
 ): Promise<any[]> {
   return Promise.all(
     documents.map(async (document) => {
@@ -480,21 +480,21 @@ export async function bulkReplaceItems(
       const { _etag: _4, _ts: _3, ...actualModifiedDocument } = doc; // eslint-disable-line @typescript-eslint/no-unused-vars
       assert.deepStrictEqual(expectedModifiedDocument, actualModifiedDocument);
       return doc;
-    })
+    }),
   );
 }
 
 export async function bulkDeleteItems(
   container: Container,
   documents: any[],
-  partitionKeyDef: PartitionKeyDefinition
+  partitionKeyDef: PartitionKeyDefinition,
 ): Promise<void> {
   await Promise.all(
     documents.map(async (document) => {
       const partitionKey = extractPartitionKeys(document, partitionKeyDef);
 
       await container.item(document.id, partitionKey).delete();
-    })
+    }),
   );
 }
 
@@ -502,13 +502,13 @@ export async function bulkQueryItemsWithPartitionKey(
   container: Container,
   documents: any[],
   query: string,
-  parameterGenerator: (doc: any) => { name: string; value: any }[]
+  parameterGenerator: (doc: any) => { name: string; value: any }[],
 ): Promise<void> {
   for (const document of documents) {
     const parameters = parameterGenerator(document);
     const shouldSkip = parameters.reduce(
       (previous, current) => previous || current["value"] === undefined,
-      false
+      false,
     );
     if (shouldSkip) {
       continue;
@@ -523,8 +523,8 @@ export async function bulkQueryItemsWithPartitionKey(
       resources.length,
       1,
       `Expected exactly 1 document, doc: ${JSON.stringify(
-        document
-      )}, query: '${query}', parameters: ${JSON.stringify(parameters)}`
+        document,
+      )}, query: '${query}', parameters: ${JSON.stringify(parameters)}`,
     );
     assert.equal(JSON.stringify(resources[0]), JSON.stringify(document));
   }
@@ -535,7 +535,7 @@ export async function createOrUpsertItem(
   container: Container,
   body: unknown,
   options: RequestOptions,
-  isUpsertTest: boolean
+  isUpsertTest: boolean,
 ): Promise<ItemResponse<any>> {
   if (isUpsertTest) {
     return container.items.upsert(body, options);
@@ -549,7 +549,7 @@ export async function replaceOrUpsertItem(
   body: unknown,
   options: RequestOptions,
   isUpsertTest: boolean,
-  partitionKey?: PartitionKey
+  partitionKey?: PartitionKey,
 ): Promise<ItemResponse<any>> {
   if (isUpsertTest) {
     return container.items.upsert(body, options);
@@ -564,7 +564,7 @@ export function createOrUpsertUser(
   database: Database,
   body: UserDefinition,
   options: RequestOptions,
-  isUpsertTest: boolean
+  isUpsertTest: boolean,
 ): Promise<UserResponse> {
   if (isUpsertTest) {
     return database.users.upsert(body, options);
@@ -577,7 +577,7 @@ export function createOrUpsertPermission(
   user: User,
   body: PermissionDefinition,
   options: RequestOptions,
-  isUpsertTest: boolean
+  isUpsertTest: boolean,
 ): Promise<PermissionResponse> {
   if (isUpsertTest) {
     return user.permissions.upsert(body, options);
@@ -590,7 +590,7 @@ export function replaceOrUpsertPermission(
   user: User,
   body: PermissionDefinition,
   options: RequestOptions,
-  isUpsertTest: boolean
+  isUpsertTest: boolean,
 ): Promise<PermissionResponse> {
   if (isUpsertTest) {
     return user.permissions.upsert(body, options);

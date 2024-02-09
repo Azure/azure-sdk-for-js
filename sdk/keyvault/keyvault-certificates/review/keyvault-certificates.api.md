@@ -198,6 +198,7 @@ export interface CertificateProperties {
     readonly vaultUrl?: string;
     readonly version?: string;
     readonly x509Thumbprint?: Uint8Array;
+    readonly x509ThumbprintString?: string;
 }
 
 // @public

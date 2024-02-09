@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Lists the roles configured for the static site.
  *
  * @summary Description for Lists the roles configured for the static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ListStaticSiteConfiguredRoles.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ListStaticSiteConfiguredRoles.json
  */
 async function listsTheConfiguredRolesForAStaticSite() {
   const subscriptionId =

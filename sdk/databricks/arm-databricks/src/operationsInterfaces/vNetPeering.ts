@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkPeering,
   VNetPeeringListByWorkspaceOptionalParams,
@@ -57,7 +57,7 @@ export interface VNetPeering {
     workspaceName: string,
     peeringName: string,
     options?: VNetPeeringDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the workspace vNetPeering.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -86,8 +86,8 @@ export interface VNetPeering {
     virtualNetworkPeeringParameters: VirtualNetworkPeering,
     options?: VNetPeeringCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<VNetPeeringCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VNetPeeringCreateOrUpdateResponse>,
       VNetPeeringCreateOrUpdateResponse
     >
   >;

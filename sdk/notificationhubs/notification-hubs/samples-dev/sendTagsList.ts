@@ -72,7 +72,7 @@ async function main() {
 
 async function getNotificationDetails(
   context: NotificationHubsClientContext,
-  notificationId: string
+  notificationId: string,
 ): Promise<NotificationDetails | undefined> {
   let state: NotificationOutcomeState = "Enqueued";
   let count = 0;

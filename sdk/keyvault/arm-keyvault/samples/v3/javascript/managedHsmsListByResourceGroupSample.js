@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the managed HSM Pools associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_ListByResourceGroup.json
  */
 async function listManagedHsmPoolsInAResourceGroup() {
   const subscriptionId =

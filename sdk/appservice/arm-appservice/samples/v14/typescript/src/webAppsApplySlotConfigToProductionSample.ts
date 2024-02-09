@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Applies the configuration settings from the target slot onto the current slot.
  *
  * @summary Description for Applies the configuration settings from the target slot onto the current slot.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ApplySlotConfig.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ApplySlotConfig.json
  */
 async function applyWebAppSlotConfig() {
   const subscriptionId =

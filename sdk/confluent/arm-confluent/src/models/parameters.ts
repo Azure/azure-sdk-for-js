@@ -14,7 +14,9 @@ import {
 import {
   ConfluentAgreementResource as ConfluentAgreementResourceMapper,
   OrganizationResource as OrganizationResourceMapper,
-  OrganizationResourceUpdate as OrganizationResourceUpdateMapper
+  OrganizationResourceUpdate as OrganizationResourceUpdateMapper,
+  ListAccessRequestModel as ListAccessRequestModelMapper,
+  AccessInviteUserAccountModel as AccessInviteUserAccountModelMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -44,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2021-09-01-preview",
+    defaultValue: "2023-08-22",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -59,7 +61,7 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
+      name: "Uuid"
     }
   }
 };
@@ -96,6 +98,10 @@ export const nextLink: OperationURLParameter = {
 export const resourceGroupName: OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1
+    },
     serializedName: "resourceGroupName",
     required: true,
     type: {
@@ -128,4 +134,14 @@ export const body2: OperationParameter = {
 export const body3: OperationParameter = {
   parameterPath: "body",
   mapper: OrganizationResourceMapper
+};
+
+export const body4: OperationParameter = {
+  parameterPath: "body",
+  mapper: ListAccessRequestModelMapper
+};
+
+export const body5: OperationParameter = {
+  parameterPath: "body",
+  mapper: AccessInviteUserAccountModelMapper
 };

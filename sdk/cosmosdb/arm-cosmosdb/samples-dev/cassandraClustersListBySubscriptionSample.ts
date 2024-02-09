@@ -18,10 +18,12 @@ dotenv.config();
  * This sample demonstrates how to List all managed Cassandra clusters in this subscription.
  *
  * @summary List all managed Cassandra clusters in this subscription.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/preview/2023-03-15-preview/examples/CosmosDBManagedCassandraClusterListBySubscription.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBManagedCassandraClusterListBySubscription.json
  */
 async function cosmosDbManagedCassandraClusterListBySubscription() {
-  const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
+  const subscriptionId =
+    process.env["COSMOSDB_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
   const client = new CosmosDBManagementClient(credential, subscriptionId);
   const resArray = new Array();

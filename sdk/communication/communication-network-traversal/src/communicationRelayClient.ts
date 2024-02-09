@@ -17,7 +17,7 @@ import { logger } from "./common/logger";
 import { tracingClient } from "./generated/src/tracing";
 
 const isCommunicationRelayClientOptions = (
-  options: any
+  options: any,
 ): options is CommunicationRelayClientOptions =>
   options && !isTokenCredential(options) && !isKeyCredential(options);
 
@@ -47,7 +47,7 @@ export class CommunicationRelayClient {
   public constructor(
     endpoint: string,
     credential: KeyCredential,
-    options?: CommunicationRelayClientOptions
+    options?: CommunicationRelayClientOptions,
   );
   /**
    * Initializes a new instance of the CommunicationRelayClient class using a TokenCredential.
@@ -58,7 +58,7 @@ export class CommunicationRelayClient {
   public constructor(
     endpoint: string,
     credential: TokenCredential,
-    options?: CommunicationRelayClientOptions
+    options?: CommunicationRelayClientOptions,
   );
 
   /**
@@ -71,11 +71,11 @@ export class CommunicationRelayClient {
   public constructor(
     connectionStringOrEndpoint: string,
     credentialOrOptions?: KeyCredential | CommunicationRelayClientOptions | TokenCredential,
-    maybeOptions: CommunicationRelayClientOptions = {}
+    maybeOptions: CommunicationRelayClientOptions = {},
   ) {
     const { url, credential } = parseClientArguments(
       connectionStringOrEndpoint,
-      credentialOrOptions
+      credentialOrOptions,
     );
     const options = isCommunicationRelayClientOptions(credentialOrOptions)
       ? credentialOrOptions
@@ -105,7 +105,7 @@ export class CommunicationRelayClient {
    * @param options - Additional options for the request.
    */
   public getRelayConfiguration(
-    options?: GetRelayConfigurationOptions
+    options?: GetRelayConfigurationOptions,
   ): Promise<CommunicationRelayConfiguration>;
 
   /**
@@ -114,7 +114,7 @@ export class CommunicationRelayClient {
    * @param options - Additional options for the request.
    */
   public getRelayConfiguration(
-    options: GetRelayConfigurationOptions = {}
+    options: GetRelayConfigurationOptions = {},
   ): Promise<CommunicationRelayConfiguration> {
     const { id, routeType, ttl } = options;
     const requestOptions: CommunicationNetworkTraversalIssueRelayConfigurationOptionalParams = {
@@ -129,7 +129,7 @@ export class CommunicationRelayClient {
       requestOptions,
       (updatedOptions) => {
         return this.client.communicationNetworkTraversal.issueRelayConfiguration(updatedOptions);
-      }
+      },
     );
   }
 }
