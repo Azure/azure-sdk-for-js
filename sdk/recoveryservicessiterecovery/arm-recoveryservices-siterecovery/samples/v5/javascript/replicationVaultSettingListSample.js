@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of vault setting. This includes the Migration Hub connection settings.
  *
  * @summary Gets the list of vault setting. This includes the Migration Hub connection settings.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationVaultSetting_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationVaultSetting_List.json
  */
 async function getsTheListOfVaultSetting() {
   const subscriptionId =
