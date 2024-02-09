@@ -6,10 +6,10 @@ Azure OpenAI APIs for completions and search
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/openai)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/openai?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai-rest/samples)
+- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/openai/rlc-generated/sdk/openai/openai-rest)
+- [Package (NPM)](https://aka.ms/npm-azure-rest-openai)
+- [API reference documentation](https://aka.ms/AAp1kxa)
+- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/openai/rlc-generated/sdk/openai/openai-rest/samples)
 
 ## Getting started
 
