@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AuthenticationRecord, MsalAccountInfo, MsalToken } from "./types";
+import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
 import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
@@ -35,7 +35,7 @@ export function ensureValidMsalToken(
   scopes: string | string[],
   msalToken?: MsalToken,
   getTokenOptions?: GetTokenOptions,
-): void {
+): asserts msalToken is ValidMsalToken {
   const error = (message: string): Error => {
     logger.getToken.info(message);
     return new AuthenticationRequiredError({

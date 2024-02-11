@@ -16,9 +16,9 @@ describe("#BrowserSdkLoader", () => {
   let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
-  afterEach(() => {
+  afterEach(async () => {
     process.env = originalEnv;
-    shutdownAzureMonitor();
+    await shutdownAzureMonitor();
     sandbox.restore();
   });
 

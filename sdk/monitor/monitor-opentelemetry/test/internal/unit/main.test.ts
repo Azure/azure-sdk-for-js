@@ -51,7 +51,7 @@ describe("Main functions", () => {
     assert.ok(logs.getLoggerProvider());
   });
 
-  it("should shutdown azureMonitor", () => {
+  it("should shutdown azureMonitor - sync", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -59,6 +59,18 @@ describe("Main functions", () => {
     };
     useAzureMonitor(config);
     shutdownAzureMonitor();
+    const meterProvider = metrics.getMeterProvider() as MeterProvider;
+    assert.strictEqual(meterProvider["_shutdown"], true);
+  });
+
+  it("should shutdown azureMonitor - async", async () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    await shutdownAzureMonitor();
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
