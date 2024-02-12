@@ -39,7 +39,7 @@ import {
   CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
   CallConnectionGetParticipantResponse,
-  CallConnectionGetParticipantsNextResponse
+  CallConnectionGetParticipantsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -62,7 +62,7 @@ export class CallConnectionImpl implements CallConnection {
    */
   public listParticipants(
     callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
+    options?: CallConnectionGetParticipantsOptionalParams,
   ): PagedAsyncIterableIterator<CallParticipantInternal> {
     const iter = this.getParticipantsPagingAll(callConnectionId, options);
     return {
@@ -79,16 +79,16 @@ export class CallConnectionImpl implements CallConnection {
         return this.getParticipantsPagingPage(
           callConnectionId,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *getParticipantsPagingPage(
     callConnectionId: string,
     options?: CallConnectionGetParticipantsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CallParticipantInternal[]> {
     let result: CallConnectionGetParticipantsResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +103,7 @@ export class CallConnectionImpl implements CallConnection {
       result = await this._getParticipantsNext(
         callConnectionId,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,11 +114,11 @@ export class CallConnectionImpl implements CallConnection {
 
   private async *getParticipantsPagingAll(
     callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
+    options?: CallConnectionGetParticipantsOptionalParams,
   ): AsyncIterableIterator<CallParticipantInternal> {
     for await (const page of this.getParticipantsPagingPage(
       callConnectionId,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +131,11 @@ export class CallConnectionImpl implements CallConnection {
    */
   getCall(
     callConnectionId: string,
-    options?: CallConnectionGetCallOptionalParams
+    options?: CallConnectionGetCallOptionalParams,
   ): Promise<CallConnectionGetCallResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      getCallOperationSpec
+      getCallOperationSpec,
     );
   }
 
@@ -147,11 +147,11 @@ export class CallConnectionImpl implements CallConnection {
    */
   hangupCall(
     callConnectionId: string,
-    options?: CallConnectionHangupCallOptionalParams
+    options?: CallConnectionHangupCallOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      hangupCallOperationSpec
+      hangupCallOperationSpec,
     );
   }
 
@@ -162,11 +162,11 @@ export class CallConnectionImpl implements CallConnection {
    */
   terminateCall(
     callConnectionId: string,
-    options?: CallConnectionTerminateCallOptionalParams
+    options?: CallConnectionTerminateCallOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      terminateCallOperationSpec
+      terminateCallOperationSpec,
     );
   }
 
@@ -179,11 +179,11 @@ export class CallConnectionImpl implements CallConnection {
   transferToParticipant(
     callConnectionId: string,
     transferToParticipantRequest: TransferToParticipantRequest,
-    options?: CallConnectionTransferToParticipantOptionalParams
+    options?: CallConnectionTransferToParticipantOptionalParams,
   ): Promise<CallConnectionTransferToParticipantResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, transferToParticipantRequest, options },
-      transferToParticipantOperationSpec
+      transferToParticipantOperationSpec,
     );
   }
 
@@ -194,11 +194,11 @@ export class CallConnectionImpl implements CallConnection {
    */
   private _getParticipants(
     callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
+    options?: CallConnectionGetParticipantsOptionalParams,
   ): Promise<CallConnectionGetParticipantsResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      getParticipantsOperationSpec
+      getParticipantsOperationSpec,
     );
   }
 
@@ -211,11 +211,11 @@ export class CallConnectionImpl implements CallConnection {
   addParticipant(
     callConnectionId: string,
     addParticipantRequest: AddParticipantRequest,
-    options?: CallConnectionAddParticipantOptionalParams
+    options?: CallConnectionAddParticipantOptionalParams,
   ): Promise<CallConnectionAddParticipantResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, addParticipantRequest, options },
-      addParticipantOperationSpec
+      addParticipantOperationSpec,
     );
   }
 
@@ -228,11 +228,11 @@ export class CallConnectionImpl implements CallConnection {
   removeParticipant(
     callConnectionId: string,
     removeParticipantRequest: RemoveParticipantRequest,
-    options?: CallConnectionRemoveParticipantOptionalParams
+    options?: CallConnectionRemoveParticipantOptionalParams,
   ): Promise<CallConnectionRemoveParticipantResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, removeParticipantRequest, options },
-      removeParticipantOperationSpec
+      removeParticipantOperationSpec,
     );
   }
 
@@ -245,11 +245,11 @@ export class CallConnectionImpl implements CallConnection {
   mute(
     callConnectionId: string,
     muteParticipantsRequest: MuteParticipantsRequest,
-    options?: CallConnectionMuteOptionalParams
+    options?: CallConnectionMuteOptionalParams,
   ): Promise<CallConnectionMuteResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, muteParticipantsRequest, options },
-      muteOperationSpec
+      muteOperationSpec,
     );
   }
 
@@ -262,11 +262,11 @@ export class CallConnectionImpl implements CallConnection {
   cancelAddParticipant(
     callConnectionId: string,
     cancelAddParticipantRequest: CancelAddParticipantRequest,
-    options?: CallConnectionCancelAddParticipantOptionalParams
+    options?: CallConnectionCancelAddParticipantOptionalParams,
   ): Promise<CallConnectionCancelAddParticipantResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, cancelAddParticipantRequest, options },
-      cancelAddParticipantOperationSpec
+      cancelAddParticipantOperationSpec,
     );
   }
 
@@ -279,11 +279,11 @@ export class CallConnectionImpl implements CallConnection {
   getParticipant(
     callConnectionId: string,
     participantRawId: string,
-    options?: CallConnectionGetParticipantOptionalParams
+    options?: CallConnectionGetParticipantOptionalParams,
   ): Promise<CallConnectionGetParticipantResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, participantRawId, options },
-      getParticipantOperationSpec
+      getParticipantOperationSpec,
     );
   }
 
@@ -296,11 +296,11 @@ export class CallConnectionImpl implements CallConnection {
   private _getParticipantsNext(
     callConnectionId: string,
     nextLink: string,
-    options?: CallConnectionGetParticipantsNextOptionalParams
+    options?: CallConnectionGetParticipantsNextOptionalParams,
   ): Promise<CallConnectionGetParticipantsNextResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, nextLink, options },
-      getParticipantsNextOperationSpec
+      getParticipantsNextOperationSpec,
     );
   }
 }
@@ -312,16 +312,16 @@ const getCallOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CallConnectionPropertiesInternal
+      bodyMapper: Mappers.CallConnectionPropertiesInternal,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const hangupCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}",
@@ -329,13 +329,13 @@ const hangupCallOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const terminateCallOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:terminate",
@@ -343,28 +343,28 @@ const terminateCallOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
-  serializer
+  serializer,
 };
 const transferToParticipantOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:transferToParticipant",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.TransferCallResponse
+      bodyMapper: Mappers.TransferCallResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.transferToParticipantRequest,
   queryParameters: [Parameters.apiVersion],
@@ -373,37 +373,37 @@ const transferToParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getParticipantsOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetParticipantsResponse
+      bodyMapper: Mappers.GetParticipantsResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const addParticipantOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants:add",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.AddParticipantResponse
+      bodyMapper: Mappers.AddParticipantResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.addParticipantRequest,
   queryParameters: [Parameters.apiVersion],
@@ -412,21 +412,21 @@ const addParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const removeParticipantOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants:remove",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.RemoveParticipantResponse
+      bodyMapper: Mappers.RemoveParticipantResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.removeParticipantRequest,
   queryParameters: [Parameters.apiVersion],
@@ -435,21 +435,21 @@ const removeParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const muteOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}/participants:mute",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MuteParticipantsResult
+      bodyMapper: Mappers.MuteParticipantsResult,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.muteParticipantsRequest,
   queryParameters: [Parameters.apiVersion],
@@ -458,22 +458,21 @@ const muteOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipant",
+  path: "/calling/callConnections/{callConnectionId}/participants:cancelAddParticipant",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.CancelAddParticipantResponse
+      bodyMapper: Mappers.CancelAddParticipantResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.cancelAddParticipantRequest,
   queryParameters: [Parameters.apiVersion],
@@ -482,48 +481,47 @@ const cancelAddParticipantOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getParticipantOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/calling/callConnections/{callConnectionId}/participants/{participantRawId}",
+  path: "/calling/callConnections/{callConnectionId}/participants/{participantRawId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CallParticipantInternal
+      bodyMapper: Mappers.CallParticipantInternal,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.participantRawId
+    Parameters.participantRawId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getParticipantsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GetParticipantsResponse
+      bodyMapper: Mappers.GetParticipantsResponse,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.endpoint,
     Parameters.callConnectionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

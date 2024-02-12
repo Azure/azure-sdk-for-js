@@ -30,7 +30,7 @@ import {
   CallConnectionCancelAddParticipantOptionalParams,
   CallConnectionCancelAddParticipantResponse,
   CallConnectionGetParticipantOptionalParams,
-  CallConnectionGetParticipantResponse
+  CallConnectionGetParticipantResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface CallConnection {
    */
   listParticipants(
     callConnectionId: string,
-    options?: CallConnectionGetParticipantsOptionalParams
+    options?: CallConnectionGetParticipantsOptionalParams,
   ): PagedAsyncIterableIterator<CallParticipantInternal>;
   /**
    * Get the detail properties of an ongoing call.
@@ -52,7 +52,7 @@ export interface CallConnection {
    */
   getCall(
     callConnectionId: string,
-    options?: CallConnectionGetCallOptionalParams
+    options?: CallConnectionGetCallOptionalParams,
   ): Promise<CallConnectionGetCallResponse>;
   /**
    * Hang up call automation service from the call. This will make call automation service leave the
@@ -62,7 +62,7 @@ export interface CallConnection {
    */
   hangupCall(
     callConnectionId: string,
-    options?: CallConnectionHangupCallOptionalParams
+    options?: CallConnectionHangupCallOptionalParams,
   ): Promise<void>;
   /**
    * Terminate a call using CallConnectionId.
@@ -71,7 +71,7 @@ export interface CallConnection {
    */
   terminateCall(
     callConnectionId: string,
-    options?: CallConnectionTerminateCallOptionalParams
+    options?: CallConnectionTerminateCallOptionalParams,
   ): Promise<void>;
   /**
    * Transfer the call to a participant.
@@ -82,7 +82,7 @@ export interface CallConnection {
   transferToParticipant(
     callConnectionId: string,
     transferToParticipantRequest: TransferToParticipantRequest,
-    options?: CallConnectionTransferToParticipantOptionalParams
+    options?: CallConnectionTransferToParticipantOptionalParams,
   ): Promise<CallConnectionTransferToParticipantResponse>;
   /**
    * Add a participant to the call.
@@ -93,7 +93,7 @@ export interface CallConnection {
   addParticipant(
     callConnectionId: string,
     addParticipantRequest: AddParticipantRequest,
-    options?: CallConnectionAddParticipantOptionalParams
+    options?: CallConnectionAddParticipantOptionalParams,
   ): Promise<CallConnectionAddParticipantResponse>;
   /**
    * Remove a participant from the call using identifier.
@@ -104,7 +104,7 @@ export interface CallConnection {
   removeParticipant(
     callConnectionId: string,
     removeParticipantRequest: RemoveParticipantRequest,
-    options?: CallConnectionRemoveParticipantOptionalParams
+    options?: CallConnectionRemoveParticipantOptionalParams,
   ): Promise<CallConnectionRemoveParticipantResponse>;
   /**
    * Mute participants from the call using identifier.
@@ -115,7 +115,7 @@ export interface CallConnection {
   mute(
     callConnectionId: string,
     muteParticipantsRequest: MuteParticipantsRequest,
-    options?: CallConnectionMuteOptionalParams
+    options?: CallConnectionMuteOptionalParams,
   ): Promise<CallConnectionMuteResponse>;
   /**
    * Cancel add participant operation.
@@ -126,7 +126,7 @@ export interface CallConnection {
   cancelAddParticipant(
     callConnectionId: string,
     cancelAddParticipantRequest: CancelAddParticipantRequest,
-    options?: CallConnectionCancelAddParticipantOptionalParams
+    options?: CallConnectionCancelAddParticipantOptionalParams,
   ): Promise<CallConnectionCancelAddParticipantResponse>;
   /**
    * Get participant from a call.
@@ -137,6 +137,6 @@ export interface CallConnection {
   getParticipant(
     callConnectionId: string,
     participantRawId: string,
-    options?: CallConnectionGetParticipantOptionalParams
+    options?: CallConnectionGetParticipantOptionalParams,
   ): Promise<CallConnectionGetParticipantResponse>;
 }
