@@ -45,7 +45,8 @@
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
     "sdk/translation/ai-translation-text-rest/review/*.md",
-    "sdk/openai/openai/review/*.md"
+    "sdk/openai/openai/review/*.md",
+    "sdk/openai/openai-rest/review/*.md"
   ],
   "words": [
     "adfs",
