@@ -67,6 +67,15 @@ export const mockMessage: RestModel.ChatMessage = {
   content: {
     message: "content",
     topic: "topic",
+    attachments: [
+      {
+        id: "id1",
+        attachmentType: "image",
+        name: "picture1.png",
+        url: "url1",
+        previewUrl: "previewUrl1",
+      },
+    ]
   },
   createdOn: new Date("2020-06-26T18:06:06Z"),
   senderDisplayName: "senderDisplayName",
@@ -143,6 +152,12 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
   deletedOn: new Date("2020-06-26T18:06:06Z"),
   metadata: { tags: "tag" },
 };
+
+export const mockImageAttachment: RestModel.ChatAttachment = {
+    id: "id1",
+    attachmentType: "image",
+    name: "picture1.png",
+}
 
 export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
