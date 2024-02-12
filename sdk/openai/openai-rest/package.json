@@ -40,7 +40,7 @@
     "build": "npm run clean && npm run bundle && api-extractor run --local",
     "build:test": "npm run bundle",
     "check-format": "echo skipped",
-    "clean": "rimraf dist dist-* temp types *.tgz *.log",
+    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "echo skipped",
