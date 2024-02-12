@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { binaryArrayToString } from "../../src/client/helpers/getBinaryBody";
+import { describe, it, assert } from "vitest";
+import { binaryArrayToString } from "../../src/client/helpers/getBinaryBody.js";
 
 describe("getBinaryBody", () => {
   describe("decodeBinaryContent", () => {

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common";
+import { RequestParameters } from "./common.js";
 
 /**
  * Builds the request url, filling in query and path parameters

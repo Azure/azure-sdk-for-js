@@ -17,6 +17,6 @@ export {
   TracingSpanKind,
   TracingSpanLink,
   TracingSpanOptions,
-} from "./interfaces";
-export { useInstrumenter } from "./instrumenter";
-export { createTracingClient } from "./tracingClient";
+} from "./interfaces.js";
+export { useInstrumenter } from "./instrumenter.js";
+export { createTracingClient } from "./tracingClient.js";

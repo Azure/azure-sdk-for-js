@@ -8,7 +8,7 @@
 
 import type { AbortSignalLike } from '@azure/abort-controller';
 import type { AccessToken } from '@azure/core-auth';
-import type { AzureLogger } from '@azure/logger';
+import { AzureLogger } from '@azure/logger';
 import type { Debugger } from '@azure/logger';
 import type { GetTokenOptions } from '@azure/core-auth';
 import type { OperationTracingOptions } from '@azure/core-tracing';

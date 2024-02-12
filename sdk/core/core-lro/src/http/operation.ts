@@ -8,17 +8,17 @@ import {
   LroResponse,
   RawResponse,
   ResponseBody,
-} from "./models";
+} from "./models.js";
 import {
   LroError,
   OperationConfig,
   OperationStatus,
   RestorableOperationState,
   StateProxy,
-} from "../poller/models";
-import { initOperation, pollOperation } from "../poller/operation";
+} from "../poller/models.js";
+import { initOperation, pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { logger } from "../logger";
+import { logger } from "../logger.js";
 
 function getOperationLocationPollingUrl(inputs: {
   operationLocation?: string;
@@ -367,7 +367,8 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
      * The expansion here is intentional because `lro` could be an object that
      * references an inner this, so we need to preserve a reference to it.
      */
-    poll: async (location, inputOptions) => lro.sendPollRequest(location, inputOptions),
+    poll: async (location: string, inputOptions?: { abortSignal?: AbortSignalLike }) =>
+      lro.sendPollRequest(location, inputOptions),
     setErrorAsResult,
   });
 }

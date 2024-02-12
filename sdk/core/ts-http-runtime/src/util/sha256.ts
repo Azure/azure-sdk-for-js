@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { createHash, createHmac } from "crypto";
+import { createHash, createHmac } from "node:crypto";
 
 /**
  * Generates a SHA-256 HMAC signature.

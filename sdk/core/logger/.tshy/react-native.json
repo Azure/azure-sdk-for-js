@@ -1,0 +1,14 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    ".././src/log-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/react-native"
+  }
+}

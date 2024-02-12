@@ -7,7 +7,7 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike,
   WebResourceLike,
-} from "../src/index";
+} from "../src/index.js";
 
 export function cloneRequestPolicy(): RequestPolicyFactory {
   return {

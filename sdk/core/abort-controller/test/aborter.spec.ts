@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError, AbortSignalLike } from "../src";
-import { assert } from "chai";
+import { AbortError, AbortSignalLike } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("AbortSignalLike", () => {
   it("is compatible with the standard AbortSignal", () => {

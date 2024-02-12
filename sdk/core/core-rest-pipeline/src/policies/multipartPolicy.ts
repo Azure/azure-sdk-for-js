@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { concat } from "../util/concat";
-import { isBlob } from "../util/typeGuards";
+import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { concat } from "../util/concat.js";
+import { isBlob } from "../util/typeGuards.js";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;

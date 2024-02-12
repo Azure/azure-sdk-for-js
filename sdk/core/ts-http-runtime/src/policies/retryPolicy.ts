@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { delay } from "../util/helpers";
-import { RetryStrategy } from "../retryStrategies/retryStrategy";
-import { RestError } from "../restError";
-import { AbortError } from "../abort-controller/AbortError";
-import { TypeSpecRuntimeLogger, createClientLogger } from "../logger/logger";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { delay } from "../util/helpers.js";
+import { RetryStrategy } from "../retryStrategies/retryStrategy.js";
+import { RestError } from "../restError.js";
+import { AbortError } from "../abort-controller/AbortError.js";
+import { TypeSpecRuntimeLogger, createClientLogger } from "../logger/logger.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 
 const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
 

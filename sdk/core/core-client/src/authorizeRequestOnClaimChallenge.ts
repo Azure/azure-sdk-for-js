@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
-import { logger as coreClientLogger } from "./log";
-import { decodeStringToString } from "./base64";
+import { logger as coreClientLogger } from "./log.js";
+import { decodeStringToString } from "./base64.js";
 
 /**
  * Converts: `Bearer a="b", c="d", Bearer d="e", f="g"`.

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-util";
-import { isNodeReadableStream } from "./typeGuards";
+import { isNodeReadableStream } from "./typeGuards.js";
 
 /**
  * Options passed into createFile specifying metadata about the file.

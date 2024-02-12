@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as http from "http";
-import type * as https from "https";
-import { HttpsProxyAgent, type HttpsProxyAgentOptions } from "https-proxy-agent";
-import { HttpProxyAgent, type HttpProxyAgentOptions } from "http-proxy-agent";
-import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
+import type * as http from "node:http";
+import type * as https from "node:https";
+import * as process from "node:process";
+import createHttpsProxyAgent, { type HttpsProxyAgentOptions } from "https-proxy-agent";
+import createHttpProxyAgent, { type HttpProxyAgentOptions } from "http-proxy-agent";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+  SendRequest,
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
@@ -178,13 +184,13 @@ function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAg
     if (isInsecure) {
       if (!cachedAgents.httpProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpProxyAgent = new HttpProxyAgent(proxyAgentOptions);
+        cachedAgents.httpProxyAgent = createHttpProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpProxyAgent;
     } else {
       if (!cachedAgents.httpsProxyAgent) {
         const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(proxyAgentOptions);
+        cachedAgents.httpsProxyAgent = createHttpsProxyAgent(proxyAgentOptions);
       }
       request.agent = cachedAgents.httpsProxyAgent;
     }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "@azure/test-utils";
+import { assert } from "vitest";
 
 export async function assertAsyncIterable<T>(
   iter: AsyncIterable<T>,

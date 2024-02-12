@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential";
-import { KeyCredential } from "../auth/keyCredential";
-import { HttpClient, HttpMethods } from "../interfaces";
-import { Pipeline } from "../pipeline";
-import { createDefaultPipeline } from "./clientHelpers";
+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
+import { KeyCredential } from "../auth/keyCredential.js";
+import { HttpClient, HttpMethods } from "../interfaces.js";
+import { Pipeline } from "../pipeline.js";
+import { createDefaultPipeline } from "./clientHelpers.js";
 import {
   Client,
   ClientOptions,
@@ -13,10 +13,10 @@ import {
   HttpNodeStreamResponse,
   RequestParameters,
   StreamableMethod,
-} from "./common";
-import { sendRequest, sendRequestAsStream } from "./sendRequest";
-import { buildRequestUrl } from "./urlHelpers";
-import { PipelineOptions } from "../createPipelineFromOptions";
+} from "./common.js";
+import { sendRequest, sendRequestAsStream } from "./sendRequest.js";
+import { buildRequestUrl } from "./urlHelpers.js";
+import { PipelineOptions } from "../createPipelineFromOptions.js";
 
 /**
  * Creates a client with a default pipeline
@@ -63,7 +63,7 @@ export function getClient(
 
   const { allowInsecureConnection, httpClient } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
-    const getUrl = (requestOptions: RequestParameters) =>
+    const getUrl = (requestOptions: RequestParameters): string =>
       buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {

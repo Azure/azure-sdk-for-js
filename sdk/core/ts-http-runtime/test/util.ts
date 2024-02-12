@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { TypeSpecRuntimeLogger } from "../src/logger/logger";
-import { RequestBodyType } from "../src/interfaces";
-import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards";
+import { assert } from "vitest";
+import { TypeSpecRuntimeLogger } from "../src/logger/logger.js";
+import { RequestBodyType } from "../src/interfaces.js";
+import { isNodeReadableStream, isWebReadableStream } from "../src/util/typeGuards.js";
 
 export function makeTestLogger(): {
   logger: TypeSpecRuntimeLogger;

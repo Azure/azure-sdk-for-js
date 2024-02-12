@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { delay } from "./helpers";
+import { delay } from "./helpers.js";
 
 /**
  * A function that gets a promise of an access token and allows providing

@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import type { AzureLogger } from "@azure/logger";
-import type { RequestBodyType } from "../src/interfaces";
-import { isNodeReadableStream } from "../src/util/typeGuards";
+import type { RequestBodyType } from "../src/interfaces.js";
+import { isNodeReadableStream } from "../src/util/typeGuards.js";
 import { assert } from "vitest";
 
 export function makeTestLogger(): {

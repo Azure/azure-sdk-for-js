@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken } from "./auth/tokenCredential";
+import { AccessToken } from "./auth/tokenCredential.js";
 
 /**
  * Defines the default token refresh buffer duration.

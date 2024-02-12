@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BaseHttpTest } from "./baseHttpTest";
+import { BaseHttpTest } from "./baseHttpTest.js";
 
 export class FetchTest extends BaseHttpTest {
   constructor() {

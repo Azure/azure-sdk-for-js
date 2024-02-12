@@ -9,7 +9,7 @@ import {
   OperationRequest,
   OperationRequestInfo,
   ParameterPath,
-} from "./interfaces";
+} from "./interfaces.js";
 
 /**
  * @internal

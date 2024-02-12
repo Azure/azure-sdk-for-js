@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortError } from "../abort-controller/AbortError";
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike";
-import { PipelineResponse } from "../interfaces";
+import { AbortError } from "../abort-controller/AbortError.js";
+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import { PipelineResponse } from "../interfaces.js";
 
 const StandardAbortMessage = "The operation was aborted.";
 

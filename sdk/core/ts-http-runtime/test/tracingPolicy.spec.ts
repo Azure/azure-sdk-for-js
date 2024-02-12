@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
 import {
   PipelineRequest,
   PipelineResponse,
@@ -11,7 +10,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   Instrumenter,
   InstrumenterSpanOptions,
@@ -19,8 +18,8 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-} from "../src/tracing/interfaces";
-import { useInstrumenter } from "../src/tracing/instrumenter";
+} from "../src/tracing/interfaces.js";
+import { useInstrumenter } from "../src/tracing/instrumenter.js";
 
 class MockSpan implements TracingSpan {
   spanAttributes: Record<string, unknown> = {};
@@ -121,7 +120,7 @@ describe("tracingPolicy", function () {
 
   function createTestRequest({ noContext = false } = {}): {
     request: PipelineRequest;
-    next: sinon.SinonStub;
+    next: Mock<Parameters<SendRequest>, ReturnType<SendRequest>>;
   } {
     const request = createPipelineRequest({
       url: "https://bing.com",
@@ -134,18 +133,18 @@ describe("tracingPolicy", function () {
       request: request,
       status: 200,
     };
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
-    next.resolves(response);
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    next.mockResolvedValue(response);
     return { request, next };
   }
-
-  afterEach(() => {
-    sinon.restore();
-  });
 
   beforeEach(() => {
     activeInstrumenter = new MockInstrumenter();
     useInstrumenter(activeInstrumenter);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
   it("will create a span with the correct data", async () => {
@@ -165,7 +164,7 @@ describe("tracingPolicy", function () {
   });
 
   it("will set request headers correctly", async () => {
-    sinon.stub(activeInstrumenter, "createRequestHeaders").returns({
+    vi.spyOn(activeInstrumenter, "createRequestHeaders").mockReturnValue({
       testheader: "testvalue",
     });
     const { request, next } = createTestRequest();
@@ -184,11 +183,11 @@ describe("tracingPolicy", function () {
     });
 
     const policy = tracingPolicy();
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
     const requestError = new RestError("Bad Request.", { statusCode: 400 });
-    next.rejects(requestError);
+    next.mockRejectedValue(requestError);
 
-    await assert.isRejected(policy.sendRequest(request, next), requestError);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(requestError);
     const createdSpan = activeInstrumenter.lastSpanCreated;
     assert.exists(createdSpan);
     const mockSpan = createdSpan!;
@@ -211,33 +210,39 @@ describe("tracingPolicy", function () {
 
   describe("span errors", () => {
     it("will not fail the request when creating a span throws", async () => {
-      sinon.stub(activeInstrumenter, "startSpan").throws("boom");
+      vi.spyOn(activeInstrumenter, "startSpan").mockImplementation(() => {
+        throw "boom";
+      });
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await assert.isFulfilled(policy.sendRequest(request, next));
+      await expect(policy.sendRequest(request, next)).resolves;
     });
 
     it("will not fail the request when post-processing success fails", async () => {
-      const mockSpan = sinon.createStubInstance(MockSpan);
-      mockSpan.end.throws(new Error("end is not a function"));
+      const mockSpan = new MockSpan("mock");
+      vi.spyOn(mockSpan, "end").mockImplementation(() => {
+        throw new Error("end is not a function");
+      });
       activeInstrumenter.setStaticSpan(mockSpan);
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
 
-      await assert.isFulfilled(policy.sendRequest(request, next));
+      await expect(policy.sendRequest(request, next)).resolves;
     });
 
     it("will not fail the request when post-processing error fails", async () => {
-      const mockSpan = sinon.createStubInstance(MockSpan);
-      mockSpan.end.throws(new Error("end is not a function"));
+      const mockSpan = new MockSpan("mock");
+      vi.spyOn(mockSpan, "end").mockImplementation(() => {
+        throw new Error("end is not a function");
+      });
       const { request, next } = createTestRequest();
       const policy = tracingPolicy();
       const expectedError = new RestError("Bad Request.", { statusCode: 400 });
-      next.rejects(expectedError);
+      next.mockRejectedValue(expectedError);
 
       // Expect the pipeline request error, _not_ the error that is thrown when ending a span.
-      await assert.isRejected(policy.sendRequest(request, next), expectedError);
+      await expect(policy.sendRequest(request, next)).rejects.toThrow(expectedError);
     });
   });
 });

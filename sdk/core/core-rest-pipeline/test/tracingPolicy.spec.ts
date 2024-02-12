@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi, afterEach, beforeEach, expect, type Mock } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
 import {
   type PipelineRequest,
   type PipelineResponse,
@@ -10,7 +10,7 @@ import {
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
-} from "../src";
+} from "../src/index.js";
 import {
   type Instrumenter,
   type InstrumenterSpanOptions,

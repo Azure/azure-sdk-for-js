@@ -183,3 +183,6 @@ _recordings
 /artifacts
 
 sdk/template/template-dpg/src/src
+
+# tshy
+.tshy-build-tmp

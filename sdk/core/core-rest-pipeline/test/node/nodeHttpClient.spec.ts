@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
-
 import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { createDefaultHttpClient, createPipelineRequest } from "../../src";
+import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {
   const actual = await vi.importActual("https");
@@ -406,7 +405,7 @@ describe("NodeHttpClient", function () {
     }) as unknown as ClientRequest;
     vi.mocked(https.request).mockReturnValueOnce(writable);
 
-    const body = () => {
+    const body = (): PassThrough => {
       const stream = new PassThrough();
       stream.write(requestText);
       stream.end();
