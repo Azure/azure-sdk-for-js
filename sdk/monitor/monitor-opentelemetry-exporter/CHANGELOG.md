@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Changed the environment variable used to pass the sdk prefix.
+- Errors are no longer thrown upon failed statsbeat export.
 
 ## 1.0.0-beta.19 (2024-01-23)
 
