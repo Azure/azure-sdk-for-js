@@ -3,6 +3,7 @@
 
 import { readFile, stat, constants } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "url";
 import { Project } from "./dev-tool/node_modules/ts-morph/dist/ts-morph.js";
 
 function consoleLog(...args) {
@@ -79,7 +80,7 @@ export async function load(url, context, defaultLoad) {
   consoleDir({ url, context });
 
   if (url.includes("dist-esm/")) {
-    const path = url.replace(process.platform === "win32" ? "file:///" : "file://", "");
+    const path = fileURLToPath(url);
     const source = await readFile(path);
     const transformed = await addJsExtensionToRelativeModules(source, path);
     return {
