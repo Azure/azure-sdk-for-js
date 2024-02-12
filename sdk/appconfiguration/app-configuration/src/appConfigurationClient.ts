@@ -375,36 +375,36 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
-  async getListedPageByEtag(continuationToken: string | undefined, options: ListConfigurationSettingsOptions = {}): Promise<{
-    page: ListConfigurationSettingPage;
-    continuationToken: string | undefined;
-  }> {
-    try {
-      const response = await this.sendConfigurationSettingsRequest(options, continuationToken);
-      const currentResponse: ListConfigurationSettingPage = {
-        ...response,
-        items: response.items != null ? response.items?.map(transformKeyValue) : [],
-        continuationToken: response.nextLink
-          ? extractAfterTokenFromNextLink(response.nextLink)
-          : undefined,
-        _response: response._response
-      };
-      return {
-        page: currentResponse,
-        continuationToken: currentResponse.continuationToken,
-      };
-    } catch (error) {
-      const err = error as RestError;
-      // Service does not return an error message. Raise a 412 error similar to .NET
-      if (err.statusCode === 304) {
-        err.message = `Status 412: Setting was already present`;
-      }
-      return {
-        page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
-        continuationToken: undefined
-      };
-    }
-  }
+  // async getListedPageByEtag(continuationToken: string | undefined, options: ListConfigurationSettingsOptions = {}): Promise<{
+  //   page: ListConfigurationSettingPage;
+  //   continuationToken: string | undefined;
+  // }> {
+  //   try {
+  //     const response = await this.sendConfigurationSettingsRequest(options, continuationToken);
+  //     const currentResponse: ListConfigurationSettingPage = {
+  //       ...response,
+  //       items: response.items != null ? response.items?.map(transformKeyValue) : [],
+  //       continuationToken: response.nextLink
+  //         ? extractAfterTokenFromNextLink(response.nextLink)
+  //         : undefined,
+  //       _response: response._response
+  //     };
+  //     return {
+  //       page: currentResponse,
+  //       continuationToken: currentResponse.continuationToken,
+  //     };
+  //   } catch (error) {
+  //     const err = error as RestError;
+  //     // Service does not return an error message. Raise a 412 error similar to .NET
+  //     if (err.statusCode === 304) {
+  //       err.message = `Status 412: Setting was already present`;
+  //     }
+  //     return {
+  //       page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
+  //       continuationToken: undefined
+  //     };
+  //   }
+  // }
   /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
