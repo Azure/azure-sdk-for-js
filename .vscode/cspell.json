@@ -323,7 +323,9 @@
     {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
-        "Dicom"
+        "Dicom",
+        "Gcch",
+        "gcch"
       ]
     },
     {
