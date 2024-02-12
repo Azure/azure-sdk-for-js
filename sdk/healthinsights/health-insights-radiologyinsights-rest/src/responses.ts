@@ -31,8 +31,6 @@ export interface GetJobDefaultResponse extends HttpResponse {
 }
 
 export interface CreateJob200Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   "x-ms-request-id"?: string;
   /** The location for monitoring the operation state. */
@@ -47,8 +45,6 @@ export interface CreateJob200Response extends HttpResponse {
 }
 
 export interface CreateJob201Headers {
-  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  "retry-after"?: number;
   /** An opaque, globally-unique, server-generated string identifier for the request. */
   "x-ms-request-id"?: string;
   /** The location for monitoring the operation state. */

@@ -191,7 +191,6 @@ export default createClient;
 // @public (undocumented)
 export interface CreateJob200Headers {
     "operation-location": string;
-    "retry-after"?: number;
     "x-ms-request-id"?: string;
 }
 
@@ -208,7 +207,6 @@ export interface CreateJob200Response extends HttpResponse {
 // @public (undocumented)
 export interface CreateJob201Headers {
     "operation-location": string;
-    "retry-after"?: number;
     "x-ms-request-id"?: string;
 }
 
@@ -896,12 +894,14 @@ export type ProcedureRecommendationOutput = ProcedureRecommendationOutputParent 
 
 // @public
 export interface ProcedureRecommendationOutputParent {
+    extension?: Array<ExtensionOutput>;
     // (undocumented)
     kind: string;
 }
 
 // @public
 export interface ProcedureRecommendationParent {
+    extension?: Array<Extension>;
     // (undocumented)
     kind: string;
 }

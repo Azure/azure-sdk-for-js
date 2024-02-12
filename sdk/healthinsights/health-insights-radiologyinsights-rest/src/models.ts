@@ -883,8 +883,6 @@ export interface FollowupRecommendationInference
 
 /** Finding reference for recommendation. */
 export interface RecommendationFinding {
-  /** Additional Content defined by implementations */
-  extension?: Array<Extension>;
   /** Finding linked to a recommendation. */
   finding?: Observation;
   /** Critical result linked to a recommendation. */
@@ -895,10 +893,14 @@ export interface RecommendationFinding {
    * Possible values: "present", "differential", "ruleOut", "conditional"
    */
   recommendationFindingStatus: string;
+  /** Additional Content defined by implementations */
+  extension?: Array<Extension>;
 }
 
 /** The procedure recommendation can be a generic procedure or an imaging procedure. */
 export interface ProcedureRecommendationParent {
+  /** Additional Content defined by implementations */
+  extension?: Array<Extension>;
   kind: string;
 }
 
