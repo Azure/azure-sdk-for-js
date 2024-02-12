@@ -372,13 +372,11 @@ export interface PageSettings {
  */
 export interface ListConfigurationSettingPage
   extends HttpResponseField<SyncTokenHeaderField>,
-  PageSettings {
+  PageSettings, Etag {
   /**
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
-
-  etag?: string | undefined;
 }
 
 /**
