@@ -30,8 +30,8 @@ describe("Keys client - create, read, update and delete operations", () => {
 
     // These tests rely on the attestation URI inside the Release Policy, which is sanitized by the test recorder.
     // Using a bodiless matcher to ignore the differences that this causes.
-    await recorder.setMatcher("BodilessMatcher");
     await recorder.start(envSetupForPlayback);
+    await recorder.setMatcher("BodilessMatcher");
 
     const authentication = await authenticate(getServiceVersion(), recorder);
     keySuffix = authentication.keySuffix;

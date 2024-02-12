@@ -29,27 +29,24 @@ export async function authenticate(version: string, recorder: Recorder): Promise
   const keyVaultUriName = assertEnvironmentVariable("KEYVAULT_URI").match("https://(.*.net)/")![1];
   const replacedKeyVaultUriName = replaceableVariables.KEYVAULT_URI.match("https://(.*.net)/")![1];
 
-  await recorder.addSanitizers(
-    {
-      generalSanitizers: [
-        {
-          target: keySuffix,
-          value: "",
-        },
-        {
-          target: keyVaultUriName,
-          value: replacedKeyVaultUriName,
-        },
-      ],
-      bodyKeySanitizers: [
-        {
-          jsonPath: "$.release_policy.data",
-          value: "eyAic2FuaXRpemVkIjogInNhbml0aXplZCIgfQ==", // dummy base64-encoded JSON object
-        },
-      ],
-    },
-    ["record", "playback"],
-  );
+  await recorder.addSanitizers({
+    generalSanitizers: [
+      {
+        target: keySuffix,
+        value: "",
+      },
+      {
+        target: keyVaultUriName,
+        value: replacedKeyVaultUriName,
+      },
+    ],
+    bodyKeySanitizers: [
+      {
+        jsonPath: "$.release_policy.data",
+        value: "eyAic2FuaXRpemVkIjogInNhbml0aXplZCIgfQ==", // dummy base64-encoded JSON object
+      },
+    ],
+  });
 
   const credential = createTestCredential();
 
