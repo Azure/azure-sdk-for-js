@@ -15,8 +15,6 @@ import {
   CreateSnapshotResponse,
   DeleteConfigurationSettingOptions,
   DeleteConfigurationSettingResponse,
-  Etag,
-  EtagList,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
   GetSnapshotOptions,
@@ -331,7 +329,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
-    options: ListConfigurationSettingsOptions & EtagList = {},
+    options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const etagList = options.etagList ? [...options.etagList] : undefined;
     delete options.etagList;
@@ -341,7 +339,6 @@ export class AppConfigurationClient {
       getPage: async (pageLink: string | undefined) => {
         try {
           const response = await this.sendConfigurationSettingsRequest({ ...options, etag: etagList?.shift() }, pageLink);
-          console.log("next link example - ", response.nextLink)
           const currentResponse: ListConfigurationSettingPage = {
             ...response,
             items: response.items != null ? response.items?.map(transformKeyValue) : [],
@@ -350,23 +347,31 @@ export class AppConfigurationClient {
               : undefined,
             _response: response._response
           };
-          console.log(response._response.status);
-          console.log(response._response.headers);
           return {
             page: currentResponse,
             nextPageLink: currentResponse.continuationToken,
           };
         } catch (error) {
           const err = error as RestError;
-          console.log(err);
-          console.log(err.response?.headers);
+          // Example transformation of the link header
+
+          //  link: 
+          //     '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+
+          //  .split(";"):
+          //      </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+          const linkValue = err.response?.headers?.get("link")?.split(";")[0];
+
+          //  .substring(1, linkValue.length - 1):
+          //       /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+          const continuationToken = linkValue ? extractAfterTokenFromNextLink(linkValue.substring(1, linkValue.length - 1)) : undefined;
           // Service does not return an error message. Raise a 412 error similar to .NET
           if (err.statusCode === 304) {
             err.message = `Status 412: Setting was already present`;
           }
           return {
             page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
-            nextPageLink: undefined
+            nextPageLink: continuationToken
           };
         }
       },
@@ -445,7 +450,7 @@ export class AppConfigurationClient {
   }
 
   private async sendConfigurationSettingsRequest(
-    options: SendConfigurationSettingsOptions & PageSettings & Etag = {},
+    options: SendConfigurationSettingsOptions & PageSettings = {},
     pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(

@@ -304,18 +304,7 @@ export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedFi
    */
   labelFilter?: string;
 }
-export interface EtagList {
-  /**
-   * etag
-   */
-  etagList?: string[]
-}
-export interface Etag {
-  /**
-   * etag
-   */
-  etag?: string
-}
+
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
@@ -331,7 +320,12 @@ export interface ListConfigurationSettingsForSnapshotOptions
  */
 export interface ListConfigurationSettingsOptions
   extends OperationOptions,
-  ListSettingsOptions { }
+  ListSettingsOptions {
+  /**
+   * etag
+   */
+  etagList?: string[]
+}
 
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
@@ -368,11 +362,21 @@ export interface PageSettings {
 }
 
 /**
+ * Entity with etag.
+ */
+export interface EtagEntity {
+  /**
+   * The etag for this entity
+   */
+  etag?: string;
+}
+
+/**
  * A page of configuration settings and the corresponding HTTP response
  */
 export interface ListConfigurationSettingPage
   extends HttpResponseField<SyncTokenHeaderField>,
-  PageSettings, Etag {
+  PageSettings, EtagEntity {
   /**
    * The configuration settings for this page of results.
    */

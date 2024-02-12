@@ -13,6 +13,7 @@ import {
   ListSnapshotsOptions,
   ConfigurationSnapshot,
   SnapshotResponse,
+  EtagEntity,
 } from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
@@ -34,18 +35,13 @@ import { OperationOptions } from "@azure/core-client";
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions, EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
   snapshotName?: string;
 }
-/**
- * Entity with etag. Represent both ConfigurationSetting and Snapshot
- */
-interface EtagEntity {
-  etag?: string;
-}
+
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
  * @internal

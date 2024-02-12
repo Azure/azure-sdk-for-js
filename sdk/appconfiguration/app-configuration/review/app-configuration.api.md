@@ -36,7 +36,7 @@ export class AppConfigurationClient {
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
-    listConfigurationSettings(options?: ListConfigurationSettingsOptions & EtagList): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
@@ -121,14 +121,9 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
 }
 
-// @public (undocumented)
-export interface Etag {
+// @public
+export interface EtagEntity {
     etag?: string;
-}
-
-// @public (undocumented)
-export interface EtagList {
-    etagList?: string[];
 }
 
 // @public
@@ -216,7 +211,7 @@ export enum KnownSnapshotComposition {
 }
 
 // @public
-export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, Etag {
+export interface ListConfigurationSettingPage extends HttpResponseField<SyncTokenHeaderField>, PageSettings, EtagEntity {
     items: ConfigurationSetting[];
 }
 
@@ -226,6 +221,7 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
+    etagList?: string[];
 }
 
 // @public
