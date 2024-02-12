@@ -365,9 +365,9 @@ export class AppConfigurationClient {
           //  .substring(1, linkValue.length - 1):
           //       /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
           const continuationToken = linkValue ? extractAfterTokenFromNextLink(linkValue.substring(1, linkValue.length - 1)) : undefined;
-          // Service does not return an error message. Raise a 412 error similar to .NET
+
           if (err.statusCode === 304) {
-            err.message = `Status 412: Setting was already present`;
+            err.message = `Status 304: No updates for this page`;
           }
           return {
             page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
