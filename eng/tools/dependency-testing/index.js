@@ -74,6 +74,18 @@ async function usePackageTestTimeout(testPackageJson, packageJsonContents) {
   }
 }
 
+async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
+  if (packageJsonContents.scripts["integration-test:node"]) {
+    if (packageJsonContents.devDependencies["esm"]) {
+      return;
+    }
+
+    testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
+      "integration-test:node"
+    ].replace("-r esm-workaround.js -r esm", "--loader=esm4mocha.mjs");
+  }  
+}
+
 /**
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
@@ -148,6 +160,7 @@ async function insertPackageJson(
       }
     }
   }
+  await adjustEsmWorkaround(testPackageJson, packageJsonContents);
   console.log(testPackageJson);
   const testPackageJsonPath = path.join(testPath, "package.json");
   await packageUtils.writePackageJson(testPackageJsonPath, testPackageJson);
@@ -403,6 +416,7 @@ async function main(argv) {
   await replaceSourceReferences(targetPackagePath, targetPackage.packageName, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
+  await copyRepoFile(repoRoot, "common/tools", "esm4mocha.mjs", targetPackagePath, testFolder);
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
