@@ -15,6 +15,8 @@ import {
   CreateSnapshotResponse,
   DeleteConfigurationSettingOptions,
   DeleteConfigurationSettingResponse,
+  Etag,
+  EtagList,
   GetConfigurationSettingOptions,
   GetConfigurationSettingResponse,
   GetSnapshotOptions,
@@ -329,14 +331,17 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
-    options: ListConfigurationSettingsOptions = {},
+    options: ListConfigurationSettingsOptions & EtagList = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
+    const etagList = options.etagList ? [...options.etagList] : undefined;
+    delete options.etagList;
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
     {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {
         try {
-          const response = await this.sendConfigurationSettingsRequest(options, pageLink);
+          const response = await this.sendConfigurationSettingsRequest({ ...options, etag: etagList?.shift() }, pageLink);
+          console.log("next link example - ", response.nextLink)
           const currentResponse: ListConfigurationSettingPage = {
             ...response,
             items: response.items != null ? response.items?.map(transformKeyValue) : [],
@@ -440,7 +445,7 @@ export class AppConfigurationClient {
   }
 
   private async sendConfigurationSettingsRequest(
-    options: SendConfigurationSettingsOptions & PageSettings = {},
+    options: SendConfigurationSettingsOptions & PageSettings & Etag = {},
     pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(

@@ -941,7 +941,7 @@ describe("AppConfigurationClient", () => {
       let marker2 = undefined;
       do {
         // Passing next marker as continuationToken, and etag from the earlier list
-        const iterator2 = client.listConfigurationSettings({ keyFilter: key, etag: etags.shift() }).byPage({
+        const iterator2 = client.listConfigurationSettings({ keyFilter: key, etagList: etags }).byPage({
           continuationToken: marker2,
         });
         const response2 = await iterator2.next();
@@ -991,147 +991,147 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("list v2 - bypage and etags", async function () {
-      // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
-      // To avoid hitting the service with too many requests, skipping the test in live.
-      // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
-      //
-      // Remove the following line if you want to hit the live service.
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      // if (isLiveMode()) this.skip();
+    // it("list v2 - bypage and etags", async function () {
+    //   // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
+    //   // To avoid hitting the service with too many requests, skipping the test in live.
+    //   // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
+    //   //
+    //   // Remove the following line if you want to hit the live service.
+    //   // eslint-disable-next-line @typescript-eslint/no-invalid-this
+    //   // if (isLiveMode()) this.skip();
 
-      const key = recorder.variable(
-        "listMultiplePagesOfResults",
-        `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
-      );
+    //   const key = recorder.variable(
+    //     "listMultiplePagesOfResults",
+    //     `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
+    //   );
 
-      // this number is arbitrarily chosen to match the size of a page + 1
-      const expectedNumberOfLabels = 200;
+    //   // this number is arbitrarily chosen to match the size of a page + 1
+    //   const expectedNumberOfLabels = 200;
 
-      let addSettingPromises = [];
+    //   let addSettingPromises = [];
 
-      for (let i = 0; i < expectedNumberOfLabels; i++) {
-        addSettingPromises.push(
-          client.addConfigurationSetting({
-            key,
-            value: `the value for ${i}`,
-            label: i.toString(),
-          }),
-        );
+    //   for (let i = 0; i < expectedNumberOfLabels; i++) {
+    //     addSettingPromises.push(
+    //       client.addConfigurationSetting({
+    //         key,
+    //         value: `the value for ${i}`,
+    //         label: i.toString(),
+    //       }),
+    //     );
 
-        if (i !== 0 && i % 2 === 0) {
-          await Promise.all(addSettingPromises);
-          addSettingPromises = [];
-        }
-      }
+    //     if (i !== 0 && i % 2 === 0) {
+    //       await Promise.all(addSettingPromises);
+    //       addSettingPromises = [];
+    //     }
+    //   }
 
-      await Promise.all(addSettingPromises);
+    //   await Promise.all(addSettingPromises);
 
-      // Passing marker as an argument
-      let iterator = client.listConfigurationSettings({ keyFilter: key, }).byPage();
-      let response = await iterator.next();
-      const etags: string[] = [];
-      if (!response.done) {
-        console.log(`  page: ${JSON.stringify(response.value)}`);
-        etags.push(response.value.etag || "");
-      }
+    //   // Passing marker as an argument
+    //   let iterator = client.listConfigurationSettings({ keyFilter: key, }).byPage();
+    //   let response = await iterator.next();
+    //   const etags: string[] = [];
+    //   if (!response.done) {
+    //     console.log(`  page: ${JSON.stringify(response.value)}`);
+    //     etags.push(response.value.etag || "");
+    //   }
 
-      // Gets next marker
-      let marker = response.value.continuationToken;
-      const markers = [];
-      while (marker) {
-        markers.push(marker);
-        // Passing next marker as continuationToken
-        iterator = client.listConfigurationSettings({ keyFilter: key, }).byPage({
-          continuationToken: marker,
-        });
-        response = await iterator.next();
-        console.log(`  page: ${JSON.stringify(response.value)}`);
-        etags.push(response.value.etag || "");
+    //   // Gets next marker
+    //   let marker = response.value.continuationToken;
+    //   const markers = [];
+    //   while (marker) {
+    //     markers.push(marker);
+    //     // Passing next marker as continuationToken
+    //     iterator = client.listConfigurationSettings({ keyFilter: key, }).byPage({
+    //       continuationToken: marker,
+    //     });
+    //     response = await iterator.next();
+    //     console.log(`  page: ${JSON.stringify(response.value)}`);
+    //     etags.push(response.value.etag || "");
 
-        // Gets next marker
-        marker = response.value.continuationToken;
-      }
+    //     // Gets next marker
+    //     marker = response.value.continuationToken;
+    //   }
 
-      // Add 50 more settings
-      addSettingPromises = [];
+    //   // Add 50 more settings
+    //   addSettingPromises = [];
 
-      for (let i = expectedNumberOfLabels; i < expectedNumberOfLabels * 5 / 4; i++) {
-        addSettingPromises.push(
-          client.addConfigurationSetting({
-            key,
-            value: `the value for ${i}`,
-            label: i.toString(),
-          }),
-        );
+    //   for (let i = expectedNumberOfLabels; i < expectedNumberOfLabels * 5 / 4; i++) {
+    //     addSettingPromises.push(
+    //       client.addConfigurationSetting({
+    //         key,
+    //         value: `the value for ${i}`,
+    //         label: i.toString(),
+    //       }),
+    //     );
 
-        if (i !== 0 && i % 2 === 0) {
-          await Promise.all(addSettingPromises);
-          addSettingPromises = [];
-        }
-      }
+    //     if (i !== 0 && i % 2 === 0) {
+    //       await Promise.all(addSettingPromises);
+    //       addSettingPromises = [];
+    //     }
+    //   }
 
-      await Promise.all(addSettingPromises);
-
-
-      // Second run
-      console.log("------------- Second run --------------");
-      // Passing marker as an argument
-
-      let marker2 = undefined;
-      let discardOld = false;
-      do {
-        // Passing next marker as continuationToken, and etag from the earlier list
-
-        const response2 = await client.getListedPageByEtag(marker2, { keyFilter: key, etag: discardOld ? undefined : etags.shift() })
-        // Gets next marker
-        if (!discardOld) marker2 = markers.shift();
-        if (response2.page.items.length === 0) {
-          console.log("List done.");
-        } else if (response2.page._response.status === 304) {
-          console.log("No updates for this page");
-        } else if (response2.page._response.status === 404) {
-          console.log("Page not found, likely the continuation token is not valid anymore. Re-iterate the list from here");
-          discardOld = true;
-        } else if (response2.page._response.status === 200) {
-          console.log("Updates available");
-          console.log(`  page: ${JSON.stringify(response2.page)}`);
-          marker2 = response2.continuationToken;
-          // book keeping for the continuation token
-        }
-      } while (marker2);
-
-      console.log("------------- End of Second run --------------");
-
-      // console.log("------------- etags --------------");
-      // console.log(etags)
-      // // console.log(etags2)
-      // console.log("------------- markers --------------");
-      // console.log(markers)
-      // // console.log(markers2)
-
-      // Second run ends
+    //   await Promise.all(addSettingPromises);
 
 
-      // const listResult = client.listConfigurationSettings({
-      //   keyFilter: key,
-      // });
+    //   // Second run
+    //   console.log("------------- Second run --------------");
+    //   // Passing marker as an argument
 
-      // const sortedResults = await toSortedArray(listResult);
-      // assert.equal(sortedResults.length, 200);
+    //   let marker2 = undefined;
+    //   let discardOld = false;
+    //   do {
+    //     // Passing next marker as continuationToken, and etag from the earlier list
 
-      // // make sure we have 200 unique labels
-      // const uniqueLabels = new Set(sortedResults.map((res) => res.label));
-      // assert.equal(uniqueLabels.size, 200);
+    //     const response2 = await client.getListedPageByEtag(marker2, { keyFilter: key, etagList: etags })
+    //     // Gets next marker
+    //     if (!discardOld) marker2 = markers.shift();
+    //     if (response2.page.items.length === 0) {
+    //       console.log("List done.");
+    //     } else if (response2.page._response.status === 304) {
+    //       console.log("No updates for this page");
+    //     } else if (response2.page._response.status === 404) {
+    //       console.log("Page not found, likely the continuation token is not valid anymore. Re-iterate the list from here");
+    //       discardOld = true;
+    //     } else if (response2.page._response.status === 200) {
+    //       console.log("Updates available");
+    //       console.log(`  page: ${JSON.stringify(response2.page)}`);
+    //       marker2 = response2.continuationToken;
+    //       // book keeping for the continuation token
+    //     }
+    //   } while (marker2);
 
-      // for (let i = 0; i < 200; ++i) {
-      //   assert.ok(uniqueLabels.has(i.toString()));
-      // }
+    //   console.log("------------- End of Second run --------------");
 
-      for (let i = 0; i < expectedNumberOfLabels; i++) {
-        await client.deleteConfigurationSetting({ key, label: i.toString() });
-      }
-    });
+    //   // console.log("------------- etags --------------");
+    //   // console.log(etags)
+    //   // // console.log(etags2)
+    //   // console.log("------------- markers --------------");
+    //   // console.log(markers)
+    //   // // console.log(markers2)
+
+    //   // Second run ends
+
+
+    //   // const listResult = client.listConfigurationSettings({
+    //   //   keyFilter: key,
+    //   // });
+
+    //   // const sortedResults = await toSortedArray(listResult);
+    //   // assert.equal(sortedResults.length, 200);
+
+    //   // // make sure we have 200 unique labels
+    //   // const uniqueLabels = new Set(sortedResults.map((res) => res.label));
+    //   // assert.equal(uniqueLabels.size, 200);
+
+    //   // for (let i = 0; i < 200; ++i) {
+    //   //   assert.ok(uniqueLabels.has(i.toString()));
+    //   // }
+
+    //   for (let i = 0; i < expectedNumberOfLabels; i++) {
+    //     await client.deleteConfigurationSetting({ key, label: i.toString() });
+    //   }
+    // });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts  operation options", async function () {

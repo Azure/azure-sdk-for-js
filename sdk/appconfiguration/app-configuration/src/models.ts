@@ -303,13 +303,19 @@ export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedFi
    * Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-key-value
    */
   labelFilter?: string;
-
+}
+export interface EtagList {
+  /**
+   * etag
+   */
+  etagList?: string[]
+}
+export interface Etag {
   /**
    * etag
    */
   etag?: string
 }
-
 /**
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.

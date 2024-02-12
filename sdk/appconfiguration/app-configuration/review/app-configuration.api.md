@@ -36,7 +36,7 @@ export class AppConfigurationClient {
     deleteConfigurationSetting(id: ConfigurationSettingId, options?: DeleteConfigurationSettingOptions): Promise<DeleteConfigurationSettingResponse>;
     getConfigurationSetting(id: ConfigurationSettingId, options?: GetConfigurationSettingOptions): Promise<GetConfigurationSettingResponse>;
     getSnapshot(name: string, options?: GetSnapshotOptions): Promise<GetSnapshotResponse>;
-    listConfigurationSettings(options?: ListConfigurationSettingsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
+    listConfigurationSettings(options?: ListConfigurationSettingsOptions & EtagList): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listConfigurationSettingsForSnapshot(snapshotName: string, options?: ListConfigurationSettingsForSnapshotOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings>;
     listRevisions(options?: ListRevisionsOptions): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings>;
     listSnapshots(options?: ListSnapshotsOptions): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings>;
@@ -119,6 +119,16 @@ export interface DeleteConfigurationSettingOptions extends HttpOnlyIfUnchangedFi
 
 // @public
 export interface DeleteConfigurationSettingResponse extends SyncTokenHeaderField, HttpResponseFields, HttpResponseField<SyncTokenHeaderField> {
+}
+
+// @public (undocumented)
+export interface Etag {
+    etag?: string;
+}
+
+// @public (undocumented)
+export interface EtagList {
+    etagList?: string[];
 }
 
 // @public
@@ -232,7 +242,6 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 // @public
 export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedField {
     acceptDateTime?: Date;
-    etag?: string;
     keyFilter?: string;
     labelFilter?: string;
 }
