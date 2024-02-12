@@ -28,12 +28,13 @@ export abstract class StorageBlobTest<TOptions> extends PerfTest<TOptions> {
       getValueInConnString(connectionString, "AccountKey"),
     );
     this.blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
-    const options = this.configureClientOptions({ additionalPolicies: [] });
+    // only meant for core v2, commenting out for now
+    // const options = this.configureClientOptions({ additionalPolicies: [] });
 
-    const pipeline = this.blobServiceClient["storageClientContext"].pipeline;
-    for (const { policy } of options.additionalPolicies ?? []) {
-      pipeline.addPolicy(policy, { afterPhase: "Sign" });
-    }
+    // const pipeline = this.blobServiceClient["storageClientContext"].pipeline;
+    // for (const { policy } of options.additionalPolicies ?? []) {
+    //   pipeline.addPolicy(policy, { afterPhase: "Sign" });
+    // }
     this.containerClient = this.blobServiceClient.getContainerClient(StorageBlobTest.containerName);
   }
 
