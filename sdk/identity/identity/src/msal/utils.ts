@@ -33,7 +33,7 @@ const LatestAuthenticationRecordVersion = "1.0";
  */
 export function ensureValidMsalToken(
   scopes: string | string[],
-  msalToken?: MsalToken | null,
+  msalToken?: MsalToken,
   getTokenOptions?: GetTokenOptions,
 ): asserts msalToken is ValidMsalToken {
   const error = (message: string): Error => {
