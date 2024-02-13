@@ -2,6 +2,8 @@
 
 This package exposes a mock Event Hubs service for use in testing.
 
+_**Please note that this package is intended for testing purposes only and should not be used in production environments.**_
+
 Currently the mock service represents a single Event Hub within a namespace.
 
 ### Goals
