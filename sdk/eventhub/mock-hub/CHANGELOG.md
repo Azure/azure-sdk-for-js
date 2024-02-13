@@ -1,5 +1,5 @@
 
-## 2.0.0 (2024-02-14)
+## 1.0.0 (2024-02-14)
 
 Marks the first release of mock-hub utility library. This package exposes a mock Event Hubs service for use in testing, based on the "rhea" library. Please note that this package is intended for testing purposes only and should not be used in production environments.
 
