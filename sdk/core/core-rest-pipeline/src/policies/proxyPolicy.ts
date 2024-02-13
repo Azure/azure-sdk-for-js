@@ -1,17 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type * as http from "node:http";
-import type * as https from "node:https";
-import * as process from "node:process";
-import createHttpsProxyAgent, { type HttpsProxyAgentOptions } from "https-proxy-agent";
-import createHttpProxyAgent, { type HttpProxyAgentOptions } from "http-proxy-agent";
-import type {
-  PipelineRequest,
-  PipelineResponse,
-  ProxySettings,
-  SendRequest,
-} from "../interfaces.js";
+import type * as http from "http";
+import type * as https from "https";
+import { HttpsProxyAgent } from "https-proxy-agent";
+import { HttpProxyAgent } from "http-proxy-agent";
+import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces.js";
 import type { PipelinePolicy } from "../pipeline.js";
 import { logger } from "../log.js";
 
@@ -132,42 +126,6 @@ export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | unde
   };
 }
 
-/**
- * @internal
- */
-export function getProxyAgentOptions(
-  proxySettings: ProxySettings,
-  { headers, tlsSettings }: PipelineRequest,
-): HttpProxyAgentOptions {
-  let parsedProxyUrl: URL;
-  try {
-    parsedProxyUrl = new URL(proxySettings.host);
-  } catch (_error) {
-    throw new Error(
-      `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`,
-    );
-  }
-
-  if (tlsSettings) {
-    logger.warning(
-      "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
-    );
-  }
-
-  const proxyAgentOptions: HttpsProxyAgentOptions = {
-    hostname: parsedProxyUrl.hostname,
-    port: proxySettings.port,
-    protocol: parsedProxyUrl.protocol,
-    headers: headers.toJSON(),
-  };
-  if (proxySettings.username && proxySettings.password) {
-    proxyAgentOptions.auth = `${proxySettings.username}:${proxySettings.password}`;
-  } else if (proxySettings.username) {
-    proxyAgentOptions.auth = `${proxySettings.username}`;
-  }
-  return proxyAgentOptions;
-}
-
 function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAgents): void {
   // Custom Agent should take precedence so if one is present
   // we should skip to avoid overwriting it.
@@ -181,16 +139,31 @@ function setProxyAgentOnRequest(request: PipelineRequest, cachedAgents: CachedAg
 
   const proxySettings = request.proxySettings;
   if (proxySettings) {
+    let parsedProxyUrl: URL;
+    try {
+      parsedProxyUrl = new URL(proxySettings.host);
+    } catch (_error) {
+      throw new Error(
+        `Expecting a valid host string in proxy settings, but found "${proxySettings.host}".`,
+      );
+    }
+
+    if (request.tlsSettings) {
+      logger.warning(
+        "TLS settings are not supported in combination with custom Proxy, certificates provided to the client will be ignored.",
+      );
+    }
+
+    const headers = request.headers.toJSON();
+
     if (isInsecure) {
       if (!cachedAgents.httpProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpProxyAgent = createHttpProxyAgent(proxyAgentOptions);
+        cachedAgents.httpProxyAgent = new HttpProxyAgent(parsedProxyUrl, { headers });
       }
       request.agent = cachedAgents.httpProxyAgent;
     } else {
       if (!cachedAgents.httpsProxyAgent) {
-        const proxyAgentOptions = getProxyAgentOptions(proxySettings, request);
-        cachedAgents.httpsProxyAgent = createHttpsProxyAgent(proxyAgentOptions);
+        cachedAgents.httpsProxyAgent = new HttpsProxyAgent(parsedProxyUrl, { headers });
       }
       request.agent = cachedAgents.httpsProxyAgent;
     }

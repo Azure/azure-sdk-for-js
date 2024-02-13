@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as process from "node:process";
+import { describe, it, assert, vi, afterEach } from "vitest";
 import {
   type ProxySettings,
   type SendRequest,
@@ -8,13 +10,7 @@ import {
   getDefaultProxySettings,
   proxyPolicy,
 } from "../../src/index.js";
-import {
-  getProxyAgentOptions,
-  globalNoProxyList,
-  loadNoProxy,
-} from "../../src/policies/proxyPolicy.js";
-import * as process from "node:process";
-import { describe, it, assert, vi, afterEach } from "vitest";
+import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {
@@ -172,33 +168,6 @@ describe("proxyPolicy (node)", function () {
       globalNoProxyList.splice(0, globalNoProxyList.length);
       globalNoProxyList.push(...loadNoProxy());
     }
-  });
-
-  it("getProxyAgentOptions from proxy settings having both username and password", function () {
-    const proxySettings: ProxySettings = {
-      host: "https://proxy.example.com",
-      port: 8080,
-      username: "user",
-      password: "pass",
-    };
-    const options = getProxyAgentOptions(
-      proxySettings,
-      createPipelineRequest({ url: "https://example.org" }),
-    );
-    assert.strictEqual(options.auth, "user:pass");
-  });
-
-  it("getProxyAgentOptions from proxy settings having username but no password", function () {
-    const proxySettings: ProxySettings = {
-      host: "https://proxy.example.com",
-      port: 8080,
-      username: "user",
-    };
-    const options = getProxyAgentOptions(
-      proxySettings,
-      createPipelineRequest({ url: "https://example.org" }),
-    );
-    assert.strictEqual(options.auth, "user");
   });
 
   describe("getDefaultProxySettings", function () {
