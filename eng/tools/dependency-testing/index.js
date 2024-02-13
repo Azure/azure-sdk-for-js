@@ -86,6 +86,14 @@ async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
   }  
 }
 
+async function updateEsm4MochaMjs(repoRoot, filePath) {
+  let fileContent = await packageUtils.readFile(filePath);
+  fileContent = fileContent.replace(
+    "./dev-tool/node_modules/ts-morph/dist/ts-morph.js",
+    `${repoRoot}/common/tools/dev-tool/node_modules/ts-morph/dist/ts-morph.js`
+  );
+}
+
 /**
  * This inserts the package.json from the templates into the test folder.
  * It computes the different versions of the dependencies/ dev-dep in this package.json
@@ -418,6 +426,7 @@ async function main(argv) {
   await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "esm4mocha.mjs", targetPackagePath, testFolder);
+  await updateEsm4MochaMjs(repoRoot, path.join(targetPackagePath, testFolder, "esm4mocha.mjs"));
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
