@@ -190,6 +190,27 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
 }
 
 /**
+ * Take the header link that gets returned from 304 response and extract the 'after' token needed
+ * to get the next page of results.
+ * 
+ * Example transformation of the link header
+ * link: 
+ *    '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
+ *    
+ * linkValue:
+ *     </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
+ * 
+ * nextLink:
+ *      /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
+ * @internal
+ */
+export function extractAfterTokenFromLinkHeader(link: string): string {
+  const linkValue = link.split(";")[0];
+  const nextLink = linkValue.substring(1, linkValue.length - 1)
+  return extractAfterTokenFromNextLink(nextLink)
+}
+
+/**
  * Makes a ConfigurationSetting-based response throw for all of the data members. Used primarily
  * to prevent possible errors by the user in accessing a model that is uninitialized. This can happen
  * in cases like HTTP status code 204 or 304, which return an empty response body.

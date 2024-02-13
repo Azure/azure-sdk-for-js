@@ -59,6 +59,7 @@ import {
   SendConfigurationSettingsOptions,
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
+  extractAfterTokenFromLinkHeader,
   extractAfterTokenFromNextLink,
   formatAcceptDateTime,
   formatConfigurationSettingsFiltersAndSelect,
@@ -333,12 +334,13 @@ export class AppConfigurationClient {
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const etagList = options.etagList ? [...options.etagList] : undefined;
     delete options.etagList;
+    const etag = etagList?.shift()
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
     {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {
         try {
-          const response = await this.sendConfigurationSettingsRequest({ ...options, etag: etagList?.shift() }, pageLink);
+          const response = await this.sendConfigurationSettingsRequest({ ...options, etag }, pageLink);
           const currentResponse: ListConfigurationSettingPage = {
             ...response,
             items: response.items != null ? response.items?.map(transformKeyValue) : [],
@@ -353,24 +355,16 @@ export class AppConfigurationClient {
           };
         } catch (error) {
           const err = error as RestError;
-          // Example transformation of the link header
-
-          //  link: 
-          //     '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
-
-          //  .split(";"):
-          //      </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
-          const linkValue = err.response?.headers?.get("link")?.split(";")[0];
-
-          //  .substring(1, linkValue.length - 1):
-          //       /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
-          const continuationToken = linkValue ? extractAfterTokenFromNextLink(linkValue.substring(1, linkValue.length - 1)) : undefined;
+          
+          const link = err.response?.headers?.get("link");
+          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
 
           if (err.statusCode === 304) {
             err.message = `Status 304: No updates for this page`;
+            logger.info(`[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`);
           }
           return {
-            page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
+            page: { items: [], _response: { ...err.response, status: 304 } } as unknown as ListConfigurationSettingPage,
             nextPageLink: continuationToken
           };
         }
@@ -380,36 +374,6 @@ export class AppConfigurationClient {
     return getPagedAsyncIterator(pagedResult);
   }
 
-  // async getListedPageByEtag(continuationToken: string | undefined, options: ListConfigurationSettingsOptions = {}): Promise<{
-  //   page: ListConfigurationSettingPage;
-  //   continuationToken: string | undefined;
-  // }> {
-  //   try {
-  //     const response = await this.sendConfigurationSettingsRequest(options, continuationToken);
-  //     const currentResponse: ListConfigurationSettingPage = {
-  //       ...response,
-  //       items: response.items != null ? response.items?.map(transformKeyValue) : [],
-  //       continuationToken: response.nextLink
-  //         ? extractAfterTokenFromNextLink(response.nextLink)
-  //         : undefined,
-  //       _response: response._response
-  //     };
-  //     return {
-  //       page: currentResponse,
-  //       continuationToken: currentResponse.continuationToken,
-  //     };
-  //   } catch (error) {
-  //     const err = error as RestError;
-  //     // Service does not return an error message. Raise a 412 error similar to .NET
-  //     if (err.statusCode === 304) {
-  //       err.message = `Status 412: Setting was already present`;
-  //     }
-  //     return {
-  //       page: { items: [], _response: { status: 304 } } as unknown as ListConfigurationSettingPage,
-  //       continuationToken: undefined
-  //     };
-  //   }
-  // }
   /**
    * Lists settings from the Azure App Configuration service for snapshots based on name, optionally
    * filtered by key names, labels and accept datetime.
