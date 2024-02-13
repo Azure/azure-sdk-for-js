@@ -708,6 +708,26 @@ export interface RecordingStateChanged {
   readonly startDateTime?: Date;
 }
 
+export interface TeamsComplianceRecordingStateChanged {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+}
+
 export interface PlayCompleted {
   /** Call connection ID. */
   callConnectionId?: string;

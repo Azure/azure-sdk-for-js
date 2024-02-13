@@ -37,7 +37,7 @@ import {
 /** Interface representing a CallConnection. */
 export interface CallConnection {
   /**
-   * Get participants from a call.
+   * Get participants from a call. Recording and transcription bots are omitted from this list.
    * @param callConnectionId The call connection Id
    * @param options The options parameters.
    */

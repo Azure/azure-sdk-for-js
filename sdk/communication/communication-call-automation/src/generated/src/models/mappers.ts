@@ -1936,6 +1936,54 @@ export const RecordingStateChanged: coreClient.CompositeMapper = {
   },
 };
 
+export const TeamsComplianceRecordingStateChanged: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "TeamsComplianceRecordingStateChanged",
+      modelProperties: {
+        callConnectionId: {
+          serializedName: "callConnectionId",
+          type: {
+            name: "String",
+          },
+        },
+        serverCallId: {
+          serializedName: "serverCallId",
+          type: {
+            name: "String",
+          },
+        },
+        correlationId: {
+          serializedName: "correlationId",
+          type: {
+            name: "String",
+          },
+        },
+        recordingId: {
+          serializedName: "recordingId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          type: {
+            name: "String",
+          },
+        },
+        startDateTime: {
+          serializedName: "startDateTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+      },
+    },
+  };
+
 export const PlayCompleted: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
