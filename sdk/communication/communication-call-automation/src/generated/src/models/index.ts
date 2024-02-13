@@ -143,6 +143,8 @@ export interface CallConnectionPropertiesInternal {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredBy?: CommunicationUserIdentifierModel;
+  /** The original PSTN target of the incoming Call. */
+  originalPstnTarget?: PhoneNumberIdentifierModel;
 }
 
 /** The Communication Services error. */
@@ -1375,6 +1377,66 @@ export interface RestRecordingStateChanged {
   readonly correlationId?: string;
 }
 
+export interface RestTeamsRecordingStateChanged {
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+  recordingType?: RecordingType;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTeamsComplianceRecordingStateChanged {
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+  recordingType?: RecordingType;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 /** The participants updated in a call event. */
 export interface RestParticipantsUpdated {
   /**
@@ -1927,39 +1989,6 @@ export interface RestTranscriptionFailed {
   readonly correlationId?: string;
 }
 
-export interface RestTranscriptionResumed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 /** Azure Open AI Dialog */
 export interface AzureOpenAIDialog extends BaseDialog {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2402,6 +2431,8 @@ export enum KnownRecordingType {
   Acs = "acs",
   /** Teams */
   Teams = "teams",
+  /** TeamsCompliance */
+  TeamsCompliance = "teamsCompliance",
 }
 
 /**
@@ -2410,7 +2441,8 @@ export enum KnownRecordingType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **acs** \
- * **teams**
+ * **teams** \
+ * **teamsCompliance**
  */
 export type RecordingType = string;
 
@@ -2420,8 +2452,6 @@ export enum KnownTranscriptionStatus {
   TranscriptionStarted = "transcriptionStarted",
   /** TranscriptionFailed */
   TranscriptionFailed = "transcriptionFailed",
-  /** TranscriptionResumed */
-  TranscriptionResumed = "transcriptionResumed",
   /** TranscriptionUpdated */
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
@@ -2437,7 +2467,6 @@ export enum KnownTranscriptionStatus {
  * ### Known values supported by the service
  * **transcriptionStarted** \
  * **transcriptionFailed** \
- * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
  * **unspecifiedError**

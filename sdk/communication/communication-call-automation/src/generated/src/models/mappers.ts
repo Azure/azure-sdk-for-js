@@ -391,6 +391,13 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
           className: "CommunicationUserIdentifierModel",
         },
       },
+      originalPstnTarget: {
+        serializedName: "originalPSTNTarget",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel",
+        },
+      },
     },
   },
 };
@@ -3037,6 +3044,119 @@ export const RestRecordingStateChanged: coreClient.CompositeMapper = {
   },
 };
 
+export const RestTeamsRecordingStateChanged: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestTeamsRecordingStateChanged",
+    modelProperties: {
+      recordingId: {
+        serializedName: "recordingId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      state: {
+        serializedName: "state",
+        type: {
+          name: "String",
+        },
+      },
+      startDateTime: {
+        serializedName: "startDateTime",
+        readOnly: true,
+        type: {
+          name: "DateTime",
+        },
+      },
+      recordingType: {
+        serializedName: "recordingType",
+        type: {
+          name: "String",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestTeamsComplianceRecordingStateChanged: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "RestTeamsComplianceRecordingStateChanged",
+      modelProperties: {
+        recordingId: {
+          serializedName: "recordingId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        state: {
+          serializedName: "state",
+          type: {
+            name: "String",
+          },
+        },
+        startDateTime: {
+          serializedName: "startDateTime",
+          readOnly: true,
+          type: {
+            name: "DateTime",
+          },
+        },
+        recordingType: {
+          serializedName: "recordingType",
+          type: {
+            name: "String",
+          },
+        },
+        callConnectionId: {
+          serializedName: "callConnectionId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        serverCallId: {
+          serializedName: "serverCallId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+        correlationId: {
+          serializedName: "correlationId",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const RestParticipantsUpdated: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -3867,57 +3987,6 @@ export const RestTranscriptionFailed: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RestTranscriptionFailed",
-    modelProperties: {
-      operationContext: {
-        serializedName: "operationContext",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      resultInformation: {
-        serializedName: "resultInformation",
-        type: {
-          name: "Composite",
-          className: "RestResultInformation",
-        },
-      },
-      transcriptionUpdate: {
-        serializedName: "transcriptionUpdate",
-        type: {
-          name: "Composite",
-          className: "TranscriptionUpdate",
-        },
-      },
-      callConnectionId: {
-        serializedName: "callConnectionId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      serverCallId: {
-        serializedName: "serverCallId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      correlationId: {
-        serializedName: "correlationId",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const RestTranscriptionResumed: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestTranscriptionResumed",
     modelProperties: {
       operationContext: {
         serializedName: "operationContext",

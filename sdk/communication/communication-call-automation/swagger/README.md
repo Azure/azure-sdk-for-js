@@ -84,6 +84,12 @@ directive:
       from: RecordingStateChanged
       to: RestRecordingStateChanged
   - rename-model:
+      from: TeamsRecordingStateChanged
+      to: RestTeamsRecordingStateChanged
+  - rename-model:
+      from: TeamsComplianceRecordingStateChanged
+      to: RestTeamsComplianceRecordingStateChanged
+  - rename-model:
       from: ParticipantsUpdated
       to: RestParticipantsUpdated
   - rename-model:
@@ -149,7 +155,4 @@ directive:
   - rename-model:
       from: TranscriptionFailed
       to: RestTranscriptionFailed
-  - rename-model:
-      from: TranscriptionResumed
-      to: RestTranscriptionResumed
 ```
