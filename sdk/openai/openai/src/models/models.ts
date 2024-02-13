@@ -296,7 +296,7 @@ export interface Completions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults?: ContentFilterResultsForPrompt[];
+  promptFilterResults: ContentFilterResultsForPrompt[];
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -783,7 +783,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the function accepts, described as a JSON Schema object. */
-  parameters?: unknown;
+  parameters?: Record<string, any>;
 }
 
 /**
@@ -1359,14 +1359,14 @@ export interface ChatCompletions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults?: ContentFilterResultsForPrompt[];
+  promptFilterResults: ContentFilterResultsForPrompt[];
   /**
    * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
    * might impact determinism.
    */
   systemFingerprint?: string;
   /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage: CompletionsUsage;
+  usage?: CompletionsUsage;
 }
 
 /**
@@ -1412,7 +1412,7 @@ export interface ChatResponseMessage {
    * The tool calls that must be resolved and have their outputs appended to subsequent input messages for the chat
    * completions request to resolve as configured.
    */
-  toolCalls?: ChatCompletionsToolCallUnion[];
+  toolCalls: ChatCompletionsToolCallUnion[];
   /**
    * The function call that must be resolved and have its output appended to subsequent input messages for the chat
    * completions request to resolve as configured.
@@ -1709,5 +1709,5 @@ export type ChatFinishDetailsUnion =
   | StopFinishDetails
   | MaxTokensFinishDetails
   | ChatFinishDetails;
-
+/** A readable stream that is iterable and disposable. */
 export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> { }

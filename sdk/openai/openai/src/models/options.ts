@@ -34,8 +34,6 @@ export interface GetAudioTranslationAsResponseObjectOptions
   contentType?: string;
 }
 
-export interface GetCompletionsOptions extends OperationOptions {}
-
 export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
 export interface GetChatCompletionsWithAzureExtensionsOptions
