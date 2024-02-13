@@ -7,5 +7,4 @@ export const commandInfo = makeCommandInfo("customization", "applies customizati
 
 export default subCommand(commandInfo, {
   apply: () => import("./apply"),
-  ["apply-v2"]: () => import("./apply-v2"),
 });
