@@ -304,6 +304,8 @@ export interface SsmlSourceInternal {
 export interface PlayOptionsInternal {
   /** The option to play the provided audio source in loop when set to true */
   loop: boolean;
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 export interface StartTranscriptionRequest {
@@ -1989,7 +1991,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser"
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -2011,7 +2013,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch"
+  Gcch = "gcch",
 }
 
 /**
@@ -2028,7 +2030,7 @@ export type CommunicationCloudEnvironmentModel = string;
 /** Known values of {@link MediaStreamingTransportType} that the service accepts. */
 export enum KnownMediaStreamingTransportType {
   /** Websocket */
-  Websocket = "websocket"
+  Websocket = "websocket",
 }
 
 /**
@@ -2043,7 +2045,7 @@ export type MediaStreamingTransportType = string;
 /** Known values of {@link MediaStreamingContentType} that the service accepts. */
 export enum KnownMediaStreamingContentType {
   /** Audio */
-  Audio = "audio"
+  Audio = "audio",
 }
 
 /**
@@ -2060,7 +2062,7 @@ export enum KnownMediaStreamingAudioChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed"
+  Unmixed = "unmixed",
 }
 
 /**
@@ -2076,7 +2078,7 @@ export type MediaStreamingAudioChannelType = string;
 /** Known values of {@link TranscriptionTransportType} that the service accepts. */
 export enum KnownTranscriptionTransportType {
   /** Websocket */
-  Websocket = "websocket"
+  Websocket = "websocket",
 }
 
 /**
@@ -2103,7 +2105,7 @@ export enum KnownCallConnectionStateModel {
   /** Disconnecting */
   Disconnecting = "disconnecting",
   /** Disconnected */
-  Disconnected = "disconnected"
+  Disconnected = "disconnected",
 }
 
 /**
@@ -2128,7 +2130,7 @@ export enum KnownCallRejectReason {
   /** Busy */
   Busy = "busy",
   /** Forbidden */
-  Forbidden = "forbidden"
+  Forbidden = "forbidden",
 }
 
 /**
@@ -2149,7 +2151,7 @@ export enum KnownPlaySourceType {
   /** Text */
   Text = "text",
   /** Ssml */
-  Ssml = "ssml"
+  Ssml = "ssml",
 }
 
 /**
@@ -2168,7 +2170,7 @@ export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
-  Female = "female"
+  Female = "female",
 }
 
 /**
@@ -2190,7 +2192,7 @@ export enum KnownRecognizeInputType {
   /** SpeechOrDtmf */
   SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -2238,7 +2240,7 @@ export enum KnownTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk"
+  Asterisk = "asterisk",
 }
 
 /**
@@ -2270,7 +2272,7 @@ export enum KnownDialogInputType {
   /** PowerVirtualAgents */
   PowerVirtualAgents = "powerVirtualAgents",
   /** AzureOpenAI */
-  AzureOpenAI = "azureOpenAI"
+  AzureOpenAI = "azureOpenAI",
 }
 
 /**
@@ -2288,7 +2290,7 @@ export enum KnownCallLocatorKind {
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator"
+  ServerCallLocator = "serverCallLocator",
 }
 
 /**
@@ -2306,7 +2308,7 @@ export enum KnownRecordingContentType {
   /** Audio */
   Audio = "audio",
   /** AudioVideo */
-  AudioVideo = "audioVideo"
+  AudioVideo = "audioVideo",
 }
 
 /**
@@ -2324,7 +2326,7 @@ export enum KnownRecordingChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed"
+  Unmixed = "unmixed",
 }
 
 /**
@@ -2344,7 +2346,7 @@ export enum KnownRecordingFormatType {
   /** Mp3 */
   Mp3 = "mp3",
   /** Mp4 */
-  Mp4 = "mp4"
+  Mp4 = "mp4",
 }
 
 /**
@@ -2363,7 +2365,7 @@ export enum KnownRecordingStorageType {
   /** Acs */
   Acs = "acs",
   /** BlobStorage */
-  BlobStorage = "blobStorage"
+  BlobStorage = "blobStorage",
 }
 
 /**
@@ -2381,7 +2383,7 @@ export enum KnownRecordingState {
   /** Active */
   Active = "active",
   /** Inactive */
-  Inactive = "inactive"
+  Inactive = "inactive",
 }
 
 /**
@@ -2399,7 +2401,7 @@ export enum KnownRecordingType {
   /** Acs */
   Acs = "acs",
   /** Teams */
-  Teams = "teams"
+  Teams = "teams",
 }
 
 /**
@@ -2425,7 +2427,7 @@ export enum KnownTranscriptionStatus {
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
   /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError"
+  UnspecifiedError = "unspecifiedError",
 }
 
 /**
@@ -2473,7 +2475,7 @@ export enum KnownTranscriptionStatusDetails {
   /** ServiceTimeout */
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
-  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated"
+  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
 }
 
 /**
@@ -2506,7 +2508,7 @@ export enum KnownRecognitionType {
   /** Speech */
   Speech = "speech",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -2656,7 +2658,8 @@ export interface CallConnectionCancelAddParticipantOptionalParams
 }
 
 /** Contains response data for the cancelAddParticipant operation. */
-export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
+export type CallConnectionCancelAddParticipantResponse =
+  CancelAddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -2759,7 +2762,8 @@ export interface CallRecordingGetRecordingPropertiesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
-export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
+export type CallRecordingGetRecordingPropertiesResponse =
+  RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams
