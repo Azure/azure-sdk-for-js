@@ -12,7 +12,7 @@ add-credentials: false
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-10-01/appconfiguration.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/appconfiguration/data-plane/Microsoft.AppConfiguration/stable/2023-11-01/appconfiguration.json
 model-date-time-as-string: false
 optional-response-headers: true
 sample-generation: false
@@ -125,6 +125,7 @@ directive:
     transform: >
       $.key["x-ms-client-name"] = "keyFilter";
       $.label["x-ms-client-name"] = "labelFilter";
+      $.tags["x-ms-client-name"] = "tagsFilter";
 ```
 ### Rename KeyValueFilter -> ConfigurationSettingsFilter
 ```yaml

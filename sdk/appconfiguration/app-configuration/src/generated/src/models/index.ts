@@ -123,12 +123,14 @@ export interface ConfigurationSnapshot {
   readonly etag?: string;
 }
 
-/** Enables filtering of key-values. */
+/** Enables filtering of key-values. Syntax reference: https://aka.ms/azconfig/docs/restapisnapshots */
 export interface ConfigurationSettingsFilter {
   /** Filters key-values by their key field. */
   keyFilter: string;
   /** Filters key-values by their label field. */
   labelFilter?: string;
+  /** Filters key-values by their tags field. */
+  tagsFilter?: string[];
 }
 
 /** Parameters used to update a snapshot. */
@@ -375,20 +377,20 @@ export interface AppConfigurationGetRevisionsNextHeaders {
   eTag?: string;
 }
 
-/** Known values of {@link ApiVersion20231001} that the service accepts. */
-export enum KnownApiVersion20231001 {
-  /** Api Version '2023-10-01' */
-  TwoThousandTwentyThree1001 = "2023-10-01"
+/** Known values of {@link ApiVersion20231101} that the service accepts. */
+export enum KnownApiVersion20231101 {
+  /** Api Version '2023-11-01' */
+  TwoThousandTwentyThree1101 = "2023-11-01",
 }
 
 /**
- * Defines values for ApiVersion20231001. \
- * {@link KnownApiVersion20231001} can be used interchangeably with ApiVersion20231001,
+ * Defines values for ApiVersion20231101. \
+ * {@link KnownApiVersion20231101} can be used interchangeably with ApiVersion20231101,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-10-01**: Api Version '2023-10-01'
+ * **2023-11-01**: Api Version '2023-11-01'
  */
-export type ApiVersion20231001 = string;
+export type ApiVersion20231101 = string;
 
 /** Known values of {@link KeyValueFields} that the service accepts. */
 export enum KnownKeyValueFields {
@@ -407,7 +409,7 @@ export enum KnownKeyValueFields {
   /** Locked */
   Locked = "locked",
   /** Etag */
-  Etag = "etag"
+  Etag = "etag",
 }
 
 /**
@@ -449,7 +451,7 @@ export enum KnownSnapshotFields {
   /** Tags */
   Tags = "tags",
   /** Etag */
-  Etag = "etag"
+  Etag = "etag",
 }
 
 /**
@@ -480,7 +482,7 @@ export enum KnownSnapshotStatus {
   /** Archived */
   Archived = "archived",
   /** Failed */
-  Failed = "failed"
+  Failed = "failed",
 }
 
 /**
@@ -504,7 +506,7 @@ export enum KnownConfigurationSnapshotStatus {
   /** Archived */
   Archived = "archived",
   /** Failed */
-  Failed = "failed"
+  Failed = "failed",
 }
 
 /**
@@ -524,7 +526,7 @@ export enum KnownSnapshotComposition {
   /** Key */
   Key = "key",
   /** KeyLabel */
-  KeyLabel = "key_label"
+  KeyLabel = "key_label",
 }
 
 /**
@@ -540,7 +542,7 @@ export type SnapshotComposition = string;
 /** Known values of {@link LabelFields} that the service accepts. */
 export enum KnownLabelFields {
   /** Name */
-  Name = "name"
+  Name = "name",
 }
 
 /**
@@ -592,9 +594,9 @@ export interface GetKeyValuesOptionalParams
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
+  /** A filter used to match keys. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
   key?: string;
-  /** A filter used to match labels */
+  /** A filter used to match labels. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
@@ -604,6 +606,8 @@ export interface GetKeyValuesOptionalParams
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
   ifNoneMatch?: string;
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
+  tags?: string[];
 }
 
 /** Contains response data for the getKeyValues operation. */
@@ -617,9 +621,9 @@ export interface CheckKeyValuesOptionalParams
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
+  /** A filter used to match keys. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
   key?: string;
-  /** A filter used to match labels */
+  /** A filter used to match labels. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
@@ -629,6 +633,8 @@ export interface CheckKeyValuesOptionalParams
   ifMatch?: string;
   /** Used to perform an operation only if the targeted resource's etag does not match the value provided. */
   ifNoneMatch?: string;
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
+  tags?: string[];
 }
 
 /** Contains response data for the checkKeyValues operation. */
@@ -840,12 +846,14 @@ export interface GetRevisionsOptionalParams
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
+  /** A filter used to match keys. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
   key?: string;
-  /** A filter used to match labels */
+  /** A filter used to match labels. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
+  tags?: string[];
 }
 
 /** Contains response data for the getRevisions operation. */
@@ -859,12 +867,14 @@ export interface CheckRevisionsOptionalParams
   after?: string;
   /** Requests the server to respond with the state of the resource at the specified time. */
   acceptDatetime?: string;
-  /** A filter used to match keys. */
+  /** A filter used to match keys. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
   key?: string;
-  /** A filter used to match labels */
+  /** A filter used to match labels. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
   label?: string;
   /** Used to select what fields are present in the returned resource(s). */
   select?: KeyValueFields[];
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/restapirevisions */
+  tags?: string[];
 }
 
 /** Contains response data for the checkRevisions operation. */
