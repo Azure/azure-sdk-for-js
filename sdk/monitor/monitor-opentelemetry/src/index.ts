@@ -19,6 +19,7 @@ import {
   StatsbeatInstrumentation,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
+import { setSdkPrefix } from "./metrics/quickpulse/utils";
 import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
@@ -67,6 +68,7 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     spanProcessor: traceHandler.getAzureMonitorSpanProcessor(),
   };
   sdk = new NodeSDK(sdkConfig);
+  setSdkPrefix();
   sdk.start();
 
   // TODO: Send processors as NodeSDK config once arrays are supported

@@ -8,6 +8,7 @@
 
 ### Bugs Fixed
 
+- Detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
 - Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
 - Fix Resource typing on the Azure Monitor config.
 
@@ -16,7 +17,7 @@
 - Updated Quickpulse transmission time.
 - Update OpenTelemetry depdendencies.
 - Added exception handling for file creation and lookup used for telemetry caching.
-- Updated internal SDK version reporting format including version prefix.
+- Add SDK prefix including attach type in both manual and auto-attach scenarios.
 
 ## 1.2.0 (2024-01-23)
 

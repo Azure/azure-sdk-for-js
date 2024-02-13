@@ -20,21 +20,36 @@ import {
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
-import { AZURE_MONITOR_OPENTELEMETRY_VERSION } from "../../types";
+import {
+  AZURE_MONITOR_AUTO_ATTACH,
+  AZURE_MONITOR_OPENTELEMETRY_VERSION,
+  AZURE_MONITOR_PREFIX,
+  AttachTypePrefix,
+} from "../../types";
 import { Resource } from "@opentelemetry/resources";
 import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
+import { getOsPrefix } from "../../utils/common";
+import { getResourceProvider } from "../../utils/common";
 
+/** Get the internal SDK version */
 export function getSdkVersion(): string {
-  const { node } = process.versions;
-  const nodeVersion = node.split(".");
+  const { nodeVersion } = process.versions;
   const opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
-
-  const prefix = process.env["AZURE_MONITOR_AGENT_PREFIX"]
-    ? process.env["AZURE_MONITOR_AGENT_PREFIX"]
-    : "";
-  const version = `dst${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
-  const internalSdkVersion = `${prefix}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
+  const version = `ext${AZURE_MONITOR_OPENTELEMETRY_VERSION}`;
+  const internalSdkVersion = `${process.env[AZURE_MONITOR_PREFIX] ?? ""}node${nodeVersion}:otel${opentelemetryVersion}:${version}`;
   return internalSdkVersion;
+}
+
+/** Set the version prefix to a string in the format {ResourceProvider}{OS}m_ */
+export function setSdkPrefix(): void {
+  if (!process.env[AZURE_MONITOR_PREFIX]) {
+    const prefixAttachType: string =
+      process.env[AZURE_MONITOR_AUTO_ATTACH] === "true"
+        ? AttachTypePrefix.INTEGRATED_AUTO
+        : AttachTypePrefix.MANUAL;
+    process.env[AZURE_MONITOR_PREFIX] =
+      `${getResourceProvider()}${getOsPrefix()}${prefixAttachType}_`;
+  }
 }
 
 export function getCloudRole(resource: Resource): string {
