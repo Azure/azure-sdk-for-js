@@ -88,15 +88,9 @@
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "http-proxy-agent": "^5.0.0",
-    "https-proxy-agent": "^5.0.0",
-    "tslib": "^2.6.2"
-=======
-    "tslib": "^2.2.0",
     "http-proxy-agent": "^7.0.1",
-    "https-proxy-agent": "^7.0.3"
->>>>>>> ba2f5e66ee3afd02d69b6e99d8c6f3e161a1cd82
+    "https-proxy-agent": "^7.0.3",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
