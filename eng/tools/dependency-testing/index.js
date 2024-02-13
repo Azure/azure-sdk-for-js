@@ -82,7 +82,7 @@ async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
 
     testPackageJson.scripts["integration-test:node"] = testPackageJson.scripts[
       "integration-test:node"
-    ].replace("-r esm-workaround.js -r esm", "--loader=esm4mocha.mjs");
+    ].replace("-r esm-workaround.js -r esm", "--loader=./esm4mocha.mjs");
   }  
 }
 
@@ -278,6 +278,7 @@ async function copyRepoFile(repoRoot, relativePath, fileName, targetPackagePath,
   const testPath = path.join(targetPackagePath, testFolder);
   const sourcePath = path.join(repoRoot, relativePath, fileName);
   const destPath = path.join(testPath, fileName);
+  console.log(`copying file from ${sourcePath} to ${destPath}`);
   fs.copyFileSync(sourcePath, destPath);
 }
 
