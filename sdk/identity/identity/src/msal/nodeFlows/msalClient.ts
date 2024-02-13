@@ -141,14 +141,25 @@ export function createMsalClient(
   };
 
   let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
+  let confidentialAppCae: msal.ConfidentialClientApplication | undefined = undefined;
   async function getConfidentialApp(
-    _options: GetTokenOptions = {},
+    options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
-    // abort requests
+    // TODO: pull this out into a separate object that just holds and initializes
+    // MSAL apps given options. This can also hold the pluginConfiguration
+    if (options.enableCae) {
+      if (confidentialAppCae === undefined) {
+        confidentialAppCae = new msal.ConfidentialClientApplication({
+          ...state.msalConfig,
+          broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+          cache: { cachePlugin: await state.pluginConfiguration.cache.cachePlugin },
+        });
+      }
+
+      return confidentialAppCae;
+    }
 
     if (confidentialApp === undefined) {
-      // TODOs:
-      // CAE / non-CAE
       confidentialApp = new msal.ConfidentialClientApplication({
         ...state.msalConfig,
         broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
