@@ -18584,7 +18584,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-QETD/+cDhKaVZFsypAZAWhxk3hNAIHt7XVbvVxIMWI4KRIpS77bSOrbobDNXbCADJDkV2qWvytjZcxQPJ56tKA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-LV9ckIycccwaMvglK3T0baFkZNIScvRqCH9mlln3o+GJy2qqt+cYk4OOw7n6fGhLaH9fgPKHt2XV6/01QxQiWA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -18612,7 +18612,7 @@ packages:
       dotenv: 16.4.1
       eslint: 8.56.0
       esm: 3.2.25
-      https-proxy-agent: 5.0.1
+      https-proxy-agent: 7.0.3
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.2(debug@4.3.4)
@@ -21059,7 +21059,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-IJbUXnzxyRuxvyZBK0iP9U2A7QEsGIL/gz6Q4XGhz6r82pm9hKsSw8dYzp6CBc7IZl4VVzOG01n40eOk9x9bMw==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-kQxRncyVjSOTIiW21TWfauxybzV8AJpfSoeYWcI+jgPVsPq2njhNTy1leNvIGjlhW+KhNYP8oHzuwpadWItcXA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -21086,7 +21086,7 @@ packages:
       eslint: 8.56.0
       esm: 3.2.25
       events: 3.3.0
-      https-proxy-agent: 5.0.1
+      https-proxy-agent: 7.0.3
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.2(debug@4.3.4)
