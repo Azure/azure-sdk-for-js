@@ -2,7 +2,7 @@
   "name": "@azure/openai-assistants",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "An isomorphic client library for Azure OpenAI Assistants.",
   "keywords": [
     "node",
@@ -17,7 +17,7 @@
   ],
   "license": "MIT",
   "type": "module",
-  "main": "dist/index.js",
+  "main": "dist/index.cjs",
   "module": "./dist-esm/src/index.js",
   "types": "./types/openai-assistants.d.ts",
   "exports": {
@@ -33,6 +33,10 @@
     "./models": {
       "types": "./types/src/models/index.d.ts",
       "import": "./dist-esm/src/models/index.js"
+    },
+    "./rest": {
+      "types": "./types/src/rest/index.d.ts",
+      "import": "./dist-esm/src/rest/index.js"
     }
   },
   "repository": "github:Azure/azure-sdk-for-js",
@@ -44,6 +48,7 @@
     "dist/",
     "dist-esm/src/",
     "types/openai-assistants.d.ts",
+    "types/src",
     "README.md",
     "LICENSE",
     "CHANGELOG.md",
@@ -117,7 +122,6 @@
     "karma-sourcemap-loader": "^0.4.0",
     "mkdirp": "^2.1.2",
     "mocha": "^10.0.0",
-    "mocha-junit-reporter": "^1.18.0",
     "prettier": "^2.5.1",
     "rimraf": "^3.0.2",
     "source-map-support": "^0.5.9",
