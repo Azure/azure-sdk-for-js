@@ -281,23 +281,25 @@ export function getCompletionsResult(result: GetCompletions200Response): Complet
             },
         },
       })),
-    choices: result.body["choices"].map((p) => ({
-      text: p["text"],
-      index: p["index"],
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : parseContentFilterResultsForChoiceOutput(p.content_filter_results),
-      logprobs:
-        p.logprobs === null
-          ? null
-          : {
-            tokens: p.logprobs["tokens"],
-            tokenLogprobs: p.logprobs["token_logprobs"],
-            topLogprobs: p.logprobs["top_logprobs"],
-            textOffset: p.logprobs["text_offset"],
-          },
-      finishReason: p["finish_reason"],
-    })),
+    choices: !result.body["choices"] 
+      ? []
+      : result.body["choices"].map((p) => ({
+        text: p["text"],
+        index: p["index"],
+        contentFilterResults: !p.content_filter_results
+          ? undefined
+          : parseContentFilterResultsForChoiceOutput(p.content_filter_results),
+        logprobs:
+          p.logprobs === null
+            ? null
+            : {
+              tokens: p.logprobs["tokens"],
+              tokenLogprobs: p.logprobs["token_logprobs"],
+              topLogprobs: p.logprobs["top_logprobs"],
+              textOffset: p.logprobs["text_offset"],
+            },
+        finishReason: p["finish_reason"],
+      })),
     usage: {
       completionTokens: result.body.usage["completion_tokens"],
       promptTokens: result.body.usage["prompt_tokens"],
@@ -420,42 +422,42 @@ export function getChatCompletionsResult(
     created: new Date(result.body["created"]),
     choices: !result.body["choices"]
     ? []
-    : result.body["choices"].map((p) => ({
-      message: !p.message
-        ? undefined
-        : parseMessage(p.message),
-      index: p["index"],
-      finishReason: p["finish_reason"],
-      finishDetails: !p.finish_details
-        ? undefined
-        : { type: p.finish_details?.["type"] },
-      delta: !p.delta
-        ? undefined
-        : parseMessage(p.delta),
-      contentFilterResults: !p.content_filter_results
-        ? undefined
-        : parseContentFilterResultsForChoiceOutput(p.content_filter_results),
-      enhancements: !p.enhancements
-        ? undefined
-        : {
-          grounding: !p.enhancements?.grounding
-            ? undefined
-            : {
-              lines: p.enhancements?.grounding?.["lines"].map((p) => ({
-                text: p["text"],
-                spans: p["spans"].map((p) => ({
+      : result.body["choices"].map((p) => ({
+        message: !p.message
+          ? undefined
+          : parseMessage(p.message),
+        index: p["index"],
+        finishReason: p["finish_reason"],
+        finishDetails: !p.finish_details
+          ? undefined
+          : { type: p.finish_details?.["type"] },
+        delta: !p.delta
+          ? undefined
+          : parseMessage(p.delta),
+        contentFilterResults: !p.content_filter_results
+          ? undefined
+          : parseContentFilterResultsForChoiceOutput(p.content_filter_results),
+        enhancements: !p.enhancements
+          ? undefined
+          : {
+            grounding: !p.enhancements?.grounding
+              ? undefined
+              : {
+                lines: p.enhancements?.grounding?.["lines"].map((p) => ({
                   text: p["text"],
-                  offset: p["offset"],
-                  length: p["length"],
-                  polygon: p["polygon"].map((p) => ({
-                    x: p["x"],
-                    y: p["y"],
+                  spans: p["spans"].map((p) => ({
+                    text: p["text"],
+                    offset: p["offset"],
+                    length: p["length"],
+                    polygon: p["polygon"].map((p) => ({
+                      x: p["x"],
+                      y: p["y"],
+                    })),
                   })),
                 })),
-              })),
-            },
-        },
-    })),
+              },
+          },
+      })),
     promptFilterResults: !result.body["prompt_filter_results"]
       ? []
       : result.body["prompt_filter_results"].map((p) => ({
