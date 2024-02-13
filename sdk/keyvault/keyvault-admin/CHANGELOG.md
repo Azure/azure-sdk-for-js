@@ -9,6 +9,11 @@ Since 4.4.0:
 
 ### Breaking Changes
 
+Since 4.5.0-beta.1:
+- Change signature of backup and restore operations to use an overload when using Managed Identity to access the blob storage resource. This means
+  `undefined` no longer has to be passed in the `sasToken` parameter in order to set additional request options when using Managed Identity.
+  This change is only breaking for customers using 4.5.0-beta.1 and does not impact customers using the previous GA version, 4.4.0.
+
 ### Bugs Fixed
 
 ### Other Changes
