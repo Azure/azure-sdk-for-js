@@ -1,4 +1,4 @@
-## Mock Event Hubs service
+## Azure @azure-tools/mock-hub library for JavaScript
 
 This package exposes a mock Event Hubs service for use in testing.
 
@@ -43,6 +43,6 @@ Here's a list of some features that would be helpful for the `event-hubs` live t
 
 Some details on what features the mock service supports can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/design/features.md).
 
-Some details on the overal architecture of this project can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/design/architecture.md).
+Some details on the overall architecture of this project can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/design/architecture.md).
 
 To see a quick example of how to start the mock service, look at [here](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/mock-hub/samples/typescript/readme.md).
