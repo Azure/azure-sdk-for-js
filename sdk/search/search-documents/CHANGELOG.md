@@ -1,5 +1,11 @@
 # Release History
 
+## 12.1.0-beta.1 (2024-02-06)
+
+### Bugs Fixed
+
+- Fix marshalling of some properties
+
 ## 12.0.0-beta.4 (2023-10-11)
 
 ### Features Added
