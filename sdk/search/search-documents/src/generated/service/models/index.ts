@@ -1299,57 +1299,63 @@ export interface CustomEntityAlias {
 }
 
 /** Clears the identity property of a datasource. */
-export type SearchIndexerDataNoneIdentity = SearchIndexerDataIdentity & {
+export interface SearchIndexerDataNoneIdentity
+  extends SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DataNoneIdentity";
-};
+}
 
 /** Specifies the identity for a datasource to use. */
-export type SearchIndexerDataUserAssignedIdentity = SearchIndexerDataIdentity & {
+export interface SearchIndexerDataUserAssignedIdentity
+  extends SearchIndexerDataIdentity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
   userAssignedIdentity: string;
-};
+}
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
-export type HighWaterMarkChangeDetectionPolicy = DataChangeDetectionPolicy & {
+export interface HighWaterMarkChangeDetectionPolicy
+  extends DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.HighWaterMarkChangeDetectionPolicy";
   /** The name of the high water mark column. */
   highWaterMarkColumnName: string;
-};
+}
 
 /** Defines a data change detection policy that captures changes using the Integrated Change Tracking feature of Azure SQL Database. */
-export type SqlIntegratedChangeTrackingPolicy = DataChangeDetectionPolicy & {
+export interface SqlIntegratedChangeTrackingPolicy
+  extends DataChangeDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SqlIntegratedChangeTrackingPolicy";
-};
+}
 
 /** Defines a data deletion detection policy that implements a soft-deletion strategy. It determines whether an item should be deleted based on the value of a designated 'soft delete' column. */
-export type SoftDeleteColumnDeletionDetectionPolicy = DataDeletionDetectionPolicy & {
+export interface SoftDeleteColumnDeletionDetectionPolicy
+  extends DataDeletionDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SoftDeleteColumnDeletionDetectionPolicy";
   /** The name of the column to use for soft-deletion detection. */
   softDeleteColumnName?: string;
   /** The marker value that identifies an item as deleted. */
   softDeleteMarkerValue?: string;
-};
+}
 
 /** Defines a data deletion detection policy utilizing Azure Blob Storage's native soft delete feature for deletion detection. */
-export type NativeBlobSoftDeleteDeletionDetectionPolicy = DataDeletionDetectionPolicy & {
+export interface NativeBlobSoftDeleteDeletionDetectionPolicy
+  extends DataDeletionDetectionPolicy {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
-};
+}
 
 /** A skill that enables scenarios that require a Boolean operation to determine the data to assign to an output. */
-export type ConditionalSkill = SearchIndexerSkill & {
+export interface ConditionalSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Util.ConditionalSkill";
-};
+}
 
 /** A skill that uses text analytics for key phrase extraction. */
-export type KeyPhraseExtractionSkill = SearchIndexerSkill & {
+export interface KeyPhraseExtractionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1358,10 +1364,10 @@ export type KeyPhraseExtractionSkill = SearchIndexerSkill & {
   maxKeyPhraseCount?: number;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
-};
+}
 
 /** A skill that extracts text from image files. */
-export type OcrSkill = SearchIndexerSkill & {
+export interface OcrSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Vision.OcrSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1370,10 +1376,10 @@ export type OcrSkill = SearchIndexerSkill & {
   shouldDetectOrientation?: boolean;
   /** Defines the sequence of characters to use between the lines of text recognized by the OCR skill. The default value is "space". */
   lineEnding?: LineEnding;
-};
+}
 
 /** A skill that analyzes image files. It extracts a rich set of visual features based on the image content. */
-export type ImageAnalysisSkill = SearchIndexerSkill & {
+export interface ImageAnalysisSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1382,40 +1388,40 @@ export type ImageAnalysisSkill = SearchIndexerSkill & {
   visualFeatures?: VisualFeature[];
   /** A string indicating which domain-specific details to return. */
   details?: ImageDetail[];
-};
+}
 
 /** A skill that detects the language of input text and reports a single language code for every document submitted on the request. The language code is paired with a score indicating the confidence of the analysis. */
-export type LanguageDetectionSkill = SearchIndexerSkill & {
+export interface LanguageDetectionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.LanguageDetectionSkill";
   /** A country code to use as a hint to the language detection model if it cannot disambiguate the language. */
   defaultCountryHint?: string;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
-};
+}
 
 /** A skill for reshaping the outputs. It creates a complex type to support composite fields (also known as multipart fields). */
-export type ShaperSkill = SearchIndexerSkill & {
+export interface ShaperSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Util.ShaperSkill";
-};
+}
 
 /** A skill for merging two or more strings into a single unified string, with an optional user-defined delimiter separating each component part. */
-export type MergeSkill = SearchIndexerSkill & {
+export interface MergeSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.MergeSkill";
   /** The tag indicates the start of the merged text. By default, the tag is an empty space. */
   insertPreTag?: string;
   /** The tag indicates the end of the merged text. By default, the tag is an empty space. */
   insertPostTag?: string;
-};
+}
 
 /**
  * This skill is deprecated. Use the V3.EntityRecognitionSkill instead.
  *
  * @deprecated
  */
-export type EntityRecognitionSkill = SearchIndexerSkill & {
+export interface EntityRecognitionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
   /** A list of entity categories that should be extracted. */
@@ -1426,22 +1432,22 @@ export type EntityRecognitionSkill = SearchIndexerSkill & {
   includeTypelessEntities?: boolean;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
-};
+}
 
 /**
  * This skill is deprecated. Use the V3.SentimentSkill instead.
  *
  * @deprecated
  */
-export type SentimentSkill = SearchIndexerSkill & {
+export interface SentimentSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SentimentSkill";
   /** A value indicating which language code to use. Default is en. */
   defaultLanguageCode?: SentimentSkillLanguage;
-};
+}
 
 /** Using the Text Analytics API, evaluates unstructured text and for each record, provides sentiment labels (such as "negative", "neutral" and "positive") based on the highest confidence score found by the service at a sentence and document-level. */
-export type SentimentSkillV3 = SearchIndexerSkill & {
+export interface SentimentSkillV3 extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1450,10 +1456,10 @@ export type SentimentSkillV3 = SearchIndexerSkill & {
   includeOpinionMining?: boolean;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
-};
+}
 
 /** Using the Text Analytics API, extracts linked entities from text. */
-export type EntityLinkingSkill = SearchIndexerSkill & {
+export interface EntityLinkingSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1462,10 +1468,10 @@ export type EntityLinkingSkill = SearchIndexerSkill & {
   minimumPrecision?: number;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
-};
+}
 
 /** Using the Text Analytics API, extracts entities of different types from text. */
-export type EntityRecognitionSkillV3 = SearchIndexerSkill & {
+export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
   /** A list of entity categories that should be extracted. */
@@ -1476,10 +1482,10 @@ export type EntityRecognitionSkillV3 = SearchIndexerSkill & {
   minimumPrecision?: number;
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
-};
+}
 
 /** Using the Text Analytics API, extracts personal information from an input text and gives you the option of masking it. */
-export type PIIDetectionSkill = SearchIndexerSkill & {
+export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1496,10 +1502,10 @@ export type PIIDetectionSkill = SearchIndexerSkill & {
   piiCategories?: string[];
   /** If specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'phi', 'none'. Default is 'none'. */
   domain?: string;
-};
+}
 
 /** A skill to split a string into chunks of text. */
-export type SplitSkill = SearchIndexerSkill & {
+export interface SplitSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1512,10 +1518,10 @@ export type SplitSkill = SearchIndexerSkill & {
   pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
   maximumPagesToTake?: number;
-};
+}
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
-export type CustomEntityLookupSkill = SearchIndexerSkill & {
+export interface CustomEntityLookupSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
   /** A value indicating which language code to use. Default is en. */
@@ -1530,10 +1536,10 @@ export type CustomEntityLookupSkill = SearchIndexerSkill & {
   globalDefaultAccentSensitive?: boolean;
   /** A global flag for FuzzyEditDistance. If FuzzyEditDistance is not set in CustomEntity, this value will be the default value. */
   globalDefaultFuzzyEditDistance?: number;
-};
+}
 
 /** A skill to translate text from one language to another. */
-export type TextTranslationSkill = SearchIndexerSkill & {
+export interface TextTranslationSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.TranslationSkill";
   /** The language code to translate documents into for documents that don't specify the to language explicitly. */
@@ -1542,10 +1548,10 @@ export type TextTranslationSkill = SearchIndexerSkill & {
   defaultFromLanguageCode?: TextTranslationSkillLanguage;
   /** The language code to translate documents from when neither the fromLanguageCode input nor the defaultFromLanguageCode parameter are provided, and the automatic language detection is unsuccessful. Default is en. */
   suggestedFrom?: TextTranslationSkillLanguage;
-};
+}
 
 /** A skill that extracts content from a file within the enrichment pipeline. */
-export type DocumentExtractionSkill = SearchIndexerSkill & {
+export interface DocumentExtractionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Util.DocumentExtractionSkill";
   /** The parsingMode for the skill. Will be set to 'default' if not defined. */
@@ -1554,10 +1560,10 @@ export type DocumentExtractionSkill = SearchIndexerSkill & {
   dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
   configuration?: { [propertyName: string]: any };
-};
+}
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
-export type WebApiSkill = SearchIndexerSkill & {
+export interface WebApiSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Custom.WebApiSkill";
   /** The url for the Web API. */
@@ -1576,10 +1582,10 @@ export type WebApiSkill = SearchIndexerSkill & {
   authResourceId?: string;
   /** The user-assigned managed identity used for outbound connections. If an authResourceId is provided and it's not specified, the system-assigned managed identity is used. On updates to the indexer, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
   authIdentity?: SearchIndexerDataIdentityUnion;
-};
+}
 
 /** The AML skill allows you to extend AI enrichment with a custom Azure Machine Learning (AML) model. Once an AML model is trained and deployed, an AML skill integrates it into AI enrichment. */
-export type AzureMachineLearningSkill = SearchIndexerSkill & {
+export interface AzureMachineLearningSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Custom.AmlSkill";
   /** (Required for no authentication or key authentication) The scoring URI of the AML service to which the JSON payload will be sent. Only the https URI scheme is allowed. */
@@ -1594,10 +1600,10 @@ export type AzureMachineLearningSkill = SearchIndexerSkill & {
   region?: string;
   /** (Optional) When specified, indicates the number of calls the indexer will make in parallel to the endpoint you have provided. You can decrease this value if your endpoint is failing under too high of a request load, or raise it if your endpoint is able to accept more requests and you would like an increase in the performance of the indexer. If not set, a default value of 5 is used. The degreeOfParallelism can be set to a maximum of 10 and a minimum of 1. */
   degreeOfParallelism?: number;
-};
+}
 
 /** Allows you to generate a vector embedding for a given text input using the Azure Open AI service. */
-export type AzureOpenAIEmbeddingSkill = SearchIndexerSkill & {
+export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
   /** The resource uri for your Azure Open AI resource. */
@@ -1608,68 +1614,71 @@ export type AzureOpenAIEmbeddingSkill = SearchIndexerSkill & {
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentityUnion;
-};
+}
 
 /** An empty object that represents the default cognitive service resource for a skillset. */
-export type DefaultCognitiveServicesAccount = CognitiveServicesAccount & {
+export interface DefaultCognitiveServicesAccount
+  extends CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
-};
+}
 
 /** A cognitive service resource provisioned with a key that is attached to a skillset. */
-export type CognitiveServicesAccountKey = CognitiveServicesAccount & {
+export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** The key used to provision the cognitive service resource attached to a skillset. */
   key: string;
-};
+}
 
 /** Description for what data to store in Azure Tables. */
-export type SearchIndexerKnowledgeStoreTableProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+export interface SearchIndexerKnowledgeStoreTableProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Name of the Azure table to store projected data in. */
   tableName: string;
-};
+}
 
 /** Abstract class to share properties between concrete selectors. */
-export type SearchIndexerKnowledgeStoreBlobProjectionSelector = SearchIndexerKnowledgeStoreProjectionSelector & {
+export interface SearchIndexerKnowledgeStoreBlobProjectionSelector
+  extends SearchIndexerKnowledgeStoreProjectionSelector {
   /** Blob container to store projections in. */
   storageContainer: string;
-};
+}
 
 /** Defines a function that boosts scores based on distance from a geographic location. */
-export type DistanceScoringFunction = ScoringFunction & {
+export interface DistanceScoringFunction extends ScoringFunction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "distance";
   /** Parameter values for the distance scoring function. */
   parameters: DistanceScoringParameters;
-};
+}
 
 /** Defines a function that boosts scores based on the value of a date-time field. */
-export type FreshnessScoringFunction = ScoringFunction & {
+export interface FreshnessScoringFunction extends ScoringFunction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "freshness";
   /** Parameter values for the freshness scoring function. */
   parameters: FreshnessScoringParameters;
-};
+}
 
 /** Defines a function that boosts scores based on the magnitude of a numeric field. */
-export type MagnitudeScoringFunction = ScoringFunction & {
+export interface MagnitudeScoringFunction extends ScoringFunction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "magnitude";
   /** Parameter values for the magnitude scoring function. */
   parameters: MagnitudeScoringParameters;
-};
+}
 
 /** Defines a function that boosts scores of documents with string values matching a given list of tags. */
-export type TagScoringFunction = ScoringFunction & {
+export interface TagScoringFunction extends ScoringFunction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   type: "tag";
   /** Parameter values for the tag scoring function. */
   parameters: TagScoringParameters;
-};
+}
 
 /** Allows you to take control over the process of converting text into indexable/searchable tokens. It's a user-defined configuration consisting of a single predefined tokenizer and one or more filters. The tokenizer is responsible for breaking text into tokens, and the filters for modifying tokens emitted by the tokenizer. */
-export type CustomAnalyzer = LexicalAnalyzer & {
+export interface CustomAnalyzer extends LexicalAnalyzer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CustomAnalyzer";
   /** The name of the tokenizer to use to divide continuous text into a sequence of tokens, such as breaking a sentence into words. KnownTokenizerNames is an enum containing known values. */
@@ -1678,10 +1687,10 @@ export type CustomAnalyzer = LexicalAnalyzer & {
   tokenFilters?: string[];
   /** A list of character filters used to prepare input text before it is processed by the tokenizer. For instance, they can replace certain characters or symbols. The filters are run in the order in which they are listed. */
   charFilters?: string[];
-};
+}
 
 /** Flexibly separates text into terms via a regular expression pattern. This analyzer is implemented using Apache Lucene. */
-export type PatternAnalyzer = LexicalAnalyzer & {
+export interface PatternAnalyzer extends LexicalAnalyzer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PatternAnalyzer";
   /** A value indicating whether terms should be lower-cased. Default is true. */
@@ -1692,36 +1701,36 @@ export type PatternAnalyzer = LexicalAnalyzer & {
   flags?: string;
   /** A list of stopwords. */
   stopwords?: string[];
-};
+}
 
 /** Standard Apache Lucene analyzer; Composed of the standard tokenizer, lowercase filter and stop filter. */
-export type LuceneStandardAnalyzer = LexicalAnalyzer & {
+export interface LuceneStandardAnalyzer extends LexicalAnalyzer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StandardAnalyzer";
   /** The maximum token length. Default is 255. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters. */
   maxTokenLength?: number;
   /** A list of stopwords. */
   stopwords?: string[];
-};
+}
 
 /** Divides text at non-letters; Applies the lowercase and stopword token filters. This analyzer is implemented using Apache Lucene. */
-export type StopAnalyzer = LexicalAnalyzer & {
+export interface StopAnalyzer extends LexicalAnalyzer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StopAnalyzer";
   /** A list of stopwords. */
   stopwords?: string[];
-};
+}
 
 /** Grammar-based tokenizer that is suitable for processing most European-language documents. This tokenizer is implemented using Apache Lucene. */
-export type ClassicTokenizer = LexicalTokenizer & {
+export interface ClassicTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.ClassicTokenizer";
   /** The maximum token length. Default is 255. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters. */
   maxTokenLength?: number;
-};
+}
 
 /** Tokenizes the input from an edge into n-grams of the given size(s). This tokenizer is implemented using Apache Lucene. */
-export type EdgeNGramTokenizer = LexicalTokenizer & {
+export interface EdgeNGramTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenizer";
   /** The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram. */
@@ -1730,26 +1739,26 @@ export type EdgeNGramTokenizer = LexicalTokenizer & {
   maxGram?: number;
   /** Character classes to keep in the tokens. */
   tokenChars?: TokenCharacterKind[];
-};
+}
 
 /** Emits the entire input as a single token. This tokenizer is implemented using Apache Lucene. */
-export type KeywordTokenizer = LexicalTokenizer & {
+export interface KeywordTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.KeywordTokenizer";
   /** The read buffer size in bytes. Default is 256. */
   bufferSize?: number;
-};
+}
 
 /** Emits the entire input as a single token. This tokenizer is implemented using Apache Lucene. */
-export type KeywordTokenizerV2 = LexicalTokenizer & {
+export interface KeywordTokenizerV2 extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.KeywordTokenizerV2";
   /** The maximum token length. Default is 256. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters. */
   maxTokenLength?: number;
-};
+}
 
 /** Divides text using language-specific rules. */
-export type MicrosoftLanguageTokenizer = LexicalTokenizer & {
+export interface MicrosoftLanguageTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.MicrosoftLanguageTokenizer";
   /** The maximum token length. Tokens longer than the maximum length are split. Maximum token length that can be used is 300 characters. Tokens longer than 300 characters are first split into tokens of length 300 and then each of those tokens is split based on the max token length set. Default is 255. */
@@ -1758,10 +1767,10 @@ export type MicrosoftLanguageTokenizer = LexicalTokenizer & {
   isSearchTokenizer?: boolean;
   /** The language to use. The default is English. */
   language?: MicrosoftTokenizerLanguage;
-};
+}
 
 /** Divides text using language-specific rules and reduces words to their base forms. */
-export type MicrosoftLanguageStemmingTokenizer = LexicalTokenizer & {
+export interface MicrosoftLanguageStemmingTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.MicrosoftLanguageStemmingTokenizer";
   /** The maximum token length. Tokens longer than the maximum length are split. Maximum token length that can be used is 300 characters. Tokens longer than 300 characters are first split into tokens of length 300 and then each of those tokens is split based on the max token length set. Default is 255. */
@@ -1770,10 +1779,10 @@ export type MicrosoftLanguageStemmingTokenizer = LexicalTokenizer & {
   isSearchTokenizer?: boolean;
   /** The language to use. The default is English. */
   language?: MicrosoftStemmingTokenizerLanguage;
-};
+}
 
 /** Tokenizes the input into n-grams of the given size(s). This tokenizer is implemented using Apache Lucene. */
-export type NGramTokenizer = LexicalTokenizer & {
+export interface NGramTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.NGramTokenizer";
   /** The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram. */
@@ -1782,10 +1791,10 @@ export type NGramTokenizer = LexicalTokenizer & {
   maxGram?: number;
   /** Character classes to keep in the tokens. */
   tokenChars?: TokenCharacterKind[];
-};
+}
 
 /** Tokenizer for path-like hierarchies. This tokenizer is implemented using Apache Lucene. */
-export type PathHierarchyTokenizerV2 = LexicalTokenizer & {
+export interface PathHierarchyTokenizerV2 extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PathHierarchyTokenizerV2";
   /** The delimiter character to use. Default is "/". */
@@ -1798,10 +1807,10 @@ export type PathHierarchyTokenizerV2 = LexicalTokenizer & {
   reverseTokenOrder?: boolean;
   /** The number of initial tokens to skip. Default is 0. */
   numberOfTokensToSkip?: number;
-};
+}
 
 /** Tokenizer that uses regex pattern matching to construct distinct tokens. This tokenizer is implemented using Apache Lucene. */
-export type PatternTokenizer = LexicalTokenizer & {
+export interface PatternTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PatternTokenizer";
   /** A regular expression pattern to match token separators. Default is an expression that matches one or more non-word characters. */
@@ -1810,52 +1819,52 @@ export type PatternTokenizer = LexicalTokenizer & {
   flags?: string;
   /** The zero-based ordinal of the matching group in the regular expression pattern to extract into tokens. Use -1 if you want to use the entire pattern to split the input into tokens, irrespective of matching groups. Default is -1. */
   group?: number;
-};
+}
 
 /** Breaks text following the Unicode Text Segmentation rules. This tokenizer is implemented using Apache Lucene. */
-export type LuceneStandardTokenizer = LexicalTokenizer & {
+export interface LuceneStandardTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StandardTokenizer";
   /** The maximum token length. Default is 255. Tokens longer than the maximum length are split. */
   maxTokenLength?: number;
-};
+}
 
 /** Breaks text following the Unicode Text Segmentation rules. This tokenizer is implemented using Apache Lucene. */
-export type LuceneStandardTokenizerV2 = LexicalTokenizer & {
+export interface LuceneStandardTokenizerV2 extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StandardTokenizerV2";
   /** The maximum token length. Default is 255. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters. */
   maxTokenLength?: number;
-};
+}
 
 /** Tokenizes urls and emails as one token. This tokenizer is implemented using Apache Lucene. */
-export type UaxUrlEmailTokenizer = LexicalTokenizer & {
+export interface UaxUrlEmailTokenizer extends LexicalTokenizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.UaxUrlEmailTokenizer";
   /** The maximum token length. Default is 255. Tokens longer than the maximum length are split. The maximum token length that can be used is 300 characters. */
   maxTokenLength?: number;
-};
+}
 
 /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. This token filter is implemented using Apache Lucene. */
-export type AsciiFoldingTokenFilter = TokenFilter & {
+export interface AsciiFoldingTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.AsciiFoldingTokenFilter";
   /** A value indicating whether the original token will be kept. Default is false. */
   preserveOriginal?: boolean;
-};
+}
 
 /** Forms bigrams of CJK terms that are generated from the standard tokenizer. This token filter is implemented using Apache Lucene. */
-export type CjkBigramTokenFilter = TokenFilter & {
+export interface CjkBigramTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CjkBigramTokenFilter";
   /** The scripts to ignore. */
   ignoreScripts?: CjkBigramTokenFilterScripts[];
   /** A value indicating whether to output both unigrams and bigrams (if true), or just bigrams (if false). Default is false. */
   outputUnigrams?: boolean;
-};
+}
 
 /** Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. This token filter is implemented using Apache Lucene. */
-export type CommonGramTokenFilter = TokenFilter & {
+export interface CommonGramTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CommonGramTokenFilter";
   /** The set of common words. */
@@ -1864,10 +1873,10 @@ export type CommonGramTokenFilter = TokenFilter & {
   ignoreCase?: boolean;
   /** A value that indicates whether the token filter is in query mode. When in query mode, the token filter generates bigrams and then removes common words and single terms followed by a common word. Default is false. */
   useQueryMode?: boolean;
-};
+}
 
 /** Decomposes compound words found in many Germanic languages. This token filter is implemented using Apache Lucene. */
-export type DictionaryDecompounderTokenFilter = TokenFilter & {
+export interface DictionaryDecompounderTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DictionaryDecompounderTokenFilter";
   /** The list of words to match against. */
@@ -1880,10 +1889,10 @@ export type DictionaryDecompounderTokenFilter = TokenFilter & {
   maxSubwordSize?: number;
   /** A value indicating whether to add only the longest matching subword to the output. Default is false. */
   onlyLongestMatch?: boolean;
-};
+}
 
 /** Generates n-grams of the given size(s) starting from the front or the back of an input token. This token filter is implemented using Apache Lucene. */
-export type EdgeNGramTokenFilter = TokenFilter & {
+export interface EdgeNGramTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenFilter";
   /** The minimum n-gram length. Default is 1. Must be less than the value of maxGram. */
@@ -1892,10 +1901,10 @@ export type EdgeNGramTokenFilter = TokenFilter & {
   maxGram?: number;
   /** Specifies which side of the input the n-gram should be generated from. Default is "front". */
   side?: EdgeNGramTokenFilterSide;
-};
+}
 
 /** Generates n-grams of the given size(s) starting from the front or the back of an input token. This token filter is implemented using Apache Lucene. */
-export type EdgeNGramTokenFilterV2 = TokenFilter & {
+export interface EdgeNGramTokenFilterV2 extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.EdgeNGramTokenFilterV2";
   /** The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram. */
@@ -1904,108 +1913,108 @@ export type EdgeNGramTokenFilterV2 = TokenFilter & {
   maxGram?: number;
   /** Specifies which side of the input the n-gram should be generated from. Default is "front". */
   side?: EdgeNGramTokenFilterSide;
-};
+}
 
 /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). This token filter is implemented using Apache Lucene. */
-export type ElisionTokenFilter = TokenFilter & {
+export interface ElisionTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.ElisionTokenFilter";
   /** The set of articles to remove. */
   articles?: string[];
-};
+}
 
 /** A token filter that only keeps tokens with text contained in a specified list of words. This token filter is implemented using Apache Lucene. */
-export type KeepTokenFilter = TokenFilter & {
+export interface KeepTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.KeepTokenFilter";
   /** The list of words to keep. */
   keepWords: string[];
   /** A value indicating whether to lower case all words first. Default is false. */
   lowerCaseKeepWords?: boolean;
-};
+}
 
 /** Marks terms as keywords. This token filter is implemented using Apache Lucene. */
-export type KeywordMarkerTokenFilter = TokenFilter & {
+export interface KeywordMarkerTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.KeywordMarkerTokenFilter";
   /** A list of words to mark as keywords. */
   keywords: string[];
   /** A value indicating whether to ignore case. If true, all words are converted to lower case first. Default is false. */
   ignoreCase?: boolean;
-};
+}
 
 /** Removes words that are too long or too short. This token filter is implemented using Apache Lucene. */
-export type LengthTokenFilter = TokenFilter & {
+export interface LengthTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.LengthTokenFilter";
   /** The minimum length in characters. Default is 0. Maximum is 300. Must be less than the value of max. */
   minLength?: number;
   /** The maximum length in characters. Default and maximum is 300. */
   maxLength?: number;
-};
+}
 
 /** Limits the number of tokens while indexing. This token filter is implemented using Apache Lucene. */
-export type LimitTokenFilter = TokenFilter & {
+export interface LimitTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.LimitTokenFilter";
   /** The maximum number of tokens to produce. Default is 1. */
   maxTokenCount?: number;
   /** A value indicating whether all tokens from the input must be consumed even if maxTokenCount is reached. Default is false. */
   consumeAllTokens?: boolean;
-};
+}
 
 /** Generates n-grams of the given size(s). This token filter is implemented using Apache Lucene. */
-export type NGramTokenFilter = TokenFilter & {
+export interface NGramTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.NGramTokenFilter";
   /** The minimum n-gram length. Default is 1. Must be less than the value of maxGram. */
   minGram?: number;
   /** The maximum n-gram length. Default is 2. */
   maxGram?: number;
-};
+}
 
 /** Generates n-grams of the given size(s). This token filter is implemented using Apache Lucene. */
-export type NGramTokenFilterV2 = TokenFilter & {
+export interface NGramTokenFilterV2 extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.NGramTokenFilterV2";
   /** The minimum n-gram length. Default is 1. Maximum is 300. Must be less than the value of maxGram. */
   minGram?: number;
   /** The maximum n-gram length. Default is 2. Maximum is 300. */
   maxGram?: number;
-};
+}
 
 /** Uses Java regexes to emit multiple tokens - one for each capture group in one or more patterns. This token filter is implemented using Apache Lucene. */
-export type PatternCaptureTokenFilter = TokenFilter & {
+export interface PatternCaptureTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PatternCaptureTokenFilter";
   /** A list of patterns to match against each token. */
   patterns: string[];
   /** A value indicating whether to return the original token even if one of the patterns matches. Default is true. */
   preserveOriginal?: boolean;
-};
+}
 
 /** A character filter that replaces characters in the input string. It uses a regular expression to identify character sequences to preserve and a replacement pattern to identify characters to replace. For example, given the input text "aa bb aa bb", pattern "(aa)\s+(bb)", and replacement "$1#$2", the result would be "aa#bb aa#bb". This token filter is implemented using Apache Lucene. */
-export type PatternReplaceTokenFilter = TokenFilter & {
+export interface PatternReplaceTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PatternReplaceTokenFilter";
   /** A regular expression pattern. */
   pattern: string;
   /** The replacement text. */
   replacement: string;
-};
+}
 
 /** Create tokens for phonetic matches. This token filter is implemented using Apache Lucene. */
-export type PhoneticTokenFilter = TokenFilter & {
+export interface PhoneticTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PhoneticTokenFilter";
   /** The phonetic encoder to use. Default is "metaphone". */
   encoder?: PhoneticEncoder;
   /** A value indicating whether encoded tokens should replace original tokens. If false, encoded tokens are added as synonyms. Default is true. */
   replaceOriginalTokens?: boolean;
-};
+}
 
 /** Creates combinations of tokens as a single token. This token filter is implemented using Apache Lucene. */
-export type ShingleTokenFilter = TokenFilter & {
+export interface ShingleTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.ShingleTokenFilter";
   /** The maximum shingle size. Default and minimum value is 2. */
@@ -2020,34 +2029,34 @@ export type ShingleTokenFilter = TokenFilter & {
   tokenSeparator?: string;
   /** The string to insert for each position at which there is no token. Default is an underscore ("_"). */
   filterToken?: string;
-};
+}
 
 /** A filter that stems words using a Snowball-generated stemmer. This token filter is implemented using Apache Lucene. */
-export type SnowballTokenFilter = TokenFilter & {
+export interface SnowballTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SnowballTokenFilter";
   /** The language to use. */
   language: SnowballTokenFilterLanguage;
-};
+}
 
 /** Language specific stemming filter. This token filter is implemented using Apache Lucene. */
-export type StemmerTokenFilter = TokenFilter & {
+export interface StemmerTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StemmerTokenFilter";
   /** The language to use. */
   language: StemmerTokenFilterLanguage;
-};
+}
 
 /** Provides the ability to override other stemming filters with custom dictionary-based stemming. Any dictionary-stemmed terms will be marked as keywords so that they will not be stemmed with stemmers down the chain. Must be placed before any stemming filters. This token filter is implemented using Apache Lucene. */
-export type StemmerOverrideTokenFilter = TokenFilter & {
+export interface StemmerOverrideTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StemmerOverrideTokenFilter";
   /** A list of stemming rules in the following format: "word => stem", for example: "ran => run". */
   rules: string[];
-};
+}
 
 /** Removes stop words from a token stream. This token filter is implemented using Apache Lucene. */
-export type StopwordsTokenFilter = TokenFilter & {
+export interface StopwordsTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.StopwordsTokenFilter";
   /** The list of stopwords. This property and the stopwords list property cannot both be set. */
@@ -2058,10 +2067,10 @@ export type StopwordsTokenFilter = TokenFilter & {
   ignoreCase?: boolean;
   /** A value indicating whether to ignore the last search term if it's a stop word. Default is true. */
   removeTrailingStopWords?: boolean;
-};
+}
 
 /** Matches single or multi-word synonyms in a token stream. This token filter is implemented using Apache Lucene. */
-export type SynonymTokenFilter = TokenFilter & {
+export interface SynonymTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.SynonymTokenFilter";
   /** A list of synonyms in following one of two formats: 1. incredible, unbelievable, fabulous => amazing - all terms on the left side of => symbol will be replaced with all terms on its right side; 2. incredible, unbelievable, fabulous, amazing - comma separated list of equivalent words. Set the expand option to change how this list is interpreted. */
@@ -2070,26 +2079,26 @@ export type SynonymTokenFilter = TokenFilter & {
   ignoreCase?: boolean;
   /** A value indicating whether all words in the list of synonyms (if => notation is not used) will map to one another. If true, all words in the list of synonyms (if => notation is not used) will map to one another. The following list: incredible, unbelievable, fabulous, amazing is equivalent to: incredible, unbelievable, fabulous, amazing => incredible, unbelievable, fabulous, amazing. If false, the following list: incredible, unbelievable, fabulous, amazing will be equivalent to: incredible, unbelievable, fabulous, amazing => incredible. Default is true. */
   expand?: boolean;
-};
+}
 
 /** Truncates the terms to a specific length. This token filter is implemented using Apache Lucene. */
-export type TruncateTokenFilter = TokenFilter & {
+export interface TruncateTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.TruncateTokenFilter";
   /** The length at which terms will be truncated. Default and maximum is 300. */
   length?: number;
-};
+}
 
 /** Filters out tokens with same text as the previous token. This token filter is implemented using Apache Lucene. */
-export type UniqueTokenFilter = TokenFilter & {
+export interface UniqueTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.UniqueTokenFilter";
   /** A value indicating whether to remove duplicates only at the same position. Default is false. */
   onlyOnSamePosition?: boolean;
-};
+}
 
 /** Splits words into subwords and performs optional transformations on subword groups. This token filter is implemented using Apache Lucene. */
-export type WordDelimiterTokenFilter = TokenFilter & {
+export interface WordDelimiterTokenFilter extends TokenFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.WordDelimiterTokenFilter";
   /** A value indicating whether to generate part words. If set, causes parts of words to be generated; for example "AzureSearch" becomes "Azure" "Search". Default is true. */
@@ -2112,94 +2121,98 @@ export type WordDelimiterTokenFilter = TokenFilter & {
   stemEnglishPossessive?: boolean;
   /** A list of tokens to protect from being delimited. */
   protectedWords?: string[];
-};
+}
 
 /** A character filter that applies mappings defined with the mappings option. Matching is greedy (longest pattern matching at a given point wins). Replacement is allowed to be the empty string. This character filter is implemented using Apache Lucene. */
-export type MappingCharFilter = CharFilter & {
+export interface MappingCharFilter extends CharFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.MappingCharFilter";
   /** A list of mappings of the following format: "a=>b" (all occurrences of the character "a" will be replaced with character "b"). */
   mappings: string[];
-};
+}
 
 /** A character filter that replaces characters in the input string. It uses a regular expression to identify character sequences to preserve and a replacement pattern to identify characters to replace. For example, given the input text "aa bb aa bb", pattern "(aa)\s+(bb)", and replacement "$1#$2", the result would be "aa#bb aa#bb". This character filter is implemented using Apache Lucene. */
-export type PatternReplaceCharFilter = CharFilter & {
+export interface PatternReplaceCharFilter extends CharFilter {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.PatternReplaceCharFilter";
   /** A regular expression pattern. */
   pattern: string;
   /** The replacement text. */
   replacement: string;
-};
+}
 
 /** Allows you to configure normalization for filterable, sortable, and facetable fields, which by default operate with strict matching. This is a user-defined configuration consisting of at least one or more filters, which modify the token that is stored. */
-export type CustomNormalizer = LexicalNormalizer & {
+export interface CustomNormalizer extends LexicalNormalizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CustomNormalizer";
   /** A list of token filters used to filter out or modify the input token. For example, you can specify a lowercase filter that converts all characters to lowercase. The filters are run in the order in which they are listed. */
   tokenFilters?: TokenFilterName[];
   /** A list of character filters used to prepare input text before it is processed. For instance, they can replace certain characters or symbols. The filters are run in the order in which they are listed. */
   charFilters?: CharFilterName[];
-};
+}
 
 /** Legacy similarity algorithm which uses the Lucene TFIDFSimilarity implementation of TF-IDF. This variation of TF-IDF introduces static document length normalization as well as coordinating factors that penalize documents that only partially match the searched queries. */
-export type ClassicSimilarity = Similarity & {
+export interface ClassicSimilarity extends Similarity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.ClassicSimilarity";
-};
+}
 
 /** Ranking function based on the Okapi BM25 similarity algorithm. BM25 is a TF-IDF-like algorithm that includes length normalization (controlled by the 'b' parameter) as well as term frequency saturation (controlled by the 'k1' parameter). */
-export type BM25Similarity = Similarity & {
+export interface BM25Similarity extends Similarity {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.BM25Similarity";
   /** This property controls the scaling function between the term frequency of each matching terms and the final relevance score of a document-query pair. By default, a value of 1.2 is used. A value of 0.0 means the score does not scale with an increase in term frequency. */
   k1?: number;
   /** This property controls how the length of a document affects the relevance score. By default, a value of 0.75 is used. A value of 0.0 means no length normalization is applied, while a value of 1.0 means the score is fully normalized by the length of the document. */
   b?: number;
-};
+}
 
 /** Contains configuration options specific to the hnsw approximate nearest neighbors algorithm used during indexing and querying. The hnsw algorithm offers a tunable trade-off between search speed and accuracy. */
-export type HnswVectorSearchAlgorithmConfiguration = VectorSearchAlgorithmConfiguration & {
+export interface HnswVectorSearchAlgorithmConfiguration
+  extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "hnsw";
   /** Contains the parameters specific to hnsw algorithm. */
   parameters?: HnswParameters;
-};
+}
 
 /** Contains configuration options specific to the exhaustive KNN algorithm used during querying, which will perform brute-force search across the entire vector index. */
-export type ExhaustiveKnnVectorSearchAlgorithmConfiguration = VectorSearchAlgorithmConfiguration & {
+export interface ExhaustiveKnnVectorSearchAlgorithmConfiguration
+  extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "exhaustiveKnn";
   /** Contains the parameters specific to exhaustive KNN algorithm. */
   parameters?: ExhaustiveKnnParameters;
-};
+}
 
 /** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
-export type AzureOpenAIVectorizer = VectorSearchVectorizer & {
+export interface AzureOpenAIVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure Open AI embedding vectorization. */
   azureOpenAIParameters?: AzureOpenAIParameters;
-};
+}
 
 /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export type CustomVectorizer = VectorSearchVectorizer & {
+export interface CustomVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
   /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
   customVectorizerParameters?: CustomVectorizerParameters;
-};
+}
 
 /** Projection definition for what data to store in Azure Blob. */
-export type SearchIndexerKnowledgeStoreObjectProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 /** Projection definition for what data to store in Azure Files. */
-export type SearchIndexerKnowledgeStoreFileProjectionSelector = SearchIndexerKnowledgeStoreBlobProjectionSelector & {};
+export interface SearchIndexerKnowledgeStoreFileProjectionSelector
+  extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
 /** Known values of {@link ApiVersion20231001Preview} that the service accepts. */
 export enum KnownApiVersion20231001Preview {
   /** Api Version '2023-10-01-Preview' */
-  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview"
+  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview",
 }
 
 /**
@@ -2224,7 +2237,7 @@ export enum KnownSearchIndexerDataSourceType {
   /** Indicates a MySql datasource. */
   MySql = "mysql",
   /** Indicates an ADLS Gen2 datasource. */
-  AdlsGen2 = "adlsgen2"
+  AdlsGen2 = "adlsgen2",
 }
 
 /**
@@ -2254,7 +2267,7 @@ export enum KnownBlobIndexerParsingMode {
   /** Set to jsonArray to extract individual elements of a JSON array as separate documents in Azure Cognitive Search. */
   JsonArray = "jsonArray",
   /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents in Azure Cognitive Search. */
-  JsonLines = "jsonLines"
+  JsonLines = "jsonLines",
 }
 
 /**
@@ -2278,7 +2291,7 @@ export enum KnownBlobIndexerDataToExtract {
   /** Extracts metadata provided by the Azure blob storage subsystem and the content-type specific metadata (for example, metadata unique to just .png files are indexed). */
   AllMetadata = "allMetadata",
   /** Extracts all metadata and textual content from each blob. */
-  ContentAndMetadata = "contentAndMetadata"
+  ContentAndMetadata = "contentAndMetadata",
 }
 
 /**
@@ -2299,7 +2312,7 @@ export enum KnownBlobIndexerImageAction {
   /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field.  This action requires that "dataToExtract" is set to "contentAndMetadata".  A normalized image refers to additional processing resulting in uniform image output, sized and rotated to promote consistent rendering when you include images in visual search results. This information is generated for each image when you use this option. */
   GenerateNormalizedImages = "generateNormalizedImages",
   /** Extracts text from images (for example, the word "STOP" from a traffic stop sign), and embeds it into the content field, but treats PDF files differently in that each page will be rendered as an image and normalized accordingly, instead of extracting embedded images.  Non-PDF file types will be treated the same as if "generateNormalizedImages" was set. */
-  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage"
+  GenerateNormalizedImagePerPage = "generateNormalizedImagePerPage",
 }
 
 /**
@@ -2318,7 +2331,7 @@ export enum KnownBlobIndexerPDFTextRotationAlgorithm {
   /** Leverages normal text extraction.  This is the default. */
   None = "none",
   /** May produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used.  This parameter only applies to PDF files, and only to PDFs with embedded text.  If the rotated text appears within an embedded image in the PDF, this parameter does not apply. */
-  DetectAngles = "detectAngles"
+  DetectAngles = "detectAngles",
 }
 
 /**
@@ -2336,7 +2349,7 @@ export enum KnownIndexerExecutionEnvironment {
   /** Indicates that Azure Cognitive Search can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
   Standard = "standard",
   /** Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources. */
-  Private = "private"
+  Private = "private",
 }
 
 /**
@@ -2352,7 +2365,7 @@ export type IndexerExecutionEnvironment = string;
 /** Known values of {@link IndexerExecutionStatusDetail} that the service accepts. */
 export enum KnownIndexerExecutionStatusDetail {
   /** Indicates that the reset that occurred was for a call to ResetDocs. */
-  ResetDocs = "resetDocs"
+  ResetDocs = "resetDocs",
 }
 
 /**
@@ -2369,7 +2382,7 @@ export enum KnownIndexingMode {
   /** The indexer is indexing all documents in the datasource. */
   IndexingAllDocs = "indexingAllDocs",
   /** The indexer is indexing selective, reset documents in the datasource. The documents being indexed are defined on indexer status. */
-  IndexingResetDocs = "indexingResetDocs"
+  IndexingResetDocs = "indexingResetDocs",
 }
 
 /**
@@ -2387,7 +2400,7 @@ export enum KnownIndexProjectionMode {
   /** The source document will be skipped from writing into the indexer's target index. */
   SkipIndexingParentDocuments = "skipIndexingParentDocuments",
   /** The source document will be written into the indexer's target index. This is the default pattern. */
-  IncludeIndexingParentDocuments = "includeIndexingParentDocuments"
+  IncludeIndexingParentDocuments = "includeIndexingParentDocuments",
 }
 
 /**
@@ -2412,14 +2425,14 @@ export enum KnownSearchFieldDataType {
   Double = "Edm.Double",
   /** Indicates that a field contains a Boolean value (true or false). */
   Boolean = "Edm.Boolean",
-  /** Indicates that a field contains a date/time value, including timezone information. */
+  /** Indicates that a field contains a date\/time value, including timezone information. */
   DateTimeOffset = "Edm.DateTimeOffset",
   /** Indicates that a field contains a geo-location in terms of longitude and latitude. */
   GeographyPoint = "Edm.GeographyPoint",
   /** Indicates that a field contains one or more complex objects that in turn have sub-fields of other types. */
   Complex = "Edm.ComplexType",
   /** Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). */
-  Single = "Edm.Single"
+  Single = "Edm.Single",
 }
 
 /**
@@ -2615,18 +2628,18 @@ export enum KnownLexicalAnalyzerName {
   ViMicrosoft = "vi.microsoft",
   /** Standard Lucene analyzer. */
   StandardLucene = "standard.lucene",
-  /** Standard ASCII Folding Lucene analyzer. See https://docs.microsoft.com/rest/api/searchservice/Custom-analyzers-in-Azure-Search#Analyzers */
+  /** Standard ASCII Folding Lucene analyzer. See https:\//docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers */
   StandardAsciiFoldingLucene = "standardasciifolding.lucene",
-  /** Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordAnalyzer.html */
+  /** Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/KeywordAnalyzer.html */
   Keyword = "keyword",
-  /** Flexibly separates text into terms via a regular expression pattern. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/PatternAnalyzer.html */
+  /** Flexibly separates text into terms via a regular expression pattern. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/PatternAnalyzer.html */
   Pattern = "pattern",
-  /** Divides text at non-letters and converts them to lower case. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/SimpleAnalyzer.html */
+  /** Divides text at non-letters and converts them to lower case. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/SimpleAnalyzer.html */
   Simple = "simple",
-  /** Divides text at non-letters; Applies the lowercase and stopword token filters. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopAnalyzer.html */
+  /** Divides text at non-letters; Applies the lowercase and stopword token filters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopAnalyzer.html */
   Stop = "stop",
-  /** An analyzer that uses the whitespace tokenizer. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceAnalyzer.html */
-  Whitespace = "whitespace"
+  /** An analyzer that uses the whitespace tokenizer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceAnalyzer.html */
+  Whitespace = "whitespace",
 }
 
 /**
@@ -2732,16 +2745,16 @@ export type LexicalAnalyzerName = string;
 
 /** Known values of {@link LexicalNormalizerName} that the service accepts. */
 export enum KnownLexicalNormalizerName {
-  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html */
+  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html */
   AsciiFolding = "asciifolding",
-  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html */
+  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html */
   Elision = "elision",
-  /** Normalizes token text to lowercase. See https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html */
+  /** Normalizes token text to lowercase. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html */
   Lowercase = "lowercase",
-  /** Standard normalizer, which consists of lowercase and asciifolding. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/reverse/ReverseStringFilter.html */
+  /** Standard normalizer, which consists of lowercase and asciifolding. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html */
   Standard = "standard",
-  /** Normalizes token text to uppercase. See https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html */
-  Uppercase = "uppercase"
+  /** Normalizes token text to uppercase. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
+  Uppercase = "uppercase",
 }
 
 /**
@@ -2762,7 +2775,7 @@ export enum KnownVectorSearchAlgorithmKind {
   /** Hnsw (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
   Hnsw = "hnsw",
   /** Exhaustive KNN algorithm which will perform brute-force search. */
-  ExhaustiveKnn = "exhaustiveKnn"
+  ExhaustiveKnn = "exhaustiveKnn",
 }
 
 /**
@@ -2780,7 +2793,7 @@ export enum KnownVectorSearchVectorizerKind {
   /** Generate embeddings using an Azure Open AI service at query time. */
   AzureOpenAI = "azureOpenAI",
   /** Generate embeddings using a custom web endpoint at query time. */
-  CustomWebApi = "customWebApi"
+  CustomWebApi = "customWebApi",
 }
 
 /**
@@ -2795,74 +2808,74 @@ export type VectorSearchVectorizerKind = string;
 
 /** Known values of {@link TokenFilterName} that the service accepts. */
 export enum KnownTokenFilterName {
-  /** A token filter that applies the Arabic normalizer to normalize the orthography. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ar/ArabicNormalizationFilter.html */
+  /** A token filter that applies the Arabic normalizer to normalize the orthography. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html */
   ArabicNormalization = "arabic_normalization",
-  /** Strips all characters after an apostrophe (including the apostrophe itself). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/tr/ApostropheFilter.html */
+  /** Strips all characters after an apostrophe (including the apostrophe itself). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/tr\/ApostropheFilter.html */
   Apostrophe = "apostrophe",
-  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ASCIIFoldingFilter.html */
+  /** Converts alphabetic, numeric, and symbolic Unicode characters which are not in the first 127 ASCII characters (the "Basic Latin" Unicode block) into their ASCII equivalents, if such equivalents exist. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ASCIIFoldingFilter.html */
   AsciiFolding = "asciifolding",
-  /** Forms bigrams of CJK terms that are generated from the standard tokenizer. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKBigramFilter.html */
+  /** Forms bigrams of CJK terms that are generated from the standard tokenizer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKBigramFilter.html */
   CjkBigram = "cjk_bigram",
-  /** Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/cjk/CJKWidthFilter.html */
+  /** Normalizes CJK width differences. Folds fullwidth ASCII variants into the equivalent basic Latin, and half-width Katakana variants into the equivalent Kana. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/cjk\/CJKWidthFilter.html */
   CjkWidth = "cjk_width",
-  /** Removes English possessives, and dots from acronyms. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicFilter.html */
+  /** Removes English possessives, and dots from acronyms. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicFilter.html */
   Classic = "classic",
-  /** Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/commongrams/CommonGramsFilter.html */
+  /** Construct bigrams for frequently occurring terms while indexing. Single terms are still indexed too, with bigrams overlaid. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/commongrams\/CommonGramsFilter.html */
   CommonGram = "common_grams",
-  /** Generates n-grams of the given size(s) starting from the front or the back of an input token. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenFilter.html */
+  /** Generates n-grams of the given size(s) starting from the front or the back of an input token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenFilter.html */
   EdgeNGram = "edgeNGram_v2",
-  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/util/ElisionFilter.html */
+  /** Removes elisions. For example, "l'avion" (the plane) will be converted to "avion" (plane). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/util\/ElisionFilter.html */
   Elision = "elision",
-  /** Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/de/GermanNormalizationFilter.html */
+  /** Normalizes German characters according to the heuristics of the German2 snowball algorithm. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/de\/GermanNormalizationFilter.html */
   GermanNormalization = "german_normalization",
-  /** Normalizes text in Hindi to remove some differences in spelling variations. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/hi/HindiNormalizationFilter.html */
+  /** Normalizes text in Hindi to remove some differences in spelling variations. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/hi\/HindiNormalizationFilter.html */
   HindiNormalization = "hindi_normalization",
-  /** Normalizes the Unicode representation of text in Indian languages. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/in/IndicNormalizationFilter.html */
+  /** Normalizes the Unicode representation of text in Indian languages. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/in\/IndicNormalizationFilter.html */
   IndicNormalization = "indic_normalization",
-  /** Emits each incoming token twice, once as keyword and once as non-keyword. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/KeywordRepeatFilter.html */
+  /** Emits each incoming token twice, once as keyword and once as non-keyword. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/KeywordRepeatFilter.html */
   KeywordRepeat = "keyword_repeat",
-  /** A high-performance kstem filter for English. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/en/KStemFilter.html */
+  /** A high-performance kstem filter for English. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/en\/KStemFilter.html */
   KStem = "kstem",
-  /** Removes words that are too long or too short. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LengthFilter.html */
+  /** Removes words that are too long or too short. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LengthFilter.html */
   Length = "length",
-  /** Limits the number of tokens while indexing. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/LimitTokenCountFilter.html */
+  /** Limits the number of tokens while indexing. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/LimitTokenCountFilter.html */
   Limit = "limit",
-  /** Normalizes token text to lower case. See https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/LowerCaseFilter.html */
+  /** Normalizes token text to lower case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseFilter.html */
   Lowercase = "lowercase",
-  /** Generates n-grams of the given size(s). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenFilter.html */
+  /** Generates n-grams of the given size(s). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenFilter.html */
   NGram = "nGram_v2",
-  /** Applies normalization for Persian. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/fa/PersianNormalizationFilter.html */
+  /** Applies normalization for Persian. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/fa\/PersianNormalizationFilter.html */
   PersianNormalization = "persian_normalization",
-  /** Create tokens for phonetic matches. See https://lucene.apache.org/core/4_10_3/analyzers-phonetic/org/apache/lucene/analysis/phonetic/package-tree.html */
+  /** Create tokens for phonetic matches. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-phonetic\/org\/apache\/lucene\/analysis\/phonetic\/package-tree.html */
   Phonetic = "phonetic",
-  /** Uses the Porter stemming algorithm to transform the token stream. See http://tartarus.org/~martin/PorterStemmer */
+  /** Uses the Porter stemming algorithm to transform the token stream. See http:\//tartarus.org\/~martin\/PorterStemmer */
   PorterStem = "porter_stem",
-  /** Reverses the token string. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/reverse/ReverseStringFilter.html */
+  /** Reverses the token string. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/reverse\/ReverseStringFilter.html */
   Reverse = "reverse",
-  /** Normalizes use of the interchangeable Scandinavian characters. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianNormalizationFilter.html */
+  /** Normalizes use of the interchangeable Scandinavian characters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianNormalizationFilter.html */
   ScandinavianNormalization = "scandinavian_normalization",
-  /** Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/ScandinavianFoldingFilter.html */
+  /** Folds Scandinavian characters åÅäæÄÆ-&gt;a and öÖøØ-&gt;o. It also discriminates against use of double vowels aa, ae, ao, oe and oo, leaving just the first one. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/ScandinavianFoldingFilter.html */
   ScandinavianFoldingNormalization = "scandinavian_folding",
-  /** Creates combinations of tokens as a single token. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/shingle/ShingleFilter.html */
+  /** Creates combinations of tokens as a single token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html */
   Shingle = "shingle",
-  /** A filter that stems words using a Snowball-generated stemmer. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/snowball/SnowballFilter.html */
+  /** A filter that stems words using a Snowball-generated stemmer. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html */
   Snowball = "snowball",
-  /** Normalizes the Unicode representation of Sorani text. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ckb/SoraniNormalizationFilter.html */
+  /** Normalizes the Unicode representation of Sorani text. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html */
   SoraniNormalization = "sorani_normalization",
-  /** Language specific stemming filter. See https://docs.microsoft.com/rest/api/searchservice/Custom-analyzers-in-Azure-Search#TokenFilters */
+  /** Language specific stemming filter. See https:\//docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters */
   Stemmer = "stemmer",
-  /** Removes stop words from a token stream. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/StopFilter.html */
+  /** Removes stop words from a token stream. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html */
   Stopwords = "stopwords",
-  /** Trims leading and trailing whitespace from tokens. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TrimFilter.html */
+  /** Trims leading and trailing whitespace from tokens. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html */
   Trim = "trim",
-  /** Truncates the terms to a specific length. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/TruncateTokenFilter.html */
+  /** Truncates the terms to a specific length. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html */
   Truncate = "truncate",
-  /** Filters out tokens with same text as the previous token. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/miscellaneous/RemoveDuplicatesTokenFilter.html */
+  /** Filters out tokens with same text as the previous token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/RemoveDuplicatesTokenFilter.html */
   Unique = "unique",
-  /** Normalizes token text to upper case. See https://lucene.apache.org/core/6_6_1/analyzers-common/org/apache/lucene/analysis/core/UpperCaseFilter.html */
+  /** Normalizes token text to upper case. See https:\//lucene.apache.org\/core\/6_6_1\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/UpperCaseFilter.html */
   Uppercase = "uppercase",
   /** Splits words into subwords and performs optional transformations on subword groups. */
-  WordDelimiter = "word_delimiter"
+  WordDelimiter = "word_delimiter",
 }
 
 /**
@@ -2909,8 +2922,8 @@ export type TokenFilterName = string;
 
 /** Known values of {@link CharFilterName} that the service accepts. */
 export enum KnownCharFilterName {
-  /** A character filter that attempts to strip out HTML constructs. See https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/charfilter/HTMLStripCharFilter.html */
-  HtmlStrip = "html_strip"
+  /** A character filter that attempts to strip out HTML constructs. See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/charfilter\/HTMLStripCharFilter.html */
+  HtmlStrip = "html_strip",
 }
 
 /**
@@ -2924,9 +2937,12 @@ export type CharFilterName = string;
 
 /** Known values of {@link VectorSearchAlgorithmMetric} that the service accepts. */
 export enum KnownVectorSearchAlgorithmMetric {
+  /** Cosine */
   Cosine = "cosine",
+  /** Euclidean */
   Euclidean = "euclidean",
-  DotProduct = "dotProduct"
+  /** DotProduct */
+  DotProduct = "dotProduct",
 }
 
 /**
@@ -2973,7 +2989,7 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
   /** Spanish */
   Es = "es",
   /** Swedish */
-  Sv = "sv"
+  Sv = "sv",
 }
 
 /**
@@ -3341,7 +3357,7 @@ export enum KnownOcrSkillLanguage {
   /** Zulu */
   Zu = "zu",
   /** Unknown (All) */
-  Unk = "unk"
+  Unk = "unk",
 }
 
 /**
@@ -3531,7 +3547,7 @@ export enum KnownLineEnding {
   /** Lines are separated by a single line feed ('\n') character. */
   LineFeed = "lineFeed",
   /** Lines are separated by a carriage return and a line feed ('\r\n') character. */
-  CarriageReturnLineFeed = "carriageReturnLineFeed"
+  CarriageReturnLineFeed = "carriageReturnLineFeed",
 }
 
 /**
@@ -3651,7 +3667,7 @@ export enum KnownImageAnalysisSkillLanguage {
   /** Chinese Simplified */
   ZhHans = "zh-Hans",
   /** Chinese Traditional */
-  ZhHant = "zh-Hant"
+  ZhHant = "zh-Hant",
 }
 
 /**
@@ -3729,7 +3745,7 @@ export enum KnownVisualFeature {
   /** Visual features recognized as objects. */
   Objects = "objects",
   /** Tags. */
-  Tags = "tags"
+  Tags = "tags",
 }
 
 /**
@@ -3752,7 +3768,7 @@ export enum KnownImageDetail {
   /** Details recognized as celebrities. */
   Celebrities = "celebrities",
   /** Details recognized as landmarks. */
-  Landmarks = "landmarks"
+  Landmarks = "landmarks",
 }
 
 /**
@@ -3780,7 +3796,7 @@ export enum KnownEntityCategory {
   /** Entities describing a URL. */
   Url = "url",
   /** Entities describing an email address. */
-  Email = "email"
+  Email = "email",
 }
 
 /**
@@ -3845,7 +3861,7 @@ export enum KnownEntityRecognitionSkillLanguage {
   /** Swedish */
   Sv = "sv",
   /** Turkish */
-  Tr = "tr"
+  Tr = "tr",
 }
 
 /**
@@ -3910,7 +3926,7 @@ export enum KnownSentimentSkillLanguage {
   /** Swedish */
   Sv = "sv",
   /** Turkish */
-  Tr = "tr"
+  Tr = "tr",
 }
 
 /**
@@ -3941,7 +3957,7 @@ export enum KnownPIIDetectionSkillMaskingMode {
   /** No masking occurs and the maskedText output will not be returned. */
   None = "none",
   /** Replaces the detected entities with the character given in the maskingCharacter parameter. The character will be repeated to the length of the detected entity so that the offsets will correctly correspond to both the input text as well as the output maskedText. */
-  Replace = "replace"
+  Replace = "replace",
 }
 
 /**
@@ -3973,7 +3989,7 @@ export enum KnownSplitSkillLanguage {
   /** Korean */
   Ko = "ko",
   /** Portuguese */
-  Pt = "pt"
+  Pt = "pt",
 }
 
 /**
@@ -3998,7 +4014,7 @@ export enum KnownTextSplitMode {
   /** Split the text into individual pages. */
   Pages = "pages",
   /** Split the text into individual sentences. */
-  Sentences = "sentences"
+  Sentences = "sentences",
 }
 
 /**
@@ -4030,7 +4046,7 @@ export enum KnownCustomEntityLookupSkillLanguage {
   /** Korean */
   Ko = "ko",
   /** Portuguese */
-  Pt = "pt"
+  Pt = "pt",
 }
 
 /**
@@ -4195,7 +4211,7 @@ export enum KnownTextTranslationSkillLanguage {
   /** Malayalam */
   Ml = "ml",
   /** Punjabi */
-  Pa = "pa"
+  Pa = "pa",
 }
 
 /**
@@ -4280,32 +4296,32 @@ export type TextTranslationSkillLanguage = string;
 
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
 export enum KnownLexicalTokenizerName {
-  /** Grammar-based tokenizer that is suitable for processing most European-language documents. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/ClassicTokenizer.html */
+  /** Grammar-based tokenizer that is suitable for processing most European-language documents. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/ClassicTokenizer.html */
   Classic = "classic",
-  /** Tokenizes the input from an edge into n-grams of the given size(s). See https://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/EdgeNGramTokenizer.html */
+  /** Tokenizes the input from an edge into n-grams of the given size(s). See https:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/EdgeNGramTokenizer.html */
   EdgeNGram = "edgeNGram",
-  /** Emits the entire input as a single token. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/KeywordTokenizer.html */
+  /** Emits the entire input as a single token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/KeywordTokenizer.html */
   Keyword = "keyword_v2",
-  /** Divides text at non-letters. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LetterTokenizer.html */
+  /** Divides text at non-letters. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LetterTokenizer.html */
   Letter = "letter",
-  /** Divides text at non-letters and converts them to lower case. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/LowerCaseTokenizer.html */
+  /** Divides text at non-letters and converts them to lower case. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/LowerCaseTokenizer.html */
   Lowercase = "lowercase",
   /** Divides text using language-specific rules. */
   MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
   /** Divides text using language-specific rules and reduces words to their base forms. */
   MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
-  /** Tokenizes the input into n-grams of the given size(s). See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/ngram/NGramTokenizer.html */
+  /** Tokenizes the input into n-grams of the given size(s). See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ngram\/NGramTokenizer.html */
   NGram = "nGram",
-  /** Tokenizer for path-like hierarchies. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/path/PathHierarchyTokenizer.html */
+  /** Tokenizer for path-like hierarchies. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/path\/PathHierarchyTokenizer.html */
   PathHierarchy = "path_hierarchy_v2",
-  /** Tokenizer that uses regex pattern matching to construct distinct tokens. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/pattern/PatternTokenizer.html */
+  /** Tokenizer that uses regex pattern matching to construct distinct tokens. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/pattern\/PatternTokenizer.html */
   Pattern = "pattern",
-  /** Standard Lucene analyzer; Composed of the standard tokenizer, lowercase filter and stop filter. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/StandardTokenizer.html */
+  /** Standard Lucene analyzer; Composed of the standard tokenizer, lowercase filter and stop filter. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/StandardTokenizer.html */
   Standard = "standard_v2",
-  /** Tokenizes urls and emails as one token. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/standard/UAX29URLEmailTokenizer.html */
+  /** Tokenizes urls and emails as one token. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/standard\/UAX29URLEmailTokenizer.html */
   UaxUrlEmail = "uax_url_email",
-  /** Divides text at whitespace. See http://lucene.apache.org/core/4_10_3/analyzers-common/org/apache/lucene/analysis/core/WhitespaceTokenizer.html */
-  Whitespace = "whitespace"
+  /** Divides text at whitespace. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/WhitespaceTokenizer.html */
+  Whitespace = "whitespace",
 }
 
 /**
@@ -4346,7 +4362,7 @@ export enum KnownRegexFlags {
   /** Enables Unicode-aware case folding. */
   UnicodeCase = "UNICODE_CASE",
   /** Enables Unix lines mode. */
-  UnixLines = "UNIX_LINES"
+  UnixLines = "UNIX_LINES",
 }
 
 /**

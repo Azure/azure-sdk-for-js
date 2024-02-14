@@ -14,7 +14,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0
 add-credentials: false
 title: SearchClient
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.14"
 core-http-compat-mode: true
 package-version: 12.0.0-beta.4
 disable-async-iterators: true

@@ -13,7 +13,7 @@ source-code-folder-path: ./src/generated/service
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchservice.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-alpha.17.20220318.1"
+  "@autorest/typescript": "6.0.14"
 core-http-compat-mode: true
 package-version: 12.0.0-beta.4
 disable-async-iterators: true

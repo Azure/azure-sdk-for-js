@@ -460,20 +460,20 @@ export interface AutocompleteRequest {
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
-export type RawVectorQuery = VectorQuery & {
+export interface RawVectorQuery extends VectorQuery {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "vector";
   /** The vector representation of a search query. */
   vector?: number[];
-};
+}
 
 /** The query parameters to use for vector search when a text value that needs to be vectorized is provided. */
-export type VectorizableTextQuery = VectorQuery & {
+export interface VectorizableTextQuery extends VectorQuery {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "text";
   /** The text to be vectorized to perform a vector search query. */
   text?: string;
-};
+}
 
 /** Parameter group */
 export interface SearchOptions {
@@ -580,7 +580,7 @@ export interface AutocompleteOptions {
 /** Known values of {@link ApiVersion20231001Preview} that the service accepts. */
 export enum KnownApiVersion20231001Preview {
   /** Api Version '2023-10-01-Preview' */
-  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview"
+  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview",
 }
 
 /**
@@ -597,7 +597,7 @@ export enum KnownSemanticErrorHandling {
   /** If the semantic processing fails, partial results still return. The definition of partial results depends on what semantic step failed and what was the reason for failure. */
   Partial = "partial",
   /** If there is an exception during the semantic processing step, the query will fail and return the appropriate HTTP code depending on the error. */
-  Fail = "fail"
+  Fail = "fail",
 }
 
 /**
@@ -615,7 +615,7 @@ export enum KnownQueryDebugMode {
   /** No query debugging information will be returned. */
   Disabled = "disabled",
   /** Allows the user to further explore their Semantic search results. */
-  Semantic = "semantic"
+  Semantic = "semantic",
 }
 
 /**
@@ -773,7 +773,7 @@ export enum KnownQueryLanguage {
   /** Query language value for Telugu (India). */
   TeIn = "te-in",
   /** Query language value for Urdu (Pakistan). */
-  UrPk = "ur-pk"
+  UrPk = "ur-pk",
 }
 
 /**
@@ -861,7 +861,7 @@ export enum KnownSpeller {
   /** Speller not enabled. */
   None = "none",
   /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
-  Lexicon = "lexicon"
+  Lexicon = "lexicon",
 }
 
 /**
@@ -879,7 +879,7 @@ export enum KnownAnswers {
   /** Do not return answers for the query. */
   None = "none",
   /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -897,7 +897,7 @@ export enum KnownCaptions {
   /** Do not return captions for the query. */
   None = "none",
   /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -915,7 +915,7 @@ export enum KnownQuerySpellerType {
   /** Speller not enabled. */
   None = "none",
   /** Speller corrects individual query terms using a static lexicon for the language specified by the queryLanguage parameter. */
-  Lexicon = "lexicon"
+  Lexicon = "lexicon",
 }
 
 /**
@@ -933,7 +933,7 @@ export enum KnownQueryAnswerType {
   /** Do not return answers for the query. */
   None = "none",
   /** Extracts answer candidates from the contents of the documents returned in response to a query expressed as a question in natural language. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -951,7 +951,7 @@ export enum KnownQueryCaptionType {
   /** Do not return captions for the query. */
   None = "none",
   /** Extracts captions from the matching documents that contain passages relevant to the search query. */
-  Extractive = "extractive"
+  Extractive = "extractive",
 }
 
 /**
@@ -969,7 +969,7 @@ export enum KnownVectorQueryKind {
   /** Vector query where a raw vector value is provided. */
   Vector = "vector",
   /** Vector query where a text value that needs to be vectorized is provided. */
-  $DO_NOT_NORMALIZE$_text = "text"
+  $DO_NOT_NORMALIZE$_text = "text",
 }
 
 /**
@@ -987,7 +987,7 @@ export enum KnownVectorFilterMode {
   /** The filter will be applied after the candidate set of vector results is returned. Depending on the filter selectivity, this can result in fewer results than requested by the parameter 'k'. */
   PostFilter = "postFilter",
   /** The filter will be applied before the search query. */
-  PreFilter = "preFilter"
+  PreFilter = "preFilter",
 }
 
 /**
@@ -1007,7 +1007,7 @@ export enum KnownSemanticPartialResponseReason {
   /** The request was throttled. Only the base results were returned. */
   CapacityOverloaded = "capacityOverloaded",
   /** At least one step of the semantic process failed. */
-  Transient = "transient"
+  Transient = "transient",
 }
 
 /**
@@ -1026,7 +1026,7 @@ export enum KnownSemanticPartialResponseType {
   /** Results without any semantic enrichment or reranking. */
   BaseResults = "baseResults",
   /** Results have been reranked with the reranker model and will include semantic captions. They will not include any answers, answers highlights or caption highlights. */
-  RerankedResults = "rerankedResults"
+  RerankedResults = "rerankedResults",
 }
 
 /**
@@ -1046,7 +1046,7 @@ export enum KnownSemanticFieldState {
   /** The field was not used for semantic enrichment. */
   Unused = "unused",
   /** The field was partially used for semantic enrichment. */
-  Partial = "partial"
+  Partial = "partial",
 }
 
 /**
