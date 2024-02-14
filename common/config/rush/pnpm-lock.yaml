@@ -1507,11 +1507,6 @@ packages:
       '@azure/msal-common': 14.7.0
     dev: false
 
-  /@azure/msal-common@13.3.1:
-    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
-    engines: {node: '>=0.8.0'}
-    dev: false
-
   /@azure/msal-common@14.5.0:
     resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
     engines: {node: '>=0.8.0'}
@@ -1543,16 +1538,6 @@ packages:
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
-    dev: false
-
-  /@azure/msal-node@1.18.4:
-    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
-    engines: {node: 10 || 12 || 14 || 16 || 18}
-    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
-    dependencies:
-      '@azure/msal-common': 13.3.1
-      jsonwebtoken: 9.0.2
-      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node@2.6.3:
@@ -17259,13 +17244,13 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-UEwtyljWS6JPoCHiArohCq2AVoE8Km9w/7Fvnsw+hFzIBl02GGZpkBJ9azSBuDyAeDJm0Ng7Ho0Pe5I6CcEhVw==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-mmtIS0CeYFMJxoa1TseC3pau6aV+tAU6ic/Hj9xxdAd3dFOKrK6SKEyen3IfsHTGS279en5I2UnTTzw3ICmqOQ==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@azure/msal-node': 1.18.4
+      '@azure/msal-node': 2.6.3
       '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -19830,7 +19815,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-jJAKV0xZtJJLGYQWKh491I84Og97NX2goKLq+z5ioxrIbIoC9z2XED2DpzVtFN90F+UOyTfNIA8niXTAfXbwZg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-znsAUq8KrMWEZpRYoUUwSamsOFAjKPrQJc2leRHM/QcMAO3ghlYvgfgAovlsaaQ8jQ+Q7V1uTGBIu77mAy2Nrw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19878,7 +19863,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-JC7XYy5qw1ZabecDN7Girw9cfhpaC8EFMHovybi+cGlrXtIpvbgOoi4qJ5C8cNMXgoV9epX1odxEZRQVvsWzWQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-N9nSwtCSOOXRpR8UtlkeVRtkSzVfSoLFh3srVaQaPmdPWR8kI8faSAe4VG/K4YGuJgaxFStJJv00vVAQr032EA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19924,7 +19909,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-R0F44ALQH8wMZsJUMtW5dmriw3nhkUZ6q4777dhgDev7MsgBdOCnZC8Mqlu10q0g/x8kUlmQwvTp65rwrejQPA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-HlHgzSJnLpwoLUyooqPuF4iuVRhygYHgsg8x1O4YlmHGo2811G7hBGHnzwrbSij/FhHfjjETNOiEH23jSH9uzA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -20415,7 +20400,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-m4miWyp+BhptAHW0KNafiP9ZLli5kRk7xQrFWlegcJbCA/JAaBWvYAw9oP9T1oCsgbeQPPT0vRneQDeS+0G7gg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-0dtMDfhtA6+1wyBjUXM/sIpoa0Qc/yVWKC0blPWcGOvI51ECvWTfqOmhdMuN/FZpUgr/TTfqsJl+WuH+Trilag==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21027,7 +21012,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-LqhpJwnhHWnc84l3xMhtQgfpvY8Rc+kmbqZumXeR6fWjL/eC2o7ToXVic1R33AfvYoyuxGgMTYIrIpR+Rye+AA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-z056stcwgVFeU0n4k4vAokL+Qp5i6Pkc8kSCfHk8LuceWJ2/9rwmYTVB/Gf8OiybE8MKfKXsopQW0sDpz5yN2w==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:

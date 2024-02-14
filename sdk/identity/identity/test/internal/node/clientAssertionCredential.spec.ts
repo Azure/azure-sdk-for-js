@@ -95,7 +95,6 @@ describe("ClientAssertionCredential (internal)", function () {
       await credential.getToken("https://vault.azure.net/.default");
     } catch (e: any) {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
-      console.log("error", e);
     }
 
     assert.equal(getTokenSilentSpy.callCount, 1);

@@ -17,14 +17,21 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to run with test-proxy",
     },
+    "no-esm": {
+      shortName: "nesm",
+      kind: "boolean",
+      default: false,
+      description: "whether to skip loading the esm package",
+    },
   },
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  console.log(options);
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
   const defaultMochaArgs = `${
-    (await isModuleProject())
+    options["no-esm"] === true || (await isModuleProject())
       ? "-r source-map-support/register.js"
       : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
   } ${reporterArgs} --full-trace`;
