@@ -708,6 +708,26 @@ export interface RecordingStateChanged {
   readonly startDateTime?: Date;
 }
 
+export interface TeamsComplianceRecordingStateChanged {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. */
+  correlationId?: string;
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+}
+
 export interface PlayCompleted {
   /** Call connection ID. */
   callConnectionId?: string;
@@ -897,7 +917,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser"
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -919,7 +939,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch"
+  Gcch = "gcch",
 }
 
 /**
@@ -948,7 +968,7 @@ export enum KnownCallConnectionStateModel {
   /** Disconnecting */
   Disconnecting = "disconnecting",
   /** Disconnected */
-  Disconnected = "disconnected"
+  Disconnected = "disconnected",
 }
 
 /**
@@ -973,7 +993,7 @@ export enum KnownCallRejectReason {
   /** Busy */
   Busy = "busy",
   /** Forbidden */
-  Forbidden = "forbidden"
+  Forbidden = "forbidden",
 }
 
 /**
@@ -994,7 +1014,7 @@ export enum KnownPlaySourceType {
   /** Text */
   Text = "text",
   /** Ssml */
-  Ssml = "ssml"
+  Ssml = "ssml",
 }
 
 /**
@@ -1013,7 +1033,7 @@ export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
-  Female = "female"
+  Female = "female",
 }
 
 /**
@@ -1035,7 +1055,7 @@ export enum KnownRecognizeInputType {
   /** SpeechOrDtmf */
   SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -1083,7 +1103,7 @@ export enum KnownTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk"
+  Asterisk = "asterisk",
 }
 
 /**
@@ -1115,7 +1135,7 @@ export enum KnownCallLocatorKind {
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator"
+  ServerCallLocator = "serverCallLocator",
 }
 
 /**
@@ -1133,7 +1153,7 @@ export enum KnownRecordingContentType {
   /** Audio */
   Audio = "audio",
   /** AudioVideo */
-  AudioVideo = "audioVideo"
+  AudioVideo = "audioVideo",
 }
 
 /**
@@ -1151,7 +1171,7 @@ export enum KnownRecordingChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed"
+  Unmixed = "unmixed",
 }
 
 /**
@@ -1171,7 +1191,7 @@ export enum KnownRecordingFormatType {
   /** Mp3 */
   Mp3 = "mp3",
   /** Mp4 */
-  Mp4 = "mp4"
+  Mp4 = "mp4",
 }
 
 /**
@@ -1190,7 +1210,7 @@ export enum KnownRecordingState {
   /** Active */
   Active = "active",
   /** Inactive */
-  Inactive = "inactive"
+  Inactive = "inactive",
 }
 
 /**
@@ -1210,7 +1230,7 @@ export enum KnownRecognitionType {
   /** Speech */
   Speech = "speech",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -1348,7 +1368,8 @@ export interface CallConnectionCancelAddParticipantOptionalParams
 }
 
 /** Contains response data for the cancelAddParticipant operation. */
-export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
+export type CallConnectionCancelAddParticipantResponse =
+  CancelAddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -1413,7 +1434,8 @@ export interface CallRecordingGetRecordingPropertiesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
-export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
+export type CallRecordingGetRecordingPropertiesResponse =
+  RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams

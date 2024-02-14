@@ -22,7 +22,7 @@ import {
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
-  CallMediaSendDtmfTonesResponse
+  CallMediaSendDtmfTonesResponse,
 } from "../models";
 
 /** Class containing CallMedia operations. */
@@ -46,11 +46,11 @@ export class CallMediaImpl implements CallMedia {
   play(
     callConnectionId: string,
     playRequest: PlayRequest,
-    options?: CallMediaPlayOptionalParams
+    options?: CallMediaPlayOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, playRequest, options },
-      playOperationSpec
+      playOperationSpec,
     );
   }
 
@@ -61,11 +61,11 @@ export class CallMediaImpl implements CallMedia {
    */
   cancelAllMediaOperations(
     callConnectionId: string,
-    options?: CallMediaCancelAllMediaOperationsOptionalParams
+    options?: CallMediaCancelAllMediaOperationsOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, options },
-      cancelAllMediaOperationsOperationSpec
+      cancelAllMediaOperationsOperationSpec,
     );
   }
 
@@ -78,11 +78,11 @@ export class CallMediaImpl implements CallMedia {
   recognize(
     callConnectionId: string,
     recognizeRequest: RecognizeRequest,
-    options?: CallMediaRecognizeOptionalParams
+    options?: CallMediaRecognizeOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, recognizeRequest, options },
-      recognizeOperationSpec
+      recognizeOperationSpec,
     );
   }
 
@@ -95,11 +95,11 @@ export class CallMediaImpl implements CallMedia {
   startContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams
+    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, continuousDtmfRecognitionRequest, options },
-      startContinuousDtmfRecognitionOperationSpec
+      startContinuousDtmfRecognitionOperationSpec,
     );
   }
 
@@ -112,11 +112,11 @@ export class CallMediaImpl implements CallMedia {
   stopContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams
+    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { callConnectionId, continuousDtmfRecognitionRequest, options },
-      stopContinuousDtmfRecognitionOperationSpec
+      stopContinuousDtmfRecognitionOperationSpec,
     );
   }
 
@@ -129,11 +129,11 @@ export class CallMediaImpl implements CallMedia {
   sendDtmfTones(
     callConnectionId: string,
     sendDtmfTonesRequest: SendDtmfTonesRequest,
-    options?: CallMediaSendDtmfTonesOptionalParams
+    options?: CallMediaSendDtmfTonesOptionalParams,
   ): Promise<CallMediaSendDtmfTonesResponse> {
     return this.client.sendOperationRequest(
       { callConnectionId, sendDtmfTonesRequest, options },
-      sendDtmfTonesOperationSpec
+      sendDtmfTonesOperationSpec,
     );
   }
 }
@@ -146,15 +146,15 @@ const playOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.playRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:cancelAllMediaOperations",
@@ -162,13 +162,13 @@ const cancelAllMediaOperationsOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const recognizeOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:recognize",
@@ -176,60 +176,58 @@ const recognizeOperationSpec: coreClient.OperationSpec = {
   responses: {
     202: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.recognizeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const startContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/calling/callConnections/{callConnectionId}:startContinuousDtmfRecognition",
+  path: "/calling/callConnections/{callConnectionId}:startContinuousDtmfRecognition",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.continuousDtmfRecognitionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const stopContinuousDtmfRecognitionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/calling/callConnections/{callConnectionId}:stopContinuousDtmfRecognition",
+  path: "/calling/callConnections/{callConnectionId}:stopContinuousDtmfRecognition",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.continuousDtmfRecognitionRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.callConnectionId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
   path: "/calling/callConnections/{callConnectionId}:sendDtmfTones",
   httpMethod: "POST",
   responses: {
     202: {
-      bodyMapper: Mappers.SendDtmfTonesResult
+      bodyMapper: Mappers.SendDtmfTonesResult,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: Parameters.sendDtmfTonesRequest,
   queryParameters: [Parameters.apiVersion],
@@ -238,8 +236,8 @@ const sendDtmfTonesOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.repeatabilityRequestID,
-    Parameters.repeatabilityFirstSent
+    Parameters.repeatabilityFirstSent,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

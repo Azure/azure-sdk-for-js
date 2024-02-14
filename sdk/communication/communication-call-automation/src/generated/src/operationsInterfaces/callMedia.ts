@@ -17,7 +17,7 @@ import {
   CallMediaStopContinuousDtmfRecognitionOptionalParams,
   SendDtmfTonesRequest,
   CallMediaSendDtmfTonesOptionalParams,
-  CallMediaSendDtmfTonesResponse
+  CallMediaSendDtmfTonesResponse,
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -31,7 +31,7 @@ export interface CallMedia {
   play(
     callConnectionId: string,
     playRequest: PlayRequest,
-    options?: CallMediaPlayOptionalParams
+    options?: CallMediaPlayOptionalParams,
   ): Promise<void>;
   /**
    * Cancel all media operations in a call.
@@ -40,7 +40,7 @@ export interface CallMedia {
    */
   cancelAllMediaOperations(
     callConnectionId: string,
-    options?: CallMediaCancelAllMediaOperationsOptionalParams
+    options?: CallMediaCancelAllMediaOperationsOptionalParams,
   ): Promise<void>;
   /**
    * Recognize media from call.
@@ -51,7 +51,7 @@ export interface CallMedia {
   recognize(
     callConnectionId: string,
     recognizeRequest: RecognizeRequest,
-    options?: CallMediaRecognizeOptionalParams
+    options?: CallMediaRecognizeOptionalParams,
   ): Promise<void>;
   /**
    * Start continuous Dtmf recognition by subscribing to tones.
@@ -62,7 +62,7 @@ export interface CallMedia {
   startContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams
+    options?: CallMediaStartContinuousDtmfRecognitionOptionalParams,
   ): Promise<void>;
   /**
    * Stop continuous Dtmf recognition by unsubscribing to tones.
@@ -73,7 +73,7 @@ export interface CallMedia {
   stopContinuousDtmfRecognition(
     callConnectionId: string,
     continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest,
-    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams
+    options?: CallMediaStopContinuousDtmfRecognitionOptionalParams,
   ): Promise<void>;
   /**
    * Send dtmf tones.
@@ -84,6 +84,6 @@ export interface CallMedia {
   sendDtmfTones(
     callConnectionId: string,
     sendDtmfTonesRequest: SendDtmfTonesRequest,
-    options?: CallMediaSendDtmfTonesOptionalParams
+    options?: CallMediaSendDtmfTonesOptionalParams,
   ): Promise<CallMediaSendDtmfTonesResponse>;
 }
