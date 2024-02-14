@@ -15,7 +15,7 @@
 
 import * as dotenv from "dotenv";
 import { createClientContext, createRegistration } from "@azure/notification-hubs/api";
-import { createAppleRegistrationDescription } from "@azure/notification-hubs/models";
+import { createFcmV1RegistrationDescription } from "@azure/notification-hubs/models";
 
 // Load the .env file if it exists
 dotenv.config();
@@ -25,14 +25,14 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+const DUMMY_REGISTRATION = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const fcmV1RegistrationId = process.env.FCMV1_REGISTRATION_ID || DUMMY_REGISTRATION;
 
 async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
-  const registration = createAppleRegistrationDescription({
-    deviceToken,
+  const registration = createFcmV1RegistrationDescription({
+    fcmV1RegistrationId,
     tags: ["likes_football", "likes_hockey"],
   });
 

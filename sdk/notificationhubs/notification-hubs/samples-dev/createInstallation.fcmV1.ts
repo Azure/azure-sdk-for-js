@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
 /**
  * This sample demonstrates how the createOrUpdateInstallation() method can be used to create or overwrite an
  * installation in place.
@@ -15,7 +14,7 @@
 
 import * as dotenv from "dotenv";
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
-import { createAppleInstallation } from "@azure/notification-hubs/models";
+import { createFcmV1Installation } from "@azure/notification-hubs/models";
 import { randomUUID } from "@azure/core-util";
 
 // Load the .env file if it exists
@@ -26,15 +25,15 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceToken = process.env.APNS_DEVICE_TOKEN || DUMMY_DEVICE;
+const DUMMY_REGISTRATION = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const fcmV1RegistrationId = process.env.FCMV1_REGISTRATION_ID || DUMMY_REGISTRATION;
 
 async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
-  const installation = createAppleInstallation({
+  const installation = createFcmV1Installation({
     installationId: randomUUID(),
-    pushChannel: deviceToken,
+    pushChannel: fcmV1RegistrationId,
     tags: ["likes_hockey", "likes_football"],
   });
 
