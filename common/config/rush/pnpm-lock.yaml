@@ -1507,6 +1507,11 @@ packages:
       '@azure/msal-common': 14.7.0
     dev: false
 
+  /@azure/msal-common@13.3.1:
+    resolution: {integrity: sha512-Lrk1ozoAtaP/cp53May3v6HtcFSVxdFrg2Pa/1xu5oIvsIwhxW6zSPibKefCOVgd5osgykMi5jjcZHv8XkzZEQ==}
+    engines: {node: '>=0.8.0'}
+    dev: false
+
   /@azure/msal-common@14.5.0:
     resolution: {integrity: sha512-Gx5rZbiZV/HiZ2nEKfjfAF/qDdZ4/QWxMvMo2jhIFVz528dVKtaZyFAOtsX2Ak8+TQvRsGCaEfuwJFuXB6tu1A==}
     engines: {node: '>=0.8.0'}
@@ -1538,6 +1543,16 @@ packages:
   /@azure/msal-node-runtime@0.13.6-alpha.0:
     resolution: {integrity: sha512-Tu5e4wBFiaiBLrOu7bsJF7FYknFH9XIOvUyCqCnmLJFMMOUnYULZ7fOFYuintFFcNPMOT2u8BVfSCPxETri5ng==}
     requiresBuild: true
+    dev: false
+
+  /@azure/msal-node@1.18.4:
+    resolution: {integrity: sha512-Kc/dRvhZ9Q4+1FSfsTFDME/v6+R2Y1fuMty/TfwqE5p9GTPw08BPbKgeWinE8JRHRp+LemjQbUZsn4Q4l6Lszg==}
+    engines: {node: 10 || 12 || 14 || 16 || 18}
+    deprecated: A newer major version of this library is available. Please upgrade to the latest available version.
+    dependencies:
+      '@azure/msal-common': 13.3.1
+      jsonwebtoken: 9.0.2
+      uuid: 8.3.2
     dev: false
 
   /@azure/msal-node@2.6.3:
@@ -17244,13 +17259,13 @@ packages:
     dev: false
 
   file:projects/communication-identity.tgz:
-    resolution: {integrity: sha512-mmtIS0CeYFMJxoa1TseC3pau6aV+tAU6ic/Hj9xxdAd3dFOKrK6SKEyen3IfsHTGS279en5I2UnTTzw3ICmqOQ==, tarball: file:projects/communication-identity.tgz}
+    resolution: {integrity: sha512-UEwtyljWS6JPoCHiArohCq2AVoE8Km9w/7Fvnsw+hFzIBl02GGZpkBJ9azSBuDyAeDJm0Ng7Ho0Pe5I6CcEhVw==, tarball: file:projects/communication-identity.tgz}
     name: '@rush-temp/communication-identity'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@azure/msal-node': 2.6.3
+      '@azure/msal-node': 1.18.4
       '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
@@ -18995,7 +19010,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-ruu02BC8golDTf85SJTFWELLDl+Zy2BQatuyJyf/UpOUF61YdK8HuKyf6V23ICPn/0M8l9Cud8LzzOT8bdPI7g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-fO1XIna4VY+PdwoHkYkDN0HH/926BMjo5zeacrD70jlTpd0bybvpdVHkNVxxNZgfuAhoZoYRNR+XB4Y/Ev0yIQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
