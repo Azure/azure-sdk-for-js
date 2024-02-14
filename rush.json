@@ -551,6 +551,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-httpclients",
+      "projectFolder": "sdk/core/core-httpclients",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/core-lro",
       "projectFolder": "sdk/core/core-lro",
       "versionPolicyName": "core"
