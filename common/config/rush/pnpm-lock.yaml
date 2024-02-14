@@ -1133,6 +1133,12 @@ dependencies:
   chai:
     specifier: 4.3.10
     version: 4.3.10
+  http-proxy-agent:
+    specifier: 7.0.0
+    version: 7.0.0
+  https-proxy-agent:
+    specifier: 7.0.2
+    version: 7.0.2
 
 packages:
 
@@ -6197,8 +6203,8 @@ packages:
       - supports-color
     dev: false
 
-  /http-proxy-agent@7.0.1:
-    resolution: {integrity: sha512-My1KCEPs6A0hb4qCVzYp8iEvA8j8YqcvXLZZH8C9OFuTYpYjHE7N2dtG3mRl1HMD4+VGXpF3XcDVcxGBT7yDZQ==}
+  /http-proxy-agent@7.0.0:
+    resolution: {integrity: sha512-+ZT+iBxVUQ1asugqnD6oWoRiS25AkjNfG085dKJGtGxkdwLQrMKU5wJr2bOOFAXzKcTuqq+7fZlTMgG3SRfIYQ==}
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.0
@@ -6228,8 +6234,8 @@ packages:
       - supports-color
     dev: false
 
-  /https-proxy-agent@7.0.3:
-    resolution: {integrity: sha512-kCnwztfX0KZJSLOBrcL0emLeFako55NWMovvyPP2AjsghNk9RB1yjSI+jVumPHYZsNXegNoqupSW9IY3afSH8w==}
+  /https-proxy-agent@7.0.2:
+    resolution: {integrity: sha512-NmLNjm6ucYwtcUmL7JQC1ZQ57LmHP4lT15FQ8D61nak1rO6DH+fz5qNK2Ap5UN4ZapYICE3/0KodcLYSPsPbaA==}
     engines: {node: '>= 14'}
     dependencies:
       agent-base: 7.1.0
@@ -7951,8 +7957,8 @@ packages:
       agent-base: 7.1.0
       debug: 4.3.4(supports-color@8.1.1)
       get-uri: 6.0.3
-      http-proxy-agent: 7.0.1
-      https-proxy-agent: 7.0.3
+      http-proxy-agent: 7.0.0
+      https-proxy-agent: 7.0.2
       pac-resolver: 7.0.1
       socks-proxy-agent: 8.0.2
     transitivePeerDependencies:
@@ -8327,8 +8333,8 @@ packages:
     dependencies:
       agent-base: 7.1.0
       debug: 4.3.4(supports-color@8.1.1)
-      http-proxy-agent: 7.0.1
-      https-proxy-agent: 7.0.3
+      http-proxy-agent: 7.0.0
+      https-proxy-agent: 7.0.2
       lru-cache: 7.18.3
       pac-proxy-agent: 7.0.1
       proxy-from-env: 1.1.0
@@ -18232,7 +18238,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-XcpnSpQ2OOdSqh6EY3dyO/0BtuN200SglrzK2exLykBhqmN4aiDpUOhDiqULhUURvG1x8a+fUH0JiNH2loLn9g==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-VZ5iunYjZBasNcRyzBW2Sv7kXeDRleQy40Bdj3/M9THVwzbf0ND0x5sF4qTbtDV6hCVHeNFjSjXbmerAduYkNw==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18241,8 +18247,8 @@ packages:
       '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
       '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
       eslint: 8.56.0
-      http-proxy-agent: 7.0.1
-      https-proxy-agent: 7.0.3
+      http-proxy-agent: 7.0.0
+      https-proxy-agent: 7.0.2
       playwright: 1.41.2
       prettier: 3.2.5
       rimraf: 5.0.5
@@ -18799,7 +18805,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-LV9ckIycccwaMvglK3T0baFkZNIScvRqCH9mlln3o+GJy2qqt+cYk4OOw7n6fGhLaH9fgPKHt2XV6/01QxQiWA==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-LKkyspqplsK2oHtm2KSiN0SfkJdMShA8cSZTbYwqNfBGwZZzXbW5QcVXxDiBBkIfE2tq7KGyqola2/lR1aFYSw==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -18827,7 +18833,7 @@ packages:
       dotenv: 16.4.4
       eslint: 8.56.0
       esm: 3.2.25
-      https-proxy-agent: 7.0.3
+      https-proxy-agent: 7.0.2
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.2(debug@4.3.4)
@@ -20067,7 +20073,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-jJAKV0xZtJJLGYQWKh491I84Og97NX2goKLq+z5ioxrIbIoC9z2XED2DpzVtFN90F+UOyTfNIA8niXTAfXbwZg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-znsAUq8KrMWEZpRYoUUwSamsOFAjKPrQJc2leRHM/QcMAO3ghlYvgfgAovlsaaQ8jQ+Q7V1uTGBIu77mAy2Nrw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20115,7 +20121,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-JC7XYy5qw1ZabecDN7Girw9cfhpaC8EFMHovybi+cGlrXtIpvbgOoi4qJ5C8cNMXgoV9epX1odxEZRQVvsWzWQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-N9nSwtCSOOXRpR8UtlkeVRtkSzVfSoLFh3srVaQaPmdPWR8kI8faSAe4VG/K4YGuJgaxFStJJv00vVAQr032EA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -20653,7 +20659,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-m4miWyp+BhptAHW0KNafiP9ZLli5kRk7xQrFWlegcJbCA/JAaBWvYAw9oP9T1oCsgbeQPPT0vRneQDeS+0G7gg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-0dtMDfhtA6+1wyBjUXM/sIpoa0Qc/yVWKC0blPWcGOvI51ECvWTfqOmhdMuN/FZpUgr/TTfqsJl+WuH+Trilag==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21265,7 +21271,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-kQxRncyVjSOTIiW21TWfauxybzV8AJpfSoeYWcI+jgPVsPq2njhNTy1leNvIGjlhW+KhNYP8oHzuwpadWItcXA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-LqhpJwnhHWnc84l3xMhtQgfpvY8Rc+kmbqZumXeR6fWjL/eC2o7ToXVic1R33AfvYoyuxGgMTYIrIpR+Rye+AA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -21292,7 +21298,7 @@ packages:
       eslint: 8.56.0
       esm: 3.2.25
       events: 3.3.0
-      https-proxy-agent: 7.0.3
+      https-proxy-agent: 7.0.2
       is-buffer: 2.0.5
       jssha: 3.3.1
       karma: 6.4.2(debug@4.3.4)
@@ -22079,7 +22085,7 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-Yfg6vVZlB+skBiYOjPIUhpwXZ7bVBpaVVznH/tibauXfDnSGW8S2C4llshjfZdveRyl0XGuYtV63G/M/2VJ1qg==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-/U3Oyf+94/P3c+f31gfM06vll+t+GWHQjKRZ77O8qjoOY1+5RAcOVLSoAG2Hmbe4TlbJTbr/v+ZE9645d7w8Ow==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
@@ -22097,8 +22103,8 @@ packages:
       cross-env: 7.0.3
       eslint: 8.56.0
       esm: 3.2.25
-      http-proxy-agent: 7.0.1
-      https-proxy-agent: 7.0.3
+      http-proxy-agent: 7.0.0
+      https-proxy-agent: 7.0.2
       inherits: 2.0.4
       karma: 6.4.2(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
