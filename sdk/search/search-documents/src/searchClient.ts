@@ -6,7 +6,7 @@
 import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy, Pipeline } from "@azure/core-rest-pipeline";
 import { decode, encode } from "./base64";
 import {
   AutocompleteRequest,
@@ -114,11 +114,15 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
   public readonly indexName: string;
 
   /**
-   * @internal
    * @hidden
    * A reference to the auto-generated SearchClient
    */
   private readonly client: GeneratedClient;
+
+  /**
+   * A reference to the internal HTTP pipeline for use with raw requests
+   */
+  public readonly pipeline: Pipeline;
 
   /**
    * Creates an instance of SearchClient.
@@ -193,6 +197,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
       this.serviceVersion,
       internalClientPipelineOptions,
     );
+    this.pipeline = this.client.pipeline;
 
     if (isTokenCredential(credential)) {
       const scope: string = options.audience

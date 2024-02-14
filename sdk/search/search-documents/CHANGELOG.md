@@ -82,6 +82,10 @@
   - Remove `KnownTokenFilterName` as a duplicate of `KnownTokenFilterNames`
   - Remove `SearchRequest` as a duplicate of `SearchRequestOptions`
 
+### Features Added
+
+- Expose the internal HTTP pipeline to allow users to send raw requests with it
+
 ## 12.0.0-beta.4 (2023-10-11)
 
 ### Features Added

@@ -11,6 +11,7 @@ import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -2097,6 +2098,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
     readonly indexName: string;
     mergeDocuments(documents: TModel[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
     mergeOrUploadDocuments(documents: TModel[], options?: MergeOrUploadDocumentsOptions): Promise<IndexDocumentsResult>;
+    readonly pipeline: Pipeline;
     search<TFields extends SelectFields<TModel>>(searchText?: string, options?: SearchOptions<TModel, TFields>): Promise<SearchDocumentsResult<TModel, TFields>>;
     readonly serviceVersion: string;
     suggest<TFields extends SelectFields<TModel> = never>(searchText: string, suggesterName: string, options?: SuggestOptions<TModel, TFields>): Promise<SuggestDocumentsResult<TModel, TFields>>;
@@ -2193,6 +2195,7 @@ export class SearchIndexClient {
     listIndexesNames(options?: ListIndexesOptions): IndexNameIterator;
     listSynonymMaps(options?: ListSynonymMapsOptions): Promise<Array<SynonymMap>>;
     listSynonymMapsNames(options?: ListSynonymMapsOptions): Promise<Array<string>>;
+    readonly pipeline: Pipeline;
     readonly serviceVersion: string;
 }
 
@@ -2253,6 +2256,7 @@ export class SearchIndexerClient {
     listIndexersNames(options?: ListIndexersOptions): Promise<Array<string>>;
     listSkillsets(options?: ListSkillsetsOptions): Promise<Array<SearchIndexerSkillset>>;
     listSkillsetsNames(options?: ListSkillsetsOptions): Promise<Array<string>>;
+    readonly pipeline: Pipeline;
     resetDocuments(indexerName: string, options?: ResetDocumentsOptions): Promise<void>;
     resetIndexer(indexerName: string, options?: ResetIndexerOptions): Promise<void>;
     resetSkills(skillsetName: string, options?: ResetSkillsOptions): Promise<void>;
