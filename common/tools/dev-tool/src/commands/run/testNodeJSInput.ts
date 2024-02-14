@@ -30,10 +30,10 @@ export const commandInfo = makeCommandInfo(
 export default leafCommand(commandInfo, async (options) => {
   let esmLoaderArgs = [];
   if ((await isModuleProject()) === false) {
-    if (options["loader"] === "esm") {
-      esmLoaderArgs.push("-r ../../../common/tools/esm-workaround -r esm");
-    } else {
+    if (options["loader"] === "esm4mocha") {
       esmLoaderArgs.push("--loader=../../../common/tools/esm4mocha.mjs");
+    } else {
+      esmLoaderArgs.push("-r ../../../common/tools/esm-workaround -r esm");
     }
   }
   esmLoaderArgs.push("-r source-map-support/register.js");
