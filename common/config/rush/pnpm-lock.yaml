@@ -19010,7 +19010,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-fO1XIna4VY+PdwoHkYkDN0HH/926BMjo5zeacrD70jlTpd0bybvpdVHkNVxxNZgfuAhoZoYRNR+XB4Y/Ev0yIQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-ruu02BC8golDTf85SJTFWELLDl+Zy2BQatuyJyf/UpOUF61YdK8HuKyf6V23ICPn/0M8l9Cud8LzzOT8bdPI7g==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19830,7 +19830,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-znsAUq8KrMWEZpRYoUUwSamsOFAjKPrQJc2leRHM/QcMAO3ghlYvgfgAovlsaaQ8jQ+Q7V1uTGBIu77mAy2Nrw==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-jJAKV0xZtJJLGYQWKh491I84Og97NX2goKLq+z5ioxrIbIoC9z2XED2DpzVtFN90F+UOyTfNIA8niXTAfXbwZg==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19878,7 +19878,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-N9nSwtCSOOXRpR8UtlkeVRtkSzVfSoLFh3srVaQaPmdPWR8kI8faSAe4VG/K4YGuJgaxFStJJv00vVAQr032EA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-JC7XYy5qw1ZabecDN7Girw9cfhpaC8EFMHovybi+cGlrXtIpvbgOoi4qJ5C8cNMXgoV9epX1odxEZRQVvsWzWQ==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19924,7 +19924,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-HlHgzSJnLpwoLUyooqPuF4iuVRhygYHgsg8x1O4YlmHGo2811G7hBGHnzwrbSij/FhHfjjETNOiEH23jSH9uzA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-R0F44ALQH8wMZsJUMtW5dmriw3nhkUZ6q4777dhgDev7MsgBdOCnZC8Mqlu10q0g/x8kUlmQwvTp65rwrejQPA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -20415,7 +20415,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-0dtMDfhtA6+1wyBjUXM/sIpoa0Qc/yVWKC0blPWcGOvI51ECvWTfqOmhdMuN/FZpUgr/TTfqsJl+WuH+Trilag==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-m4miWyp+BhptAHW0KNafiP9ZLli5kRk7xQrFWlegcJbCA/JAaBWvYAw9oP9T1oCsgbeQPPT0vRneQDeS+0G7gg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21027,7 +21027,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-z056stcwgVFeU0n4k4vAokL+Qp5i6Pkc8kSCfHk8LuceWJ2/9rwmYTVB/Gf8OiybE8MKfKXsopQW0sDpz5yN2w==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-LqhpJwnhHWnc84l3xMhtQgfpvY8Rc+kmbqZumXeR6fWjL/eC2o7ToXVic1R33AfvYoyuxGgMTYIrIpR+Rye+AA==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
