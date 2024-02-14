@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 /**
- * This sample demonstrates how the sendDirectNotification() method can be used to send a direct batch
- * notification using APNs.  This sends a JSON message to an APNs given device token and returns
+ * This sample demonstrates how the sendNotification() method can be used to send a direct
+ * notification using Firebase Legacy HTTP.  This sends a JSON message to an Firebase given registration ID and returns
  * a Tracking ID which can be used for troubleshooting with the Azure Notification Hubs team.
  *
- * See https://learn.microsoft.com/rest/api/notificationhubs/direct-batch-send
- * to learn about Direct Send Batch.
+ * See https://docs.microsoft.com/rest/api/notificationhubs/direct-send
+ * to learn about Direct Send.
  *
  *
  * @summary Demonstrates how to send direct notifications using Azure Notification Hubs
@@ -18,7 +18,7 @@ import * as dotenv from "dotenv";
 import {
   NotificationDetails,
   NotificationOutcomeState,
-  createAppleNotification,
+  createFcmLegacyNotification,
 } from "@azure/notification-hubs/models";
 import {
   NotificationHubsClientContext,
@@ -37,23 +37,30 @@ const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<con
 const hubName = process.env.NOTIFICATION_HUB_NAME || "<hub name>";
 
 // Define message constants
-const DUMMY_DEVICE = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
-const deviceHandle = process.env.APNS_DEVICE_TOKENS?.split(",") || [DUMMY_DEVICE];
+const DUMMY_REGISTRATION = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
+const fcmV1RegistrationId = process.env.FCMV1_REGISTRATION_ID || DUMMY_REGISTRATION;
 
 async function main(): Promise<void> {
   const context = createClientContext(connectionString, hubName);
 
-  const messageBody = `{ "aps" : { "alert" : { title: "Hello", body: "Hello there SDK Review!" } } }`;
+  const messageBody = `{
+	"notification":{
+		"title":"Notification Hub Test Notification",
+		"body":"This is a sample notification delivered by Azure Notification Hubs."
+	},
+	"data":{
+		"property1":"value1",
+		"property2":42
+	}
+}`;
 
-  const notification = createAppleNotification({
+  const notification = createFcmLegacyNotification({
     body: messageBody,
-    headers: {
-      "apns-priority": "10",
-      "apns-push-type": "alert",
-    },
   });
 
-  const result = await sendNotification(context, notification, { deviceHandle });
+  const result = await sendNotification(context, notification, {
+    deviceHandle: fcmV1RegistrationId,
+  });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
