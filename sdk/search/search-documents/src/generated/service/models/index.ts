@@ -108,8 +108,8 @@ export type LexicalNormalizerUnion = LexicalNormalizer | CustomNormalizer;
 export type SimilarityUnion = Similarity | ClassicSimilarity | BM25Similarity;
 export type VectorSearchAlgorithmConfigurationUnion =
   | VectorSearchAlgorithmConfiguration
-  | HnswVectorSearchAlgorithmConfiguration
-  | ExhaustiveKnnVectorSearchAlgorithmConfiguration;
+  | HnswAlgorithmConfiguration
+  | ExhaustiveKnnAlgorithmConfiguration;
 export type VectorSearchVectorizerUnion =
   | VectorSearchVectorizer
   | AzureOpenAIVectorizer
@@ -135,13 +135,13 @@ export interface SearchIndexerDataSource {
   dataDeletionDetectionPolicy?: DataDeletionDetectionPolicyUnion;
   /** The ETag of the data source. */
   etag?: string;
-  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your datasource definition when you want full assurance that no one, not even Microsoft, can decrypt your data source definition in Azure Cognitive Search. Once you have encrypted your data source definition, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your datasource definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your datasource definition when you want full assurance that no one, not even Microsoft, can decrypt your data source definition. Once you have encrypted your data source definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your datasource definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
 }
 
 /** Represents credentials that can be used to connect to a datasource. */
 export interface DataSourceCredentials {
-  /** The connection string for the datasource. Set to '<unchanged>' if you do not want the connection string updated. */
+  /** The connection string for the datasource. Set to `<unchanged>` (with brackets) if you don't want the connection string updated. Set to `<redacted>` if you want to remove the connection string value from the datasource. */
   connectionString?: string;
 }
 
@@ -177,13 +177,13 @@ export interface DataDeletionDetectionPolicy {
     | "#Microsoft.Azure.Search.NativeBlobSoftDeleteDeletionDetectionPolicy";
 }
 
-/** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest in Azure Cognitive Search, such as indexes and synonym maps. */
+/** A customer-managed encryption key in Azure Key Vault. Keys that you create and manage can be used to encrypt or decrypt data-at-rest, such as indexes and synonym maps. */
 export interface SearchResourceEncryptionKey {
   /** The name of your Azure Key Vault key to be used to encrypt your data at rest. */
   keyName: string;
   /** The version of your Azure Key Vault key to be used to encrypt your data at rest. */
   keyVersion: string;
-  /** The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your data at rest. An example URI might be https://my-keyvault-name.vault.azure.net. */
+  /** The URI of your Azure Key Vault, also referred to as DNS name, that contains the key to be used to encrypt your data at rest. An example URI might be `https://my-keyvault-name.vault.azure.net`. */
   vaultUri: string;
   /** Optional Azure Active Directory credentials used for accessing your Azure Key Vault. Not required if using managed identity instead. */
   accessCredentials?: AzureActiveDirectoryApplicationCredentials;
@@ -199,7 +199,7 @@ export interface AzureActiveDirectoryApplicationCredentials {
   applicationSecret?: string;
 }
 
-/** Describes an error condition for the Azure Cognitive Search API. */
+/** Describes an error condition for the API. */
 export interface SearchError {
   /**
    * One of a server-defined set of error codes.
@@ -258,7 +258,7 @@ export interface SearchIndexer {
   isDisabled?: boolean;
   /** The ETag of the indexer. */
   etag?: string;
-  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your indexer definition (as well as indexer execution status) when you want full assurance that no one, not even Microsoft, can decrypt them in Azure Cognitive Search. Once you have encrypted your indexer definition, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your indexer definition (and indexer execution status) will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your indexer definition (as well as indexer execution status) when you want full assurance that no one, not even Microsoft, can decrypt them. Once you have encrypted your indexer definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your indexer definition (and indexer execution status) will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** Adds caching to an enrichment pipeline to allow for incremental modification steps without having to rebuild the index every time. */
   cache?: SearchIndexerCache;
@@ -574,15 +574,15 @@ export interface SearchIndexerSkillset {
   description?: string;
   /** A list of skills in the skillset. */
   skills: SearchIndexerSkillUnion[];
-  /** Details about cognitive services to be used when running skills. */
+  /** Details about the Azure AI service to be used when running skills. */
   cognitiveServicesAccount?: CognitiveServicesAccountUnion;
-  /** Definition of additional projections to azure blob, table, or files, of enriched data. */
+  /** Definition of additional projections to Azure blob, table, or files, of enriched data. */
   knowledgeStore?: SearchIndexerKnowledgeStore;
   /** Definition of additional projections to secondary search index(es). */
   indexProjections?: SearchIndexerIndexProjections;
   /** The ETag of the skillset. */
   etag?: string;
-  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your skillset definition when you want full assurance that no one, not even Microsoft, can decrypt your skillset definition in Azure Cognitive Search. Once you have encrypted your skillset definition, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your skillset definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your skillset definition when you want full assurance that no one, not even Microsoft, can decrypt your skillset definition. Once you have encrypted your skillset definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your skillset definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
 }
 
@@ -642,13 +642,13 @@ export interface OutputFieldMappingEntry {
   targetName?: string;
 }
 
-/** Base type for describing any cognitive service resource attached to a skillset. */
+/** Base type for describing any Azure AI service resource attached to a skillset. */
 export interface CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
     | "#Microsoft.Azure.Search.DefaultCognitiveServices"
     | "#Microsoft.Azure.Search.CognitiveServicesByKey";
-  /** Description of the cognitive service resource attached to a skillset. */
+  /** Description of the Azure AI service resource attached to a skillset. */
   description?: string;
 }
 
@@ -746,7 +746,7 @@ export interface SynonymMap {
   format: "solr";
   /** A series of synonym rules in the specified synonym map format. The rules must be separated by newlines. */
   synonyms: string;
-  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data. Once you have encrypted your data, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The ETag of the synonym map. */
   etag?: string;
@@ -785,12 +785,12 @@ export interface SearchIndex {
   charFilters?: CharFilterUnion[];
   /** The normalizers for the index. */
   normalizers?: LexicalNormalizerUnion[];
-  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data in Azure Cognitive Search. Once you have encrypted your data, it will always remain encrypted. Azure Cognitive Search will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
+  /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your data when you want full assurance that no one, not even Microsoft, can decrypt your data. Once you have encrypted your data, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your data will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
   encryptionKey?: SearchResourceEncryptionKey;
   /** The type of similarity algorithm to be used when scoring and ranking the documents matching a search query. The similarity algorithm can only be defined at index creation time and cannot be modified on existing indexes. If null, the ClassicSimilarity algorithm is used. */
   similarity?: SimilarityUnion;
   /** Defines parameters for a search index that influence semantic capabilities. */
-  semanticSettings?: SemanticSettings;
+  semanticSearch?: SemanticSearch;
   /** Contains configuration options related to vector search. */
   vectorSearch?: VectorSearch;
   /** The ETag of the index. */
@@ -807,11 +807,11 @@ export interface SearchField {
   key?: boolean;
   /** A value indicating whether the field can be returned in a search result. You can disable this option if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This property must be true for key fields, and it must be null for complex fields. This property can be changed on existing fields. Enabling this property does not cause any increase in index storage requirements. Default is true for simple fields and null for complex fields. */
   retrievable?: boolean;
-  /** A value indicating whether the field is full-text searchable. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type Edm.String or Collection(Edm.String) are searchable by default. This property must be false for simple fields of other non-string data types, and it must be null for complex fields. Note: searchable fields consume extra space in your index since Azure Cognitive Search will store an additional tokenized version of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set searchable to false. */
+  /** A value indicating whether the field is full-text searchable. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type Edm.String or Collection(Edm.String) are searchable by default. This property must be false for simple fields of other non-string data types, and it must be null for complex fields. Note: searchable fields consume extra space in your index to accommodate additional tokenized versions of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set searchable to false. */
   searchable?: boolean;
   /** A value indicating whether to enable the field to be referenced in $filter queries. filterable differs from searchable in how strings are handled. Fields of type Edm.String or Collection(Edm.String) that are filterable do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", $filter=f eq 'sunny' will find no matches, but $filter=f eq 'sunny day' will. This property must be null for complex fields. Default is true for simple fields and null for complex fields. */
   filterable?: boolean;
-  /** A value indicating whether to enable the field to be referenced in $orderby expressions. By default Azure Cognitive Search sorts results by score, but in many experiences users will want to sort by fields in the documents. A simple field can be sortable only if it is single-valued (it has a single value in the scope of the parent document). Simple collection fields cannot be sortable, since they are multi-valued. Simple sub-fields of complex collections are also multi-valued, and therefore cannot be sortable. This is true whether it's an immediate parent field, or an ancestor field, that's the complex collection. Complex fields cannot be sortable and the sortable property must be null for such fields. The default for sortable is true for single-valued simple fields, false for multi-valued simple fields, and null for complex fields. */
+  /** A value indicating whether to enable the field to be referenced in $orderby expressions. By default, the search engine sorts results by score, but in many experiences users will want to sort by fields in the documents. A simple field can be sortable only if it is single-valued (it has a single value in the scope of the parent document). Simple collection fields cannot be sortable, since they are multi-valued. Simple sub-fields of complex collections are also multi-valued, and therefore cannot be sortable. This is true whether it's an immediate parent field, or an ancestor field, that's the complex collection. Complex fields cannot be sortable and the sortable property must be null for such fields. The default for sortable is true for single-valued simple fields, false for multi-valued simple fields, and null for complex fields. */
   sortable?: boolean;
   /** A value indicating whether to enable the field to be referenced in facet queries. Typically used in a presentation of search results that includes hit count by category (for example, search for digital cameras and see hits by brand, by megapixels, by price, and so on). This property must be null for complex fields. Fields of type Edm.GeographyPoint or Collection(Edm.GeographyPoint) cannot be facetable. Default is true for all other simple fields. */
   facetable?: boolean;
@@ -826,7 +826,7 @@ export interface SearchField {
   /** The dimensionality of the vector field. */
   vectorSearchDimensions?: number;
   /** The name of the vector search profile that specifies the algorithm and vectorizer to use when searching the vector field. */
-  vectorSearchProfile?: string;
+  vectorSearchProfileName?: string;
   /** A list of the names of synonym maps to associate with this field. This option can be used only with searchable fields. Currently only one synonym map per field is supported. Assigning a synonym map to a field ensures that query terms targeting that field are expanded at query-time using the rules in the synonym map. This attribute can be changed on existing fields. Must be null or an empty collection for complex fields. */
   synonymMaps?: string[];
   /** A list of sub-fields if this is a field of type Edm.ComplexType or Collection(Edm.ComplexType). Must be null or empty for simple fields. */
@@ -973,9 +973,9 @@ export interface Similarity {
 }
 
 /** Defines parameters for a search index that influence semantic capabilities. */
-export interface SemanticSettings {
+export interface SemanticSearch {
   /** Allows you to set the name of a default semantic configuration in your index, making it optional to pass it on as a query parameter every time. */
-  defaultConfiguration?: string;
+  defaultConfigurationName?: string;
   /** The semantic configurations for the index. */
   configurations?: SemanticConfiguration[];
 }
@@ -985,29 +985,29 @@ export interface SemanticConfiguration {
   /** The name of the semantic configuration. */
   name: string;
   /** Describes the title, content, and keyword fields to be used for semantic ranking, captions, highlights, and answers. At least one of the three sub properties (titleField, prioritizedKeywordsFields and prioritizedContentFields) need to be set. */
-  prioritizedFields: PrioritizedFields;
+  prioritizedFields: SemanticPrioritizedFields;
 }
 
 /** Describes the title, content, and keywords fields to be used for semantic ranking, captions, highlights, and answers. */
-export interface PrioritizedFields {
+export interface SemanticPrioritizedFields {
   /** Defines the title field to be used for semantic ranking, captions, highlights, and answers. If you don't have a title field in your index, leave this blank. */
   titleField?: SemanticField;
   /** Defines the content fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain text in natural language form. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
-  prioritizedContentFields?: SemanticField[];
+  contentFields?: SemanticField[];
   /** Defines the keyword fields to be used for semantic ranking, captions, highlights, and answers. For the best result, the selected fields should contain a list of keywords. The order of the fields in the array represents their priority. Fields with lower priority may get truncated if the content is long. */
-  prioritizedKeywordsFields?: SemanticField[];
+  keywordsFields?: SemanticField[];
 }
 
 /** A field that is used as part of the semantic configuration. */
 export interface SemanticField {
-  name?: string;
+  name: string;
 }
 
 /** Contains configuration options related to vector search. */
 export interface VectorSearch {
   /** Defines combinations of configurations to use with vector search. */
   profiles?: VectorSearchProfile[];
-  /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
+  /** Contains configuration options specific to the algorithm used during indexing or querying. */
   algorithms?: VectorSearchAlgorithmConfigurationUnion[];
   /** Contains configuration options on how to vectorize text vector queries. */
   vectorizers?: VectorSearchVectorizerUnion[];
@@ -1018,12 +1018,12 @@ export interface VectorSearchProfile {
   /** The name to associate with this particular vector search profile. */
   name: string;
   /** The name of the vector search algorithm configuration that specifies the algorithm and optional parameters. */
-  algorithm: string;
+  algorithmConfigurationName: string;
   /** The name of the kind of vectorization method being configured for use with vector search. */
   vectorizer?: string;
 }
 
-/** Contains configuration options specific to the algorithm used during indexing and/or querying. */
+/** Contains configuration options specific to the algorithm used during indexing or querying. */
 export interface VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "hnsw" | "exhaustiveKnn";
@@ -1031,7 +1031,7 @@ export interface VectorSearchAlgorithmConfiguration {
   name: string;
 }
 
-/** Contains specific details for a vectorization method to be used during query time. */
+/** Specifies the vectorization method to be used during query time. */
 export interface VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI" | "customWebApi";
@@ -1182,7 +1182,7 @@ export interface ServiceLimits {
   maxComplexObjectsInCollectionsPerDocument?: number;
 }
 
-/** Contains the parameters specific to hnsw algorithm. */
+/** Contains the parameters specific to the HNSW algorithm. */
 export interface HnswParameters {
   /** The number of bi-directional links created for every new element during construction. Increasing this parameter value may improve recall and reduce retrieval times for datasets with high intrinsic dimensionality at the expense of increased memory consumption and longer indexing time. */
   m?: number;
@@ -1200,25 +1200,25 @@ export interface ExhaustiveKnnParameters {
   metric?: VectorSearchAlgorithmMetric;
 }
 
-/** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
+/** Specifies the parameters for connecting to the Azure OpenAI resource. */
 export interface AzureOpenAIParameters {
-  /** The resource uri for your Azure Open AI resource. */
+  /** The resource URI of the Azure OpenAI resource. */
   resourceUri?: string;
-  /** ID of your Azure Open AI model deployment on the designated resource. */
+  /** ID of the Azure OpenAI model deployment on the designated resource. */
   deploymentId?: string;
-  /** API key for the designated Azure Open AI resource. */
+  /** API key of the designated Azure OpenAI resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
-/** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-export interface CustomVectorizerParameters {
-  /** The uri for the Web API. */
+/** Specifies the properties for connecting to a user-defined vectorizer. */
+export interface CustomWebApiParameters {
+  /** The URI of the Web API providing the vectorizer. */
   uri?: string;
-  /** The headers required to make the http request. */
+  /** The headers required to make the HTTP request. */
   httpHeaders?: { [propertyName: string]: string };
-  /** The method for the http request. */
+  /** The method for the HTTP request. */
   httpMethod?: string;
   /** The desired timeout for the request. Default is 30 seconds. */
   timeout?: string;
@@ -1358,7 +1358,7 @@ export interface ConditionalSkill extends SearchIndexerSkill {
 export interface KeyPhraseExtractionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: KeyPhraseExtractionSkillLanguage;
   /** A number indicating how many key phrases to return. If absent, all identified key phrases will be returned. */
   maxKeyPhraseCount?: number;
@@ -1370,7 +1370,7 @@ export interface KeyPhraseExtractionSkill extends SearchIndexerSkill {
 export interface OcrSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Vision.OcrSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: OcrSkillLanguage;
   /** A value indicating to turn orientation detection on or not. Default is false. */
   shouldDetectOrientation?: boolean;
@@ -1382,7 +1382,7 @@ export interface OcrSkill extends SearchIndexerSkill {
 export interface ImageAnalysisSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Vision.ImageAnalysisSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: ImageAnalysisSkillLanguage;
   /** A list of visual features. */
   visualFeatures?: VisualFeature[];
@@ -1426,7 +1426,7 @@ export interface EntityRecognitionSkill extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
   /** A list of entity categories that should be extracted. */
   categories?: EntityCategory[];
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: EntityRecognitionSkillLanguage;
   /** Determines whether or not to include entities which are well known but don't conform to a pre-defined type. If this configuration is not set (default), set to null or set to false, entities which don't conform to one of the pre-defined types will not be surfaced. */
   includeTypelessEntities?: boolean;
@@ -1442,7 +1442,7 @@ export interface EntityRecognitionSkill extends SearchIndexerSkill {
 export interface SentimentSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SentimentSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: SentimentSkillLanguage;
 }
 
@@ -1450,7 +1450,7 @@ export interface SentimentSkill extends SearchIndexerSkill {
 export interface SentimentSkillV3 extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.V3.SentimentSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /** If set to true, the skill output will include information from Text Analytics for opinion mining, namely targets (nouns or verbs) and their associated assessment (adjective) in the text. Default is false. */
   includeOpinionMining?: boolean;
@@ -1462,7 +1462,7 @@ export interface SentimentSkillV3 extends SearchIndexerSkill {
 export interface EntityLinkingSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.V3.EntityLinkingSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
@@ -1476,11 +1476,11 @@ export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
   odatatype: "#Microsoft.Skills.Text.V3.EntityRecognitionSkill";
   /** A list of entity categories that should be extracted. */
   categories?: string[];
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
-  /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
+  /** The version of the model to use when calling the Text Analytics API. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
 }
 
@@ -1488,7 +1488,7 @@ export interface EntityRecognitionSkillV3 extends SearchIndexerSkill {
 export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: string;
   /** A value between 0 and 1 that be used to only include entities whose confidence score is greater than the value specified. If not set (default), or if explicitly set to null, all entities will be included. */
   minimumPrecision?: number;
@@ -1499,7 +1499,7 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
   /** The version of the model to use when calling the Text Analytics service. It will default to the latest available when not specified. We recommend you do not specify this value unless absolutely necessary. */
   modelVersion?: string;
   /** A list of PII entity categories that should be extracted and masked. */
-  piiCategories?: string[];
+  categories?: string[];
   /** If specified, will set the PII domain to include only a subset of the entity categories. Possible values include: 'phi', 'none'. Default is 'none'. */
   domain?: string;
 }
@@ -1508,7 +1508,7 @@ export interface PIIDetectionSkill extends SearchIndexerSkill {
 export interface SplitSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.SplitSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: SplitSkillLanguage;
   /** A value indicating which split mode to perform. */
   textSplitMode?: TextSplitMode;
@@ -1524,7 +1524,7 @@ export interface SplitSkill extends SearchIndexerSkill {
 export interface CustomEntityLookupSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
-  /** A value indicating which language code to use. Default is en. */
+  /** A value indicating which language code to use. Default is `en`. */
   defaultLanguageCode?: CustomEntityLookupSkillLanguage;
   /** Path to a JSON or CSV file containing all the target text to match against. This entity definition is read at the beginning of an indexer run. Any updates to this file during an indexer run will not take effect until subsequent runs. This config must be accessible over HTTPS. */
   entitiesDefinitionUri?: string;
@@ -1546,7 +1546,7 @@ export interface TextTranslationSkill extends SearchIndexerSkill {
   defaultToLanguageCode: TextTranslationSkillLanguage;
   /** The language code to translate documents from for documents that don't specify the from language explicitly. */
   defaultFromLanguageCode?: TextTranslationSkillLanguage;
-  /** The language code to translate documents from when neither the fromLanguageCode input nor the defaultFromLanguageCode parameter are provided, and the automatic language detection is unsuccessful. Default is en. */
+  /** The language code to translate documents from when neither the fromLanguageCode input nor the defaultFromLanguageCode parameter are provided, and the automatic language detection is unsuccessful. Default is `en`. */
   suggestedFrom?: TextTranslationSkillLanguage;
 }
 
@@ -1602,32 +1602,32 @@ export interface AzureMachineLearningSkill extends SearchIndexerSkill {
   degreeOfParallelism?: number;
 }
 
-/** Allows you to generate a vector embedding for a given text input using the Azure Open AI service. */
+/** Allows you to generate a vector embedding for a given text input using the Azure OpenAI resource. */
 export interface AzureOpenAIEmbeddingSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill";
-  /** The resource uri for your Azure Open AI resource. */
+  /** The resource URI for your Azure OpenAI resource. */
   resourceUri?: string;
-  /** ID of your Azure Open AI model deployment on the designated resource. */
+  /** ID of your Azure OpenAI model deployment on the designated resource. */
   deploymentId?: string;
-  /** API key for the designated Azure Open AI resource. */
+  /** API key for the designated Azure OpenAI resource. */
   apiKey?: string;
   /** The user-assigned managed identity used for outbound connections. */
   authIdentity?: SearchIndexerDataIdentityUnion;
 }
 
-/** An empty object that represents the default cognitive service resource for a skillset. */
+/** An empty object that represents the default Azure AI service resource for a skillset. */
 export interface DefaultCognitiveServicesAccount
   extends CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DefaultCognitiveServices";
 }
 
-/** A cognitive service resource provisioned with a key that is attached to a skillset. */
+/** The multi-region account key of an Azure AI service resource that's attached to a skillset. */
 export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
-  /** The key used to provision the cognitive service resource attached to a skillset. */
+  /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
 }
 
@@ -2167,17 +2167,17 @@ export interface BM25Similarity extends Similarity {
   b?: number;
 }
 
-/** Contains configuration options specific to the hnsw approximate nearest neighbors algorithm used during indexing and querying. The hnsw algorithm offers a tunable trade-off between search speed and accuracy. */
-export interface HnswVectorSearchAlgorithmConfiguration
+/** Contains configuration options specific to the HNSW approximate nearest neighbors algorithm used during indexing and querying. The HNSW algorithm offers a tunable trade-off between search speed and accuracy. */
+export interface HnswAlgorithmConfiguration
   extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "hnsw";
-  /** Contains the parameters specific to hnsw algorithm. */
+  /** Contains the parameters specific to HNSW algorithm. */
   parameters?: HnswParameters;
 }
 
 /** Contains configuration options specific to the exhaustive KNN algorithm used during querying, which will perform brute-force search across the entire vector index. */
-export interface ExhaustiveKnnVectorSearchAlgorithmConfiguration
+export interface ExhaustiveKnnAlgorithmConfiguration
   extends VectorSearchAlgorithmConfiguration {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "exhaustiveKnn";
@@ -2185,20 +2185,20 @@ export interface ExhaustiveKnnVectorSearchAlgorithmConfiguration
   parameters?: ExhaustiveKnnParameters;
 }
 
-/** Contains the parameters specific to using an Azure Open AI service for vectorization at query time. */
+/** Specifies the Azure OpenAI resource used to vectorize a query string. */
 export interface AzureOpenAIVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
-  /** Contains the parameters specific to Azure Open AI embedding vectorization. */
+  /** Contains the parameters specific to Azure OpenAI embedding vectorization. */
   azureOpenAIParameters?: AzureOpenAIParameters;
 }
 
-/** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
+/** Specifies a user-defined vectorizer for generating the vector embedding of a query string. Integration of an external vectorizer is achieved using the custom Web API interface of a skillset. */
 export interface CustomVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
-  /** Contains the parameters specific to generating vector embeddings via a custom endpoint. */
-  customVectorizerParameters?: CustomVectorizerParameters;
+  /** Specifies the properties of the user-defined vectorizer. */
+  customWebApiParameters?: CustomWebApiParameters;
 }
 
 /** Projection definition for what data to store in Azure Blob. */
@@ -2264,9 +2264,9 @@ export enum KnownBlobIndexerParsingMode {
   DelimitedText = "delimitedText",
   /** Set to json to extract structured content from JSON files. */
   Json = "json",
-  /** Set to jsonArray to extract individual elements of a JSON array as separate documents in Azure Cognitive Search. */
+  /** Set to jsonArray to extract individual elements of a JSON array as separate documents. */
   JsonArray = "jsonArray",
-  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents in Azure Cognitive Search. */
+  /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
   JsonLines = "jsonLines",
 }
 
@@ -2279,8 +2279,8 @@ export enum KnownBlobIndexerParsingMode {
  * **text**: Set to text to improve indexing performance on plain text files in blob storage. \
  * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
  * **json**: Set to json to extract structured content from JSON files. \
- * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents in Azure Cognitive Search. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents in Azure Cognitive Search.
+ * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents.
  */
 export type BlobIndexerParsingMode = string;
 
@@ -2346,7 +2346,7 @@ export type BlobIndexerPDFTextRotationAlgorithm = string;
 
 /** Known values of {@link IndexerExecutionEnvironment} that the service accepts. */
 export enum KnownIndexerExecutionEnvironment {
-  /** Indicates that Azure Cognitive Search can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
+  /** Indicates that the search service can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. */
   Standard = "standard",
   /** Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources. */
   Private = "private",
@@ -2357,7 +2357,7 @@ export enum KnownIndexerExecutionEnvironment {
  * {@link KnownIndexerExecutionEnvironment} can be used interchangeably with IndexerExecutionEnvironment,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **standard**: Indicates that Azure Cognitive Search can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. \
+ * **standard**: Indicates that the search service can determine where the indexer should execute. This is the default environment when nothing is specified and is the recommended value. \
  * **private**: Indicates that the indexer should run with the environment provisioned specifically for the search service. This should only be specified as the execution environment if the indexer needs to access resources securely over shared private link resources.
  */
 export type IndexerExecutionEnvironment = string;
@@ -2772,7 +2772,7 @@ export type LexicalNormalizerName = string;
 
 /** Known values of {@link VectorSearchAlgorithmKind} that the service accepts. */
 export enum KnownVectorSearchAlgorithmKind {
-  /** Hnsw (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
+  /** HNSW (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. */
   Hnsw = "hnsw",
   /** Exhaustive KNN algorithm which will perform brute-force search. */
   ExhaustiveKnn = "exhaustiveKnn",
@@ -2783,14 +2783,14 @@ export enum KnownVectorSearchAlgorithmKind {
  * {@link KnownVectorSearchAlgorithmKind} can be used interchangeably with VectorSearchAlgorithmKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **hnsw**: Hnsw (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. \
+ * **hnsw**: HNSW (Hierarchical Navigable Small World), a type of approximate nearest neighbors algorithm. \
  * **exhaustiveKnn**: Exhaustive KNN algorithm which will perform brute-force search.
  */
 export type VectorSearchAlgorithmKind = string;
 
 /** Known values of {@link VectorSearchVectorizerKind} that the service accepts. */
 export enum KnownVectorSearchVectorizerKind {
-  /** Generate embeddings using an Azure Open AI service at query time. */
+  /** Generate embeddings using an Azure OpenAI resource at query time. */
   AzureOpenAI = "azureOpenAI",
   /** Generate embeddings using a custom web endpoint at query time. */
   CustomWebApi = "customWebApi",
@@ -2801,7 +2801,7 @@ export enum KnownVectorSearchVectorizerKind {
  * {@link KnownVectorSearchVectorizerKind} can be used interchangeably with VectorSearchVectorizerKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureOpenAI**: Generate embeddings using an Azure Open AI service at query time. \
+ * **azureOpenAI**: Generate embeddings using an Azure OpenAI resource at query time. \
  * **customWebApi**: Generate embeddings using a custom web endpoint at query time.
  */
 export type VectorSearchVectorizerKind = string;
@@ -3972,6 +3972,12 @@ export type PIIDetectionSkillMaskingMode = string;
 
 /** Known values of {@link SplitSkillLanguage} that the service accepts. */
 export enum KnownSplitSkillLanguage {
+  /** Amharic */
+  Am = "am",
+  /** Bosnian */
+  Bs = "bs",
+  /** Czech */
+  Cs = "cs",
   /** Danish */
   Da = "da",
   /** German */
@@ -3980,16 +3986,58 @@ export enum KnownSplitSkillLanguage {
   En = "en",
   /** Spanish */
   Es = "es",
+  /** Estonian */
+  Et = "et",
   /** Finnish */
   Fi = "fi",
   /** French */
   Fr = "fr",
+  /** Hebrew */
+  He = "he",
+  /** Hindi */
+  Hi = "hi",
+  /** Croatian */
+  Hr = "hr",
+  /** Hungarian */
+  Hu = "hu",
+  /** Indonesian */
+  Id = "id",
+  /** Icelandic */
+  Is = "is",
   /** Italian */
   It = "it",
+  /** Japanese */
+  Ja = "ja",
   /** Korean */
   Ko = "ko",
-  /** Portuguese */
+  /** Latvian */
+  Lv = "lv",
+  /** Norwegian */
+  Nb = "nb",
+  /** Dutch */
+  Nl = "nl",
+  /** Polish */
+  Pl = "pl",
+  /** Portuguese (Portugal) */
   Pt = "pt",
+  /** Portuguese (Brazil) */
+  PtBr = "pt-br",
+  /** Russian */
+  Ru = "ru",
+  /** Slovak */
+  Sk = "sk",
+  /** Slovenian */
+  Sl = "sl",
+  /** Serbian */
+  Sr = "sr",
+  /** Swedish */
+  Sv = "sv",
+  /** Turkish */
+  Tr = "tr",
+  /** Urdu */
+  Ur = "ur",
+  /** Chinese (Simplified) */
+  Zh = "zh",
 }
 
 /**
@@ -3997,15 +4045,39 @@ export enum KnownSplitSkillLanguage {
  * {@link KnownSplitSkillLanguage} can be used interchangeably with SplitSkillLanguage,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **am**: Amharic \
+ * **bs**: Bosnian \
+ * **cs**: Czech \
  * **da**: Danish \
  * **de**: German \
  * **en**: English \
  * **es**: Spanish \
+ * **et**: Estonian \
  * **fi**: Finnish \
  * **fr**: French \
+ * **he**: Hebrew \
+ * **hi**: Hindi \
+ * **hr**: Croatian \
+ * **hu**: Hungarian \
+ * **id**: Indonesian \
+ * **is**: Icelandic \
  * **it**: Italian \
+ * **ja**: Japanese \
  * **ko**: Korean \
- * **pt**: Portuguese
+ * **lv**: Latvian \
+ * **nb**: Norwegian \
+ * **nl**: Dutch \
+ * **pl**: Polish \
+ * **pt**: Portuguese (Portugal) \
+ * **pt-br**: Portuguese (Brazil) \
+ * **ru**: Russian \
+ * **sk**: Slovak \
+ * **sl**: Slovenian \
+ * **sr**: Serbian \
+ * **sv**: Swedish \
+ * **tr**: Turkish \
+ * **ur**: Urdu \
+ * **zh**: Chinese (Simplified)
  */
 export type SplitSkillLanguage = string;
 

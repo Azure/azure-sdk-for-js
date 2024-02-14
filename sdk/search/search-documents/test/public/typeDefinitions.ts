@@ -8,30 +8,34 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
-  KnownQueryDebugMode,
-  KnownSemanticErrorHandling,
-  KnownSemanticFieldState,
-  KnownSemanticPartialResponseReason,
-  KnownSemanticPartialResponseType,
-  KnownVectorFilterMode,
-  KnownVectorQueryKind,
-} from "../../src/generated/data";
-import {
+  KnownCharFilterName,
   KnownIndexProjectionMode,
+  KnownLexicalAnalyzerName,
+  KnownLexicalTokenizerName,
   KnownSearchFieldDataType,
+  KnownTokenFilterName,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
   KnownVectorSearchVectorizerKind,
 } from "../../src/generated/service";
+
+import {
+  KnownQueryDebugMode,
+  KnownSemanticFieldState,
+  KnownVectorFilterMode,
+  KnownVectorQueryKind,
+} from "../../src/generated/data";
+
 import {
   ComplexDataType,
   IndexProjectionMode,
+  KnownAnalyzerNames,
+  KnownCharFilterNames,
+  KnownTokenFilterNames,
+  KnownTokenizerNames,
   QueryDebugMode,
   SearchFieldDataType,
-  SemanticErrorHandlingMode,
   SemanticFieldState,
-  SemanticPartialResponseReason,
-  SemanticPartialResponseType,
   VectorFilterMode,
   VectorQueryKind,
   VectorSearchAlgorithmKind,
@@ -46,10 +50,7 @@ type ExpectSearchFieldDataType = Exclude<
   `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
   ComplexDataType | "Edm.Single"
 >;
-type ExpectSemanticPartialResponseReason = `${KnownSemanticPartialResponseReason}`;
-type ExpectSemanticPartialResponseType = `${KnownSemanticPartialResponseType}`;
 type ExpectQueryDebugMode = `${KnownQueryDebugMode}`;
-type ExpectSemanticErrorHandlingMode = `${KnownSemanticErrorHandling}`;
 type ExpectSemanticFieldState = `${KnownSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 type ExpectVectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
@@ -57,22 +58,27 @@ type ExpectIndexProjectionMode = `${KnownIndexProjectionMode}`;
 type ExpectVectorSearchVectorizerKind = `${KnownVectorSearchVectorizerKind}`;
 type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
 type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
+type ExpectKnownCharFilterNames = `${KnownCharFilterName}`;
+type ExpectKnownAnalyzerNames = `${KnownLexicalAnalyzerName}`;
+type ExpectKnownTokenizerNames = `${KnownLexicalTokenizerName}`;
+type ExpectKnownTokenFilterNames = `${KnownTokenFilterName}`;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 function fun() {
   const a: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
-  const b: IsIdentical<ExpectSemanticPartialResponseReason, SemanticPartialResponseReason> = "pass";
-  const c: IsIdentical<ExpectSemanticPartialResponseType, SemanticPartialResponseType> = "pass";
-  const d: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
-  const e: IsIdentical<ExpectSemanticErrorHandlingMode, SemanticErrorHandlingMode> = "pass";
-  const f: IsIdentical<ExpectSemanticFieldState, SemanticFieldState> = "pass";
-  const g: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
-  const h: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
-  const i: IsIdentical<ExpectIndexProjectionMode, IndexProjectionMode> = "pass";
-  const j: IsIdentical<ExpectVectorSearchVectorizerKind, VectorSearchVectorizerKind> = "pass";
-  const k: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
-  const l: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
+  const b: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
+  const c: IsIdentical<ExpectSemanticFieldState, SemanticFieldState> = "pass";
+  const d: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
+  const e: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
+  const f: IsIdentical<ExpectIndexProjectionMode, IndexProjectionMode> = "pass";
+  const g: IsIdentical<ExpectVectorSearchVectorizerKind, VectorSearchVectorizerKind> = "pass";
+  const h: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
+  const i: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
+  const j: IsIdentical<ExpectKnownCharFilterNames, `${KnownCharFilterNames}`> = "pass";
+  const k: IsIdentical<ExpectKnownAnalyzerNames, `${KnownAnalyzerNames}`> = "pass";
+  const l: IsIdentical<ExpectKnownTokenizerNames, `${KnownTokenizerNames}`> = "pass";
+  const m: IsIdentical<ExpectKnownTokenFilterNames, `${KnownTokenFilterNames}`> = "pass";
 
-  return [a, b, c, d, e, f, g, h, i, j, k, l];
+  return [a, b, c, d, e, f, g, h, i, j, k, l, m];
 }

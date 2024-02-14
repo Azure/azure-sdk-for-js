@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/b62ddd0ffb844fbfb688a04546800d60645a18ef/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/58e92dd03733bc175e6a9540f4bc53703b57fcc9/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.14"
@@ -290,6 +290,76 @@ directive:
     $["x-ms-client-name"] = "name";
 ```
 
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchField.properties.dimensions
+    transform: $["x-ms-client-name"] = "vectorSearchDimensions";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.HnswVectorSearchAlgorithmConfiguration
+    transform: $["x-ms-client-name"] = "HnswAlgorithmConfiguration";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.ExhaustiveKnnVectorSearchAlgorithmConfiguration
+    transform: $["x-ms-client-name"] = "ExhaustiveKnnAlgorithmConfiguration";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PIIDetectionSkill.properties.piiCategories
+    transform: $["x-ms-client-name"] = "categories";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchField.properties.vectorSearchProfile
+    transform: $["x-ms-client-name"] = "vectorSearchProfileName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SemanticSettings.defaultConfiguration
+    transform: $["x-ms-client-name"] = "defaultConfigurationName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchIndex.properties.semantic
+    transform: $["x-ms-client-name"] = "semanticSearch";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SemanticSettings
+    transform: $["x-ms-client-name"] = "SemanticSearch";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchProfile.properties.algorithm
+    transform: $["x-ms-client-name"] = "algorithmConfigurationName";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.PIIDetectionSkill.properties.maskingCharacter
+    transform: $["x-ms-client-name"] = undefined;
+```
+
 ### Deprecations
 
 ```yaml
@@ -311,17 +381,6 @@ directive:
   from: swagger-document
   where: $.definitions[?(@['x-ms-discriminator-value'] == "#Microsoft.Skills.Text.NamedEntityRecognitionSkill")]
   transform: $.description += "\n\n@deprecated";
-```
-
-### Rename Dimensions
-
-To ensure alignment with `VectorSearchConfiguration` in intellisense and documentation, rename the `Dimensions` to `VectorSearchDimensions`.
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.SearchField.properties.dimensions
-    transform: $["x-ms-client-name"] = "vectorSearchDimensions";
 ```
 
 ### Add `arm-id` format for `AuthResourceId`

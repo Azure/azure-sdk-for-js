@@ -22,7 +22,7 @@ import { createSpan } from "./tracing";
 /**
  * Index Documents Client
  */
-export interface IndexDocumentsClient<T extends object> {
+export interface IndexDocumentsClient<TModel extends object> {
   /**
    * Perform a set of index modifications (upload, merge, mergeOrUpload, delete)
    * for the given set of documents.
@@ -31,7 +31,7 @@ export interface IndexDocumentsClient<T extends object> {
    * @param options - Additional options.
    */
   indexDocuments(
-    batch: IndexDocumentsBatch<T>,
+    batch: IndexDocumentsBatch<TModel>,
     options: IndexDocumentsOptions,
   ): Promise<IndexDocumentsResult>;
 }

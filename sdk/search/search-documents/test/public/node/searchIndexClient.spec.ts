@@ -25,7 +25,7 @@ import {
 } from "../utils/setup";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {
+  onVersions({ minVer: "2023-11-01" }).describe("SearchIndexClient", function (this: Suite) {
     let recorder: Recorder;
     let indexClient: SearchIndexClient;
     let TEST_INDEX_NAME: string;
@@ -282,7 +282,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         };
         const profile: VectorSearchProfile = {
           name: "profile",
-          algorithm: algorithm.name,
+          algorithmConfigurationName: algorithm.name,
           vectorizer: vectorizer.name,
         };
 
@@ -299,7 +299,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               name: "descriptionVector",
               vectorSearchDimensions: 1536,
               searchable: true,
-              vectorSearchProfile: profile.name,
+              vectorSearchProfileName: profile.name,
             },
           ],
           vectorSearch: {
@@ -308,8 +308,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
             profiles: [profile],
           },
         };
-        await indexClient.createOrUpdateIndex(index);
         try {
+          await indexClient.createOrUpdateIndex(index);
           index = await indexClient.getIndex(indexName);
           assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
           assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);

@@ -24,7 +24,7 @@ import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
+  onVersions({ minVer: "2023-11-01" }).describe("SearchClient tests", function (this: Suite) {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
@@ -44,7 +44,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
       await createIndex(indexClient, TEST_INDEX_NAME, serviceVersion);
       await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient, serviceVersion);
+      await populateIndex(searchClient, openAIClient);
     });
 
     afterEach(async function () {
@@ -79,6 +79,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         skip: 0,
         top: 5,
         includeTotalCount: true,
+        select: ["address/streetAddress"],
       });
       assert.equal(searchResults.count, 6);
     });
@@ -400,7 +401,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         } = await createClients<Hotel>(serviceVersion, recorder, TEST_INDEX_NAME));
         await createIndex(indexClient, TEST_INDEX_NAME, serviceVersion);
         await delay(WAIT_TIME);
-        await populateIndex(searchClient, openAIClient, serviceVersion);
+        await populateIndex(searchClient, openAIClient);
       });
 
       afterEach(async function () {
@@ -429,7 +430,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           includeTotalCount: true,
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
+          semanticSearchOptions: { configurationName: "semantic-configuration-name" },
         });
         assert.equal(searchResults.count, 1);
       });
@@ -438,9 +439,11 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const searchResults = await searchClient.search("luxury", {
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandlingMode: "fail",
-          debugMode: "semantic",
+          semanticSearchOptions: {
+            configurationName: "semantic-configuration-name",
+            errorMode: "fail",
+            debugMode: "semantic",
+          },
         });
         for await (const result of searchResults.results) {
           assert.deepEqual(
@@ -481,8 +484,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const searchResults = await searchClient.search("What are the most luxurious hotels?", {
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          answers: { answers: "extractive", count: 3, threshold: 0.7 },
+          semanticSearchOptions: {
+            configurationName: "semantic-configuration-name",
+            answers: { answerType: "extractive", count: 3, threshold: 0.7 },
+          },
           top: 3,
           select: ["hotelId"],
         });
@@ -498,8 +503,10 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const searchResults = await searchClient.search("luxury", {
           queryLanguage: KnownQueryLanguage.EnUs,
           queryType: "semantic",
-          semanticConfiguration: "semantic-configuration-name",
-          semanticErrorHandlingMode: "partial",
+          semanticSearchOptions: {
+            configurationName: "semantic-configuration-name",
+            errorMode: "partial",
+          },
           select: ["hotelId"],
         });
 
@@ -523,14 +530,16 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectorQueries: [
-            {
-              kind: "vector",
-              vector: embedding,
-              kNearestNeighborsCount: 3,
-              fields: ["vectorDescription"],
-            },
-          ],
+          vectorSearchOptions: {
+            queries: [
+              {
+                kind: "vector",
+                vector: embedding,
+                kNearestNeighborsCount: 3,
+                fields: ["vectorDescription"],
+              },
+            ],
+          },
           top: 3,
           select: ["hotelId"],
         });
@@ -555,20 +564,22 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         const embedding = embeddings.data[0].embedding;
 
         const searchResults = await searchClient.search("*", {
-          vectorQueries: [
-            {
-              kind: "vector",
-              vector: embedding,
-              kNearestNeighborsCount: 3,
-              fields: ["vectorDescription"],
-            },
-            {
-              kind: "vector",
-              vector: embedding,
-              kNearestNeighborsCount: 3,
-              fields: ["vectorDescription"],
-            },
-          ],
+          vectorSearchOptions: {
+            queries: [
+              {
+                kind: "vector",
+                vector: embedding,
+                kNearestNeighborsCount: 3,
+                fields: ["vectorDescription"],
+              },
+              {
+                kind: "vector",
+                vector: embedding,
+                kNearestNeighborsCount: 3,
+                fields: ["vectorDescription"],
+              },
+            ],
+          },
           top: 3,
           select: ["hotelId"],
         });
@@ -584,7 +595,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 });
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
-  onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {
+  onVersions({ minVer: "2023-11-01" }).describe("SearchClient tests", function (this: Suite) {
     const credential = new AzureKeyCredential("key");
 
     describe("Passing serviceVersion", () => {

@@ -91,7 +91,6 @@ export class SearchIndexClient {
   public readonly endpoint: string;
 
   /**
-   * @internal
    * @hidden
    * A reference to the auto-generated SearchServiceClient
    */
@@ -732,7 +731,15 @@ export class SearchIndexClient {
    * @param options - Additional arguments
    */
   public async analyzeText(indexName: string, options: AnalyzeTextOptions): Promise<AnalyzeResult> {
-    const { abortSignal, requestOptions, tracingOptions, ...restOptions } = options;
+    const {
+      abortSignal,
+      requestOptions,
+      tracingOptions,
+      analyzerName: analyzer,
+      tokenizerName: tokenizer,
+      ...restOptions
+    } = options;
+
     const operationOptions = {
       abortSignal,
       requestOptions,
@@ -740,15 +747,11 @@ export class SearchIndexClient {
     };
 
     const { span, updatedOptions } = createSpan("SearchIndexClient-analyzeText", operationOptions);
+
     try {
       const result = await this.client.indexes.analyze(
         indexName,
-        {
-          ...restOptions,
-          analyzer: restOptions.analyzerName,
-          tokenizer: restOptions.tokenizerName,
-          normalizer: restOptions.normalizerName,
-        },
+        { ...restOptions, analyzer, tokenizer },
         updatedOptions,
       );
       return result;

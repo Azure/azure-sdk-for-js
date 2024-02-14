@@ -88,7 +88,7 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AnswerResult",
+              className: "QueryAnswerResult",
             },
           },
         },
@@ -156,10 +156,10 @@ export const FacetResult: coreClient.CompositeMapper = {
   },
 };
 
-export const AnswerResult: coreClient.CompositeMapper = {
+export const QueryAnswerResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AnswerResult",
+    className: "QueryAnswerResult",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       score: {
@@ -299,7 +299,7 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      semanticConfiguration: {
+      semanticConfigurationName: {
         serializedName: "semanticConfiguration",
         type: {
           name: "String",
@@ -469,7 +469,7 @@ export const SearchResult: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
-      rerankerScore: {
+      _rerankerScore: {
         serializedName: "@search\\.rerankerScore",
         readOnly: true,
         nullable: true,
@@ -487,7 +487,7 @@ export const SearchResult: coreClient.CompositeMapper = {
           },
         },
       },
-      captions: {
+      _captions: {
         serializedName: "@search\\.captions",
         readOnly: true,
         nullable: true,
@@ -496,7 +496,7 @@ export const SearchResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CaptionResult",
+              className: "QueryCaptionResult",
             },
           },
         },
@@ -519,10 +519,10 @@ export const SearchResult: coreClient.CompositeMapper = {
   },
 };
 
-export const CaptionResult: coreClient.CompositeMapper = {
+export const QueryCaptionResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CaptionResult",
+    className: "QueryCaptionResult",
     additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       text: {
@@ -1017,17 +1017,18 @@ export const AutocompleteRequest: coreClient.CompositeMapper = {
   },
 };
 
-export const RawVectorQuery: coreClient.CompositeMapper = {
+export const VectorizedQuery: coreClient.CompositeMapper = {
   serializedName: "vector",
   type: {
     name: "Composite",
-    className: "RawVectorQuery",
+    className: "VectorizedQuery",
     uberParent: "VectorQuery",
     polymorphicDiscriminator: VectorQuery.type.polymorphicDiscriminator,
     modelProperties: {
       ...VectorQuery.type.modelProperties,
       vector: {
         serializedName: "vector",
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -1052,6 +1053,7 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
       ...VectorQuery.type.modelProperties,
       text: {
         serializedName: "text",
+        required: true,
         type: {
           name: "String",
         },
@@ -1062,6 +1064,6 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
 
 export let discriminators = {
   VectorQuery: VectorQuery,
-  "VectorQuery.vector": RawVectorQuery,
+  "VectorQuery.vector": VectorizedQuery,
   "VectorQuery.text": VectorizableTextQuery,
 };

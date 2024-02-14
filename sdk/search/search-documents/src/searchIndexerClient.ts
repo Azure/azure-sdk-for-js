@@ -85,7 +85,6 @@ export class SearchIndexerClient {
   public readonly endpoint: string;
 
   /**
-   * @internal
    * @hidden
    * A reference to the auto-generated SearchServiceClient
    */
@@ -469,17 +468,17 @@ export class SearchIndexerClient {
       "SearchIndexerClient-createOrUpdateIndexer",
       options,
     );
+
+    const { onlyIfUnchanged, ...restOptions } = updatedOptions;
     try {
-      const etag = options.onlyIfUnchanged ? indexer.etag : undefined;
+      const etag = onlyIfUnchanged ? indexer.etag : undefined;
 
       const result = await this.client.indexers.createOrUpdate(
         indexer.name,
         utils.publicSearchIndexerToGeneratedSearchIndexer(indexer),
         {
-          ...updatedOptions,
+          ...restOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         },
       );
       return utils.generatedSearchIndexerToPublicSearchIndexer(result);
@@ -516,7 +515,6 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
         },
       );
       return utils.generatedDataSourceToPublicDataSource(result);
@@ -553,8 +551,6 @@ export class SearchIndexerClient {
         {
           ...updatedOptions,
           ifMatch: etag,
-          skipIndexerResetRequirementForCache: options.skipIndexerResetRequirementForCache,
-          disableCacheReprocessingChangeDetection: options.disableCacheReprocessingChangeDetection,
         },
       );
 

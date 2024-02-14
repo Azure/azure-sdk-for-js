@@ -246,7 +246,9 @@ function testNarrowedClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorQueries"]
+        NonNullable<
+          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+        >["queries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
@@ -379,7 +381,9 @@ function testWideClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorQueries"]
+        NonNullable<
+          NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorSearchOptions"]
+        >["queries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly string[]> = "pass";

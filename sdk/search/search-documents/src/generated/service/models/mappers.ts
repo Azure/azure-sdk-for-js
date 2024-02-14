@@ -1803,11 +1803,11 @@ export const SearchIndex: coreClient.CompositeMapper = {
           className: "Similarity",
         },
       },
-      semanticSettings: {
+      semanticSearch: {
         serializedName: "semantic",
         type: {
           name: "Composite",
-          className: "SemanticSettings",
+          className: "SemanticSearch",
         },
       },
       vectorSearch: {
@@ -1921,7 +1921,7 @@ export const SearchField: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
-      vectorSearchProfile: {
+      vectorSearchProfileName: {
         serializedName: "vectorSearchProfile",
         nullable: true,
         type: {
@@ -2287,12 +2287,12 @@ export const Similarity: coreClient.CompositeMapper = {
   },
 };
 
-export const SemanticSettings: coreClient.CompositeMapper = {
+export const SemanticSearch: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SemanticSettings",
+    className: "SemanticSearch",
     modelProperties: {
-      defaultConfiguration: {
+      defaultConfigurationName: {
         serializedName: "defaultConfiguration",
         type: {
           name: "String",
@@ -2330,17 +2330,17 @@ export const SemanticConfiguration: coreClient.CompositeMapper = {
         serializedName: "prioritizedFields",
         type: {
           name: "Composite",
-          className: "PrioritizedFields",
+          className: "SemanticPrioritizedFields",
         },
       },
     },
   },
 };
 
-export const PrioritizedFields: coreClient.CompositeMapper = {
+export const SemanticPrioritizedFields: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PrioritizedFields",
+    className: "SemanticPrioritizedFields",
     modelProperties: {
       titleField: {
         serializedName: "titleField",
@@ -2349,7 +2349,7 @@ export const PrioritizedFields: coreClient.CompositeMapper = {
           className: "SemanticField",
         },
       },
-      prioritizedContentFields: {
+      contentFields: {
         serializedName: "prioritizedContentFields",
         type: {
           name: "Sequence",
@@ -2361,7 +2361,7 @@ export const PrioritizedFields: coreClient.CompositeMapper = {
           },
         },
       },
-      prioritizedKeywordsFields: {
+      keywordsFields: {
         serializedName: "prioritizedKeywordsFields",
         type: {
           name: "Sequence",
@@ -2384,6 +2384,7 @@ export const SemanticField: coreClient.CompositeMapper = {
     modelProperties: {
       name: {
         serializedName: "fieldName",
+        required: true,
         type: {
           name: "String",
         },
@@ -2449,7 +2450,7 @@ export const VectorSearchProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      algorithm: {
+      algorithmConfigurationName: {
         serializedName: "algorithm",
         required: true,
         type: {
@@ -3011,10 +3012,10 @@ export const AzureOpenAIParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const CustomVectorizerParameters: coreClient.CompositeMapper = {
+export const CustomWebApiParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomVectorizerParameters",
+    className: "CustomWebApiParameters",
     modelProperties: {
       uri: {
         serializedName: "uri",
@@ -3814,7 +3815,7 @@ export const PIIDetectionSkill: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      piiCategories: {
+      categories: {
         serializedName: "piiCategories",
         type: {
           name: "Sequence",
@@ -6059,49 +6060,47 @@ export const BM25Similarity: coreClient.CompositeMapper = {
   },
 };
 
-export const HnswVectorSearchAlgorithmConfiguration: coreClient.CompositeMapper =
-  {
-    serializedName: "hnsw",
-    type: {
-      name: "Composite",
-      className: "HnswVectorSearchAlgorithmConfiguration",
-      uberParent: "VectorSearchAlgorithmConfiguration",
-      polymorphicDiscriminator:
-        VectorSearchAlgorithmConfiguration.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...VectorSearchAlgorithmConfiguration.type.modelProperties,
-        parameters: {
-          serializedName: "hnswParameters",
-          type: {
-            name: "Composite",
-            className: "HnswParameters",
-          },
+export const HnswAlgorithmConfiguration: coreClient.CompositeMapper = {
+  serializedName: "hnsw",
+  type: {
+    name: "Composite",
+    className: "HnswAlgorithmConfiguration",
+    uberParent: "VectorSearchAlgorithmConfiguration",
+    polymorphicDiscriminator:
+      VectorSearchAlgorithmConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchAlgorithmConfiguration.type.modelProperties,
+      parameters: {
+        serializedName: "hnswParameters",
+        type: {
+          name: "Composite",
+          className: "HnswParameters",
         },
       },
     },
-  };
+  },
+};
 
-export const ExhaustiveKnnVectorSearchAlgorithmConfiguration: coreClient.CompositeMapper =
-  {
-    serializedName: "exhaustiveKnn",
-    type: {
-      name: "Composite",
-      className: "ExhaustiveKnnVectorSearchAlgorithmConfiguration",
-      uberParent: "VectorSearchAlgorithmConfiguration",
-      polymorphicDiscriminator:
-        VectorSearchAlgorithmConfiguration.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...VectorSearchAlgorithmConfiguration.type.modelProperties,
-        parameters: {
-          serializedName: "exhaustiveKnnParameters",
-          type: {
-            name: "Composite",
-            className: "ExhaustiveKnnParameters",
-          },
+export const ExhaustiveKnnAlgorithmConfiguration: coreClient.CompositeMapper = {
+  serializedName: "exhaustiveKnn",
+  type: {
+    name: "Composite",
+    className: "ExhaustiveKnnAlgorithmConfiguration",
+    uberParent: "VectorSearchAlgorithmConfiguration",
+    polymorphicDiscriminator:
+      VectorSearchAlgorithmConfiguration.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchAlgorithmConfiguration.type.modelProperties,
+      parameters: {
+        serializedName: "exhaustiveKnnParameters",
+        type: {
+          name: "Composite",
+          className: "ExhaustiveKnnParameters",
         },
       },
     },
-  };
+  },
+};
 
 export const AzureOpenAIVectorizer: coreClient.CompositeMapper = {
   serializedName: "azureOpenAI",
@@ -6134,11 +6133,11 @@ export const CustomVectorizer: coreClient.CompositeMapper = {
       VectorSearchVectorizer.type.polymorphicDiscriminator,
     modelProperties: {
       ...VectorSearchVectorizer.type.modelProperties,
-      customVectorizerParameters: {
-        serializedName: "customVectorizerParameters",
+      customWebApiParameters: {
+        serializedName: "customWebApiParameters",
         type: {
           name: "Composite",
-          className: "CustomVectorizerParameters",
+          className: "CustomWebApiParameters",
         },
       },
     },
@@ -6310,10 +6309,9 @@ export let discriminators = {
     CustomNormalizer,
   "Similarity.#Microsoft.Azure.Search.ClassicSimilarity": ClassicSimilarity,
   "Similarity.#Microsoft.Azure.Search.BM25Similarity": BM25Similarity,
-  "VectorSearchAlgorithmConfiguration.hnsw":
-    HnswVectorSearchAlgorithmConfiguration,
+  "VectorSearchAlgorithmConfiguration.hnsw": HnswAlgorithmConfiguration,
   "VectorSearchAlgorithmConfiguration.exhaustiveKnn":
-    ExhaustiveKnnVectorSearchAlgorithmConfiguration,
+    ExhaustiveKnnAlgorithmConfiguration,
   "VectorSearchVectorizer.azureOpenAI": AzureOpenAIVectorizer,
   "VectorSearchVectorizer.customWebApi": CustomVectorizer,
 };
