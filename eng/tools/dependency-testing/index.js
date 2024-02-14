@@ -86,11 +86,11 @@ async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
   }  
 }
 
-async function updateEsm4MochaMjs(repoRoot, filePath) {
+async function updateEsm4MochaMjs(commonToolsPath, filePath) {
   let fileContent = await packageUtils.readFile(filePath);
   const writeContent = fileContent.replace(
     "./dev-tool/node_modules/ts-morph/dist/ts-morph.js",
-    `${repoRoot}/common/tools/dev-tool/node_modules/ts-morph/dist/ts-morph.js`
+    `${commonToolsPath}/dev-tool/node_modules/ts-morph/dist/ts-morph.js`
   );
   await packageUtils.writeFile(filePath, writeContent);
 }
@@ -427,7 +427,8 @@ async function main(argv) {
   await copyRepoFile(repoRoot, "common/tools", "mocha-multi-reporter.js", targetPackagePath, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "esm-workaround.js", targetPackagePath, testFolder);
   await copyRepoFile(repoRoot, "common/tools", "esm4mocha.mjs", targetPackagePath, testFolder);
-  await updateEsm4MochaMjs(repoRoot, path.join(targetPackagePath, testFolder, "esm4mocha.mjs"));
+  const commonToolsPath = path.resolve(path.join(repoRoot, "common/tools"));
+  await updateEsm4MochaMjs(commonToolsPath, path.join(targetPackagePath, testFolder, "esm4mocha.mjs"));
   await updateRushConfig(repoRoot, targetPackage, testFolder);
   outputTestPath(targetPackage.projectFolder, sourceDir, testFolder);
 }
