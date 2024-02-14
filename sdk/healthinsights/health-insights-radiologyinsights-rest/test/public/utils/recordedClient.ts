@@ -2,10 +2,7 @@
 // Licensed under the MIT license.
 
 import { Context } from "mocha";
-/*
 import { assertEnvironmentVariable, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-*/
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import "./env";
 import { AzureKeyCredential } from "@azure/core-auth";
 import AHIClient, { AzureHealthInsightsClient } from "../../../src";
