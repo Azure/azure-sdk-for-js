@@ -88,10 +88,11 @@ async function adjustEsmWorkaround(testPackageJson, packageJsonContents) {
 
 async function updateEsm4MochaMjs(repoRoot, filePath) {
   let fileContent = await packageUtils.readFile(filePath);
-  fileContent = fileContent.replace(
+  const writeContent = fileContent.replace(
     "./dev-tool/node_modules/ts-morph/dist/ts-morph.js",
     `${repoRoot}/common/tools/dev-tool/node_modules/ts-morph/dist/ts-morph.js`
   );
+  await packageUtils.writeFile(filePath, writeContent);
 }
 
 /**

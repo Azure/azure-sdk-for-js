@@ -6,27 +6,33 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "url";
 import { Project } from "./dev-tool/node_modules/ts-morph/dist/ts-morph.js";
 
-function consoleLog(...args) {
-  if (process.env.DEBUG && process.env.DEBUG.startsWith("esm4mocha")) {
-    console.log(args);
-  }
-}
-
-function consoleDir(...args) {
-  if (process.env.DEBUG && process.env.DEBUG.startsWith("esm4mocha")) {
-    console.dir(args);
-  }
-}
-
+// if modules are loaded from dist-esm/ treat them as ESM
 export async function resolve(specifier, context, defaultResolve) {
-  consoleLog("resolving...");
-  consoleDir({ specifier, context });
+  consoleDir({ label: "resolving", specifier, context });
   const resolved = await defaultResolve(specifier, context, defaultResolve);
   consoleDir({ resolved });
   if (resolved.url.includes("dist-esm/")) {
     resolved.format = "module";
   }
   return resolved;
+}
+
+// if modules are loaded from dist-esm/ transform code to have ".js" extension
+// for relative imports/exports as that is required by ESM.
+export async function load(url, context, defaultLoad) {
+  consoleDir({ label: "loading...", url, context });
+  if (url.includes("dist-esm/")) {
+    const path = fileURLToPath(url);
+    const source = await readFile(path);
+    const transformed = await addJsExtensionToRelativeModules(source, path);
+    return {
+      format: context.format,
+      source: transformed,
+      shortCircuit: true,
+    };
+  }
+  const { source } = await defaultLoad(url, context, defaultLoad);
+  return { format: context.format, source, shortCircuit: true };
 }
 
 async function updateSpecifierValueIfRelative(declaration, base) {
@@ -75,21 +81,14 @@ async function addJsExtensionToRelativeModules(source, path) {
   return f.getFullText();
 }
 
-export async function load(url, context, defaultLoad) {
-  consoleLog("loading...");
-  consoleDir({ url, context });
-
-  if (url.includes("dist-esm/")) {
-    const path = fileURLToPath(url);
-    const source = await readFile(path);
-    const transformed = await addJsExtensionToRelativeModules(source, path);
-    return {
-      format: context.format,
-      source: transformed,
-      shortCircuit: true,
-    };
+function consoleLog(...args) {
+  if (process.env.DEBUG && process.env.DEBUG.startsWith("esm4mocha")) {
+    console.log(args);
   }
-  const { source } = await defaultLoad(url, context, defaultLoad);
+}
 
-  return { format: context.format, source, shortCircuit: true };
+function consoleDir(...args) {
+  if (process.env.DEBUG && process.env.DEBUG.startsWith("esm4mocha")) {
+    console.dir(args);
+  }
 }
