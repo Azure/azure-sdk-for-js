@@ -32,7 +32,8 @@ export async function load(url, context, defaultLoad) {
     };
   }
   const { source } = await defaultLoad(url, context, defaultLoad);
-  return { format: context.format, source, shortCircuit: true };
+  const format = url.startsWith("node:") ? "builtin" : context.format;
+  return { format, source, shortCircuit: true };
 }
 
 async function updateSpecifierValueIfRelative(declaration, base) {
