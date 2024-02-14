@@ -1,14 +1,13 @@
 # Release History
 
-## 1.0.4 (Unreleased)
+## 1.1.0 (Unreleased)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- Added Support for Firebase Cloud Messaging (FCM) V1 API with the following:
+  - `FcmV1RegistrationDescription` and `FcmV1TemplateRegistrationDescription` for registrations with associated factory methods.
+  - `FcmV1Installation` for installation operations and associated factory methods.
+  - `FcmV1Notification` for notification send support and associated factory methods.
 
 ## 1.0.3 (2023-11-13)
 

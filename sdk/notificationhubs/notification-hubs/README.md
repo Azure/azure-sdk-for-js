@@ -1,6 +1,6 @@
 # Azure Notification Hubs SDK for JavaScript
 
-Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Android, Baidu, Xiaomi, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
+Azure Notification Hubs provide a scaled-out push engine that enables you to send notifications to any platform (Apple, Amazon Kindle, Firebase, Baidu, Xiaomi, Web, Windows, etc.) from any back-end (cloud or on-premises). Notification Hubs works well for both enterprise and consumer scenarios. Here are a few example scenarios:
 
 - Send breaking news notifications to millions with low latency.
 - Send location-based coupons to interested user segments.
