@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Support `etag` property for each page of configuration settings. You can give a list of etags through the `etagList` property in the options bag for the `listConfigurationSettings` method to see if the page has been changed. This enables more efficient caching and avoid mid-air collision.
+
 ### Breaking Changes
 
 ### Bugs Fixed
