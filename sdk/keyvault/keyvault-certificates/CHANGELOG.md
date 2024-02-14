@@ -1,15 +1,11 @@
 # Release History
 
-## 4.8.0 (Unreleased)
+## 4.8.0 (2024-02-14)
 
 ### Features Added
 
 Since 4.7.0:
 - Added property `x509ThumbprintString` to `CertificateProperties`. This property is a hex string representation of the existing `x509Thumbprint` property added for convenience.
-
-### Breaking Changes
-
-### Bugs Fixed
 
 ### Other Changes
 
