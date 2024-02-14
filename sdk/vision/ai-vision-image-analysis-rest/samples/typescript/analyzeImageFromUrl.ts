@@ -31,7 +31,7 @@ const features: string[] = [
   'SmartCrops',
   'Tags'
 ];
-const imageUrl: string = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+const imageUrl: string = 'https://aka.ms/azsdk/image-analysis/sample.jpg';
 
 async function analyzeImageFromUrl(): Promise<void> {
   const result = await client.path('/imageanalysis:analyze').post({

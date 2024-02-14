@@ -16,6 +16,8 @@ This exporter package assumes your application is [already instrumented](https:/
 
 See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md) for more details.
 
+> *Warning:* This SDK only works for Node.js environments. Use the [Application Insights JavaScript SDK](https://github.com/microsoft/ApplicationInsights-JS) for browser environments.
+
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/)
