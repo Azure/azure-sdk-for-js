@@ -1,18 +1,21 @@
 # Release History
 
-## 1.2.1 (Unreleased)
+## 1.3.0 (2024-02-13)
 
 ### Features Added
 
-### Breaking Changes
+- Allow spanProcessors and logRecordProcessors to be passed as options to useAzureMonitor.
 
 ### Bugs Fixed
 
 - Detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
 - Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
+- Fix Resource typing on the Azure Monitor config.
 
 ### Other Changes
 
+- Updated Quickpulse transmission time.
+- Update OpenTelemetry depdendencies.
 - Add SDK prefix including attach type in both manual and auto-attach scenarios.
 
 ## 1.2.0 (2024-01-23)
