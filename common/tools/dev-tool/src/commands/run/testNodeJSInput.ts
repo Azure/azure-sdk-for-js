@@ -28,19 +28,18 @@ export const commandInfo = makeCommandInfo(
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  let esmLoaderArgs = [];
+  let esmLoaderArgs = "";
   if ((await isModuleProject()) === false) {
     if (options["loader"] === "esm4mocha") {
-      esmLoaderArgs.push("--loader=../../../common/tools/esm4mocha.mjs");
+      esmLoaderArgs = "--loader=../../../common/tools/esm4mocha.mjs";
     } else {
-      esmLoaderArgs.push("-r ../../../common/tools/esm-workaround -r esm");
+      esmLoaderArgs = "-r ../../../common/tools/esm-workaround -r esm";
     }
   }
-  esmLoaderArgs.push("-r source-map-support/register.js");
 
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `${esmLoaderArgs.join(" ")} ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `${esmLoaderArgs} -r source-map-support/register.js ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
