@@ -240,9 +240,7 @@ export interface FcmV1NotificationParams {
  * @param notification - A partial message used to create a message for Firebase.
  * @returns A newly created Firebase notification.
  */
-export function createFcmV1Notification(
-  notification: FcmV1NotificationParams,
-): FcmV1Notification {
+export function createFcmV1Notification(notification: FcmV1NotificationParams): FcmV1Notification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
   return {

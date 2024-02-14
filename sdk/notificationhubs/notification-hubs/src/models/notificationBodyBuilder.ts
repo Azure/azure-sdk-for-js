@@ -497,7 +497,7 @@ export interface FirebaseV1NativeNotification {
   body?: string;
 
   /**
-   * Contains the URL of an image that is going to be downloaded on the device and displayed in a notification. 
+   * Contains the URL of an image that is going to be downloaded on the device and displayed in a notification.
    */
   image?: string;
 }
@@ -512,12 +512,12 @@ export interface FirebaseV1AndroidConfig {
   collapse_key?: string;
 
   /**
-   * Message priority. Can take "normal" and "high" values. 
+   * Message priority. Can take "normal" and "high" values.
    */
   priority: "normal" | "high";
 
   /**
-   * How long (in seconds) the message should be kept in FCM storage if the device is offline. 
+   * How long (in seconds) the message should be kept in FCM storage if the device is offline.
    */
   ttl?: string;
 
@@ -557,12 +557,12 @@ export interface FirebaseV1AndroidNotification {
   title?: string;
 
   /**
-   * The notification's body text. 
+   * The notification's body text.
    */
   body?: string;
 
   /**
-   * The notification's icon. 
+   * The notification's icon.
    */
   icon?: string;
 
@@ -572,12 +572,12 @@ export interface FirebaseV1AndroidNotification {
   color?: string;
 
   /**
-   * The sound to play when the device receives the notification. 
+   * The sound to play when the device receives the notification.
    */
   sound?: string;
 
   /**
-   * Identifier used to replace existing notifications in the notification drawer. 
+   * Identifier used to replace existing notifications in the notification drawer.
    */
   tag?: string;
 
@@ -602,7 +602,7 @@ export interface FirebaseV1AndroidNotification {
   title_loc_key?: string;
 
   /**
-   * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization. 
+   * Variable string values to be used in place of the format specifiers in title_loc_key to use to localize the title text to the user's current localization.
    */
   title_loc_args?: string[];
 
@@ -672,19 +672,19 @@ export interface FirebaseV1AndroidNotification {
   /**
    * Settings to control the notification's LED blinking rate and color if LED is available on the device.
    */
-  light_settings?: {  
-    color: {  
-      red: number,
-      green: number,
-      blue: number,
-      alpha: number
-    },
-    light_on_duration: string,
-    light_off_duration: string
+  light_settings?: {
+    color: {
+      red: number;
+      green: number;
+      blue: number;
+      alpha: number;
+    };
+    light_on_duration: string;
+    light_off_duration: string;
   };
 
   /**
-   * Contains the URL of an image that is going to be displayed in a notification. 
+   * Contains the URL of an image that is going to be displayed in a notification.
    */
   image?: string;
 }
@@ -780,12 +780,12 @@ export interface FirebaseV1WebPushNotification {
   renotify?: boolean;
 
   /**
-   * Indicates that a notification should remain active until the user clicks or dismisses it, rather than closing automatically. 
+   * Indicates that a notification should remain active until the user clicks or dismisses it, rather than closing automatically.
    */
   requireInteraction?: boolean;
 
   /**
-   * A boolean value specifying whether the notification is silent 
+   * A boolean value specifying whether the notification is silent
    */
   silent?: boolean;
 
@@ -810,7 +810,7 @@ export interface FirebaseV1WebPushNotification {
  */
 export interface FirebaseV1WebPushFcmOptions {
   /**
-   * The link to open when the user clicks on the notification. 
+   * The link to open when the user clicks on the notification.
    */
   link?: string;
 
@@ -825,7 +825,7 @@ export interface FirebaseV1WebPushFcmOptions {
  */
 export interface FirebaseV1ApnsConfig {
   /**
-   * A collection of APNs headers. 
+   * A collection of APNs headers.
    */
   headers?: Record<string, string>;
 
@@ -867,9 +867,7 @@ export interface FirebaseV1FcmOptions {
  * @param nativeMessage - The native message payload to send to Notification Hubs.
  * @returns The JSON body to send to Notification Hubs.
  */
-export function createFirebaseV1NotificationBody(
-  nativeMessage: FirebaseV1NativeMessage,
-): string {
+export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string {
   return JSON.stringify(nativeMessage);
 }
 

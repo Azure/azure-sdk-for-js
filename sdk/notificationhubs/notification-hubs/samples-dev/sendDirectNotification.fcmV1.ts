@@ -58,7 +58,9 @@ async function main(): Promise<void> {
     body: messageBody,
   });
 
-  const result = await sendNotification(context, notification, { deviceHandle: fcmV1RegistrationId });
+  const result = await sendNotification(context, notification, {
+    deviceHandle: fcmV1RegistrationId,
+  });
 
   console.log(`Direct send Tracking ID: ${result.trackingId}`);
   console.log(`Direct send Correlation ID: ${result.correlationId}`);
