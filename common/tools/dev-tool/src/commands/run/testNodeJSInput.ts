@@ -18,19 +18,22 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to run with test-proxy",
     },
-    loader: {
-      shortName: "l",
-      kind: "string",
-      default: "esm",
-      description: "loader to use for running tests",
+    "use-esm-workaround": {
+      shortName: "esm",
+      kind: "boolean",
+      default: true,
+      description:
+        "when true, uses the `esm` npm package for tests. Otherwise uses esm4mocha if needed",
     },
   },
 );
 
 export default leafCommand(commandInfo, async (options) => {
+  const isModule = await isModuleProject();
   let esmLoaderArgs = "";
-  if ((await isModuleProject()) === false) {
-    if (options["loader"] === "esm4mocha") {
+
+  if (isModule === false) {
+    if (options["use-esm-workaround"] === false) {
       esmLoaderArgs = "--loader=../../../common/tools/esm4mocha.mjs";
     } else {
       esmLoaderArgs = "-r ../../../common/tools/esm-workaround -r esm";
