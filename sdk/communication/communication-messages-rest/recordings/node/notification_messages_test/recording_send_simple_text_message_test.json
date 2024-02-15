@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "109",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "64019797-c97b-4077-9566-061fb2656252",
+        "x-ms-content-sha256": "g18NO\u002BxtYFwE96LlI/vdQK8YcppbrTYy8RmlppsLlyM=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:02 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "text",
+        "content": "Arif The Great!!!"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:04 GMT",
+        "MS-CV": "lybMujHLy06PuTcRQy5MYg.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163103Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034u0",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "493ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "84cdac15-1493-4efc-aa0d-54ff80db64ab",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,78 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "265",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3e0daa60-351d-4bbc-b5fc-3bf3efa40772",
+        "x-ms-content-sha256": "RTFVjMEBLhZSruO9464RjGqJVg2x2A6xBZVy2FKg9e8=",
+        "x-ms-date": "Wed, 14 Feb 2024 19:21:15 GMT",
+        "x-ms-useragent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 OS"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_shipping_confirmation",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "body": [
+              {
+                "refValue": "Days"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "text",
+              "name": "Days",
+              "text": "5"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 14 Feb 2024 19:21:16 GMT",
+        "MS-CV": "5jvdujmNk0uaMqiZbOFWsA.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240214T192115Z-vds3h3qvx57v91uvyase288m7n000000021000000000rnma",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "658ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "40ad267b-08d1-4731-bdd1-6114ebb5f77a",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

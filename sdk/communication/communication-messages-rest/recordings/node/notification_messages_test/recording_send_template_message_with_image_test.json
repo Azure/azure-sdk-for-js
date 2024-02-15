@@ -1,0 +1,79 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "444",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "105f0d8a-bf48-4fd3-8bcc-a08610561075",
+        "x-ms-content-sha256": "fV6R1WBr73/9nP36JTgmaVHgWZm9cZdcnRNUoJGJuuc=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:05 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_purchase_feedback",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "header": [
+              {
+                "refValue": "CompanyPhoto"
+              }
+            ],
+            "body": [
+              {
+                "refValue": "Product"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "image",
+              "name": "CompanyPhoto",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Building92microsoft.jpg"
+            },
+            {
+              "kind": "text",
+              "name": "Product",
+              "text": "Microsoft Office"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:06 GMT",
+        "MS-CV": "XjZk/24YD0\u002Ba5XX0D5T4dw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163105Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034x5",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "411ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "5c68f115-9a9c-47e3-8984-0850bf6f30ae",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

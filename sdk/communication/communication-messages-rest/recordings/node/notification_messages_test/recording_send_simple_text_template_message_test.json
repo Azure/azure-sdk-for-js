@@ -1,0 +1,69 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "265",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "79ea695c-29bd-4a1e-8f4a-e09fb756ad4d",
+        "x-ms-content-sha256": "RTFVjMEBLhZSruO9464RjGqJVg2x2A6xBZVy2FKg9e8=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:04 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_shipping_confirmation",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "body": [
+              {
+                "refValue": "Days"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "text",
+              "name": "Days",
+              "text": "5"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:05 GMT",
+        "MS-CV": "bYQDO1RDCkSXJce/bWAFbw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163104Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034vr",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "359ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "eb73bf80-79de-460f-9c2b-9c7723bf9f5f",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

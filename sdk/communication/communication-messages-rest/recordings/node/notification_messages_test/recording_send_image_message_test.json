@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "140",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "78716f74-1c26-42d2-b833-05f438c2659e",
+        "x-ms-content-sha256": "PJRpoLBvcAaUE0QMV6x/qZG6DGL8GpyIVpPfji/kCzA=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:04 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "image",
+        "mediaUri": "https://www.w3schools.com/w3css/img_lights.jpg"
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:04 GMT",
+        "MS-CV": "FF7e3y06rEKe4IzvHptMRA.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163104Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034v3",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "362ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "a7c2f6e6-6d0f-404f-a7ea-d2f315e1e9f8",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,89 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "470",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "a9c06e09-5182-4a16-9c48-3b1d2a28697b",
+        "x-ms-content-sha256": "zZuCrnlAgJP6EbCRSpA\u002BgbZfPCFVYuNOGaqxdBEPj4k=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:06 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_issue_resolution",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "body": [
+              {
+                "refValue": "NameValue"
+              }
+            ],
+            "buttons": [
+              {
+                "subType": "quickReply",
+                "refValue": "Yes"
+              },
+              {
+                "subType": "quickReply",
+                "refValue": "No"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "text",
+              "name": "NameValue",
+              "text": "Arif"
+            },
+            {
+              "kind": "quickAction",
+              "name": "Yes",
+              "payload": "yes"
+            },
+            {
+              "kind": "quickAction",
+              "name": "No",
+              "payload": "no"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:07 GMT",
+        "MS-CV": "hzUCT4tTq0aGafE0Njvsmg.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163106Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034y9",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "392ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "c83ef1a4-f800-4a5c-b04c-16884348ba93",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,88 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "444",
+        "Content-Type": "application/json",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "3f98f2e5-86d8-4156-b3d8-8ea6e7c37a54",
+        "x-ms-content-sha256": "fV6R1WBr73/9nP36JTgmaVHgWZm9cZdcnRNUoJGJuuc=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:18 GMT",
+        "x-ms-useragent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 OS"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_purchase_feedback",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "header": [
+              {
+                "refValue": "CompanyPhoto"
+              }
+            ],
+            "body": [
+              {
+                "refValue": "Product"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "image",
+              "name": "CompanyPhoto",
+              "url": "https://upload.wikimedia.org/wikipedia/commons/3/30/Building92microsoft.jpg"
+            },
+            {
+              "kind": "text",
+              "name": "Product",
+              "text": "Microsoft Office"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:19 GMT",
+        "MS-CV": "pPkKdpmuBUWBzQhfp0bisA.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163118Z-1v391eb6xh1vpa73ekrxranzdn00000001cg00000000nz76",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "507ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "8b8f3525-7476-4793-8443-82da396b6966",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

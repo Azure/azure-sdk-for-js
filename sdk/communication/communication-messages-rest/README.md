@@ -150,6 +150,7 @@ const nameValue:MessageTemplateValue = {
         throw new Error("Failed to send message");
     }
 ```
+
 ## Send a Text Message with WhatsApp Channel
 
 `Note: Business can't start a conversation with a text message. It needs to be user initiated.`

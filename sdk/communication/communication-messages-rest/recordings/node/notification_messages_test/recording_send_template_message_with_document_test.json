@@ -1,0 +1,95 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://someEndpoint/messages/notifications:send?api-version=2024-02-01",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "635",
+        "Content-Type": "application/json",
+        "User-Agent": "azsdk-js-communication-messages-rest/1.0.0-beta.2 core-rest-pipeline/1.13.1 Node/v20.5.1 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "5865379f-4309-41bb-99ab-375fed29dc25",
+        "x-ms-content-sha256": "IYiIOurZzV4Z1bhEVhp3c8S1JQb/7VtX4bjW0o/nU0c=",
+        "x-ms-date": "Thu, 15 Feb 2024 16:31:06 GMT"
+      },
+      "RequestBody": {
+        "channelRegistrationId": "test_channel_id",
+        "to": [
+          "\u002B14255550123"
+        ],
+        "kind": "template",
+        "template": {
+          "name": "sample_flight_confirmation",
+          "language": "en_US",
+          "bindings": {
+            "kind": "whatsApp",
+            "header": [
+              {
+                "refValue": "BoardingPass"
+              }
+            ],
+            "body": [
+              {
+                "refValue": "OriginDestination"
+              },
+              {
+                "refValue": "FinalDestination"
+              },
+              {
+                "refValue": "BoardingTime"
+              }
+            ]
+          },
+          "values": [
+            {
+              "kind": "document",
+              "name": "BoardingPass",
+              "url": "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf"
+            },
+            {
+              "kind": "text",
+              "name": "OriginDestination",
+              "text": "RDU"
+            },
+            {
+              "kind": "text",
+              "name": "FinalDestination",
+              "text": "LAX"
+            },
+            {
+              "kind": "text",
+              "name": "BoardingTime",
+              "text": "June 4th, 2024 @ 2PM"
+            }
+          ]
+        }
+      },
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "api-supported-versions": "2023-08-24-preview, 2024-02-01",
+        "Connection": "keep-alive",
+        "Content-Length": "87",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 15 Feb 2024 16:31:06 GMT",
+        "MS-CV": "feWQov8Z5U\u002BReZMNnUSksw.0",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=2592000",
+        "x-azure-ref": "20240215T163106Z-0a5uy7g6p57s1afvv0xbmnm1gw00000000e00000000034xt",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "386ms"
+      },
+      "ResponseBody": {
+        "receipts": [
+          {
+            "messageId": "7bac16a8-7ba9-40d3-aada-4eb3d102863f",
+            "to": "\u002B14255550123"
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}
