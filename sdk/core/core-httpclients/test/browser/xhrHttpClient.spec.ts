@@ -6,7 +6,6 @@ import { createXhrHttpClient } from "../../src/xhrHttpClient";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("XhrHttpClient", function () {
-
   beforeEach(function () {
     vi.useFakeTimers();
   });

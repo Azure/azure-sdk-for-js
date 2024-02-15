@@ -5,9 +5,7 @@
     "rootDir": "./",
     "declarationDir": "./types",
     "paths": {
-      "@azure/core-httpclients": [
-        "./src/index"
-      ]
+      "@azure/core-httpclients": ["./src/index"]
     },
     "lib": ["dom", "dom.iterable"],
     "verbatimModuleSyntax": true
