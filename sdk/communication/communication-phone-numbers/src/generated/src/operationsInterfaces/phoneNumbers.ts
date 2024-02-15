@@ -36,7 +36,9 @@ import {
   PhoneNumbersGetByNumberOptionalParams,
   PhoneNumbersGetByNumberResponse,
   PhoneNumbersReleasePhoneNumberOptionalParams,
-  PhoneNumbersReleasePhoneNumberResponse
+  PhoneNumbersReleasePhoneNumberResponse,
+  PhoneNumbersOperatorInformationSearchOptionalParams,
+  PhoneNumbersOperatorInformationSearchResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -51,14 +53,14 @@ export interface PhoneNumbers {
   listAreaCodes(
     countryCode: string,
     phoneNumberType: PhoneNumberType,
-    options?: PhoneNumbersListAreaCodesOptionalParams
+    options?: PhoneNumbersListAreaCodesOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
   /**
    * Gets the list of supported countries.
    * @param options The options parameters.
    */
   listAvailableCountries(
-    options?: PhoneNumbersListAvailableCountriesOptionalParams
+    options?: PhoneNumbersListAvailableCountriesOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumberCountry>;
   /**
    * Gets the list of cities or towns with available phone numbers.
@@ -67,7 +69,7 @@ export interface PhoneNumbers {
    */
   listAvailableLocalities(
     countryCode: string,
-    options?: PhoneNumbersListAvailableLocalitiesOptionalParams
+    options?: PhoneNumbersListAvailableLocalitiesOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumberLocality>;
   /**
    * List available offerings of capabilities with rates for the given country.
@@ -76,14 +78,14 @@ export interface PhoneNumbers {
    */
   listOfferings(
     countryCode: string,
-    options?: PhoneNumbersListOfferingsOptionalParams
+    options?: PhoneNumbersListOfferingsOptionalParams,
   ): PagedAsyncIterableIterator<PhoneNumberOffering>;
   /**
    * Gets the list of all purchased phone numbers.
    * @param options The options parameters.
    */
   listPhoneNumbers(
-    options?: PhoneNumbersListPhoneNumbersOptionalParams
+    options?: PhoneNumbersListPhoneNumbersOptionalParams,
   ): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
   /**
    * Search for available phone numbers to purchase.
@@ -99,7 +101,7 @@ export interface PhoneNumbers {
     phoneNumberType: PhoneNumberType,
     assignmentType: PhoneNumberAssignmentType,
     capabilities: PhoneNumberCapabilities,
-    options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
+    options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersSearchAvailablePhoneNumbersResponse>,
@@ -120,7 +122,7 @@ export interface PhoneNumbers {
     phoneNumberType: PhoneNumberType,
     assignmentType: PhoneNumberAssignmentType,
     capabilities: PhoneNumberCapabilities,
-    options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
+    options?: PhoneNumbersSearchAvailablePhoneNumbersOptionalParams,
   ): Promise<PhoneNumbersSearchAvailablePhoneNumbersResponse>;
   /**
    * Gets a phone number search result by search id.
@@ -129,14 +131,14 @@ export interface PhoneNumbers {
    */
   getSearchResult(
     searchId: string,
-    options?: PhoneNumbersGetSearchResultOptionalParams
+    options?: PhoneNumbersGetSearchResultOptionalParams,
   ): Promise<PhoneNumbersGetSearchResultResponse>;
   /**
    * Purchases phone numbers.
    * @param options The options parameters.
    */
   beginPurchasePhoneNumbers(
-    options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
+    options?: PhoneNumbersPurchasePhoneNumbersOptionalParams,
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersPurchasePhoneNumbersResponse>,
@@ -148,7 +150,7 @@ export interface PhoneNumbers {
    * @param options The options parameters.
    */
   beginPurchasePhoneNumbersAndWait(
-    options?: PhoneNumbersPurchasePhoneNumbersOptionalParams
+    options?: PhoneNumbersPurchasePhoneNumbersOptionalParams,
   ): Promise<PhoneNumbersPurchasePhoneNumbersResponse>;
   /**
    * Gets an operation by its id.
@@ -157,7 +159,7 @@ export interface PhoneNumbers {
    */
   getOperation(
     operationId: string,
-    options?: PhoneNumbersGetOperationOptionalParams
+    options?: PhoneNumbersGetOperationOptionalParams,
   ): Promise<PhoneNumbersGetOperationResponse>;
   /**
    * Cancels an operation by its id.
@@ -166,7 +168,7 @@ export interface PhoneNumbers {
    */
   cancelOperation(
     operationId: string,
-    options?: PhoneNumbersCancelOperationOptionalParams
+    options?: PhoneNumbersCancelOperationOptionalParams,
   ): Promise<void>;
   /**
    * Updates the capabilities of a phone number.
@@ -176,7 +178,7 @@ export interface PhoneNumbers {
    */
   beginUpdateCapabilities(
     phoneNumber: string,
-    options?: PhoneNumbersUpdateCapabilitiesOptionalParams
+    options?: PhoneNumbersUpdateCapabilitiesOptionalParams,
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersUpdateCapabilitiesResponse>,
@@ -191,7 +193,7 @@ export interface PhoneNumbers {
    */
   beginUpdateCapabilitiesAndWait(
     phoneNumber: string,
-    options?: PhoneNumbersUpdateCapabilitiesOptionalParams
+    options?: PhoneNumbersUpdateCapabilitiesOptionalParams,
   ): Promise<PhoneNumbersUpdateCapabilitiesResponse>;
   /**
    * Gets the details of the given purchased phone number.
@@ -201,7 +203,7 @@ export interface PhoneNumbers {
    */
   getByNumber(
     phoneNumber: string,
-    options?: PhoneNumbersGetByNumberOptionalParams
+    options?: PhoneNumbersGetByNumberOptionalParams,
   ): Promise<PhoneNumbersGetByNumberResponse>;
   /**
    * Releases a purchased phone number.
@@ -210,7 +212,7 @@ export interface PhoneNumbers {
    */
   beginReleasePhoneNumber(
     phoneNumber: string,
-    options?: PhoneNumbersReleasePhoneNumberOptionalParams
+    options?: PhoneNumbersReleasePhoneNumberOptionalParams,
   ): Promise<
     PollerLike<
       PollOperationState<PhoneNumbersReleasePhoneNumberResponse>,
@@ -224,6 +226,15 @@ export interface PhoneNumbers {
    */
   beginReleasePhoneNumberAndWait(
     phoneNumber: string,
-    options?: PhoneNumbersReleasePhoneNumberOptionalParams
+    options?: PhoneNumbersReleasePhoneNumberOptionalParams,
   ): Promise<PhoneNumbersReleasePhoneNumberResponse>;
+  /**
+   * Searches for number format and operator information for a given list of phone numbers.
+   * @param phoneNumbers Phone number(s) whose operator information is being requested
+   * @param options The options parameters.
+   */
+  operatorInformationSearch(
+    phoneNumbers: string[],
+    options?: PhoneNumbersOperatorInformationSearchOptionalParams,
+  ): Promise<PhoneNumbersOperatorInformationSearchResponse>;
 }

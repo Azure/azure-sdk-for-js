@@ -1,0 +1,114 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/offerings?skip=0\u0026maxPageSize=100\u0026api-version=2023-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Referer": "http://localhost:9876/",
+        "sec-ch-ua": "",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua-platform": "\u0022\u0022",
+        "Sec-Fetch-Dest": "empty",
+        "Sec-Fetch-Mode": "cors",
+        "Sec-Fetch-Site": "same-site",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "sanitized",
+<<<<<<< HEAD
+        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
+=======
+        "x-ms-useragent": "fake-useragent"
+>>>>>>> main
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "861",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Sat, 15 Jul 2023 04:53:51 GMT",
+        "MS-CV": "U0G1eqKojku\u002BH0/a5VuPcw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0XiayZAAAAABAE/b4GzVaT4CYG7eGonxjV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "511ms"
+=======
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "861",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Nov 2023 10:40:24 GMT",
+        "MS-CV": "gAbbSe0VOkqZv6O7tWi3qw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0l9pdZQAAAAAq9QYcUWxZSbQTc3wZ1aoxUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "1136ms"
+>>>>>>> main
+      },
+      "ResponseBody": {
+        "phoneNumberOfferings": [
+          {
+            "phoneNumberType": "geographic",
+            "assignmentType": "person",
+            "availableCapabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "phoneNumberType": "geographic",
+            "assignmentType": "application",
+            "availableCapabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "phoneNumberType": "tollFree",
+            "assignmentType": "application",
+            "availableCapabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "inbound\u002Boutbound"
+            },
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "phoneNumberType": "tollFree",
+            "assignmentType": "application",
+            "availableCapabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          }
+        ],
+        "nextLink": null
+      }
+    }
+  ],
+  "Variables": {}
+}

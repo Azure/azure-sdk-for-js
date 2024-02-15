@@ -1,0 +1,71 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=tollFree\u0026skip=0\u0026maxPageSize=100\u0026assignmentType=application\u0026api-version=2023-05-01-preview",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+<<<<<<< HEAD
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Fri, 14 Jul 2023 05:00:38 GMT"
+=======
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "sanitized",
+        "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
+        "x-ms-date": "Wed, 22 Nov 2023 10:01:37 GMT",
+        "x-ms-useragent": "fake-useragent"
+>>>>>>> main
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+<<<<<<< HEAD
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "182",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Fri, 14 Jul 2023 05:00:48 GMT",
+        "MS-CV": "MiHLVtSO9U2fWEhzuThPpw.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0dtawZAAAAAAHGDdYl2N0QrkYNFcIIjWXV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "9765ms"
+=======
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
+        "Content-Length": "107",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Wed, 22 Nov 2023 10:01:39 GMT",
+        "MS-CV": "uDvtOJmq80KactM6YsWlEQ.0",
+        "Strict-Transport-Security": "max-age=2592000",
+        "X-Azure-Ref": "0gNFdZQAAAACIb0KHGrlGS7DDhCirLOeCUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Processing-Time": "3837ms"
+>>>>>>> main
+      },
+      "ResponseBody": {
+        "areaCodes": [
+          {
+            "areaCode": "866"
+          },
+          {
+            "areaCode": "855"
+          },
+          {
+            "areaCode": "844"
+          },
+          {
+            "areaCode": "833"
+          }
+        ],
+        "nextLink": null
+      }
+    }
+  ],
+  "Variables": {}
+}
