@@ -165,9 +165,9 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.AnswerFailed":
       callbackEvent = { kind: "AnswerFailed" } as AnswerFailed;
       break;
-      case "Microsoft.Communication.CreateCallFailed":
-        callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
-        break;
+    case "Microsoft.Communication.CreateCallFailed":
+      callbackEvent = { kind: "CreateCallFailed" } as CreateCallFailed;
+      break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
   }
