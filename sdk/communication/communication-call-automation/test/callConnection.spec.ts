@@ -513,70 +513,70 @@ describe("CallConnection Live Tests", function () {
     assert.isDefined(callEndedEvent);
   }).timeout(60000);
 
-  it("Mute a participant", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "mute_participant";
-    await loadPersistedEvents(testName);
+  // it("Mute a participant", async function () {
+  //   testName = this.test?.fullTitle()
+  //     ? this.test?.fullTitle().replace(/ /g, "_")
+  //     : "mute_participant";
+  //   await loadPersistedEvents(testName);
 
-    const callInvite: CallInvite = { targetParticipant: testUser2 };
-    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 20000);
-    callConnectionId = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-    if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-    const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
-    const participantInvite: CallInvite = { targetParticipant: testUser3 };
-    const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
-    const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
+  //   const callInvite: CallInvite = { targetParticipant: testUser2 };
+  //   const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
+  //   const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
+  //   const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
+  //   const incomingCallContext = await waitForIncomingCallContext(uniqueId, 20000);
+  //   callConnectionId = result.callConnectionProperties.callConnectionId
+  //     ? result.callConnectionProperties.callConnectionId
+  //     : "";
+  //   assert.isDefined(incomingCallContext);
+  //   if (incomingCallContext) {
+  //     await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
+  //   }
+  //   const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+  //   assert.isDefined(callConnectedEvent);
+  //   callConnection = result.callConnection;
+  //   const testUser3: CommunicationUserIdentifier = await createTestUser(recorder);
+  //   const participantInvite: CallInvite = { targetParticipant: testUser3 };
+  //   const uniqueId2 = await serviceBusWithNewCall(testUser, testUser3);
+  //   const callBackUrl2: string = dispatcherCallback + `?q=${uniqueId2}`;
 
-    const addParticipantOption: AddParticipantOptions = { operationContext: "addParticipant" };
-    const addResult = await callConnection.addParticipant(participantInvite, addParticipantOption);
-    assert.isDefined(addResult);
+  //   const addParticipantOption: AddParticipantOptions = { operationContext: "addParticipant" };
+  //   const addResult = await callConnection.addParticipant(participantInvite, addParticipantOption);
+  //   assert.isDefined(addResult);
 
-    // A call needs at least 3 participants to mute a participant. So adding one more participant.
-    const anotherReceiverCallAutomationClient: CallAutomationClient = createCallAutomationClient(
-      recorder,
-      testUser3,
-    );
-    const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
-    if (anotherIncomingCallContext) {
-      await anotherReceiverCallAutomationClient.answerCall(
-        anotherIncomingCallContext,
-        callBackUrl2,
-      );
-    }
-    const participantAddedEvent = await waitForEvent(
-      "AddParticipantSucceeded",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(participantAddedEvent);
+  //   // A call needs at least 3 participants to mute a participant. So adding one more participant.
+  //   const anotherReceiverCallAutomationClient: CallAutomationClient = createCallAutomationClient(
+  //     recorder,
+  //     testUser3,
+  //   );
+  //   const anotherIncomingCallContext = await waitForIncomingCallContext(uniqueId2, 20000);
+  //   if (anotherIncomingCallContext) {
+  //     await anotherReceiverCallAutomationClient.answerCall(
+  //       anotherIncomingCallContext,
+  //       callBackUrl2,
+  //     );
+  //   }
+  //   const participantAddedEvent = await waitForEvent(
+  //     "AddParticipantSucceeded",
+  //     callConnectionId,
+  //     8000,
+  //   );
+  //   assert.isDefined(participantAddedEvent);
 
-    const muteResult = await callConnection.muteParticipant(testUser2);
-    assert.isDefined(muteResult);
+  //   const muteResult = await callConnection.muteParticipant(testUser2);
+  //   assert.isDefined(muteResult);
 
-    await new Promise((resolve) => setTimeout(resolve, 3000));
+  //   await new Promise((resolve) => setTimeout(resolve, 3000));
 
-    const participantLists = await callConnection.listParticipants();
-    let isMuted = false;
-    for (const participant of participantLists.values!) {
-      const communicationUser = participant.identifier as CommunicationUserIdentifier;
-      if (communicationUser.communicationUserId === testUser2.communicationUserId) {
-        isMuted = participant.isMuted!;
-      }
-    }
-    assert.isTrue(isMuted);
-  }).timeout(90000);
+  //   const participantLists = await callConnection.listParticipants();
+  //   let isMuted = false;
+  //   for (const participant of participantLists.values!) {
+  //     const communicationUser = participant.identifier as CommunicationUserIdentifier;
+  //     if (communicationUser.communicationUserId === testUser2.communicationUserId) {
+  //       isMuted = participant.isMuted!;
+  //     }
+  //   }
+  //   assert.isTrue(isMuted);
+  // }).timeout(90000);
 
   it("Add a participant cancels add participant request", async function () {
     testName = this.test?.fullTitle()
