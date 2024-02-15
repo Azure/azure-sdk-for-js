@@ -17,16 +17,23 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to run with test-proxy",
     },
+    "use-esm-workaround": {
+      shortName: "uew",
+      kind: "boolean",
+      default: false,
+      description: "whether to use esm to load *.js tests",
+    },
   },
 );
 
 export default leafCommand(commandInfo, async (options) => {
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
+  const loaderArgs = options["use-esm-workaround"] ? "-r ../../../common/tools/esm-workaround -r esm" : "--loader=../../../common/tools/esm4mocha.mjs"
   const defaultMochaArgs = `${
     (await isModuleProject())
       ? "-r source-map-support/register.js"
-      : "-r ../../../common/tools/esm-workaround -r esm -r source-map-support/register"
+: `${loaderArgs} -r source-map-support/register`
   } ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
