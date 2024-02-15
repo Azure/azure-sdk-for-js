@@ -557,9 +557,8 @@ export class PhoneNumbersClient {
       options,
       (updatedOptions) => {
         const params: PhoneNumbersOperatorInformationSearchOptionalParams = updatedOptions;
-        params.phoneNumbers = phoneNumbers;
         params.options = { "includeAdditionalOperatorDetails": options.includeAdditionalOperatorDetails };
-        return this.client.phoneNumbers.operatorInformationSearch(params);
+        return this.client.phoneNumbers.operatorInformationSearch(phoneNumbers, params);
       }
     );
   }

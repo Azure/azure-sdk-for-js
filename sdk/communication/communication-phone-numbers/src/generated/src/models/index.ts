@@ -227,10 +227,10 @@ export interface PurchasedPhoneNumbers {
   nextLink?: string;
 }
 
-/** Represents a search request for operator information for the given phone numbers */
+/** Represents a search request for operator information for the given phone numbers. */
 export interface OperatorInformationRequest {
   /** Phone number(s) whose operator information is being requested */
-  phoneNumbers?: string[];
+  phoneNumbers: string[];
   /** Represents options to modify a search request for operator information */
   options?: OperatorInformationOptions;
 }
@@ -258,10 +258,10 @@ export interface OperatorInformation {
   nationalFormat?: string;
   /** International format of the phone number */
   internationalFormat?: string;
-  /** Type of service associated with the phone number */
-  numberType?: OperatorNumberType;
   /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */
   isoCountryCode?: string;
+  /** Type of service associated with the phone number */
+  numberType?: OperatorNumberType;
   /** Represents metadata describing the operator of a phone number */
   operatorDetails?: OperatorDetails;
 }
@@ -269,7 +269,7 @@ export interface OperatorInformation {
 /** Represents metadata describing the operator of a phone number */
 export interface OperatorDetails {
   /** Name of the phone operator */
-  name?: string;
+  name: string;
   /** Mobile Network Code */
   mobileNetworkCode?: string;
   /** Mobile Country Code */
@@ -368,11 +368,7 @@ export type PhoneNumberOperationStatus =
   | "succeeded"
   | "failed";
 /** Defines values for OperatorNumberType. */
-export type OperatorNumberType =
-  | "unavailable"
-  | "other"
-  | "geographic"
-  | "mobile";
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesOptionalParams
@@ -456,8 +452,8 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the searchAvailablePhoneNumbers operation. */
-export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearchAvailablePhoneNumbersHeaders &
-  PhoneNumberSearchResult;
+export type PhoneNumbersSearchAvailablePhoneNumbersResponse =
+  PhoneNumbersSearchAvailablePhoneNumbersHeaders & PhoneNumberSearchResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetSearchResultOptionalParams
@@ -478,7 +474,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the purchasePhoneNumbers operation. */
-export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders;
+export type PhoneNumbersPurchasePhoneNumbersResponse =
+  PhoneNumbersPurchasePhoneNumbersHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetOperationOptionalParams
@@ -506,8 +503,8 @@ export interface PhoneNumbersUpdateCapabilitiesOptionalParams
 }
 
 /** Contains response data for the updateCapabilities operation. */
-export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
-  PurchasedPhoneNumber;
+export type PhoneNumbersUpdateCapabilitiesResponse =
+  PhoneNumbersUpdateCapabilitiesHeaders & PurchasedPhoneNumber;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetByNumberOptionalParams
@@ -526,7 +523,8 @@ export interface PhoneNumbersReleasePhoneNumberOptionalParams
 }
 
 /** Contains response data for the releasePhoneNumber operation. */
-export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNumberHeaders;
+export type PhoneNumbersReleasePhoneNumberResponse =
+  PhoneNumbersReleasePhoneNumberHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersOptionalParams
@@ -543,14 +541,13 @@ export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers;
 /** Optional parameters. */
 export interface PhoneNumbersOperatorInformationSearchOptionalParams
   extends coreClient.OperationOptions {
-  /** Phone number(s) whose operator information is being requested */
-  phoneNumbers?: string[];
   /** Represents options to modify a search request for operator information */
   options?: OperatorInformationOptions;
 }
 
 /** Contains response data for the operatorInformationSearch operation. */
-export type PhoneNumbersOperatorInformationSearchResponse = OperatorInformationResult;
+export type PhoneNumbersOperatorInformationSearchResponse =
+  OperatorInformationResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams
@@ -570,7 +567,8 @@ export interface PhoneNumbersListAvailableCountriesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableCountriesNext operation. */
-export type PhoneNumbersListAvailableCountriesNextResponse = PhoneNumberCountries;
+export type PhoneNumbersListAvailableCountriesNextResponse =
+  PhoneNumberCountries;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
@@ -580,7 +578,8 @@ export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableLocalitiesNext operation. */
-export type PhoneNumbersListAvailableLocalitiesNextResponse = PhoneNumberLocalities;
+export type PhoneNumbersListAvailableLocalitiesNextResponse =
+  PhoneNumberLocalities;
 
 /** Optional parameters. */
 export interface PhoneNumbersListOfferingsNextOptionalParams
