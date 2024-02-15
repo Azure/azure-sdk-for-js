@@ -155,4 +155,10 @@ directive:
   - rename-model:
       from: TranscriptionFailed
       to: RestTranscriptionFailed
+  - rename-model:
+      from: AnswerFailed
+      to: RestAnswerFailed
+  - rename-model:
+      from: CreateCallFailed
+      to: RestCreateCallFailed
 ```
