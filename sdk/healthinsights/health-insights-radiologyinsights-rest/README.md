@@ -8,10 +8,10 @@
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-radiologyinsights?view=azure-node-preview)
-- [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples)
+- Source code
+- Package (NPM)
+- API reference documentation
+- Samples
 
 ## Getting started
 
