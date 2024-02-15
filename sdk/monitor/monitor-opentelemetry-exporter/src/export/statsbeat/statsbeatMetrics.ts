@@ -18,7 +18,7 @@ import {
   VirtualMachineInfo,
 } from "./types";
 
-const os = require("os");
+import * as os from "os";
 
 export class StatsbeatMetrics {
   protected resourceProvider: string = StatsbeatResourceProvider.unknown;
