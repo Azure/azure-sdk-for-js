@@ -4,7 +4,7 @@
 
 ### Bugs Fixed
 
-- Fix marshalling of some properties
+- Fix marshalling of some properties [#28575](https://github.com/Azure/azure-sdk-for-js/pull/28575)
 
 ## 12.0.0-beta.4 (2023-10-11)
 
