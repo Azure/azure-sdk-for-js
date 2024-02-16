@@ -255,8 +255,8 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
           kind: "azureOpenAI",
           azureOpenAIParameters: {
             resourceUri: env.AZURE_OPENAI_ENDPOINT,
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            apiKey: env.AZURE_OPENAI_KEY,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
           },
         },
       ],

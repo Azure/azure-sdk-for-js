@@ -516,7 +516,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           this.skip();
         }
         const embeddings = await openAIClient.getEmbeddings(
-          env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+          env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
           ["What are the most luxurious hotels?"],
         );
 
@@ -548,7 +548,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           this.skip();
         }
         const embeddings = await openAIClient.getEmbeddings(
-          env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+          env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
           ["What are the most luxurious hotels?"],
         );
 
