@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { getClient, ClientOptions, addCredentialPipelinePolicy } from "@azure-rest/core-client";
 import { logger } from "../logger.js";
 import { WidgetServiceContext } from "./clientDefinitions.js";
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 
 /**
  * Initialize a new instance of `WidgetServiceContext`
  * @param endpoint - The parameter endpoint
  * @param options - the parameter for all optional parameters
  */
-export default function createClient(
-  endpoint: string,
-  options: ClientOptions = {}
-): WidgetServiceContext {
+function _createClient(endpoint: string, options: ClientOptions = {}): WidgetServiceContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "1.0.0";
 
@@ -34,5 +32,37 @@ export default function createClient(
 
   const client = getClient(baseUrl, options) as WidgetServiceContext;
 
+  return client;
+}
+
+/**
+ * This customization adds credential support to the client. And overloads for when it is optional
+ */
+export default function createClient(
+  endpoint: string,
+  credential: TokenCredential,
+  options?: ClientOptions,
+): WidgetServiceContext;
+
+export default function createClient(
+  endpoint: string,
+  options?: ClientOptions,
+): WidgetServiceContext;
+
+export default function createClient(
+  endpoint: string,
+  credentialOrOptions?: TokenCredential | ClientOptions,
+  options: ClientOptions = {},
+): WidgetServiceContext {
+  let credential: TokenCredential | undefined;
+  if (isTokenCredential(credentialOrOptions)) {
+    credential = credentialOrOptions;
+  } else {
+    options = credentialOrOptions ?? {};
+  }
+
+  const client = _createClient(endpoint, options);
+
+  addCredentialPipelinePolicy(client.pipeline, endpoint, { credential, clientOptions: options });
   return client;
 }

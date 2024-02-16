@@ -26,22 +26,22 @@ const responseMap: Record<string, string[]> = {
 };
 
 export function isUnexpected(
-  response: ListWidgets200Response | ListWidgetsDefaultResponse
+  response: ListWidgets200Response | ListWidgetsDefaultResponse,
 ): response is ListWidgetsDefaultResponse;
 export function isUnexpected(
-  response: CreateWidget201Response | CreateWidgetDefaultResponse
+  response: CreateWidget201Response | CreateWidgetDefaultResponse,
 ): response is CreateWidgetDefaultResponse;
 export function isUnexpected(
-  response: GetWidget200Response | GetWidgetDefaultResponse
+  response: GetWidget200Response | GetWidgetDefaultResponse,
 ): response is GetWidgetDefaultResponse;
 export function isUnexpected(
-  response: UpdateWidget200Response | UpdateWidgetDefaultResponse
+  response: UpdateWidget200Response | UpdateWidgetDefaultResponse,
 ): response is UpdateWidgetDefaultResponse;
 export function isUnexpected(
-  response: DeleteWidget204Response | DeleteWidgetDefaultResponse
+  response: DeleteWidget204Response | DeleteWidgetDefaultResponse,
 ): response is DeleteWidgetDefaultResponse;
 export function isUnexpected(
-  response: AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse
+  response: AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse,
 ): response is AnalyzeWidgetDefaultResponse;
 export function isUnexpected(
   response:
@@ -56,7 +56,7 @@ export function isUnexpected(
     | DeleteWidget204Response
     | DeleteWidgetDefaultResponse
     | AnalyzeWidget200Response
-    | AnalyzeWidgetDefaultResponse
+    | AnalyzeWidgetDefaultResponse,
 ): response is
   | ListWidgetsDefaultResponse
   | CreateWidgetDefaultResponse
@@ -96,24 +96,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

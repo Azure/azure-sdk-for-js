@@ -2,11 +2,7 @@
 // Licensed under the MIT license.
 
 import { HttpResponse } from "@azure-rest/core-client";
-import {
-  WidgetOutput,
-  WidgetErrorOutput,
-  AnalyzeResultOutput,
-} from "./outputModels.js";
+import { WidgetOutput, WidgetErrorOutput, AnalyzeResultOutput } from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface ListWidgets200Response extends HttpResponse {

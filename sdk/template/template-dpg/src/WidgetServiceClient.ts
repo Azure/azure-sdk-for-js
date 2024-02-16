@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   Widget,
   ColorType,
@@ -28,8 +29,18 @@ export class WidgetServiceClient {
   private _client: WidgetServiceContext;
 
   /** */
-  constructor(endpoint: string, options: WidgetServiceClientOptions = {}) {
-    this._client = createWidgetService(endpoint, options);
+  constructor(endpoint: string, options?: WidgetServiceClientOptions);
+  constructor(endpoint: string, credential: TokenCredential, options?: WidgetServiceClientOptions);
+  constructor(
+    endpoint: string,
+    credentialOrOptions?: TokenCredential | WidgetServiceClientOptions,
+    options: WidgetServiceClientOptions = {},
+  ) {
+    if (isTokenCredential(credentialOrOptions)) {
+      this._client = createWidgetService(endpoint, credentialOrOptions, options);
+    } else {
+      this._client = createWidgetService(endpoint, credentialOrOptions);
+    }
   }
 
   /**
@@ -37,17 +48,12 @@ export class WidgetServiceClient {
    *
    * It does not accept any options or parameters.
    */
-  listWidgets(
-    options: ListWidgetsOptions = { requestOptions: {} }
-  ): Promise<Widget[]> {
+  listWidgets(options: ListWidgetsOptions = { requestOptions: {} }): Promise<Widget[]> {
     return listWidgets(this._client, options);
   }
 
   /** Get a widget by ID. */
-  getWidget(
-    id: string,
-    options: GetWidgetOptions = { requestOptions: {} }
-  ): Promise<Widget> {
+  getWidget(id: string, options: GetWidgetOptions = { requestOptions: {} }): Promise<Widget> {
     return getWidget(this._client, id, options);
   }
 
@@ -60,7 +66,7 @@ export class WidgetServiceClient {
   createWidget(
     weight: number,
     color: ColorType,
-    options: CreateWidgetOptions = { requestOptions: {} }
+    options: CreateWidgetOptions = { requestOptions: {} },
   ): Promise<Widget> {
     return createWidget(this._client, weight, color, options);
   }
@@ -69,25 +75,19 @@ export class WidgetServiceClient {
    * Update the contents of the widget. The widget ID is required in the input, but cannot be changed. All other fields
    * are optional and will be updated within the widget if provided.
    */
-  updateWidget(
-    id: string,
-    options: UpdateWidgetOptions = { requestOptions: {} }
-  ): Promise<Widget> {
+  updateWidget(id: string, options: UpdateWidgetOptions = { requestOptions: {} }): Promise<Widget> {
     return updateWidget(this._client, id, options);
   }
 
   /** Delete a widget by ID. */
-  deleteWidget(
-    id: string,
-    options: DeleteWidgetOptions = { requestOptions: {} }
-  ): Promise<void> {
+  deleteWidget(id: string, options: DeleteWidgetOptions = { requestOptions: {} }): Promise<void> {
     return deleteWidget(this._client, id, options);
   }
 
   /** Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis. */
   analyzeWidget(
     id: string,
-    options: AnalyzeWidgetOptions = { requestOptions: {} }
+    options: AnalyzeWidgetOptions = { requestOptions: {} },
   ): Promise<AnalyzeResult> {
     return analyzeWidget(this._client, id, options);
   }
