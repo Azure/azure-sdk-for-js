@@ -35,6 +35,6 @@ export interface MSI {
   }): Promise<boolean>;
   getToken(
     configuration: MSIConfiguration,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): Promise<MSIToken | null>;
 }

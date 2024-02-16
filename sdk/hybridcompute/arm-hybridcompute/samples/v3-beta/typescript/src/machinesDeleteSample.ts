@@ -10,16 +10,21 @@
 // Licensed under the MIT License.
 import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
- * This sample demonstrates how to The operation to remove a hybrid machine identity in Azure.
+ * This sample demonstrates how to The operation to delete a hybrid machine.
  *
- * @summary The operation to remove a hybrid machine identity in Azure.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/Machines_Delete.json
+ * @summary The operation to delete a hybrid machine.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/machine/Machines_Delete.json
  */
 async function deleteAMachine() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
@@ -27,4 +32,8 @@ async function deleteAMachine() {
   console.log(result);
 }
 
-deleteAMachine().catch(console.error);
+async function main() {
+  deleteAMachine();
+}
+
+main().catch(console.error);

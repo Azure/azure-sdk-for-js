@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   CommunicationDetails,
   CommunicationsListOptionalParams,
@@ -73,8 +73,8 @@ export interface Communications {
     createCommunicationParameters: CommunicationDetails,
     options?: CommunicationsCreateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<CommunicationsCreateResponse>,
+    SimplePollerLike<
+      OperationState<CommunicationsCreateResponse>,
       CommunicationsCreateResponse
     >
   >;

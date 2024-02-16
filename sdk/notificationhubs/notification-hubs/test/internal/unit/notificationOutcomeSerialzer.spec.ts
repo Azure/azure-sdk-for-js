@@ -54,24 +54,24 @@ describe("notificationOutcomeSerializer", () => {
     assert.equal(result.applicationPlatform, "apple");
     assert.equal(
       result.pnsHandle,
-      "00FC13ADFF785122B4AD28809A3420982341241421348097878E577C991DE8F0"
+      "00FC13ADFF785122B4AD28809A3420982341241421348097878E577C991DE8F0",
     );
     assert.equal(result.registrationId, "849523884231660601-248604613279522266-3");
     assert.equal(
       result.outcome,
-      "The Push Notification System handle for the registration is invalid"
+      "The Push Notification System handle for the registration is invalid",
     );
 
     result = parsed.results[1];
     assert.equal(result.applicationPlatform, "apple");
     assert.equal(
       result.pnsHandle,
-      "7603CF2F5537AADF272DEA23B4FB4D33B56F0F8FE697F57777EC459594910786"
+      "7603CF2F5537AADF272DEA23B4FB4D33B56F0F8FE697F57777EC459594910786",
     );
     assert.equal(result.registrationId, "282625459606590828-2679902039720441464-3");
     assert.equal(
       result.outcome,
-      "The Notification was successfully sent to the Push Notification System"
+      "The Notification was successfully sent to the Push Notification System",
     );
   });
 
@@ -85,12 +85,12 @@ describe("notificationOutcomeSerializer", () => {
     assert.equal(result.applicationPlatform, "apple");
     assert.equal(
       result.pnsHandle,
-      "7603CF2F5537AADF272DEA23B4FB4D33B56F0F8FE697F57777EC459594910786"
+      "7603CF2F5537AADF272DEA23B4FB4D33B56F0F8FE697F57777EC459594910786",
     );
     assert.equal(result.registrationId, "282625459606590828-2679902039720441464-3");
     assert.equal(
       result.outcome,
-      "The Notification was successfully sent to the Push Notification System"
+      "The Notification was successfully sent to the Push Notification System",
     );
   });
 

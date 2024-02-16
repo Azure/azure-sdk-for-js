@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the workflow run action scoped repetitions.
  *
  * @summary List the workflow run action scoped repetitions.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActionScopeRepetitions_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActionScopeRepetitions_List.json
  */
 async function listTheScopedRepetitions() {
   const subscriptionId =

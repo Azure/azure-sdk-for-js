@@ -64,7 +64,7 @@ describe("create path query helper", () => {
     const path = createPathQuery([circularPath, linearPath, polygonPath]);
     assert.equal(
       path,
-      "lc000000|la0.9|lw2|ra10000||13.228 52.4559&path=lc000000|la0.9|lw2||13.35 52.577|13.2988 52.6|13.2988 52.32&path=lc000000|la0.9|lw2|fcFFFFFF|fa0.8||13.35 52.577|13.2988 52.6|13.2988 52.32|13.35 52.577"
+      "lc000000|la0.9|lw2|ra10000||13.228 52.4559&path=lc000000|la0.9|lw2||13.35 52.577|13.2988 52.6|13.2988 52.32&path=lc000000|la0.9|lw2|fcFFFFFF|fa0.8||13.35 52.577|13.2988 52.6|13.2988 52.32|13.35 52.577",
     );
 
     const res = await client.path("/map/static/{format}", "png").get({

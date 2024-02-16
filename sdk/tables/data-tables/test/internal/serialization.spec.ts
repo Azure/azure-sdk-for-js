@@ -188,7 +188,7 @@ describe("Deserializer", function () {
         int64ObjProp: int64Value,
         "int64ObjProp@odata.type": "Edm.Int64",
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.int64ObjProp.value, `${int64Value}`);
     assert.strictEqual(deserialized.int64ObjProp.type, "Int64");
@@ -200,7 +200,7 @@ describe("Deserializer", function () {
       {
         intValue: intValue,
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.intValue.value, `${intValue}`);
     assert.strictEqual(deserialized.intValue.type, "Int32");
@@ -212,7 +212,7 @@ describe("Deserializer", function () {
       {
         boolValue,
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.boolValue.value, `${boolValue}`);
     assert.strictEqual(deserialized.boolValue.type, "Boolean");
@@ -226,7 +226,7 @@ describe("Deserializer", function () {
       {
         stringValue,
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.stringValue.value, stringValue);
     assert.strictEqual(deserialized.stringValue.type, "String");
@@ -240,7 +240,7 @@ describe("Deserializer", function () {
       {
         intValue: doubleValue,
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
     assert.strictEqual(deserialized.intValue.type, "Int32");
@@ -254,7 +254,7 @@ describe("Deserializer", function () {
       {
         intValue: doubleValue,
       },
-      true
+      true,
     );
     assert.strictEqual(deserialized.intValue.value, `${doubleValue}`);
     assert.strictEqual(deserialized.intValue.type, "Double");
@@ -266,7 +266,7 @@ describe("Deserializer", function () {
       {
         intValue: intValue,
       },
-      false
+      false,
     );
     assert.strictEqual(deserialized.intValue, intValue);
   });
@@ -277,7 +277,7 @@ describe("Deserializer", function () {
       {
         intValue: decimalValue,
       },
-      false
+      false,
     );
     assert.strictEqual(deserialized.intValue, decimalValue);
   });
@@ -298,7 +298,7 @@ describe("Deserializer", function () {
         dateProp: dateValue.toJSON(),
         "dateProp@odata.type": "Edm.DateTime",
       },
-      true
+      true,
     );
     assert.deepEqual(deserialized.dateProp, { type: "DateTime", value: dateValue.toISOString() });
   });

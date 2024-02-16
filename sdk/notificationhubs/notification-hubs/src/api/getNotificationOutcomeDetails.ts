@@ -21,7 +21,7 @@ const OPERATION_NAME = "getNotificationOutcomeDetails";
 export function getNotificationOutcomeDetails(
   context: NotificationHubsClientContext,
   notificationId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationDetails> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -35,6 +35,6 @@ export function getNotificationOutcomeDetails(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationDetails(response.bodyAsText!);
-    }
+    },
   );
 }

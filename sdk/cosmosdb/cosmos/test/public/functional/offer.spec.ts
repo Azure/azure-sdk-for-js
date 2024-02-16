@@ -48,7 +48,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
             const items = obj.split("=");
             map[items[0]] = items[1];
             return map;
-          }, {}).collectionSize
+          }, {}).collectionSize,
       );
       assert.equal(collectionSize, 10 * mbInBytes, "Collection size is unexpected");
 
@@ -58,7 +58,7 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
       assert.equal(
         expectedOffer.content.offerThroughput,
         offerThroughput,
-        "Expected offerThroughput to be " + offerThroughput
+        "Expected offerThroughput to be " + offerThroughput,
       );
       validateOfferResponseBody(expectedOffer);
 

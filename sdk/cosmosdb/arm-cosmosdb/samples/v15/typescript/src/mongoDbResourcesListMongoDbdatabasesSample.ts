@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the MongoDB databases under an existing Azure Cosmos DB database account.
  *
  * @summary Lists the MongoDB databases under an existing Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBMongoDBDatabaseList.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBMongoDBDatabaseList.json
  */
 async function cosmosDbMongoDbdatabaseList() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

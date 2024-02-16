@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { SearchManagementClient } from "../searchManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   SearchService,
   ServicesListByResourceGroupNextOptionalParams,
@@ -51,7 +55,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
@@ -121,7 +125,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   public listBySubscription(
@@ -194,8 +198,8 @@ export class ServicesImpl implements Services {
     service: SearchService,
     options?: ServicesCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ServicesCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ServicesCreateOrUpdateResponse>,
       ServicesCreateOrUpdateResponse
     >
   > {
@@ -205,7 +209,7 @@ export class ServicesImpl implements Services {
     ): Promise<ServicesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -238,13 +242,16 @@ export class ServicesImpl implements Services {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, searchServiceName, service, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, searchServiceName, service, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ServicesCreateOrUpdateResponse,
+      OperationState<ServicesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -339,7 +346,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given resource group.
+   * Gets a list of all Search services in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
    * @param options The options parameters.
@@ -355,7 +362,7 @@ export class ServicesImpl implements Services {
   }
 
   /**
-   * Gets a list of all search services in the given subscription.
+   * Gets a list of all Search services in the given subscription.
    * @param options The options parameters.
    */
   private _listBySubscription(

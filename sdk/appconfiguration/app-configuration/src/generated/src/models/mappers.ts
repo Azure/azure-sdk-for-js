@@ -107,6 +107,12 @@ export const KeyValueListResult: coreClient.CompositeMapper = {
           }
         }
       },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
       nextLink: {
         serializedName: "@nextLink",
         type: {
@@ -188,7 +194,7 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Snapshot"
+              className: "ConfigurationSnapshot"
             }
           }
         }
@@ -203,10 +209,10 @@ export const SnapshotListResult: coreClient.CompositeMapper = {
   }
 };
 
-export const Snapshot: coreClient.CompositeMapper = {
+export const ConfigurationSnapshot: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Snapshot",
+    className: "ConfigurationSnapshot",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -256,12 +262,11 @@ export const Snapshot: coreClient.CompositeMapper = {
       expiresOn: {
         serializedName: "expires",
         readOnly: true,
-        nullable: true,
         type: {
           name: "DateTime"
         }
       },
-      retentionPeriod: {
+      retentionPeriodInSeconds: {
         constraints: {
           InclusiveMaximum: 7776000,
           InclusiveMinimum: 3600
@@ -271,7 +276,7 @@ export const Snapshot: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
-      size: {
+      sizeInBytes: {
         serializedName: "size",
         readOnly: true,
         type: {
@@ -308,14 +313,14 @@ export const ConfigurationSettingsFilter: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ConfigurationSettingsFilter",
     modelProperties: {
-      key: {
+      keyFilter: {
         serializedName: "key",
         required: true,
         type: {
           name: "String"
         }
       },
-      label: {
+      labelFilter: {
         serializedName: "label",
         type: {
           name: "String"
@@ -524,6 +529,12 @@ export const AppConfigurationGetKeyValuesHeaders: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -536,6 +547,12 @@ export const AppConfigurationCheckKeyValuesHeaders: coreClient.CompositeMapper =
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -854,6 +871,12 @@ export const AppConfigurationGetRevisionsHeaders: coreClient.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -866,6 +889,12 @@ export const AppConfigurationCheckRevisionsHeaders: coreClient.CompositeMapper =
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -896,6 +925,12 @@ export const AppConfigurationGetKeyValuesNextHeaders: coreClient.CompositeMapper
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }
@@ -941,6 +976,12 @@ export const AppConfigurationGetRevisionsNextHeaders: coreClient.CompositeMapper
     modelProperties: {
       syncToken: {
         serializedName: "sync-token",
+        type: {
+          name: "String"
+        }
+      },
+      eTag: {
+        serializedName: "etag",
         type: {
           name: "String"
         }

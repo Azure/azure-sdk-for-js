@@ -9,7 +9,7 @@ import { createTagsFromResource } from "../../src/utils/common";
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {
     it("default values", () => {
-      let resource: Resource = Resource.EMPTY;
+      const resource: Resource = Resource.EMPTY;
       const tags: Tags = createTagsFromResource(resource);
       assert.strictEqual(tags["ai.cloud.role"], "");
       assert.strictEqual(tags["ai.cloud.roleInstance"], os.hostname());
@@ -92,8 +92,8 @@ describe("commonUtils.ts", () => {
     });
 
     it("should create Tags using default Resource", () => {
-      let resource = Resource.default();
-      let tags: Tags = createTagsFromResource(resource);
+      const resource = Resource.default();
+      const tags: Tags = createTagsFromResource(resource);
       assert.ok(tags["ai.cloud.role"].startsWith("unknown_service"), "wrong ai.cloud.role");
     });
   });

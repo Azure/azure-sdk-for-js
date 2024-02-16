@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a workflow run action scoped repetition.
  *
  * @summary Get a workflow run action scoped repetition.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/WorkflowRunActionScopeRepetitions_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/WorkflowRunActionScopeRepetitions_Get.json
  */
 async function getAScopedRepetition() {
   const subscriptionId =

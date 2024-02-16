@@ -58,7 +58,7 @@ async function main(): Promise<void> {
     allowUnauthorized,
     entityPath,
     maxConcurrentCalls,
-    messages
+    messages,
   );
 
   await writeResultsPromise;
@@ -71,7 +71,7 @@ async function RunTest(
   allowUnauthorized: boolean,
   entityPath: string,
   maxConcurrentCalls: number,
-  messages: number
+  messages: number,
 ): Promise<void> {
   const port = 5671;
 
@@ -149,7 +149,7 @@ async function WriteResults(messages: number): Promise<void> {
       currentElapsed,
       maxMessages,
       maxElapsed,
-      _credit
+      _credit,
     );
   } while (_messages < messages);
 }
@@ -161,14 +161,14 @@ function WriteResult(
   currentElapsed: number,
   maxMessages: number,
   maxElapsed: number,
-  credit: number
+  credit: number,
 ): void {
   log(
     `\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round((currentMessages * 1000) / currentElapsed)}` +
       `\tAvg MPS\t${Math.round((totalMessages * 1000) / totalElapsed)}` +
       `\tMax MPS\t${Math.round((maxMessages * 1000) / maxElapsed)}` +
-      `\tCredit\t${credit}`
+      `\tCredit\t${credit}`,
   );
 }
 

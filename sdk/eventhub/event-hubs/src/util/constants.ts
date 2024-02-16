@@ -6,7 +6,7 @@
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.11.3",
+  version: "5.11.4",
 };
 
 /**
@@ -26,5 +26,5 @@ export const receiverIdPropertyName = "com.microsoft:receiver-name";
  * @internal
  */
 export const PENDING_PUBLISH_SEQ_NUM_SYMBOL = Symbol.for(
-  "@azure/event-hubs.pendingPublishSequenceNumber"
+  "@azure/event-hubs.pendingPublishSequenceNumber",
 );

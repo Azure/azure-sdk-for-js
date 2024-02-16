@@ -1,5 +1,22 @@
 # Release History
 
+## 1.4.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.4.0 (2023-12-04)
+
+### Features Added
+
+- Added `ChatAttachment` object that contains properties for inline images incoming from Teams Chat Threads.
+- Updated to @azure/communication-signaling@1.0.0-beta.22 with inline image support
+
 ## 1.3.2 (2023-08-24)
 
 ### Features Added

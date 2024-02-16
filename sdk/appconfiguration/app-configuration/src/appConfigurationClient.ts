@@ -8,7 +8,6 @@ import {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
-  AppConfigurationApiVersion,
   AppConfigurationClientOptions,
   ConfigurationSetting,
   ConfigurationSettingId,
@@ -34,7 +33,6 @@ import {
   SetConfigurationSettingResponse,
   SetReadOnlyOptions,
   SetReadOnlyResponse,
-  SnapshotId,
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
@@ -46,7 +44,7 @@ import {
   GetKeyValuesResponse,
   GetRevisionsResponse,
   GetSnapshotsResponse,
-  Snapshot,
+  ConfigurationSnapshot,
 } from "./generated/src/models";
 import { InternalClientPipelineOptions } from "@azure/core-client";
 import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
@@ -81,6 +79,7 @@ import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
 import { tracingClient } from "./internal/tracing";
 import { logger } from "./logger";
 import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { appConfigurationApiVersion } from "./internal/constants";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -131,12 +130,12 @@ export class AppConfigurationClient {
   constructor(
     endpoint: string,
     tokenCredential: TokenCredential,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   );
   constructor(
     connectionStringOrEndpoint: string,
     tokenCredentialOrOptions?: TokenCredential | AppConfigurationClientOptions,
-    options?: AppConfigurationClientOptions
+    options?: AppConfigurationClientOptions,
   ) {
     let appConfigOptions: InternalAppConfigurationClientOptions = {};
     let appConfigCredential: TokenCredential;
@@ -162,7 +161,7 @@ export class AppConfigurationClient {
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -180,8 +179,8 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigOptions?.apiVersion || AppConfigurationApiVersion.Latest,
-      internalClientPipelineOptions
+      appConfigurationApiVersion,
+      internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
     this.client.pipeline.addPolicy(syncTokenPolicy(this._syncTokens), { afterPhase: "Retry" });
@@ -203,7 +202,7 @@ export class AppConfigurationClient {
       | AddConfigurationSettingParam
       | AddConfigurationSettingParam<FeatureFlagValue>
       | AddConfigurationSettingParam<SecretReferenceValue>,
-    options: AddConfigurationSettingOptions = {}
+    options: AddConfigurationSettingOptions = {},
   ): Promise<AddConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.addConfigurationSetting",
@@ -230,7 +229,7 @@ export class AppConfigurationClient {
           throw err;
         }
         throw new Error("Unreachable code");
-      }
+      },
     );
   }
 
@@ -246,7 +245,7 @@ export class AppConfigurationClient {
    */
   deleteConfigurationSetting(
     id: ConfigurationSettingId,
-    options: DeleteConfigurationSettingOptions = {}
+    options: DeleteConfigurationSettingOptions = {},
   ): Promise<DeleteConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.deleteConfigurationSetting",
@@ -266,7 +265,7 @@ export class AppConfigurationClient {
         const response = transformKeyValueResponseWithStatusCode(originalResponse, status);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -282,7 +281,7 @@ export class AppConfigurationClient {
    */
   async getConfigurationSetting(
     id: ConfigurationSettingId,
-    options: GetConfigurationSettingOptions = {}
+    options: GetConfigurationSettingOptions = {},
   ): Promise<GetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.getConfigurationSetting",
@@ -315,7 +314,7 @@ export class AppConfigurationClient {
         }
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -330,7 +329,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listConfigurationSettings(
-    options: ListConfigurationSettingsOptions = {}
+    options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -366,7 +365,7 @@ export class AppConfigurationClient {
    */
   listConfigurationSettingsForSnapshot(
     snapshotName: string,
-    options: ListConfigurationSettingsForSnapshotOptions = {}
+    options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
@@ -374,7 +373,7 @@ export class AppConfigurationClient {
         getPage: async (pageLink: string | undefined) => {
           const response = await this.sendConfigurationSettingsRequest(
             { snapshotName, ...options },
-            pageLink
+            pageLink,
           );
           const currentResponse = {
             ...response,
@@ -395,7 +394,7 @@ export class AppConfigurationClient {
 
   private async sendConfigurationSettingsRequest(
     options: SendConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listConfigurationSettings",
@@ -410,7 +409,7 @@ export class AppConfigurationClient {
 
         return response as GetKeyValuesResponse &
           HttpResponseField<AppConfigurationGetKeyValuesHeaders>;
-      }
+      },
     );
   }
   /**
@@ -424,7 +423,7 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listRevisions(
-    options?: ListRevisionsOptions
+    options?: ListRevisionsOptions,
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListRevisionsPage, PageSettings> {
     const pagedResult: PagedResult<ListRevisionsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
@@ -450,7 +449,7 @@ export class AppConfigurationClient {
 
   private async sendRevisionsRequest(
     options: ListConfigurationSettingsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetKeyValuesResponse & HttpResponseField<AppConfigurationGetKeyValuesHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listRevisions",
@@ -465,7 +464,7 @@ export class AppConfigurationClient {
 
         return response as GetRevisionsResponse &
           HttpResponseField<AppConfigurationGetRevisionsHeaders>;
-      }
+      },
     );
   }
 
@@ -485,7 +484,7 @@ export class AppConfigurationClient {
       | SetConfigurationSettingParam
       | SetConfigurationSettingParam<FeatureFlagValue>
       | SetConfigurationSettingParam<SecretReferenceValue>,
-    options: SetConfigurationSettingOptions = {}
+    options: SetConfigurationSettingOptions = {},
   ): Promise<SetConfigurationSettingResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setConfigurationSetting",
@@ -499,11 +498,11 @@ export class AppConfigurationClient {
             label: configurationSetting.label,
             entity: keyValue,
             ...checkAndFormatIfAndIfNoneMatch(configurationSetting, options),
-          })
+          }),
         );
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -514,7 +513,7 @@ export class AppConfigurationClient {
   async setReadOnly(
     id: ConfigurationSettingId,
     readOnly: boolean,
-    options: SetReadOnlyOptions = {}
+    options: SetReadOnlyOptions = {},
   ): Promise<SetReadOnlyResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.setReadOnly",
@@ -539,7 +538,7 @@ export class AppConfigurationClient {
         response = transformKeyValueResponse(response);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -558,13 +557,13 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshot(
     snapshot: SnapshotInfo,
-    options: CreateSnapshotOptions = {}
+    options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshot`,
       options,
       (updatedOptions) =>
-        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions })
+        this.client.beginCreateSnapshot(snapshot.name, snapshot, { ...updatedOptions }),
     );
   }
 
@@ -574,13 +573,13 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
-    options: CreateSnapshotOptions = {}
+    options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
       `${AppConfigurationClient.name}.beginCreateSnapshotAndWait`,
       options,
       (updatedOptions) =>
-        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions })
+        this.client.beginCreateSnapshotAndWait(snapshot.name, snapshot, { ...updatedOptions }),
     );
   }
 
@@ -606,7 +605,7 @@ export class AppConfigurationClient {
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -621,8 +620,8 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   recoverSnapshot(
-    snapshotId: SnapshotId,
-    options: UpdateSnapshotOptions = {}
+    name: string,
+    options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.recoverSnapshot",
@@ -630,33 +629,35 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[recoverSnapshot] Recover a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "ready" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
-          }
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options },
+            ),
+          },
         );
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
-
   /**
    * Archive a ready snapshot
    *
    * Example usage:
    * ```ts
-   * const result = await client.archiveSnapshot("MySnapshot");
+   * const result = await client.archiveSnapshot({name: "MySnapshot"});
    * ```
    * @param name - The name of the snapshot.
    * @param options - Optional parameters for the request.
    */
   archiveSnapshot(
-    snapshotId: SnapshotId,
-    options: UpdateSnapshotOptions = {}
+    name: string,
+    options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
       "AppConfigurationClient.archiveSnapshot",
@@ -664,17 +665,20 @@ export class AppConfigurationClient {
       async (updatedOptions) => {
         logger.info("[archiveSnapshot] Archive a snapshot");
         const originalResponse = await this.client.updateSnapshot(
-          snapshotId.name,
+          name,
           { status: "archived" },
           {
             ...updatedOptions,
-            ...checkAndFormatIfAndIfNoneMatch({ etag: snapshotId.etag }, options),
-          }
+            ...checkAndFormatIfAndIfNoneMatch(
+              { etag: options.etag },
+              { onlyIfUnchanged: true, ...options },
+            ),
+          },
         );
         const response = transformSnapshotResponse(originalResponse);
         assertResponse(response);
         return response;
-      }
+      },
     );
   }
 
@@ -688,8 +692,8 @@ export class AppConfigurationClient {
    * @param options - Optional parameters for the request.
    */
   listSnapshots(
-    options: ListSnapshotsOptions = {}
-  ): PagedAsyncIterableIterator<Snapshot, ListSnapshotsPage, PageSettings> {
+    options: ListSnapshotsOptions = {},
+  ): PagedAsyncIterableIterator<ConfigurationSnapshot, ListSnapshotsPage, PageSettings> {
     const pagedResult: PagedResult<ListSnapshotsPage, PageSettings, string | undefined> = {
       firstPageLink: undefined,
       getPage: async (pageLink: string | undefined) => {
@@ -713,7 +717,7 @@ export class AppConfigurationClient {
 
   private async sendSnapShotsRequest(
     options: ListSnapshotsOptions & PageSettings = {},
-    pageLink: string | undefined
+    pageLink: string | undefined,
   ): Promise<GetSnapshotsResponse & HttpResponseField<AppConfigurationGetSnapshotsHeaders>> {
     return tracingClient.withSpan(
       "AppConfigurationClient.listSnapshots",
@@ -727,7 +731,7 @@ export class AppConfigurationClient {
 
         return response as GetSnapshotsResponse &
           HttpResponseField<AppConfigurationGetSnapshotsHeaders>;
-      }
+      },
     );
   }
 }

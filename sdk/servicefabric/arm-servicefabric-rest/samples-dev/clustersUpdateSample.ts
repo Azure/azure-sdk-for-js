@@ -66,7 +66,7 @@ async function patchACluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceFabric/clusters/{clusterName}",
       subscriptionId,
       resourceGroupName,
-      clusterName
+      clusterName,
     )
     .patch(parameters);
   const poller = getLongRunningPoller(client, initialResponse);

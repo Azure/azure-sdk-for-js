@@ -17,7 +17,7 @@ export const CosmosDbDiagnosticLevelOrder = [
  */
 export function allowTracing(
   levelToCheck: CosmosDbDiagnosticLevel,
-  clientDiagnosticLevel: CosmosDbDiagnosticLevel
+  clientDiagnosticLevel: CosmosDbDiagnosticLevel,
 ): boolean {
   const indexOfDiagnosticLevelToCheck = CosmosDbDiagnosticLevelOrder.indexOf(levelToCheck);
   const indexOfClientDiagnosticLevel = CosmosDbDiagnosticLevelOrder.indexOf(clientDiagnosticLevel);

@@ -19,7 +19,7 @@ export = {
   meta: getRuleMetaData(
     "ts-package-json-sdktype",
     "force package.json's sdk-type to exist and for its value to be 'client' or 'mgmt'",
-    "code"
+    "code",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {
@@ -34,7 +34,7 @@ export = {
 
           // check the node corresponding to sdk-type to see if its value contains "client" or "mgmt"
           "ExpressionStatement > ObjectExpression > Property[key.value='sdk-type']": (
-            node: Property
+            node: Property,
           ): void => {
             const { value } = node;
 

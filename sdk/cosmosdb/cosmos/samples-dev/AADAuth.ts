@@ -24,7 +24,7 @@ async function run() {
     "fake-tenant-id",
     "fake-client-id",
     "fakeUsername",
-    "fakePassword"
+    "fakePassword",
   );
   logStep("Pass credentials to client object with key aadCredentials");
   const aadClient = new CosmosClient({
@@ -38,7 +38,7 @@ async function run() {
   });
 
   logStep(
-    "Only certain operations are authorized. Reading databases/containers will throw errors, but reading items will work"
+    "Only certain operations are authorized. Reading databases/containers will throw errors, but reading items will work",
   );
 
   // fails

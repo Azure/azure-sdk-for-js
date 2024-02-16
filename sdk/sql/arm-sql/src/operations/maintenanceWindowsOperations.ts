@@ -119,7 +119,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current",
   httpMethod: "PUT",
   responses: { 200: {}, default: {} },
-  requestBody: Parameters.parameters29,
+  requestBody: Parameters.parameters27,
   queryParameters: [Parameters.apiVersion3, Parameters.maintenanceWindowName],
   urlParameters: [
     Parameters.$host,

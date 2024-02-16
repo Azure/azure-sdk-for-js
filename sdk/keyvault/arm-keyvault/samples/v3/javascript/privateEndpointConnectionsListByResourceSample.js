@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The List operation gets information about the private endpoint connections associated with the vault.
  *
  * @summary The List operation gets information about the private endpoint connections associated with the vault.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/listPrivateEndpointConnection.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/listPrivateEndpointConnection.json
  */
 async function keyVaultListPrivateEndpointConnection() {
   const subscriptionId =

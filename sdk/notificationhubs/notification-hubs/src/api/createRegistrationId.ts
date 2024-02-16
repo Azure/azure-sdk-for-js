@@ -17,7 +17,7 @@ const OPERATION_NAME = "createRegistrationId";
  */
 export function createRegistrationId(
   context: NotificationHubsClientContext,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<string> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -45,6 +45,6 @@ export function createRegistrationId(
       const registrationId = locationUrl.pathname.split("/")[3];
 
       return registrationId;
-    }
+    },
   );
 }

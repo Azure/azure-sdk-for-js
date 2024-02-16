@@ -7,7 +7,7 @@ import { getBSU } from "./utils";
 import { Recorder, isRecordMode, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import {
   getUniqueName,
-  recorderEnvSetup,
+  recorderEnvSetupWithCopySource,
   testPollerProperties,
   uriSanitizers,
 } from "./utils/testutils.common";
@@ -29,7 +29,8 @@ describe("BlobClient beginCopyFromURL Poller", () => {
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
-    await recorder.start(recorderEnvSetup);
+    // Copy source for all cases in this suite doesn't include any credential, it's save to keep x-ms-copy-source header.
+    await recorder.start(recorderEnvSetupWithCopySource);
     await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
     const blobServiceClient = getBSU(recorder);
     containerName = recorder.variable("container", getUniqueName("container"));
@@ -59,7 +60,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       this.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
 
     // specify poller type to ensure types are properly exported
@@ -86,7 +87,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.strictEqual(
       sanitizedActualUrl.toString(),
       sanitizedExpectedUrl.toString(),
-      "copySource does not match original source"
+      "copySource does not match original source",
     );
   });
 
@@ -95,7 +96,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       this.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const poller = await newBlobClient.beginCopyFromURL(blobClient.url, testPollerProperties);
     let result: BlobBeginCopyFromURLResponse;
@@ -127,7 +128,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     assert.strictEqual(
       sanitizedActualUrl.toString(),
       sanitizedExpectedUrl.toString(),
-      "copySource does not match original source"
+      "copySource does not match original source",
     );
   });
 
@@ -141,12 +142,13 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode && !isLiveMode()) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     const poller = await newBlobClient.beginCopyFromURL(
       "https://azure.github.io/azure-sdk-for-js/index.html",
-      testPollerProperties
+      testPollerProperties,
     );
     await poller.cancelOperation();
     try {
@@ -167,8 +169,9 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
     let onProgressCalled = false;
     const poller = await newBlobClient.beginCopyFromURL(
@@ -178,7 +181,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
           onProgressCalled = true;
         },
         ...testPollerProperties,
-      }
+      },
     );
     await poller.pollUntilDone();
     assert.equal(onProgressCalled, true, "onProgress handler was not called.");
@@ -188,8 +191,9 @@ describe("BlobClient beginCopyFromURL Poller", () => {
     if (!isNode && !isLiveMode()) {
       this.skip();
     }
+
     const newBlobClient = destinationContainerClient.getBlobClient(
-      recorder.variable("copiedblob", getUniqueName("copiedblob"))
+      recorder.variable("copiedblob", getUniqueName("copiedblob")),
     );
 
     const copySourceUrl = "https://azure.github.io/azure-sdk-for-js/index.html";

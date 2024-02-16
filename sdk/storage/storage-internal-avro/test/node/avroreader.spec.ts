@@ -24,10 +24,10 @@ describe("AvroReader", () => {
       new TestCase("test_null_0.avro", (o) => assert.strictEqual(null, o)), // null
       new TestCase("test_null_1.avro", (o) => assert.strictEqual(true, o as any)), // boolean
       new TestCase("test_null_2.avro", (o) =>
-        assert.strictEqual("adsfasdf09809dsf-=adsf", o as any)
+        assert.strictEqual("adsfasdf09809dsf-=adsf", o as any),
       ), // string
       new TestCase("test_null_3.avro", (o) =>
-        assert.ok(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array))
+        assert.ok(arraysEqual(new TextEncoder().encode("12345abcd"), o as Uint8Array)),
       ), // byte[]
       new TestCase("test_null_4.avro", (o) => assert.strictEqual(1234, o as any)), // int
       new TestCase("test_null_5.avro", (o) => assert.strictEqual(1234, o as any)), // long

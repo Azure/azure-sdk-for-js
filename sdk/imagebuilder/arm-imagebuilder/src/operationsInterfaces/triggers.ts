@@ -15,7 +15,8 @@ import {
   TriggersGetResponse,
   TriggersCreateOrUpdateOptionalParams,
   TriggersCreateOrUpdateResponse,
-  TriggersDeleteOptionalParams
+  TriggersDeleteOptionalParams,
+  TriggersDeleteResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -92,7 +93,12 @@ export interface Triggers {
     imageTemplateName: string,
     triggerName: string,
     options?: TriggersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TriggersDeleteResponse>,
+      TriggersDeleteResponse
+    >
+  >;
   /**
    * Delete a trigger for the specified virtual machine image template
    * @param resourceGroupName The name of the resource group.
@@ -105,5 +111,5 @@ export interface Triggers {
     imageTemplateName: string,
     triggerName: string,
     options?: TriggersDeleteOptionalParams
-  ): Promise<void>;
+  ): Promise<TriggersDeleteResponse>;
 }

@@ -33,7 +33,7 @@ async function getDdosProtectionStatusOfAVirtualNetwork() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/ddosProtectionStatus",
       subscriptionId,
       resourceGroupName,
-      virtualNetworkName
+      virtualNetworkName,
     )
     .post(options);
   const pageData = paginate(client, initialResponse);

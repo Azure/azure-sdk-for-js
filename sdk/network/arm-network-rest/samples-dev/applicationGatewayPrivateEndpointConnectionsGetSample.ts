@@ -33,7 +33,7 @@ async function getApplicationGatewayPrivateEndpointConnection() {
       subscriptionId,
       resourceGroupName,
       applicationGatewayName,
-      connectionName
+      connectionName,
     )
     .get(options);
   console.log(result);

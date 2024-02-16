@@ -40,7 +40,7 @@ describe("Partition Splits", () => {
           paths: ["/id"],
         },
       },
-      { offerThroughput: 25100 }
+      { offerThroughput: 25100 },
     );
     await bulkInsertItems(container, documentDefinitions);
   });

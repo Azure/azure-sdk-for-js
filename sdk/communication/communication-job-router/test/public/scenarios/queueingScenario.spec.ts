@@ -53,7 +53,7 @@ describe("JobRouterClient", function () {
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
-        distributionPolicyRequest
+        distributionPolicyRequest,
       );
       await administrationClient.createExceptionPolicy(exceptionPolicyId, exceptionPolicyRequest);
       await administrationClient.createQueue(queueId, queueRequest);
@@ -66,7 +66,7 @@ describe("JobRouterClient", function () {
           await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
           await administrationClient.deleteDistributionPolicy(distributionPolicyId);
         },
-        { retries: 1, retryIntervalMs: 500 }
+        { retries: 1, retryIntervalMs: 500 },
       );
 
       if (!this.currentTest?.isPending() && recorder) {

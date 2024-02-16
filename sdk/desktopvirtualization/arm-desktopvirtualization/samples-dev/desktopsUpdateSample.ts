@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update a desktop.
  *
  * @summary Update a desktop.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/Desktop_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Desktop_Update.json
  */
 async function desktopUpdate() {
   const subscriptionId =

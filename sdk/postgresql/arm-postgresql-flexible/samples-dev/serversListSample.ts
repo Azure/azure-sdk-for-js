@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List all the servers in a given subscription.
  *
  * @summary List all the servers in a given subscription.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/ServerList.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/ServerList.json
  */
 async function serverList() {
   const subscriptionId =

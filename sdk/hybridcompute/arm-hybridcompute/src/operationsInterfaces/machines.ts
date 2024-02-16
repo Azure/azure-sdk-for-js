@@ -7,13 +7,19 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Machine,
   MachinesListByResourceGroupOptionalParams,
   MachinesListBySubscriptionOptionalParams,
   MachinesDeleteOptionalParams,
   MachinesGetOptionalParams,
-  MachinesGetResponse
+  MachinesGetResponse,
+  MachinesAssessPatchesOptionalParams,
+  MachinesAssessPatchesResponse,
+  MachineInstallPatchesParameters,
+  MachinesInstallPatchesOptionalParams,
+  MachinesInstallPatchesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +44,7 @@ export interface Machines {
     options?: MachinesListBySubscriptionOptionalParams
   ): PagedAsyncIterableIterator<Machine>;
   /**
-   * The operation to remove a hybrid machine identity in Azure.
+   * The operation to delete a hybrid machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param machineName The name of the hybrid machine.
    * @param options The options parameters.
@@ -59,4 +65,62 @@ export interface Machines {
     machineName: string,
     options?: MachinesGetOptionalParams
   ): Promise<MachinesGetResponse>;
+  /**
+   * The operation to assess patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param options The options parameters.
+   */
+  beginAssessPatches(
+    resourceGroupName: string,
+    name: string,
+    options?: MachinesAssessPatchesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachinesAssessPatchesResponse>,
+      MachinesAssessPatchesResponse
+    >
+  >;
+  /**
+   * The operation to assess patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param options The options parameters.
+   */
+  beginAssessPatchesAndWait(
+    resourceGroupName: string,
+    name: string,
+    options?: MachinesAssessPatchesOptionalParams
+  ): Promise<MachinesAssessPatchesResponse>;
+  /**
+   * The operation to install patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param installPatchesInput Input for InstallPatches as directly received by the API
+   * @param options The options parameters.
+   */
+  beginInstallPatches(
+    resourceGroupName: string,
+    name: string,
+    installPatchesInput: MachineInstallPatchesParameters,
+    options?: MachinesInstallPatchesOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachinesInstallPatchesResponse>,
+      MachinesInstallPatchesResponse
+    >
+  >;
+  /**
+   * The operation to install patches on a hybrid machine identity in Azure.
+   * @param resourceGroupName The name of the resource group.
+   * @param name The name of the hybrid machine.
+   * @param installPatchesInput Input for InstallPatches as directly received by the API
+   * @param options The options parameters.
+   */
+  beginInstallPatchesAndWait(
+    resourceGroupName: string,
+    name: string,
+    installPatchesInput: MachineInstallPatchesParameters,
+    options?: MachinesInstallPatchesOptionalParams
+  ): Promise<MachinesInstallPatchesResponse>;
 }

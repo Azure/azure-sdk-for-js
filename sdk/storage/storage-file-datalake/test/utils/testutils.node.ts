@@ -15,7 +15,7 @@ import * as fs from "fs";
  */
 export async function readStreamToLocalFileWithLogs(
   rs: NodeJS.ReadableStream,
-  file: string
+  file: string,
 ): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     const ws = fs.createWriteStream(file);

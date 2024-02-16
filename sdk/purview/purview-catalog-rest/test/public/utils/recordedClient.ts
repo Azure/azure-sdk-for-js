@@ -22,7 +22,7 @@ const recorderOptions: RecorderStartOptions = {
 
 export async function createClient(
   recorder: Recorder,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): Promise<PurviewCatalogClient> {
   const credential = createTestCredential();
 
@@ -33,6 +33,6 @@ export async function createClient(
     credential,
     recorder.configureClientOptions({
       options,
-    })
+    }),
   );
 }

@@ -38,7 +38,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
   }
   encrypt(
     encryptParameters: AesCbcEncryptParameters,
-    _options?: EncryptOptions
+    _options?: EncryptOptions,
   ): Promise<EncryptResult> {
     const { algorithm, keySizeInBytes } = this.supportedAlgorithms[encryptParameters.algorithm];
     const iv = encryptParameters.iv || crypto.randomBytes(16);
@@ -58,7 +58,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
 
   decrypt(
     decryptParameters: AesCbcDecryptParameters,
-    _options?: DecryptOptions
+    _options?: DecryptOptions,
   ): Promise<DecryptResult> {
     const { algorithm, keySizeInBytes } = this.supportedAlgorithms[decryptParameters.algorithm];
 
@@ -67,7 +67,7 @@ export class AesCryptographyProvider implements CryptographyProvider {
     const decipher = crypto.createDecipheriv(
       algorithm,
       this.key.k!.subarray(0, keySizeInBytes),
-      decryptParameters.iv
+      decryptParameters.iv,
     );
     let dec = decipher.update(Buffer.from(decryptParameters.ciphertext));
     dec = Buffer.concat([dec, decipher.final()]);
@@ -121,32 +121,32 @@ export class AesCryptographyProvider implements CryptographyProvider {
   wrapKey(
     _algorithm: KeyWrapAlgorithm,
     _keyToWrap: Uint8Array,
-    _options?: WrapKeyOptions
+    _options?: WrapKeyOptions,
   ): Promise<WrapResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Wrapping a key using a local JsonWebKey is not supported for AES."
+      "Wrapping a key using a local JsonWebKey is not supported for AES.",
     );
   }
 
   unwrapKey(
     _algorithm: KeyWrapAlgorithm,
     _encryptedKey: Uint8Array,
-    _options?: UnwrapKeyOptions
+    _options?: UnwrapKeyOptions,
   ): Promise<UnwrapResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Unwrapping a key using a local JsonWebKey is not supported for AES."
+      "Unwrapping a key using a local JsonWebKey is not supported for AES.",
     );
   }
 
   sign(_algorithm: string, _digest: Uint8Array, _options?: SignOptions): Promise<SignResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Signing using a local JsonWebKey is not supported for AES."
+      "Signing using a local JsonWebKey is not supported for AES.",
     );
   }
 
   signData(_algorithm: string, _data: Uint8Array, _options?: SignOptions): Promise<SignResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Signing using a local JsonWebKey is not supported for AES."
+      "Signing using a local JsonWebKey is not supported for AES.",
     );
   }
 
@@ -154,20 +154,20 @@ export class AesCryptographyProvider implements CryptographyProvider {
     _algorithm: string,
     _digest: Uint8Array,
     _signature: Uint8Array,
-    _options?: VerifyOptions
+    _options?: VerifyOptions,
   ): Promise<VerifyResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Verifying using a local JsonWebKey is not supported for AES."
+      "Verifying using a local JsonWebKey is not supported for AES.",
     );
   }
   verifyData(
     _algorithm: string,
     _data: Uint8Array,
     _signature: Uint8Array,
-    _updatedOptions: OperationOptions
+    _updatedOptions: OperationOptions,
   ): Promise<VerifyResult> {
     throw new LocalCryptographyUnsupportedError(
-      "Verifying using a local JsonWebKey is not supported for AES."
+      "Verifying using a local JsonWebKey is not supported for AES.",
     );
   }
 

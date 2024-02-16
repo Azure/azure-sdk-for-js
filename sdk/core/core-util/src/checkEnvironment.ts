@@ -53,12 +53,6 @@ export const isWebWorker =
     self.constructor?.name === "SharedWorkerGlobalScope");
 
 /**
- * A constant that indicates whether the environment the code is running is Node.JS.
- */
-export const isNode =
-  typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);
-
-/**
  * A constant that indicates whether the environment the code is running is Deno.
  */
 export const isDeno =
@@ -70,6 +64,17 @@ export const isDeno =
  * A constant that indicates whether the environment the code is running is Bun.sh.
  */
 export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
+
+/**
+ * A constant that indicates whether the environment the code is running is Node.JS.
+ */
+export const isNode =
+  typeof process !== "undefined" &&
+  Boolean(process.version) &&
+  Boolean(process.versions?.node) &&
+  // Deno thought it was a good idea to spoof process.versions.node, see https://deno.land/std@0.177.0/node/process.ts?s=versions
+  !isDeno &&
+  !isBun;
 
 /**
  * A constant that indicates whether the environment the code is running is in React-Native.

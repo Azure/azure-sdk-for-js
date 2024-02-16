@@ -27,7 +27,7 @@ describe("File content tests", async function () {
         [
           "TEST_MODE=record, but the sample expectations folder is dirty.",
           "Commit or stash your changes before creating new expectation files",
-        ].join(" ")
+        ].join(" "),
       );
     }
   }
@@ -74,7 +74,7 @@ describe("File content tests", async function () {
             },
             path: dir,
           },
-          dir
+          dir,
         );
 
         await writeSamples(tempOutputDir);
@@ -107,7 +107,7 @@ describe("File content tests", async function () {
 
             assert.ok(
               fs.statSync(path.join(expectationPath, relativePath)),
-              `Extra file ${relativePath} was generated, but no expectation exists for it.`
+              `Extra file ${relativePath} was generated, but no expectation exists for it.`,
             );
           }
         }

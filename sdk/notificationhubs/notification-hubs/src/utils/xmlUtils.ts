@@ -74,7 +74,7 @@ export function sanitizeSerializableObject(resource: { [key: string]: any }): vo
  */
 export function serializeToAtomXmlRequest(
   resourceName: string,
-  resource: unknown
+  resource: unknown,
 ): Record<string, unknown> {
   const content: any = {};
 

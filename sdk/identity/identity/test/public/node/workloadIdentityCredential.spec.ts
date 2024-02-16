@@ -50,7 +50,7 @@ describe.skip("WorkloadIdentityCredential", function () {
         tenantId,
         clientId,
         tokenFilePath: fileDir.tempFile,
-      } as WorkloadIdentityCredentialOptions)
+      } as WorkloadIdentityCredentialOptions),
     );
     try {
       const token = await credential.getToken(scope);
@@ -94,7 +94,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({
         managedIdentityClientId: "f850650c-1fcf-4489-b46f-71af2e30d360",
-      })
+      }),
     );
     try {
       const token = await credential.getToken(scope);

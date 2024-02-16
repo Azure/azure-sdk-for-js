@@ -41,7 +41,8 @@ import {
   ManagedPrivateEndpointResource as ManagedPrivateEndpointResourceMapper,
   ManagedIdentityCredentialResource as ManagedIdentityCredentialResourceMapper,
   PrivateLinkConnectionApprovalRequestResource as PrivateLinkConnectionApprovalRequestResourceMapper,
-  GlobalParameterResource as GlobalParameterResourceMapper
+  GlobalParameterResource as GlobalParameterResourceMapper,
+  ChangeDataCaptureResource as ChangeDataCaptureResourceMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -591,4 +592,25 @@ export const globalParameterName: OperationURLParameter = {
 export const defaultParam: OperationParameter = {
   parameterPath: "defaultParam",
   mapper: GlobalParameterResourceMapper
+};
+
+export const changeDataCapture: OperationParameter = {
+  parameterPath: "changeDataCapture",
+  mapper: ChangeDataCaptureResourceMapper
+};
+
+export const changeDataCaptureName: OperationURLParameter = {
+  parameterPath: "changeDataCaptureName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9_][^<>*#.%&:\\\\+?/]*$"),
+      MaxLength: 260,
+      MinLength: 1
+    },
+    serializedName: "changeDataCaptureName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
 };

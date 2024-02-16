@@ -45,7 +45,7 @@ describe("TollFreeVerificationClient - headers", function () {
     const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
-      new RegExp(`azsdk-js-communication-toll-free-verification/${SDK_VERSION}`, "g")
+      new RegExp(`azsdk-js-communication-toll-free-verification/${SDK_VERSION}`, "g"),
     );
   });
 
@@ -58,7 +58,7 @@ describe("TollFreeVerificationClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -75,7 +75,7 @@ describe("TollFreeVerificationClient - headers", function () {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
-      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/
+      /HMAC-SHA256 SignedHeaders=.+&Signature=.+/,
     );
   });
 
@@ -114,8 +114,8 @@ describe("TollFreeVerificationClient - headers", function () {
       request.headers.get(userAgentHeader) as string,
       new RegExp(
         `tollfreeverificationclient-headers-test azsdk-js-communication-toll-free-verification/${SDK_VERSION}`,
-        "g"
-      )
+        "g",
+      ),
     );
   });
 });

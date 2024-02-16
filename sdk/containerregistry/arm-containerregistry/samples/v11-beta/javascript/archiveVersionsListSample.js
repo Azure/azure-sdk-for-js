@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists all archive versions for the specified container registry, repository type and archive name.
  *
  * @summary Lists all archive versions for the specified container registry, repository type and archive name.
- * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-08-01-preview/examples/ArchiveVersionList.json
+ * x-ms-original-file: specification/containerregistry/resource-manager/Microsoft.ContainerRegistry/preview/2023-11-01-preview/examples/ArchiveVersionList.json
  */
 async function archiveVersionList() {
   const subscriptionId =

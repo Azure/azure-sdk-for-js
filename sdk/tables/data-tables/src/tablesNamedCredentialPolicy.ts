@@ -36,7 +36,7 @@ export function tablesNamedKeyCredentialPolicy(credential: NamedKeyCredential): 
 
 export function getAuthorizationHeader(
   request: PipelineRequest,
-  credential: NamedKeyCredential
+  credential: NamedKeyCredential,
 ): string {
   if (!request.headers.has(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -74,7 +74,7 @@ function getHeaderValueToSign(request: PipelineRequest, headerName: string): str
 
 function getCanonicalizedResourceString(
   request: PipelineRequest,
-  credential: NamedKeyCredential
+  credential: NamedKeyCredential,
 ): string {
   // https://docs.microsoft.com/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
   const url = new URL(request.url);

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a workspace.
  *
  * @summary Update a workspace.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2022-09-09/examples/Workspace_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Workspace_Update.json
  */
 async function workspaceUpdate() {
   const subscriptionId =

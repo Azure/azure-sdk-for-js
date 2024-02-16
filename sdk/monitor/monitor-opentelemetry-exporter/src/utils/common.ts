@@ -11,7 +11,12 @@ import { Tags } from "../types";
 import { getInstance } from "../platform";
 import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
 import { Resource } from "@opentelemetry/resources";
-import { Attributes } from "@opentelemetry/api";
+import { Attributes, HrTime } from "@opentelemetry/api";
+import { hrTimeToNanoseconds } from "@opentelemetry/core";
+
+export function hrTimeToDate(hrTime: HrTime): Date {
+  return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
+}
 
 export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
@@ -171,7 +176,7 @@ export function getDependencyTarget(attributes: Attributes): string {
 
 export function createResourceMetricEnvelope(
   resource: Resource,
-  instrumentationKey: string
+  instrumentationKey: string,
 ): Envelope | undefined {
   if (resource && resource.attributes) {
     const tags = createTagsFromResource(resource);
@@ -181,9 +186,9 @@ export function createResourceMetricEnvelope(
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
-          key == SemanticResourceAttributes.TELEMETRY_SDK_NAME
+          key === SemanticResourceAttributes.TELEMETRY_SDK_VERSION ||
+          key === SemanticResourceAttributes.TELEMETRY_SDK_LANGUAGE ||
+          key === SemanticResourceAttributes.TELEMETRY_SDK_NAME
         )
       ) {
         resourceAttributes[key] = resource.attributes[key] as string;
@@ -191,12 +196,12 @@ export function createResourceMetricEnvelope(
     }
     // Only send event when resource attributes are available
     if (Object.keys(resourceAttributes).length > 0) {
-      let baseData: MetricsData = {
+      const baseData: MetricsData = {
         version: 2,
         metrics: [{ name: "_OTELRESOURCE_", value: 1 }],
         properties: resourceAttributes,
       };
-      let envelope: Envelope = {
+      const envelope: Envelope = {
         name: "Microsoft.ApplicationInsights.Metric",
         time: new Date(),
         sampleRate: 100, // Metrics are never sampled

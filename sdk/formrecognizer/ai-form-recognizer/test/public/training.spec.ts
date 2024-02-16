@@ -69,7 +69,7 @@ matrix(
           client = new DocumentModelAdministrationClient(
             endpoint(),
             makeCredential(useAad),
-            recorder.configureClientOptions({})
+            recorder.configureClientOptions({}),
           );
         });
 
@@ -90,7 +90,7 @@ matrix(
                 modelId,
                 containerSasUrl(),
                 buildMode,
-                testPollingOptions
+                testPollingOptions,
               );
               _model = await poller.pollUntilDone();
 
@@ -118,7 +118,7 @@ matrix(
             // When training with labels, we will have expectations for the names
             assert.ok(
               submodel.fieldSchema["Signature"],
-              "Expecting field with name 'Signature' to be valid"
+              "Expecting field with name 'Signature' to be valid",
             );
           });
 
@@ -132,7 +132,7 @@ matrix(
               recognizerClient = new DocumentAnalysisClient(
                 endpoint(),
                 makeCredential(useAad),
-                recorder.configureClientOptions({})
+                recorder.configureClientOptions({}),
               );
             });
 
@@ -140,7 +140,7 @@ matrix(
               const model = await requireModel();
 
               const testingContainerUrl = assertEnvironmentVariable(
-                "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL"
+                "FORM_RECOGNIZER_TESTING_CONTAINER_SAS_URL",
               );
               const urlParts = testingContainerUrl.split("?");
               const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
@@ -148,7 +148,7 @@ matrix(
               const poller = await recognizerClient.beginAnalyzeDocumentFromUrl(
                 model.modelId,
                 url,
-                testPollingOptions
+                testPollingOptions,
               );
               const { documents, tables } = await poller.pollUntilDone();
 
@@ -231,12 +231,12 @@ matrix(
                 try {
                   await client.getDocumentModel(modelId);
                   throw new Error(
-                    `The service returned model info for ${modelId}, but we thought we had deleted it!`
+                    `The service returned model info for ${modelId}, but we thought we had deleted it!`,
                   );
                 } catch (e: unknown) {
                   assert.isTrue((e as Error).message.endsWith(" not found."));
                 }
-              })
+              }),
             );
           });
         });
@@ -248,7 +248,7 @@ matrix(
         const client = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
 
         // Helper function to train/validate single model
@@ -258,7 +258,7 @@ matrix(
             modelId,
             containerSasUrl(),
             buildMode,
-            testPollingOptions
+            testPollingOptions,
           );
           const model = await poller.pollUntilDone();
 
@@ -273,12 +273,12 @@ matrix(
 
         const modelId = recorder.variable(
           "composedModelName",
-          `composedModelName${getRandomNumber()}`
+          `composedModelName${getRandomNumber()}`,
         );
         const composePoller = await client.beginComposeDocumentModel(
           modelId,
           componentModelIds,
-          testPollingOptions
+          testPollingOptions,
         );
 
         const composedModel = await composePoller.pollUntilDone();
@@ -296,7 +296,7 @@ matrix(
         const trainingClient = new DocumentModelAdministrationClient(
           endpoint(),
           makeCredential(useAad),
-          recorder.configureClientOptions({})
+          recorder.configureClientOptions({}),
         );
         await recorder.addSanitizers(
           {
@@ -307,7 +307,7 @@ matrix(
               },
             ],
           },
-          ["playback", "record"]
+          ["playback", "record"],
         );
         const modelId = recorder.variable("copySource", `copySource${getRandomNumber()}`);
 
@@ -315,7 +315,7 @@ matrix(
           modelId,
           containerSasUrl(),
           buildMode,
-          testPollingOptions
+          testPollingOptions,
         );
         const sourceModel = await trainingPoller.pollUntilDone();
 
@@ -327,7 +327,7 @@ matrix(
         const poller = await trainingClient.beginCopyModelTo(
           sourceModel.modelId,
           targetAuth,
-          testPollingOptions
+          testPollingOptions,
         );
         const copyResult = await poller.pollUntilDone();
 
@@ -342,5 +342,5 @@ matrix(
         assert.equal(targetModel.modelId, copyResult.modelId);
       });
     }).timeout(60000);
-  }
+  },
 );

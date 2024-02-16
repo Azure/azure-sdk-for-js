@@ -8,7 +8,7 @@ export async function assertError<T>(
   expectations: {
     causeMessage?: RegExp;
     message?: RegExp;
-  } = {}
+  } = {},
 ): Promise<void> {
   const { causeMessage, message } = expectations;
   try {

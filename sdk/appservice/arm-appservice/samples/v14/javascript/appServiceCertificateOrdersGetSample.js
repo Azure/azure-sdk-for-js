@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get a certificate order.
  *
  * @summary Description for Get a certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/GetAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/GetAppServiceCertificateOrder.json
  */
 async function getAppServiceCertificateOrder() {
   const subscriptionId =

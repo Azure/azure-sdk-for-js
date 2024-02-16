@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The List operation gets information about the private endpoint connections associated with the managed HSM Pool.
  *
  * @summary The List operation gets information about the private endpoint connections associated with the managed HSM Pool.
- * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-02-01/examples/ManagedHsm_ListPrivateEndpointConnectionsByResource.json
+ * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2023-07-01/examples/ManagedHsm_ListPrivateEndpointConnectionsByResource.json
  */
 async function listManagedHsmPoolsInASubscription() {
   const subscriptionId =

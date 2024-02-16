@@ -39,7 +39,7 @@ async function networkManageCommitPost() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

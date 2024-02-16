@@ -224,6 +224,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.queryType,
     Parameters.scoringParameters,
     Parameters.scoringProfile,
+    Parameters.semanticQuery,
     Parameters.semanticConfiguration,
     Parameters.semanticErrorHandling,
     Parameters.semanticMaxWaitInMilliseconds,

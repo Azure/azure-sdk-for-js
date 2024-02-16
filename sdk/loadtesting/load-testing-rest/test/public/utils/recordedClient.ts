@@ -36,12 +36,12 @@ const recorderEnvSetup: RecorderStartOptions = {
 
 export function createClient(
   recorder: Recorder,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): AzureLoadTestingClient {
   return AzureLoadTesting(
     env.LOADTESTSERVICE_ENDPOINT || "",
     credential,
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
 }
 

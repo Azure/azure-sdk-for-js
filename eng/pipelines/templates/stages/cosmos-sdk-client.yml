@@ -38,7 +38,7 @@ stages:
       MatrixFilters:
         - TestType=node
         - DependencyVersion=^$
-        - NodeTestVersion=14.x
+        - NodeTestVersion=18.x
         - Pool=.*mms-win-2022.*
       PreSteps:
         - template: /eng/pipelines/templates/steps/cosmos-integration-public.yml

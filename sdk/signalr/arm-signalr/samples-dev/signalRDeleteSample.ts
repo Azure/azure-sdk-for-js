@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to delete a resource.
  *
  * @summary Operation to delete a resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalR_Delete.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_Delete.json
  */
 async function signalRDelete() {
   const subscriptionId =

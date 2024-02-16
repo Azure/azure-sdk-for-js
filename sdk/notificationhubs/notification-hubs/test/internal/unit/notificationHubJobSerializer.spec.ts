@@ -199,7 +199,7 @@ describe("parseNotificationHubJobEntry", () => {
     assert.equal(parsed.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
     assert.equal(
       parsed.importFileUrl,
-      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt",
     );
   });
 
@@ -213,7 +213,7 @@ describe("parseNotificationHubJobEntry", () => {
     assert.equal(parsed.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
     assert.equal(
       parsed.importFileUrl,
-      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt",
     );
     assert.equal(parsed.outputProperties!["OutputFilePath"], "test//hub/1/Output.txt");
     assert.equal(parsed.outputProperties!["FailedFilePath"], "test//hub/1/Failed.txt");
@@ -266,7 +266,7 @@ describe("parseNotificationHubJobFeed", () => {
     assert.equal(second.outputContainerUrl, "https://test.blob.core.windows.net/testjobs");
     assert.equal(
       second.importFileUrl,
-      "https://test.blob.core.windows.net/testjobs/CreateFile.txt"
+      "https://test.blob.core.windows.net/testjobs/CreateFile.txt",
     );
     assert.equal(second.outputProperties!["OutputFilePath"], "test//hub/2/Output.txt");
     assert.equal(second.outputProperties!["FailedFilePath"], "test//hub/2/Failed.txt");
@@ -295,19 +295,19 @@ describe("serializeNotificationHubJobEntry", () => {
 
     assert.isTrue(
       xml.indexOf("<Type>ImportCreateRegistrations</Type>") !== -1,
-      "Should contain ImportCreateRegistrations type"
+      "Should contain ImportCreateRegistrations type",
     );
     assert.isTrue(
       xml.indexOf(
-        "<OutputContainerUri><![CDATA[https://test.blob.core.windows.net/testjobs]]></OutputContainerUri>"
+        "<OutputContainerUri><![CDATA[https://test.blob.core.windows.net/testjobs]]></OutputContainerUri>",
       ) !== -1,
-      "Should contain OutputContainerUri"
+      "Should contain OutputContainerUri",
     );
     assert.isTrue(
       xml.indexOf(
-        "<ImportFileUri><![CDATA[https://test.blob.core.windows.net/testjobs/CreateFile.txt]]></ImportFileUri>"
+        "<ImportFileUri><![CDATA[https://test.blob.core.windows.net/testjobs/CreateFile.txt]]></ImportFileUri>",
       ) !== -1,
-      "Should contain ImportFileUri"
+      "Should contain ImportFileUri",
     );
   });
 });

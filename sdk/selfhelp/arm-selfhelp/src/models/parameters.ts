@@ -13,7 +13,11 @@ import {
 } from "@azure/core-client";
 import {
   CheckNameAvailabilityRequest as CheckNameAvailabilityRequestMapper,
-  DiagnosticResource as DiagnosticResourceMapper
+  DiagnosticResource as DiagnosticResourceMapper,
+  SolutionResource as SolutionResourceMapper,
+  SolutionPatchRequestBody as SolutionPatchRequestBodyMapper,
+  TroubleshooterResource as TroubleshooterResourceMapper,
+  ContinueRequestBody as ContinueRequestBodyMapper
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -43,7 +47,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01",
+    defaultValue: "2023-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -133,4 +137,56 @@ export const skiptoken: OperationQueryParameter = {
       name: "String"
     }
   }
+};
+
+export const solutionRequestBody: OperationParameter = {
+  parameterPath: ["options", "solutionRequestBody"],
+  mapper: SolutionResourceMapper
+};
+
+export const solutionResourceName: OperationURLParameter = {
+  parameterPath: "solutionResourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9-+@()_]+$"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "solutionResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const solutionPatchRequestBody: OperationParameter = {
+  parameterPath: ["options", "solutionPatchRequestBody"],
+  mapper: SolutionPatchRequestBodyMapper
+};
+
+export const createTroubleshooterRequestBody: OperationParameter = {
+  parameterPath: ["options", "createTroubleshooterRequestBody"],
+  mapper: TroubleshooterResourceMapper
+};
+
+export const troubleshooterName: OperationURLParameter = {
+  parameterPath: "troubleshooterName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("([A-Za-z0-9]+(-[A-Za-z0-9]+)+)"),
+      MaxLength: 100,
+      MinLength: 1
+    },
+    serializedName: "troubleshooterName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const continueRequestBody: OperationParameter = {
+  parameterPath: ["options", "continueRequestBody"],
+  mapper: ContinueRequestBodyMapper
 };

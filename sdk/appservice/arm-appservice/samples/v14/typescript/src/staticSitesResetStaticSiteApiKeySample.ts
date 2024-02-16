@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Resets the api key for an existing static site.
  *
  * @summary Description for Resets the api key for an existing static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-09-01/examples/ResetStaticSiteApiKey.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-01-01/examples/ResetStaticSiteApiKey.json
  */
 async function resetTheApiKeyForAStaticSite() {
   const subscriptionId =

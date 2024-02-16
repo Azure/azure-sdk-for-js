@@ -10,8 +10,8 @@
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "a754bc89-365a-45c6-a568-bb9a5be7adf9"
+        "User-Agent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "fe91f1dd-6c69-45d3-807c-a0bb8eafd6fb"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -30,21 +30,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "184",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 10:28:08 GMT",
-        "MS-CV": "yoE6eYPUlEiICyF34Aq2/Q.0",
+        "Date": "Thu, 14 Dec 2023 16:15:50 GMT",
+        "MS-CV": "Lg8lqnggWEWY9IBTLEUbRA.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0udCSZAAAAADUIuDPy3MhRJnIl9XRaWkkSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Nip7ZQAAAAA5vRwf3K9oRp5shqf3OOXqU1ZHMjBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "173ms"
+        "X-Processing-Time": "128ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20230621102809258271d0-3bf0-46e1-b06e-bab4b90a2d8b_noam",
+            "messageId": "Outgoing_20231214161550ecf020d3-8115-4707-be5d-09c55bc754d0_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true
@@ -62,8 +62,8 @@
         "Connection": "keep-alive",
         "Content-Length": "251",
         "Content-Type": "application/json",
-        "User-Agent": "azsdk-js-communication-sms/1.2.0-beta.2 core-rest-pipeline/1.11.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "f8d220f4-f928-424b-9ea0-20fcd0625fb7"
+        "User-Agent": "azsdk-js-communication-sms/1.1.0 core-rest-pipeline/1.13.1 Node/v18.18.2 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "3009ce91-35a1-44f1-82fa-f211bdf10528"
       },
       "RequestBody": {
         "from": "\u002B14255550123",
@@ -82,21 +82,21 @@
       },
       "StatusCode": 202,
       "ResponseHeaders": {
-        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07",
-        "Content-Length": "184",
+        "api-supported-versions": "2020-07-20-preview1, 2020-08-20-preview, 2021-03-07, 2023-06-30-privatepreview",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 21 Jun 2023 10:28:08 GMT",
-        "MS-CV": "6eYFmILmO0GCbaDsDj5H2A.0",
+        "Date": "Thu, 14 Dec 2023 16:15:50 GMT",
+        "MS-CV": "lycy8PAUW0OC6I/CwCnvqQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0udCSZAAAAACee/kQijiGTqWQGpgiLTUCSEVMMDFFREdFMjAwNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "Transfer-Encoding": "chunked",
+        "X-Azure-Ref": "0Nip7ZQAAAABKPdd57gkSQqMMKUDhoz9KU1ZHMjBFREdFMDYxNAA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "171ms"
+        "X-Processing-Time": "133ms"
       },
       "ResponseBody": {
         "value": [
           {
             "to": "\u002B14255550123",
-            "messageId": "Outgoing_20230621102809f675a29f-1694-4c28-8245-b73c2856e08d_noam",
+            "messageId": "Outgoing_2023121416155026378f2d-4f87-4db3-a0da-0c99d9ad3142_noam",
             "httpStatusCode": 202,
             "repeatabilityResult": "accepted",
             "successful": true

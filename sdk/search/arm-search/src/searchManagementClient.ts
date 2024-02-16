@@ -21,7 +21,8 @@ import {
   ServicesImpl,
   PrivateLinkResourcesImpl,
   PrivateEndpointConnectionsImpl,
-  SharedPrivateLinkResourcesImpl
+  SharedPrivateLinkResourcesImpl,
+  UsagesImpl
 } from "./operations";
 import {
   Operations,
@@ -30,9 +31,16 @@ import {
   Services,
   PrivateLinkResources,
   PrivateEndpointConnections,
-  SharedPrivateLinkResources
+  SharedPrivateLinkResources,
+  Usages
 } from "./operationsInterfaces";
-import { SearchManagementClientOptionalParams } from "./models";
+import * as Parameters from "./models/parameters";
+import * as Mappers from "./models/mappers";
+import {
+  SearchManagementClientOptionalParams,
+  UsageBySubscriptionSkuOptionalParams,
+  UsageBySubscriptionSkuResponse
+} from "./models";
 
 export class SearchManagementClient extends coreClient.ServiceClient {
   $host: string;
@@ -67,7 +75,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
       credential: credentials
     };
 
-    const packageDetails = `azsdk-js-arm-search/3.1.1`;
+    const packageDetails = `azsdk-js-arm-search/3.2.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -120,7 +128,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2020-08-01";
+    this.apiVersion = options.apiVersion || "2023-11-01";
     this.operations = new OperationsImpl(this);
     this.adminKeys = new AdminKeysImpl(this);
     this.queryKeys = new QueryKeysImpl(this);
@@ -128,6 +136,7 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.sharedPrivateLinkResources = new SharedPrivateLinkResourcesImpl(this);
+    this.usages = new UsagesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -159,6 +168,23 @@ export class SearchManagementClient extends coreClient.ServiceClient {
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  /**
+   * Gets the quota usage for a search sku in the given subscription.
+   * @param location The unique location name for a Microsoft Azure geographic region.
+   * @param skuName The unique search service sku name supported by Azure Cognitive Search.
+   * @param options The options parameters.
+   */
+  usageBySubscriptionSku(
+    location: string,
+    skuName: string,
+    options?: UsageBySubscriptionSkuOptionalParams
+  ): Promise<UsageBySubscriptionSkuResponse> {
+    return this.sendOperationRequest(
+      { location, skuName, options },
+      usageBySubscriptionSkuOperationSpec
+    );
+  }
+
   operations: Operations;
   adminKeys: AdminKeys;
   queryKeys: QueryKeys;
@@ -166,4 +192,30 @@ export class SearchManagementClient extends coreClient.ServiceClient {
   privateLinkResources: PrivateLinkResources;
   privateEndpointConnections: PrivateEndpointConnections;
   sharedPrivateLinkResources: SharedPrivateLinkResources;
+  usages: Usages;
 }
+// Operation Specifications
+const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
+
+const usageBySubscriptionSkuOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/providers/Microsoft.Search/locations/{location}/usages/{skuName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.QuotaUsageResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.location,
+    Parameters.skuName
+  ],
+  headerParameters: [Parameters.accept, Parameters.clientRequestId],
+  serializer
+};

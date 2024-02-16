@@ -76,7 +76,7 @@ export function createRecordedClient(
   recorder: Recorder,
   endpointType: EndpointType,
   authenticatedClient?: boolean,
-  options?: AttestationClientOptions
+  options?: AttestationClientOptions,
 ): AttestationClient {
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
@@ -96,13 +96,13 @@ export function createRecordedClient(
     const attClient = new AttestationClient(
       getAttestationUri(endpointType),
       createTestCredential(),
-      recorder.configureClientOptions(options)
+      recorder.configureClientOptions(options),
     );
     return attClient;
   }
   const attClient = new AttestationClient(
     getAttestationUri(endpointType),
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return attClient;
 }
@@ -110,7 +110,7 @@ export function createRecordedClient(
 export function createRecordedAdminClient(
   recorder: Recorder,
   endpointType: EndpointType,
-  options?: AttestationClientOptions
+  options?: AttestationClientOptions,
 ): AttestationAdministrationClient {
   // If we're talking to a live server, we should validate the time results,
   // otherwise we want to skip them.
@@ -129,7 +129,7 @@ export function createRecordedAdminClient(
   const adminClient = new AttestationAdministrationClient(
     getAttestationUri(endpointType),
     createTestCredential(),
-    recorder.configureClientOptions(options)
+    recorder.configureClientOptions(options),
   );
   return adminClient;
 }

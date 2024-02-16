@@ -36,7 +36,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public list(
@@ -94,7 +94,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   /**
    * List supported trusted access roles.
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _list(
@@ -109,7 +109,7 @@ export class TrustedAccessRolesImpl implements TrustedAccessRoles {
 
   /**
    * ListNext
-   * @param location The name of Azure region.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

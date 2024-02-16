@@ -34,7 +34,7 @@ async function deleteCloudServiceRoleInstance() {
       subscriptionId,
       resourceGroupName,
       cloudServiceName,
-      roleInstanceName
+      roleInstanceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

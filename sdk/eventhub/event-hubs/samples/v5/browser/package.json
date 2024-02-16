@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "description": "Azure Event Hubs client library samples for JavaScript",
   "engine": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "scripts": {
     "clean": "rimraf dist/",
@@ -31,7 +31,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/event-hubs": "^5.0.0",
-    "@azure/identity": "^2.0.1",
+    "@azure/identity": "^4.0.1",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1"
   },

@@ -32,6 +32,8 @@ import {
   ConfigurationServiceSettings,
   ConfigurationServicesValidateOptionalParams,
   ConfigurationServicesValidateResponse,
+  ConfigurationServicesValidateResourceOptionalParams,
+  ConfigurationServicesValidateResourceResponse,
   ConfigurationServicesListNextResponse
 } from "../models";
 
@@ -477,6 +479,115 @@ export class ConfigurationServicesImpl implements ConfigurationServices {
   }
 
   /**
+   * Check if the Application Configuration Service resource is valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Application Configuration Service resource to be validated
+   * @param options The options parameters.
+   */
+  async beginValidateResource(
+    resourceGroupName: string,
+    serviceName: string,
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesValidateResourceOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ConfigurationServicesValidateResourceResponse>,
+      ConfigurationServicesValidateResourceResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<ConfigurationServicesValidateResourceResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        serviceName,
+        configurationServiceName,
+        configurationServiceResource,
+        options
+      },
+      spec: validateResourceOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationServicesValidateResourceResponse,
+      OperationState<ConfigurationServicesValidateResourceResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location"
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Check if the Application Configuration Service resource is valid.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serviceName The name of the Service resource.
+   * @param configurationServiceName The name of Application Configuration Service.
+   * @param configurationServiceResource Application Configuration Service resource to be validated
+   * @param options The options parameters.
+   */
+  async beginValidateResourceAndWait(
+    resourceGroupName: string,
+    serviceName: string,
+    configurationServiceName: string,
+    configurationServiceResource: ConfigurationServiceResource,
+    options?: ConfigurationServicesValidateResourceOptionalParams
+  ): Promise<ConfigurationServicesValidateResourceResponse> {
+    const poller = await this.beginValidateResource(
+      resourceGroupName,
+      serviceName,
+      configurationServiceName,
+      configurationServiceResource,
+      options
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * ListNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -624,6 +735,40 @@ const validateOperationSpec: coreClient.OperationSpec = {
     }
   },
   requestBody: Parameters.settings,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serviceName,
+    Parameters.configurationServiceName
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer
+};
+const validateResourceOperationSpec: coreClient.OperationSpec = {
+  path:
+    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}/validateResource",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+    },
+    201: {
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+    },
+    202: {
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+    },
+    204: {
+      bodyMapper: Mappers.ConfigurationServiceSettingsValidateResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  requestBody: Parameters.configurationServiceResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

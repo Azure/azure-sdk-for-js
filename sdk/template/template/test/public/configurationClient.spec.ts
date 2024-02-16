@@ -34,7 +34,7 @@ function createConfigurationClient(recorder: Recorder): ConfigurationClient {
     // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
     // redirect the requests to reach the proxy tool in record/playback modes instead of
     // hitting the live service.
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return client;
@@ -98,7 +98,7 @@ describe("[AAD] ConfigurationClient functional tests", function () {
       const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
       await assert.supportsTracing(
         (options) => client.getConfigurationSetting(key, options),
-        ["ConfigurationClient.getConfigurationSetting"]
+        ["ConfigurationClient.getConfigurationSetting"],
       );
     });
   });

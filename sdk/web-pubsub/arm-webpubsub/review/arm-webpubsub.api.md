@@ -126,6 +126,12 @@ export interface EventNameFilter extends EventListenerFilter {
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export interface IPRule {
+    action?: ACLAction;
+    value?: string;
+}
+
+// @public
 type KeyType_2 = string;
 export { KeyType_2 as KeyType }
 
@@ -409,6 +415,8 @@ export interface RegenerateKeyParameters {
 // @public
 export interface Replica extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
+    regionEndpointEnabled?: string;
+    resourceStopped?: string;
     sku?: ResourceSku;
 }
 
@@ -890,6 +898,7 @@ export interface WebPubSubManagementClientOptionalParams extends coreClient.Serv
 // @public
 export interface WebPubSubNetworkACLs {
     defaultAction?: ACLAction;
+    ipRules?: IPRule[];
     privateEndpoints?: PrivateEndpointACL[];
     publicNetwork?: NetworkACL;
 }
@@ -1066,7 +1075,9 @@ export interface WebPubSubResource extends TrackedResource {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: string;
     readonly publicPort?: number;
+    regionEndpointEnabled?: string;
     resourceLogConfiguration?: ResourceLogConfiguration;
+    resourceStopped?: string;
     readonly serverPort?: number;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: ResourceSku;

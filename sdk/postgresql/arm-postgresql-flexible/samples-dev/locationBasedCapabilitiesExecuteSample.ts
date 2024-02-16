@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get capabilities at specified location in a given subscription.
  *
  * @summary Get capabilities at specified location in a given subscription.
- * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-03-01-preview/examples/CapabilitiesByLocation.json
+ * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/preview/2023-06-01-preview/examples/CapabilitiesByLocation.json
  */
 async function capabilitiesList() {
   const subscriptionId =

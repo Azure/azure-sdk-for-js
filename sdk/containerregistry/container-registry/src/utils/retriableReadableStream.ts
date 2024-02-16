@@ -75,7 +75,7 @@ export class RetriableReadableStream extends Readable {
     private getter: ReadableStreamGetter,
     private offset: number,
     count: number,
-    options: RetriableReadableStreamOptions = {}
+    options: RetriableReadableStreamOptions = {},
   ) {
     super({ highWaterMark: options.highWaterMark });
     this.getter = getter;
@@ -126,8 +126,8 @@ export class RetriableReadableStream extends Readable {
         new Error(
           `Data corruption failure: Received more data than original request, data needed offset is ${
             this.end
-          }, received offset: ${this.offset - 1}`
-        )
+          }, received offset: ${this.offset - 1}`,
+        ),
       );
     }
 
@@ -173,8 +173,8 @@ export class RetriableReadableStream extends Readable {
               this.offset - 1
             }, data needed offset: ${this.end}, retries: ${this.retries}, max retries: ${
               this.maxRetryRequests
-            }`
-          )
+            }`,
+          ),
         );
       }
     } else {
@@ -182,8 +182,8 @@ export class RetriableReadableStream extends Readable {
         new Error(
           `Data corruption failure: Received more data than original request, data needed offset is ${
             this.end
-          }, received offset: ${this.offset - 1}`
-        )
+          }, received offset: ${this.offset - 1}`,
+        ),
       );
     }
   };

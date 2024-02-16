@@ -33,7 +33,7 @@ export interface KeyVaultKeyPollOperationState<TResult> extends PollOperationSta
  */
 export abstract class KeyVaultKeyPoller<
   TState extends KeyVaultKeyPollOperationState<TResult>,
-  TResult
+  TResult,
 > extends Poller<TState, TResult> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
@@ -61,7 +61,10 @@ export interface KeyVaultKeyPollOperationOptions {
 export class KeyVaultKeyPollOperation<TState, TResult> implements PollOperation<TState, TResult> {
   private cancelMessage: string = "";
 
-  constructor(public state: TState, options: KeyVaultKeyPollOperationOptions = {}) {
+  constructor(
+    public state: TState,
+    options: KeyVaultKeyPollOperationOptions = {},
+  ) {
     if (options.cancelMessage) {
       this.cancelMessage = options.cancelMessage;
     }

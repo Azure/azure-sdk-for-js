@@ -24,7 +24,7 @@ export class TestCommunicationIdentityClient {
   public async getTokenTest(
     user: CommunicationUserIdentifier,
     scopes: TokenScope[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<CommunicationAccessToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
@@ -35,7 +35,7 @@ export class TestCommunicationIdentityClient {
 
   public async revokeTokensTest(
     user: CommunicationUserIdentifier,
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<void> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
@@ -45,7 +45,7 @@ export class TestCommunicationIdentityClient {
   }
 
   public async createUserTest(
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<CommunicationUserIdentifier> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
@@ -56,7 +56,7 @@ export class TestCommunicationIdentityClient {
 
   public async createUserAndTokenTest(
     scopes: TokenScope[],
-    options: OperationOptions = {}
+    options: OperationOptions = {},
   ): Promise<CommunicationUserToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {
@@ -68,7 +68,7 @@ export class TestCommunicationIdentityClient {
   public async getTokenForTeamsUserTest(
     teamsToken: string,
     clientId: string,
-    userObjectId: string
+    userObjectId: string,
   ): Promise<CommunicationAccessToken> {
     // casting is a workaround to enable min-max testing
     const client = new CommunicationIdentityClient(this.connectionString, {

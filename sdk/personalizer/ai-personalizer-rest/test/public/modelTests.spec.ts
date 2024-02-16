@@ -22,7 +22,7 @@ describe("Model Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_SINGLE_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 
@@ -48,7 +48,7 @@ describe("Model Tests", () => {
 
 async function exportModel(
   client: PersonalizerClient,
-  signed: boolean = false
+  signed: boolean = false,
 ): Promise<Uint8Array> {
   const response = await client.path("/model").get({ queryParameters: { signed: signed } });
   if (isUnexpected(response)) {

@@ -15,6 +15,8 @@ import {
   CallTransferFailed,
   ParticipantsUpdated,
   RecordingStateChanged,
+  TeamsComplianceRecordingStateChanged,
+  TeamsRecordingStateChanged,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -26,10 +28,14 @@ import {
   ContinuousDtmfRecognitionToneReceived,
   ContinuousDtmfRecognitionToneFailed,
   ContinuousDtmfRecognitionStopped,
-  SendDtmfCompleted,
-  SendDtmfFailed,
-  AddParticipantCancelled,
+  SendDtmfTonesCompleted,
+  SendDtmfTonesFailed,
+  CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
+  TranscriptionStarted,
+  TranscriptionStopped,
+  TranscriptionUpdated,
+  TranscriptionFailed,
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
@@ -41,7 +47,7 @@ const serializer = createSerializer();
  * Helper function for parsing Acs callback events.
  */
 export function parseCallAutomationEvent(
-  encodedEvents: string | Record<string, unknown>
+  encodedEvents: string | Record<string, unknown>,
 ): CallAutomationEvent {
   const decodedInput = parseAndWrap(encodedEvents);
 
@@ -89,6 +95,14 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.RecordingStateChanged":
       callbackEvent = { kind: "RecordingStateChanged" } as RecordingStateChanged;
       break;
+    case "Microsoft.Communication.TeamsComplianceRecordingStateChanged":
+      callbackEvent = {
+        kind: "TeamsComplianceRecordingStateChanged",
+      } as TeamsComplianceRecordingStateChanged;
+      break;
+    case "Microsoft.Communication.TeamsRecordingStateChanged":
+      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
+      break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;
       break;
@@ -122,18 +136,29 @@ export function parseCallAutomationEvent(
         kind: "ContinuousDtmfRecognitionStopped",
       } as ContinuousDtmfRecognitionStopped;
       break;
-    case "Microsoft.Communication.SendDtmfCompleted":
-      callbackEvent = { kind: "SendDtmfCompleted" } as SendDtmfCompleted;
+    case "Microsoft.Communication.SendDtmfTonesCompleted":
+      callbackEvent = { kind: "SendDtmfTonesCompleted" } as SendDtmfTonesCompleted;
       break;
-    case "Microsoft.Communication.SendDtmfFailed":
-      callbackEvent = { kind: "SendDtmfFailed" } as SendDtmfFailed;
+    case "Microsoft.Communication.SendDtmfTonesFailed":
+      callbackEvent = { kind: "SendDtmfTonesFailed" } as SendDtmfTonesFailed;
       break;
-    case "Microsoft.Communication.AddParticipantCancelled":
-      callbackEvent = { kind: "AddParticipantCancelled" } as AddParticipantCancelled;
-      parsed.participant = communicationIdentifierConverter(data.participant);
+    case "Microsoft.Communication.CancelAddParticipantSucceeded":
+      callbackEvent = { kind: "CancelAddParticipantSucceeded" } as CancelAddParticipantSucceeded;
       break;
     case "Microsoft.Communication.CancelAddParticipantFailed":
       callbackEvent = { kind: "CancelAddParticipantFailed" } as CancelAddParticipantFailed;
+      break;
+    case "Microsoft.Communication.TranscriptionStarted":
+      callbackEvent = { kind: "TranscriptionStarted" } as TranscriptionStarted;
+      break;
+    case "Microsoft.Communication.TranscriptionStopped":
+      callbackEvent = { kind: "TranscriptionStopped" } as TranscriptionStopped;
+      break;
+    case "Microsoft.Communication.TranscriptionUpdated":
+      callbackEvent = { kind: "TranscriptionUpdated" } as TranscriptionUpdated;
+      break;
+    case "Microsoft.Communication.TranscriptionFailed":
+      callbackEvent = { kind: "TranscriptionFailed" } as TranscriptionFailed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);
@@ -170,7 +195,7 @@ function participantsParserForEvent(data: any): any {
   return {
     ...rest,
     participants: participants?.map((participant: CallParticipantInternal) =>
-      callParticipantConverter(participant)
+      callParticipantConverter(participant),
     ),
   };
 }

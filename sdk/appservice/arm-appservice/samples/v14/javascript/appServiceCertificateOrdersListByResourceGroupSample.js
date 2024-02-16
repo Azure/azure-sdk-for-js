@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get certificate orders in a resource group.
  *
  * @summary Description for Get certificate orders in a resource group.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-09-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-01-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
  */
 async function listAppServiceCertificateOrdersByResourceGroup() {
   const subscriptionId =

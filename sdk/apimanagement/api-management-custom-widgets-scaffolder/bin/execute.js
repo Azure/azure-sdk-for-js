@@ -12,13 +12,7 @@ var chalk = require('chalk');
 var glob = require('glob');
 var mustache = require('mustache');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var inquirer__default = /*#__PURE__*/_interopDefaultLegacy(inquirer);
-var Parser__default = /*#__PURE__*/_interopDefaultLegacy(Parser);
-var chalk__default = /*#__PURE__*/_interopDefaultLegacy(chalk);
-var mustache__default = /*#__PURE__*/_interopDefaultLegacy(mustache);
-
+var _documentCurrentScript = typeof document !== 'undefined' ? document.currentScript : null;
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /**
@@ -33,10 +27,11 @@ const OVERRIDE_DEFAULT_PORT = 3000;
 const TECHNOLOGIES = ["typescript", "react", "vue"];
 /**
  * Converts user defined name of a custom widget to a unique ID, which is in context of Dev Portal known as "name".
+ * Prefix "cw-" to avoid conflicts with existing widgets.
  *
  * @param displayName - User defined name of the custom widget.
  */
-const displayNameToName = (displayName) => encodeURIComponent(displayName
+const displayNameToName = (displayName) => encodeURIComponent(("cw-" + displayName)
     .normalize("NFD")
     .toLowerCase()
     .replace(/[\u0300-\u036f]/g, "")
@@ -49,6 +44,7 @@ const displayNameToName = (displayName) => encodeURIComponent(displayName
 const widgetFolderName = (name) => `azure-api-management-widget-${name}`;
 
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 const fieldIdToName = {
     displayName: "Widget display name",
     technology: "Technology",
@@ -113,7 +109,7 @@ const validateMiscConfig = {
         return validateUrl(fieldIdToName.openUrl)(input);
     },
 };
-const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
+const promptWidgetConfig = (partial) => inquirer.prompt([
     {
         name: "displayName",
         type: "input",
@@ -131,7 +127,7 @@ const promptWidgetConfig = (partial) => inquirer__default["default"].prompt([
         ],
     },
 ], partial);
-const promptServiceInformation = (partial) => inquirer__default["default"].prompt([
+const promptServiceInformation = (partial) => inquirer.prompt([
     {
         name: "resourceId",
         type: "input",
@@ -159,7 +155,7 @@ const promptServiceInformation = (partial) => inquirer__default["default"].promp
         message: fieldIdToName.apiVersion + " (optional; e.g., 2021-08-01)",
     },
 ], partial);
-const promptMiscConfig = (partial) => inquirer__default["default"].prompt([
+const promptMiscConfig = (partial) => inquirer.prompt([
     {
         name: "openUrl",
         type: "input",
@@ -756,7 +752,7 @@ const REQUIRE_DIRECTORY_ERROR = 'loading a directory of commands is not supporte
 
 let __dirname$1;
 try {
-  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? new (require('u' + 'rl').URL)('file:' + __filename).href : (document.currentScript && document.currentScript.src || new URL('execute.js', document.baseURI).href)));
+  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.js', document.baseURI).href)));
 } catch (e) {
   __dirname$1 = process.cwd();
 }
@@ -778,7 +774,7 @@ const mainFilename = __dirname$1.substring(0, __dirname$1.lastIndexOf('node_modu
   },
   getProcessArgvBin,
   mainFilename: mainFilename || process.cwd(),
-  Parser: Parser__default["default"],
+  Parser,
   path: {
     basename: path.basename,
     dirname: path.dirname,
@@ -812,6 +808,7 @@ const mainFilename = __dirname$1.substring(0, __dirname$1.lastIndexOf('node_modu
 });
 
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 const extractConfigFromArgs = (argv, validateConfig, red) => {
     const configPartial = {};
     let missing = false;
@@ -837,7 +834,7 @@ const extractConfigFromArgs = (argv, validateConfig, red) => {
     return { configPartial, missing };
 };
 const buildGetConfig = (gray, red) => {
-    const argv = Parser__default["default"](hideBin(process.argv));
+    const argv = Parser(hideBin(process.argv));
     return async (promptForConfig, validateConfig) => {
         const { configPartial, missing } = extractConfigFromArgs(argv, validateConfig, red);
         if (missing || !Object.values(configPartial).length) {
@@ -852,6 +849,7 @@ const buildGetConfig = (gray, red) => {
 };
 
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 async function getTemplates(template) {
     const sharedFiles = await getFiles(path.join(__dirname, "templates", "_shared", "**", "**", "*.*"));
     const templateFiles = await getFiles(path.join(__dirname, "templates", template, "**", "**", "*.*"));
@@ -866,6 +864,7 @@ async function getFiles(path) {
 }
 
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 const templateSuffix = ".mustache";
 /**
  * Generates a scaffold project of Custom widget for API Managements' Dev Portal.
@@ -899,7 +898,7 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
         const encoding = file.endsWith(".ttf") ? "binary" : "utf8";
         let fileData = await fs.promises.readFile(file, { encoding });
         if (isTemplate) {
-            fileData = mustache__default["default"].render(fileData, {
+            fileData = mustache.render(fileData, {
                 name,
                 displayName: widgetConfig.displayName,
                 config: JSON.stringify(Object.assign(Object.assign({}, widgetConfig), { name }), null, "\t"),
@@ -929,10 +928,10 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
 }
 
 const log = console.log;
-const white = (msg) => log(chalk__default["default"].white(msg));
-const green = (msg) => log(chalk__default["default"].green(msg));
-const red = (msg) => log(chalk__default["default"].red(msg));
-const gray = (msg) => log(chalk__default["default"].gray(msg));
+const white = (msg) => log(chalk.white(msg));
+const green = (msg) => log(chalk.green(msg));
+const red = (msg) => log(chalk.red(msg));
+const gray = (msg) => log(chalk.gray(msg));
 async function main() {
     green("\nThis tool generates code scaffold for custom widgets in the Azure API Management’s developer portal. Learn more at https://aka.ms/apimdocs/portal/customwidgets.\n");
     const getConfig = buildGetConfig(gray, red);

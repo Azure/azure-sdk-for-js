@@ -46,9 +46,9 @@ export interface MetricDefinition {
 
 /** The localizable string class. */
 export interface LocalizableString {
-  /** the invariant value. */
+  /** The invariant value. */
   value: string;
-  /** the locale specific value. */
+  /** The display name. */
   localizedValue?: string;
 }
 

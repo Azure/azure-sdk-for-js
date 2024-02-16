@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the specified pool.
  *
  * @summary Gets information about the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolGet.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet.json
  */
 async function getPool() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function getPool() {
  * This sample demonstrates how to Gets information about the specified pool.
  *
  * @summary Gets information about the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolGet_AcceleratedNetworking.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet_AcceleratedNetworking.json
  */
 async function getPoolAcceleratedNetworking() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
@@ -50,9 +50,60 @@ async function getPoolAcceleratedNetworking() {
  * This sample demonstrates how to Gets information about the specified pool.
  *
  * @summary Gets information about the specified pool.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-05-01/examples/PoolGet_VirtualMachineConfiguration_Extensions.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet_SecurityProfile.json
+ */
+async function getPoolSecurityProfile() {
+  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
+  const accountName = "sampleacct";
+  const poolName = "testpool";
+  const credential = new DefaultAzureCredential();
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.poolOperations.get(resourceGroupName, accountName, poolName);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets information about the specified pool.
+ *
+ * @summary Gets information about the specified pool.
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet_VirtualMachineConfiguration_Extensions.json
  */
 async function getPoolVirtualMachineConfigurationExtensions() {
+  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
+  const accountName = "sampleacct";
+  const poolName = "testpool";
+  const credential = new DefaultAzureCredential();
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.poolOperations.get(resourceGroupName, accountName, poolName);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets information about the specified pool.
+ *
+ * @summary Gets information about the specified pool.
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet_VirtualMachineConfiguration_MangedOSDisk.json
+ */
+async function getPoolVirtualMachineConfigurationOSDisk() {
+  const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
+  const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
+  const accountName = "sampleacct";
+  const poolName = "testpool";
+  const credential = new DefaultAzureCredential();
+  const client = new BatchManagementClient(credential, subscriptionId);
+  const result = await client.poolOperations.get(resourceGroupName, accountName, poolName);
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Gets information about the specified pool.
+ *
+ * @summary Gets information about the specified pool.
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/PoolGet_VirtualMachineConfiguration_ServiceArtifactReference.json
+ */
+async function getPoolVirtualMachineConfigurationServiceArtifactReference() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";
   const resourceGroupName = process.env["BATCH_RESOURCE_GROUP"] || "default-azurebatch-japaneast";
   const accountName = "sampleacct";
@@ -66,7 +117,10 @@ async function getPoolVirtualMachineConfigurationExtensions() {
 async function main() {
   getPool();
   getPoolAcceleratedNetworking();
+  getPoolSecurityProfile();
   getPoolVirtualMachineConfigurationExtensions();
+  getPoolVirtualMachineConfigurationOSDisk();
+  getPoolVirtualMachineConfigurationServiceArtifactReference();
 }
 
 main().catch(console.error);

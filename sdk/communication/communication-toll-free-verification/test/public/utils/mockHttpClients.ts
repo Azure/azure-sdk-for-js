@@ -5,7 +5,7 @@ import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
-  parsedBody?: T
+  parsedBody?: T,
 ): HttpClient => {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {

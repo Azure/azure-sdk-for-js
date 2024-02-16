@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PreRules_getCounters_MaximumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_getCounters_MaximumSet_Gen.json
  */
 async function preRulesGetCountersMaximumSetGen() {
   const globalRulestackName = "lrs1";
@@ -33,7 +33,7 @@ async function preRulesGetCountersMaximumSetGen() {
  * This sample demonstrates how to Get counters
  *
  * @summary Get counters
- * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2022-08-29/examples/PreRules_getCounters_MinimumSet_Gen.json
+ * x-ms-original-file: specification/paloaltonetworks/resource-manager/PaloAltoNetworks.Cloudngfw/stable/2023-09-01/examples/PreRules_getCounters_MinimumSet_Gen.json
  */
 async function preRulesGetCountersMinimumSetGen() {
   const globalRulestackName = "lrs1";

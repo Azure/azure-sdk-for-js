@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the replica and its properties.
  *
  * @summary Get the replica and its properties.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalRReplicas_Get.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalRReplicas_Get.json
  */
 async function signalRReplicasGet() {
   const subscriptionId =

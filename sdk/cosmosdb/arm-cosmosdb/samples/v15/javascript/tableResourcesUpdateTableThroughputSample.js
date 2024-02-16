@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update RUs per second of an Azure Cosmos DB Table
  *
  * @summary Update RUs per second of an Azure Cosmos DB Table
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBTableThroughputUpdate.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBTableThroughputUpdate.json
  */
 async function cosmosDbTableThroughputUpdate() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -34,7 +34,7 @@ async function cosmosDbTableThroughputUpdate() {
     resourceGroupName,
     accountName,
     tableName,
-    updateThroughputParameters
+    updateThroughputParameters,
   );
   console.log(result);
 }

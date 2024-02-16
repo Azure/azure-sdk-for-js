@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 import { randomUUID } from "../../src/uuidUtils";
 
 describe("randomUUID", function () {

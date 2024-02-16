@@ -414,44 +414,11 @@ export const QuotaRequestDetails: coreClient.CompositeMapper = {
           name: "String"
         }
       },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        serializedName: "properties.message",
-        readOnly: true,
-        type: {
-          name: "String"
-        }
-      },
-      error: {
-        serializedName: "properties.error",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "ServiceErrorDetail"
-        }
-      },
-      requestSubmitTime: {
-        serializedName: "properties.requestSubmitTime",
-        readOnly: true,
-        type: {
-          name: "DateTime"
-        }
-      },
-      value: {
-        serializedName: "properties.value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "SubRequest"
-            }
-          }
+          className: "QuotaRequestProperties"
         }
       }
     }
@@ -783,83 +750,99 @@ export const QuotaRequestOneResourceSubmitResponse: coreClient.CompositeMapper =
           name: "String"
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaRequestOneResourceProperties"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestOneResourceProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaRequestOneResourceProperties",
+    modelProperties: {
       provisioningState: {
-        serializedName: "properties.provisioningState",
+        serializedName: "provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
-        serializedName: "properties.message",
+        serializedName: "message",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       requestSubmitTime: {
-        serializedName: "properties.requestSubmitTime",
+        serializedName: "requestSubmitTime",
         readOnly: true,
         type: {
           name: "DateTime"
         }
       },
       limit: {
-        serializedName: "properties.limit",
+        serializedName: "limit",
         type: {
           name: "Composite",
           className: "LimitObject"
         }
       },
       currentValue: {
-        serializedName: "properties.currentValue",
+        serializedName: "currentValue",
         readOnly: true,
         type: {
           name: "Number"
         }
       },
       unit: {
-        serializedName: "properties.unit",
+        serializedName: "unit",
         type: {
           name: "String"
         }
       },
-      namePropertiesName: {
-        serializedName: "properties.name",
+      name: {
+        serializedName: "name",
         type: {
           name: "Composite",
           className: "ResourceName"
         }
       },
       resourceType: {
-        serializedName: "properties.resourceType",
+        serializedName: "resourceType",
         type: {
           name: "String"
         }
       },
       quotaPeriod: {
-        serializedName: "properties.quotaPeriod",
+        serializedName: "quotaPeriod",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       isQuotaApplicable: {
-        serializedName: "properties.isQuotaApplicable",
+        serializedName: "isQuotaApplicable",
         readOnly: true,
         type: {
           name: "Boolean"
         }
       },
       error: {
-        serializedName: "properties.error",
+        serializedName: "error",
         type: {
           name: "Composite",
           className: "ServiceErrorDetail"
         }
       },
       properties: {
-        serializedName: "properties.properties",
+        serializedName: "properties",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
@@ -932,55 +915,71 @@ export const QuotaRequestSubmitResponse202: coreClient.CompositeMapper = {
           name: "String"
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "QuotaRequestStatusDetails"
+        }
+      }
+    }
+  }
+};
+
+export const QuotaRequestStatusDetails: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaRequestStatusDetails",
+    modelProperties: {
       provisioningState: {
-        serializedName: "properties.provisioningState",
+        serializedName: "provisioningState",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       message: {
-        serializedName: "properties.message",
+        serializedName: "message",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       limit: {
-        serializedName: "properties.limit",
+        serializedName: "limit",
         type: {
           name: "Composite",
           className: "LimitObject"
         }
       },
       unit: {
-        serializedName: "properties.unit",
+        serializedName: "unit",
         type: {
           name: "String"
         }
       },
-      namePropertiesName: {
-        serializedName: "properties.name",
+      name: {
+        serializedName: "name",
         type: {
           name: "Composite",
           className: "ResourceName"
         }
       },
       resourceType: {
-        serializedName: "properties.resourceType",
+        serializedName: "resourceType",
         type: {
           name: "String"
         }
       },
       quotaPeriod: {
-        serializedName: "properties.quotaPeriod",
+        serializedName: "quotaPeriod",
         readOnly: true,
         type: {
           name: "String"
         }
       },
       properties: {
-        serializedName: "properties.properties",
+        serializedName: "properties",
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }

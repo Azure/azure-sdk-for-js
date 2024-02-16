@@ -40,7 +40,7 @@
           "id": "Sanitized"
         },
         "accessToken": {
-          "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2ODYxNzA2NTMuMzUyfQ==.adM-ddBZZlQ1WlN3pdPBOF5G4Wh9iZpxNP_fSvpF4cWs",
+          "token": "faketoken",
           "expiresOn": "2023-06-08T19:44:14.8554131\u002B00:00"
         }
       }

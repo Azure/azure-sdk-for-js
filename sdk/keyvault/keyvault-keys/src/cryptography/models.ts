@@ -85,7 +85,7 @@ export interface CryptographyProvider {
   wrapKey(
     algorithm: KeyWrapAlgorithm,
     keyToWrap: Uint8Array,
-    options?: WrapKeyOptions
+    options?: WrapKeyOptions,
   ): Promise<WrapResult>;
 
   /**
@@ -99,7 +99,7 @@ export interface CryptographyProvider {
   unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options?: UnwrapKeyOptions
+    options?: UnwrapKeyOptions,
   ): Promise<UnwrapResult>;
 
   /**
@@ -113,7 +113,7 @@ export interface CryptographyProvider {
   sign(
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
-    options?: SignOptions
+    options?: SignOptions,
   ): Promise<SignResult>;
 
   /**
@@ -127,7 +127,7 @@ export interface CryptographyProvider {
   signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
-    options?: SignOptions
+    options?: SignOptions,
   ): Promise<SignResult>;
 
   /**
@@ -143,7 +143,7 @@ export interface CryptographyProvider {
     algorithm: SignatureAlgorithm,
     digest: Uint8Array,
     signature: Uint8Array,
-    options?: VerifyOptions
+    options?: VerifyOptions,
   ): Promise<VerifyResult>;
 
   /**
@@ -159,6 +159,6 @@ export interface CryptographyProvider {
     algorithm: string,
     data: Uint8Array,
     signature: Uint8Array,
-    updatedOptions: OperationOptions
+    updatedOptions: OperationOptions,
   ): Promise<VerifyResult>;
 }

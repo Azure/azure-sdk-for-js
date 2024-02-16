@@ -87,7 +87,7 @@ function createClient(inputs: {
         if (response.status >= 400 && throwOnNon2xxResponse) {
           throw new RestError(
             `Received unexpected HTTP status code ${response.status} while polling. This may indicate a server issue.`,
-            { statusCode: response.status }
+            { statusCode: response.status },
           );
         }
         return response;
@@ -179,7 +179,7 @@ export function createTestPoller(settings: {
           updateState: (state, rawResponse) =>
             updateState?.(state, { rawResponse, flatResponse: undefined as any }),
           resolveOnUnsuccessful: !throwOnNon2xxResponse,
-        })
+        }),
       );
     }
     default: {

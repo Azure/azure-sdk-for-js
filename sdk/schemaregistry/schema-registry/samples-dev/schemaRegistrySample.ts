@@ -55,7 +55,7 @@ export async function main() {
   // Register a schema and get back its ID.
   const { id, version } = await client.registerSchema(schemaDescription);
   console.log(
-    `Registered schema with the following properties:\n- ID=${id}\n- Version: ${version}`
+    `Registered schema with the following properties:\n- ID=${id}\n- Version: ${version}`,
   );
 
   // Get definition of existing schema by its ID

@@ -61,8 +61,8 @@ describe("Search test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    client = new SearchManagementClient(credential, subscriptionId, recorder.configureClientOptions({ endpoint: "https://eastus2euap.management.azure.com/", credentialScopes: "https://management.azure.com/.default" }));
+    location = "eastus2euap";
     resourceGroup = "myjstest";
     searchServiceName = "myjssearchservicexxx"
     keyname = "testjskey";
@@ -83,7 +83,7 @@ describe("Search test", () => {
       }
     }, testPollingOptions);
     assert.equal(res.name, searchServiceName);
-  });
+  }).timeout(3600000);
 
   it("services get test", async function () {
     const res = await client.services.get(resourceGroup, searchServiceName);

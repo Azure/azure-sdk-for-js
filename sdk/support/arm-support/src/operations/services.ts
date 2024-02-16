@@ -122,7 +122,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServicesListResult
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -138,7 +138,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.Service
     },
     default: {
-      bodyMapper: Mappers.ExceptionResponse
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],

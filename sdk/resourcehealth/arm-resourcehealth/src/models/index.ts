@@ -453,6 +453,31 @@ export interface EventImpactedResource extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly targetRegion?: string;
+  /**
+   * Resource name of the impacted resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceName?: string;
+  /**
+   * Resource group name of the impacted resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceGroup?: string;
+  /**
+   * Status of the impacted resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: string;
+  /**
+   * Start time of maintenance for the impacted resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maintenanceStartTime?: string;
+  /**
+   * End time of maintenance for the impacted resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly maintenanceEndTime?: string;
   /** Additional information. */
   info?: KeyValueItem[];
 }
@@ -461,6 +486,8 @@ export interface EventImpactedResource extends ProxyResource {
 export interface Event extends ProxyResource {
   /** Type of event. */
   eventType?: EventTypeValues;
+  /** Sub type of the event. Currently used to determine retirement communications for health advisory events */
+  eventSubType?: EventSubTypeValues;
   /** Source of event. */
   eventSource?: EventSourceValues;
   /** Current status of event. */
@@ -515,6 +542,12 @@ export interface Event extends ProxyResource {
   duration?: number;
   /** The type of the impact */
   impactType?: string;
+  /** Unique identifier for planned maintenance event. */
+  maintenanceId?: string;
+  /** The type of planned maintenance event. */
+  maintenanceType?: string;
+  /** Azure Resource Graph query to fetch the affected resources from their existing Azure Resource Graph locations. */
+  argQuery?: string;
 }
 
 /** The Get EmergingIssues operation response. */
@@ -651,6 +684,21 @@ export enum KnownEventTypeValues {
  * **SecurityAdvisory**
  */
 export type EventTypeValues = string;
+
+/** Known values of {@link EventSubTypeValues} that the service accepts. */
+export enum KnownEventSubTypeValues {
+  /** Retirement */
+  Retirement = "Retirement"
+}
+
+/**
+ * Defines values for EventSubTypeValues. \
+ * {@link KnownEventSubTypeValues} can be used interchangeably with EventSubTypeValues,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Retirement**
+ */
+export type EventSubTypeValues = string;
 
 /** Known values of {@link EventSourceValues} that the service accepts. */
 export enum KnownEventSourceValues {

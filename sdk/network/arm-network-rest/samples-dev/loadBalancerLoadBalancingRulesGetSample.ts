@@ -33,7 +33,7 @@ async function loadBalancerLoadBalancingRuleGet() {
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      loadBalancingRuleName
+      loadBalancingRuleName,
     )
     .get(options);
   console.log(result);

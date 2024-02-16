@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves the usages (most recent data) for the given database account.
  *
  * @summary Retrieves the usages (most recent data) for the given database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountGetUsages.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountGetUsages.json
  */
 async function cosmosDbDatabaseAccountGetUsages() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function cosmosDbDatabaseAccountGetUsages() {
   for await (let item of client.databaseAccounts.listUsages(
     resourceGroupName,
     accountName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

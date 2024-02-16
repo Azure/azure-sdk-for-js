@@ -3,13 +3,18 @@
 
 import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { hrTimeToMilliseconds } from "@opentelemetry/core";
+import { addHrTimes, hrTime, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
 import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
 
-import { createTagsFromResource, getDependencyTarget, getUrl, isSqlDB } from "./common";
+import {
+  createTagsFromResource,
+  getDependencyTarget,
+  getUrl,
+  hrTimeToDate,
+  isSqlDB,
+} from "./common";
 import { Tags, Properties, MSLink, Measurements } from "../types";
-import { msToTimeSpan } from "./breezeUtils";
 import { parseEventHubSpan } from "./eventhub";
 import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
@@ -22,6 +27,7 @@ import {
   KnownContextTagKeys,
   TelemetryExceptionDetails,
 } from "../generated";
+import { msToTimeSpan } from "./breezeUtils";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
@@ -79,21 +85,21 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
       if (
         !(
           key.startsWith("_MS.") ||
-          key == SemanticAttributes.NET_PEER_IP ||
-          key == SemanticAttributes.NET_PEER_NAME ||
-          key == SemanticAttributes.PEER_SERVICE ||
-          key == SemanticAttributes.HTTP_METHOD ||
-          key == SemanticAttributes.HTTP_URL ||
-          key == SemanticAttributes.HTTP_STATUS_CODE ||
-          key == SemanticAttributes.HTTP_ROUTE ||
-          key == SemanticAttributes.HTTP_HOST ||
-          key == SemanticAttributes.HTTP_URL ||
-          key == SemanticAttributes.DB_SYSTEM ||
-          key == SemanticAttributes.DB_STATEMENT ||
-          key == SemanticAttributes.DB_OPERATION ||
-          key == SemanticAttributes.DB_NAME ||
-          key == SemanticAttributes.RPC_SYSTEM ||
-          key == SemanticAttributes.RPC_GRPC_STATUS_CODE
+          key === SemanticAttributes.NET_PEER_IP ||
+          key === SemanticAttributes.NET_PEER_NAME ||
+          key === SemanticAttributes.PEER_SERVICE ||
+          key === SemanticAttributes.HTTP_METHOD ||
+          key === SemanticAttributes.HTTP_URL ||
+          key === SemanticAttributes.HTTP_STATUS_CODE ||
+          key === SemanticAttributes.HTTP_ROUTE ||
+          key === SemanticAttributes.HTTP_HOST ||
+          key === SemanticAttributes.HTTP_URL ||
+          key === SemanticAttributes.DB_SYSTEM ||
+          key === SemanticAttributes.DB_STATEMENT ||
+          key === SemanticAttributes.DB_OPERATION ||
+          key === SemanticAttributes.DB_NAME ||
+          key === SemanticAttributes.RPC_SYSTEM ||
+          key === SemanticAttributes.RPC_GRPC_STATUS_CODE
         )
       ) {
         properties[key] = attributes[key] as string;
@@ -121,10 +127,10 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
-    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    duration: msToTimeSpan(hrTimeToMilliseconds(addHrTimes(span.duration, hrTime()))),
     version: 2,
   };
   if (span.kind === SpanKind.PRODUCER) {
@@ -158,10 +164,13 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
         // Remove default port
         const portRegex = new RegExp(/(https?)(:\/\/.*)(:\d+)(\S*)/);
         const res = portRegex.exec(target);
-        if (res != null) {
+        if (res !== null) {
           const protocol = res[1];
           const port = res[3];
-          if ((protocol == "https" && port == ":443") || (protocol == "http" && port == ":80")) {
+          if (
+            (protocol === "https" && port === ":443") ||
+            (protocol === "http" && port === ":80")
+          ) {
             // Drop port
             target = res[1] + res[2] + res[4];
           }
@@ -203,7 +212,11 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   // grpc Dependency
   else if (rpcSystem) {
-    remoteDependencyData.type = DependencyTypes.Grpc;
+    if (rpcSystem == DependencyTypes.Wcf) {
+      remoteDependencyData.type = DependencyTypes.Wcf;
+    } else {
+      remoteDependencyData.type = DependencyTypes.Grpc;
+    }
     const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
     if (grpcStatusCode) {
       remoteDependencyData.resultCode = String(grpcStatusCode);
@@ -221,9 +234,9 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 function createRequestData(span: ReadableSpan): RequestData {
   const requestData: RequestData = {
     id: `${span.spanContext().spanId}`,
-    success: span.status.code != SpanStatusCode.ERROR,
+    success: span.status.code !== SpanStatusCode.ERROR,
     responseCode: "0",
-    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    duration: msToTimeSpan(hrTimeToMilliseconds(addHrTimes(span.duration, hrTime()))),
     version: 2,
     source: undefined,
   };
@@ -250,7 +263,7 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
   let baseType: "RemoteDependencyData" | "RequestData";
   let baseData: RemoteDependencyData | RequestData;
 
-  const time = new Date(hrTimeToMilliseconds(span.startTime));
+  const time = hrTimeToDate(span.startTime);
   const instrumentationKey = ikey;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
@@ -317,7 +330,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
   if (span.events) {
     span.events.forEach((event: TimedEvent) => {
       let baseType: "ExceptionData" | "MessageData";
-      const time = new Date(hrTimeToMilliseconds(event.time));
+      const time = hrTimeToDate(event.time);
       let name = "";
       let baseData: TelemetryExceptionData | MessageData;
       const properties = createPropertiesFromSpanAttributes(event.attributes);
@@ -330,7 +343,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       }
 
       // Only generate exception telemetry for incoming requests
-      if (event.name == "exception" && span.kind == SpanKind.SERVER) {
+      if (event.name === "exception" && span.kind === SpanKind.SERVER) {
         name = "Microsoft.ApplicationInsights.Exception";
         baseType = "ExceptionData";
         let typeName = "";
@@ -348,7 +361,7 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
             message = String(exceptionMsg);
           }
           const escaped = event.attributes[SemanticAttributes.EXCEPTION_ESCAPED];
-          if (escaped != undefined) {
+          if (escaped !== undefined) {
             properties[SemanticAttributes.EXCEPTION_ESCAPED] = String(escaped);
           }
         }

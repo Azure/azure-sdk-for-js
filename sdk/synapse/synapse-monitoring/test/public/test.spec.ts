@@ -1,23 +1,24 @@
 import { MonitoringClient } from "../../src/monitoringClient";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { assert } from "@azure/test-utils";
 import { createClient, createRecorder } from "./utils/recordedClient";
+import { Context } from "mocha";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: MonitoringClient;
 
-  beforeEach(function() {
-    recorder = createRecorder(this);
-    client = createClient();
+  beforeEach(async function (this: Context) {
+    recorder = await createRecorder(this.currentTest);
+    client = createClient({ recorder });
   });
 
   afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should list roles", async () => {
+  it("should list roles", async function () {
     const result = await client.monitoring.getSparkJobList();
-    assert.isTrue((result.sparkJobs || []).length > 0);
+    assert.isNumber(result.nJobs);
   });
 });

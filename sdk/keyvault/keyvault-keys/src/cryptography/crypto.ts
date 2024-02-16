@@ -34,8 +34,8 @@ export async function createHash(algorithm: string, data: Uint8Array): Promise<B
   if (!hashAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
-        algorithmToHashAlgorithm
-      ).join(", ")}`
+        algorithmToHashAlgorithm,
+      ).join(", ")}`,
     );
   }
   const hash = cryptoCreateHash(hashAlgorithm);
@@ -53,8 +53,8 @@ export function createVerify(algorithm: string, data: Uint8Array): Verify {
   if (!verifyAlgorithm) {
     throw new Error(
       `Invalid algorithm ${algorithm} passed to createHash. Supported algorithms: ${Object.keys(
-        algorithmToHashAlgorithm
-      ).join(", ")}`
+        algorithmToHashAlgorithm,
+      ).join(", ")}`,
     );
   }
   const verifier = cryptoCreateVerify(verifyAlgorithm);

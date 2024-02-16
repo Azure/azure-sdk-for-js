@@ -33,7 +33,7 @@ async function routeFilterRuleGet() {
       subscriptionId,
       resourceGroupName,
       routeFilterName,
-      ruleName
+      ruleName,
     )
     .get(options);
   console.log(result);

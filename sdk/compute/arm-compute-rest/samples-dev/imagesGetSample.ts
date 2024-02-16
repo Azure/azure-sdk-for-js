@@ -29,7 +29,7 @@ async function getInformationAboutAVirtualMachineImage() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}",
       subscriptionId,
       resourceGroupName,
-      imageName
+      imageName,
     )
     .get(options);
   console.log(result);

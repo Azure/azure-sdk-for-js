@@ -10,46 +10,38 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   LongTermRetentionBackup,
-  LongTermRetentionBackupsListByDatabaseOptionalParams,
   LongTermRetentionBackupsListByLocationOptionalParams,
   LongTermRetentionBackupsListByServerOptionalParams,
-  LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
+  LongTermRetentionBackupsListByDatabaseOptionalParams,
   LongTermRetentionBackupsListByResourceGroupLocationOptionalParams,
   LongTermRetentionBackupsListByResourceGroupServerOptionalParams,
+  LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams,
+  LongTermRetentionBackupsGetOptionalParams,
+  LongTermRetentionBackupsGetResponse,
+  LongTermRetentionBackupsDeleteOptionalParams,
+  ChangeLongTermRetentionBackupAccessTierParameters,
+  LongTermRetentionBackupsChangeAccessTierOptionalParams,
+  LongTermRetentionBackupsChangeAccessTierResponse,
   CopyLongTermRetentionBackupParameters,
   LongTermRetentionBackupsCopyOptionalParams,
   LongTermRetentionBackupsCopyResponse,
   UpdateLongTermRetentionBackupParameters,
   LongTermRetentionBackupsUpdateOptionalParams,
   LongTermRetentionBackupsUpdateResponse,
-  LongTermRetentionBackupsGetOptionalParams,
-  LongTermRetentionBackupsGetResponse,
-  LongTermRetentionBackupsDeleteOptionalParams,
+  LongTermRetentionBackupsGetByResourceGroupOptionalParams,
+  LongTermRetentionBackupsGetByResourceGroupResponse,
+  LongTermRetentionBackupsDeleteByResourceGroupOptionalParams,
+  LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams,
+  LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse,
   LongTermRetentionBackupsCopyByResourceGroupOptionalParams,
   LongTermRetentionBackupsCopyByResourceGroupResponse,
   LongTermRetentionBackupsUpdateByResourceGroupOptionalParams,
-  LongTermRetentionBackupsUpdateByResourceGroupResponse,
-  LongTermRetentionBackupsGetByResourceGroupOptionalParams,
-  LongTermRetentionBackupsGetByResourceGroupResponse,
-  LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
+  LongTermRetentionBackupsUpdateByResourceGroupResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a LongTermRetentionBackups. */
 export interface LongTermRetentionBackups {
-  /**
-   * Lists all long term retention backups for a database.
-   * @param locationName The location of the database
-   * @param longTermRetentionServerName The name of the server
-   * @param longTermRetentionDatabaseName The name of the database
-   * @param options The options parameters.
-   */
-  listByDatabase(
-    locationName: string,
-    longTermRetentionServerName: string,
-    longTermRetentionDatabaseName: string,
-    options?: LongTermRetentionBackupsListByDatabaseOptionalParams
-  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists the long term retention backups for a given location.
    * @param locationName The location of the database
@@ -72,6 +64,45 @@ export interface LongTermRetentionBackups {
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
    * Lists all long term retention backups for a database.
+   * @param locationName The location of the database
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
+   * @param options The options parameters.
+   */
+  listByDatabase(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    options?: LongTermRetentionBackupsListByDatabaseOptionalParams
+  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+  /**
+   * Lists the long term retention backups for a given location based on resource group.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName The location of the database
+   * @param options The options parameters.
+   */
+  listByResourceGroupLocation(
+    resourceGroupName: string,
+    locationName: string,
+    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
+  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+  /**
+   * Lists the long term retention backups for a given server based on resource groups.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName The location of the database
+   * @param longTermRetentionServerName The name of the server
+   * @param options The options parameters.
+   */
+  listByResourceGroupServer(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams
+  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+  /**
+   * Lists all long term retention backups for a database based on a particular resource group.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database
@@ -87,31 +118,91 @@ export interface LongTermRetentionBackups {
     options?: LongTermRetentionBackupsListByResourceGroupDatabaseOptionalParams
   ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
   /**
-   * Lists the long term retention backups for a given location.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database
-   * @param options The options parameters.
-   */
-  listByResourceGroupLocation(
-    resourceGroupName: string,
-    locationName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupLocationOptionalParams
-  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
-  /**
-   * Lists the long term retention backups for a given server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database
+   * Gets a long term retention backup.
+   * @param locationName The location of the database.
    * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
+   * @param backupName The backup name.
    * @param options The options parameters.
    */
-  listByResourceGroupServer(
-    resourceGroupName: string,
+  get(
     locationName: string,
     longTermRetentionServerName: string,
-    options?: LongTermRetentionBackupsListByResourceGroupServerOptionalParams
-  ): PagedAsyncIterableIterator<LongTermRetentionBackup>;
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: LongTermRetentionBackupsGetOptionalParams
+  ): Promise<LongTermRetentionBackupsGetResponse>;
+  /**
+   * Deletes a long term retention backup.
+   * @param locationName The location of the database
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
+   * @param backupName The backup name.
+   * @param options The options parameters.
+   */
+  beginDelete(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: LongTermRetentionBackupsDeleteOptionalParams
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Deletes a long term retention backup.
+   * @param locationName The location of the database
+   * @param longTermRetentionServerName The name of the server
+   * @param longTermRetentionDatabaseName The name of the database
+   * @param backupName The backup name.
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    options?: LongTermRetentionBackupsDeleteOptionalParams
+  ): Promise<void>;
+  /**
+   * Change a long term retention backup access tier.
+   * @param locationName
+   * @param longTermRetentionServerName
+   * @param longTermRetentionDatabaseName
+   * @param backupName
+   * @param parameters Contains the information necessary to change long term retention backup access
+   *                   tier and related operation mode.
+   * @param options The options parameters.
+   */
+  beginChangeAccessTier(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    parameters: ChangeLongTermRetentionBackupAccessTierParameters,
+    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LongTermRetentionBackupsChangeAccessTierResponse>,
+      LongTermRetentionBackupsChangeAccessTierResponse
+    >
+  >;
+  /**
+   * Change a long term retention backup access tier.
+   * @param locationName
+   * @param longTermRetentionServerName
+   * @param longTermRetentionDatabaseName
+   * @param backupName
+   * @param parameters Contains the information necessary to change long term retention backup access
+   *                   tier and related operation mode.
+   * @param options The options parameters.
+   */
+  beginChangeAccessTierAndWait(
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    parameters: ChangeLongTermRetentionBackupAccessTierParameters,
+    options?: LongTermRetentionBackupsChangeAccessTierOptionalParams
+  ): Promise<LongTermRetentionBackupsChangeAccessTierResponse>;
   /**
    * Copy an existing long term retention backup.
    * @param locationName The location of the database.
@@ -192,49 +283,107 @@ export interface LongTermRetentionBackups {
   ): Promise<LongTermRetentionBackupsUpdateResponse>;
   /**
    * Gets a long term retention backup.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database.
    * @param longTermRetentionServerName The name of the server
    * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param options The options parameters.
    */
-  get(
+  getByResourceGroup(
+    resourceGroupName: string,
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsGetOptionalParams
-  ): Promise<LongTermRetentionBackupsGetResponse>;
+    options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams
+  ): Promise<LongTermRetentionBackupsGetByResourceGroupResponse>;
   /**
    * Deletes a long term retention backup.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
    * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param options The options parameters.
    */
-  beginDelete(
+  beginDeleteByResourceGroup(
+    resourceGroupName: string,
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteOptionalParams
+    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a long term retention backup.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
    * @param locationName The location of the database
    * @param longTermRetentionServerName The name of the server
    * @param longTermRetentionDatabaseName The name of the database
    * @param backupName The backup name.
    * @param options The options parameters.
    */
-  beginDeleteAndWait(
+  beginDeleteByResourceGroupAndWait(
+    resourceGroupName: string,
     locationName: string,
     longTermRetentionServerName: string,
     longTermRetentionDatabaseName: string,
     backupName: string,
-    options?: LongTermRetentionBackupsDeleteOptionalParams
+    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
   ): Promise<void>;
+  /**
+   * Change a long term retention backup access tier.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName
+   * @param longTermRetentionServerName
+   * @param longTermRetentionDatabaseName
+   * @param backupName
+   * @param parameters Contains the information necessary to change long term retention backup access
+   *                   tier and related operation mode.
+   * @param options The options parameters.
+   */
+  beginChangeAccessTierByResourceGroup(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    parameters: ChangeLongTermRetentionBackupAccessTierParameters,
+    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<
+        LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
+      >,
+      LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse
+    >
+  >;
+  /**
+   * Change a long term retention backup access tier.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param locationName
+   * @param longTermRetentionServerName
+   * @param longTermRetentionDatabaseName
+   * @param backupName
+   * @param parameters Contains the information necessary to change long term retention backup access
+   *                   tier and related operation mode.
+   * @param options The options parameters.
+   */
+  beginChangeAccessTierByResourceGroupAndWait(
+    resourceGroupName: string,
+    locationName: string,
+    longTermRetentionServerName: string,
+    longTermRetentionDatabaseName: string,
+    backupName: string,
+    parameters: ChangeLongTermRetentionBackupAccessTierParameters,
+    options?: LongTermRetentionBackupsChangeAccessTierByResourceGroupOptionalParams
+  ): Promise<LongTermRetentionBackupsChangeAccessTierByResourceGroupResponse>;
   /**
    * Copy an existing long term retention backup to a different server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
@@ -325,58 +474,4 @@ export interface LongTermRetentionBackups {
     parameters: UpdateLongTermRetentionBackupParameters,
     options?: LongTermRetentionBackupsUpdateByResourceGroupOptionalParams
   ): Promise<LongTermRetentionBackupsUpdateByResourceGroupResponse>;
-  /**
-   * Gets a long term retention backup.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database.
-   * @param longTermRetentionServerName The name of the server
-   * @param longTermRetentionDatabaseName The name of the database
-   * @param backupName The backup name.
-   * @param options The options parameters.
-   */
-  getByResourceGroup(
-    resourceGroupName: string,
-    locationName: string,
-    longTermRetentionServerName: string,
-    longTermRetentionDatabaseName: string,
-    backupName: string,
-    options?: LongTermRetentionBackupsGetByResourceGroupOptionalParams
-  ): Promise<LongTermRetentionBackupsGetByResourceGroupResponse>;
-  /**
-   * Deletes a long term retention backup.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database
-   * @param longTermRetentionServerName The name of the server
-   * @param longTermRetentionDatabaseName The name of the database
-   * @param backupName The backup name.
-   * @param options The options parameters.
-   */
-  beginDeleteByResourceGroup(
-    resourceGroupName: string,
-    locationName: string,
-    longTermRetentionServerName: string,
-    longTermRetentionDatabaseName: string,
-    backupName: string,
-    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
-  /**
-   * Deletes a long term retention backup.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param locationName The location of the database
-   * @param longTermRetentionServerName The name of the server
-   * @param longTermRetentionDatabaseName The name of the database
-   * @param backupName The backup name.
-   * @param options The options parameters.
-   */
-  beginDeleteByResourceGroupAndWait(
-    resourceGroupName: string,
-    locationName: string,
-    longTermRetentionServerName: string,
-    longTermRetentionDatabaseName: string,
-    backupName: string,
-    options?: LongTermRetentionBackupsDeleteByResourceGroupOptionalParams
-  ): Promise<void>;
 }

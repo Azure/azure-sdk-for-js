@@ -7,10 +7,12 @@ import { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentia
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
 import {
+  checkTenantId,
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { tracingClient } from "../util/tracing";
+import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils";
 
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions
@@ -24,7 +26,7 @@ export const developerCliCredentialInternals = {
     if (process.platform === "win32") {
       if (!process.env.SystemRoot) {
         throw new Error(
-          "Azure Developer CLI credential expects a 'SystemRoot' environment variable"
+          "Azure Developer CLI credential expects a 'SystemRoot' environment variable",
         );
       }
       return process.env.SystemRoot;
@@ -41,7 +43,7 @@ export const developerCliCredentialInternals = {
   async getAzdAccessToken(
     scopes: string[],
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -58,18 +60,17 @@ export const developerCliCredentialInternals = {
             "json",
             ...scopes.reduce<string[]>(
               (previous, current) => previous.concat("--scope", current),
-              []
+              [],
             ),
             ...tenantSection,
           ],
           {
             cwd: developerCliCredentialInternals.getSafeWorkingDir(),
-            shell: true,
             timeout,
           },
           (error, stdout, stderr) => {
             resolve({ stdout, stderr, error });
-          }
+          },
         );
       } catch (err: any) {
         reject(err);
@@ -84,11 +85,11 @@ const logger = credentialLogger("AzureDeveloperCliCredential");
  * Azure Developer CLI is a command-line interface tool that allows developers to create, manage, and deploy
  * resources in Azure. It's built on top of the Azure CLI and provides additional functionality specific
  * to Azure developers. It allows users to authenticate as a user and/or a service principal against
- * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Azure Active Directory (Azure AD)
- * </a>. The AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
+ * <a href="https://learn.microsoft.com/azure/active-directory/fundamentals/">Microsoft Entra ID</a>. The
+ * AzureDeveloperCliCredential authenticates in a development environment and acquires a token on behalf of
  * the logged-in user or service principal in the Azure Developer CLI. It acts as the Azure Developer CLI logged in user or
  * service principal and executes an Azure CLI command underneath to authenticate the application against
- * Azure Active Directory.
+ * Microsoft Entra ID.
  *
  * <h2> Configure AzureDeveloperCliCredential </h2>
  *
@@ -119,15 +120,18 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    * @param options - Options, to optionally allow multi-tenant requests.
    */
   constructor(options?: AzureDeveloperCliCredentialOptions) {
-    this.tenantId = options?.tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    if (options?.tenantId) {
+      checkTenantId(logger, options?.tenantId);
+      this.tenantId = options?.tenantId;
+    }
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -136,14 +140,16 @@ export class AzureDeveloperCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
-      this.additionallyAllowedTenantIds
+      this.additionallyAllowedTenantIds,
     );
-
+    if (tenantId) {
+      checkTenantId(logger, tenantId);
+    }
     let scopeList: string[];
     if (typeof scopes === "string") {
       scopeList = [scopes];
@@ -154,10 +160,13 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
     return tracingClient.withSpan(`${this.constructor.name}.getToken`, options, async () => {
       try {
+        scopeList.forEach((scope) => {
+          ensureValidScopeForDevTimeCreds(scope, logger);
+        });
         const obj = await developerCliCredentialInternals.getAzdAccessToken(
           scopeList,
           tenantId,
-          this.timeout
+          this.timeout,
         );
         const isNotLoggedInError =
           obj.stderr?.match("not logged in, run `azd login` to login") ||
@@ -168,7 +177,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotInstallError || (obj.error && (obj.error as any).code === "ENOENT")) {
           const error = new CredentialUnavailableError(
-            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+            "Azure Developer CLI couldn't be found. To mitigate this issue, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -176,7 +185,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
 
         if (isNotLoggedInError) {
           const error = new CredentialUnavailableError(
-            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot."
+            "Please run 'azd auth login' from a command prompt to authenticate before using this credential. For more information, see the troubleshooting guidelines at https://aka.ms/azsdk/js/identity/azdevclicredential/troubleshoot.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -200,7 +209,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token"
+                (err as Error).message || "Unknown error while trying to retrieve the access token",
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;

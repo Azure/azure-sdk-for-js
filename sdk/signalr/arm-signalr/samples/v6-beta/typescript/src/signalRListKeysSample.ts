@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the access keys of the resource.
  *
  * @summary Get the access keys of the resource.
- * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/SignalR_ListKeys.json
+ * x-ms-original-file: specification/signalr/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/SignalR_ListKeys.json
  */
 async function signalRListKeys() {
   const subscriptionId =

@@ -62,7 +62,6 @@ describe("containerservicefleet test", () => {
       resourceGroup,
       resourceName,
       {
-        hubProfile: { dnsPrefix: "dnsprefix1" },
         location,
         tags: { archv2: "", tier: "production" }
       },

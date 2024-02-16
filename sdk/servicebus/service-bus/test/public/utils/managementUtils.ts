@@ -34,7 +34,7 @@ function getManagementClient(): ServiceBusAdministrationClient {
 async function retry(
   operationCallback: () => void,
   breakConditionCallback: () => Promise<boolean>,
-  operationDescription: string
+  operationDescription: string,
 ): Promise<void> {
   const retryAttempts = 5;
   const retryDelayInMs = 1000;
@@ -74,7 +74,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<CreateQueueOptions, "name">
+  parameters?: Omit<CreateQueueOptions, "name">,
 ): Promise<void> {
   getManagementClient();
 
@@ -100,7 +100,7 @@ export async function recreateQueue(
     async (): Promise<boolean> => {
       return !(await checkIfQueueExistsOperation());
     },
-    `Delete queue "${queueName}"`
+    `Delete queue "${queueName}"`,
   );
   await retry(createQueueOperation, checkIfQueueExistsOperation, `Create queue "${queueName}"`);
 }
@@ -110,7 +110,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<CreateTopicOptions, "name">
+  parameters?: Omit<CreateTopicOptions, "name">,
 ): Promise<void> {
   getManagementClient();
 
@@ -136,7 +136,7 @@ export async function recreateTopic(
     async () => {
       return !(await checkIfTopicExistsOperation());
     },
-    `Delete topic "${topicName}"`
+    `Delete topic "${topicName}"`,
   );
   await retry(createTopicOperation, checkIfTopicExistsOperation, `Create topic "${topicName}"`);
 }
@@ -149,7 +149,7 @@ export async function recreateSubscription(
   subscriptionName: string,
   parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName"> & {
     deleteFirst?: boolean;
-  }
+  },
 ): Promise<void> {
   getManagementClient();
   /*
@@ -179,14 +179,14 @@ export async function recreateSubscription(
     await retry(
       deleteSubscriptionOperation,
       async () => !(await checkIfSubscriptionExistsOperation()),
-      `Delete subscription "${subscriptionName}"`
+      `Delete subscription "${subscriptionName}"`,
     );
   }
 
   await retry(
     createSubscriptionOperation,
     checkIfSubscriptionExistsOperation,
-    `Create subscription "${subscriptionName}"`
+    `Create subscription "${subscriptionName}"`,
   );
 }
 
@@ -197,7 +197,7 @@ export async function verifyMessageCount(
   expectedMessageCount: number,
   queueName?: string,
   topicName?: string,
-  subscriptionName?: string
+  subscriptionName?: string,
 ): Promise<void> {
   getManagementClient();
   should.equal(
@@ -206,7 +206,7 @@ export async function verifyMessageCount(
       : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
           .totalMessageCount,
     expectedMessageCount,
-    `Unexpected number of messages are present in the entity.`
+    `Unexpected number of messages are present in the entity.`,
   );
 }
 

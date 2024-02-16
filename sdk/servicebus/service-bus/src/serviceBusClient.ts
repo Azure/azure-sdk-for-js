@@ -77,7 +77,7 @@ export class ServiceBusClient {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options?: ServiceBusClientOptions
+    options?: ServiceBusClientOptions,
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -86,7 +86,7 @@ export class ServiceBusClient {
       | NamedKeyCredential
       | SASCredential
       | ServiceBusClientOptions,
-    options3?: ServiceBusClientOptions
+    options3?: ServiceBusClientOptions,
   ) {
     if (isCredential(credentialOrOptions2)) {
       const fullyQualifiedNamespace: string = fullyQualifiedNamespaceOrConnectionString1;
@@ -96,7 +96,7 @@ export class ServiceBusClient {
       this._connectionContext = createConnectionContextForCredential(
         credential,
         fullyQualifiedNamespace,
-        this._clientOptions
+        this._clientOptions,
       );
     } else {
       const connectionString: string = fullyQualifiedNamespaceOrConnectionString1;
@@ -104,13 +104,13 @@ export class ServiceBusClient {
 
       this._connectionContext = createConnectionContextForConnectionString(
         connectionString,
-        this._clientOptions
+        this._clientOptions,
       );
     }
     this.fullyQualifiedNamespace = this._connectionContext.config.host;
     this.identifier = ensureValidIdentifier(
       this.fullyQualifiedNamespace,
-      this._clientOptions.identifier
+      this._clientOptions.identifier,
     );
     this._clientOptions.retryOptions = this._clientOptions.retryOptions || {};
 
@@ -184,13 +184,13 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusReceiverOptions
+    options?: ServiceBusReceiverOptions,
   ): ServiceBusReceiver;
   createReceiver(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: ServiceBusReceiverOptions
+    options3?: ServiceBusReceiverOptions,
   ): ServiceBusReceiver {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -199,7 +199,7 @@ export class ServiceBusClient {
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
-      options3
+      options3,
     );
 
     let entityPathWithSubQueue = entityPath;
@@ -213,7 +213,7 @@ export class ServiceBusClient {
           break;
         default:
           throw new Error(
-            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`
+            `Invalid subQueueType '${options?.subQueueType}' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
           );
       }
     }
@@ -231,7 +231,7 @@ export class ServiceBusClient {
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
       this._clientOptions.retryOptions,
-      options?.identifier
+      options?.identifier,
     );
   }
 
@@ -250,7 +250,7 @@ export class ServiceBusClient {
     return new ServiceBusRuleManagerImpl(
       this._connectionContext,
       entityPath,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
   }
 
@@ -277,7 +277,7 @@ export class ServiceBusClient {
     queueName: string,
     sessionId: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription.
@@ -304,14 +304,14 @@ export class ServiceBusClient {
     subscriptionName: string,
     sessionId: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   async acceptSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionNameOrSessionId2?: ServiceBusSessionReceiverOptions | string,
     optionsOrSessionId3?: ServiceBusSessionReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options4?: ServiceBusSessionReceiverOptions
+    options4?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
@@ -332,7 +332,7 @@ export class ServiceBusClient {
         queueOrTopicName1,
         optionsOrSubscriptionNameOrSessionId2,
         // skip the session ID parameter (3)
-        options4
+        options4,
       ));
     } else if (
       typeof queueOrTopicName1 === "string" &&
@@ -346,7 +346,7 @@ export class ServiceBusClient {
         queueOrTopicName1,
         // skip the session ID parameter (2)
         optionsOrSessionId3,
-        undefined
+        undefined,
       ));
     } else {
       throw new Error("Unhandled set of parameters");
@@ -364,7 +364,7 @@ export class ServiceBusClient {
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
         skipConvertingDate: options?.skipConvertingDate ?? false,
-      }
+      },
     );
 
     const sessionReceiver = new ServiceBusSessionReceiverImpl(
@@ -374,7 +374,7 @@ export class ServiceBusClient {
       receiveMode,
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
 
     return sessionReceiver;
@@ -401,7 +401,7 @@ export class ServiceBusClient {
   acceptNextSession(
     queueName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription.
@@ -426,20 +426,20 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: ServiceBusSessionReceiverOptions
+    options?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver>;
   async acceptNextSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?: ServiceBusSessionReceiverOptions | string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options3?: ServiceBusSessionReceiverOptions
+    options3?: ServiceBusSessionReceiverOptions,
   ): Promise<ServiceBusSessionReceiver> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
-      options3
+      options3,
     );
 
     const messageSession = await MessageSession.create(
@@ -454,7 +454,7 @@ export class ServiceBusClient {
         retryOptions: this._clientOptions.retryOptions,
         skipParsingBodyAsJson: options?.skipParsingBodyAsJson ?? false,
         skipConvertingDate: options?.skipConvertingDate ?? false,
-      }
+      },
     );
 
     const sessionReceiver = new ServiceBusSessionReceiverImpl(
@@ -464,7 +464,7 @@ export class ServiceBusClient {
       receiveMode,
       options?.skipParsingBodyAsJson ?? false,
       options?.skipConvertingDate ?? false,
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
     );
 
     return sessionReceiver;
@@ -483,7 +483,7 @@ export class ServiceBusClient {
       this._connectionContext,
       queueOrTopicName,
       this._clientOptions.retryOptions,
-      options.identifier
+      options.identifier,
     );
   }
 
@@ -509,7 +509,7 @@ export class ServiceBusClient {
 export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveMode }>(
   queueOrTopicName1: string,
   optionsOrSubscriptionName2: string | OptionsT | undefined,
-  definitelyOptions3?: OptionsT
+  definitelyOptions3?: OptionsT,
 ): {
   entityPath: string;
   receiveMode: ReceiveMode;
@@ -533,7 +533,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     receiveMode = "receiveAndDelete";
   } else {
     throw new TypeError(
-      `Invalid receiveMode '${options?.receiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
+      `Invalid receiveMode '${options?.receiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
     );
   }
   delete options?.receiveMode;

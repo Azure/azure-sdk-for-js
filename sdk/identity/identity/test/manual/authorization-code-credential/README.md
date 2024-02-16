@@ -13,14 +13,14 @@ cd <repo-path>/sdk/identity/identity
 rush build -t @azure/identity
 ```
 
-3. Make sure you have an App Registration on your Azure Active Directory. This App Registration must:
+3. Make sure you have an App Registration on your Microsoft Entra ID. This App Registration must:
 
 - Have a `http://localhost:8080/authresponse` as the Web redirect endpoint.
-- Have this option selected `Accounts in any organizational directory (Any Azure AD directory - Multitenant)`.
+- Have this option selected `Accounts in any organizational directory (Any Microsoft Entra directory - Multitenant)`.
 
 On the Azure Portal, navigate to your app registration. On the side panel, select "Authentication".
 
-- Under "Supported Account Types", select `Accounts in any organizational directory (Any Azure AD directory - Multitenant)` .
+- Under "Supported Account Types", select `Accounts in any organizational directory (Any Microsoft Entra directory - Multitenant)` .
 - Under "Platform Configurations", add a platform and select "Web". Then add `http://localhost:8080/authresponse` as the redirect URI. Then click "Configure".
 
 4. Navigate to the `test/manual/authorization-code-credential` folder

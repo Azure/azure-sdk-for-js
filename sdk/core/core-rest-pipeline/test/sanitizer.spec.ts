@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
+import { assert, describe, it } from "vitest";
 import { Sanitizer } from "../src/util/sanitizer";
 
 describe("Sanitizer", function () {

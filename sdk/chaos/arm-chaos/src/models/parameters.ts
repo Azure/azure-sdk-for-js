@@ -45,7 +45,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-04-15-preview",
+    defaultValue: "2023-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -270,15 +270,15 @@ export const experiment1: OperationParameter = {
   mapper: ExperimentUpdateMapper
 };
 
-export const statusId: OperationURLParameter = {
-  parameterPath: "statusId",
+export const executionId: OperationURLParameter = {
+  parameterPath: "executionId",
   mapper: {
     constraints: {
       Pattern: new RegExp(
         "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
       )
     },
-    serializedName: "statusId",
+    serializedName: "executionId",
     required: true,
     type: {
       name: "String"
@@ -286,15 +286,21 @@ export const statusId: OperationURLParameter = {
   }
 };
 
-export const executionDetailsId: OperationURLParameter = {
-  parameterPath: "executionDetailsId",
+export const location: OperationURLParameter = {
+  parameterPath: "location",
   mapper: {
-    constraints: {
-      Pattern: new RegExp(
-        "^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$"
-      )
-    },
-    serializedName: "executionDetailsId",
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const asyncOperationId: OperationURLParameter = {
+  parameterPath: "asyncOperationId",
+  mapper: {
+    serializedName: "asyncOperationId",
     required: true,
     type: {
       name: "String"

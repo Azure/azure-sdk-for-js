@@ -44,7 +44,7 @@ describe("Customization", () => {
       augmentTypeAliases(originalAliases, customAliases, originalFile);
 
       expect(originalFile.getTypeAlias("OriginalAlias")?.getText()).to.equal(
-        "type OriginalAlias = number;"
+        "type OriginalAlias = number;",
       );
     });
   });

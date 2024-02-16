@@ -2,10 +2,6 @@
 // Licensed under the MIT license.
 
 declare global {
-  class TextEncoder {
-    encode(input?: string): Uint8Array;
-  }
-
   interface HmacImportParams {
     name: string;
     hash: { name: string };
@@ -29,7 +25,7 @@ declare const globalThis: {
         keyData: Uint8Array,
         algorithm: HmacImportParams,
         extractable: boolean,
-        usages: string[]
+        usages: string[],
       ): Promise<CryptoKey>;
       sign(algorithm: HmacImportParams, key: CryptoKey, data: Uint8Array): Promise<ArrayBuffer>;
     };
@@ -45,12 +41,12 @@ export async function signString(key: string, toSign: string): Promise<string> {
     enc.encode(key),
     algorithm,
     false,
-    ["sign", "verify"]
+    ["sign", "verify"],
   );
   const signature = await globalThis.crypto.subtle.sign(
     algorithm,
     extractedKey,
-    enc.encode(toSign)
+    enc.encode(toSign),
   );
   const digest = btoa(String.fromCharCode(...new Uint8Array(signature)));
 

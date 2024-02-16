@@ -4,7 +4,7 @@
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
-  resolveAddionallyAllowedTenantIds,
+  resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
@@ -16,11 +16,11 @@ import { tracingClient } from "../util/tracing";
 const logger = credentialLogger("ClientSecretCredential");
 
 /**
- * Enables authentication to Azure Active Directory using a client secret
+ * Enables authentication to Microsoft Entra ID using a client secret
  * that was generated for an App Registration. More information on how
  * to configure a client secret can be found here:
  *
- * https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {
@@ -30,10 +30,10 @@ export class ClientSecretCredential implements TokenCredential {
 
   /**
    * Creates an instance of the ClientSecretCredential with the details
-   * needed to authenticate against Azure Active Directory with a client
+   * needed to authenticate against Microsoft Entra ID with a client
    * secret.
    *
-   * @param tenantId - The Azure Active Directory tenant (directory) ID.
+   * @param tenantId - The Microsoft Entra tenant (directory) ID.
    * @param clientId - The client (application) ID of an App Registration in the tenant.
    * @param clientSecret - A client secret that was generated for the App Registration.
    * @param options - Options for configuring the client which makes the authentication request.
@@ -42,17 +42,17 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options: ClientSecretCredentialOptions = {}
+    options: ClientSecretCredentialOptions = {},
   ) {
     if (!tenantId || !clientId || !clientSecret) {
       throw new Error(
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
       );
     }
 
     this.tenantId = tenantId;
-    this.additionallyAllowedTenantIds = resolveAddionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+    this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
+      options?.additionallyAllowedTenants,
     );
 
     this.msalFlow = new MsalClientSecret({
@@ -66,7 +66,7 @@ export class ClientSecretCredential implements TokenCredential {
   }
 
   /**
-   * Authenticates with Azure Active Directory and returns an access token if successful.
+   * Authenticates with Microsoft Entra ID and returns an access token if successful.
    * If authentication fails, a {@link CredentialUnavailableError} will be thrown with the details of the failure.
    *
    * @param scopes - The list of scopes for which the token will have access.
@@ -82,12 +82,12 @@ export class ClientSecretCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
-      }
+      },
     );
   }
 }

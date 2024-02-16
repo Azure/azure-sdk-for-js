@@ -9,7 +9,7 @@ const BrowserNotSupportedError = new Error(`${credentialName}: Not supported in 
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Azure Active Directory using the [On Behalf Of flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
   /**

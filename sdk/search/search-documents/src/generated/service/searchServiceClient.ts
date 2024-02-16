@@ -27,7 +27,7 @@ import {
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
 import {
-  ApiVersion20230701Preview,
+  ApiVersion20231001Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
   GetServiceStatisticsResponse
@@ -36,7 +36,7 @@ import {
 /** @internal */
 export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20230701Preview;
+  apiVersion: ApiVersion20231001Preview;
 
   /**
    * Initializes a new instance of the SearchServiceClient class.
@@ -46,7 +46,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20230701Preview,
+    apiVersion: ApiVersion20231001Preview,
     options?: SearchServiceClientOptionalParams
   ) {
     if (endpoint === undefined) {

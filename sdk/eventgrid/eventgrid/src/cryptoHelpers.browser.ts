@@ -15,13 +15,13 @@ export async function sha256Hmac(secret: string, stringToSign: string): Promise<
       hash: "SHA-256",
     },
     false,
-    ["sign"]
+    ["sign"],
   );
 
   const sigArray = await self.crypto.subtle.sign(
     "HMAC",
     key,
-    new TextEncoder().encode(stringToSign)
+    new TextEncoder().encode(stringToSign),
   );
 
   // The conversions here are a bit odd but necessary (see "Unicode strings" in the link below)

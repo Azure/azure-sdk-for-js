@@ -51,12 +51,17 @@ export {
   QueryDebugMode,
   SemanticErrorHandlingMode,
   SemanticFieldState,
-  Vector,
   AnswersOptions,
   DocumentDebugInfo,
   SemanticDebugInfo,
   QueryResultDocumentSemanticField,
   Answers,
+  VectorQuery,
+  BaseVectorQuery,
+  RawVectorQuery,
+  VectorizableTextQuery,
+  VectorQueryKind,
+  VectorFilterMode,
 } from "./indexModels";
 export { SearchIndexingBufferedSender, IndexDocumentsClient } from "./searchIndexingBufferedSender";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
@@ -150,6 +155,22 @@ export {
   WebApiSkill,
   HnswParameters,
   HnswVectorSearchAlgorithmConfiguration,
+  SearchIndexerIndexProjections,
+  SearchIndexerIndexProjectionsParameters,
+  VectorSearchVectorizer,
+  ExhaustiveKnnParameters,
+  AzureOpenAIParameters,
+  CustomVectorizerParameters,
+  VectorSearchAlgorithmKind,
+  VectorSearchVectorizerKind,
+  AzureOpenAIEmbeddingSkill,
+  AzureOpenAIVectorizer,
+  CustomVectorizer,
+  ExhaustiveKnnVectorSearchAlgorithmConfiguration,
+  IndexProjectionMode,
+  BaseVectorSearchAlgorithmConfiguration,
+  BaseVectorSearchVectorizer,
+  SearchIndexerKnowledgeStoreParameters,
 } from "./serviceModels";
 export { default as GeographyPoint } from "./geographyPoint";
 export { odata } from "./odata";
@@ -364,7 +385,9 @@ export {
   PrioritizedFields,
   SemanticField,
   SearchAlias,
-  VectorSearchAlgorithmConfiguration as BaseVectorSearchAlgorithmConfiguration,
+  NativeBlobSoftDeleteDeletionDetectionPolicy,
+  SearchIndexerIndexProjectionSelector,
+  VectorSearchProfile,
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
 export { createSynonymMapFromFile } from "./synonymMapHelper";

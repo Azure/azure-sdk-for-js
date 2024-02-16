@@ -1,0 +1,32 @@
+{
+  "name": "@azure-samples/communication-job-router-js-beta",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Azure client library for Azure Communication Job Router services client library samples for JavaScript (Beta)",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-job-router-rest"
+  },
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-job-router-rest",
+  "dependencies": {
+    "@azure-rest/communication-job-router": "next",
+    "dotenv": "latest"
+  }
+}

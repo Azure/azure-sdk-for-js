@@ -26,7 +26,7 @@ export const commandInfo = makeCommandInfo(
       description: "specify the path of the output directory where the samples will be written",
       shortName: "o",
     },
-  } as const
+  } as const,
 );
 
 /**

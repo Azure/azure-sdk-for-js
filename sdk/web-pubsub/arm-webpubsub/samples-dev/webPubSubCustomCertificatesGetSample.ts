@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a custom certificate.
  *
  * @summary Get a custom certificate.
- * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-06-01-preview/examples/WebPubSubCustomCertificates_Get.json
+ * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/preview/2023-08-01-preview/examples/WebPubSubCustomCertificates_Get.json
  */
 async function webPubSubCustomCertificatesGet() {
   const subscriptionId =

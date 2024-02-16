@@ -12,22 +12,26 @@ export function nonAzurePolicy(): PipelinePolicy {
       switch (parts[parts.length - 1]) {
         case "completions":
           if (parts[parts.length - 2] === "chat") {
-            obj.pathname = `v1/chat/completions`;
+            obj.pathname = `${parts[1]}/chat/completions`;
           } else {
-            obj.pathname = `/v1/completions`;
+            obj.pathname = `${parts[1]}/completions`;
           }
           break;
         case "embeddings":
-          obj.pathname = `/v1/embeddings`;
+          obj.pathname = `${parts[1]}/embeddings`;
           break;
-        case "generations:submit":
-          obj.pathname = `/v1/images/generations`;
+        case "generations":
+          if (parts[parts.length - 2] === "images") {
+            obj.pathname = `${parts[1]}/images/generations`;
+          } else {
+            throw new Error("Unexpected path");
+          }
           break;
         case "transcriptions":
-          obj.pathname = `/v1/audio/transcriptions`;
+          obj.pathname = `${parts[1]}/audio/transcriptions`;
           break;
         case "translations":
-          obj.pathname = `/v1/audio/translations`;
+          obj.pathname = `${parts[1]}/audio/translations`;
           break;
       }
       obj.searchParams.delete("api-version");

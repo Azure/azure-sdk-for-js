@@ -8,18 +8,26 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { HybridComputeManagementClient } from "@azure/arm-hybridcompute";
+import {
+  MachinesGetOptionalParams,
+  HybridComputeManagementClient
+} from "@azure/arm-hybridcompute";
 import { DefaultAzureCredential } from "@azure/identity";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 /**
  * This sample demonstrates how to Retrieves information about the model view or the instance view of a hybrid machine.
  *
  * @summary Retrieves information about the model view or the instance view of a hybrid machine.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2021-06-10-preview/examples/Machines_Get.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/machine/Machines_Get.json
  */
 async function getMachine() {
-  const subscriptionId = "{subscriptionId}";
-  const resourceGroupName = "myResourceGroup";
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
   const machineName = "myMachine";
   const credential = new DefaultAzureCredential();
   const client = new HybridComputeManagementClient(credential, subscriptionId);
@@ -27,4 +35,33 @@ async function getMachine() {
   console.log(result);
 }
 
-getMachine().catch(console.error);
+/**
+ * This sample demonstrates how to Retrieves information about the model view or the instance view of a hybrid machine.
+ *
+ * @summary Retrieves information about the model view or the instance view of a hybrid machine.
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2023-06-20-preview/examples/machine/Machines_Get_LicenseProfileInstanceView.json
+ */
+async function getMachineWithLicenseProfileInstanceView() {
+  const subscriptionId =
+    process.env["HYBRIDCOMPUTE_SUBSCRIPTION_ID"] || "{subscriptionId}";
+  const resourceGroupName =
+    process.env["HYBRIDCOMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const machineName = "myMachine";
+  const expand = "instanceView";
+  const options: MachinesGetOptionalParams = { expand };
+  const credential = new DefaultAzureCredential();
+  const client = new HybridComputeManagementClient(credential, subscriptionId);
+  const result = await client.machines.get(
+    resourceGroupName,
+    machineName,
+    options
+  );
+  console.log(result);
+}
+
+async function main() {
+  getMachine();
+  getMachineWithLicenseProfileInstanceView();
+}
+
+main().catch(console.error);

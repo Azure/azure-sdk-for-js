@@ -45,7 +45,7 @@ async function createServiceEndpointPolicyDefinition() {
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

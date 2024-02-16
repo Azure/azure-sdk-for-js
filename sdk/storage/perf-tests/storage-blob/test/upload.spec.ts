@@ -32,7 +32,7 @@ export class StorageBlobUploadTest extends StorageBlobTest<StorageBlobUploadTest
     await this.containerClient.uploadBlockBlob(
       this.blobName,
       this.buffer,
-      this.parsedOptions.size.value!
+      this.parsedOptions.size.value!,
     );
   }
 }

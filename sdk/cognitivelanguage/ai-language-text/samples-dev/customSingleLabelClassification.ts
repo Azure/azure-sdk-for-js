@@ -46,7 +46,7 @@ export async function main() {
   for await (const actionResult of results) {
     if (actionResult.kind !== "CustomSingleLabelClassification") {
       throw new Error(
-        `Expected a CustomSingleLabelClassification results but got: ${actionResult.kind}`
+        `Expected a CustomSingleLabelClassification results but got: ${actionResult.kind}`,
       );
     }
     if (actionResult.error) {

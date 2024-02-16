@@ -11,8 +11,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HealthcareApisManagementClient } from "../healthcareApisManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   IotConnectorFhirDestinationGetOptionalParams,
   IotConnectorFhirDestinationGetResponse,
@@ -80,8 +84,8 @@ export class IotConnectorFhirDestinationImpl
     iotFhirDestination: IotFhirDestination,
     options?: IotConnectorFhirDestinationCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>,
       IotConnectorFhirDestinationCreateOrUpdateResponse
     >
   > {
@@ -91,7 +95,7 @@ export class IotConnectorFhirDestinationImpl
     ): Promise<IotConnectorFhirDestinationCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -124,9 +128,9 @@ export class IotConnectorFhirDestinationImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
@@ -134,10 +138,13 @@ export class IotConnectorFhirDestinationImpl
         iotFhirDestination,
         options
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      IotConnectorFhirDestinationCreateOrUpdateResponse,
+      OperationState<IotConnectorFhirDestinationCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -187,14 +194,14 @@ export class IotConnectorFhirDestinationImpl
     iotConnectorName: string,
     fhirDestinationName: string,
     options?: IotConnectorFhirDestinationDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -227,19 +234,19 @@ export class IotConnectorFhirDestinationImpl
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         workspaceName,
         iotConnectorName,
         fhirDestinationName,
         options
       },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();

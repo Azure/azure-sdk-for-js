@@ -1,15 +1,136 @@
 # Release History
+    
+## 9.0.0 (2023-10-10)
+    
+**Features**
 
-## 8.0.1 (Unreleased)
+  - Added operation AfdProfiles.beginUpgrade
+  - Added operation AfdProfiles.beginUpgradeAndWait
+  - Added operation AfdProfiles.checkEndpointNameAvailability
+  - Added operation AfdProfiles.validateSecret
+  - Added operation Profiles.beginCanMigrate
+  - Added operation Profiles.beginCanMigrateAndWait
+  - Added operation Profiles.beginMigrate
+  - Added operation Profiles.beginMigrateAndWait
+  - Added operation Profiles.beginMigrationCommit
+  - Added operation Profiles.beginMigrationCommitAndWait
+  - Added Interface AfdCustomDomainsCreateHeaders
+  - Added Interface AfdCustomDomainsDeleteHeaders
+  - Added Interface AfdCustomDomainsRefreshValidationTokenHeaders
+  - Added Interface AfdCustomDomainsUpdateHeaders
+  - Added Interface AfdEndpointsCreateHeaders
+  - Added Interface AfdEndpointsDeleteHeaders
+  - Added Interface AfdEndpointsPurgeContentHeaders
+  - Added Interface AfdEndpointsUpdateHeaders
+  - Added Interface AfdOriginGroupsCreateHeaders
+  - Added Interface AfdOriginGroupsDeleteHeaders
+  - Added Interface AfdOriginGroupsUpdateHeaders
+  - Added Interface AfdOriginsCreateHeaders
+  - Added Interface AfdOriginsDeleteHeaders
+  - Added Interface AfdOriginsUpdateHeaders
+  - Added Interface AfdProfilesCheckEndpointNameAvailabilityOptionalParams
+  - Added Interface AfdProfilesUpgradeHeaders
+  - Added Interface AfdProfilesUpgradeOptionalParams
+  - Added Interface AfdProfilesValidateSecretOptionalParams
+  - Added Interface CanMigrateParameters
+  - Added Interface CanMigrateResult
+  - Added Interface CustomDomainsCreateHeaders
+  - Added Interface CustomDomainsDeleteHeaders
+  - Added Interface CustomDomainsDisableCustomHttpsHeaders
+  - Added Interface CustomDomainsEnableCustomHttpsHeaders
+  - Added Interface EndpointsCreateHeaders
+  - Added Interface EndpointsDeleteHeaders
+  - Added Interface EndpointsLoadContentHeaders
+  - Added Interface EndpointsPurgeContentHeaders
+  - Added Interface EndpointsStartHeaders
+  - Added Interface EndpointsStopHeaders
+  - Added Interface EndpointsUpdateHeaders
+  - Added Interface ManagedServiceIdentity
+  - Added Interface MigrateResult
+  - Added Interface MigrationErrorType
+  - Added Interface MigrationParameters
+  - Added Interface MigrationWebApplicationFirewallMapping
+  - Added Interface OriginGroupsCreateHeaders
+  - Added Interface OriginGroupsDeleteHeaders
+  - Added Interface OriginGroupsUpdateHeaders
+  - Added Interface OriginsCreateHeaders
+  - Added Interface OriginsDeleteHeaders
+  - Added Interface OriginsUpdateHeaders
+  - Added Interface PoliciesCreateOrUpdateHeaders
+  - Added Interface PoliciesUpdateHeaders
+  - Added Interface ProfileChangeSkuWafMapping
+  - Added Interface ProfilesCanMigrateHeaders
+  - Added Interface ProfilesCanMigrateOptionalParams
+  - Added Interface ProfilesCreateHeaders
+  - Added Interface ProfilesDeleteHeaders
+  - Added Interface ProfilesMigrateHeaders
+  - Added Interface ProfilesMigrateOptionalParams
+  - Added Interface ProfilesMigrationCommitHeaders
+  - Added Interface ProfilesMigrationCommitOptionalParams
+  - Added Interface ProfilesUpdateHeaders
+  - Added Interface ProfileUpgradeParameters
+  - Added Interface RoutesCreateHeaders
+  - Added Interface RoutesDeleteHeaders
+  - Added Interface RoutesUpdateHeaders
+  - Added Interface RulesCreateHeaders
+  - Added Interface RulesDeleteHeaders
+  - Added Interface RuleSetsDeleteHeaders
+  - Added Interface RulesUpdateHeaders
+  - Added Interface SecretsCreateHeaders
+  - Added Interface SecretsDeleteHeaders
+  - Added Interface SecurityPoliciesCreateHeaders
+  - Added Interface SecurityPoliciesDeleteHeaders
+  - Added Interface SecurityPoliciesPatchHeaders
+  - Added Interface UserAssignedIdentity
+  - Added Type Alias AfdProfilesCheckEndpointNameAvailabilityResponse
+  - Added Type Alias AfdProfilesUpgradeResponse
+  - Added Type Alias AfdProfilesValidateSecretResponse
+  - Added Type Alias CanMigrateDefaultSku
+  - Added Type Alias ManagedServiceIdentityType
+  - Added Type Alias MetricsGranularity
+  - Added Type Alias MetricsSeriesUnit
+  - Added Type Alias ProfilesCanMigrateResponse
+  - Added Type Alias ProfilesMigrateResponse
+  - Added Type Alias WafMetricsGranularity
+  - Added Type Alias WafMetricsSeriesUnit
+  - Interface AFDDomain has a new optional parameter extendedProperties
+  - Interface AFDDomainProperties has a new optional parameter extendedProperties
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter certificateAuthority
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter expirationDate
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter secretSource
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter subject
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter subjectAlternativeNames
+  - Interface AzureFirstPartyManagedCertificateParameters has a new optional parameter thumbprint
+  - Interface CdnWebApplicationFirewallPolicy has a new optional parameter extendedProperties
+  - Interface Profile has a new optional parameter extendedProperties
+  - Interface Profile has a new optional parameter identity
+  - Interface ProfileUpdateParameters has a new optional parameter identity
+  - Added Enum KnownCanMigrateDefaultSku
+  - Added Enum KnownManagedServiceIdentityType
+  - Added Enum KnownMetricsGranularity
+  - Added Enum KnownMetricsSeriesUnit
+  - Added Enum KnownWafMetricsGranularity
+  - Added Enum KnownWafMetricsSeriesUnit
+  - Enum KnownProfileResourceState has a new value AbortingMigration
+  - Enum KnownProfileResourceState has a new value CommittingMigration
+  - Enum KnownProfileResourceState has a new value Migrated
+  - Enum KnownProfileResourceState has a new value Migrating
+  - Enum KnownProfileResourceState has a new value PendingMigrationCommit
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Removed operation group Validate
+  - Class CdnManagementClient has a new signature
+  - Type of parameter granularity of interface MetricsResponse is changed from MetricsResponseGranularity to MetricsGranularity
+  - Type of parameter unit of interface MetricsResponseSeriesItem is changed from MetricsResponseSeriesItemUnit to MetricsSeriesUnit
+  - Type of parameter granularity of interface WafMetricsResponse is changed from WafMetricsResponseGranularity to WafMetricsGranularity
+  - Type of parameter unit of interface WafMetricsResponseSeriesItem is changed from "count" to WafMetricsSeriesUnit
+  - Class CdnManagementClient no longer has parameter validate
+  - Removed Enum KnownMetricsResponseGranularity
+  - Removed Enum KnownMetricsResponseSeriesItemUnit
+  - Removed Enum KnownWafMetricsResponseGranularity
+    
+    
 ## 8.0.0 (2022-11-17)
     
 **Features**

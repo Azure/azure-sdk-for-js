@@ -11,29 +11,30 @@
         "Referer": "http://localhost:9876/",
         "sec-ch-ua": "",
         "sec-ch-ua-mobile": "?0",
-        "sec-ch-ua-platform": "",
+        "sec-ch-ua-platform": "\u0022\u0022",
         "Sec-Fetch-Dest": "empty",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Site": "same-site",
         "subscription-key": "azure_maps_subscription_key",
-        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/103.0.5058.0 Safari/537.36",
-        "x-ms-client-request-id": "e1ae1d70-4b68-4d84-a7cc-271e53e3895d",
-        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.9.0 OS/Linuxx86_64"
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
+        "x-ms-client-request-id": "6666d839-e5f0-4ee3-9524-3b048cc0c595",
+        "x-ms-useragent": "azsdk-js-maps-route-rest/1.0.0-beta.1 core-rest-pipeline/1.12.3 OS"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-transform, no-cache",
-        "Content-Length": "1802",
+        "Content-Encoding": "br",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 21 Oct 2022 13:56:49 GMT",
+        "Date": "Tue, 14 Nov 2023 02:47:54 GMT",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "Vary": "Accept-Encoding",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
         "x-ms-azuremaps-region": "West Europe",
-        "X-MSEdge-Ref": "Ref A: 4CAF5ED4F670484EA7DDA27E95C428D3 Ref B: SGEEDGE0417 Ref C: 2022-10-21T13:56:49Z"
+        "X-MSEdge-Ref": "Ref A: 86F001426AA64BA388449E9CB020FFA6 Ref B: SGEEDGE0711 Ref C: 2023-11-14T02:47:54Z"
       },
       "ResponseBody": {
         "formatVersion": "0.0.12",
@@ -41,21 +42,21 @@
           {
             "summary": {
               "lengthInMeters": 1147,
-              "travelTimeInSeconds": 218,
-              "trafficDelayInSeconds": 51,
-              "trafficLengthInMeters": 159,
-              "departureTime": "2022-10-21T15:56:49\u002B02:00",
-              "arrivalTime": "2022-10-21T16:00:26\u002B02:00"
+              "travelTimeInSeconds": 131,
+              "trafficDelayInSeconds": 0,
+              "trafficLengthInMeters": 0,
+              "departureTime": "2023-11-14T03:47:55\u002B01:00",
+              "arrivalTime": "2023-11-14T03:50:06\u002B01:00"
             },
             "legs": [
               {
                 "summary": {
                   "lengthInMeters": 1147,
-                  "travelTimeInSeconds": 218,
-                  "trafficDelayInSeconds": 51,
-                  "trafficLengthInMeters": 159,
-                  "departureTime": "2022-10-21T15:56:49\u002B02:00",
-                  "arrivalTime": "2022-10-21T16:00:26\u002B02:00"
+                  "travelTimeInSeconds": 131,
+                  "trafficDelayInSeconds": 0,
+                  "trafficLengthInMeters": 0,
+                  "departureTime": "2023-11-14T03:47:55\u002B01:00",
+                  "arrivalTime": "2023-11-14T03:50:06\u002B01:00"
                 },
                 "points": [
                   {

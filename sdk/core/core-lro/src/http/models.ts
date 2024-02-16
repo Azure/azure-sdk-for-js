@@ -23,6 +23,8 @@ export interface ResponseBody extends Record<string, unknown> {
   properties?: { provisioningState?: unknown } & Record<string, unknown>;
   /** The error if the operation failed */
   error?: Partial<LroError>;
+  /** The location of the created resource */
+  resourceLocation?: string;
 }
 
 /**
@@ -73,7 +75,7 @@ export interface LongRunningOperation<T = unknown> {
    */
   sendPollRequest: (
     path: string,
-    options?: { abortSignal?: AbortSignalLike }
+    options?: { abortSignal?: AbortSignalLike },
   ) => Promise<LroResponse<T>>;
 }
 

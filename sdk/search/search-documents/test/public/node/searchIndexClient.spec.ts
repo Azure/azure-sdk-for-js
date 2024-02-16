@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, env } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { Suite } from "mocha";
 import { assert } from "chai";
 import {
+  AzureOpenAIVectorizer,
   SearchIndex,
   SearchIndexClient,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
+  VectorSearchProfile,
 } from "../../../src";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
@@ -37,7 +39,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
         serviceVersion,
         recorder,
-        TEST_INDEX_NAME
+        TEST_INDEX_NAME,
       ));
 
       await createSynonymMaps(indexClient);
@@ -230,7 +232,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
   });
-  onVersions({ minVer: "2023-07-01-Preview" }).describe(
+  onVersions({ minVer: "2023-10-01-Preview" }).describe(
     "SearchIndexClient",
     function (this: Suite) {
       let recorder: Recorder;
@@ -245,7 +247,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
           serviceVersion,
           recorder,
-          TEST_INDEX_NAME
+          TEST_INDEX_NAME,
         ));
 
         await createSynonymMaps(indexClient);
@@ -265,10 +267,24 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       it("creates the index object vector fields", async function () {
         const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
 
-        const configuration: VectorSearchAlgorithmConfiguration = {
+        const algorithm: VectorSearchAlgorithmConfiguration = {
           name: "algorithm-configuration",
           kind: "hnsw",
           parameters: { m: 10, efSearch: 1000, efConstruction: 1000, metric: "dotProduct" },
+        };
+        const vectorizer: AzureOpenAIVectorizer = {
+          kind: "azureOpenAI",
+          name: "vectorizer",
+          azureOpenAIParameters: {
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.OPENAI_ENDPOINT,
+          },
+        };
+        const profile: VectorSearchProfile = {
+          name: "profile",
+          algorithm: algorithm.name,
+          vectorizer: vectorizer.name,
         };
 
         let index: SearchIndex = {
@@ -284,21 +300,25 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
               name: "descriptionVector",
               vectorSearchDimensions: 1536,
               searchable: true,
-              vectorSearchConfiguration: configuration.name,
+              vectorSearchProfile: profile.name,
             },
           ],
           vectorSearch: {
-            algorithmConfigurations: [configuration],
+            algorithms: [algorithm],
+            vectorizers: [vectorizer],
+            profiles: [profile],
           },
         };
         await indexClient.createOrUpdateIndex(index);
         try {
           index = await indexClient.getIndex(indexName);
-          assert.deepEqual(index.vectorSearch?.algorithmConfigurations?.[0], configuration);
+          assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
+          assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);
+          assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
         } finally {
           await indexClient.deleteIndex(index);
         }
       });
-    }
+    },
   );
 });

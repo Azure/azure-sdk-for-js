@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   Origin,
   OriginsListByEndpointOptionalParams,
@@ -69,7 +69,10 @@ export interface Origins {
     origin: Origin,
     options?: OriginsCreateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<OriginsCreateResponse>, OriginsCreateResponse>
+    SimplePollerLike<
+      OperationState<OriginsCreateResponse>,
+      OriginsCreateResponse
+    >
   >;
   /**
    * Creates a new origin within the specified endpoint.
@@ -105,7 +108,10 @@ export interface Origins {
     originUpdateProperties: OriginUpdateParameters,
     options?: OriginsUpdateOptionalParams
   ): Promise<
-    PollerLike<PollOperationState<OriginsUpdateResponse>, OriginsUpdateResponse>
+    SimplePollerLike<
+      OperationState<OriginsUpdateResponse>,
+      OriginsUpdateResponse
+    >
   >;
   /**
    * Updates an existing origin within an endpoint.
@@ -138,7 +144,7 @@ export interface Origins {
     endpointName: string,
     originName: string,
     options?: OriginsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an existing origin within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.

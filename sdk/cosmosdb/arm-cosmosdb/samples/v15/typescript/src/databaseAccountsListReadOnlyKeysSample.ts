@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the read-only access keys for the specified Azure Cosmos DB database account.
  *
  * @summary Lists the read-only access keys for the specified Azure Cosmos DB database account.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-04-15/examples/CosmosDBDatabaseAccountListReadOnlyKeys.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2023-11-15/examples/CosmosDBDatabaseAccountListReadOnlyKeys.json
  */
 async function cosmosDbDatabaseAccountListReadOnlyKeys() {
   const subscriptionId = process.env["COSMOSDB_SUBSCRIPTION_ID"] || "subid";

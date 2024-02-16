@@ -18,7 +18,9 @@ import {
   NamespaceTopicEventSubscriptionsDeleteOptionalParams,
   SubscriptionUpdateParameters,
   NamespaceTopicEventSubscriptionsUpdateOptionalParams,
-  NamespaceTopicEventSubscriptionsUpdateResponse
+  NamespaceTopicEventSubscriptionsUpdateResponse,
+  NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams,
+  NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -171,4 +173,20 @@ export interface NamespaceTopicEventSubscriptions {
     eventSubscriptionUpdateParameters: SubscriptionUpdateParameters,
     options?: NamespaceTopicEventSubscriptionsUpdateOptionalParams
   ): Promise<NamespaceTopicEventSubscriptionsUpdateResponse>;
+  /**
+   * Get all delivery attributes for an event subscription of a namespace topic.
+   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param namespaceName Name of the namespace.
+   * @param topicName Name of the namespace topic.
+   * @param eventSubscriptionName Name of the event subscription to be created. Event subscription names
+   *                              must be between 3 and 100 characters in length and use alphanumeric letters only.
+   * @param options The options parameters.
+   */
+  getDeliveryAttributes(
+    resourceGroupName: string,
+    namespaceName: string,
+    topicName: string,
+    eventSubscriptionName: string,
+    options?: NamespaceTopicEventSubscriptionsGetDeliveryAttributesOptionalParams
+  ): Promise<NamespaceTopicEventSubscriptionsGetDeliveryAttributesResponse>;
 }

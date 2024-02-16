@@ -20,7 +20,7 @@ const OPERATION_NAME = "getNotificationHubJob";
 export function getNotificationHubJob(
   context: NotificationHubsClientContext,
   jobId: string,
-  options: OperationOptions = {}
+  options: OperationOptions = {},
 ): Promise<NotificationHubJob> {
   return tracingClient.withSpan(
     `NotificationHubsClientContext.${OPERATION_NAME}`,
@@ -36,6 +36,6 @@ export function getNotificationHubJob(
       const response = await sendRequest(context, request, 200);
 
       return parseNotificationHubJobEntry(response.bodyAsText!);
-    }
+    },
   );
 }

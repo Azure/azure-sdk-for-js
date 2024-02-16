@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NginxManagementClient } from "../nginxManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NginxConfiguration,
   ConfigurationsListNextOptionalParams,
@@ -42,9 +46,9 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * List the Nginx configuration of given Nginx deployment.
+   * List the NGINX configuration of given NGINX deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   public list(
@@ -118,9 +122,9 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * List the Nginx configuration of given Nginx deployment.
+   * List the NGINX configuration of given NGINX deployment.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param options The options parameters.
    */
   private _list(
@@ -135,11 +139,11 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Get the Nginx configuration of given Nginx deployment
+   * Get the NGINX configuration of given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   get(
@@ -155,11 +159,11 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Create or update the Nginx configuration for given Nginx deployment
+   * Create or update the NGINX configuration for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -168,8 +172,8 @@ export class ConfigurationsImpl implements Configurations {
     configurationName: string,
     options?: ConfigurationsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<ConfigurationsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<ConfigurationsCreateOrUpdateResponse>,
       ConfigurationsCreateOrUpdateResponse
     >
   > {
@@ -179,7 +183,7 @@ export class ConfigurationsImpl implements Configurations {
     ): Promise<ConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -212,26 +216,29 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, configurationName, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, configurationName, options },
+      spec: createOrUpdateOperationSpec
+    });
+    const poller = await createHttpPoller<
+      ConfigurationsCreateOrUpdateResponse,
+      OperationState<ConfigurationsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      lroResourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation"
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Create or update the Nginx configuration for given Nginx deployment
+   * Create or update the NGINX configuration for given NGINX deployment
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -250,11 +257,11 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Reset the Nginx configuration of given Nginx deployment to default
+   * Reset the NGINX configuration of given NGINX deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   async beginDelete(
@@ -262,14 +269,14 @@ export class ConfigurationsImpl implements Configurations {
     deploymentName: string,
     configurationName: string,
     options?: ConfigurationsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec
     ) => {
@@ -302,13 +309,13 @@ export class ConfigurationsImpl implements Configurations {
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, deploymentName, configurationName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, deploymentName, configurationName, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs
     });
     await poller.poll();
@@ -316,11 +323,11 @@ export class ConfigurationsImpl implements Configurations {
   }
 
   /**
-   * Reset the Nginx configuration of given Nginx deployment to default
+   * Reset the NGINX configuration of given NGINX deployment to default
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param configurationName The name of configuration, only 'default' is supported value due to the
-   *                          singleton of Nginx conf
+   *                          singleton of NGINX conf
    * @param options The options parameters.
    */
   async beginDeleteAndWait(
@@ -341,7 +348,7 @@ export class ConfigurationsImpl implements Configurations {
   /**
    * ListNext
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param deploymentName The name of targeted Nginx deployment
+   * @param deploymentName The name of targeted NGINX deployment
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
    */

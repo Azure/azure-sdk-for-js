@@ -38,7 +38,7 @@ describe("listRegistrations()", () => {
 
       registration = (await createRegistration(
         context,
-        registration
+        registration,
       )) as AppleRegistrationDescription;
       registrationIds.push(registration.registrationId!);
     }
@@ -72,7 +72,7 @@ describe("listRegistrations()", () => {
 
     assert.isTrue(numberOfItems > 0);
     assert.isTrue(
-      registrationIds.some((registrationId) => foundRegistrations.includes(registrationId))
+      registrationIds.some((registrationId) => foundRegistrations.includes(registrationId)),
     );
   });
 });

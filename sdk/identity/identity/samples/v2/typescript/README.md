@@ -30,7 +30,7 @@ npm install -g typescript
 
 You need [an Azure subscription][freesub] and the following Azure resources to run these sample programs:
 
-- [Azure Active Directory App Registration][createinstance_azureactivedirectoryappregistration]
+- [Microsoft Entra App Registration][createinstance_azureactivedirectoryappregistration]
 - [Azure Key Vault][createinstance_azurekeyvault]
 
 Samples retrieve credentials to access the service endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.

@@ -12,7 +12,7 @@ import { SipTrunk } from "../../../../src";
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
   parsedBody?: T,
-  headers?: HttpHeaders
+  headers?: HttpHeaders,
 ): HttpClient => {
   return {
     async sendRequest(request: PipelineRequest): Promise<PipelineResponse> {

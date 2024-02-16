@@ -11,7 +11,7 @@ export function validateOffer(body: ContainerRequest): void {
     }
     if (body.autoUpgradePolicy) {
       throw new Error(
-        "Cannot specify autoUpgradePolicy with throughput. Use `maxThroughput` instead"
+        "Cannot specify autoUpgradePolicy with throughput. Use `maxThroughput` instead",
       );
     }
   }

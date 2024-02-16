@@ -46,7 +46,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-08-01",
+    defaultValue: "2023-11-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -205,6 +205,28 @@ export const sharedPrivateLinkResourceName: OperationURLParameter = {
   parameterPath: "sharedPrivateLinkResourceName",
   mapper: {
     serializedName: "sharedPrivateLinkResourceName",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const location: OperationURLParameter = {
+  parameterPath: "location",
+  mapper: {
+    serializedName: "location",
+    required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const skuName: OperationURLParameter = {
+  parameterPath: "skuName",
+  mapper: {
+    serializedName: "skuName",
     required: true,
     type: {
       name: "String"

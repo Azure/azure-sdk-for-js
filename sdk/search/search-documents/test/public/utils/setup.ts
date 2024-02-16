@@ -12,7 +12,7 @@ import {
 import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
 import { assert } from "chai";
-import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { OpenAIClient } from "@azure/openai";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
@@ -21,7 +21,7 @@ export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 export async function createIndex(
   client: SearchIndexClient,
   name: string,
-  serviceVersion: string
+  serviceVersion: string,
 ): Promise<void> {
   const hotelIndex: SearchIndex = {
     name,
@@ -233,7 +233,9 @@ export async function createIndex(
   };
 
   if (serviceVersion.includes("Preview")) {
-    const vectorSearchConfiguration = "algorithm-configuration";
+    const algorithm = "algorithm-configuration";
+    const vectorizer = "vectorizer";
+    const profile = "profile";
 
     hotelIndex.fields.push({
       type: "Collection(Edm.Single)",
@@ -241,21 +243,32 @@ export async function createIndex(
       searchable: true,
       vectorSearchDimensions: 1536,
       hidden: true,
-      vectorSearchConfiguration,
+      vectorSearchProfile: profile,
     });
 
     hotelIndex.vectorSearch = {
-      algorithmConfigurations: [
+      algorithms: [
         {
-          name: vectorSearchConfiguration,
-          kind: "hnsw",
+          name: algorithm,
+          kind: "exhaustiveKnn",
           parameters: {
             metric: "dotProduct",
           },
         },
       ],
+      vectorizers: [
+        {
+          kind: "azureOpenAI",
+          name: vectorizer,
+          azureOpenAIParameters: {
+            apiKey: env.OPENAI_KEY,
+            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.OPENAI_ENDPOINT,
+          },
+        },
+      ],
+      profiles: [{ name: profile, vectorizer, algorithm }],
     };
-
     hotelIndex.semanticSettings = {
       configurations: [
         {
@@ -277,7 +290,7 @@ export async function createIndex(
 export async function populateIndex(
   client: SearchClient<Hotel>,
   openAIClient: OpenAIClient,
-  serviceVersion: string
+  serviceVersion: string,
 ): Promise<void> {
   // test data from https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/search/Azure.Search.Documents/tests/Utilities/SearchResources.Data.cs
   const testDocuments: Hotel[] = [
@@ -499,7 +512,7 @@ export async function populateIndex(
 
 async function addVectorDescriptions(
   documents: Hotel[],
-  openAIClient: OpenAIClient
+  openAIClient: OpenAIClient,
 ): Promise<void> {
   const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
@@ -514,7 +527,7 @@ async function addVectorDescriptions(
 
   // OpenAI only supports one description at a time at the moment
   const embeddingsArray = await Promise.all(
-    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description]))
+    descriptions.map((description) => openAIClient.getEmbeddings(deploymentName, [description])),
   );
 
   embeddingsArray.forEach((embeddings, i) =>
@@ -522,7 +535,7 @@ async function addVectorDescriptions(
       const { embedding, index: j } = embeddingItem;
       const document = descriptionMap.get(i + j)!;
       document.vectorDescription = embedding;
-    })
+    }),
   );
 }
 
@@ -538,7 +551,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
   const testCaseNames: string[] = ["my-azureblob-skillset-1", "my-azureblob-skillset-2"];
   const skillSetNames: string[] = await client.listSkillsetsNames();
   const unCommonElements: string[] = skillSetNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are skillsets which are already existing in this subscription.
@@ -595,12 +608,12 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(
   client: SearchIndexerClient,
-  targetIndexName: string
+  targetIndexName: string,
 ): Promise<void> {
   const testCaseNames: string[] = ["my-azure-indexer-1", "my-azure-indexer-2"];
   const indexerNames: string[] = await client.listIndexersNames();
   const unCommonElements: string[] = indexerNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are indexers which are already existing in this subscription.
@@ -635,7 +648,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
   const testCaseNames: string[] = ["my-azure-synonymmap-1", "my-azure-synonymmap-2"];
   const synonymMapNames: string[] = await client.listSynonymMapsNames();
   const unCommonElements: string[] = synonymMapNames.filter(
-    (element) => !testCaseNames.includes(element)
+    (element) => !testCaseNames.includes(element),
   );
   if (unCommonElements.length > 0) {
     // There are synonym maps which are already existing in this subscription.

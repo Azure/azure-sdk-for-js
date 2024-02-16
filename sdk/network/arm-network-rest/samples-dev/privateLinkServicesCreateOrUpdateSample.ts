@@ -60,7 +60,7 @@ async function createPrivateLinkService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}",
       subscriptionId,
       resourceGroupName,
-      serviceName
+      serviceName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

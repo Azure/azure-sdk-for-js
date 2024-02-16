@@ -144,7 +144,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
  * @internal
  */
 export function makeAnalyzeSentimentResult(
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -167,7 +167,7 @@ export function makeAnalyzeSentimentResult(
  */
 export function makeAnalyzeSentimentErrorResult(
   id: string,
-  error: TextAnalyticsError
+  error: TextAnalyticsError,
 ): AnalyzeSentimentErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
@@ -183,7 +183,7 @@ export function makeAnalyzeSentimentErrorResult(
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
@@ -204,7 +204,7 @@ function convertGeneratedSentenceSentiment(
             assessments: target.relations
               .filter((relation) => relation.relationType === "assessment")
               .map((relation) => convertTargetRelationToAssessmentSentiment(relation, result)),
-          })
+          }),
         )
       : [],
   };
@@ -222,7 +222,7 @@ function convertGeneratedSentenceSentiment(
  */
 function convertTargetRelationToAssessmentSentiment(
   targetRelation: TargetRelation,
-  result: DocumentSentiment
+  result: DocumentSentiment,
 ): AssessmentSentiment {
   const assessmentPtr = targetRelation.ref;
   const assessmentIndex: AssessmentIndex = parseAssessmentIndex(assessmentPtr);

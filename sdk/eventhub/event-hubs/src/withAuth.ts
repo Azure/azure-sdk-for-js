@@ -34,7 +34,7 @@ export async function withAuth(
   logger: SimpleLogger,
   options: {
     abortSignal?: AbortSignalLike;
-  }
+  },
 ): Promise<TimerLoop> {
   const info = await getTokenInfo(context.tokenCredential, audience);
   await setupClaimNegotiation(context, audience, info, timeoutInMs, logger, options);
@@ -45,8 +45,8 @@ export async function withAuth(
       await setupClaimNegotiation(context, audience, info2, timeoutInMs, logger, options);
       logger.verbose(
         `next token renewal is in ${info2.timeToLiveInMs} milliseconds @(${new Date(
-          Date.now() + info2.timeToLiveInMs
-        ).toString()}).`
+          Date.now() + info2.timeToLiveInMs,
+        ).toString()}).`,
       );
     } catch (err) {
       logger.verbose(`an error occurred while renewing the token: ${logObj(err)}`);
@@ -63,7 +63,7 @@ export async function withAuth(
 export async function openCbsSession(
   client: CbsClient,
   timeoutAfterStartTime: number,
-  { abortSignal }: { abortSignal?: AbortSignalLike } = {}
+  { abortSignal }: { abortSignal?: AbortSignalLike } = {},
 ): Promise<void> {
   return defaultCancellableLock.acquire(
     client.cbsLock,
@@ -75,7 +75,7 @@ export async function openCbsSession(
     {
       abortSignal,
       timeoutInMs: timeoutAfterStartTime - Date.now(),
-    }
+    },
   );
 }
 
@@ -106,7 +106,7 @@ async function getAadToken(cred: TokenCredential): Promise<TokenInfo> {
 
 async function getSharedKeyBasedToken(
   cred: SasTokenProvider,
-  audience: string
+  audience: string,
 ): Promise<TokenInfo> {
   return {
     token: await cred.getToken(audience),
@@ -117,7 +117,7 @@ async function getSharedKeyBasedToken(
 
 async function getTokenInfo(
   cred: SasTokenProvider | TokenCredential,
-  audience: string
+  audience: string,
 ): Promise<TokenInfo> {
   return isSasTokenProvider(cred) ? getSharedKeyBasedToken(cred, audience) : getAadToken(cred);
 }
@@ -128,7 +128,7 @@ function negotiateClaim(
   cbsSession: CbsClient,
   timeoutAfterStartTime: number,
   lock: string,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<CbsResponse> {
   return defaultCancellableLock.acquire(
     lock,
@@ -140,7 +140,7 @@ function negotiateClaim(
     {
       abortSignal,
       timeoutInMs: timeoutAfterStartTime - Date.now(),
-    }
+    },
   );
 }
 
@@ -154,11 +154,11 @@ async function setupClaimNegotiation(
     abortSignal,
   }: {
     abortSignal?: AbortSignalLike;
-  }
+  },
 ): Promise<void> {
   const startTime = Date.now();
   logger.verbose(
-    `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`
+    `acquiring cbs lock: '${context.cbsSession.cbsLock}' for creating the cbs session`,
   );
 
   await openCbsSession(context.cbsSession, timeoutInMs + startTime, { abortSignal });
@@ -169,7 +169,7 @@ async function setupClaimNegotiation(
     context.cbsSession,
     timeoutInMs + startTime,
     context.negotiateClaimLock,
-    abortSignal
+    abortSignal,
   );
   logger.verbose("claim negotiation succeeded");
 }

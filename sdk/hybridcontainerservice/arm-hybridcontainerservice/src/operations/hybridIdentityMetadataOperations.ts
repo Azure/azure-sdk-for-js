@@ -14,6 +14,12 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { HybridContainerServiceClient } from "../hybridContainerServiceClient";
 import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
+import {
   HybridIdentityMetadata,
   HybridIdentityMetadataListByClusterNextOptionalParams,
   HybridIdentityMetadataListByClusterOptionalParams,
@@ -23,6 +29,7 @@ import {
   HybridIdentityMetadataGetOptionalParams,
   HybridIdentityMetadataGetResponse,
   HybridIdentityMetadataDeleteOptionalParams,
+  HybridIdentityMetadataDeleteResponse,
   HybridIdentityMetadataListByClusterNextResponse
 } from "../models";
 
@@ -41,19 +48,17 @@ export class HybridIdentityMetadataOperationsImpl
   }
 
   /**
-   * Lists the hybrid identity metadata proxy resource in a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Lists the hybrid identity metadata proxy resource in a provisioned cluster instance.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   public listByCluster(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams
   ): PagedAsyncIterableIterator<HybridIdentityMetadata> {
     const iter = this.listByClusterPagingAll(
-      resourceGroupName,
-      resourceName,
+      connectedClusterResourceUri,
       options
     );
     return {
@@ -68,8 +73,7 @@ export class HybridIdentityMetadataOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listByClusterPagingPage(
-          resourceGroupName,
-          resourceName,
+          connectedClusterResourceUri,
           options,
           settings
         );
@@ -78,19 +82,14 @@ export class HybridIdentityMetadataOperationsImpl
   }
 
   private async *listByClusterPagingPage(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams,
     settings?: PageSettings
   ): AsyncIterableIterator<HybridIdentityMetadata[]> {
     let result: HybridIdentityMetadataListByClusterResponse;
     let continuationToken = settings?.continuationToken;
     if (!continuationToken) {
-      result = await this._listByCluster(
-        resourceGroupName,
-        resourceName,
-        options
-      );
+      result = await this._listByCluster(connectedClusterResourceUri, options);
       let page = result.value || [];
       continuationToken = result.nextLink;
       setContinuationToken(page, continuationToken);
@@ -98,8 +97,7 @@ export class HybridIdentityMetadataOperationsImpl
     }
     while (continuationToken) {
       result = await this._listByClusterNext(
-        resourceGroupName,
-        resourceName,
+        connectedClusterResourceUri,
         continuationToken,
         options
       );
@@ -111,13 +109,11 @@ export class HybridIdentityMetadataOperationsImpl
   }
 
   private async *listByClusterPagingAll(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams
   ): AsyncIterableIterator<HybridIdentityMetadata> {
     for await (const page of this.listByClusterPagingPage(
-      resourceGroupName,
-      resourceName,
+      connectedClusterResourceUri,
       options
     )) {
       yield* page;
@@ -127,114 +123,153 @@ export class HybridIdentityMetadataOperationsImpl
   /**
    * Creates the hybrid identity metadata proxy resource that facilitates the managed identity
    * provisioning.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
-   * @param body Defines the hybridIdentityMetadata.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
+   * @param body Hybrid Identity Metadata resource definition
    * @param options The options parameters.
    */
   put(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+    connectedClusterResourceUri: string,
     body: HybridIdentityMetadata,
     options?: HybridIdentityMetadataPutOptionalParams
   ): Promise<HybridIdentityMetadataPutResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceName,
-        hybridIdentityMetadataResourceName,
-        body,
-        options
-      },
+      { connectedClusterResourceUri, body, options },
       putOperationSpec
     );
   }
 
   /**
    * Get the hybrid identity metadata proxy resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   get(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataGetOptionalParams
   ): Promise<HybridIdentityMetadataGetResponse> {
     return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceName,
-        hybridIdentityMetadataResourceName,
-        options
-      },
+      { connectedClusterResourceUri, options },
       getOperationSpec
     );
   }
 
   /**
    * Deletes the hybrid identity metadata proxy resource.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
-   * @param hybridIdentityMetadataResourceName Parameter for the name of the hybrid identity metadata
-   *                                           resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
-  delete(
-    resourceGroupName: string,
-    resourceName: string,
-    hybridIdentityMetadataResourceName: string,
+  async beginDelete(
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataDeleteOptionalParams
-  ): Promise<void> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        resourceName,
-        hybridIdentityMetadataResourceName,
-        options
-      },
-      deleteOperationSpec
-    );
+  ): Promise<
+    SimplePollerLike<
+      OperationState<HybridIdentityMetadataDeleteResponse>,
+      HybridIdentityMetadataDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ): Promise<HybridIdentityMetadataDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec
+    ) => {
+      let currentRawResponse:
+        | coreClient.FullOperationResponse
+        | undefined = undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback
+        }
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON()
+        }
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { connectedClusterResourceUri, options },
+      spec: deleteOperationSpec
+    });
+    const poller = await createHttpPoller<
+      HybridIdentityMetadataDeleteResponse,
+      OperationState<HybridIdentityMetadataDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation"
+    });
+    await poller.poll();
+    return poller;
   }
 
   /**
-   * Lists the hybrid identity metadata proxy resource in a cluster.
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * Deletes the hybrid identity metadata proxy resource.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    connectedClusterResourceUri: string,
+    options?: HybridIdentityMetadataDeleteOptionalParams
+  ): Promise<HybridIdentityMetadataDeleteResponse> {
+    const poller = await this.beginDelete(connectedClusterResourceUri, options);
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the hybrid identity metadata proxy resource in a provisioned cluster instance.
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param options The options parameters.
    */
   private _listByCluster(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     options?: HybridIdentityMetadataListByClusterOptionalParams
   ): Promise<HybridIdentityMetadataListByClusterResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, options },
+      { connectedClusterResourceUri, options },
       listByClusterOperationSpec
     );
   }
 
   /**
    * ListByClusterNext
-   * @param resourceGroupName The name of the resource group. The name is case insensitive.
-   * @param resourceName Parameter for the name of the provisioned cluster
+   * @param connectedClusterResourceUri The fully qualified Azure Resource Manager identifier of the
+   *                                    connected cluster resource.
    * @param nextLink The nextLink from the previous successful call to the ListByCluster method.
    * @param options The options parameters.
    */
   private _listByClusterNext(
-    resourceGroupName: string,
-    resourceName: string,
+    connectedClusterResourceUri: string,
     nextLink: string,
     options?: HybridIdentityMetadataListByClusterNextOptionalParams
   ): Promise<HybridIdentityMetadataListByClusterNextResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, resourceName, nextLink, options },
+      { connectedClusterResourceUri, nextLink, options },
       listByClusterNextOperationSpec
     );
   }
@@ -244,10 +279,13 @@ const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const putOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/hybridIdentityMetadata/{hybridIdentityMetadataResourceName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
   httpMethod: "PUT",
   responses: {
     200: {
+      bodyMapper: Mappers.HybridIdentityMetadata
+    },
+    201: {
       bodyMapper: Mappers.HybridIdentityMetadata
     },
     default: {
@@ -256,20 +294,14 @@ const putOperationSpec: coreClient.OperationSpec = {
   },
   requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.hybridIdentityMetadataResourceName
-  ],
+  urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
   serializer
 };
 const getOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/hybridIdentityMetadata/{hybridIdentityMetadataResourceName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
   httpMethod: "GET",
   responses: {
     200: {
@@ -280,41 +312,39 @@ const getOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.hybridIdentityMetadataResourceName
-  ],
+  urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/hybridIdentityMetadata/{hybridIdentityMetadataResourceName}",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata/default",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.HybridIdentityMetadataDeleteHeaders
+    },
+    201: {
+      headersMapper: Mappers.HybridIdentityMetadataDeleteHeaders
+    },
+    202: {
+      headersMapper: Mappers.HybridIdentityMetadataDeleteHeaders
+    },
+    204: {
+      headersMapper: Mappers.HybridIdentityMetadataDeleteHeaders
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.hybridIdentityMetadataResourceName
-  ],
+  urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
   path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/provisionedClusters/{resourceName}/hybridIdentityMetadata",
+    "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
   httpMethod: "GET",
   responses: {
     200: {
@@ -325,12 +355,7 @@ const listByClusterOperationSpec: coreClient.OperationSpec = {
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
+  urlParameters: [Parameters.$host, Parameters.connectedClusterResourceUri],
   headerParameters: [Parameters.accept],
   serializer
 };
@@ -347,9 +372,7 @@ const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
+    Parameters.connectedClusterResourceUri,
     Parameters.nextLink
   ],
   headerParameters: [Parameters.accept],

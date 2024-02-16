@@ -2,7 +2,13 @@
 // Licensed under the MIT license.
 
 import { ClientOptions } from "@azure-rest/core-client";
-import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import {
+  AzureKeyCredential,
+  AzureSASCredential,
+  TokenCredential,
+  isSASCredential,
+  isTokenCredential,
+} from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
 import { MapsRouteClient } from "./generated";
 import createClient from "./generated";
@@ -25,14 +31,14 @@ import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  */
 export default function MapsRoute(
   credential: AzureKeyCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): MapsRouteClient;
 /**
  * Creates an instance of MapsRoute from an Azure Identity `TokenCredential`.
  *
  * @example
  * ```ts
- * import MapsRoute from "@azure/maps-route";
+ * import MapsRoute from "@azure-rest/maps-route";
  * import { DefaultAzureCredential } from "@azure/identity";
  *
  * const credential = new DefaultAzureCredential();
@@ -46,12 +52,31 @@ export default function MapsRoute(
 export default function MapsRoute(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions
+  options?: ClientOptions,
+): MapsRouteClient;
+/**
+ * Creates an instance of MapsRoute from an Azure Identity `AzureSASCredential`.
+ *
+ * @example
+ * ```ts
+ * import MapsRoute from "@azure-rest/maps-route";
+ * import { AzureSASCredential } from "@azure/core-auth";
+ *
+ * const credential = new AzureSASCredential("<SAS Token>");
+ * const client = MapsRoute(credential);
+ * ```
+ *
+ * @param credential - An AzureSASCredential instance used to authenticate requests to the service
+ * @param options - Options used to configure the Route Client
+ */
+export default function MapsRoute(
+  credential: AzureSASCredential,
+  options?: ClientOptions,
 ): MapsRouteClient;
 export default function MapsRoute(
-  credential: TokenCredential | AzureKeyCredential,
+  credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {}
+  maybeOptions: ClientOptions = {},
 ): MapsRouteClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -70,10 +95,23 @@ export default function MapsRoute(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
-      })
+      }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
   }
+
+  if (isSASCredential(credential)) {
+    const client = createClient(undefined as any, options);
+    client.pipeline.addPolicy({
+      name: "mapsSASCredentialPolicy",
+      async sendRequest(request, next) {
+        request.headers.set("Authorization", `jwt-sas ${credential.signature}`);
+        return next(request);
+      },
+    });
+    return client;
+  }
+
   return createClient(credential, options);
 }

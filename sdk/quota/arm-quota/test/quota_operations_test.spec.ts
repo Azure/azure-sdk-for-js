@@ -68,4 +68,12 @@ describe("quota test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
+  it("usage list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.usages.list(scope)) {
+      resArray.push(item);
+    }
+    console.log(resArray);
+  });
+
 })

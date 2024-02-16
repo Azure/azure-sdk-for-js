@@ -16,11 +16,8 @@ import {
   SuggestNarrowedModel,
 } from "../src/indexModels";
 
-type Equals<T1, T2> = (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2
-  ? true
-  : false
-  ? any
-  : never;
+type Equals<T1, T2> =
+  (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
 
 type Model = {
   key?: string;
@@ -249,7 +246,7 @@ function testNarrowedClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectors"]
+        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorQueries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
@@ -382,7 +379,7 @@ function testWideClient() {
   async () => {
     type VectorFields = NonNullable<
       NonNullable<
-        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectors"]
+        NonNullable<Parameters<(typeof client)["search"]>[1]>["vectorQueries"]
       >[number]["fields"]
     >;
     const a: Equals<VectorFields, readonly string[]> = "pass";
