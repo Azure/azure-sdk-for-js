@@ -276,9 +276,9 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
           kind: "azureOpenAI",
           name: "vectorizer",
           azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
+            apiKey: env.AZURE_OPENAI_KEY,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.AZURE_OPENAI_ENDPOINT,
           },
         };
         const profile: VectorSearchProfile = {
