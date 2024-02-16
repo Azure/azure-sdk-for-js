@@ -147,7 +147,10 @@
     "westus",
     "Xiaomi",
     "Onco",
-    "oncophenotype"
+    "oncophenotype",
+    "dicom",
+    "loinc",
+    "deserializers"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -458,6 +461,14 @@
         "spreadsheetml",
         "presentationml"
       ]
-    }
+    },
+    {
+      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
+      "words": [
+        "nify",
+        "mros",
+        "ctxt"
+      ]
+    }    
   ]
 }
