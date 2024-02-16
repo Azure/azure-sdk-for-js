@@ -122,7 +122,7 @@
       "azure-communication-services"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/communication-messages?view=azure-node-preview",
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/communication-messages",
     "requiredResources": {
       "Azure Communication Services Resource": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource",
       "Advance Messaging Services Resource": "https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account"
