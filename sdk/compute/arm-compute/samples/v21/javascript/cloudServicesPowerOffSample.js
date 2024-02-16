@@ -26,7 +26,7 @@ async function stopOrPowerOffCloudService() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.cloudServices.beginPowerOffAndWait(
     resourceGroupName,
-    cloudServiceName
+    cloudServiceName,
   );
   console.log(result);
 }

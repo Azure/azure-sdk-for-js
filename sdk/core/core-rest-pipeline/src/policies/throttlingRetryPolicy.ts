@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelinePolicy } from "../pipeline";
+import type { PipelinePolicy } from "../pipeline";
 import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
 import { retryPolicy } from "./retryPolicy";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";

@@ -18,7 +18,7 @@ describe("ServiceBusReceiver unit tests", () => {
       "entityPath",
       "peekLock",
       0,
-      false
+      false,
     );
   });
 
@@ -56,7 +56,7 @@ describe("ServiceBusReceiver unit tests", () => {
     await assertThrows(
       subscribeFn,
       expectedError,
-      "Trying to receive a separate way, in parallel, should throw"
+      "Trying to receive a separate way, in parallel, should throw",
     );
   });
 
@@ -84,7 +84,7 @@ describe("ServiceBusReceiver unit tests", () => {
     await assertThrows(
       () => receiver.receiveMessages(1),
       expectedError,
-      "Trying to receive a separate way, in parallel, should throw"
+      "Trying to receive a separate way, in parallel, should throw",
     );
   });
 });

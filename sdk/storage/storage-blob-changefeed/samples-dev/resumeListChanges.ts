@@ -23,7 +23,7 @@ export async function main() {
   const changeFeedClient = new BlobChangeFeedClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
+    sharedKeyCredential,
   );
 
   const changeFeedEvents: BlobChangeFeedEvent[] = [];

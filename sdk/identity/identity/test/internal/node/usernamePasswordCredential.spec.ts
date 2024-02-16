@@ -31,7 +31,7 @@ describe("UsernamePasswordCredential (internal)", function () {
     // MsalClientSecret calls to this method underneath.
     doGetTokenSpy = setup.sandbox.spy(
       PublicClientApplication.prototype,
-      "acquireTokenByUsernamePassword"
+      "acquireTokenByUsernamePassword",
     );
   });
 
@@ -48,7 +48,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         undefined as any,
         env.AZURE_CLIENT_ID!,
         env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!
+        env.AZURE_PASSWORD!,
       );
     } catch (e: any) {
       errors.push(e);
@@ -58,7 +58,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_TENANT_ID!,
         undefined as any,
         env.AZURE_USERNAME!,
-        env.AZURE_PASSWORD!
+        env.AZURE_PASSWORD!,
       );
     } catch (e: any) {
       errors.push(e);
@@ -68,7 +68,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,
         undefined as any,
-        env.AZURE_PASSWORD!
+        env.AZURE_PASSWORD!,
       );
     } catch (e: any) {
       errors.push(e);
@@ -78,7 +78,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,
         env.AZURE_USERNAME!,
-        undefined as any
+        undefined as any,
       );
     } catch (e: any) {
       errors.push(e);
@@ -89,7 +89,7 @@ describe("UsernamePasswordCredential (internal)", function () {
         undefined as any,
         undefined as any,
         undefined as any,
-        undefined as any
+        undefined as any,
       );
     } catch (e: any) {
       errors.push(e);
@@ -98,7 +98,7 @@ describe("UsernamePasswordCredential (internal)", function () {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
       );
     });
   });
@@ -115,7 +115,7 @@ describe("UsernamePasswordCredential (internal)", function () {
       env.AZURE_TENANT_ID!,
       env.AZURE_CLIENT_ID!,
       env.AZURE_USERNAME!,
-      env.AZURE_PASSWORD!
+      env.AZURE_PASSWORD!,
     );
 
     await credential.getToken(scope);
@@ -137,7 +137,7 @@ describe("UsernamePasswordCredential (internal)", function () {
       env.AZURE_IDENTITY_TEST_CLIENTID || env.AZURE_CLIENT_ID!,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID } as GetTokenOptions);
@@ -160,7 +160,7 @@ describe("UsernamePasswordCredential (internal)", function () {
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
       recorder.configureClientOptions({
         loggingOptions: { allowLoggingAccountIdentifiers: true },
-      })
+      }),
     );
     setLogLevel("info");
     const spy = Sinon.spy(process.stderr, "write");
@@ -175,10 +175,10 @@ describe("UsernamePasswordCredential (internal)", function () {
         .replace(/User Principal Name: [^ ]+. /g, "User Principal Name: HIDDEN. ")
         .replace(
           /Object ID .user.: [a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+-[a-z0-9]+/g,
-          "Object ID (user): HIDDEN"
+          "Object ID (user): HIDDEN",
         )
         .trim(),
-      expectedMessage
+      expectedMessage,
     );
     spy.restore();
     AzureLogger.destroy();

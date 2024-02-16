@@ -240,7 +240,7 @@ export class EventHubBufferedProducerClient {
   constructor(
     connectionString: string,
     eventHubName: string,
-    options: EventHubBufferedProducerClientOptions
+    options: EventHubBufferedProducerClientOptions,
   );
   /**
    * The `EventHubBufferedProducerClient` class is used to send events to an Event Hub.
@@ -266,7 +266,7 @@ export class EventHubBufferedProducerClient {
     fullyQualifiedNamespace: string,
     eventHubName: string,
     credential: TokenCredential | NamedKeyCredential | SASCredential,
-    options: EventHubBufferedProducerClientOptions
+    options: EventHubBufferedProducerClientOptions,
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
@@ -276,7 +276,7 @@ export class EventHubBufferedProducerClient {
       | NamedKeyCredential
       | SASCredential
       | EventHubBufferedProducerClientOptions,
-    options4?: EventHubBufferedProducerClientOptions
+    options4?: EventHubBufferedProducerClientOptions,
   ) {
     if (typeof eventHubNameOrOptions2 !== "string") {
       this.identifier = eventHubNameOrOptions2.identifier ?? getRandomName();
@@ -290,7 +290,7 @@ export class EventHubBufferedProducerClient {
       this._producer = new EventHubProducerClient(
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
-        { ...credentialOrOptions3, identifier: this.identifier }
+        { ...credentialOrOptions3, identifier: this.identifier },
       );
       this._clientOptions = { ...credentialOrOptions3! };
     } else {
@@ -299,7 +299,7 @@ export class EventHubBufferedProducerClient {
         fullyQualifiedNamespaceOrConnectionString1,
         eventHubNameOrOptions2,
         credentialOrOptions3,
-        { ...options4, identifier: this.identifier }
+        { ...options4, identifier: this.identifier },
       );
       this._clientOptions = { ...options4! };
     }
@@ -352,11 +352,11 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvent(
     event: EventData | AmqpAnnotatedMessage,
-    options: EnqueueEventOptions = {}
+    options: EnqueueEventOptions = {},
   ): Promise<number> {
     if (this._isClosed) {
       throw new Error(
-        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`
+        `This EventHubBufferedProducerClient has already been closed. Create a new client to enqueue events.`,
       );
     }
 
@@ -369,8 +369,8 @@ export class EventHubBufferedProducerClient {
           `The following error occured during batch creation or sending: ${JSON.stringify(
             e,
             undefined,
-            "  "
-          )}`
+            "  ",
+          )}`,
         );
       });
       this._isBackgroundManagementRunning = true;
@@ -406,7 +406,7 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvents(
     events: EventData[] | AmqpAnnotatedMessage[],
-    options: EnqueueEventOptions = {}
+    options: EnqueueEventOptions = {},
   ): Promise<number> {
     for (const event of events) {
       await this.enqueueEvent(event, options);
@@ -425,7 +425,7 @@ export class EventHubBufferedProducerClient {
    */
   async flush(options: BufferedFlushOptions = {}): Promise<void> {
     await Promise.all(
-      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options))
+      Array.from(this._partitionChannels.values()).map((channel) => channel.flush(options)),
     );
   }
 
@@ -462,7 +462,7 @@ export class EventHubBufferedProducerClient {
    */
   getPartitionProperties(
     partitionId: string,
-    options: GetPartitionPropertiesOptions = {}
+    options: GetPartitionPropertiesOptions = {},
   ): Promise<PartitionProperties> {
     return this._producer.getPartitionProperties(partitionId, options);
   }

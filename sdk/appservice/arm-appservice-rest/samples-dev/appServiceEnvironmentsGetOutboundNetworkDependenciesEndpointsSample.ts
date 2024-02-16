@@ -26,7 +26,7 @@ async function getOutboundNetworkDependenciesEndpoints() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/outboundNetworkDependenciesEndpoints",
       subscriptionId,
       resourceGroupName,
-      name
+      name,
     )
     .get();
   const res = paginate(client, initialResposne);

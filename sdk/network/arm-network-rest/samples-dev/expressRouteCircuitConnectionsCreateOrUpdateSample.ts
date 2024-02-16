@@ -49,7 +49,7 @@ async function expressRouteCircuitConnectionCreate() {
       resourceGroupName,
       circuitName,
       peeringName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

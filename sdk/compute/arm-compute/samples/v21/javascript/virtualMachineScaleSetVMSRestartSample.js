@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Restart_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Restart_MaximumSet_Gen.json
  */
 async function virtualMachineScaleSetVMRestartMaximumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -28,7 +28,7 @@ async function virtualMachineScaleSetVMRestartMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRestartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function virtualMachineScaleSetVMRestartMaximumSetGen() {
  * This sample demonstrates how to Restarts a virtual machine in a VM scale set.
  *
  * @summary Restarts a virtual machine in a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Restart_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2023-09-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Restart_MinimumSet_Gen.json
  */
 async function virtualMachineScaleSetVMRestartMinimumSetGen() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -49,7 +49,7 @@ async function virtualMachineScaleSetVMRestartMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRestartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

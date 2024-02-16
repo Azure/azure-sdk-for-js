@@ -30,7 +30,7 @@ export async function addTransform(
   recorderUrl: string,
   httpClient: HttpClient,
   transform: Transform,
-  recordingId: string
+  recordingId: string,
 ): Promise<void> {
   const url = `${recorderUrl}${paths.admin}${paths.addTransform}`;
 

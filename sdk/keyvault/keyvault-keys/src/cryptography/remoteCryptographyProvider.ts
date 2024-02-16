@@ -45,7 +45,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
   constructor(
     key: string | KeyVaultKey,
     credential: TokenCredential,
-    pipelineOptions: CryptographyClientOptions = {}
+    pipelineOptions: CryptographyClientOptions = {},
   ) {
     this.client = getOrInitializeClient(credential, pipelineOptions);
 
@@ -85,7 +85,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
 
   encrypt(
     encryptParameters: EncryptParameters,
-    options: EncryptOptions = {}
+    options: EncryptOptions = {},
   ): Promise<EncryptResult> {
     const { algorithm, plaintext, ...params } = encryptParameters;
     const requestOptions = { ...options, ...params };
@@ -100,7 +100,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           plaintext,
-          updatedOptions
+          updatedOptions,
         );
 
         return {
@@ -111,13 +111,13 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           authenticationTag: result.authenticationTag,
           iv: result.iv,
         };
-      }
+      },
     );
   }
 
   decrypt(
     decryptParameters: DecryptParameters,
-    options: DecryptOptions = {}
+    options: DecryptOptions = {},
   ): Promise<DecryptResult> {
     const { algorithm, ciphertext, ...params } = decryptParameters;
     const requestOptions = { ...options, ...params };
@@ -132,21 +132,21 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           ciphertext,
-          updatedOptions
+          updatedOptions,
         );
         return {
           result: result.result!,
           keyID: this.getKeyID(),
           algorithm,
         };
-      }
+      },
     );
   }
 
   wrapKey(
     algorithm: KeyWrapAlgorithm,
     keyToWrap: Uint8Array,
-    options: WrapKeyOptions = {}
+    options: WrapKeyOptions = {},
   ): Promise<WrapResult> {
     return tracingClient.withSpan(
       "RemoteCryptographyProvider.wrapKey",
@@ -158,7 +158,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           keyToWrap,
-          updatedOptions
+          updatedOptions,
         );
 
         return {
@@ -166,14 +166,14 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           algorithm,
           keyID: this.getKeyID(),
         };
-      }
+      },
     );
   }
 
   unwrapKey(
     algorithm: KeyWrapAlgorithm,
     encryptedKey: Uint8Array,
-    options: UnwrapKeyOptions = {}
+    options: UnwrapKeyOptions = {},
   ): Promise<UnwrapResult> {
     return tracingClient.withSpan(
       "RemoteCryptographyProvider.unwrapKey",
@@ -185,7 +185,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           encryptedKey,
-          updatedOptions
+          updatedOptions,
         );
 
         return {
@@ -193,7 +193,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           algorithm,
           keyID: this.getKeyID(),
         };
-      }
+      },
     );
   }
 
@@ -208,11 +208,11 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           digest,
-          updatedOptions
+          updatedOptions,
         );
 
         return { result: result.result!, algorithm, keyID: this.getKeyID() };
-      }
+      },
     );
   }
 
@@ -220,7 +220,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     algorithm: string,
     data: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(
       "RemoteCryptographyProvider.verifyData",
@@ -228,7 +228,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       async (updatedOptions) => {
         const hash = await createHash(algorithm, data);
         return this.verify(algorithm, hash, signature, updatedOptions);
-      }
+      },
     );
   }
 
@@ -236,7 +236,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     algorithm: string,
     digest: Uint8Array,
     signature: Uint8Array,
-    options: VerifyOptions = {}
+    options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(
       "RemoteCryptographyProvider.verify",
@@ -249,13 +249,13 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           algorithm,
           digest,
           signature,
-          updatedOptions
+          updatedOptions,
         );
         return {
           result: response.value ? response.value : false,
           keyID: this.getKeyID(),
         };
-      }
+      },
     );
   }
 
@@ -271,10 +271,10 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
           this.version,
           algorithm,
           digest,
-          updatedOptions
+          updatedOptions,
         );
         return { result: result.result!, algorithm, keyID: this.getKeyID() };
-      }
+      },
     );
   }
 
@@ -308,12 +308,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
             this.vaultUrl,
             this.name,
             options && options.version ? options.version : this.version ? this.version : "",
-            updatedOptions
+            updatedOptions,
           );
           this.key = getKeyFromKeyBundle(response);
         }
         return this.key;
-      }
+      },
     );
   }
 
@@ -365,7 +365,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
  */
 function getOrInitializeClient(
   credential: TokenCredential,
-  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient }
+  options: CryptographyClientOptions & { generatedClient?: KeyVaultClient },
 ): KeyVaultClient {
   if (options.generatedClient) {
     return options.generatedClient;
@@ -402,7 +402,7 @@ function getOrInitializeClient(
 
   const client = new KeyVaultClient(
     options.serviceVersion || LATEST_API_VERSION,
-    internalPipelineOptions
+    internalPipelineOptions,
   );
   client.pipeline.addPolicy(authPolicy);
 

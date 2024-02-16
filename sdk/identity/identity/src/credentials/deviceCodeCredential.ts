@@ -57,7 +57,7 @@ export class DeviceCodeCredential implements TokenCredential {
   constructor(options?: DeviceCodeCredentialOptions) {
     this.tenantId = options?.tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.msalFlow = new MsalDeviceCode({
       ...options,
@@ -89,7 +89,7 @@ export class DeviceCodeCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
@@ -97,7 +97,7 @@ export class DeviceCodeCredential implements TokenCredential {
           ...newOptions,
           disableAutomaticAuthentication: this.disableAutomaticAuthentication,
         });
-      }
+      },
     );
   }
 
@@ -113,7 +113,7 @@ export class DeviceCodeCredential implements TokenCredential {
    */
   async authenticate(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AuthenticationRecord | undefined> {
     return tracingClient.withSpan(
       `${this.constructor.name}.authenticate`,
@@ -122,7 +122,7 @@ export class DeviceCodeCredential implements TokenCredential {
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
         await this.msalFlow.getToken(arrayScopes, newOptions);
         return this.msalFlow.getActiveAccount();
-      }
+      },
     );
   }
 }

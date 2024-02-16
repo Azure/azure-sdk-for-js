@@ -32,7 +32,7 @@ async function networkManagesPatch() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}",
       subscriptionId,
       resourceGroupName,
-      networkManagerName
+      networkManagerName,
     )
     .patch(options);
   console.log(result);

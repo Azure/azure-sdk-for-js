@@ -9,7 +9,7 @@ export function getValueInConnString(
     | "AccountKey"
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
-    | "SharedAccessSignature"
+    | "SharedAccessSignature",
 ) {
   const elements = connectionString.split(";");
   for (const element of elements) {

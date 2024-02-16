@@ -77,7 +77,7 @@ export async function main() {
     "en",
     {
       includeStatistics: true,
-    }
+    },
   );
   const actions = await poller.pollUntilDone();
   console.log("Statistics for beginAnalyzeActions:");

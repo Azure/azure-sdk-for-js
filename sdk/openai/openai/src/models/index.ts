@@ -115,6 +115,7 @@ export {
   OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
   ChatCompletionsTextResponseFormat,
   ChatCompletionsJsonResponseFormat,
+  EventStream,
 } from "./models.js";
 export {
   ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions,

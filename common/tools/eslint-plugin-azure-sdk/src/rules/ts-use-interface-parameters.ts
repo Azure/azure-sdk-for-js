@@ -61,10 +61,10 @@ const getParamAsIdentifier = (param: Pattern): Identifier =>
 const getTypeOfParam = (
   param: Pattern,
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
 ): Type => {
   const type = typeChecker.getTypeAtLocation(
-    converter.get(getParamAsIdentifier(param) as TSESTree.Node)
+    converter.get(getParamAsIdentifier(param) as TSESTree.Node),
   ) as TypeReference;
 
   // if array, extract type from array
@@ -143,7 +143,7 @@ const addSeenSymbols = (symbol: TSSymbol, symbols: TSSymbol[], typeChecker: Type
 const getSymbolsUsedInParam = (
   param: Pattern,
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
 ): TSSymbol[] => {
   const symbols: TSSymbol[] = [];
   const symbol = getTypeOfParam(param, converter, typeChecker).getSymbol();
@@ -163,14 +163,14 @@ const getSymbolsUsedInParam = (
 const isValidParam = (
   param: Pattern,
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
 ): boolean => {
   const tsIdentifier = param as TSESTree.Identifier;
   if (tsIdentifier.optional) {
     return true;
   }
   return getSymbolsUsedInParam(param, converter, typeChecker).every(
-    (symbol: TSSymbol): boolean => symbol === undefined || symbol.getFlags() !== SymbolFlags.Class
+    (symbol: TSSymbol): boolean => symbol === undefined || symbol.getFlags() !== SymbolFlags.Class,
   );
 };
 
@@ -184,12 +184,12 @@ const isValidParam = (
 const isValidOverload = (
   overloads: FunctionType[],
   converter: ParserWeakMapESTreeToTSNode,
-  typeChecker: TypeChecker
+  typeChecker: TypeChecker,
 ): boolean =>
   overloads.some((overload: FunctionType): boolean =>
     overload.params.every((overloadParam: Pattern): boolean =>
-      isValidParam(overloadParam, converter, typeChecker)
-    )
+      isValidParam(overloadParam, converter, typeChecker),
+    ),
   );
 
 /**
@@ -210,7 +210,7 @@ const evaluateOverloads = (
   verified: string[],
   name: string | null,
   param: Pattern,
-  context: Rule.RuleContext
+  context: Rule.RuleContext,
 ): void => {
   if (
     // Ignore anonymous functions
@@ -226,7 +226,7 @@ const evaluateOverloads = (
   context.report({
     node: identifier,
     message: `type ${typeChecker.typeToString(
-      getTypeOfParam(param, converter, typeChecker)
+      getTypeOfParam(param, converter, typeChecker),
     )} of parameter ${identifier.name} of function ${
       name || "<anonymous>"
     } is a class or contains a class as a member`,
@@ -240,7 +240,7 @@ const evaluateOverloads = (
 export = {
   meta: getRuleMetaData(
     "ts-use-interface-parameters",
-    "encourage usage of interfaces over classes as function parameters"
+    "encourage usage of interfaces over classes as function parameters",
   ),
 
   create: (context: Rule.RuleContext): Rule.RuleListener => {
@@ -281,7 +281,7 @@ export = {
               modifiers !== undefined &&
               modifiers.some(
                 (modifier: Modifier | ModifierLike): boolean =>
-                  modifier.kind === SyntaxKind.PrivateKeyword
+                  modifier.kind === SyntaxKind.PrivateKeyword,
               )
             ) {
               return;
@@ -297,7 +297,7 @@ export = {
                   ? symbol.declarations
                       .filter(
                         (declaration: Declaration): boolean =>
-                          reverter.get(declaration as TSNode) !== undefined
+                          reverter.get(declaration as TSNode) !== undefined,
                       )
                       .map((declaration: Declaration): FunctionExpression => {
                         const method = reverter.get(declaration as TSNode) as MethodDefinition;
@@ -311,7 +311,7 @@ export = {
                   verifiedMethods,
                   name,
                   param,
-                  context
+                  context,
                 );
               }
             });
@@ -335,7 +335,7 @@ export = {
                 const overloads = symbol?.declarations
                   ? symbol.declarations.map(
                       (declaration: Declaration): FunctionDeclaration =>
-                        reverter.get(declaration as TSNode) as FunctionDeclaration
+                        reverter.get(declaration as TSNode) as FunctionDeclaration,
                     )
                   : [];
                 evaluateOverloads(
@@ -345,7 +345,7 @@ export = {
                   verifiedDeclarations,
                   name,
                   param,
-                  context
+                  context,
                 );
               }
             });

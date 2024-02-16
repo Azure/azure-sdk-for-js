@@ -12,6 +12,7 @@ import sinon from "sinon";
 import { StatsbeatCounter } from "../../src/export/statsbeat/types";
 import { getInstance } from "../../src/export/statsbeat/longIntervalStatsbeatMetrics";
 import { AzureMonitorTraceExporter } from "../../src/export/trace";
+import { diag } from "@opentelemetry/api";
 
 describe("#AzureMonitorStatsbeatExporter", () => {
   process.env.LONG_INTERVAL_EXPORT_MILLIS = "100";
@@ -33,6 +34,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
   describe("Export/Statsbeat", () => {
     let scope: nock.Interceptor;
+    let sandbox: any;
     const envelope = {
       name: "Name",
       time: new Date(),
@@ -40,9 +42,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
     before(() => {
       scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2.1/track");
+      sandbox = sinon.createSandbox();
     });
 
     after(() => {
+      sandbox.restore();
       nock.cleanAll();
     });
 
@@ -80,11 +84,11 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(
           statsbeat["getShortHost"]("http://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(
           statsbeat["getShortHost"]("https://westus02-1.in.applicationinsights.azure.com"),
-          "westus02"
+          "westus02",
         );
         assert.strictEqual(statsbeat["getShortHost"]("https://dc.services.visualstudio.com"), "dc");
         assert.strictEqual(statsbeat["getShortHost"]("https://www.test.com"), "test");
@@ -98,16 +102,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(metric.intervalRequestExecutionTime, 100);
 
         // Ensure network statsbeat attributes are populated
-        assert.strictEqual(statsbeat["attach"], "sdk");
+        assert.strictEqual(statsbeat["attach"], "Manual");
         assert.strictEqual(
           statsbeat["cikey"],
-          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;"
+          "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;",
         );
         assert.strictEqual(statsbeat["language"], "node");
         assert.strictEqual(statsbeat["resourceProvider"], "unknown");
         assert.strictEqual(
           statsbeat["endpointUrl"],
-          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com"
+          "IngestionEndpoint=https://westeurope-5.in.applicationinsights.azure.com",
         );
         assert.ok(statsbeat["os"]);
         assert.ok(statsbeat["runtimeVersion"]);
@@ -126,7 +130,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
         // Represents the bitwise OR of MONGODB and REDIS instrumentations
         assert.strictEqual(longIntervalStatsbeatMetrics["instrumentation"], 10);
-        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, undefined);
+        assert.strictEqual(longIntervalStatsbeatMetrics["attachProperties"].rpId, "");
       });
 
       it("should turn off statsbeat after max failures", async () => {
@@ -137,6 +141,16 @@ describe("#AzureMonitorStatsbeatExporter", () => {
 
         const result = await exporter["sender"]["exportEnvelopes"]([envelope]);
         assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+      });
+
+      it("should not log error upon failed send if statsbeat is being sent", async () => {
+        const mockExport = sandbox.stub(diag, "error");
+        const exporter = new AzureMonitorTraceExporter(exportOptions);
+        const response = failedBreezeResponse(1, 500);
+        scope.reply(500, JSON.stringify(response));
+        exporter["sender"]["isStatsbeatSender"] = true;
+        await exporter["sender"]["exportEnvelopes"]([envelope]);
+        assert.ok(!mockExport.called);
       });
     });
 
@@ -377,7 +391,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const longIntervalStatsbeat = getInstance(options);
         const mockExport = sandbox.stub(
           longIntervalStatsbeat["longIntervalAzureExporter"],
-          "export"
+          "export",
         );
 
         await new Promise((resolve) => setTimeout(resolve, 120));

@@ -20,7 +20,9 @@ import {
   NetAppAccountPatch,
   AccountsUpdateOptionalParams,
   AccountsUpdateResponse,
-  AccountsRenewCredentialsOptionalParams
+  AccountsRenewCredentialsOptionalParams,
+  AccountsMigrateEncryptionKeyOptionalParams,
+  AccountsMigrateEncryptionKeyResponse
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -163,4 +165,35 @@ export interface Accounts {
     accountName: string,
     options?: AccountsRenewCredentialsOptionalParams
   ): Promise<void>;
+  /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginMigrateEncryptionKey(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AccountsMigrateEncryptionKeyResponse>,
+      AccountsMigrateEncryptionKeyResponse
+    >
+  >;
+  /**
+   * Migrates all volumes in a VNet to a different encryption key source (Microsoft-managed key or Azure
+   * Key Vault). Operation fails if targeted volumes share encryption sibling set with volumes from
+   * another account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param options The options parameters.
+   */
+  beginMigrateEncryptionKeyAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    options?: AccountsMigrateEncryptionKeyOptionalParams
+  ): Promise<AccountsMigrateEncryptionKeyResponse>;
 }

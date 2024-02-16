@@ -29,7 +29,7 @@ async function networkVirtualApplianceSkuGet() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
       subscriptionId,
-      skuName
+      skuName,
     )
     .get(options);
   console.log(result);

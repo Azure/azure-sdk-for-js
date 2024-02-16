@@ -6,8 +6,8 @@ non-Azure OpenAI inference endpoint, making it a great choice for even non-Azure
 
 Use the client library for Azure OpenAI to:
 
-* [Create a chat completion with ChatGPT][list_chat_completion_sample]
-* [Create a text embedding for comparisons][msdocs_openai_embedding]
+* [Create a chat completion with ChatGPT][stream_chat_completion_sample]
+* [Create a vector embedding for text][get_embeddings_sample]
 * [Use your own data with Azure OpenAI][byod_sample]
 * [Generate images][get_images_sample]
 * [Transcribe and Translate audio files][transcribe_audio_sample]
@@ -178,7 +178,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { maxTokens: 128 });
+  const events = await client.streamChatCompletions(deploymentId, messages, { maxTokens: 128 });
   for await (const event of events) {
     for (const choice of event.choices) {
       const delta = choice.delta?.content;
@@ -408,7 +408,7 @@ async function main(){
 
   console.log(`Messages: ${messages.map((m) => m.content).join("\n")}`);
 
-  const events = client.listChatCompletions(deploymentId, messages, { 
+  const events = await client.streamChatCompletions(deploymentId, messages, { 
     maxTokens: 128,
     azureExtensionOptions: {
       extensions: [
@@ -504,11 +504,11 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 
 <!-- LINKS -->
 [get_completions_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/completions.js
-[list_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/listChatCompletions.js
+[stream_chat_completion_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/streamChatCompletions.js
 [byod_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/bringYourOwnData.js
 [get_images_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v1-beta/javascript/getImages.js
 [transcribe_audio_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/audioTranscription.ts
-[msdocs_openai_embedding]: https://learn.microsoft.com/azure/cognitive-services/openai/concepts/understand-embeddings
+[get_embeddings_sample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples-dev/getEmbeddings.ts
 [azure_openai_completions_docs]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/completions
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity

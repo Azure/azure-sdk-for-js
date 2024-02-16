@@ -47,7 +47,7 @@ async function deploy(
   {
     rootLocal = "./dist/",
     interactiveBrowserCredentialOptions = { redirectUri: "http://localhost:1337" },
-  }: DeployConfig = {}
+  }: DeployConfig = {},
 ): Promise<void> {
   console.log("\n\n");
   console.log("Starting deploy process of custom widget: " + name);
@@ -55,7 +55,7 @@ async function deploy(
 
   const blobStorageUrl = await getStorageSasUrl(
     serviceInformation,
-    interactiveBrowserCredentialOptions
+    interactiveBrowserCredentialOptions,
   );
   const customWidgetBlobService = new CustomWidgetBlobService(blobStorageUrl, name);
 

@@ -174,7 +174,7 @@ describe("AttestationClient in Browser", function () {
     // Set the policy on the instance to a known value.
     await adminClient.setPolicy(
       KnownAttestationType.Tpm,
-      "version=1.0; authorizationrules{=> permit();}; issuancerules{};"
+      "version=1.0; authorizationrules{=> permit();}; issuancerules{};",
     );
 
     const encodedPayload = JSON.stringify({ payload: { type: "aikcert" } });
@@ -203,7 +203,7 @@ describe("AttestationClient in Browser", function () {
         client.attestOpenEnclave(new Blob([base64url.decodeString(_openEnclaveReport)]), {
           runTimeData: binaryRuntimeData,
           runTimeJson: binaryRuntimeData,
-        })
+        }),
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
@@ -212,14 +212,14 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
       expect(attestationResult.body.enclaveHeldData).to.deep.equal(
-        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+        new Uint8Array(await binaryRuntimeData.arrayBuffer()),
       );
 
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
@@ -230,7 +230,7 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport)]),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
@@ -261,8 +261,8 @@ describe("AttestationClient in Browser", function () {
           {
             runTimeData: binaryRuntimeData,
             runTimeJson: binaryRuntimeData,
-          }
-        )
+          },
+        ),
       ).to.eventually.be.rejectedWith("Cannot provide both runTimeData and runTimeJson");
     }
 
@@ -274,14 +274,14 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeData: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);
       assert.isUndefined(attestationResult.body.runTimeClaims);
       expect(attestationResult.body.enclaveHeldData?.length).is.equal(binaryRuntimeData.size);
       expect(attestationResult.body.enclaveHeldData).to.deep.equal(
-        new Uint8Array(await binaryRuntimeData.arrayBuffer())
+        new Uint8Array(await binaryRuntimeData.arrayBuffer()),
       );
       assert(attestationResult.token, "Expected a token from the service but did not receive one");
     }
@@ -294,7 +294,7 @@ describe("AttestationClient in Browser", function () {
         new Blob([base64url.decodeString(_openEnclaveReport).subarray(0x10)]),
         {
           runTimeJson: binaryRuntimeData,
-        }
+        },
       );
 
       assert.isNotNull(attestationResult.body.sgxCollateral);

@@ -28,7 +28,7 @@ const serviceBusQueueName = process.env["SERVICE_BUS_QUEUE_NAME"] || "";
 
 // Create a receiver to read messages from the Service Bus Queue.
 const receiver = new ServiceBusClient(serviceBusClientConnectionString).createReceiver(
-  serviceBusQueueName
+  serviceBusQueueName,
 );
 
 // The handler function which will be run on each message we remove from the Service Bus Queue.

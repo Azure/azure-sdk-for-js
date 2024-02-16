@@ -32,7 +32,7 @@ async function deleteApplicationGateway() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}",
       subscriptionId,
       resourceGroupName,
-      applicationGatewayName
+      applicationGatewayName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

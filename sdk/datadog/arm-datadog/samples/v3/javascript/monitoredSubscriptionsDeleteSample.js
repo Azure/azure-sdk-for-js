@@ -29,7 +29,7 @@ async function monitorsDeleteMonitoredSubscriptions() {
   const result = await client.monitoredSubscriptions.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    configurationName
+    configurationName,
   );
   console.log(result);
 }

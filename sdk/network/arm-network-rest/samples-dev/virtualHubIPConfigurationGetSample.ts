@@ -33,7 +33,7 @@ async function virtualHubVirtualHubRouteTableV2Get() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      ipConfigName
+      ipConfigName,
     )
     .get(options);
   console.log(result);

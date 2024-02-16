@@ -28,7 +28,7 @@ async function privateEndpointConnectionsGetMaximumSetGen() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     elasticSanName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function privateEndpointConnectionsGetMinimumSetGen() {
   const result = await client.privateEndpointConnections.get(
     resourceGroupName,
     elasticSanName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

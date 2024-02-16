@@ -129,6 +129,10 @@ export interface AnswerCallOptions extends OperationOptions {
   transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
+  /** The caller ID number which is a phone number that will be used when inviting a pstn target.
+   *  Required only when this is an incoming voip call and there will be a transfer call request to a PSTN target.
+   */
+  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /**

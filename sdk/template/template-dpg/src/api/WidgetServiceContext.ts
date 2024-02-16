@@ -23,17 +23,17 @@ export interface WidgetServiceClientOptions extends ClientOptions {}
  */
 export function createWidgetService(
   endpoint: string,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 export function createWidgetService(
   endpoint: string,
   credential: TokenCredential,
-  options?: ClientOptions
+  options?: ClientOptions,
 ): WidgetServiceContext;
 export function createWidgetService(
   endpoint: string,
   credentialOrOptions?: TokenCredential | ClientOptions,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): WidgetServiceContext {
   const baseUrl = endpoint;
   if (isTokenCredential(credentialOrOptions)) {

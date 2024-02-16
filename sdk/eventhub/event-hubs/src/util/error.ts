@@ -34,11 +34,11 @@ export function throwTypeErrorIfParameterMissing(
   connectionId: string,
   methodName: string,
   parameterName: string,
-  parameterValue: unknown
+  parameterValue: unknown,
 ): void {
   if (!isDefined(parameterValue)) {
     const error = new TypeError(
-      `${methodName} called without required argument "${parameterName}"`
+      `${methodName} called without required argument "${parameterName}"`,
     );
     logger.warning(`[${connectionId}] ${error.name}: ${error.message}`);
     logErrorStackTrace(error);
@@ -125,13 +125,13 @@ export function validateProducerPartitionSettings({
 }): void {
   if (enableIdempotentRetries && (isDefined(partitionKey) || !isDefined(partitionId))) {
     throw new Error(
-      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+      `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
     );
   }
 
   if (isDefined(partitionId) && isDefined(partitionKey)) {
     throw new Error(
-      `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`
+      `The partitionId (${partitionId}) and partitionKey (${partitionKey}) cannot both be specified.`,
     );
   }
 }

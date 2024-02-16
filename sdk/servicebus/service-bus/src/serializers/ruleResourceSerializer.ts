@@ -50,7 +50,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       contentType: getStringOrUndefined(value["ContentType"]),
       applicationProperties: getKeyValuePairsOrUndefined(
         value["Properties"],
-        "ApplicationProperties"
+        "ApplicationProperties",
       ),
     };
   }
@@ -205,7 +205,7 @@ export function buildInternalRuleResource(rule: CreateRuleOptions): InternalRule
         MessageId: correlationFilter.messageId,
         Properties: buildInternalRawKeyValuePairs(
           correlationFilter.applicationProperties,
-          "applicationProperties"
+          "applicationProperties",
         ),
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
@@ -312,7 +312,7 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  */
 function getKeyValuePairsOrUndefined(
   value: any,
-  attribute: "ApplicationProperties" | "SQLParameters"
+  attribute: "ApplicationProperties" | "SQLParameters",
 ): { [key: string]: any } | undefined {
   if (!value) {
     return undefined;
@@ -347,15 +347,15 @@ function getKeyValuePairsOrUndefined(
         properties[key] = new Date(_value);
       } else {
         throw new TypeError(
-          `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`
+          `Unable to parse the key-value pairs in the response - ${JSON.stringify(rawProperty)}`,
         );
       }
     }
   } else {
     throw new TypeError(
       `${attribute} in the response is not an array, unable to parse the response - ${JSON.stringify(
-        value
-      )}`
+        value,
+      )}`,
     );
   }
   return properties;
@@ -368,7 +368,7 @@ function getKeyValuePairsOrUndefined(
  */
 export function buildInternalRawKeyValuePairs(
   parameters: { [key: string]: any } | undefined,
-  attribute: "applicationProperties" | "sqlParameters"
+  attribute: "applicationProperties" | "sqlParameters",
 ): InternalRawKeyValuePairs | undefined {
   if (!isDefined(parameters)) {
     return undefined;
@@ -381,8 +381,8 @@ export function buildInternalRawKeyValuePairs(
   ) {
     throw new TypeError(
       `Unsupported value for the ${attribute} ${JSON.stringify(
-        parameters
-      )}, expected a JSON object with key-value pairs.`
+        parameters,
+      )}, expected a JSON object with key-value pairs.`,
     );
   }
   const rawParameters: RawKeyValuePair[] = [];
@@ -400,7 +400,7 @@ export function buildInternalRawKeyValuePairs(
       value = value.toJSON();
     } else {
       throw new TypeError(
-        `Unsupported type for the value in the ${attribute} for the key '${key}'`
+        `Unsupported type for the value in the ${attribute} for the key '${key}'`,
       );
     }
 

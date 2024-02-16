@@ -17,7 +17,7 @@ import * as fr from "@azure/ai-form-recognizer";
  * Extract key information from passports and ID cards.
  */
 export const PrebuiltIdDocumentModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltIdDocumentResult>;
 
 export interface PrebuiltIdDocumentResult extends fr.AnalyzeResultCommon {

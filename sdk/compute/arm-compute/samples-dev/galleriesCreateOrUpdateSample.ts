@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/CommunityGallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/CommunityGallery_Create.json
  */
 async function createACommunityGallery() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function createACommunityGallery() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_WithSharingProfile.json
  */
 async function createOrUpdateASimpleGalleryWithSharingProfile() {
   const subscriptionId =
@@ -80,7 +80,7 @@ async function createOrUpdateASimpleGalleryWithSharingProfile() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create_SoftDeletionEnabled.json
  */
 async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
   const subscriptionId =
@@ -107,7 +107,7 @@ async function createOrUpdateASimpleGalleryWithSoftDeletionEnabled() {
  * This sample demonstrates how to Create or update a Shared Image Gallery.
  *
  * @summary Create or update a Shared Image Gallery.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/Gallery_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/Gallery_Create.json
  */
 async function createOrUpdateASimpleGallery() {
   const subscriptionId =

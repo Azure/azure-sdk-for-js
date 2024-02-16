@@ -27,7 +27,7 @@ export function setPlatformSpecificData(map: Map<string, string>): void {
     "OS",
     (localNavigator?.userAgentData?.platform ?? localNavigator?.platform ?? "unknown").replace(
       " ",
-      ""
-    )
+      "",
+    ),
   );
 }

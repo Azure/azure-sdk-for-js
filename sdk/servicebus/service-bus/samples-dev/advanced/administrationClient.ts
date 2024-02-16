@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the ServiceBusAdministrationClient can be used to manage the resources of a service bus namespace.
@@ -36,9 +36,8 @@ export async function main() {
   const updateQueueResponse = await serviceBusAdministrationClient.updateQueue(getQueueResponse);
   console.log("(Updated)max delivery count = ", updateQueueResponse.maxDeliveryCount);
 
-  const queueRuntimeProperties = await serviceBusAdministrationClient.getQueueRuntimeProperties(
-    queueName
-  );
+  const queueRuntimeProperties =
+    await serviceBusAdministrationClient.getQueueRuntimeProperties(queueName);
   console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
   const namespaceInfo = await serviceBusAdministrationClient.getNamespaceProperties();

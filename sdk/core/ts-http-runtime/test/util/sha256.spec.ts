@@ -12,7 +12,7 @@ describe("SHA-256", function () {
       assert.equal(
         hash,
         "efQ8O5wj+98pO9uoDas4uhlPwdp5GHCRs9N2Da2EC/g=",
-        "The computed hash does not match the expected value."
+        "The computed hash does not match the expected value.",
       );
     });
 
@@ -22,7 +22,7 @@ describe("SHA-256", function () {
       assert.equal(
         hash,
         "79f43c3b9c23fbdf293bdba80dab38ba194fc1da79187091b3d3760dad840bf8",
-        "The computed hash does not match the expected value."
+        "The computed hash does not match the expected value.",
       );
     });
   });
@@ -36,7 +36,7 @@ describe("SHA-256", function () {
       assert.equal(
         hmac,
         "AJ/qUoDtgLeA1A5ND2AS3uF7hsSe9O7imtXlkAj8VR4=",
-        "The computed hmac does not match the expected value."
+        "The computed hmac does not match the expected value.",
       );
     });
 
@@ -46,7 +46,7 @@ describe("SHA-256", function () {
       assert.equal(
         hmac,
         "009fea5280ed80b780d40e4d0f6012dee17b86c49ef4eee29ad5e59008fc551e",
-        "The computed hmac does not match the expected value."
+        "The computed hmac does not match the expected value.",
       );
     });
   });

@@ -23,7 +23,7 @@ export abstract class TemplateTest<TOptions> extends PerfTest<TOptions> {
     this.templateClient = new ConfigurationClient(endpointUrl, new DefaultAzureCredential());
     this.appConfigurationClient = new AppConfigurationClient(
       endpointUrl,
-      new DefaultAzureCredential()
+      new DefaultAzureCredential(),
     );
   }
 }

@@ -38,7 +38,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
         subscriptionId,
         resourceGroup,
-        appservicePlanName
+        appservicePlanName,
       )
       .put({
         body: {
@@ -66,7 +66,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
         subscriptionId,
         resourceGroup,
-        name
+        name,
       )
       .put({
         body: {
@@ -107,7 +107,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
         subscriptionId,
         resourceGroup,
-        appservicePlanName
+        appservicePlanName,
       )
       .get();
     assert.strictEqual(res.status, "200");
@@ -119,7 +119,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
         subscriptionId,
         resourceGroup,
-        name
+        name,
       )
       .get();
     assert.strictEqual(res.status, "200");
@@ -131,7 +131,7 @@ describe("Web test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
         subscriptionId,
-        resourceGroup
+        resourceGroup,
       )
       .get();
     /**
@@ -167,7 +167,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
         subscriptionId,
         resourceGroup,
-        name
+        name,
       )
       .patch({
         body: {
@@ -198,7 +198,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}",
         subscriptionId,
         resourceGroup,
-        name
+        name,
       )
       .delete();
     const resArray = new Array();
@@ -218,7 +218,7 @@ describe("Web test", () => {
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}",
         subscriptionId,
         resourceGroup,
-        appservicePlanName
+        appservicePlanName,
       )
       .delete();
     const resArray = new Array();
@@ -226,7 +226,7 @@ describe("Web test", () => {
       .path(
         "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms",
         subscriptionId,
-        resourceGroup
+        resourceGroup,
       )
       .get();
     const result = paginate(client, initialResposne);

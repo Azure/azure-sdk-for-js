@@ -88,17 +88,17 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedCommunicationRelayClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient> {
   const recorder = await createRecorder(context.currentTest);
 
   const identityClient = new CommunicationIdentityClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   const client = new CommunicationRelayClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   // casting is a workaround to enable min-max testing
@@ -110,13 +110,13 @@ export async function createRecordedCommunicationRelayClient(
 }
 
 export async function createRecordedCommunicationRelayClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
   ).endpoint;
   if (isPlaybackMode()) {
     credential = {
@@ -130,13 +130,13 @@ export async function createRecordedCommunicationRelayClientWithToken(
   const identityClient = new CommunicationIdentityClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   const client = new CommunicationRelayClient(
     endpoint,
     credential,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return {

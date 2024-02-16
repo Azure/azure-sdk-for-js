@@ -32,7 +32,7 @@ async function listAllVirtualRouterPeeringsForAGivenVirtualRouter() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualRouters/{virtualRouterName}/peerings",
       subscriptionId,
       resourceGroupName,
-      virtualRouterName
+      virtualRouterName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

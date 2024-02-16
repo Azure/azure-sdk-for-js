@@ -81,7 +81,7 @@ async function modifyPolicyManagementCertificates() {
     const setResult = await client.addPolicyManagementCertificate(
       rsaCertificate,
       privateKey,
-      certificate
+      certificate,
     );
 
     console.log("Certificate modification result: ", setResult.body.certificateResolution);
@@ -93,7 +93,7 @@ async function modifyPolicyManagementCertificates() {
     const removeResult = await client.removePolicyManagementCertificate(
       rsaCertificate,
       privateKey,
-      certificate
+      certificate,
     );
     console.log("Certificate modification result: ", removeResult.body.certificateResolution);
     console.log("Modified Certificate Thumbprint: ", removeResult.body.certificateThumbprint);

@@ -31,7 +31,7 @@ async function kustoDatabasePrincipalAssignmentsGet() {
     resourceGroupName,
     clusterName,
     databaseName,
-    principalAssignmentName
+    principalAssignmentName,
   );
   console.log(result);
 }

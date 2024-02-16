@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT Licence.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how you can continually read through all the available
@@ -114,7 +114,7 @@ async function receiveFromNextSession(serviceBusClient) {
       },
       {
         abortSignal: abortController.signal,
-      }
+      },
     );
   });
 
@@ -140,7 +140,7 @@ async function roundRobinThroughAvailableSessions() {
         while (!abortController.signal.aborted) {
           await receiveFromNextSession(serviceBusClient);
         }
-      })()
+      })(),
     );
   }
 
@@ -153,5 +153,5 @@ async function roundRobinThroughAvailableSessions() {
 
 // To stop the round-robin processing you can just call abortController.abort()
 roundRobinThroughAvailableSessions().catch((err) =>
-  console.log(`Session RoundRobin - Fatal error: ${err}`)
+  console.log(`Session RoundRobin - Fatal error: ${err}`),
 );

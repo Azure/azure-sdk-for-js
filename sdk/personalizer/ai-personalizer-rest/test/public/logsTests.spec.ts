@@ -22,7 +22,7 @@ describe("Log Tests", () => {
       {
         key: env["PERSONALIZER_API_KEY_MULTI_SLOT"] ?? "",
       },
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
   });
 

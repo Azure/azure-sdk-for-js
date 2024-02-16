@@ -30,7 +30,7 @@ async function customDomainsEnableCustomHttpsUsingCdnManagedCertificate() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function customDomainsEnableCustomHttpsUsingYourOwnCertificate() {
     resourceGroupName,
     profileName,
     endpointName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

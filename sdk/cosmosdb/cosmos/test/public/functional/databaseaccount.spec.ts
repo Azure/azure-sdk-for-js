@@ -32,24 +32,24 @@ describe("NodeJS CRUD Tests", function (this: Suite) {
         },
         {
           locationEndpointsContacted: 1,
-          metadataCallCount: 0,
+          // metadataCallCount: 0,
           retryCount: 0,
           gatewayStatisticsTestSpec: [
             {
               operationType: OperationType.Read,
             },
           ],
-        }
+        },
       );
       assert.equal(databaseAccount.DatabasesLink, "/dbs/");
       assert.equal(databaseAccount.MediaLink, "/media/");
       assert.equal(
         databaseAccount.MaxMediaStorageUsageInMB,
-        headers["x-ms-max-media-storage-usage-mb"]
+        headers["x-ms-max-media-storage-usage-mb"],
       ); // TODO: should use constants here
       assert.equal(
         databaseAccount.CurrentMediaStorageUsageInMB,
-        headers["x-ms-media-storage-usage-mb"]
+        headers["x-ms-media-storage-usage-mb"],
       );
       assert(databaseAccount.ConsistencyPolicy !== undefined);
       assert(statusCode !== undefined);

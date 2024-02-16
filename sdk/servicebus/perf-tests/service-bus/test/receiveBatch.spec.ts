@@ -61,7 +61,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
   public async runBatch(): Promise<number> {
     const messages = await this.receiver.receiveMessages(
       this.parsedOptions["max-message-count"].value,
-      { maxWaitTimeInMs: 500 }
+      { maxWaitTimeInMs: 500 },
     );
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -76,7 +76,7 @@ export class BatchReceiveTest extends ServiceBusTest<ReceiverOptions> {
 export async function sendMessages(
   sender: ServiceBusSender,
   numberOfMessages: number,
-  messageBodySize: number
+  messageBodySize: number,
 ) {
   let count = 0;
   while (count <= numberOfMessages) {

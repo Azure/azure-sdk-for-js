@@ -42,17 +42,17 @@ export class UsernamePasswordCredential implements TokenCredential {
     clientId: string,
     username: string,
     password: string,
-    options: UsernamePasswordCredentialOptions = {}
+    options: UsernamePasswordCredentialOptions = {},
   ) {
     if (!tenantId || !clientId || !username || !password) {
       throw new Error(
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot."
+        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
       );
     }
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     this.msalFlow = new MsalUsernamePassword({
@@ -87,12 +87,12 @@ export class UsernamePasswordCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
-      }
+      },
     );
   }
 }

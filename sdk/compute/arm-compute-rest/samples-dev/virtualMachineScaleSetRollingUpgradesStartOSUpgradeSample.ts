@@ -32,7 +32,7 @@ async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMaximumSetGen(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -61,7 +61,7 @@ async function virtualMachineScaleSetRollingUpgradesStartOSUpgradeMinimumSetGen(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/osRollingUpgrade",
       subscriptionId,
       resourceGroupName,
-      vmScaleSetName
+      vmScaleSetName,
     )
     .post(options);
   const poller = getLongRunningPoller(client, initialResponse);

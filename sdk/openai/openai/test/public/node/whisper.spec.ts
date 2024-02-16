@@ -32,6 +32,22 @@ describe("OpenAI", function () {
         }
       });
 
+      describe("getAudioTranscription", function () {
+        it(`returns json transcription if responseFormat wasn't specified`, async function () {
+          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
+          const res = await client.getAudioTranscription(getModel(authMethod), file);
+          assertAudioResult("json", res);
+        });
+      });
+
+      describe("getAudioTranslation", function () {
+        it(`returns json translation if responseFormat wasn't specified`, async function () {
+          const file = await fs.readFile(`./assets/audio/countdown.mp3`);
+          const res = await client.getAudioTranslation(getModel(authMethod), file);
+          assertAudioResult("json", res);
+        });
+      });
+
       matrix(
         [
           ["json", "verbose_json", "srt", "vtt", "text"],
@@ -53,7 +69,7 @@ describe("OpenAI", function () {
               assertAudioResult(format, res);
             });
           });
-        }
+        },
       );
     });
   });

@@ -41,7 +41,7 @@ export interface SystemErrorRetryPolicyOptions {
  * @param options - Options that customize the policy.
  */
 export function systemErrorRetryPolicy(
-  options: SystemErrorRetryPolicyOptions = {}
+  options: SystemErrorRetryPolicyOptions = {},
 ): PipelinePolicy {
   return {
     name: systemErrorRetryPolicyName,
@@ -54,7 +54,7 @@ export function systemErrorRetryPolicy(
       ],
       {
         maxRetries: options.maxRetries ?? DEFAULT_RETRY_POLICY_COUNT,
-      }
+      },
     ).sendRequest,
   };
 }

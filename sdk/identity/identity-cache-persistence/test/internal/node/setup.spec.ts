@@ -13,7 +13,7 @@ import { useIdentityPlugin } from "../../../../identity/src";
 if (!process.versions.node.startsWith("16")) {
   console.warn(
     "WARNING: skipping persistence tests on incompatible node version:",
-    process.version
+    process.version,
   );
   console.warn("Persistence tests are only compatible with Node 16.");
   process.exit(0);

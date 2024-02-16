@@ -4,14 +4,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
 import {
   InteractiveBrowserCredential,
   InteractiveBrowserCredentialNodeOptions,
 } from "../../../src";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
+import { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import http from "http";
@@ -51,7 +51,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     const testErrorMessage = "No browsers available on this test.";
     (sandbox.stub(interactiveBrowserMockable, "open") as any).throws(
       "BrowserConfigurationAuthError",
-      testErrorMessage
+      testErrorMessage,
     );
 
     const credential = new InteractiveBrowserCredential(
@@ -59,7 +59,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
         redirectUri: "http://localhost:8081",
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      } as InteractiveBrowserCredentialNodeOptions)
+      } as InteractiveBrowserCredentialNodeOptions),
     );
 
     let error: Error | undefined;

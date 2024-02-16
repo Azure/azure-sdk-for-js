@@ -31,7 +31,7 @@ async function getAGalleryImage() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryImageName
+      galleryImageName,
     )
     .get(options);
   console.log(result);

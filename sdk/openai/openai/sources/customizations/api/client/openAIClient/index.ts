@@ -26,7 +26,12 @@ import {
   ChatRequestMessage as RestChatRequestMessage,
 } from "../../../../generated/src/rest/index.js";
 import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
-import { ChatCompletions, ChatRequestMessage, Completions } from "../../../models/models.js";
+import {
+  ChatCompletions,
+  ChatRequestMessage,
+  Completions,
+  EventStream,
+} from "../../../models/models.js";
 import { getChatCompletionsResult, getCompletionsResult } from "./deserializers.js";
 import { GetImagesOptions } from "../../../models/options.js";
 import { camelCaseKeys, snakeCaseKeys } from "../../util.js";
@@ -41,7 +46,7 @@ import { createFile } from "@azure/core-rest-pipeline";
 import { ClientOpenAIClientGetChatCompletionsOptions } from "../../../../generated/src/models/options.js";
 
 export async function _getChatCompletionsDeserialize(
-  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse
+  result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -50,7 +55,7 @@ export async function _getChatCompletionsDeserialize(
 }
 
 export async function _getCompletionsDeserialize(
-  result: GetCompletions200Response | GetCompletionsDefaultResponse
+  result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -58,12 +63,12 @@ export async function _getCompletionsDeserialize(
   return getCompletionsResult(result.body);
 }
 
-export function listCompletions(
+export function streamCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<Omit<Completions, "usage">> {
+  options: GetCompletionsOptions = { requestOptions: {} },
+): Promise<EventStream<Omit<Completions, "usage">>> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = _getCompletionsSend(
     context,
@@ -73,7 +78,7 @@ export function listCompletions(
       ...rest,
       stream: true,
     },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return getOaiSSEs(response, getCompletionsResult);
 }
@@ -82,7 +87,7 @@ export async function getCompletions(
   context: Client,
   deploymentName: string,
   prompt: string[],
-  options: GetCompletionsOptions = { requestOptions: {} }
+  options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const response = await _getCompletionsSend(
@@ -92,7 +97,7 @@ export async function getCompletions(
       prompt,
       ...rest,
     },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return _getCompletionsDeserialize(response);
 }
@@ -101,14 +106,14 @@ export async function getImages(
   context: Client,
   deploymentName: string,
   prompt: string,
-  options: GetImagesOptions = { requestOptions: {} }
+  options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
   const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
   const result = await _getImageGenerationsSend(
     context,
     deploymentName,
     { prompt, ...rest },
-    { abortSignal, onResponse, requestOptions, tracingOptions }
+    { abortSignal, onResponse, requestOptions, tracingOptions },
   );
   return _getImageGenerationsDeserialize(result);
 }
@@ -117,7 +122,7 @@ function _getChatCompletionsSendX(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} }
+  options: GetChatCompletionsOptions & { stream?: boolean } = { requestOptions: {} },
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -153,17 +158,17 @@ function _getChatCompletionsSendX(
           ...rest,
           ...azure,
         },
-        coreOptions
+        coreOptions,
       )
     : _getChatCompletionsSend(context, deploymentName, { messages, ...rest }, coreOptions);
 }
 
-export function listChatCompletions(
+export function streamChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions = { requestOptions: {} }
-): AsyncIterable<ChatCompletions> {
+  options: GetChatCompletionsOptions = { requestOptions: {} },
+): Promise<EventStream<ChatCompletions>> {
   const response = _getChatCompletionsSendX(context, deploymentName, messages, {
     ...options,
     stream: true,
@@ -180,7 +185,7 @@ export async function getChatCompletions(
   context: Client,
   deploymentName: string,
   messages: ChatRequestMessage[],
-  options: GetChatCompletionsOptions = { requestOptions: {} }
+  options: GetChatCompletionsOptions = { requestOptions: {} },
 ): Promise<ChatCompletions> {
   const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
   return _getChatCompletionsDeserialize(result);
@@ -198,7 +203,7 @@ export async function getAudioTranslation(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
-  options?: GetAudioTranslationOptions
+  options?: GetAudioTranslationOptions,
 ): Promise<AudioResultSimpleJson>;
 /**
  * Returns the translation of an audio file.
@@ -214,7 +219,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   format: Format,
-  options?: GetAudioTranslationOptions
+  options?: GetAudioTranslationOptions,
 ): Promise<AudioResult<Format>>;
 // implementation
 export async function getAudioTranslation<Format extends AudioResultFormat>(
@@ -222,7 +227,7 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   formatOrOptions?: Format | GetAudioTranslationOptions,
-  inputOptions?: GetAudioTranslationOptions
+  inputOptions?: GetAudioTranslationOptions,
 ): Promise<AudioResult<Format>> {
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -239,9 +244,9 @@ export async function getAudioTranslation<Format extends AudioResultFormat>(
       }),
       contentType: "multipart/form-data",
       body: {
-        file: createFile(fileContent, "placeholder.wav"),
-        response_format,
         ...snakeCaseKeys(rest),
+        file: createFile(fileContent, "placeholder.wav"),
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -264,7 +269,7 @@ export async function getAudioTranscription(
   context: Client,
   deploymentName: string,
   fileContent: Uint8Array,
-  options?: GetAudioTranscriptionOptions
+  options?: GetAudioTranscriptionOptions,
 ): Promise<AudioResultSimpleJson>;
 /**
  * Returns the transcription of an audio file.
@@ -280,7 +285,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   format: Format,
-  options?: GetAudioTranscriptionOptions
+  options?: GetAudioTranscriptionOptions,
 ): Promise<AudioResult<Format>>;
 // implementation
 export async function getAudioTranscription<Format extends AudioResultFormat>(
@@ -288,7 +293,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
   deploymentName: string,
   fileContent: Uint8Array,
   formatOrOptions?: Format | GetAudioTranscriptionOptions,
-  inputOptions?: GetAudioTranscriptionOptions
+  inputOptions?: GetAudioTranscriptionOptions,
 ): Promise<AudioResult<Format>> {
   const options =
     inputOptions ?? (typeof formatOrOptions === "string" ? {} : formatOrOptions ?? {});
@@ -305,9 +310,9 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
       }),
       contentType: "multipart/form-data",
       body: {
-        file: createFile(fileContent, "placeholder.wav"),
-        response_format,
         ...snakeCaseKeys(rest),
+        file: createFile(fileContent, "placeholder.wav"),
+        ...(response_format ? { response_format } : {}),
       },
     });
   if (status !== "200") {
@@ -322,7 +327,7 @@ function _getChatCompletionsWithAzureExtensionsSend(
   context: Client,
   deploymentName: string,
   body: GeneratedChatCompletionsOptions & { messages: ChatRequestMessage[] },
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -335,7 +340,7 @@ function _getChatCompletionsWithAzureExtensionsSend(
       body: {
         ...snakeCaseKeys(rest),
         dataSources: dataSources?.map(
-          ({ type, ...opts }) => ({ type, parameters: opts } as AzureChatExtensionConfiguration)
+          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
         ),
         functions,
         function_call: functionCall,
@@ -367,7 +372,7 @@ function _getChatCompletionsSend(
   context: Client,
   deploymentName: string,
   body: GeneratedChatCompletionsOptions & { messages: ChatRequestMessage[] },
-  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} }
+  options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
   const { functions, functionCall, messages, ...rest } = body;
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentName).post({
@@ -389,7 +394,7 @@ export async function getChatCompletionsWithAzureExtensions(
   _context: unknown,
   _deploymentId: unknown,
   _body: unknown,
-  _options: unknown
+  _options: unknown,
 ): Promise<unknown> {
   return {} as any;
 }

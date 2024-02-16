@@ -28,7 +28,7 @@ async function afdCustomDomainsGet() {
   const result = await client.afdCustomDomains.get(
     resourceGroupName,
     profileName,
-    customDomainName
+    customDomainName,
   );
   console.log(result);
 }

@@ -35,7 +35,7 @@ export class CreateComplexEntityBatchTest extends TablesTest<TablesCreateComplex
   async run(): Promise<void> {
     const batches: TransactionAction[][] = createBatch(
       "complex",
-      this.parsedOptions.batchSize.value!
+      this.parsedOptions.batchSize.value!,
     );
 
     for (const batch of batches) {

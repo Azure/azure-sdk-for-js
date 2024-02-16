@@ -25,28 +25,28 @@ describe("TypeSpecRuntimeLogger (browser)", function () {
     assert.isTrue(debugStub.calledOnce, "console.debug called");
     assert.strictEqual(
       debugStub.firstCall.args[0],
-      expectedTestMessage("typeSpecRuntime:test:verbose", "verbose")
+      expectedTestMessage("typeSpecRuntime:test:verbose", "verbose"),
     );
     debugStub.restore();
 
     const infoStub = sinon.stub(console, "info");
     testLogger.info("info");
     assert.isTrue(
-      infoStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:info", "info"))
+      infoStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:info", "info")),
     );
     infoStub.restore();
 
     const warningStub = sinon.stub(console, "warn");
     testLogger.warning("warning");
     assert.isTrue(
-      warningStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:warning", "warning"))
+      warningStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:warning", "warning")),
     );
     warningStub.restore();
 
     const errorStub = sinon.stub(console, "error");
     testLogger.error("error");
     assert.isTrue(
-      errorStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:error", "error"))
+      errorStub.calledOnceWith(expectedTestMessage("typeSpecRuntime:test:error", "error")),
     );
     errorStub.restore();
   });

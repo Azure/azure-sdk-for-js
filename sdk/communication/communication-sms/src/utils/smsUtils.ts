@@ -8,7 +8,7 @@ import { SmsSendOptions as InternalOptions } from "../generated/src/models";
 
 export function generateSendMessageRequest(
   smsRequest: SmsSendRequest,
-  options: SmsSendOptions = {}
+  options: SmsSendOptions = {},
 ): SendMessageRequest {
   const _smsSendOptions: InternalOptions = {
     enableDeliveryReport: options.enableDeliveryReport ?? false,

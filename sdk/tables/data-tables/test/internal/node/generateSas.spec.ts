@@ -33,7 +33,7 @@ describe("SAS generation", function () {
       // Create the table SAS token
       const tableSas = generateTableSas(
         "testTable",
-        new AzureNamedKeyCredential("keyName", "keySecret")
+        new AzureNamedKeyCredential("keyName", "keySecret"),
       );
 
       assert.equal(tableSas, expectedSas1);
@@ -44,7 +44,7 @@ describe("SAS generation", function () {
       const tableSas = generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
-        { startPartitionKey: "P1", startRowKey: "1" }
+        { startPartitionKey: "P1", startRowKey: "1" },
       );
 
       assert.equal(tableSas, expectedSas8);
@@ -55,7 +55,7 @@ describe("SAS generation", function () {
       const tableSas = generateTableSas(
         "testTable",
         new AzureNamedKeyCredential("keyName", "keySecret"),
-        { endPartitionKey: "P1", endRowKey: "1" }
+        { endPartitionKey: "P1", endRowKey: "1" },
       );
 
       assert.equal(tableSas, expectedSas9);
@@ -71,7 +71,7 @@ describe("SAS generation", function () {
             add: true,
             delete: true,
           },
-        }
+        },
       );
 
       assert.equal(tableSas, expectedSas2);
@@ -84,7 +84,7 @@ describe("SAS generation", function () {
         new AzureNamedKeyCredential("keyName", "keySecret"),
         {
           expiresOn: new Date("2022-12-12"),
-        }
+        },
       );
 
       assert.equal(tableSas, expectedSas3);
@@ -98,7 +98,7 @@ describe("SAS generation", function () {
         {
           identifier: "MyAccessPolicy",
           version: "2019-02-02",
-        }
+        },
       );
 
       assert.equal(tableSas, expectedSas4);

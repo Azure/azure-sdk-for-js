@@ -35,7 +35,7 @@ async function kustoSandboxCustomImagesCreateOrUpdate() {
     resourceGroupName,
     clusterName,
     sandboxCustomImageName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

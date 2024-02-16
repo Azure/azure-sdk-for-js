@@ -39,7 +39,7 @@ function getContentFilterResultsForPrompt({
 }
 
 export function getCompletionsResult(
-  body: CompletionsOutput & ContentFilterResultsForPromptX
+  body: CompletionsOutput & ContentFilterResultsForPromptX,
 ): Completions {
   const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {
@@ -49,18 +49,21 @@ export function getCompletionsResult(
       prompt_filter_results,
       prompt_annotations,
     }),
-    choices: choices.map(({ content_filter_results, ...choice }) => ({
-      ...camelCaseKeys(choice),
-      ...(!content_filter_results
-        ? {}
-        : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
-    })),
+    choices: !choices
+      ? []
+      : choices.map(({ content_filter_results, ...choice }) => ({
+          ...camelCaseKeys(choice),
+          ...(!content_filter_results
+            ? {}
+            : {
+                contentFilterResults:
+                  parseContentFilterResultsForChoiceOutput(content_filter_results),
+              }),
+        })),
   };
 }
 export function getChatCompletionsResult(
-  body: ChatCompletionsOutput & ContentFilterResultsForPromptX
+  body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
 ): ChatCompletions {
   const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {

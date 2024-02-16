@@ -180,7 +180,7 @@ const messagePropertiesMap = {
  */
 export function fromRheaMessage(
   msg: RheaMessage,
-  skipParsingBodyAsJson: boolean
+  skipParsingBodyAsJson: boolean,
 ): EventDataInternal {
   const rawMessage = AmqpAnnotatedMessage.fromRheaMessage(msg);
   const { body, bodyType } = defaultDataTransformer.decode(msg.body, skipParsingBodyAsJson);
@@ -213,7 +213,7 @@ export function fromRheaMessage(
             data.systemProperties = {};
           }
           data.systemProperties[annotationKey] = convertDatesToNumbers(
-            msg.message_annotations[annotationKey]
+            msg.message_annotations[annotationKey],
           );
           break;
       }
@@ -227,7 +227,7 @@ export function fromRheaMessage(
     data.lastSequenceNumber = msg.delivery_annotations.last_enqueued_sequence_number;
     data.lastEnqueuedTime = new Date(msg.delivery_annotations.last_enqueued_time_utc as number);
     data.retrievalTime = new Date(
-      msg.delivery_annotations.runtime_info_retrieval_time_utc as number
+      msg.delivery_annotations.runtime_info_retrieval_time_utc as number,
     );
   }
 
@@ -240,7 +240,7 @@ export function fromRheaMessage(
     }
     if (msg[messageProperty] != null) {
       data.systemProperties[messagePropertiesMap[messageProperty]] = convertDatesToNumbers(
-        msg[messageProperty]
+        msg[messageProperty],
       );
     }
   }
@@ -266,7 +266,7 @@ export function fromRheaMessage(
  */
 export function toRheaMessage(
   data: EventData | AmqpAnnotatedMessage,
-  partitionKey?: string
+  partitionKey?: string,
 ): RheaMessage {
   let rheaMessage: RheaMessage;
   if (isAmqpAnnotatedMessage(data)) {
@@ -315,7 +315,7 @@ export function toRheaMessage(
         data.messageId.length > Constants.maxMessageIdLength
       ) {
         throw new Error(
-          `Length of 'messageId' property on the event cannot be greater than ${Constants.maxMessageIdLength} characters.`
+          `Length of 'messageId' property on the event cannot be greater than ${Constants.maxMessageIdLength} characters.`,
         );
       }
       rheaMessage.message_id = data.messageId;
@@ -515,7 +515,7 @@ export function populateIdempotentMessageAnnotations(
     ownerLevel,
     producerGroupId,
     publishSequenceNumber,
-  }: PopulateIdempotentMessageAnnotationsParameters
+  }: PopulateIdempotentMessageAnnotationsParameters,
 ): void {
   if (!isIdempotentPublishingEnabled) {
     return;

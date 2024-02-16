@@ -70,13 +70,13 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedSmsClient(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SmsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = new SmsClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   return {
     client,
@@ -85,13 +85,13 @@ export async function createRecordedSmsClient(
 }
 
 export async function createRecordedSmsClientWithToken(
-  context: Context
+  context: Context,
 ): Promise<RecordedClient<SmsClient>> {
   const recorder = await createRecorder(context.currentTest);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(
-    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? ""
+    env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
   ).endpoint;
 
   if (isPlaybackMode()) {

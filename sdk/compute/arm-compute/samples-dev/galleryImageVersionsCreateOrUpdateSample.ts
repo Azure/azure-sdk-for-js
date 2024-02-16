@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
   const subscriptionId =
@@ -108,7 +108,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithCommunityImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImageAsSource() {
   const subscriptionId =
@@ -195,7 +195,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingCommunityGalleryImag
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
   const subscriptionId =
@@ -282,7 +282,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapshotsAsASource() {
   const subscriptionId =
@@ -372,7 +372,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingMixOfDisksAndSnapsho
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
   const subscriptionId =
@@ -414,7 +414,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMo
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
   const subscriptionId =
@@ -501,7 +501,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
   const subscriptionId =
@@ -591,7 +591,98 @@ async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource()
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD_UefiSettings.json
+ */
+async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys() {
+  const subscriptionId =
+    process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
+  const resourceGroupName =
+    process.env["COMPUTE_RESOURCE_GROUP"] || "myResourceGroup";
+  const galleryName = "myGalleryName";
+  const galleryImageName = "myGalleryImageName";
+  const galleryImageVersionName = "1.0.0";
+  const galleryImageVersion: GalleryImageVersion = {
+    location: "West US",
+    publishingProfile: {
+      targetRegions: [
+        {
+          name: "West US",
+          encryption: {
+            dataDiskImages: [
+              {
+                diskEncryptionSetId:
+                  "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet",
+                lun: 1
+              }
+            ],
+            osDiskImage: {
+              diskEncryptionSetId:
+                "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+            }
+          },
+          excludeFromLatest: false,
+          regionalReplicaCount: 1
+        },
+        {
+          name: "East US",
+          excludeFromLatest: false,
+          regionalReplicaCount: 2,
+          storageAccountType: "Standard_ZRS"
+        }
+      ]
+    },
+    safetyProfile: { allowDeletionOfReplicatedLocations: false },
+    securityProfile: {
+      uefiSettings: {
+        additionalSignatures: {
+          db: [{ type: "x509", value: ["<x509 value>"] }],
+          dbx: [{ type: "x509", value: ["<x509 value>"] }],
+          kek: [{ type: "sha256", value: ["<sha256 value>"] }]
+        },
+        signatureTemplateNames: ["MicrosoftUefiCertificateAuthorityTemplate"]
+      }
+    },
+    storageProfile: {
+      dataDiskImages: [
+        {
+          hostCaching: "None",
+          lun: 1,
+          source: {
+            storageAccountId:
+              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+            uri:
+              "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
+          }
+        }
+      ],
+      osDiskImage: {
+        hostCaching: "ReadOnly",
+        source: {
+          storageAccountId:
+            "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+          uri:
+            "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
+        }
+      }
+    }
+  };
+  const credential = new DefaultAzureCredential();
+  const client = new ComputeManagementClient(credential, subscriptionId);
+  const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+    resourceGroupName,
+    galleryName,
+    galleryImageName,
+    galleryImageVersionName,
+    galleryImageVersion
+  );
+  console.log(result);
+}
+
+/**
+ * This sample demonstrates how to Create or update a gallery image version.
+ *
+ * @summary Create or update a gallery image version.
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
  */
 async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
   const subscriptionId =
@@ -638,7 +729,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
           hostCaching: "None",
           lun: 1,
           source: {
-            id:
+            storageAccountId:
               "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
             uri:
               "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
@@ -648,7 +739,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
       osDiskImage: {
         hostCaching: "ReadOnly",
         source: {
-          id:
+          storageAccountId:
             "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
           uri:
             "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
@@ -672,7 +763,7 @@ async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
  * This sample demonstrates how to Create or update a gallery image version.
  *
  * @summary Create or update a gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-03-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
  */
 async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
   const subscriptionId =
@@ -763,6 +854,7 @@ async function main() {
   createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode();
   createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource();
   createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource();
+  createOrUpdateASimpleGalleryImageVersionUsingVhdAsASourceWithCustomUefiKeys();
   createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource();
   createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified();
 }

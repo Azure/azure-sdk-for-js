@@ -113,4 +113,5 @@ export {
   OnYourDataUserAssignedManagedIdentityAuthenticationOptions,
   ChatCompletionsTextResponseFormat,
   ChatCompletionsJsonResponseFormat,
+  EventStream,
 } from "./models/index.js";

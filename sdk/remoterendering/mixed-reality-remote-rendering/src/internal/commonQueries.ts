@@ -17,7 +17,7 @@ export async function getConversionInternal(
   operations: RemoteRendering,
   conversionId: string,
   tracingSpanName: string,
-  options?: OperationOptions
+  options?: OperationOptions,
 ): Promise<AssetConversion> {
   return tracingClient.withSpan(
     tracingSpanName,
@@ -28,7 +28,7 @@ export async function getConversionInternal(
     async (updatedOptions) => {
       const conversion = await operations.getConversion(accountId, conversionId, updatedOptions);
       return assetConversionFromConversion(conversion);
-    }
+    },
   );
 }
 
@@ -42,7 +42,7 @@ export async function getSessionInternal(
   operations: RemoteRendering,
   sessionId: string,
   tracingSpanName: string,
-  options?: OperationOptions
+  options?: OperationOptions,
 ): Promise<RenderingSession> {
   return tracingClient.withSpan(
     tracingSpanName,
@@ -53,7 +53,7 @@ export async function getSessionInternal(
     async (updatedOptions) => {
       const sessionProperties = await operations.getSession(accountId, sessionId, updatedOptions);
       return renderingSessionFromSessionProperties(sessionProperties);
-    }
+    },
   );
 }
 
@@ -67,7 +67,7 @@ export async function endSessionInternal(
   operations: RemoteRendering,
   sessionId: string,
   tracingSpanName: string,
-  options?: OperationOptions
+  options?: OperationOptions,
 ): Promise<void> {
   return tracingClient.withSpan(
     tracingSpanName,
@@ -77,6 +77,6 @@ export async function endSessionInternal(
     },
     async (updatedOptions) => {
       await operations.stopSession(accountId, sessionId, updatedOptions);
-    }
+    },
   );
 }

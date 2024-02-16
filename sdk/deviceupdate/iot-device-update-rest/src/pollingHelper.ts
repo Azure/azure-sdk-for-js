@@ -21,7 +21,7 @@ import {
 export function getLongRunningPoller<TResult extends HttpResponse>(
   client: Client,
   initialResponse: TResult,
-  options: LroEngineOptions<TResult, PollOperationState<TResult>> = {}
+  options: LroEngineOptions<TResult, PollOperationState<TResult>> = {},
 ): PollerLike<PollOperationState<TResult>, TResult> {
   const poller: LongRunningOperation<TResult> = {
     requestMethod: initialResponse.request.method,

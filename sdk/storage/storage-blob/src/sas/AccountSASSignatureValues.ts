@@ -88,7 +88,7 @@ export interface AccountSASSignatureValues {
  */
 export function generateAccountSASQueryParameters(
   accountSASSignatureValues: AccountSASSignatureValues,
-  sharedKeyCredential: StorageSharedKeyCredential
+  sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
   const version = accountSASSignatureValues.version
     ? accountSASSignatureValues.version
@@ -139,11 +139,11 @@ export function generateAccountSASQueryParameters(
   }
 
   const parsedPermissions = AccountSASPermissions.parse(
-    accountSASSignatureValues.permissions.toString()
+    accountSASSignatureValues.permissions.toString(),
   );
   const parsedServices = AccountSASServices.parse(accountSASSignatureValues.services).toString();
   const parsedResourceTypes = AccountSASResourceTypes.parse(
-    accountSASSignatureValues.resourceTypes
+    accountSASSignatureValues.resourceTypes,
   ).toString();
 
   let stringToSign: string;
@@ -203,6 +203,6 @@ export function generateAccountSASQueryParameters(
     undefined,
     undefined,
     undefined,
-    accountSASSignatureValues.encryptionScope
+    accountSASSignatureValues.encryptionScope,
   );
 }

@@ -46,6 +46,9 @@ import {
   VirtualMachineInstallPatchesParameters,
   VirtualMachinesInstallPatchesOptionalParams,
   VirtualMachinesInstallPatchesResponse,
+  AttachDetachDataDisksRequest,
+  VirtualMachinesAttachDetachDataDisksOptionalParams,
+  VirtualMachinesAttachDetachDataDisksResponse,
   RunCommandInput,
   VirtualMachinesRunCommandOptionalParams,
   VirtualMachinesRunCommandResponse
@@ -543,6 +546,39 @@ export interface VirtualMachines {
     installPatchesInput: VirtualMachineInstallPatchesParameters,
     options?: VirtualMachinesInstallPatchesOptionalParams
   ): Promise<VirtualMachinesInstallPatchesResponse>;
+  /**
+   * Attach and detach data disks to/from the virtual machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
+   *                   machine.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisks(
+    resourceGroupName: string,
+    vmName: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachinesAttachDetachDataDisksOptionalParams
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesAttachDetachDataDisksResponse>,
+      VirtualMachinesAttachDetachDataDisksResponse
+    >
+  >;
+  /**
+   * Attach and detach data disks to/from the virtual machine.
+   * @param resourceGroupName The name of the resource group.
+   * @param vmName The name of the virtual machine.
+   * @param parameters Parameters supplied to the attach and detach data disks operation on the virtual
+   *                   machine.
+   * @param options The options parameters.
+   */
+  beginAttachDetachDataDisksAndWait(
+    resourceGroupName: string,
+    vmName: string,
+    parameters: AttachDetachDataDisksRequest,
+    options?: VirtualMachinesAttachDetachDataDisksOptionalParams
+  ): Promise<VirtualMachinesAttachDetachDataDisksResponse>;
   /**
    * Run command on the VM.
    * @param resourceGroupName The name of the resource group.

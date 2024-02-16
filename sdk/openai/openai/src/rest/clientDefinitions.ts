@@ -54,7 +54,7 @@ export interface GetAudioTranscriptionAsPlainText {
    * written language corresponding to the language it was spoken in.
    */
   post(
-    options?: GetAudioTranscriptionAsPlainTextParameters
+    options?: GetAudioTranscriptionAsPlainTextParameters,
   ): StreamableMethod<
     GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
   >;
@@ -63,7 +63,7 @@ export interface GetAudioTranscriptionAsPlainText {
    * written language corresponding to the language it was spoken in.
    */
   post(
-    options: GetAudioTranscriptionAsResponseObjectParameters
+    options: GetAudioTranscriptionAsResponseObjectParameters,
   ): StreamableMethod<
     | GetAudioTranscriptionAsResponseObject200Response
     | GetAudioTranscriptionAsResponseObjectDefaultResponse
@@ -73,13 +73,13 @@ export interface GetAudioTranscriptionAsPlainText {
 export interface GetAudioTranslationAsPlainText {
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
-    options?: GetAudioTranslationAsPlainTextParameters
+    options?: GetAudioTranslationAsPlainTextParameters,
   ): StreamableMethod<
     GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
   >;
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
-    options: GetAudioTranslationAsResponseObjectParameters
+    options: GetAudioTranslationAsResponseObjectParameters,
   ): StreamableMethod<
     | GetAudioTranslationAsResponseObject200Response
     | GetAudioTranslationAsResponseObjectDefaultResponse
@@ -93,7 +93,7 @@ export interface GetCompletions {
    * provided prompt data.
    */
   post(
-    options?: GetCompletionsParameters
+    options?: GetCompletionsParameters,
   ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse>;
 }
 
@@ -104,7 +104,7 @@ export interface GetChatCompletions {
    * provided prompt data.
    */
   post(
-    options?: GetChatCompletionsParameters
+    options?: GetChatCompletionsParameters,
   ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
@@ -115,7 +115,7 @@ export interface GetChatCompletionsWithAzureExtensions {
    * other augmentations to the base chat completions capabilities.
    */
   post(
-    options?: GetChatCompletionsWithAzureExtensionsParameters
+    options?: GetChatCompletionsWithAzureExtensionsParameters,
   ): StreamableMethod<
     | GetChatCompletionsWithAzureExtensions200Response
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
@@ -125,21 +125,21 @@ export interface GetChatCompletionsWithAzureExtensions {
 export interface GetImageGenerations {
   /** Creates an image given a prompt. */
   post(
-    options?: GetImageGenerationsParameters
+    options?: GetImageGenerationsParameters,
   ): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse>;
 }
 
 export interface GetEmbeddings {
   /** Return the embeddings for a given prompt. */
   post(
-    options?: GetEmbeddingsParameters
+    options?: GetEmbeddingsParameters,
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
 export interface GetAzureBatchImageGenerationOperationStatus {
   /** Returns the status of the images operation */
   get(
-    options?: GetAzureBatchImageGenerationOperationStatusParameters
+    options?: GetAzureBatchImageGenerationOperationStatusParameters,
   ): StreamableMethod<
     | GetAzureBatchImageGenerationOperationStatus200Response
     | GetAzureBatchImageGenerationOperationStatusDefaultResponse
@@ -149,7 +149,7 @@ export interface GetAzureBatchImageGenerationOperationStatus {
 export interface BeginAzureBatchImageGeneration {
   /** Starts the generation of a batch of images from a text caption */
   post(
-    options?: BeginAzureBatchImageGenerationParameters
+    options?: BeginAzureBatchImageGenerationParameters,
   ): StreamableMethod<
     BeginAzureBatchImageGeneration202Response | BeginAzureBatchImageGenerationDefaultResponse
   >;
@@ -159,12 +159,12 @@ export interface Routes {
   /** Resource for '/deployments/\{deploymentId\}/audio/transcriptions' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/audio/transcriptions",
-    deploymentId: string
+    deploymentId: string,
   ): GetAudioTranscriptionAsPlainText;
   /** Resource for '/deployments/\{deploymentId\}/audio/translations' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/audio/translations",
-    deploymentId: string
+    deploymentId: string,
   ): GetAudioTranslationAsPlainText;
   /** Resource for '/deployments/\{deploymentId\}/completions' has methods for the following verbs: post */
   (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
@@ -173,19 +173,19 @@ export interface Routes {
   /** Resource for '/deployments/\{deploymentId\}/extensions/chat/completions' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/extensions/chat/completions",
-    deploymentId: string
+    deploymentId: string,
   ): GetChatCompletionsWithAzureExtensions;
   /** Resource for '/deployments/\{deploymentId\}/images/generations' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/images/generations",
-    deploymentId: string
+    deploymentId: string,
   ): GetImageGenerations;
   /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
   (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
   (
     path: "/operations/images/{operationId}",
-    operationId: string
+    operationId: string,
   ): GetAzureBatchImageGenerationOperationStatus;
   /** Resource for '/images/generations:submit' has methods for the following verbs: post */
   (path: "/images/generations:submit"): BeginAzureBatchImageGeneration;

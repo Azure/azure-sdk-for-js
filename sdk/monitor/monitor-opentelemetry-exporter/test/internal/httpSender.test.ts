@@ -424,7 +424,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "bearerTokenAuthenticationPolicy";
-        })
+        }),
       );
     });
 
@@ -458,7 +458,7 @@ describe("HttpSender", () => {
       assert.ok(
         sender["appInsightsClient"].pipeline.getOrderedPolicies().find((policy: PipelinePolicy) => {
           return policy.name === "proxyPolicy";
-        })
+        }),
       );
     });
   });

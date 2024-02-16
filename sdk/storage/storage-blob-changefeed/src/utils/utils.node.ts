@@ -15,7 +15,7 @@ export async function bodyToString(
     readableStreamBody?: NodeJS.ReadableStream;
     blobBody?: Promise<Blob>;
   },
-  length?: number
+  length?: number,
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     response.readableStreamBody!.on("readable", () => {

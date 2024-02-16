@@ -25,7 +25,7 @@ describe("formDataPolicy (node-only)", function () {
       createHttpHeaders({
         "Content-Type": "text/plain",
         "Content-Disposition": `form-data; name="file"; filename="file.bin"`,
-      })
+      }),
     );
     assert.ok(isBlob(parts[0].body));
 

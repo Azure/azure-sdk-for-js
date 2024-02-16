@@ -28,7 +28,7 @@ async function afdOriginGroupsDelete() {
   const result = await client.afdOriginGroups.beginDeleteAndWait(
     resourceGroupName,
     profileName,
-    originGroupName
+    originGroupName,
   );
   console.log(result);
 }

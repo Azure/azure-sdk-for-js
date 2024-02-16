@@ -57,7 +57,7 @@ testWithServiceTypes((serviceVersion) => {
       test.should.throw(
         Error,
         `Either provide "eventHubName" or the "connectionString": "${connectionString}", ` +
-          `must contain "EntityPath=<your-event-hub-name>".`
+          `must contain "EntityPath=<your-event-hub-name>".`,
       );
     });
 
@@ -71,14 +71,14 @@ testWithServiceTypes((serviceVersion) => {
       test.should.throw(
         Error,
         `The entity path "my-event-hub-name" in connectionString: "${connectionString}" ` +
-          `doesn't match with eventHubName: "${eventHubName}".`
+          `doesn't match with eventHubName: "${eventHubName}".`,
       );
     });
 
     it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function (): void {
       const client = new EventHubConsumerClient(
         "dummy",
-        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name"
+        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
       );
       client.should.be.an.instanceof(EventHubConsumerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -89,7 +89,7 @@ testWithServiceTypes((serviceVersion) => {
       const client = new EventHubConsumerClient(
         "dummy",
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
-        "my-event-hub-name"
+        "my-event-hub-name",
       );
       client.should.be.an.instanceof(EventHubConsumerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -109,7 +109,7 @@ testWithServiceTypes((serviceVersion) => {
         "dummy",
         "test.servicebus.windows.net",
         "my-event-hub-name",
-        dummyCredential
+        dummyCredential,
       );
       client.should.be.an.instanceof(EventHubConsumerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -120,7 +120,7 @@ testWithServiceTypes((serviceVersion) => {
       const client = new EventHubConsumerClient(
         "dummy",
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
-        { customEndpointAddress: "sb://foo.private.bar:111" }
+        { customEndpointAddress: "sb://foo.private.bar:111" },
       );
       client.should.be.an.instanceof(EventHubConsumerClient);
       client["_context"].config.host.should.equal("foo.private.bar");
@@ -142,7 +142,7 @@ testWithServiceTypes((serviceVersion) => {
         "test.servicebus.windows.net",
         "my-event-hub-name",
         dummyCredential,
-        { customEndpointAddress: "sb://foo.private.bar:111" }
+        { customEndpointAddress: "sb://foo.private.bar:111" },
       );
       client.should.be.an.instanceof(EventHubConsumerClient);
       client["_context"].config.host.should.equal("foo.private.bar");
@@ -159,7 +159,7 @@ testWithServiceTypes((serviceVersion) => {
         "my-event-hub-name",
         {
           identifier,
-        }
+        },
       );
       client.identifier.should.equal(identifier, "The client identifier wasn't set correctly");
     });
@@ -171,7 +171,7 @@ testWithServiceTypes((serviceVersion) => {
       test.should.throw(
         Error,
         `Either provide "eventHubName" or the "connectionString": "${connectionString}", ` +
-          `must contain "EntityPath=<your-event-hub-name>".`
+          `must contain "EntityPath=<your-event-hub-name>".`,
       );
     });
 
@@ -185,13 +185,13 @@ testWithServiceTypes((serviceVersion) => {
       test.should.throw(
         Error,
         `The entity path "my-event-hub-name" in connectionString: "${connectionString}" ` +
-          `doesn't match with eventHubName: "${eventHubName}".`
+          `doesn't match with eventHubName: "${eventHubName}".`,
       );
     });
 
     it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string", function (): void {
       const client = new EventHubProducerClient(
-        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name"
+        "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
       );
       client.should.be.an.instanceof(EventHubProducerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -201,7 +201,7 @@ testWithServiceTypes((serviceVersion) => {
     it("sets eventHubName, fullyQualifiedNamespace properties when created from a connection string and event hub name", function (): void {
       const client = new EventHubProducerClient(
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c",
-        "my-event-hub-name"
+        "my-event-hub-name",
       );
       client.should.be.an.instanceof(EventHubProducerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -220,7 +220,7 @@ testWithServiceTypes((serviceVersion) => {
       const client = new EventHubProducerClient(
         "test.servicebus.windows.net",
         "my-event-hub-name",
-        dummyCredential
+        dummyCredential,
       );
       client.should.be.an.instanceof(EventHubProducerClient);
       should.equal(client.eventHubName, "my-event-hub-name");
@@ -230,7 +230,7 @@ testWithServiceTypes((serviceVersion) => {
     it("respects customEndpointAddress when using connection string", () => {
       const client = new EventHubProducerClient(
         "Endpoint=sb://test.servicebus.windows.net;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=my-event-hub-name",
-        { customEndpointAddress: "sb://foo.private.bar:111" }
+        { customEndpointAddress: "sb://foo.private.bar:111" },
       );
       client.should.be.an.instanceof(EventHubProducerClient);
       client["_context"].config.host.should.equal("foo.private.bar");
@@ -251,7 +251,7 @@ testWithServiceTypes((serviceVersion) => {
         "test.servicebus.windows.net",
         "my-event-hub-name",
         dummyCredential,
-        { customEndpointAddress: "sb://foo.private.bar:111" }
+        { customEndpointAddress: "sb://foo.private.bar:111" },
       );
       client.should.be.an.instanceof(EventHubProducerClient);
       client["_context"].config.host.should.equal("foo.private.bar");
@@ -265,7 +265,7 @@ testWithServiceTypes((serviceVersion) => {
     beforeEach(() => {
       client = new EventHubConsumerClient(
         "$Default",
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d",
       );
     });
 
@@ -328,7 +328,7 @@ testWithServiceTypes((serviceVersion) => {
     let client: EventHubProducerClient;
     beforeEach(() => {
       client = new EventHubProducerClient(
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d",
       );
     });
 
@@ -394,13 +394,13 @@ testWithServiceTypes((serviceVersion) => {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
 
       client = new EventHubConsumerClient(
         "dummy",
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "bad"
+        "bad",
       );
     });
 
@@ -466,7 +466,7 @@ testWithServiceTypes((serviceVersion) => {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       client = new EventHubProducerClient(env[EnvVarKeys.EVENTHUB_CONNECTION_STRING], "bad");
     });
@@ -530,12 +530,12 @@ testWithServiceTypes((serviceVersion) => {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
 
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -543,7 +543,7 @@ testWithServiceTypes((serviceVersion) => {
       const consumerClient = new EventHubConsumerClient(
         "$Default",
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        env[EnvVarKeys.EVENTHUB_NAME]
+        env[EnvVarKeys.EVENTHUB_NAME],
       );
       testUserAgentString(consumerClient["_context"]);
       await consumerClient.close();
@@ -555,7 +555,7 @@ testWithServiceTypes((serviceVersion) => {
         "$Default",
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         env[EnvVarKeys.EVENTHUB_NAME],
-        { userAgent: customUserAgent }
+        { userAgent: customUserAgent },
       );
       testUserAgentString(consumerClient["_context"], customUserAgent);
       await consumerClient.close();
@@ -566,19 +566,19 @@ testWithServiceTypes((serviceVersion) => {
     beforeEach(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
 
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
     it("should correctly populate the default user agent", async function (): Promise<void> {
       const producerClient = new EventHubProducerClient(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        env[EnvVarKeys.EVENTHUB_NAME]
+        env[EnvVarKeys.EVENTHUB_NAME],
       );
       testUserAgentString(producerClient["_context"]);
       await producerClient.close();
@@ -589,7 +589,7 @@ testWithServiceTypes((serviceVersion) => {
       const producerClient = new EventHubProducerClient(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
         env[EnvVarKeys.EVENTHUB_NAME],
-        { userAgent: customUserAgent }
+        { userAgent: customUserAgent },
       );
       testUserAgentString(producerClient["_context"], customUserAgent);
       await producerClient.close();
@@ -600,7 +600,7 @@ testWithServiceTypes((serviceVersion) => {
     const packageVersion = packageJsonInfo.version;
     const properties = context.connection.options.properties;
     properties!["user-agent"].should.startWith(
-      `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`
+      `azsdk-js-azureeventhubs/${packageVersion} (${getRuntimeInfo()})`,
     );
     should.equal(properties!.product, "MSJSClient");
     should.equal(properties!.version, packageVersion);
@@ -622,16 +622,16 @@ testWithServiceTypes((serviceVersion) => {
     async function beforeEachTest(): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
       client = new EventHubConsumerClient(
         "$Default",
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        env[EnvVarKeys.EVENTHUB_NAME]
+        env[EnvVarKeys.EVENTHUB_NAME],
       );
 
       // Ensure that the connection is opened
@@ -702,15 +702,15 @@ testWithServiceTypes((serviceVersion) => {
     async function beforeEachTest(): Promise<void> {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
       client = new EventHubProducerClient(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        env[EnvVarKeys.EVENTHUB_NAME]
+        env[EnvVarKeys.EVENTHUB_NAME],
       );
 
       // Ensure that the connection is opened

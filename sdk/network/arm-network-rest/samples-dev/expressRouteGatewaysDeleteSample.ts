@@ -32,7 +32,7 @@ async function expressRouteGatewayDelete() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}",
       subscriptionId,
       resourceGroupName,
-      expressRouteGatewayName
+      expressRouteGatewayName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
