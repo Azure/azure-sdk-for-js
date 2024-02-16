@@ -305,6 +305,19 @@ export interface HttpClient {
 }
 
 /**
+ * Options to create HttpClient
+ * on behalf of a pipeline.
+ */
+export interface CreateHttpClientOptions {
+  /**
+   * Specifies whether to use Fetch or XMLHttpRequest for browsers.
+   * Defaults to "fetch".
+   * Currently this option is ignored in non-browser environments.
+   */
+  api: "fetch" | "xhr";
+}
+
+/**
  * Fired in response to upload or download progress.
  */
 export type TransferProgressEvent = {
