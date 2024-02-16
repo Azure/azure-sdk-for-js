@@ -5,6 +5,9 @@ const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 const { createWriteStream } = require("fs");
 const dotenv = require("dotenv");
 
+// TODO: Get this to work again
+// This worked exactly long enough for me to get the release out the door.
+
 dotenv.config();
 
 const outputPath = "samples-dev/vectors.ts";
@@ -43,6 +46,8 @@ async function main() {
 
   const expressions = await Promise.all(
     inputs.map(async ({ ident, text, comment }) => {
+      // TODO: IIRC OpenAI allows multiple strings in this API now, so we can do this in one
+      // invocation.
       const result = await client.getEmbeddings(process.env.OPENAI_DEPLOYMENT_NAME!, [text]);
       const embedding = result.data[0].embedding;
       return `// ${comment}\nexport const ${ident} = [${embedding.toString()}];\n\n`;
