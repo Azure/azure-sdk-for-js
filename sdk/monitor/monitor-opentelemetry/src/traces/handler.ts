@@ -4,7 +4,6 @@
 import { RequestOptions } from "http";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { BatchSpanProcessor, BufferConfig } from "@opentelemetry/sdk-trace-base";
 import {
   HttpInstrumentation,
@@ -24,13 +23,13 @@ import { AzureMonitorSpanProcessor } from "./spanProcessor";
 import { AzureFunctionsHook } from "./azureFnHook";
 import { Instrumentation } from "@opentelemetry/instrumentation";
 import { ApplicationInsightsSampler } from "./sampler";
-import { ProxyTracerProvider, trace } from "@opentelemetry/api";
 
 /**
  * Azure Monitor OpenTelemetry Trace Handler
  */
 export class TraceHandler {
-  private _spanProcessor: BatchSpanProcessor;
+  private _batchSpanProcessor: BatchSpanProcessor;
+  private _azureSpanProcessor: AzureMonitorSpanProcessor;
   private _azureExporter: AzureMonitorTraceExporter;
   private _instrumentations: Instrumentation[];
   private _config: InternalConfig;
@@ -55,26 +54,22 @@ export class TraceHandler {
       exportTimeoutMillis: 30000,
       maxQueueSize: 2048,
     };
-    this._spanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
+    this._batchSpanProcessor = new BatchSpanProcessor(this._azureExporter, bufferConfig);
+    this._azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
     this._azureFunctionsHook = new AzureFunctionsHook();
     this._initializeInstrumentations();
-  }
-
-  public start(): void {
-    try {
-      const azureSpanProcessor = new AzureMonitorSpanProcessor(this._metricHandler);
-      (
-        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
-      ).addSpanProcessor(azureSpanProcessor);
-    } catch (error) {}
   }
 
   public getSampler(): ApplicationInsightsSampler {
     return this._aiSampler;
   }
 
-  public getSpanProcessor(): BatchSpanProcessor {
-    return this._spanProcessor;
+  public getBatchSpanProcessor(): BatchSpanProcessor {
+    return this._batchSpanProcessor;
+  }
+
+  public getAzureMonitorSpanProcessor(): AzureMonitorSpanProcessor {
+    return this._azureSpanProcessor;
   }
 
   public getInstrumentations(): Instrumentation[] {
