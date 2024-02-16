@@ -1,4 +1,4 @@
-# Azure client library for Azure Communication Services - Advance Messaging client library samples for JavaScript (Beta)
+# Azure client library for Azure Communication Services - Advance Messaging client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure client library for Azure Communication Services - Advance Messaging in some common scenarios.
 
@@ -52,12 +52,12 @@ npx cross-env ACS_ACCESS_KEY="<acs access key>" ACS_URL="<acs url>" node Downloa
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[downloadmedia]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/DownloadMedia.js
-[getmessagetemplatelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/GetMessageTemplateList.js
-[sendmediamessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/SendMediaMessage.js
-[sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/SendTemplateMessage.js
-[sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/SendTextMessage.js
-[sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1-beta/javascript/SendTextTemplateMessageUsingAAD.js
+[downloadmedia]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/DownloadMedia.js
+[getmessagetemplatelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/GetMessageTemplateList.js
+[sendmediamessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendMediaMessage.js
+[sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTemplateMessage.js
+[sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTextMessage.js
+[sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTextTemplateMessageUsingAAD.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-messages
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

@@ -84,7 +84,7 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error("Encountered an error while sending SMS: ", error);
+  console.error("Encountered an error while sending message: ", error);
   process.exit(1);
 });
 
