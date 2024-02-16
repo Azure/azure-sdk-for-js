@@ -34,13 +34,20 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
+// Hard-coded endpoint suffixes in tests are typically inadvisable so as not to impede with
+// sovereign cloud support. These are fine, as they're only used during test recording.
+const endpointSuffixes = {
+  search: "search.windows.net",
+  openai: "openai.azure.com",
+};
+
 const generalSanitizers = [];
 
 if (env.ENDPOINT) {
   generalSanitizers.push({
     regex: false,
     value: "subdomain",
-    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
+    target: env.ENDPOINT.match(String.raw`://(.*).${endpointSuffixes.search}`)![1],
   });
 }
 
@@ -48,7 +55,7 @@ if (env.OPENAI_ENDPOINT) {
   generalSanitizers.push({
     regex: false,
     value: "subdomain",
-    target: env.OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
+    target: env.OPENAI_ENDPOINT.match(String.raw`://(.*).${endpointSuffixes.openai}`)![1],
   });
 }
 
