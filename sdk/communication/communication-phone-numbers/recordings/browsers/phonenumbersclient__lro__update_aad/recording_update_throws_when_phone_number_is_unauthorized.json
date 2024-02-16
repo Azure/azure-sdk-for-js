@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100/capabilities?api-version=2022-12-01",
+      "RequestUri": "https://endpoint/phoneNumbers/%2B14155550100/capabilities?api-version=2023-05-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -28,15 +28,15 @@
       },
       "StatusCode": 403,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
         "Content-Type": "application/json",
-        "Date": "Wed, 22 Nov 2023 10:40:37 GMT",
-        "MS-CV": "oY8g4VCmaEuaZRofmZhdkA.0",
+        "Date": "Thu, 07 Dec 2023 17:39:14 GMT",
+        "MS-CV": "jWTX21yRHEa7gFlZlwx\u002Bzg.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0pdpdZQAAAAA3YqrpSkCrSIrZpOGjTxZdUFJHMDFFREdFMDkwNwA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0QgNyZQAAAABaLdl/S0cST7uZqvsJGy/lV1NURURHRTA4MTcAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "459ms"
+        "X-Processing-Time": "282ms"
       },
       "ResponseBody": {
         "error": {

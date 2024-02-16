@@ -55,6 +55,8 @@ import {
   PhoneNumbersGetByNumberResponse,
   PhoneNumbersReleasePhoneNumberOptionalParams,
   PhoneNumbersReleasePhoneNumberResponse,
+  PhoneNumbersOperatorInformationSearchOptionalParams,
+  PhoneNumbersOperatorInformationSearchResponse,
   PhoneNumbersListAreaCodesNextResponse,
   PhoneNumbersListAvailableCountriesNextResponse,
   PhoneNumbersListAvailableLocalitiesNextResponse,
@@ -962,6 +964,25 @@ export class PhoneNumbersImpl implements PhoneNumbers {
   }
 
   /**
+   * Searches for number format and operator information for a given list of phone numbers.
+   * @param options The options parameters.
+   */
+  async operatorInformationSearch(
+    options?: PhoneNumbersOperatorInformationSearchOptionalParams
+  ): Promise<PhoneNumbersOperatorInformationSearchResponse> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient.operatorInformationSearch",
+      options ?? {},
+      async (options) => {
+        return this.client.sendOperationRequest(
+          { options },
+          operatorInformationSearchOperationSpec
+        ) as Promise<PhoneNumbersOperatorInformationSearchResponse>;
+      }
+    );
+  }
+
+  /**
    * ListAreaCodesNext
    * @param countryCode The ISO 3166-2 country code, e.g. US.
    * @param nextLink The nextLink from the previous successful call to the ListAreaCodes method.
@@ -1369,6 +1390,27 @@ const listPhoneNumbersOperationSpec: coreClient.OperationSpec = {
   queryParameters: [Parameters.skip, Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
+  serializer
+};
+const operatorInformationSearchOperationSpec: coreClient.OperationSpec = {
+  path: "/operatorInformation/:search",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperatorInformationResult
+    },
+    default: {
+      bodyMapper: Mappers.CommunicationErrorResponse
+    }
+  },
+  requestBody: {
+    parameterPath: { phoneNumbers: ["options", "phoneNumbers"] },
+    mapper: { ...Mappers.OperatorInformationRequest, required: true }
+  },
+  queryParameters: [Parameters.apiVersion, Parameters.options],
+  urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const listAreaCodesNextOperationSpec: coreClient.OperationSpec = {
