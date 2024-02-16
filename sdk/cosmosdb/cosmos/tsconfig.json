@@ -17,8 +17,8 @@
     "composite": true,
     "stripInternal": true,
     "paths": {
-      "@azure/cosmos": ["./src/index"],
-    },
+      "@azure/cosmos": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"]
 }

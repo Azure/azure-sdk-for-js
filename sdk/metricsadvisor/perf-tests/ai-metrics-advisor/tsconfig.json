@@ -3,8 +3,8 @@
   "compilerOptions": {
     "module": "CommonJS",
     "lib": ["ES6", "ESNext.AsyncIterable"],
-    "noEmit": true,
+    "noEmit": true
   },
   "compileOnSave": true,
-  "include": ["./test/**/*.ts"],
+  "include": ["./test/**/*.ts"]
 }

@@ -1,5 +1,19 @@
 # Release History
 
+## 1.14.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
+
+### Other Changes
+
+- In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+
 ## 1.14.0 (2024-02-01)
 
 ### Bugs Fixed

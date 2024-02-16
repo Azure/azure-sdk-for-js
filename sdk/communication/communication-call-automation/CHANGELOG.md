@@ -5,6 +5,7 @@
 ### Features Added
 - EventProcessor is a new way to easily handle mid-connection events. Take a look at readme file for usage.
 - StartRecording now accepts PauseOnStart.
+- Introduced `TeamsComplianceRecordingStateChanged` and `TeamsRecordingStateChanged` events.
 
 ### Breaking Changes
 

@@ -13,7 +13,7 @@ import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
+import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
