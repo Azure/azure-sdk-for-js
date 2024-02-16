@@ -58,7 +58,7 @@ describe("Analyze Tests", () => {
     for (const testFeatures of testFeaturesList) {
       const result = await client.path("/imageanalysis:analyze").post({
         body: {
-          url: "https://aka.ms/azai/vision/image-analysis-sample.jpg",
+          url: "https://aka.ms/azsdk/image-analysis/sample.jpg",
         },
         queryParameters: {
           features: testFeatures,
@@ -87,7 +87,7 @@ describe("Analyze Tests", () => {
       "Tags",
     ];
     const someFeatures: string[] = ["Caption", "Read"];
-    const url: string = "https://aka.ms/azai/vision/image-analysis-sample.jpg";
+    const url: string = "https://aka.ms/azsdk/image-analysis/sample.jpg";
 
     const data: Uint8Array = await downloadUrlToUint8Array(url);
 

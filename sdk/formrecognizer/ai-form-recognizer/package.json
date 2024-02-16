@@ -92,7 +92,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.0.1",
     "@azure/test-utils": "^1.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
@@ -120,11 +120,11 @@
     "magic-string": "~0.27.0",
     "mocha": "^10.0.0",
     "c8": "^8.0.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "rimraf": "^3.0.0",
     "rollup": "^4.0.0",
     "sinon": "^17.0.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "ts-node": "^10.0.0"
   },
   "//sampleConfiguration": {

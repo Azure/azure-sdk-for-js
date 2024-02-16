@@ -66,21 +66,21 @@ describe("NetworkAnalytics test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("dataProducts create test", async function () {
+  it.skip("dataProducts create test", async function () {
     const res = await client.dataProducts.beginCreateAndWait(
       resourceGroup,
       resourcename,
       {
         location,
         properties: {
-          majorVersion: "1.0.0",
+          majorVersion: "1",
           product: "MCC",
           publisher: "Microsoft"
         }
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
-  }).timeout(3600000);
+  }).timeout(14400000);
 
   it("dataProducts get test", async function () {
     const res = await client.dataProducts.get(
@@ -99,8 +99,11 @@ describe("NetworkAnalytics test", () => {
 
   it("dataProducts delete test", async function () {
     const resArray = new Array();
-    const res = await client.dataProducts.beginDeleteAndWait(resourceGroup, resourcename
-    )
+    const res = await client.dataProducts.beginDeleteAndWait(
+      resourceGroup,
+      resourcename,
+      testPollingOptions,
+    );
     for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }

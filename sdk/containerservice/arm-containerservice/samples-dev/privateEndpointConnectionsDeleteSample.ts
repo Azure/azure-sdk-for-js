@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a private endpoint connection.
  *
  * @summary Deletes a private endpoint connection.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-10-01/examples/PrivateEndpointConnectionsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/stable/2023-11-01/examples/PrivateEndpointConnectionsDelete.json
  */
 async function deletePrivateEndpointConnection() {
   const subscriptionId =
