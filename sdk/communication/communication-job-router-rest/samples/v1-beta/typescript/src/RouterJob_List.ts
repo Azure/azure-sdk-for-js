@@ -3,12 +3,14 @@
 /**
  * @summary router job crud
  */
-import JobRouter, { paginate } from "../src";
+import JobRouter, {
+  paginate,
+  AzureCommunicationRoutingServiceClient
+} from "@azure-rest/communication-job-router";
 import * as dotenv from "dotenv";
 dotenv.config();
-const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-import { AzureCommunicationRoutingServiceClient } from "../src";
 
+const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // List exception policies
 async function listRouterJobs(): Promise<void> {
@@ -18,7 +20,7 @@ async function listRouterJobs(): Promise<void> {
 
   const maxPageSize = 3;
   // Get the first page which also contains information on how to get the next page.
-  const initialResponse = await routerClient.path("/routing/jobs").get({ queryParameters: { maxpagesize: maxPageSize} })
+  const initialResponse = await routerClient.path("/routing/jobs").get({ queryParameters: { maxpagesize: maxPageSize } })
 
   if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
