@@ -921,6 +921,73 @@ export const StorageTaskCompletedEventData: coreClient.CompositeMapper = {
   }
 };
 
+export const StorageTaskAssignmentQueuedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskAssignmentQueuedEventData",
+    modelProperties: {
+      queuedOn: {
+        serializedName: "queuedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageTaskAssignmentCompletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageTaskAssignmentCompletedEventData",
+    modelProperties: {
+      status: {
+        serializedName: "status",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      completedOn: {
+        serializedName: "completedDateTime",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskExecutionId: {
+        serializedName: "taskExecutionId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      taskName: {
+        serializedName: "taskName",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      summaryReportBlobUri: {
+        serializedName: "summaryReportBlobUrl",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EventHubCaptureFileCreatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -7776,6 +7843,109 @@ export const ResourceNotificationsResourceDeletedEventData: coreClient.Composite
   }
 };
 
+export const AvsPrivateCloudEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsPrivateCloudEventData",
+    modelProperties: {
+      operationId: {
+        serializedName: "operationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvsClusterEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterEventData",
+    modelProperties: {
+      operationId: {
+        serializedName: "operationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      addedHostNames: {
+        serializedName: "addedHostNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      removedHostNames: {
+        serializedName: "removedHostNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      inMaintenanceHostNames: {
+        serializedName: "inMaintenanceHostNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AvsScriptExecutionEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsScriptExecutionEventData",
+    modelProperties: {
+      operationId: {
+        serializedName: "operationId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      cmdletId: {
+        serializedName: "cmdletId",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      output: {
+        serializedName: "output",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const EventGridMqttClientCreatedOrUpdatedEventData: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -8652,6 +8822,155 @@ export const ResourceNotificationsResourceManagementDeletedEventData: coreClient
     className: "ResourceNotificationsResourceManagementDeletedEventData",
     modelProperties: {
       ...ResourceNotificationsResourceDeletedEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsPrivateCloudUpdatingEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsPrivateCloudUpdatingEventData",
+    modelProperties: {
+      ...AvsPrivateCloudEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsPrivateCloudUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsPrivateCloudUpdatedEventData",
+    modelProperties: {
+      ...AvsPrivateCloudEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsPrivateCloudFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsPrivateCloudFailedEventData",
+    modelProperties: {
+      ...AvsPrivateCloudEventData.type.modelProperties,
+      failureMessage: {
+        serializedName: "failureMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvsClusterCreatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterCreatedEventData",
+    modelProperties: {
+      ...AvsClusterEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsClusterDeletedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterDeletedEventData",
+    modelProperties: {
+      ...AvsClusterEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsClusterUpdatingEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterUpdatingEventData",
+    modelProperties: {
+      ...AvsClusterEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsClusterUpdatedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterUpdatedEventData",
+    modelProperties: {
+      ...AvsClusterEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsClusterFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsClusterFailedEventData",
+    modelProperties: {
+      ...AvsClusterEventData.type.modelProperties,
+      failureMessage: {
+        serializedName: "failureMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvsScriptExecutionStartedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsScriptExecutionStartedEventData",
+    modelProperties: {
+      ...AvsScriptExecutionEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsScriptExecutionFinishedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsScriptExecutionFinishedEventData",
+    modelProperties: {
+      ...AvsScriptExecutionEventData.type.modelProperties,
+      namedOutputs: {
+        serializedName: "namedOutputs",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      }
+    }
+  }
+};
+
+export const AvsScriptExecutionCancelledEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsScriptExecutionCancelledEventData",
+    modelProperties: {
+      ...AvsScriptExecutionEventData.type.modelProperties
+    }
+  }
+};
+
+export const AvsScriptExecutionFailedEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AvsScriptExecutionFailedEventData",
+    modelProperties: {
+      ...AvsScriptExecutionEventData.type.modelProperties,
+      failureMessage: {
+        serializedName: "failureMessage",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
     }
   }
 };
@@ -9677,6 +9996,14 @@ export const AcsChatThreadCreatedEventData: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } }
+        }
+      },
+      metadata: {
+        serializedName: "metadata",
+        required: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
         }
       },
       participants: {

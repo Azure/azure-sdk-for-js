@@ -1566,4 +1566,4 @@ export type OnYourDataVectorizationSource =
   | OnYourDataModelIdVectorizationSource;
 
 /** A readable stream that is iterable and disposable. */
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {}
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {}

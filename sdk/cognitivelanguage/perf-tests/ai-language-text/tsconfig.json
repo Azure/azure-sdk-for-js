@@ -2,7 +2,7 @@
   "extends": "../../../../tsconfig.package",
   "compilerOptions": {
     "module": "CommonJS",
-    "noEmit": true,
+    "noEmit": true
   },
-  "include": ["./test/**/*.ts"],
+  "include": ["./test/**/*.ts"]
 }

@@ -38,9 +38,9 @@ describe("LogHandler", () => {
         }),
     );
     const loggerProvider: LoggerProvider = new LoggerProvider();
-    loggerProvider.addLogRecordProcessor(handler.getLogRecordProcessor());
+    loggerProvider.addLogRecordProcessor(handler.getBatchLogRecordProcessor());
+    loggerProvider.addLogRecordProcessor(handler.getAzureLogRecordProcessor());
     logs.setGlobalLoggerProvider(loggerProvider);
-    handler.start();
 
     const tracerProvider = new NodeTracerProvider();
     tracerProvider.register();

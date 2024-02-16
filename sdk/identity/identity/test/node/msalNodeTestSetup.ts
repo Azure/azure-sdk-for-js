@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as coreUtil from "@azure/core-util";
-
 import {
   AuthenticationResult,
   ConfidentialClientApplication,
@@ -45,9 +43,6 @@ export async function msalNodeTestSetup(
   };
 
   const sandbox = createSandbox();
-
-  const stub = sandbox.stub(coreUtil, "randomUUID");
-  stub.returns(playbackValues.correlationId);
 
   if (testContextOrStubbedToken instanceof Test || testContextOrStubbedToken === undefined) {
     const testContext = testContextOrStubbedToken;
@@ -131,6 +126,11 @@ export async function msalNodeTestSetup(
             regex: true,
             target: `x-client-VER=[a-zA-Z0-9.-]+`,
             value: `x-client-VER=identity-client-version`,
+          },
+          {
+            regex: true,
+            target: `client-request-id=[a-zA-Z0-9-]+`,
+            value: `client-request-id=${playbackValues.correlationId}`,
           },
         ],
         bodyKeySanitizers: [

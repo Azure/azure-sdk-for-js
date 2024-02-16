@@ -502,7 +502,7 @@ export interface EmbeddingsUsage {
 }
 
 // @public
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T>, AsyncDisposable {
+export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {
 }
 
 // @public

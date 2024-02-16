@@ -30,7 +30,7 @@ async function volumesGetMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function volumesGetMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }
