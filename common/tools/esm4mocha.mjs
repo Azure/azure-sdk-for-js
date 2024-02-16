@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { readFile, stat, constants } from "node:fs/promises";
+import { constants, readFile, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "url";
+
 import { Project } from "./dev-tool/node_modules/ts-morph/dist/ts-morph.js";
+import { fileURLToPath } from "url";
 
 // if modules are loaded from dist-esm/ treat them as ESM
 export async function resolve(specifier, context, defaultResolve) {
@@ -32,7 +33,8 @@ export async function load(url, context, defaultLoad) {
     };
   }
   const { source } = await defaultLoad(url, context, defaultLoad);
-  return { format: context.format, source, shortCircuit: true };
+  const format = context.format ?? "builtin";
+  return { format, source, shortCircuit: true };
 }
 
 async function updateSpecifierValueIfRelative(declaration, base) {
