@@ -11,16 +11,16 @@ import {
   SchemaRegistry,
   SchemaRegistryClientOptions,
 } from "./models/models";
-import { TokenCredential } from "@azure/core-auth";
 import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
 import {
   registerSchema,
   getSchemaProperties,
   getSchemaById,
   getSchemaByVersion,
-} from "./api/client";
+} from "./api";
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
+import { TokenCredential } from "@azure/core-auth";
 
 /**
  * Initialize a new instance of `SchemaRegistryClient`

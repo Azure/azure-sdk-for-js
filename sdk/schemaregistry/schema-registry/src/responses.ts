@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ErrorResponse, HttpResponse } from "@azure-rest/core-client";
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
   PagedSchemaGroupOutput,
-  PagedVersionOutput,
   SchemaContentTypeValuesOutput,
+  PagedVersionOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */

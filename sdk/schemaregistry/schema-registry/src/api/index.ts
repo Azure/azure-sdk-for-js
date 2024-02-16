@@ -1,15 +1,18 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Client } from "@azure-rest/core-client";
-import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
-import {
-  SchemaDescription,
-  RegisterSchemaOptions,
-  SchemaProperties,
-  GetSchemaPropertiesOptions,
-  GetSchemaOptions,
-  Schema,
-} from "../../models/models";
-import { isUnexpected } from "../../../generated/src/isUnexpected";
 import { RestError } from "@azure/core-rest-pipeline";
+import { isUnexpected } from "../isUnexpected";
+import {
+  GetSchemaOptions,
+  GetSchemaPropertiesOptions,
+  RegisterSchemaOptions,
+  Schema,
+  SchemaDescription,
+  SchemaProperties,
+} from "../models/models";
+import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 export async function registerSchema(
   context: Client,
@@ -24,7 +27,6 @@ export async function registerSchema(
       body: schemaContent,
       ...options,
     });
-
   if (isUnexpected(response)) {
     throw new RestError(response.body.error.message, {
       code: response.body.error.code,
@@ -48,7 +50,6 @@ export async function getSchemaProperties(
       body: schemaContent,
       ...options,
     });
-
   if (isUnexpected(response)) {
     throw new RestError(response.body.error.message, {
       code: response.body.error.code,
