@@ -17,6 +17,7 @@ export interface VersionOutput {
 
 /** Paged collection of SchemaGroup items */
 export type PagedSchemaGroupOutput = Paged<SchemaGroupOutput>;
+/** Alias for SchemaContentTypeValuesOutput */
 export type SchemaContentTypeValuesOutput =
   | "application/json; serialization=Avro"
   | "application/json; serialization=json"

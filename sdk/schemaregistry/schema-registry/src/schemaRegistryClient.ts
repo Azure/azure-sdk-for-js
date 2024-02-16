@@ -49,11 +49,17 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://eventhubs.azure.net/.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://eventhubs.azure.net/.default",
+      ],
     },
   };
 
-  const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as SchemaRegistryContext;
 
   return client;
 }
