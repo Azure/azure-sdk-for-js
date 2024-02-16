@@ -1,3 +1,11 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Send a template message
+ */
+
+
 import { AzureKeyCredential } from "@azure/core-auth";
 import NotificationClient, { 
     MessagesServiceClient,
@@ -12,8 +20,8 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
-    const endpoint = process.env["ACS_URL"] || "";
+    const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
+    const endpoint = process.env.ACS_URL|| "";
     const client:MessagesServiceClient = NotificationClient(endpoint, credential);
 
     const nameValue:MessageTemplateValue = {
@@ -64,8 +72,8 @@ async function main() {
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",
         body: {
-            channelRegistrationId: "972e282c-ea60-4bc7-bd22-b9e0b3d99bd3",
-            to: ["+14014507114"],
+            channelRegistrationId: process.env.CHANNEL_ID || "",
+            to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
             kind: "template",
             template: template
         }

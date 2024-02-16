@@ -1,4 +1,11 @@
-import { MessagesServiceClient, paginate } from "@azure-rest/communication-messages";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Get Template list for a channel
+ */
+
+import { paginate } from "@azure-rest/communication-messages";
 import MessageTemplateClient from "@azure-rest/communication-messages";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -7,11 +14,11 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
-    const endpoint = process.env["ACS_URL"] || "";
-    const client:MessagesServiceClient = MessageTemplateClient(endpoint, credential);
+    const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
+    const endpoint = process.env.ACS_URL || "";
+    const client = MessageTemplateClient(endpoint, credential);
     console.log("Fetch Templates...");
-    const response = await client.path("/messages/channels/{channelId}/templates", "<CHANNEl_ID>")
+    const response = await client.path("/messages/channels/{channelId}/templates", process.env.CHANNEl_ID || "")
     .get({
         queryParameters: { maxPageSize: 2 }
     });

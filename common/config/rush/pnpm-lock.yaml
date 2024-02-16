@@ -1159,6 +1159,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@azure/abort-controller@2.0.0:
+    resolution: {integrity: sha512-RP/mR/WJchR+g+nQFJGOec+nzeN/VvjlwbinccoqfhTsTHbb8X5+mLDp48kHT0ueyum0BNSwGm0kX0UZuIqTGg==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
   /@azure/app-configuration@1.5.0-beta.2:
     resolution: {integrity: sha512-FhKvFKmMhu0P57lYO4i3JN8oGyvHs+YTsdz18cmKaqYHwlHD9ITHGKX59f3hT3rWZoK02sd0OajhCGrsKOmkmQ==}
     engines: {node: '>=16.0.0'}
@@ -1365,6 +1372,14 @@ packages:
     engines: {node: '>=16.0.0'}
     dependencies:
       '@azure/abort-controller': 1.1.0
+      tslib: 2.6.2
+    dev: false
+
+  /@azure/core-util@1.7.0:
+    resolution: {integrity: sha512-Zq2i3QO6k9DA8vnm29mYM4G8IE9u1mhF1GUabVEqPNX8Lj833gdxQ2NAFxt2BZsfAL+e9cT8SyVN7dFVJ/Hf0g==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.0.0
       tslib: 2.6.2
     dev: false
 
@@ -17534,10 +17549,11 @@ packages:
     dev: false
 
   file:projects/communication-messages.tgz:
-    resolution: {integrity: sha512-fp3I9ZPKjOM8jvOlr9i0uZCuSyL/k3O89BnNjmNGhpeeR0dRPydR9Y7fZhQaTu37BkgQ3IXexNxabZN9O/cgeQ==, tarball: file:projects/communication-messages.tgz}
+    resolution: {integrity: sha512-z+ceoZjrerikpVhivPD5zDT8nc7ZOkUEmN1WRCGbyaqTDvft0bhR4aGMHUkSpfssI/K1AyOuZmNxtpo4X/BJOA==, tarball: file:projects/communication-messages.tgz}
     name: '@rush-temp/communication-messages'
     version: 0.0.0
     dependencies:
+      '@azure/core-util': 1.7.0
       '@azure/identity': 3.4.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11

@@ -1,21 +1,28 @@
-import { AzureKeyCredential } from "@azure/core-auth";
-import NotificationClient, { MessagesServiceClient, Send202Response } from "@azure-rest/communication-messages";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * @summary Send a text message
+ */
+
+
+import NotificationClient, { Send202Response } from "@azure-rest/communication-messages";
+
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main() {
-    const credential = new AzureKeyCredential(process.env["ACS_ACCESS_KEY"] || "");
-    const endpoint = process.env["ACS_URL"] || "";
-    const client:MessagesServiceClient = NotificationClient(endpoint, credential);
+    const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || "";
+    const client = NotificationClient(connectionString);
     console.log("Sending message...");
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",
         body: {
-            channelRegistrationId: "<CHANNEl_ID>",
-            to: ["<PHONE_NUMBER>"],
-            kind: "image",
-            mediaUri: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+            channelRegistrationId: process.env.CHANNEL_ID || "",
+            to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
+            kind: "text",
+            content: "Arif The Great!!!"
         }
     });
 

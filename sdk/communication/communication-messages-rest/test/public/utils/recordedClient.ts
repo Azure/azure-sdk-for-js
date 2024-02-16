@@ -2,13 +2,8 @@
 // Licensed under the MIT license.
 
 import { Context, Test } from "mocha";
-import { 
-  Recorder,
-  RecorderStartOptions, 
-  SanitizerOptions,
-  env,
-} from "@azure-tools/test-recorder";
-import  MessageClient, { MessagesServiceClient } from "../../../src";
+import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
+import MessageClient, { MessagesServiceClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -19,7 +14,8 @@ export interface RecordedMessageClient {
 }
 
 const envSetupForPlayback: Record<string, string> = {
-  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING: "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
+  COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING:
+    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
   CHANNEL_ID: "test_channel_id",
   RECIPIENT_PHONE_NUMBER: "+14255550123",
   AZURE_CLIENT_ID: "azure_client_id",
@@ -59,7 +55,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Test | undefined ): Promise<Recorder> {
+export async function createRecorder(context: Test | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -76,20 +72,20 @@ export async function createRecorder(context: Test | undefined ): Promise<Record
 export async function createRecorderWithToken(context: Context): Promise<RecordedMessageClient> {
   const recorder = await createRecorder(context.currentTest);
 
-  let credential: TokenCredential;
+  const credential: TokenCredential = createTestCredential();
   const endpoint = parseConnectionString(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",
   ).endpoint;
 
-  credential = createTestCredential();
-
   return {
     client: MessageClient(endpoint, credential, recorder.configureClientOptions({})),
-    recorder
+    recorder,
   };
 }
 
-export async function createRecorderWithConnectionString(context: Context): Promise<RecordedMessageClient> {
+export async function createRecorderWithConnectionString(
+  context: Context,
+): Promise<RecordedMessageClient> {
   const recorder = await createRecorder(context.currentTest);
 
   const client = MessageClient(
@@ -97,5 +93,5 @@ export async function createRecorderWithConnectionString(context: Context): Prom
     recorder.configureClientOptions({}),
   );
 
-  return {client, recorder};
+  return { client, recorder };
 }
