@@ -13,7 +13,7 @@ import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions } from "../../../../src/shared/types";
+import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
@@ -648,5 +648,5 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.19.0",
+  "telemetry.sdk.version": "1.21.0",
 };

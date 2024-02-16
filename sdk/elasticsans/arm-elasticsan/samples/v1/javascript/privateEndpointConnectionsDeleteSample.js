@@ -28,7 +28,7 @@ async function privateEndpointConnectionsDeleteMaximumSetGen() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function privateEndpointConnectionsDeleteMinimumSetGen() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     elasticSanName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

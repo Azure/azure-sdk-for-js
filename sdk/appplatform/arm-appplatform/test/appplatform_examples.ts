@@ -50,7 +50,7 @@ describe("AppPlatform test", () => {
     const credential = createTestCredential();
     client = new AppPlatformManagementClient(credential, subscriptionId, recorder.configureClientOptions({}) as any);
     location = "east us";
-    resourceGroup = "czwjstest";
+    resourceGroup = "myjstest";
     serviceName = "myservicexxx12";
     appName = "myappxxx";
   });

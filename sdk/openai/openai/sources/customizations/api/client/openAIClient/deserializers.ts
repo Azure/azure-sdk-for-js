@@ -49,14 +49,17 @@ export function getCompletionsResult(
       prompt_filter_results,
       prompt_annotations,
     }),
-    choices: choices.map(({ content_filter_results, ...choice }) => ({
-      ...camelCaseKeys(choice),
-      ...(!content_filter_results
-        ? {}
-        : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
-    })),
+    choices: !choices
+      ? []
+      : choices.map(({ content_filter_results, ...choice }) => ({
+          ...camelCaseKeys(choice),
+          ...(!content_filter_results
+            ? {}
+            : {
+                contentFilterResults:
+                  parseContentFilterResultsForChoiceOutput(content_filter_results),
+              }),
+        })),
   };
 }
 export function getChatCompletionsResult(

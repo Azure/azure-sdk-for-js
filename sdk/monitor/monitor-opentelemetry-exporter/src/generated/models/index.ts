@@ -411,7 +411,7 @@ export enum KnownContextTagKeys {
 export type ContextTagKeys = string;
 
 /** Optional parameters. */
-export interface TrackOptionalParams extends coreClient.OperationOptions {}
+export interface TrackOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the track operation. */
 export type TrackOperationResponse = TrackResponse;

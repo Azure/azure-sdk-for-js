@@ -45,7 +45,8 @@
     "sdk/synapse/synapse-monitoring/review/*.md",
     "sdk/synapse/synapse-spark/review/*.md",
     "sdk/translation/ai-translation-text-rest/review/*.md",
-    "sdk/openai/openai/review/*.md"
+    "sdk/openai/openai/review/*.md",
+    "sdk/openai/openai-rest/review/*.md"
   ],
   "words": [
     "adfs",
@@ -94,12 +95,14 @@
     "mkdirp",
     "mongodb",
     "MPNS",
+    "msal",
     "MSRC",
     "nise",
     "northcentralus",
     "npmjs",
     "ODATA",
     "Odbc",
+    "openai",
     "perfstress",
     "personalizer",
     "Personalizer",
@@ -320,7 +323,9 @@
     {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
-        "Dicom"
+        "Dicom",
+        "Gcch",
+        "gcch"
       ]
     },
     {
@@ -456,6 +461,12 @@
         "wordprocessingml",
         "spreadsheetml",
         "presentationml"
+      ]
+    },
+    {
+      "filename": "sdk/notificationhubs/notification-hubs/review/notification-hubs.api.md",
+      "words": [
+        "fcmv"
       ]
     }
   ]

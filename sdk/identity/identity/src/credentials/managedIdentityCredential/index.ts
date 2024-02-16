@@ -22,7 +22,7 @@ import { fabricMsi } from "./fabricMsi";
 import { appServiceMsi2019 } from "./appServiceMsi2019";
 import { AppTokenProviderParameters, ConfidentialClientApplication } from "@azure/msal-node";
 import { DeveloperSignOnClientId } from "../../constants";
-import { MsalResult, MsalToken } from "../../msal/types";
+import { MsalResult, MsalToken, ValidMsalToken } from "../../msal/types";
 import { getMSALLogLevel } from "../../msal/utils";
 import { getLogLevel } from "@azure/logger";
 
@@ -383,20 +383,19 @@ export class ManagedIdentityCredential implements TokenCredential {
     this.ensureValidMsalToken(scopes, result, getTokenOptions);
     logger.getToken.info(formatSuccess(scopes));
     return {
-      token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime(),
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime(),
     };
   }
 
   /**
    * Ensures the validity of the MSAL token
-   * @internal
    */
   private ensureValidMsalToken(
     scopes: string | string[],
     msalToken?: MsalToken,
     getTokenOptions?: GetTokenOptions,
-  ): void {
+  ): asserts msalToken is ValidMsalToken {
     const error = (message: string): Error => {
       logger.getToken.info(message);
       return new AuthenticationRequiredError({

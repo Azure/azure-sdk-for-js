@@ -1,17 +1,38 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.3.0 (2024-02-13)
+
+### Features Added
+
+- Allow spanProcessors and logRecordProcessors to be passed as options to useAzureMonitor.
+
+### Bugs Fixed
+
+- Detecting Azure Functions and Azure App Service RPs incorrectly in the browser SDK loader.
+- Fix OpenTelemetry Resource type being used when resource is set on the AzureMonitorOpenTelemetryOptions by resource detector.
+- Fix Resource typing on the Azure Monitor config.
+
+### Other Changes
+
+- Updated Quickpulse transmission time.
+- Update OpenTelemetry depdendencies.
+- Add SDK prefix including attach type in both manual and auto-attach scenarios.
+
+## 1.2.0 (2024-01-23)
 
 ### Features Added
 
 - Implement browser SDK loader.
 - Use OpenTelemetry resource detectors for App Service, Functions, and VM.
-
-### Breaking Changes
-
-### Bugs Fixed
+- Add Bunyan Log Instrumentation.
+- Implement Live Metrics.
 
 ### Other Changes
+
+- Add performance tests to pipeline.
+- Update OpenTelemetry dependencies.
+- Integrate with the Azure SDK internal logger.
+- Set synthetic flags on Standard Metrics.
 
 ## 1.1.1 (2023-11-09)
 
