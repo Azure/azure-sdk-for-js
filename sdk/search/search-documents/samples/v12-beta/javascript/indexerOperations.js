@@ -44,7 +44,7 @@ async function getIndexerStatus(indexerName, client) {
   console.log(`Limits`);
   console.log(`******`);
   console.log(
-    `MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`
+    `MaxDocumentContentCharactersToExtract: ${indexerStatus.limits.maxDocumentContentCharactersToExtract}`,
   );
   console.log(`MaxDocumentExtractionSize: ${indexerStatus.limits.maxDocumentExtractionSize}`);
   console.log(`MaxRunTime: ${indexerStatus.limits.maxRunTime}`);
