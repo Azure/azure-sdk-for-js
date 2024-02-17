@@ -10928,7 +10928,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-FPbz3Hg7lZ2FEmtfj9z17mHC2PPMiboExhsqSoLYUQNg1xchG0sfIgeevVwdQZe3yGlbpdic6boGxZpPgmBXww==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-I5Dk5KGkZcareqejzIneRVjBdEPEwb41zVSXnvxEpvAiSoPs5guqYtPzFWWE+U5IDEvwnT9RATkNIbVaOWm1Lg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -17353,7 +17353,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-3Bgb/5bSZBRgrKG+9vrdePkf/bg7I71LK2ZB81LsIE4Mi2CGJrC62gKk8xTkNu03qVXrey33H31A/t/gF+32KA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-desk9yMknQZik9abM0PiJhgOyw+Aq3MBTiSFM36lA1c8PGoR8NLXGnoe1rl7KyEnqnPO0CqIs09AAeAs9iIeSg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -17363,6 +17363,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       autorest: 3.7.1
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.4
@@ -19010,7 +19011,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-ruu02BC8golDTf85SJTFWELLDl+Zy2BQatuyJyf/UpOUF61YdK8HuKyf6V23ICPn/0M8l9Cud8LzzOT8bdPI7g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-fO1XIna4VY+PdwoHkYkDN0HH/926BMjo5zeacrD70jlTpd0bybvpdVHkNVxxNZgfuAhoZoYRNR+XB4Y/Ev0yIQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19068,7 +19069,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-mHDnc19JVP2Y52YBkoHrTNtbLFqQUmmbDGpcwmOrruyaM0ChYJq954qqY7ITGvalI9CZ4pwFDup/WUaUjblb1g==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-08inZjul+kMfLt6nCv70T37daAOTfuBmr/TqX4Wp2jEcQE1072QO/xi9JuigpjFXoWcVS9rUgY1KXJE/43iMqg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -19078,6 +19079,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/uuid': 8.3.4
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.4
@@ -19157,7 +19159,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-0RP/YolaFQsMNgv5QtH6gZej5qV3NMrlkxbj2V8rzwl2JdBolVKSQHwKF/wby6w7FgUqDUHPPUWMD7+Rf+tpXw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-T58Ayegj9K+MC5jWgSGt8/EtBbpZwicIMI4gCgvCUBWmS9yPJrwgi4B01F1KbfEbuEHpc9QVktulVfndrSs3ug==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -19189,7 +19191,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-DIQESwDpf/GdB4E3TxOnqsgOPDaMLXt/PO7N6t9FeW69AWMq7gtoixFxEYcocjuCpXT0180wRigcOp1gDLNG9Q==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-UOdy99iMG/hWN6Sj9AY2l9pl06lmWxg+RnGqMPKV38dC8SWORh/HiZEy0kP5kn4M28LvgZLNPqoiAHJ34b3IBA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -19830,7 +19832,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-jJAKV0xZtJJLGYQWKh491I84Og97NX2goKLq+z5ioxrIbIoC9z2XED2DpzVtFN90F+UOyTfNIA8niXTAfXbwZg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-znsAUq8KrMWEZpRYoUUwSamsOFAjKPrQJc2leRHM/QcMAO3ghlYvgfgAovlsaaQ8jQ+Q7V1uTGBIu77mAy2Nrw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -19878,7 +19880,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-JC7XYy5qw1ZabecDN7Girw9cfhpaC8EFMHovybi+cGlrXtIpvbgOoi4qJ5C8cNMXgoV9epX1odxEZRQVvsWzWQ==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-N9nSwtCSOOXRpR8UtlkeVRtkSzVfSoLFh3srVaQaPmdPWR8kI8faSAe4VG/K4YGuJgaxFStJJv00vVAQr032EA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -19924,7 +19926,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-R0F44ALQH8wMZsJUMtW5dmriw3nhkUZ6q4777dhgDev7MsgBdOCnZC8Mqlu10q0g/x8kUlmQwvTp65rwrejQPA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-HlHgzSJnLpwoLUyooqPuF4iuVRhygYHgsg8x1O4YlmHGo2811G7hBGHnzwrbSij/FhHfjjETNOiEH23jSH9uzA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -20330,7 +20332,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-RmThZOxtiuMapfumczYtaqi0UrM4tJPMvdqxkbSUyzr7L2T1UguEGJOo1Pcn/FMso5U/WEab/u9dHECdyGjqWQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-jwi5Zn2ftbeHfXLgBJ+5JKNa5dz06aQWb1dDRpZOSeDth4AYDtWCGnVc2/XS8jsZHDRK7FdI+ens84rG8Cx81Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -20352,7 +20354,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-2K5ktseCXeTYixLZOkyq0uie6/fj9mRd0mbX/sZxVO+DyhMzWThyLKfN6vZ0kkvhihbemq2VgwnsL8yAIFc75A==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-cLJnP+/F+v8sXSpWbpi/xfU/4tLihNc01sjUS+CncM7g1gVBoNK9o+r3azQGmsxTJoKAJEJCOIbJYkvY+r0nHg==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -20374,7 +20376,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-DvcrK4EkseFXt9ctvPYyU4w7vhtFlkdX0ptSJR1KHejrFVAF9BhE+6WikeU1yVV8WdEu+KTIGsX204jNonjS/A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-BqOYZCWnqEqhzydKMiLIBNdNg1fohd0+gBIsuY6+6zOKzpdvK8JLRI/y7HSNM8f2CDhOqLUrniHisaB7AHm+eQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -20415,7 +20417,7 @@ packages:
     dev: false
 
   file:projects/perf-monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-m4miWyp+BhptAHW0KNafiP9ZLli5kRk7xQrFWlegcJbCA/JAaBWvYAw9oP9T1oCsgbeQPPT0vRneQDeS+0G7gg==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-0dtMDfhtA6+1wyBjUXM/sIpoa0Qc/yVWKC0blPWcGOvI51ECvWTfqOmhdMuN/FZpUgr/TTfqsJl+WuH+Trilag==, tarball: file:projects/perf-monitor-opentelemetry.tgz}
     name: '@rush-temp/perf-monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21027,7 +21029,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-LqhpJwnhHWnc84l3xMhtQgfpvY8Rc+kmbqZumXeR6fWjL/eC2o7ToXVic1R33AfvYoyuxGgMTYIrIpR+Rye+AA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-z056stcwgVFeU0n4k4vAokL+Qp5i6Pkc8kSCfHk8LuceWJ2/9rwmYTVB/Gf8OiybE8MKfKXsopQW0sDpz5yN2w==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
