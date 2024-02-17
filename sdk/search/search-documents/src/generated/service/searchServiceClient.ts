@@ -14,7 +14,7 @@ import {
   SkillsetsImpl,
   SynonymMapsImpl,
   IndexesImpl,
-  AliasesImpl
+  AliasesImpl,
 } from "./operations";
 import {
   DataSources,
@@ -22,7 +22,7 @@ import {
   Skillsets,
   SynonymMaps,
   Indexes,
-  Aliases
+  Aliases,
 } from "./operationsInterfaces";
 import * as Parameters from "./models/parameters";
 import * as Mappers from "./models/mappers";
@@ -30,7 +30,7 @@ import {
   ApiVersion20231001Preview,
   SearchServiceClientOptionalParams,
   GetServiceStatisticsOptionalParams,
-  GetServiceStatisticsResponse
+  GetServiceStatisticsResponse,
 } from "./models";
 
 /** @internal */
@@ -61,10 +61,10 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: SearchServiceClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.4`;
+    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -74,9 +74,9 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
@@ -97,10 +97,7 @@ export class SearchServiceClient extends coreHttpCompat.ExtendedServiceClient {
   getServiceStatistics(
     options?: GetServiceStatisticsOptionalParams
   ): Promise<GetServiceStatisticsResponse> {
-    return this.sendOperationRequest(
-      { options },
-      getServiceStatisticsOperationSpec
-    );
+    return this.sendOperationRequest({ options }, getServiceStatisticsOperationSpec);
   }
 
   dataSources: DataSources;
@@ -118,14 +115,14 @@ const getServiceStatisticsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceStatistics
+      bodyMapper: Mappers.ServiceStatistics,
     },
     default: {
-      bodyMapper: Mappers.SearchError
-    }
+      bodyMapper: Mappers.SearchError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

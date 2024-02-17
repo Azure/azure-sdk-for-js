@@ -9,10 +9,7 @@
 import * as coreHttpCompat from "@azure/core-http-compat";
 import { DocumentsImpl } from "./operations";
 import { Documents } from "./operationsInterfaces";
-import {
-  ApiVersion20231001Preview,
-  SearchClientOptionalParams
-} from "./models";
+import { ApiVersion20231001Preview, SearchClientOptionalParams } from "./models";
 
 /** @internal */
 export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
@@ -48,10 +45,10 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       options = {};
     }
     const defaults: SearchClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-search-documents/12.0.0-beta.4`;
+    const packageDetails = `azsdk-js-search-documents/12.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -61,12 +58,9 @@ export class SearchClient extends coreHttpCompat.ExtendedServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      baseUri:
-        options.endpoint ??
-        options.baseUri ??
-        "{endpoint}/indexes('{indexName}')"
+      baseUri: options.endpoint ?? options.baseUri ?? "{endpoint}/indexes('{indexName}')",
     };
     super(optionsWithDefaults);
     // Parameter assignments
