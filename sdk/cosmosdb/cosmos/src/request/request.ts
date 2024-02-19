@@ -143,6 +143,11 @@ export async function getHeaders({
     }
   }
 
+  if (options.bypassIntegratedCache) {
+    headers[Constants.HttpHeaders.DdedicatedGatewayPerRequestBypassCache] =
+      options.bypassIntegratedCache.toString();
+  }
+
   if (options.resourceTokenExpirySeconds) {
     headers[Constants.HttpHeaders.ResourceTokenExpiry] = options.resourceTokenExpirySeconds;
   }
