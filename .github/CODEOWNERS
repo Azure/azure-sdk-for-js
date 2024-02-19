@@ -774,6 +774,12 @@
 # PRLabel: %Mgmt
 /sdk/dnsresolver/arm-dnsresolver/ @qiaozha @MaryGao
 
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloads/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/workloads/arm-workloadssapvirtualinstance/ @qiaozha @MaryGao
+
 # PRLabel: %Monitor
 /sdk/monitor/monitor-ingestion/ @srnagar @lmolkova @Azure/azure-sdk-write-monitor-data-plane
 /sdk/monitor/monitor-opentelemetry @hectorhdzg @JacksonWeber
