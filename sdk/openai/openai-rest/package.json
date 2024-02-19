@@ -15,6 +15,7 @@
   "license": "MIT",
   "main": "dist/index.cjs",
   "module": "dist-esm/src/index.js",
+  "type": "module",
   "types": "./types/openai.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {

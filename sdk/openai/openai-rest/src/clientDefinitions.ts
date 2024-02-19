@@ -11,9 +11,7 @@ import {
   GetImageGenerationsParameters,
   GetAudioSpeechParameters,
   GetEmbeddingsParameters,
-  GetAzureBatchImageGenerationOperationStatusParameters,
-  BeginAzureBatchImageGenerationParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   GetAudioTranscriptionAsPlainText200Response,
   GetAudioTranscriptionAsPlainTextDefaultResponse,
@@ -33,11 +31,7 @@ import {
   GetAudioSpeechDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-  BeginAzureBatchImageGeneration202Response,
-  BeginAzureBatchImageGenerationDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetAudioTranscriptionAsPlainText {
@@ -48,8 +42,7 @@ export interface GetAudioTranscriptionAsPlainText {
   post(
     options?: GetAudioTranscriptionAsPlainTextParameters,
   ): StreamableMethod<
-    | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsPlainTextDefaultResponse
+    GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
   >;
   /**
    * Gets transcribed text and associated metadata from provided spoken audio data. Audio will be transcribed in the
@@ -68,8 +61,7 @@ export interface GetAudioTranslationAsPlainText {
   post(
     options?: GetAudioTranslationAsPlainTextParameters,
   ): StreamableMethod<
-    | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsPlainTextDefaultResponse
+    GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
   >;
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
@@ -88,9 +80,7 @@ export interface GetCompletions {
    */
   post(
     options?: GetCompletionsParameters,
-  ): StreamableMethod<
-    GetCompletions200Response | GetCompletionsDefaultResponse
-  >;
+  ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse>;
 }
 
 export interface GetChatCompletions {
@@ -101,18 +91,14 @@ export interface GetChatCompletions {
    */
   post(
     options?: GetChatCompletionsParameters,
-  ): StreamableMethod<
-    GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-  >;
+  ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
 export interface GetImageGenerations {
   /** Creates an image given a prompt. */
   post(
     options?: GetImageGenerationsParameters,
-  ): StreamableMethod<
-    GetImageGenerations200Response | GetImageGenerationsDefaultResponse
-  >;
+  ): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse>;
 }
 
 export interface GetAudioSpeech {
@@ -131,26 +117,6 @@ export interface GetEmbeddings {
   ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse>;
 }
 
-export interface GetAzureBatchImageGenerationOperationStatus {
-  /** Returns the status of the images operation */
-  get(
-    options?: GetAzureBatchImageGenerationOperationStatusParameters,
-  ): StreamableMethod<
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  >;
-}
-
-export interface BeginAzureBatchImageGeneration {
-  /** Starts the generation of a batch of images from a text caption */
-  post(
-    options?: BeginAzureBatchImageGenerationParameters,
-  ): StreamableMethod<
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationDefaultResponse
-  >;
-}
-
 export interface Routes {
   /** Resource for '/deployments/\{deploymentId\}/audio/transcriptions' has methods for the following verbs: post */
   (
@@ -163,10 +129,7 @@ export interface Routes {
     deploymentId: string,
   ): GetAudioTranslationAsPlainText;
   /** Resource for '/deployments/\{deploymentId\}/completions' has methods for the following verbs: post */
-  (
-    path: "/deployments/{deploymentId}/completions",
-    deploymentId: string,
-  ): GetCompletions;
+  (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
   /** Resource for '/deployments/\{deploymentId\}/chat/completions' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/chat/completions",
@@ -183,17 +146,7 @@ export interface Routes {
     deploymentId: string,
   ): GetAudioSpeech;
   /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
-  (
-    path: "/deployments/{deploymentId}/embeddings",
-    deploymentId: string,
-  ): GetEmbeddings;
-  /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
-  (
-    path: "/operations/images/{operationId}",
-    operationId: string,
-  ): GetAzureBatchImageGenerationOperationStatus;
-  /** Resource for '/images/generations:submit' has methods for the following verbs: post */
-  (path: "/images/generations:submit"): BeginAzureBatchImageGeneration;
+  (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
 }
 
 export type OpenAIClient = Client & {
