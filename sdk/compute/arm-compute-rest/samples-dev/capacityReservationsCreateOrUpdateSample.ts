@@ -40,7 +40,7 @@ async function createOrUpdateACapacityReservation() {
       subscriptionId,
       resourceGroupName,
       capacityReservationGroupName,
-      capacityReservationName
+      capacityReservationName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

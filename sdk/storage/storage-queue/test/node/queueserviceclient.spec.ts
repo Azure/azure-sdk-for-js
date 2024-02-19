@@ -94,7 +94,7 @@ describe("QueueServiceClient Node.js only", () => {
     };
     const newClient = new QueueServiceClient(
       "https://accountname.queue.core.windows.net",
-      tokenCredential
+      tokenCredential,
     );
     configureStorageClient(recorder, newClient);
     assertClientUsesTokenCredential(newClient);

@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -396,8 +396,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-assistants",
+      "projectFolder": "sdk/openai/openai-assistants",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/openai",
+      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
@@ -623,9 +633,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": [
-        "@azure/keyvault-keys"
-      ],
+      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
       "versionPolicyName": "client"
     },
     {
@@ -2149,6 +2157,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-hybridnetwork",
       "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
       "versionPolicyName": "management"
@@ -2156,6 +2169,11 @@
     {
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-springappdiscovery",
+      "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
       "versionPolicyName": "management"
     }
   ]

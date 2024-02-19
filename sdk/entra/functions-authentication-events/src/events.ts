@@ -20,7 +20,7 @@ export interface AuthenticationEventRequestCommon {
  */
 export interface AuthenticationEventRequest<
   TResponse extends AuthenticationEventResponse,
-  TData extends AuthenticationEventData
+  TData extends AuthenticationEventData,
 > extends AuthenticationEventRequestCommon {
   /** Related IEventResponse */
   response: TResponse;
@@ -33,7 +33,7 @@ export interface AuthenticationEventRequest<
  */
 export interface CloudEventRequest<
   TResponse extends AuthenticationEventResponse,
-  TData extends AuthenticationEventData
+  TData extends AuthenticationEventData,
 > extends AuthenticationEventRequest<TResponse, TData> {
   /** Related Source */
   source: string;

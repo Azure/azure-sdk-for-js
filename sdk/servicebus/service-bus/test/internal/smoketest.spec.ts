@@ -40,7 +40,7 @@ describe("Smoke tests", () => {
 
     before(async () => {
       const { queue } = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedQueue
+        TestClientType.UnpartitionedQueue,
       );
       queueName = queue!;
     });
@@ -55,7 +55,7 @@ describe("Smoke tests", () => {
 
     it("Queue, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName)
+        serviceBusClient.createReceiver(queueName),
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock", undefined, "single");
@@ -78,7 +78,7 @@ describe("Smoke tests", () => {
 
     it("Queue, peek/lock, receiveBatch", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" }),
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch", undefined, "array");
@@ -95,7 +95,7 @@ describe("Smoke tests", () => {
 
     it("Queue, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName)
+        serviceBusClient.createReceiver(queueName),
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, iterate messages", undefined, "batch");
@@ -128,7 +128,7 @@ describe("Smoke tests", () => {
 
     it("Queue, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" }),
       );
 
       await sendSampleMessage(sender, "Queue, receiveAndDelete");
@@ -150,7 +150,7 @@ describe("Smoke tests", () => {
 
     it("Queue, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" }),
       );
 
       await sendSampleMessage(sender, "Queue, receive and delete, iterate messages");
@@ -179,7 +179,7 @@ describe("Smoke tests", () => {
         "Queue, receive and delete, iterate messages",
         receivedBodies,
         errors,
-        receiver
+        receiver,
       );
     });
   });
@@ -191,7 +191,7 @@ describe("Smoke tests", () => {
 
     before(async () => {
       const entity = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedSubscription
+        TestClientType.UnpartitionedSubscription,
       );
 
       topic = entity.topic!;
@@ -208,7 +208,7 @@ describe("Smoke tests", () => {
 
     it("Subscription, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription)
+        serviceBusClient.createReceiver(topic, subscription),
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock");
@@ -233,7 +233,7 @@ describe("Smoke tests", () => {
 
     it("Subscription, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" })
+        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" }),
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete");
@@ -257,7 +257,7 @@ describe("Smoke tests", () => {
 
     it("Subscription, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription)
+        serviceBusClient.createReceiver(topic, subscription),
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock, iterate messages");
@@ -289,13 +289,13 @@ describe("Smoke tests", () => {
         "Subscription, peek/lock, iterate messages",
         receivedBodies,
         errors,
-        receiver
+        receiver,
       );
     });
 
     it("Subscription, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" })
+        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" }),
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete, iterate messages");
@@ -321,7 +321,7 @@ describe("Smoke tests", () => {
         "Subscription, receive and delete, iterate messages",
         receivedBodies,
         errors,
-        receiver
+        receiver,
       );
     });
   });
@@ -332,7 +332,7 @@ describe("Smoke tests", () => {
 
     before(async () => {
       const entities = await serviceBusClient.test.createTestEntities(
-        TestClientType.UnpartitionedQueueWithSessions
+        TestClientType.UnpartitionedQueueWithSessions,
       );
       queue = entities.queue!;
       sender = serviceBusClient.test.addToCleanup(serviceBusClient.createSender(queue));
@@ -346,7 +346,7 @@ describe("Smoke tests", () => {
       await sendSampleMessage(sender, "Queue, next unlocked session, sessions", sessionId);
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.acceptNextSession(queue, { receiveMode: "receiveAndDelete" })
+        await serviceBusClient.acceptNextSession(queue, { receiveMode: "receiveAndDelete" }),
       );
 
       // this queue was freshly created so we are the first session (and thus the first session to get picked
@@ -369,7 +369,7 @@ describe("Smoke tests", () => {
         "Queue, next unlocked session, sessions",
         receivedBodies,
         errors,
-        receiver
+        receiver,
       );
     });
 
@@ -378,7 +378,7 @@ describe("Smoke tests", () => {
       const receiver = serviceBusClient.test.addToCleanup(
         await serviceBusClient.acceptSession(queue, sessionId, {
           receiveMode: "receiveAndDelete",
-        })
+        }),
       );
 
       assert.equal(receiver.sessionId, sessionId);
@@ -405,7 +405,7 @@ describe("Smoke tests", () => {
         "Queue, receive and delete, sessions",
         receivedBodies,
         errors,
-        receiver
+        receiver,
       );
     });
 
@@ -413,7 +413,7 @@ describe("Smoke tests", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.acceptSession(queue, sessionId)
+        await serviceBusClient.acceptSession(queue, sessionId),
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
@@ -439,7 +439,7 @@ describe("Smoke tests", () => {
     sender: ServiceBusSender,
     body: string,
     sessionId?: string,
-    method: "single" | "array" | "batch" = "single"
+    method: "single" | "array" | "batch" = "single",
   ): Promise<void> {
     const message: ServiceBusMessage = {
       body,
@@ -485,7 +485,7 @@ async function waitAndValidate(
   expectedMessage: string,
   receivedBodies: string[],
   errors: string[],
-  receiver: ServiceBusReceiver
+  receiver: ServiceBusReceiver,
 ): Promise<void> {
   const maxChecks = 20;
   let numChecks = 0;

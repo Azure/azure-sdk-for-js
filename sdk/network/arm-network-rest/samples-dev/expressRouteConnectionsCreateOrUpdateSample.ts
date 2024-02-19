@@ -70,7 +70,7 @@ async function expressRouteConnectionCreate() {
       subscriptionId,
       resourceGroupName,
       expressRouteGatewayName,
-      connectionName
+      connectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

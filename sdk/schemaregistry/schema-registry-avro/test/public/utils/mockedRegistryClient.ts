@@ -48,7 +48,7 @@ function createLiveTestRegistry(settings: {
   const client = new SchemaRegistryClient(
     getEnvVar("SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"),
     createTestCredential(),
-    recorder?.configureClientOptions({})
+    recorder?.configureClientOptions({}),
   );
   return {
     getSchema: (id: string) => client.getSchema(id, getSchemaOptions),
@@ -68,7 +68,7 @@ function createMockedTestRegistry(): SchemaRegistry {
 
   async function registerSchema(
     schema: UpdatedSchemaDescription,
-    _options?: RegisterSchemaOptions
+    _options?: RegisterSchemaOptions,
   ): Promise<SchemaProperties> {
     let result = mapByContent.get(schema.definition);
     if (!result) {
@@ -102,7 +102,7 @@ function createMockedTestRegistry(): SchemaRegistry {
 
   async function getSchemaProperties(
     schema: UpdatedSchemaDescription,
-    _options?: GetSchemaPropertiesOptions
+    _options?: GetSchemaPropertiesOptions,
   ): Promise<SchemaProperties> {
     const storedSchema = mapByContent.get(schema.definition);
     if (!storedSchema) {
@@ -127,7 +127,7 @@ export function createTestRegistry(
     getSchemaPropertiesOptions?: GetSchemaPropertiesOptions;
     getSchemaOptions?: GetSchemaOptions;
     recorder?: Recorder;
-  } = {}
+  } = {},
 ): SchemaRegistry {
   const {
     neverLive = false,
@@ -157,7 +157,7 @@ export function createPipelineWithCredential(): Pipeline {
 export async function removeSchemas(
   schemaNamesList: string[],
   pipeline: Pipeline,
-  client: HttpClient
+  client: HttpClient,
 ): Promise<void> {
   if (!isLiveMode()) {
     return;

@@ -45,7 +45,7 @@ async function createVirtualMachineScaleSetVMExtension() {
       resourceGroupName,
       vmScaleSetName,
       instanceId,
-      vmExtensionName
+      vmExtensionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

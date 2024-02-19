@@ -32,7 +32,7 @@ async function deleteNetworkVirtualAppliance() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkVirtualAppliances/{networkVirtualApplianceName}",
       subscriptionId,
       resourceGroupName,
-      networkVirtualApplianceName
+      networkVirtualApplianceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

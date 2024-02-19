@@ -24,7 +24,7 @@ export abstract class BaseRequestPolicy implements RequestPolicy {
     /**
      * The options that can be passed to a given request policy.
      */
-    readonly _options: RequestPolicyOptionsLike
+    readonly _options: RequestPolicyOptionsLike,
   ) {}
 
   /**

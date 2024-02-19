@@ -20,13 +20,13 @@ import { tableSasPermissionsFromString } from "./tableSasPermisions";
 export function generateTableSas(
   tableName: string,
   credential: NamedKeyCredential,
-  options: TableSasSignatureValues = {}
+  options: TableSasSignatureValues = {},
 ): string {
   let { expiresOn, permissions } = options;
 
   if (!isNamedKeyCredential(credential)) {
     throw RangeError(
-      "Can only generate the account SAS when the client is initialized with a shared key credential"
+      "Can only generate the account SAS when the client is initialized with a shared key credential",
     );
   }
 

@@ -34,7 +34,10 @@ export class FileSystemPersist implements PersistentStorage {
   private _fileCleanupTimer: NodeJS.Timeout | null = null;
   private _instrumentationKey: string;
 
-  constructor(instrumentationKey: string, private _options?: AzureMonitorExporterOptions) {
+  constructor(
+    instrumentationKey: string,
+    private _options?: AzureMonitorExporterOptions,
+  ) {
     this._instrumentationKey = instrumentationKey;
     if (this._options?.disableOfflineStorage) {
       this._enabled = false;
@@ -46,14 +49,14 @@ export class FileSystemPersist implements PersistentStorage {
     if (!FileAccessControl.OS_PROVIDES_FILE_PROTECTION) {
       this._enabled = false;
       diag.error(
-        "Sufficient file protection capabilities were not detected. Files will not be persisted"
+        "Sufficient file protection capabilities were not detected. Files will not be persisted",
       );
     }
 
     if (!this._instrumentationKey) {
       this._enabled = false;
       diag.error(
-        `No instrumentation key was provided to FileSystemPersister. Files will not be persisted`
+        `No instrumentation key was provided to FileSystemPersister. Files will not be persisted`,
       );
     }
     if (this._enabled) {
@@ -61,7 +64,7 @@ export class FileSystemPersist implements PersistentStorage {
         this._options?.storageDirectory || os.tmpdir(),
         "Microsoft",
         "AzureMonitor",
-        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey
+        FileSystemPersist.TEMPDIR_PREFIX + this._instrumentationKey,
       );
 
       // Starts file cleanup task
@@ -112,7 +115,7 @@ export class FileSystemPersist implements PersistentStorage {
       if (stats.isDirectory()) {
         const origFiles = await readdirAsync(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX)
+          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
         );
         if (files.length === 0) {
           return null;
@@ -148,7 +151,7 @@ export class FileSystemPersist implements PersistentStorage {
       const size = await getShallowDirectorySize(this._tempDirectory);
       if (size > this.maxBytesOnDisk) {
         diag.warn(
-          `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`
+          `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
         );
         return false;
       }
@@ -177,7 +180,7 @@ export class FileSystemPersist implements PersistentStorage {
       if (stats.isDirectory()) {
         const origFiles = await readdirAsync(this._tempDirectory);
         const files = origFiles.filter((f) =>
-          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX)
+          path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
         );
         if (files.length === 0) {
           return false;
@@ -185,7 +188,7 @@ export class FileSystemPersist implements PersistentStorage {
           files.forEach(async (file) => {
             // Check expiration
             const fileCreationDate: Date = new Date(
-              parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0])
+              parseInt(file.split(FileSystemPersist.FILENAME_SUFFIX)[0]),
             );
             const expired = new Date(+new Date() - this.fileRetemptionPeriod) > fileCreationDate;
             if (expired) {

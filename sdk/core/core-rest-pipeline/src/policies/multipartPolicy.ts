@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
-import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { toStream, concatenateStreams } from "../util/stream";
+import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline";
+import { concat } from "../util/concat";
 import { isBlob } from "../util/typeGuards";
 
 function generateBoundary(): string {
@@ -60,7 +60,11 @@ function getTotalLength(
   return total;
 }
 
-function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
+async function buildRequestBody(
+  request: PipelineRequest,
+  parts: BodyPart[],
+  boundary: string,
+): Promise<void> {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
@@ -78,10 +82,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = (() =>
-    concatenateStreams(
-      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream),
-    )) as RequestBodyType;
+  request.body = await concat(sources);
 }
 
 /**
@@ -110,7 +111,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    sendRequest(request, next) {
+    async sendRequest(request, next): Promise<PipelineResponse> {
       if (!request.multipartBody) {
         return next(request);
       }
@@ -143,7 +144,7 @@ export function multipartPolicy(): PipelinePolicy {
         boundary = generateBoundary();
       }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      buildRequestBody(request, request.multipartBody.parts, boundary);
+      await buildRequestBody(request, request.multipartBody.parts, boundary);
 
       request.multipartBody = undefined;
 

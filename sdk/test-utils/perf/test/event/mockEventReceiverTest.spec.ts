@@ -26,7 +26,7 @@ export class MockEventReceiverTest extends EventPerfTest {
           this.errorRaised(error);
         },
       },
-      { raiseErrorAfterInSeconds: 10 }
+      { raiseErrorAfterInSeconds: 10 },
     );
   }
 

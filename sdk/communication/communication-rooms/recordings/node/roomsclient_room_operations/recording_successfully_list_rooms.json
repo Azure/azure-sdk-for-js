@@ -8,162 +8,158 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "046ba3b1-afe9-4b15-985f-cf6fda36d03f",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "684c3e31-a29e-45c0-8f2e-10a0a8bc5496",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 24 Oct 2023 13:07:47 GMT"
+        "x-ms-date": "Thu, 04 Jan 2024 13:46:47 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 24 Oct 2023 13:07:45 GMT",
-        "MS-CV": "Ln3CWAwMIkK4SgMu\u002BNBgbw.0",
+        "Date": "Thu, 04 Jan 2024 13:46:50 GMT",
+        "MS-CV": "7f8QngrkFkuvXgR8NjKBag.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0ocE3ZQAAAACPld2TC24vS7Ha2zltim9wU1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "x-azure-ref": "20240104T134649Z-muupn6c6wt20m67huez2mv96bs00000001u000000000xnzt",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "99478950413240564",
-            "createdAt": "2023-10-24T13:07:30.6039616\u002B00:00",
-            "validFrom": "2023-10-24T13:07:30.4608259\u002B00:00",
-            "validUntil": "2024-04-21T13:07:30.4608259\u002B00:00",
+            "id": "99451452976854241",
+            "createdAt": "2024-01-04T13:46:26.4706871\u002B00:00",
+            "validFrom": "2024-01-04T13:46:26.3247096\u002B00:00",
+            "validUntil": "2024-07-02T13:46:26.3247096\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "99455229327395641",
-            "createdAt": "2023-10-24T13:07:29.01418\u002B00:00",
-            "validFrom": "2023-10-24T13:07:22\u002B00:00",
-            "validUntil": "2023-10-24T13:12:22\u002B00:00",
+            "id": "99452346041471842",
+            "createdAt": "2024-01-04T13:46:24.1671774\u002B00:00",
+            "validFrom": "2024-01-04T13:46:09\u002B00:00",
+            "validUntil": "2024-01-04T13:51:09\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "99415129204851641",
-            "createdAt": "2023-10-24T13:07:27.6196177\u002B00:00",
-            "validFrom": "2023-10-24T13:07:27.4761228\u002B00:00",
-            "validUntil": "2024-04-21T13:07:27.4761228\u002B00:00",
+            "id": "99495271535259325",
+            "createdAt": "2024-01-04T13:46:21.9882171\u002B00:00",
+            "validFrom": "2024-01-04T13:46:21.8629745\u002B00:00",
+            "validUntil": "2024-07-02T13:46:21.8629745\u002B00:00",
             "pstnDialOutEnabled": true
           }
         ],
-        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eE9ud1FBQUFBQUNBPT0jUlQ6MSNUUkM6MzAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnAzMExOQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
+        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eU5PUXNBQUFBQUNBPT0jUlQ6MSNUUkM6MzAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnMydXo2QT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eE9ud1FBQUFBQUNBPT0jUlQ6MSNUUkM6MzAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnAzMExOQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview",
+      "RequestUri": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eU5PUXNBQUFBQUNBPT0jUlQ6MSNUUkM6MzAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnMydXo2QT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "c5ad992b-cb12-47ec-ad13-81fdaaf9e04e",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "ab2923a9-1374-48e9-956d-cf3434418e96",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 24 Oct 2023 13:07:48 GMT"
+        "x-ms-date": "Thu, 04 Jan 2024 13:46:48 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 24 Oct 2023 13:07:45 GMT",
-        "MS-CV": "UVC5fz4EoE6vUbDpZRqtPQ.0",
+        "Date": "Thu, 04 Jan 2024 13:46:50 GMT",
+        "MS-CV": "A\u002Bhnn\u002Bf/MUqrvsnwCnsQuw.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0osE3ZQAAAAAZsT57ArjiTJQ86ayMWR33U1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "x-azure-ref": "20240104T134650Z-muupn6c6wt20m67huez2mv96bs00000001u000000000xp1s",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "99450649889285042",
-            "createdAt": "2023-10-24T13:06:10.4844562\u002B00:00",
-            "validFrom": "2023-10-24T13:06:10.3346198\u002B00:00",
-            "validUntil": "2024-04-21T13:06:10.3346198\u002B00:00",
+            "id": "99410120187372024",
+            "createdAt": "2024-01-04T13:45:12.9974596\u002B00:00",
+            "validFrom": "2024-01-04T13:45:12.86553\u002B00:00",
+            "validUntil": "2024-07-02T13:45:12.86553\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "9943921646906491",
-            "createdAt": "2023-10-24T13:06:08.801824\u002B00:00",
-            "validFrom": "2023-10-24T13:06:01\u002B00:00",
-            "validUntil": "2023-10-24T13:11:01\u002B00:00",
+            "id": "99476419495502207",
+            "createdAt": "2024-01-04T13:45:10.3203124\u002B00:00",
+            "validFrom": "2024-01-04T13:44:53\u002B00:00",
+            "validUntil": "2024-01-04T13:49:53\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "99439070323709886",
-            "createdAt": "2023-10-24T13:06:07.3453773\u002B00:00",
-            "validFrom": "2023-10-24T13:06:07.1967245\u002B00:00",
-            "validUntil": "2024-04-21T13:06:07.1967245\u002B00:00",
+            "id": "99455213328182320",
+            "createdAt": "2024-01-04T13:45:08.0515162\u002B00:00",
+            "validFrom": "2024-01-04T13:45:07.9188039\u002B00:00",
+            "validUntil": "2024-07-02T13:45:07.9188039\u002B00:00",
             "pstnDialOutEnabled": true
           }
         ],
-        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3d3dud1FBQUFBQUNBPT0jUlQ6MiNUUkM6NjAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnAzMEpSQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
+        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eHZPUXNBQUFBQUNBPT0jUlQ6MiNUUkM6NjAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnMydXhwQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
       }
     },
     {
-      "RequestUri": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3d3dud1FBQUFBQUNBPT0jUlQ6MiNUUkM6NjAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnAzMEpSQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview",
+      "RequestUri": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eHZPUXNBQUFBQUNBPT0jUlQ6MiNUUkM6NjAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnMydXhwQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.12.2 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "1d8312d6-2178-4909-ba42-b1b317bc6952",
+        "User-Agent": "azsdk-js-communication-rooms/1.1.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.12.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "fee1059d-4714-4945-9b37-5351ff22c4b8",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-        "x-ms-date": "Tue, 24 Oct 2023 13:07:48 GMT"
+        "x-ms-date": "Thu, 04 Jan 2024 13:46:49 GMT"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "api-deprecated-versions": "2021-04-07, 2022-02-01",
         "api-supported-versions": "2023-03-31-preview, 2023-06-14, 2023-10-30-preview",
+        "Connection": "keep-alive",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Tue, 24 Oct 2023 13:07:46 GMT",
-        "MS-CV": "GyiGQX1QdkOA39\u002BHx7Hxeg.0",
+        "Date": "Thu, 04 Jan 2024 13:46:51 GMT",
+        "MS-CV": "BJJKfaKSA0SpDttnhtZX/g.0",
         "Request-Context": "appId=",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0osE3ZQAAAACFe1hAPoXTQIrEVlZTtUd2U1RPRURHRTE0MTcAZjA5YTRjMTMtMjFmMS00OGVjLTljZjctNjY1NDU2ODRiNjQy",
+        "x-azure-ref": "20240104T134650Z-muupn6c6wt20m67huez2mv96bs00000001u000000000xp34",
         "X-Cache": "CONFIG_NOCACHE"
       },
       "ResponseBody": {
         "value": [
           {
-            "id": "99434775458713886",
-            "createdAt": "2023-10-24T13:05:19.8656227\u002B00:00",
-            "validFrom": "2023-10-24T13:05:19.7225774\u002B00:00",
-            "validUntil": "2024-04-21T13:05:19.7225774\u002B00:00",
+            "id": "99413106117692368",
+            "createdAt": "2024-01-04T13:43:53.626428\u002B00:00",
+            "validFrom": "2024-01-04T13:43:53.487866\u002B00:00",
+            "validUntil": "2024-07-02T13:43:53.487866\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "99493850755225320",
-            "createdAt": "2023-10-24T13:05:18.2450605\u002B00:00",
-            "validFrom": "2023-10-24T13:05:11\u002B00:00",
-            "validUntil": "2023-10-24T13:10:11\u002B00:00",
+            "id": "99428276210938245",
+            "createdAt": "2024-01-04T13:43:51.0657918\u002B00:00",
+            "validFrom": "2024-01-04T13:43:33\u002B00:00",
+            "validUntil": "2024-01-04T13:48:33\u002B00:00",
             "pstnDialOutEnabled": true
           },
           {
-            "id": "99489022543456408",
-            "createdAt": "2023-10-24T13:05:16.8434065\u002B00:00",
-            "validFrom": "2023-10-24T13:05:16.7005512\u002B00:00",
-            "validUntil": "2024-04-21T13:05:16.7005512\u002B00:00",
-            "pstnDialOutEnabled": true
-          },
-          {
-            "id": "9943802355631167",
-            "createdAt": "2023-10-24T13:04:00.2018289\u002B00:00",
-            "validFrom": "2023-10-24T13:04:00.0528553\u002B00:00",
-            "validUntil": "2024-04-21T13:04:00.0528553\u002B00:00",
+            "id": "9948051431844966",
+            "createdAt": "2024-01-04T13:43:48.6803823\u002B00:00",
+            "validFrom": "2024-01-04T13:43:48.530992\u002B00:00",
+            "validUntil": "2024-07-02T13:43:48.530992\u002B00:00",
             "pstnDialOutEnabled": true
           }
         ],
-        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3d1Nud1FBQUFBQUNBPT0jUlQ6MyNUUkM6OTAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnAzMEYrQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
+        "nextLink": "https://endpoint/rooms?nextLink=W3sidG9rZW4iOiIrUklEOn5OM1VKQU5WeFl3eFJPUXNBQUFBQUNBPT0jUlQ6MyNUUkM6OTAjUlREOkhQSkptS1QxdVpxbEJCbkd5TlNPQk1IWnMydWxFQT09I0lTVjoyI0lFTzo2NTU2NyNRQ0Y6OCIsInJhbmdlIjp7Im1pbiI6IjA1QzFDRkZGRkZGRkY4IiwibWF4IjoiMDVDMURGRkZGRkZGRjgifX1d\u0026api-version=2023-10-30-preview"
       }
     }
   ],

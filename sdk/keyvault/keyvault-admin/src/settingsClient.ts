@@ -96,7 +96,7 @@ export class KeyVaultSettingsClient {
         credential,
         scopes: [],
         challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      })
+      }),
     );
   }
 
@@ -108,10 +108,10 @@ export class KeyVaultSettingsClient {
    */
   async updateSetting(
     setting: KeyVaultSetting,
-    options: UpdateSettingOptions = {}
+    options: UpdateSettingOptions = {},
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options)
+      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options),
     );
   }
 

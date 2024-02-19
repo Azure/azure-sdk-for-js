@@ -33,7 +33,7 @@ async function getServiceEndpointDefinitionInServiceEndpointPolicy() {
       subscriptionId,
       resourceGroupName,
       serviceEndpointPolicyName,
-      serviceEndpointPolicyDefinitionName
+      serviceEndpointPolicyDefinitionName,
     )
     .get(options);
   console.log(result);

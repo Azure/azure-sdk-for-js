@@ -62,7 +62,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         connectionContext,
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -158,7 +158,7 @@ describe("AbortSignal", () => {
 
         assert.match(
           err.message,
-          /.*was not able to send the message right now, due to operation timeout.*/
+          /.*was not able to send the message right now, due to operation timeout.*/,
         );
 
         assert.isTrue((err as any).retryable);
@@ -204,7 +204,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -224,7 +224,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -251,7 +251,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -280,7 +280,7 @@ describe("AbortSignal", () => {
           },
         }),
         "fakeEntityPath",
-        {}
+        {},
       );
       closeables.push(sender);
 
@@ -304,7 +304,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -324,7 +324,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         createConnectionContextForTests(),
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -357,7 +357,7 @@ describe("AbortSignal", () => {
         "serviceBusClientId",
         fakeContext,
         "fakeEntityPath",
-        defaultOptions
+        defaultOptions,
       );
       closeables.push(messageReceiver);
 
@@ -393,7 +393,7 @@ describe("AbortSignal", () => {
           retryOptions: undefined,
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       const session = new ServiceBusSessionReceiverImpl(
@@ -402,7 +402,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         false,
-        false
+        false,
       );
 
       try {
@@ -420,7 +420,7 @@ describe("AbortSignal", () => {
           },
           {
             abortSignal,
-          }
+          },
         );
 
         assert.equal(receivedErrors[0].message, "The operation was aborted.");
@@ -436,7 +436,7 @@ describe("AbortSignal", () => {
         "entityPath",
         "peekLock",
         1,
-        false
+        false,
       );
 
       try {
@@ -456,7 +456,7 @@ describe("AbortSignal", () => {
             },
             {
               abortSignal,
-            }
+            },
           );
         });
 

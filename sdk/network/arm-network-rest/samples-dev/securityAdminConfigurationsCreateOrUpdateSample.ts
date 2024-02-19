@@ -39,7 +39,7 @@ async function createNetworkManagerSecurityAdminConfiguration() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .put(options);
   console.log(result);

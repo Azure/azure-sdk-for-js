@@ -34,7 +34,7 @@ async function hubVirtualNetworkConnectionDelete() {
       subscriptionId,
       resourceGroupName,
       virtualHubName,
-      connectionName
+      connectionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

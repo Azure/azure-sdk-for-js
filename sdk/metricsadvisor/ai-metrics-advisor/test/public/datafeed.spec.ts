@@ -163,7 +163,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedSource: DataFeedSource = {
             dataSourceType: "AzureBlob",
             connectionString: assertEnvironmentVariable(
-              "METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING"
+              "METRICS_ADVISOR_AZURE_BLOB_CONNECTION_STRING",
             ),
             container: "adsample",
             blobTemplate: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_BLOB_TEMPLATE"),
@@ -198,72 +198,72 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(
             actual.schema.metrics[0].name,
             dataFeedSchema.metrics[0].name,
-            "Schema metric 1 name mismatch!"
+            "Schema metric 1 name mismatch!",
           );
           assert.equal(
             actual.schema.metrics[1].name,
             dataFeedSchema.metrics[1].name,
-            "Schema metric 2 name mismatch!"
+            "Schema metric 2 name mismatch!",
           );
           assert.strictEqual(actual.schema.timestampColumn, "", "Schema timestampColumn mismatch!");
           assert.equal(
             actual.schema.dimensions![0].displayName,
             dataFeedSchema.dimensions![0].displayName,
-            "Schema dimension 1 display name mismatch!"
+            "Schema dimension 1 display name mismatch!",
           );
           assert.deepStrictEqual(
             actual.ingestionSettings,
             dataFeedIngestion,
-            "Ingesting settings mismatch!"
+            "Ingesting settings mismatch!",
           );
           assert.equal(
             actual.metricIds[dataFeedSchema.metrics[0].name],
-            actual.schema.metrics[0].id
+            actual.schema.metrics[0].id,
           );
 
           assert.equal(actual.description, options.description, "options.description mismatch");
           assert.equal(
             actual.accessMode,
             options.accessMode as DataFeedAccessMode,
-            "options.accessMode mismatch"
+            "options.accessMode mismatch",
           );
           assert.ok(
             actual.missingDataPointFillSettings,
-            "Expecting valid options.missingDataPointFillSettings"
+            "Expecting valid options.missingDataPointFillSettings",
           );
           assert.equal(
             actual.missingDataPointFillSettings!.fillType,
             options.missingDataPointFillSettings!.fillType,
-            "options.missingDataPointFillSettings.fillType mismatch"
+            "options.missingDataPointFillSettings.fillType mismatch",
           );
           assert.ok(
             actual.missingDataPointFillSettings!.fillType,
-            "Expecting valid options.missingDataPointFillSettings.fillType"
+            "Expecting valid options.missingDataPointFillSettings.fillType",
           );
           if (actual.missingDataPointFillSettings!.fillType! === "CustomValue") {
             // not sure why TS didn't narrow down the union type for us...so casting to any
             assert.equal(
               (actual.missingDataPointFillSettings! as any).customFillValue,
               (options.missingDataPointFillSettings! as any).customFillValue,
-              "options.missingDataPointFillSettings.customFillValue mismatch"
+              "options.missingDataPointFillSettings.customFillValue mismatch",
             );
           }
           assert.ok(actual.rollupSettings, "Expecting valid options.rollupSettings");
           assert.equal(
             actual.rollupSettings!.rollupType,
             options.rollupSettings!.rollupType,
-            "options.missingDataPointFillSettings.rollupType mismatch"
+            "options.missingDataPointFillSettings.rollupType mismatch",
           );
           assert.ok(
             actual.rollupSettings!.rollupType,
-            "Expecting valid options.missingDataPointFillSettings.fillType"
+            "Expecting valid options.missingDataPointFillSettings.fillType",
           );
           if (actual.rollupSettings!.rollupType! === "AutoRollup") {
             // not sure why TS didn't narrow down the union type for us...so casting to any
             assert.equal(
               (actual.rollupSettings! as any).rollupIdentificationValue,
               (options.rollupSettings! as any).rollupIdentificationValue,
-              "options.missingDataPointFillSettings.fillType mismatch"
+              "options.missingDataPointFillSettings.fillType mismatch",
             );
           }
         });
@@ -291,18 +291,18 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(
             actual.schema.metrics[0].name,
             dataFeedSchema.metrics[0].name,
-            "Schema metric 1 name mismatch!"
+            "Schema metric 1 name mismatch!",
           );
           assert.equal(
             actual.schema.metrics[1].name,
             dataFeedSchema.metrics[1].name,
-            "Schema metric 2 name mismatch!"
+            "Schema metric 2 name mismatch!",
           );
           assert.strictEqual(actual.schema.timestampColumn, "", "Schema timestampColumn mismatch!");
           assert.equal(
             actual.schema.dimensions![0].displayName,
             dataFeedSchema.dimensions![0].displayName,
-            "Schema dimension 1 display name mismatch!"
+            "Schema dimension 1 display name mismatch!",
           );
         });
 
@@ -357,11 +357,11 @@ matrix([[true, false]] as const, async (useAad) => {
           assert.equal(updated.source.dataSourceType, "AzureBlob");
           assert.deepStrictEqual(
             updated.source,
-            expectedServerParameter as unknown as AzureBlobDataFeedSource
+            expectedServerParameter as unknown as AzureBlobDataFeedSource,
           );
           assert.equal(
             updated.source.authenticationType,
-            expectedSourceParameter.authenticationType
+            expectedSourceParameter.authenticationType,
           );
           assert.deepStrictEqual(updated.ingestionSettings, expectedIngestionSettings);
           assert.equal(updated.description, "Updated Azure Blob description");
@@ -381,7 +381,7 @@ matrix([[true, false]] as const, async (useAad) => {
             azureCloud: "Azure",
             authenticationType: "Basic",
             applicationId: assertEnvironmentVariable(
-              "METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID"
+              "METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID",
             ),
             apiKey: assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_API_KEY"),
             query:
@@ -403,12 +403,12 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.azureCloud, "Azure");
             assert.equal(
               actual.source.applicationId,
-              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID")
+              assertEnvironmentVariable("METRICS_ADVISOR_AZURE_APPINSIGHTS_APPLICATION_ID"),
             );
             assert.equal(actual.source.apiKey, undefined);
             assert.equal(
               actual.source.query,
-              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode"
+              "let gran=60m; let starttime=datetime(@StartTime); let endtime=starttime + gran; requests | where timestamp >= starttime and timestamp < endtime | summarize request_count = count(), duration_avg_ms = avg(duration), duration_95th_ms = percentile(duration, 95), duration_max_ms = max(duration) by resultCode",
             );
           }
         });
@@ -417,7 +417,7 @@ matrix([[true, false]] as const, async (useAad) => {
           const expectedSource: DataFeedSource = {
             dataSourceType: "SqlServer",
             connectionString: assertEnvironmentVariable(
-              "METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING"
+              "METRICS_ADVISOR_AZURE_SQL_SERVER_CONNECTION_STRING",
             ),
             query: "select * from adsample2 where Timestamp = @StartTime",
             authenticationType: "Basic",
@@ -439,7 +439,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal((actual.source as any).connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "select * from adsample2 where Timestamp = @StartTime"
+              "select * from adsample2 where Timestamp = @StartTime",
             );
           }
         });
@@ -507,7 +507,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.sqlQuery,
-              "let starttime=datetime(@StartTime); let endtime=starttime"
+              "let starttime=datetime(@StartTime); let endtime=starttime",
             );
             assert.equal(actual.source.database, "sample");
             assert.equal(actual.source.collectionId, "sample");
@@ -542,7 +542,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "let starttime=datetime(@StartTime); let endtime=starttime"
+              "let starttime=datetime(@StartTime); let endtime=starttime",
             );
             assert.equal(actual.source.authenticationType, "ManagedIdentity");
           }
@@ -644,7 +644,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.database, "data-feed-mongodb");
             assert.equal(
               actual.source.command,
-              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
@@ -677,7 +677,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: mongodb,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
@@ -813,7 +813,7 @@ matrix([[true, false]] as const, async (useAad) => {
             assert.equal(actual.source.connectionString, undefined);
             assert.equal(
               actual.source.query,
-              "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }"
+              "{ find: postgresql,filter: { Time: @StartTime },batch: 200 }",
             );
             assert.equal(actual.source.authenticationType, "Basic");
           }
@@ -844,7 +844,7 @@ matrix([[true, false]] as const, async (useAad) => {
 
           assert.deepStrictEqual(
             updated.source,
-            patchServer.source as unknown as MongoDbDataFeedSource
+            patchServer.source as unknown as MongoDbDataFeedSource,
           );
         });
 
@@ -871,7 +871,7 @@ matrix([[true, false]] as const, async (useAad) => {
           } catch (error: any) {
             assert.equal(
               (error as any).message,
-              "Cannot create a data feed with the Unknown source type."
+              "Cannot create a data feed with the Unknown source type.",
             );
           }
         });
@@ -888,7 +888,7 @@ matrix([[true, false]] as const, async (useAad) => {
           } catch (error: any) {
             assert.equal(
               (error as any).message,
-              "Cannot update a data feed to have the Unknown source type."
+              "Cannot update a data feed to have the Unknown source type.",
             );
           }
         });
@@ -900,7 +900,7 @@ matrix([[true, false]] as const, async (useAad) => {
 export async function verifyDataFeedDeletion(
   context: Context,
   client: MetricsAdvisorAdministrationClient,
-  createdDataFeedId: string
+  createdDataFeedId: string,
 ): Promise<void> {
   if (!createdDataFeedId) {
     context.skip();

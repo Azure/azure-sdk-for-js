@@ -6,7 +6,7 @@ import { ServiceInformation, Options, WidgetConfig } from "./scaffolding";
 export async function generateProject(
   _widgetConfig: WidgetConfig,
   _deployConfig: ServiceInformation,
-  _miscConfig: Options = {}
+  _miscConfig: Options = {},
 ): Promise<void> {
   throw new Error("Only for Node.js");
 }

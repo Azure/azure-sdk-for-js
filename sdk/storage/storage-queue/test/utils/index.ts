@@ -19,7 +19,7 @@ export * from "./testutils.common";
 export function getGenericQSU(
   recorder: Recorder,
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
 ): QueueServiceClient {
   if ((env.STORAGE_CONNECTION_STRING ?? "").startsWith("UseDevelopmentStorage=true")) {
     // Expected environment variable to run tests with the emulator
@@ -35,7 +35,7 @@ export function getGenericQSU(
 
     if (!accountName || !accountKey || accountName === "" || accountKey === "") {
       throw new Error(
-        `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`
+        `${accountNameEnvVar} and/or ${accountKeyEnvVar} environment variables not specified.`,
       );
     }
 
@@ -87,16 +87,16 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
       startsOn: now,
       version: "2016-05-31",
     },
-    sharedKeyCredential as StorageSharedKeyCredential
+    sharedKeyCredential as StorageSharedKeyCredential,
   ).toString();
 
   const queueEndpoint = extractConnectionStringParts(getConnectionStringFromEnvironment()).url;
 
   return `BlobEndpoint=${queueEndpoint.replace(
     ".queue.",
-    ".blob."
+    ".blob.",
   )}/;QueueEndpoint=${queueEndpoint}/;FileEndpoint=${queueEndpoint.replace(
     ".queue.",
-    ".file."
+    ".file.",
   )}/;TableEndpoint=${queueEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
 }

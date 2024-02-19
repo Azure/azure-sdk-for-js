@@ -30,7 +30,7 @@ function createClient(recorder: Recorder): WidgetServiceClient {
     // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
     // redirect the requests to reach the proxy tool in record/playback modes instead of
     // hitting the live service.
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return client;

@@ -12,7 +12,7 @@ function buildRequest(
   hub: string,
   connectionId: string,
   userId?: string,
-  contentType?: string
+  contentType?: string,
 ): void {
   req.headers["webhook-request-origin"] = "xxx.webpubsub.azure.com";
   req.headers["content-type"] = contentType ?? "application/json; charset=utf-8";
@@ -160,7 +160,7 @@ describe("Can handle user event", function () {
         assert.deepEqual(
           request.data,
           new Uint8Array([1, 2, 3, 4, 5, 6, 7]),
-          "buffer data matches"
+          "buffer data matches",
         );
         response.success();
       },
@@ -326,7 +326,7 @@ describe("Can handle user event", function () {
     assert.equal(
       "application/json; charset=utf-8",
       res.getHeader("content-type"),
-      "should be json"
+      "should be json",
     );
   });
 
@@ -356,10 +356,10 @@ describe("Can handle user event", function () {
           key1: "val3",
           key2: "val2",
           key3: "",
-        })
+        }),
       ).toString("base64"),
       res.getHeader("ce-connectionState"),
-      "should contain multiple state headers"
+      "should contain multiple state headers",
     );
   });
 });

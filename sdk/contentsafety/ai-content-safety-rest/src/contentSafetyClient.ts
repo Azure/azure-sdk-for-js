@@ -16,7 +16,7 @@ import { ContentSafetyClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential | KeyCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): ContentSafetyClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/contentsafety`;
   options.apiVersion = options.apiVersion ?? "2023-10-01";

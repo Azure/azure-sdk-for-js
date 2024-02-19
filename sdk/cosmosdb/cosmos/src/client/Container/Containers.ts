@@ -34,7 +34,10 @@ import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnost
  * do this once on application start up.
  */
 export class Containers {
-  constructor(public readonly database: Database, private readonly clientContext: ClientContext) {}
+  constructor(
+    public readonly database: Database,
+    private readonly clientContext: ClientContext,
+  ) {}
 
   /**
    * Queries all containers.
@@ -88,7 +91,7 @@ export class Containers {
           options: innerOptions,
           diagnosticNode: diagNode,
         });
-      }
+      },
     );
   }
 
@@ -111,7 +114,7 @@ export class Containers {
    */
   public async create(
     body: ContainerRequest,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ContainerResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       return this.createInternal(diagnosticNode, body, options);
@@ -124,7 +127,7 @@ export class Containers {
   public async createInternal(
     diagnosticNode: DiagnosticNodeInternal,
     body: ContainerRequest,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<ContainerResponse> {
     const err = {};
     if (!isResourceValid(body, err)) {
@@ -194,7 +197,7 @@ export class Containers {
       response.headers,
       response.code,
       ref,
-      getEmptyCosmosDiagnostics()
+      getEmptyCosmosDiagnostics(),
     );
   }
 
@@ -219,7 +222,7 @@ export class Containers {
    */
   public async createIfNotExists(
     body: ContainerRequest,
-    options?: RequestOptions
+    options?: RequestOptions,
   ): Promise<ContainerResponse> {
     if (!body || body.id === null || body.id === undefined) {
       throw new Error("body parameter must be an object with an id property");

@@ -79,7 +79,7 @@ describe("CallMedia Unit Tests", async function () {
       CALL_CONNECTION_ID,
       baseUri,
       { key: generateToken() },
-      new CallAutomationEventProcessor()
+      new CallAutomationEventProcessor(),
     );
   });
 
@@ -273,7 +273,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.startContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions
+      continuousDtmfRecognitionOptions,
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -295,7 +295,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.stopContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions
+      continuousDtmfRecognitionOptions,
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -471,7 +471,7 @@ describe("Call Media Client Live Tests", function () {
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -484,7 +484,7 @@ describe("Call Media Client Live Tests", function () {
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -521,7 +521,7 @@ describe("Call Media Client Live Tests", function () {
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -534,7 +534,7 @@ describe("Call Media Client Live Tests", function () {
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -573,7 +573,7 @@ describe("Call Media Client Live Tests", function () {
     const result = await callerCallAutomationClient.createCall(
       callInvite,
       callBackUrl,
-      createCallOption
+      createCallOption,
     );
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
@@ -586,7 +586,7 @@ describe("Call Media Client Live Tests", function () {
       await receiverCallAutomationClient.answerCall(
         incomingCallContext,
         callBackUrl,
-        answerCallOption
+        answerCallOption,
       );
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
@@ -622,7 +622,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isAtLeast(
       phoneNumbers.length,
       2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers"
+      "Invalid PSTN setup, test needs at least 2 phone numbers",
     );
     callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
     receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
@@ -673,7 +673,7 @@ describe("Call Media Client Live Tests", function () {
     const continuousDtmfRecognitionStopped = await waitForEvent(
       "ContinuousDtmfRecognitionStopped",
       callConnectionId,
-      8000
+      8000,
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
 

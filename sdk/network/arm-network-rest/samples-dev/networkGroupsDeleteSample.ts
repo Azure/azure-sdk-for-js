@@ -34,7 +34,7 @@ async function networkGroupsDelete() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      networkGroupName
+      networkGroupName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

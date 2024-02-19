@@ -33,7 +33,7 @@ async function getPrivateEndPointConnection() {
       subscriptionId,
       resourceGroupName,
       serviceName,
-      peConnectionName
+      peConnectionName,
     )
     .get(options);
   console.log(result);

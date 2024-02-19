@@ -28,7 +28,7 @@ import { getRuleMetaData } from "../utils";
 const reportInternal = (
   node: Node,
   context: Rule.RuleContext,
-  converter: ParserWeakMapESTreeToTSNode
+  converter: ParserWeakMapESTreeToTSNode,
 ): void => {
   const tsNode = converter.get(node as TSESTree.Node);
   if (!canHaveModifiers(tsNode)) {
@@ -60,7 +60,7 @@ const reportInternal = (
 export = {
   meta: getRuleMetaData(
     "ts-doc-internal-private-member",
-    "requires TSDoc comments to not include an '@internal' tag if the object is private"
+    "requires TSDoc comments to not include an '@internal' tag if the object is private",
   ),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const parserServices = context.sourceCode.parserServices as ParserServices;

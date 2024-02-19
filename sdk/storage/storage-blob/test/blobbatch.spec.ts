@@ -432,10 +432,10 @@ describe("BlobBatch", () => {
       const resp = await blockBlobClients[i].setMetadata(metadata);
       assert.isDefined(
         resp.versionId,
-        "expected versionId; check if 'Enable versioning for blobs' is enabled for your storage account "
+        "expected versionId; check if 'Enable versioning for blobs' is enabled for your storage account ",
       );
       blockBlobClientsWithVersion[i] = blockBlobClients[i].withVersion(
-        resp.versionId!
+        resp.versionId!,
       ) as BlockBlobClient;
     }
 
@@ -479,7 +479,7 @@ describe("BlobBatch", () => {
     for (let i = 0; i < blockBlobClients.length; i++) {
       const resp = await blockBlobClients[i].createSnapshot();
       blockBlobClientsWithSnapshot[i] = blockBlobClients[i].withSnapshot(
-        resp.snapshot!
+        resp.snapshot!,
       ) as BlockBlobClient;
     }
 
@@ -526,7 +526,7 @@ describe("BlobBatch", () => {
       // remove query part for this testing for ease
       blockBlobClient1WithoutSAS = blockBlobClients[1].url.substring(
         0,
-        blockBlobClients[1].url.indexOf("?")
+        blockBlobClients[1].url.indexOf("?"),
       );
     }
 
@@ -542,7 +542,7 @@ describe("BlobBatch", () => {
     await batchSetTierRequest.setBlobAccessTier(
       blockBlobClient1WithoutSAS,
       tokenCredential,
-      "Cool"
+      "Cool",
     );
 
     // Submit batch request and verify response.
@@ -639,7 +639,7 @@ describe("BlobBatch", () => {
 
     const invalidCredServiceClient = new BlobServiceClient(
       blobServiceClient.url,
-      newPipeline(new SimpleTokenCredential("invalidtoken"))
+      newPipeline(new SimpleTokenCredential("invalidtoken")),
     ).getBlobBatchClient();
 
     let exceptionCaught = false;

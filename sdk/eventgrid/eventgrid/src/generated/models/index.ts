@@ -302,7 +302,7 @@ export interface StorageTaskCompletedEventData {
 /** Schema of the Data property of an EventGridEvent for an Microsoft.Storage.StorageTaskAssignmentQueued event. */
 export interface StorageTaskAssignmentQueuedEventData {
   /** The time at which a storage task was queued. */
-  queuedDateTime: string;
+  queuedOn: string;
   /** The execution id for a storage task. */
   taskExecutionId: string;
 }
@@ -312,13 +312,13 @@ export interface StorageTaskAssignmentCompletedEventData {
   /** The status for a storage task. */
   status: StorageTaskAssignmentCompletedStatus;
   /** The time at which a storage task was completed. */
-  completedDateTime: string;
+  completedOn: string;
   /** The execution id for a storage task. */
   taskExecutionId: string;
   /** The task name for a storage task. */
   taskName: string;
   /** The summary report blob url for a storage task */
-  summaryReportBlobUrl: string;
+  summaryReportBlobUri: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.EventHub.CaptureFileCreated event. */
@@ -2693,6 +2693,34 @@ export interface ResourceNotificationsResourceDeletedEventData {
   operationalDetails: ResourceNotificationsOperationalDetails;
 }
 
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/privateClouds events. */
+export interface AvsPrivateCloudEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/clusters events. */
+export interface AvsClusterEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Hosts added to the cluster in this event, if any. */
+  addedHostNames: string[];
+  /** Hosts removed to the cluster in this event, if any. */
+  removedHostNames: string[];
+  /** Hosts in Maintenance mode in the cluster, if any. */
+  inMaintenanceHostNames: string[];
+}
+
+/** Schema of the Data property of an EventGridEvent for Microsoft.AVS/scriptExecutions events. */
+export interface AvsScriptExecutionEventData {
+  /** Id of the operation that caused this event. */
+  operationId: string;
+  /** Cmdlet referenced in the execution that caused this event. */
+  cmdletId: string;
+  /** Stdout outputs from the execution, if any. */
+  output: string[];
+}
+
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
 export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
   /** Configured state of the client. The value could be Enabled or Disabled */
@@ -2957,6 +2985,54 @@ export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = R
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
 export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdating event. */
+export type AvsPrivateCloudUpdatingEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudUpdated event. */
+export type AvsPrivateCloudUpdatedEventData = AvsPrivateCloudEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.PrivateCloudFailed event. */
+export type AvsPrivateCloudFailedEventData = AvsPrivateCloudEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterCreated event. */
+export type AvsClusterCreatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterDeleted event. */
+export type AvsClusterDeletedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdating event. */
+export type AvsClusterUpdatingEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterUpdated event. */
+export type AvsClusterUpdatedEventData = AvsClusterEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ClusterFailed event. */
+export type AvsClusterFailedEventData = AvsClusterEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionStarted event. */
+export type AvsScriptExecutionStartedEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFinished event. */
+export type AvsScriptExecutionFinishedEventData = AvsScriptExecutionEventData & {
+  /** Named outputs of completed execution, if any. */
+  namedOutputs: { [propertyName: string]: string };
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionCancelled event. */
+export type AvsScriptExecutionCancelledEventData = AvsScriptExecutionEventData & {};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.AVS.ScriptExecutionFailed event. */
+export type AvsScriptExecutionFailedEventData = AvsScriptExecutionEventData & {
+  /** Failure reason of an event. */
+  failureMessage: string;
+};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterJobCancelled event */
 export type AcsRouterJobCancelledEventData = AcsRouterJobEventData & {
@@ -3260,6 +3336,8 @@ export type AcsChatThreadCreatedEventData = AcsChatThreadEventInThreadBase & {
   createdByCommunicationIdentifier: CommunicationIdentifierModel;
   /** The thread properties */
   properties: { [propertyName: string]: any };
+  /** The chat thread created metadata */
+  metadata: { [propertyName: string]: string };
   /** The list of properties of participants who are part of the thread */
   participants: AcsChatThreadParticipant[];
 };

@@ -20,7 +20,7 @@ export abstract class StorageFileShareTest<TOptions> extends PerfTest<TOptions> 
   constructor() {
     super();
     this.shareServiceClient = ShareServiceClient.fromConnectionString(
-      getEnvVar("STORAGE_CONNECTION_STRING")
+      getEnvVar("STORAGE_CONNECTION_STRING"),
     );
     this.shareClient = this.shareServiceClient.getShareClient(StorageFileShareTest.shareName);
     this.directoryClient = this.shareClient.getDirectoryClient(StorageFileShareTest.dirName);

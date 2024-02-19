@@ -120,7 +120,7 @@ export function convertRequestForQueryBatch(batch: QueryBatch[]): GeneratedBatch
  */
 export function convertResponseForQueryBatch(
   generatedResponse: GeneratedQueryBatchResponse,
-  rawResponse: FullOperationResponse
+  rawResponse: FullOperationResponse,
 ): LogsQueryBatchResult {
   const fixApplied = fixInvalidBatchQueryResponse(generatedResponse, rawResponse);
   /* Sort the ids that are passed in with the queries, as numbers instead of strings
@@ -162,7 +162,7 @@ export function convertResponseForQueryBatch(
  */
 export function fixInvalidBatchQueryResponse(
   generatedResponse: GeneratedQueryBatchResponse,
-  rawResponse: FullOperationResponse
+  rawResponse: FullOperationResponse,
 ): boolean {
   if (generatedResponse.responses == null) {
     return false;
@@ -193,7 +193,7 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetricsBatchQuery(
-  metricsBatchQueryOptions: MetricsBatchOptionalParams | undefined
+  metricsBatchQueryOptions: MetricsBatchOptionalParams | undefined,
 ): GeneratedMetricsBatchOptionalParams {
   if (!metricsBatchQueryOptions) {
     return {};
@@ -211,7 +211,7 @@ export function convertRequestForMetricsBatchQuery(
  */
 export function convertRequestForMetrics(
   metricNames: string[],
-  queryMetricsOptions: MetricsQueryOptions | undefined
+  queryMetricsOptions: MetricsQueryOptions | undefined,
 ): GeneratedMetricsListOptionalParams {
   if (!queryMetricsOptions) {
     return {};
@@ -250,7 +250,7 @@ export function convertRequestForMetrics(
  * @internal
  */
 export function convertResponseForMetrics(
-  generatedResponse: GeneratedMetricsListResponse
+  generatedResponse: GeneratedMetricsListResponse,
 ): MetricsQueryResult {
   const metrics: Metric[] = generatedResponse.value.map((metric: GeneratedMetric) => {
     const metricObject = {
@@ -265,7 +265,7 @@ export function convertResponseForMetrics(
               ...mv,
               name: mv.name?.value,
             })),
-          }
+          },
       ),
     };
     delete metricObject.displayDescription;
@@ -295,7 +295,7 @@ export function convertResponseForMetrics(
  * @internal
  */
 export function convertRequestOptionsForMetricsDefinitions(
-  options: ListMetricDefinitionsOptions | undefined
+  options: ListMetricDefinitionsOptions | undefined,
 ): GeneratedMetricDefinitionsListOptionalParams {
   if (!options) {
     return {};
@@ -315,7 +315,7 @@ export function convertRequestOptionsForMetricsDefinitions(
 }
 
 export function convertResponseForMetricBatch(
-  generatedResponse?: GeneratedMetricsBatchResponse
+  generatedResponse?: GeneratedMetricsBatchResponse,
 ): Array<MetricResultsResponseValuesItem> {
   if (!generatedResponse) return [];
 
@@ -337,7 +337,7 @@ export function convertResponseForMetricBatch(
       };
 
       return response;
-    }
+    },
   );
 
   if (!batch) return [];
@@ -349,7 +349,7 @@ export function convertResponseForMetricBatch(
  * @internal
  */
 export function convertResponseForMetricsDefinitions(
-  generatedResponse: Array<GeneratedMetricDefinition>
+  generatedResponse: Array<GeneratedMetricDefinition>,
 ): Array<MetricDefinition> {
   const definitions: Array<MetricDefinition> = generatedResponse?.map((genDef) => {
     const { name, dimensions, displayDescription, metricAvailabilities, ...rest } = genDef;
@@ -390,7 +390,7 @@ export function convertResponseForMetricsDefinitions(
  * @internal
  */
 export function convertResponseForMetricNamespaces(
-  generatedResponse: Array<GeneratedMetricNamespace>
+  generatedResponse: Array<GeneratedMetricNamespace>,
 ): Array<MetricNamespace> {
   const namespaces: Array<MetricNamespace> = generatedResponse?.map((genDef) => {
     const { properties, ...rest } = genDef;
@@ -450,11 +450,11 @@ export function convertGeneratedTable(table: GeneratedTable): LogsTable {
  * @internal
  */
 export function convertBatchQueryResponseHelper(
-  response: GeneratedBatchQueryResponse
+  response: GeneratedBatchQueryResponse,
 ): LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError {
   try {
     const parsedResponseBody: GeneratedBatchQueryResults = JSON.parse(
-      response.body as any
+      response.body as any,
     ) as GeneratedBatchQueryResults;
 
     return computeResultType(parsedResponseBody);
@@ -465,7 +465,7 @@ export function convertBatchQueryResponseHelper(
 }
 
 export function computeResultType(
-  generatedResponse: GeneratedBatchQueryResults
+  generatedResponse: GeneratedBatchQueryResults,
 ): LogsQueryPartialResult | LogsQuerySuccessfulResult | LogsQueryError {
   if (!generatedResponse.error) {
     const result: LogsQuerySuccessfulResult = {
@@ -484,7 +484,7 @@ export function computeResultType(
         status: LogsQueryResultStatus.PartialFailure,
         statistics: generatedResponse.statistics,
         partialTables: generatedResponse.tables?.map((table: GeneratedTable) =>
-          convertGeneratedTable(table)
+          convertGeneratedTable(table),
         ),
         partialError: mapError(generatedResponse.error),
       };

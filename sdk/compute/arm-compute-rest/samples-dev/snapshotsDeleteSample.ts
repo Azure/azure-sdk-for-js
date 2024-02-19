@@ -32,7 +32,7 @@ async function deleteASnapshot() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}",
       subscriptionId,
       resourceGroupName,
-      snapshotName
+      snapshotName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

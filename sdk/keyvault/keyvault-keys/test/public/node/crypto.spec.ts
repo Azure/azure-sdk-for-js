@@ -40,7 +40,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       cryptoClient = new CryptographyClient(
         keyVaultKey,
         credential,
-        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
       );
     });
 
@@ -88,7 +88,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
             algorithm: "RSA-OAEP",
             plaintext: stringToUint8Array(text),
           },
-          {}
+          {},
         );
         const decryptResult = await cryptoClient.decrypt({
           algorithm: "RSA-OAEP",
@@ -115,13 +115,13 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
       it("the CryptographyClient can be created from a full KeyVaultKey object", async function (this: Context) {
         const customKeyName = testClient.formatName(
-          `${keyPrefix}-${this!.test!.title}-${keySuffix}`
+          `${keyPrefix}-${this!.test!.title}-${keySuffix}`,
         );
         const customKeyVaultKey = await client.createKey(customKeyName, "RSA");
         const cryptoClientFromKey = new CryptographyClient(
           customKeyVaultKey,
           credential,
-          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+          recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
         );
 
         const text = this.test!.title;
@@ -140,7 +140,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       it("wrap and unwrap with rsa1_5", async function () {
         if (!isLiveMode()) {
           console.log(
-            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode",
           );
           this.skip();
         }
@@ -155,7 +155,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       it("wrap and unwrap with RSA-OAEP", async function (this: Context) {
         if (!isLiveMode()) {
           console.log(
-            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode"
+            "Wrapping and unwrapping don't cause a repeatable pattern, so these tests can only run in playback mode",
           );
           this.skip();
         }
@@ -193,23 +193,23 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
             async (options) => {
               const encryptResult = await cryptoClient.encrypt(
                 { algorithm: "RSA1_5", plaintext: stringToUint8Array("Hello, world") },
-                options
+                options,
               );
               await cryptoClient.decrypt(
                 { algorithm: "RSA1_5", ciphertext: encryptResult.result },
-                options
+                options,
               );
 
               const signResult = await cryptoClient.signData(
                 "RS256",
                 stringToUint8Array("Message"),
-                options
+                options,
               );
               await cryptoClient.verifyData(
                 "RS256",
                 stringToUint8Array("Message"),
                 signResult.result,
-                options
+                options,
               );
             },
             [
@@ -217,7 +217,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
               "CryptographyClient.decrypt",
               "CryptographyClient.signData",
               "CryptographyClient.verifyData",
-            ]
+            ],
           );
         }
       });
@@ -246,7 +246,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       cryptoClient = new CryptographyClient(
         keyVaultKey.id!,
         credential,
-        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() })
+        recorder.configureClientOptions({ disableChallengeResourceVerification: !isLiveMode() }),
       );
     });
 
@@ -284,7 +284,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     it("wrap and unwrap with RSA-OAEP on a RSA-HSM key", async function (this: Context) {
       if (!isLiveMode()) {
         console.log(
-          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
+          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live",
         );
         this.skip();
       }
@@ -298,7 +298,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     it("wrap and unwrap with RSA1_5 on a RSA-HSM key", async function (this: Context) {
       if (!isLiveMode()) {
         console.log(
-          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
+          "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live",
         );
         this.skip();
       }
@@ -364,7 +364,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
           keyVaultKey.name,
           recorder.configureClientOptions({
             keyVersion: keyVaultKey.properties.version,
-          })
+          }),
         );
         const data = Buffer.from("my message");
 

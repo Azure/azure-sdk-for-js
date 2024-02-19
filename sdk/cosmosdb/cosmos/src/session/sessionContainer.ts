@@ -13,7 +13,10 @@ export class SessionContainer {
   private static readonly SESSION_TOKEN_PARTITION_SPLITTER = ":";
   constructor(
     private collectionNameToCollectionResourceId = new Map<string, string>(),
-    private collectionResourceIdToSessionTokens = new Map<string, Map<string, VectorSessionToken>>()
+    private collectionResourceIdToSessionTokens = new Map<
+      string,
+      Map<string, VectorSessionToken>
+    >(),
   ) {}
 
   public get(request: SessionContext): string {
@@ -85,12 +88,12 @@ export class SessionContainer {
   }
 
   private getPartitionKeyRangeIdToTokenMap(
-    collectionName: string
+    collectionName: string,
   ): Map<string, VectorSessionToken> {
     let rangeIdToTokenMap: Map<string, VectorSessionToken> = null;
     if (collectionName && this.collectionNameToCollectionResourceId.has(collectionName)) {
       rangeIdToTokenMap = this.collectionResourceIdToSessionTokens.get(
-        this.collectionNameToCollectionResourceId.get(collectionName)
+        this.collectionNameToCollectionResourceId.get(collectionName),
       );
     }
 
@@ -115,7 +118,7 @@ export class SessionContainer {
 
   private static compareAndSetToken(
     newTokenString: string,
-    containerSessionTokens: Map<string, VectorSessionToken>
+    containerSessionTokens: Map<string, VectorSessionToken>,
   ): void {
     if (!newTokenString) {
       return;
@@ -140,7 +143,7 @@ export class SessionContainer {
   // TODO: have a assert if the type doesn't mastch known types
   private static isReadingFromMaster(
     resourceType: ResourceType,
-    operationType: OperationType
+    operationType: OperationType,
   ): boolean {
     if (
       resourceType === Constants.Path.OffersPathSegment ||

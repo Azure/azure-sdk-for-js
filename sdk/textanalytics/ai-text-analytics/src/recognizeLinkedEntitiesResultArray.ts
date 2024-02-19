@@ -36,12 +36,12 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
  */
 export function makeRecognizeLinkedEntitiesResultArray(
   input: TextDocumentInput[],
-  response: EntityLinkingResult
+  response: EntityLinkingResult,
 ): RecognizeLinkedEntitiesResultArray {
   return combineSuccessfulAndErroneousDocumentsWithStatisticsAndModelVersion(
     input,
     response,
     makeRecognizeLinkedEntitiesResult,
-    makeRecognizeLinkedEntitiesErrorResult
+    makeRecognizeLinkedEntitiesErrorResult,
   );
 }

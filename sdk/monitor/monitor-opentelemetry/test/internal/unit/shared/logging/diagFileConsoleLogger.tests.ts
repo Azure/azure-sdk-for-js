@@ -71,7 +71,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           assert.ok(confirmDirStub.called, "confirmDirStub called");
           assert.ok(appendFileAsyncStub.called, "writeStub called"); // File creation was called
           assert.ok(
-            appendFileAsyncStub.lastCall.args[0].toString().indexOf("applicationinsights.log") > 0
+            appendFileAsyncStub.lastCall.args[0].toString().indexOf("applicationinsights.log") > 0,
           );
           assert.equal(appendFileAsyncStub.lastCall.args[1], "testMessage\r\n");
           done();
@@ -87,7 +87,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         async () =>
           // Fake file size check
-          123
+          123,
       );
       logger["_maxSizeBytes"] = 122;
 
@@ -104,7 +104,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           //assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
           assert.ok(
             writeStub.args[0][0].toString().indexOf(".applicationinsights.log") > 0,
-            ".applicationinsights.log present in backup file name"
+            ".applicationinsights.log present in backup file name",
           ); // First call is for backup file
           //assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
           assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
@@ -121,7 +121,7 @@ describe("Library/DiagFileConsoleLogger", () => {
       sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
         async () =>
           // Fake file size check
-          123
+          123,
       );
       const writeStub = sandbox.stub(fileHelper, "writeFileAsync");
       const readStub = sandbox.stub(fileHelper, "readFileAsync");
@@ -165,7 +165,7 @@ describe("Library/DiagFileConsoleLogger", () => {
               "applicationinsights.log",
               "123.applicationinsights.log",
               "456.applicationinsights.log",
-            ] as any
+            ] as any,
         );
       logger["_maxHistory"] = 0;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
@@ -188,7 +188,7 @@ describe("Library/DiagFileConsoleLogger", () => {
               "applicationinsights.log",
               "123.applicationinsights.log",
               "456.applicationinsights.log",
-            ] as any
+            ] as any,
         );
       logger["_maxHistory"] = 1;
       const unlinkStub = sandbox.stub(fileHelper, "unlinkAsync");
@@ -197,7 +197,7 @@ describe("Library/DiagFileConsoleLogger", () => {
           assert.ok(unlinkStub.calledOnce, "unlinkStub calledOnce");
           assert.ok(
             unlinkStub.args[0][0].toString().indexOf("123.applicationinsights.log") > 0,
-            "Oldest file is deleted"
+            "Oldest file is deleted",
           );
           done();
         })

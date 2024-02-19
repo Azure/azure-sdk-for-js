@@ -32,7 +32,7 @@ async function availabilitySetsListAvailableSizesMaximumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);
@@ -64,7 +64,7 @@ async function availabilitySetsListAvailableSizesMinimumSetGen() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}/vmSizes",
       subscriptionId,
       resourceGroupName,
-      availabilitySetName
+      availabilitySetName,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

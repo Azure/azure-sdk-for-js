@@ -27,7 +27,7 @@ async function getAvailableSslOptions() {
   const result = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   console.log(result);

@@ -22,7 +22,7 @@ interface ManifestWriteableProperties {
 }
 
 export function toManifestWritableProperties(
-  from?: ServiceManifestWritableProperties
+  from?: ServiceManifestWritableProperties,
 ): ManifestWriteableProperties | undefined {
   // don't return unwanted properties, namely `quarantineState` and `quarantineDetails`
   return from
@@ -38,7 +38,7 @@ export function toManifestWritableProperties(
 export function toArtifactManifestProperties(
   from: ServiceArtifactManifestProperties,
   repositoryName: string,
-  registryLoginServer: string
+  registryLoginServer: string,
 ): ArtifactManifestProperties {
   return {
     registryLoginServer,
@@ -59,16 +59,16 @@ export function toServiceTagOrderBy(orderBy?: ArtifactTagOrder): ServiceTagOrder
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
-    ? "timedesc"
-    : undefined;
+      ? "timedesc"
+      : undefined;
 }
 
 export function toServiceManifestOrderBy(
-  orderBy?: ArtifactManifestOrder
+  orderBy?: ArtifactManifestOrder,
 ): ServiceManifestOrderBy | undefined {
   return orderBy === "LastUpdatedOnAscending"
     ? "timeasc"
     : orderBy === "LastUpdatedOnDescending"
-    ? "timedesc"
-    : undefined;
+      ? "timedesc"
+      : undefined;
 }

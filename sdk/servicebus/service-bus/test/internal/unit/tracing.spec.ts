@@ -35,7 +35,7 @@ describe("tracing", () => {
       const expectedSpanKind = "client";
       assert.equal(
         toSpanOptions({ entityPath: "", host: "" }, "receive", expectedSpanKind).spanKind,
-        expectedSpanKind
+        expectedSpanKind,
       );
     });
   });
@@ -58,7 +58,7 @@ describe("tracing", () => {
         {},
         "testPath",
         "testHost",
-        "receive"
+        "receive",
       );
       assert.notExists(spanContext);
       assert.equal(message.applicationProperties?.[TRACEPARENT_PROPERTY], "exists");
@@ -79,7 +79,7 @@ describe("tracing", () => {
         {},
         "testPath",
         "testHost",
-        "receive"
+        "receive",
       );
       assert.notExists(spanContext); // was not instrumented
       assert.notExists(message.applicationProperties?.[TRACEPARENT_PROPERTY]);
@@ -105,12 +105,12 @@ describe("tracing", () => {
           {},
           "testPath",
           "testHost",
-          "receive"
+          "receive",
         );
 
         assert.equal(
           message.applicationProperties?.[TRACEPARENT_PROPERTY],
-          "fake-traceparent-header"
+          "fake-traceparent-header",
         );
       });
     });
@@ -125,7 +125,7 @@ describe("tracing", () => {
           {
             host: "testHost",
           },
-          "receive"
+          "receive",
         );
         assert.equal(processingSpanOptions.spanKind, "consumer");
         assert.deepEqual(processingSpanOptions.spanAttributes, {
@@ -162,7 +162,7 @@ describe("tracing", () => {
           {
             host: "testHost",
           },
-          "receive"
+          "receive",
         );
 
         assert.lengthOf(processingSpanOptions.spanLinks!, 1);
@@ -186,17 +186,17 @@ describe("tracing", () => {
         {},
         "",
         "",
-        "receive"
+        "receive",
       );
 
       assert.equal(
         message,
         alreadyInstrumentedMessage,
-        "Messages that are already instrumented do not get copied"
+        "Messages that are already instrumented do not get copied",
       );
       assert.isUndefined(
         spanContext,
-        "Messages that are already instrumented do not get a new Span (or SpanContext)"
+        "Messages that are already instrumented do not get a new Span (or SpanContext)",
       );
     });
   });

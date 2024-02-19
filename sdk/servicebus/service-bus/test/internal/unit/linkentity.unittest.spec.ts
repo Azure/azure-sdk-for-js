@@ -44,7 +44,7 @@ describe("LinkEntity unit tests", () => {
       receiverLogger,
       {
         address: "my-address",
-      }
+      },
     );
   });
 
@@ -52,7 +52,7 @@ describe("LinkEntity unit tests", () => {
     await linkEntity.close();
     assert.isTrue(
       (linkEntity as LinkForTests)["_removeLinkFromContextCalled"],
-      "Every link should have a chance to remove themselves from the cache"
+      "Every link should have a chance to remove themselves from the cache",
     );
   });
 
@@ -100,7 +100,7 @@ describe("LinkEntity unit tests", () => {
       assert.equal(
         timesCalled,
         1,
-        "Only one negotiateClaim call should make it through since the others were turned away because of the isConnecting field"
+        "Only one negotiateClaim call should make it through since the others were turned away because of the isConnecting field",
       );
 
       await Promise.all(innerPromises);
@@ -168,7 +168,7 @@ describe("LinkEntity unit tests", () => {
         assert.equal(err.name, "ServiceBusError");
         assert.isTrue(
           err.retryable,
-          "Exception thrown when the connection is closing should be retryable"
+          "Exception thrown when the connection is closing should be retryable",
         );
       }
     });
@@ -204,7 +204,7 @@ describe("LinkEntity unit tests", () => {
       await linkEntity.initLink({});
       assert.exists(
         linkEntity["_tokenRenewalTimer"],
-        "the tokenrenewal timer should have been set"
+        "the tokenrenewal timer should have been set",
       );
 
       const negotiateClaimSpy = sinon.spy(linkEntity as any, "_negotiateClaim");
@@ -258,7 +258,7 @@ describe("LinkEntity unit tests", () => {
         returnedReceiver = await orig.call(linkEntity, options);
         assert.isTrue(
           returnedReceiver.isOpen(),
-          "Sanity check - the returnedReceiver was open when we returned it."
+          "Sanity check - the returnedReceiver was open when we returned it.",
         );
         return returnedReceiver;
       };
@@ -280,7 +280,7 @@ describe("LinkEntity unit tests", () => {
 
       assert.isTrue(
         linkEntity.isOpen(),
-        "Can always reopen if the reason we closed the link is because of the abortSignal"
+        "Can always reopen if the reason we closed the link is because of the abortSignal",
       );
     });
 
@@ -324,7 +324,7 @@ describe("LinkEntity unit tests", () => {
       assert.equal(
         linkEntity.name,
         "some new name",
-        "Name is an exact match to the name passed in the receiver options"
+        "Name is an exact match to the name passed in the receiver options",
       );
 
       // we also update the log prefix
@@ -355,7 +355,7 @@ describe("LinkEntity unit tests", () => {
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
           tracingOptions: {},
-        }
+        },
       );
 
       initCachedLinks(batchingReceiver.name);
@@ -385,7 +385,7 @@ describe("LinkEntity unit tests", () => {
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
           tracingOptions: {},
-        }
+        },
       );
 
       initCachedLinks(streamingReceiver.name);
@@ -432,7 +432,7 @@ describe("LinkEntity unit tests", () => {
           retryOptions: {},
           skipParsingBodyAsJson: false,
           skipConvertingDate: false,
-        }
+        },
       );
 
       initCachedLinks(messageSession.name);
@@ -475,7 +475,7 @@ describe("LinkEntity unit tests", () => {
     }): void {
       assert.isEmpty(
         args.unchangedCaches.filter((cache) => cache[args.name] == null),
-        "Unrelated caches should not be changed."
+        "Unrelated caches should not be changed.",
       );
     }
 
@@ -498,7 +498,7 @@ describe("LinkEntity unit tests", () => {
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
-      'the tokenrenewal timer should be cleared when we close("permanently")'
+      'the tokenrenewal timer should be cleared when we close("permanently")',
     );
   }
 
@@ -508,7 +508,7 @@ describe("LinkEntity unit tests", () => {
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
-      'the tokenrenewal timer should be cleared when we close("linkonly")'
+      'the tokenrenewal timer should be cleared when we close("linkonly")',
     );
   }
 });

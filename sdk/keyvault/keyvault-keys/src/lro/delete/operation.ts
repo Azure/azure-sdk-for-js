@@ -22,7 +22,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     public state: DeleteKeyPollOperationState,
     private vaultUrl: string,
     private client: KeyVaultClient,
-    private operationOptions: OperationOptions = {}
+    private operationOptions: OperationOptions = {},
   ) {
     super(state, { cancelMessage: "Canceling the deletion of a key is not supported." });
   }
@@ -49,7 +49,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
       async (updatedOptions) => {
         const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
         return getKeyFromKeyBundle(response);
-      }
+      },
     );
   }
 
@@ -60,7 +60,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
     options: {
       abortSignal?: AbortSignalLike;
       fireProgress?: (state: DeleteKeyPollOperationState) => void;
-    } = {}
+    } = {},
   ): Promise<DeleteKeyPollOperation> {
     const state = this.state;
     const { name } = state;

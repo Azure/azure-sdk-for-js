@@ -37,7 +37,7 @@ const tests: TestDefinition[] = [
 
 // Normalize everything in the array above for export.
 export const allTests: NormalizedTestDefinition[] = tests.map((test) =>
-  typeof test === "function" ? { testClass: test } : test
+  typeof test === "function" ? { testClass: test } : test,
 );
 
 // Exports all the test classes so that the index.spec.ts can pick them up

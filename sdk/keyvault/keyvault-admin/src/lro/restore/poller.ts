@@ -49,7 +49,7 @@ export class KeyVaultRestorePoller extends KeyVaultAdminPoller<
       },
       vaultUrl,
       client,
-      requestOptions
+      requestOptions,
     );
 
     super(operation);

@@ -23,7 +23,7 @@ async function workingWithBigint() {
   const client = new TableClient(
     tablesUrl,
     "testbigint",
-    new AzureNamedKeyCredential(accountName, accountKey)
+    new AzureNamedKeyCredential(accountName, accountKey),
   );
 
   await client.createTable();

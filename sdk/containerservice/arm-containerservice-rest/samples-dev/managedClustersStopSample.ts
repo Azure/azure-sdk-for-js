@@ -30,7 +30,7 @@ async function stopManagedCluster() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
       subscriptionId,
       resourceGroupName,
-      resourceName
+      resourceName,
     )
     .post();
   const poller = getLongRunningPoller(client, initialResponse);

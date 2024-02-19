@@ -236,7 +236,7 @@ describe("PageBlobClient", () => {
     const rangesDiff = await mdPageBlobClient.getPageRangesDiffForManagedDisks(
       0,
       1024,
-      snapshotUrl
+      snapshotUrl,
     );
 
     assert.equal(rangesDiff.pageRange![0].offset, 0);
@@ -386,7 +386,7 @@ describe("PageBlobClient", () => {
     for await (const pageRange of pageBlobClient.listPageRangesDiff(
       0,
       4096,
-      snapshotResult.snapshot!
+      snapshotResult.snapshot!,
     )) {
       assert.equal(pageRange.start, index * 512);
       assert.equal(pageRange.end, index * 512 + 511);
@@ -509,7 +509,7 @@ describe("PageBlobClient", () => {
       if (
         err instanceof Error &&
         err.message.startsWith(
-          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server."
+          "The CRC64 value specified in the request did not match with the CRC64 value calculated by the server.",
         )
       ) {
         exceptionCaught = true;
@@ -523,7 +523,7 @@ describe("PageBlobClient", () => {
     const newClient = new PageBlobClient(
       getSASConnectionStringFromEnvironment(recorder),
       containerName,
-      blobName
+      blobName,
     );
     configureBlobStorageClient(recorder, newClient);
 
@@ -540,7 +540,7 @@ describe("PageBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });
@@ -553,7 +553,7 @@ describe("PageBlobClient", () => {
       assert.equal(
         "Expecting non-empty strings for containerName and blobName parameters",
         error.message,
-        "Error message is different than expected."
+        "Error message is different than expected.",
       );
     }
   });

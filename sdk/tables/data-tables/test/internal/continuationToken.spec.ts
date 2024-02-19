@@ -31,7 +31,7 @@ describe("continuation token utils", function () {
 
   it("should decode nextPartitionKey and nextRowKey", function () {
     const decoded = decodeContinuationToken(
-      "eyJuZXh0UGFydGl0aW9uS2V5IjoiZm9vIiwibmV4dFJvd0tleSI6ImJhciJ9"
+      "eyJuZXh0UGFydGl0aW9uS2V5IjoiZm9vIiwibmV4dFJvd0tleSI6ImJhciJ9",
     );
     assert.deepEqual(decoded, { nextPartitionKey: "foo", nextRowKey: "bar" });
   });

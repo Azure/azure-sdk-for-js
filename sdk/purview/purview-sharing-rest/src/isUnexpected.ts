@@ -63,83 +63,83 @@ const responseMap: Record<string, string[]> = {
 export function isUnexpected(
   response:
     | ReceivedSharesGetReceivedShare200Response
-    | ReceivedSharesGetReceivedShareDefaultResponse
+    | ReceivedSharesGetReceivedShareDefaultResponse,
 ): response is ReceivedSharesGetReceivedShareDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesCreateOrReplace200Response
     | ReceivedSharesCreateOrReplace201Response
-    | ReceivedSharesCreateOrReplaceDefaultResponse
+    | ReceivedSharesCreateOrReplaceDefaultResponse,
 ): response is ReceivedSharesCreateOrReplaceDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesDeleteReceivedShare202Response
-    | ReceivedSharesDeleteReceivedShareDefaultResponse
+    | ReceivedSharesDeleteReceivedShareDefaultResponse,
 ): response is ReceivedSharesDeleteReceivedShareDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesGetAllAttachedReceivedShares200Response
-    | ReceivedSharesGetAllAttachedReceivedSharesDefaultResponse
+    | ReceivedSharesGetAllAttachedReceivedSharesDefaultResponse,
 ): response is ReceivedSharesGetAllAttachedReceivedSharesDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesGetAllDetachedReceivedShares200Response
-    | ReceivedSharesGetAllDetachedReceivedSharesDefaultResponse
+    | ReceivedSharesGetAllDetachedReceivedSharesDefaultResponse,
 ): response is ReceivedSharesGetAllDetachedReceivedSharesDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesActivateTenantEmailRegistration200Response
-    | ReceivedSharesActivateTenantEmailRegistrationDefaultResponse
+    | ReceivedSharesActivateTenantEmailRegistrationDefaultResponse,
 ): response is ReceivedSharesActivateTenantEmailRegistrationDefaultResponse;
 export function isUnexpected(
   response:
     | ReceivedSharesRegisterTenantEmailRegistration200Response
-    | ReceivedSharesRegisterTenantEmailRegistrationDefaultResponse
+    | ReceivedSharesRegisterTenantEmailRegistrationDefaultResponse,
 ): response is ReceivedSharesRegisterTenantEmailRegistrationDefaultResponse;
 export function isUnexpected(
-  response: SentSharesGetAllSentShares200Response | SentSharesGetAllSentSharesDefaultResponse
+  response: SentSharesGetAllSentShares200Response | SentSharesGetAllSentSharesDefaultResponse,
 ): response is SentSharesGetAllSentSharesDefaultResponse;
 export function isUnexpected(
-  response: SentSharesGetSentShare200Response | SentSharesGetSentShareDefaultResponse
+  response: SentSharesGetSentShare200Response | SentSharesGetSentShareDefaultResponse,
 ): response is SentSharesGetSentShareDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesCreateOrReplace200Response
     | SentSharesCreateOrReplace201Response
-    | SentSharesCreateOrReplaceDefaultResponse
+    | SentSharesCreateOrReplaceDefaultResponse,
 ): response is SentSharesCreateOrReplaceDefaultResponse;
 export function isUnexpected(
-  response: SentSharesDeleteSentShare202Response | SentSharesDeleteSentShareDefaultResponse
+  response: SentSharesDeleteSentShare202Response | SentSharesDeleteSentShareDefaultResponse,
 ): response is SentSharesDeleteSentShareDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesGetAllSentShareInvitations200Response
-    | SentSharesGetAllSentShareInvitationsDefaultResponse
+    | SentSharesGetAllSentShareInvitationsDefaultResponse,
 ): response is SentSharesGetAllSentShareInvitationsDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesGetSentShareInvitation200Response
-    | SentSharesGetSentShareInvitationDefaultResponse
+    | SentSharesGetSentShareInvitationDefaultResponse,
 ): response is SentSharesGetSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesCreateSentShareInvitation201Response
-    | SentSharesCreateSentShareInvitationDefaultResponse
+    | SentSharesCreateSentShareInvitationDefaultResponse,
 ): response is SentSharesCreateSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesDeleteSentShareInvitation202Response
-    | SentSharesDeleteSentShareInvitationDefaultResponse
+    | SentSharesDeleteSentShareInvitationDefaultResponse,
 ): response is SentSharesDeleteSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:
     | SentSharesNotifyUserSentShareInvitation200Response
-    | SentSharesNotifyUserSentShareInvitationDefaultResponse
+    | SentSharesNotifyUserSentShareInvitationDefaultResponse,
 ): response is SentSharesNotifyUserSentShareInvitationDefaultResponse;
 export function isUnexpected(
   response:
     | ShareResourcesGetAllShareResources200Response
-    | ShareResourcesGetAllShareResourcesDefaultResponse
+    | ShareResourcesGetAllShareResourcesDefaultResponse,
 ): response is ShareResourcesGetAllShareResourcesDefaultResponse;
 export function isUnexpected(
   response:
@@ -178,7 +178,7 @@ export function isUnexpected(
     | SentSharesNotifyUserSentShareInvitation200Response
     | SentSharesNotifyUserSentShareInvitationDefaultResponse
     | ShareResourcesGetAllShareResources200Response
-    | ShareResourcesGetAllShareResourcesDefaultResponse
+    | ShareResourcesGetAllShareResourcesDefaultResponse,
 ): response is
   | ReceivedSharesGetReceivedShareDefaultResponse
   | ReceivedSharesCreateOrReplaceDefaultResponse
@@ -238,7 +238,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || ""
+          pathParts[j] || "",
         );
 
         if (!isMatched) {

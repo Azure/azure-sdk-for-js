@@ -101,7 +101,7 @@ export interface TableSasSignatureValues {
 export function generateTableSasQueryParameters(
   tableName: string,
   credential: NamedKeyCredential,
-  tableSasSignatureValues: TableSasSignatureValues
+  tableSasSignatureValues: TableSasSignatureValues,
 ): SasQueryParameters {
   const version = tableSasSignatureValues.version ?? SERVICE_VERSION;
 
