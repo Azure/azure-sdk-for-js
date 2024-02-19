@@ -84,10 +84,7 @@ export class TenDlcClient {
     id: string,
     options: CreateOrUpdateBrandOptions = {}
   ): Promise<USBrand> {
-    const { span, updatedOptions } = tracingClient.startSpan(
-      "TenDlcClient-upsertUSBrand",
-      options
-    );
+    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-upsertUSBrand", options);
     try {
       return this.client.tenDlc.upsertUSBrand(brandId, id, updatedOptions);
     } catch (e: any) {
@@ -210,7 +207,10 @@ export class TenDlcClient {
   public listUSCampaigns(
     options: ListCampaignsOptionalParams = {}
   ): PagedAsyncIterableIterator<USCampaign> {
-    const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listUSCampaigns", options);
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "TenDlcClient-listUSCampaigns",
+      options
+    );
     try {
       return this.client.tenDlc.listUSCampaigns(updatedOptions);
     } catch (e: any) {
@@ -224,9 +224,7 @@ export class TenDlcClient {
     }
   }
 
-  public listCosts(
-    options: ListTenDlcCostsOptions = {}
-  ): PagedAsyncIterableIterator<TenDlcCost> {
+  public listCosts(options: ListTenDlcCostsOptions = {}): PagedAsyncIterableIterator<TenDlcCost> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCosts", options);
     try {
       return this.client.tenDlc.listCosts(updatedOptions);
