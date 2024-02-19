@@ -1,5 +1,17 @@
 {
   "extends": "../../../tsconfig.package",
-  "compilerOptions": { "outDir": "./dist-esm", "declarationDir": "./types" },
-  "include": ["src/**/*.ts", "./test/**/*.ts"]
+  "compilerOptions": {
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure-rest/health-insights-radiologyinsights": [
+        "./src/index"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ]
 }
