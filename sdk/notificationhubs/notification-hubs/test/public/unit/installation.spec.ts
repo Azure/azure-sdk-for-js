@@ -6,6 +6,7 @@ import {
   createAppleInstallation,
   createBaiduInstallation,
   createBrowserInstallation,
+  createFcmV1Installation,
   createFcmLegacyInstallation,
   createXiaomiInstallation,
   createWindowsInstallation,
@@ -70,6 +71,19 @@ describe("createBrowserInstallation", () => {
     assert.equal(installation.pushChannel.p256dh, "{P256DH}");
     assert.equal(installation.pushChannel.auth, "{Auth Secret}");
     assert.equal(installation.platform, "browser");
+  });
+});
+
+describe("createFcmV1Installation", () => {
+  it("should set the default properties", () => {
+    const installation = createFcmV1Installation({
+      installationId: "abc123",
+      pushChannel: "zxy321",
+    });
+
+    assert.equal(installation.installationId, "abc123");
+    assert.equal(installation.pushChannel, "zxy321");
+    assert.equal(installation.platform, "fcmv1");
   });
 });
 

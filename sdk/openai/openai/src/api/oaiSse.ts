@@ -25,8 +25,7 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
   const jsonParser = new TransformStream<EventMessage, TEvent>({
     transform: async (chunk, controller) => {
       if (chunk.data === "[DONE]") {
-        controller.terminate();
-        return eventStream[Symbol.asyncDispose]();
+        return;
       }
       controller.enqueue(
         toEvent(
@@ -39,5 +38,5 @@ export async function getOaiSSEs<TEvent, O extends Record<string, any>>(
     },
   });
   /** TODO: remove these polyfills once all supported runtimes support them */
-  return polyfillStream(eventStream.pipeThrough(jsonParser), () => eventStream.cancel());
+  return polyfillStream(eventStream.pipeThrough(jsonParser));
 }

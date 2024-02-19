@@ -88,12 +88,12 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0",
-    "jsrsasign": "^10.3.0"
+    "jsrsasign": "^11.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.0.1",
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@microsoft/api-extractor": "^7.31.1",
@@ -127,7 +127,7 @@
     "safe-buffer": "^5.2.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.2.0",
+    "typescript": "~5.3.3",
     "util": "^0.12.1"
   },
   "//sampleConfiguration": {

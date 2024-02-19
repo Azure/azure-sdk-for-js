@@ -1223,6 +1223,7 @@ export interface CreationData {
     imageReference?: ImageDiskReference;
     logicalSectorSize?: number;
     performancePlus?: boolean;
+    provisionedBandwidthCopySpeed?: ProvisionedBandwidthCopyOption;
     securityDataUri?: string;
     sourceResourceId?: string;
     readonly sourceUniqueId?: string;
@@ -3282,6 +3283,7 @@ export enum KnownDiskEncryptionSetType {
 export enum KnownDiskSecurityTypes {
     ConfidentialVMDiskEncryptedWithCustomerKey = "ConfidentialVM_DiskEncryptedWithCustomerKey",
     ConfidentialVMDiskEncryptedWithPlatformKey = "ConfidentialVM_DiskEncryptedWithPlatformKey",
+    ConfidentialVMNonPersistedTPM = "ConfidentialVM_NonPersistedTPM",
     ConfidentialVMVmguestStateOnlyEncryptedWithPlatformKey = "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
     TrustedLaunch = "TrustedLaunch"
 }
@@ -3576,6 +3578,12 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Pending = "Pending",
     Rejected = "Rejected"
+}
+
+// @public
+export enum KnownProvisionedBandwidthCopyOption {
+    Enhanced = "Enhanced",
+    None = "None"
 }
 
 // @public
@@ -4484,6 +4492,9 @@ export interface PropertyUpdatesInProgress {
 
 // @public
 export type ProtocolTypes = "Http" | "Https";
+
+// @public
+export type ProvisionedBandwidthCopyOption = string;
 
 // @public
 export interface ProximityPlacementGroup extends Resource {

@@ -14,9 +14,8 @@ import {
 } from "../public/utils/testutils2";
 const assert = chai.assert;
 
-type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends Promise<infer U>
-  ? U
-  : never;
+type UnpackReturnType<T extends (...args: any) => any> =
+  ReturnType<T> extends Promise<infer U> ? U : never;
 
 const { SERVICEBUS_CONNECTION_STRING: serviceBusConnectionString } = getEnvVars();
 

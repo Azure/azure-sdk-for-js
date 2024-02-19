@@ -22,13 +22,6 @@
 
 /design/ @bterlson @mpodwysocki @joheredi @jeremymeng @witemple-msft
 
-################
-# Automation
-################
-
-# Git Hub integration and bot rules
-/.github/ @jsquire @ronniegeraghty
-
 ###########
 # SDK
 ###########
@@ -52,7 +45,7 @@
 /sdk/core/core-lro/ @deyaaeldeen @joheredi
 
 # PRLabel: %Azure.Core
-/sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi
+/sdk/core/core-tracing/ @xirzec @jeremymeng @joheredi @maorleger
 
 # Service teams
 # PRLabel: %App Configuration
@@ -119,16 +112,16 @@
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @witemple-msft @schaabs @Azure/azure-sdk-write-identity
+/sdk/identity/ @KarishmaGhiya @maorleger @witemple-msft @schaabs @Azure/azure-sdk-write-identity
 
 # PRLabel: %Iot
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv @Azure/azsdk-keyvault
+/sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
-/sdk/instrumentation/ @joheredi @mpodwysocki
+/sdk/instrumentation/ @maorleger @joheredi @mpodwysocki
 
 # PRLabel: %Service Bus
 /sdk/servicebus/ @jeremymeng @deyaaeldeen @HarshaNalluru
@@ -169,7 +162,13 @@
 /sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
-/sdk/openai/ @deyaaeldeen @minhanh-phan
+/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
+
+# PRLabel: %Image Analysis
+/sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
+
+# ServiceLabel: %Image Analysis %Service Attention
+#/<NotInRepo>/ @rhurey @dargilco
 
 # PRLabel: %Schema Registry
 /sdk/schemaregistry/ @deyaaeldeen
@@ -411,6 +410,9 @@
 
 # PRLabel: %Mgmt
 /sdk/hanaonazure/arm-hanaonazure/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/hdinsight/arm-hdinsight/ @qiaozha @MaryGao
@@ -1030,7 +1032,7 @@
 #/<NotInRepo>/          @jfggdl
 
 # ServiceLabel: %Event Hubs %Service Attention
-#/<NotInRepo>/          @kasun04 @saglodha
+#/<NotInRepo>/          @kasun04
 
 # ServiceLabel: %Functions %Service Attention
 #/<NotInRepo>/          @ahmedelnably @fabiocav
@@ -1198,7 +1200,7 @@
 #/<NotInRepo>/          @chlahav
 
 # ServiceLabel: %Service Attention %Service Bus
-#/<NotInRepo>/          @saglodha @EldertGrootenboer
+#/<NotInRepo>/          @EldertGrootenboer
 
 # ServiceLabel: %Service Attention %Service Fabric
 #/<NotInRepo>/          @QingChenmsft @vaishnavk @juhacket

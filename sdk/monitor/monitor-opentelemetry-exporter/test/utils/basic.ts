@@ -11,7 +11,6 @@ import {
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
 import { Expectation, Scenario } from "./types";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
 import { SpanStatusCode } from "@opentelemetry/api";
 import { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
@@ -127,7 +126,6 @@ export class TraceBasicScenario implements Scenario {
         baseData: {
           version: 2,
           name: "TraceBasicScenario.Root",
-          duration: msToTimeSpan(600),
           responseCode: "0",
           success: true,
           properties: {
@@ -144,7 +142,6 @@ export class TraceBasicScenario implements Scenario {
             baseData: {
               version: 2,
               name: "TraceBasicScenario.Child.1",
-              duration: msToTimeSpan(100),
               success: true,
               resultCode: "0",
               properties: {

@@ -29,9 +29,11 @@ async function volumeSnapshotsCreateMaximumSetGen() {
   const volumeGroupName = "volumegroupname";
   const snapshotName = "snapshotname";
   const parameters: Snapshot = {
-    creationData: {
-      sourceId:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
+    properties: {
+      creationData: {
+        sourceId:
+          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
+      }
     }
   };
   const credential = new DefaultAzureCredential();
@@ -61,9 +63,11 @@ async function volumeSnapshotsCreateMinimumSetGen() {
   const volumeGroupName = "volumegroupname";
   const snapshotName = "snapshotname";
   const parameters: Snapshot = {
-    creationData: {
-      sourceId:
-        "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
+    properties: {
+      creationData: {
+        sourceId:
+          "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ElasticSan/elasticSans/{elasticSanName}/volumegroups/{volumeGroupName}/volumes/{volumeName}"
+      }
     }
   };
   const credential = new DefaultAzureCredential();

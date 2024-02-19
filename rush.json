@@ -185,7 +185,7 @@
     /**
      * The list of shell commands to run after the Rush installation finishes
      */
-    "postRushInstall": ["rush install-test-browsers"],
+    "postRushInstall": [],
     /**
      * The list of shell commands to run before the Rush build command starts
      */
@@ -396,8 +396,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-assistants",
+      "projectFolder": "sdk/openai/openai-assistants",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/openai",
+      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {

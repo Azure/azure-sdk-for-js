@@ -2,15 +2,16 @@
 // Licensed under the MIT license.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
-import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+
+import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
+import { CredentialUnavailableError } from "../errors";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
 

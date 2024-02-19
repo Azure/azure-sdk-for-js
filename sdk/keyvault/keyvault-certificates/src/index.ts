@@ -99,7 +99,6 @@ import {
   KeyUsageType,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller";
