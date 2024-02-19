@@ -16,7 +16,7 @@ import {
   SpringbootappsGetResponse,
   SpringbootappsPatch,
   SpringbootappsUpdateOptionalParams,
-  SpringbootappsUpdateResponse
+  SpringbootappsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Springbootapps {
   listByResourceGroup(
     resourceGroupName: string,
     siteName: string,
-    options?: SpringbootappsListByResourceGroupOptionalParams
+    options?: SpringbootappsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootappsModel>;
   /**
    * List springbootapps resource by subscription
@@ -40,7 +40,7 @@ export interface Springbootapps {
    */
   listBySubscription(
     siteName: string,
-    options?: SpringbootappsListBySubscriptionOptionalParams
+    options?: SpringbootappsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootappsModel>;
   /**
    * Get a springbootapps resource.
@@ -53,7 +53,7 @@ export interface Springbootapps {
     resourceGroupName: string,
     siteName: string,
     springbootappsName: string,
-    options?: SpringbootappsGetOptionalParams
+    options?: SpringbootappsGetOptionalParams,
   ): Promise<SpringbootappsGetResponse>;
   /**
    * Update a springbootapps resource.
@@ -68,7 +68,7 @@ export interface Springbootapps {
     siteName: string,
     springbootappsName: string,
     springbootapps: SpringbootappsPatch,
-    options?: SpringbootappsUpdateOptionalParams
+    options?: SpringbootappsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootappsUpdateResponse>,
@@ -88,6 +88,6 @@ export interface Springbootapps {
     siteName: string,
     springbootappsName: string,
     springbootapps: SpringbootappsPatch,
-    options?: SpringbootappsUpdateOptionalParams
+    options?: SpringbootappsUpdateOptionalParams,
   ): Promise<SpringbootappsUpdateResponse>;
 }

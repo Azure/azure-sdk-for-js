@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { OffAzureSpringBoot } = require("@azure/arm-springappdiscovery");
+const { SpringAppDiscoveryManagementClient } = require("@azure/arm-springappdiscovery");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -22,7 +22,7 @@ async function springbootserversListBySubscriptionMaximumSetGen() {
   const subscriptionId = process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.springbootservers.listBySubscription(siteName)) {
     resArray.push(item);
@@ -40,7 +40,7 @@ async function springbootserversListBySubscriptionMinimumSetGen() {
   const subscriptionId = process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "etmdxomjncqvygm";
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.springbootservers.listBySubscription(siteName)) {
     resArray.push(item);

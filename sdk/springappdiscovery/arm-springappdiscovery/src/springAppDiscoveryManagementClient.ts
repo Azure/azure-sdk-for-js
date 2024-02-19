@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -20,7 +20,7 @@ import {
   SpringbootserversImpl,
   SpringbootappsImpl,
   SummariesImpl,
-  ErrorSummariesImpl
+  ErrorSummariesImpl,
 } from "./operations";
 import {
   Springbootsites,
@@ -28,17 +28,17 @@ import {
   Springbootservers,
   Springbootapps,
   Summaries,
-  ErrorSummaries
+  ErrorSummaries,
 } from "./operationsInterfaces";
-import { OffAzureSpringBootOptionalParams } from "./models";
+import { SpringAppDiscoveryManagementClientOptionalParams } from "./models";
 
-export class OffAzureSpringBoot extends coreClient.ServiceClient {
+export class SpringAppDiscoveryManagementClient extends coreClient.ServiceClient {
   $host: string;
   subscriptionId: string;
   apiVersion: string;
 
   /**
-   * Initializes a new instance of the OffAzureSpringBoot class.
+   * Initializes a new instance of the SpringAppDiscoveryManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param subscriptionId The ID of the target subscription.
    * @param options The parameter options
@@ -46,7 +46,7 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: OffAzureSpringBootOptionalParams
+    options?: SpringAppDiscoveryManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -59,9 +59,9 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
     if (!options) {
       options = {};
     }
-    const defaults: OffAzureSpringBootOptionalParams = {
+    const defaults: SpringAppDiscoveryManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-springappdiscovery/1.0.0-beta.1`;
@@ -74,20 +74,21 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -97,7 +98,7 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -107,9 +108,9 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -136,7 +137,7 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -150,7 +151,7 @@ export class OffAzureSpringBoot extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

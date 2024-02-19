@@ -9,5 +9,5 @@
 /// <reference lib="esnext.asynciterable" />
 export { getContinuationToken } from "./pagingHelper";
 export * from "./models";
-export { OffAzureSpringBoot } from "./offAzureSpringBoot";
+export { SpringAppDiscoveryManagementClient } from "./springAppDiscoveryManagementClient";
 export * from "./operationsInterfaces";

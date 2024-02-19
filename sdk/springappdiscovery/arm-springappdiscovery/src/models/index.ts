@@ -508,7 +508,7 @@ export enum KnownProvisioningState {
   /** Provisioning */
   Provisioning = "Provisioning",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -535,7 +535,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -557,7 +557,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -574,7 +574,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -634,35 +634,40 @@ export interface SpringbootsitesTriggerRefreshSiteOptionalParams
 }
 
 /** Contains response data for the triggerRefreshSite operation. */
-export type SpringbootsitesTriggerRefreshSiteResponse = SpringbootsitesTriggerRefreshSiteHeaders;
+export type SpringbootsitesTriggerRefreshSiteResponse =
+  SpringbootsitesTriggerRefreshSiteHeaders;
 
 /** Optional parameters. */
 export interface SpringbootsitesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SpringbootsitesListByResourceGroupResponse = SpringbootsitesListResult;
+export type SpringbootsitesListByResourceGroupResponse =
+  SpringbootsitesListResult;
 
 /** Optional parameters. */
 export interface SpringbootsitesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SpringbootsitesListBySubscriptionResponse = SpringbootsitesListResult;
+export type SpringbootsitesListBySubscriptionResponse =
+  SpringbootsitesListResult;
 
 /** Optional parameters. */
 export interface SpringbootsitesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SpringbootsitesListByResourceGroupNextResponse = SpringbootsitesListResult;
+export type SpringbootsitesListByResourceGroupNextResponse =
+  SpringbootsitesListResult;
 
 /** Optional parameters. */
 export interface SpringbootsitesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SpringbootsitesListBySubscriptionNextResponse = SpringbootsitesListResult;
+export type SpringbootsitesListBySubscriptionNextResponse =
+  SpringbootsitesListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -721,28 +726,32 @@ export interface SpringbootserversListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SpringbootserversListByResourceGroupResponse = SpringbootserversListResult;
+export type SpringbootserversListByResourceGroupResponse =
+  SpringbootserversListResult;
 
 /** Optional parameters. */
 export interface SpringbootserversListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type SpringbootserversListBySubscriptionResponse = SpringbootserversListResult;
+export type SpringbootserversListBySubscriptionResponse =
+  SpringbootserversListResult;
 
 /** Optional parameters. */
 export interface SpringbootserversListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SpringbootserversListByResourceGroupNextResponse = SpringbootserversListResult;
+export type SpringbootserversListByResourceGroupNextResponse =
+  SpringbootserversListResult;
 
 /** Optional parameters. */
 export interface SpringbootserversListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SpringbootserversListBySubscriptionNextResponse = SpringbootserversListResult;
+export type SpringbootserversListBySubscriptionNextResponse =
+  SpringbootserversListResult;
 
 /** Optional parameters. */
 export interface SpringbootappsGetOptionalParams
@@ -768,7 +777,8 @@ export interface SpringbootappsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type SpringbootappsListByResourceGroupResponse = SpringbootappsListResult;
+export type SpringbootappsListByResourceGroupResponse =
+  SpringbootappsListResult;
 
 /** Optional parameters. */
 export interface SpringbootappsListBySubscriptionOptionalParams
@@ -782,14 +792,16 @@ export interface SpringbootappsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type SpringbootappsListByResourceGroupNextResponse = SpringbootappsListResult;
+export type SpringbootappsListByResourceGroupNextResponse =
+  SpringbootappsListResult;
 
 /** Optional parameters. */
 export interface SpringbootappsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type SpringbootappsListBySubscriptionNextResponse = SpringbootappsListResult;
+export type SpringbootappsListBySubscriptionNextResponse =
+  SpringbootappsListResult;
 
 /** Optional parameters. */
 export interface SummariesGetOptionalParams
@@ -834,7 +846,7 @@ export interface ErrorSummariesListBySiteNextOptionalParams
 export type ErrorSummariesListBySiteNextResponse = ErrorSummaryList;
 
 /** Optional parameters. */
-export interface OffAzureSpringBootOptionalParams
+export interface SpringAppDiscoveryManagementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

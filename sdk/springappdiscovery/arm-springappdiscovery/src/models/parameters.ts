@@ -9,14 +9,14 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SpringbootsitesModel as SpringbootsitesModelMapper,
   SpringbootsitesPatch as SpringbootsitesPatchMapper,
   SpringbootserversModel as SpringbootserversModelMapper,
   SpringbootserversPatch as SpringbootserversPatchMapper,
-  SpringbootappsPatch as SpringbootappsPatchMapper
+  SpringbootappsPatch as SpringbootappsPatchMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -26,9 +26,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -37,24 +37,24 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const subscriptionId: OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     constraints: {
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -62,14 +62,14 @@ export const resourceGroupName: OperationURLParameter = {
   mapper: {
     constraints: {
       MaxLength: 90,
-      MinLength: 1
+      MinLength: 1,
     },
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const springbootsitesName: OperationURLParameter = {
@@ -78,14 +78,14 @@ export const springbootsitesName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z][a-z0-9-]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "springbootsitesName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -95,9 +95,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -107,19 +107,19 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const springbootsites: OperationParameter = {
   parameterPath: "springbootsites",
-  mapper: SpringbootsitesModelMapper
+  mapper: SpringbootsitesModelMapper,
 };
 
 export const springbootsites1: OperationParameter = {
   parameterPath: "springbootsites",
-  mapper: SpringbootsitesPatchMapper
+  mapper: SpringbootsitesPatchMapper,
 };
 
 export const nextLink: OperationURLParameter = {
@@ -128,10 +128,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const siteName: OperationURLParameter = {
@@ -140,14 +140,14 @@ export const siteName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[a-z][a-z0-9-]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "siteName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const springbootserversName: OperationURLParameter = {
@@ -156,24 +156,24 @@ export const springbootserversName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "springbootserversName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const springbootservers: OperationParameter = {
   parameterPath: "springbootservers",
-  mapper: SpringbootserversModelMapper
+  mapper: SpringbootserversModelMapper,
 };
 
 export const springbootservers1: OperationParameter = {
   parameterPath: "springbootservers",
-  mapper: SpringbootserversPatchMapper
+  mapper: SpringbootserversPatchMapper,
 };
 
 export const springbootappsName: OperationURLParameter = {
@@ -182,19 +182,19 @@ export const springbootappsName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*$"),
       MaxLength: 64,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "springbootappsName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const springbootapps: OperationParameter = {
   parameterPath: "springbootapps",
-  mapper: SpringbootappsPatchMapper
+  mapper: SpringbootappsPatchMapper,
 };
 
 export const summaryName: OperationURLParameter = {
@@ -203,14 +203,14 @@ export const summaryName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z][A-Za-z0-9]*$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "summaryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const errorSummaryName: OperationURLParameter = {
@@ -219,12 +219,12 @@ export const errorSummaryName: OperationURLParameter = {
     constraints: {
       Pattern: new RegExp("^[A-Za-z][A-Za-z0-9]*$"),
       MaxLength: 63,
-      MinLength: 3
+      MinLength: 3,
     },
     serializedName: "errorSummaryName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

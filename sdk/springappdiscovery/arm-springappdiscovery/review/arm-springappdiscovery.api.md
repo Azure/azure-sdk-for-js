@@ -145,36 +145,6 @@ export enum KnownProvisioningState {
     Unknown = "Unknown"
 }
 
-// @public (undocumented)
-export class OffAzureSpringBoot extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: OffAzureSpringBootOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    errorSummaries: ErrorSummaries;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    springbootapps: Springbootapps;
-    // (undocumented)
-    springbootservers: Springbootservers;
-    // (undocumented)
-    springbootsites: Springbootsites;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    summaries: Summaries;
-}
-
-// @public
-export interface OffAzureSpringBootOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
-
 // @public
 export interface Operation {
     readonly actionType?: ActionType;
@@ -233,6 +203,36 @@ export interface Resource {
     readonly name?: string;
     readonly systemData?: SystemData;
     readonly type?: string;
+}
+
+// @public (undocumented)
+export class SpringAppDiscoveryManagementClient extends coreClient.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: SpringAppDiscoveryManagementClientOptionalParams);
+    // (undocumented)
+    apiVersion: string;
+    // (undocumented)
+    errorSummaries: ErrorSummaries;
+    // (undocumented)
+    operations: Operations;
+    // (undocumented)
+    springbootapps: Springbootapps;
+    // (undocumented)
+    springbootservers: Springbootservers;
+    // (undocumented)
+    springbootsites: Springbootsites;
+    // (undocumented)
+    subscriptionId: string;
+    // (undocumented)
+    summaries: Summaries;
+}
+
+// @public
+export interface SpringAppDiscoveryManagementClientOptionalParams extends coreClient.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
 }
 
 // @public

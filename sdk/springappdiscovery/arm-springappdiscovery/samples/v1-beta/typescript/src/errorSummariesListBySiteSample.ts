@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OffAzureSpringBoot } from "@azure/arm-springappdiscovery";
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,11 +27,14 @@ async function errorSummariesListBySiteMaximumSetGen() {
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootdiscovery";
   const siteName = "xxkzlvbihwxunadjcpjpjmghmhxrqyvghtpfps";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.errorSummaries.listBySite(
     resourceGroupName,
-    siteName
+    siteName,
   )) {
     resArray.push(item);
   }
@@ -51,11 +54,14 @@ async function errorSummariesListBySiteMinimumSetGen() {
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootdiscovery";
   const siteName = "xxkzlvbihwxunadjcpjpjmghmhxrqyvghtpfps";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.errorSummaries.listBySite(
     resourceGroupName,
-    siteName
+    siteName,
   )) {
     resArray.push(item);
   }

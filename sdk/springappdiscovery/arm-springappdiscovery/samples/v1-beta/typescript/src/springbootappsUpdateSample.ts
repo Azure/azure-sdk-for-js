@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SpringbootappsPatch,
-  OffAzureSpringBoot
+  SpringAppDiscoveryManagementClient,
 } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,12 +33,15 @@ async function springbootappsUpdateMaximumSetGen() {
     "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
   const springbootapps: SpringbootappsPatch = {};
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootapps.beginUpdateAndWait(
     resourceGroupName,
     siteName,
     springbootappsName,
-    springbootapps
+    springbootapps,
   );
   console.log(result);
 }
@@ -59,12 +62,15 @@ async function springbootappsUpdateMinimumSetGen() {
     "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
   const springbootapps: SpringbootappsPatch = {};
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootapps.beginUpdateAndWait(
     resourceGroupName,
     siteName,
     springbootappsName,
-    springbootapps
+    springbootapps,
   );
   console.log(result);
 }

@@ -11,7 +11,7 @@ import {
   ErrorSummary,
   ErrorSummariesListBySiteOptionalParams,
   ErrorSummariesGetOptionalParams,
-  ErrorSummariesGetResponse
+  ErrorSummariesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface ErrorSummaries {
   listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: ErrorSummariesListBySiteOptionalParams
+    options?: ErrorSummariesListBySiteOptionalParams,
   ): PagedAsyncIterableIterator<ErrorSummary>;
   /**
    * Gets the ErrorSummaries resource.
@@ -39,6 +39,6 @@ export interface ErrorSummaries {
     resourceGroupName: string,
     siteName: string,
     errorSummaryName: string,
-    options?: ErrorSummariesGetOptionalParams
+    options?: ErrorSummariesGetOptionalParams,
   ): Promise<ErrorSummariesGetResponse>;
 }

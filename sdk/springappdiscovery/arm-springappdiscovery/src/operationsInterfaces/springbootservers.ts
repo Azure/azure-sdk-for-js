@@ -20,7 +20,7 @@ import {
   SpringbootserversDeleteResponse,
   SpringbootserversPatch,
   SpringbootserversUpdateOptionalParams,
-  SpringbootserversUpdateResponse
+  SpringbootserversUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface Springbootservers {
   listByResourceGroup(
     resourceGroupName: string,
     siteName: string,
-    options?: SpringbootserversListByResourceGroupOptionalParams
+    options?: SpringbootserversListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootserversModel>;
   /**
    * List springbootservers resource by subscription
@@ -44,7 +44,7 @@ export interface Springbootservers {
    */
   listBySubscription(
     siteName: string,
-    options?: SpringbootserversListBySubscriptionOptionalParams
+    options?: SpringbootserversListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootserversModel>;
   /**
    * List springbootservers resource.
@@ -57,7 +57,7 @@ export interface Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversGetOptionalParams
+    options?: SpringbootserversGetOptionalParams,
   ): Promise<SpringbootserversGetResponse>;
   /**
    * Create springbootservers resource.
@@ -72,7 +72,7 @@ export interface Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversModel,
-    options?: SpringbootserversCreateOrUpdateOptionalParams
+    options?: SpringbootserversCreateOrUpdateOptionalParams,
   ): Promise<SpringbootserversCreateOrUpdateResponse>;
   /**
    * Delete springbootservers resource.
@@ -85,7 +85,7 @@ export interface Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversDeleteOptionalParams
+    options?: SpringbootserversDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootserversDeleteResponse>,
@@ -103,7 +103,7 @@ export interface Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversDeleteOptionalParams
+    options?: SpringbootserversDeleteOptionalParams,
   ): Promise<SpringbootserversDeleteResponse>;
   /**
    * Update springbootservers resource.
@@ -118,7 +118,7 @@ export interface Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams
+    options?: SpringbootserversUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootserversUpdateResponse>,
@@ -138,6 +138,6 @@ export interface Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams
+    options?: SpringbootserversUpdateOptionalParams,
   ): Promise<SpringbootserversUpdateResponse>;
 }

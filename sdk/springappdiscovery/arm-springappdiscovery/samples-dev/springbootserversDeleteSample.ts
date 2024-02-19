@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OffAzureSpringBoot } from "@azure/arm-springappdiscovery";
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,11 +28,14 @@ async function springbootserversDeleteMaximumSetGen() {
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
   const springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootservers.beginDeleteAndWait(
     resourceGroupName,
     siteName,
-    springbootserversName
+    springbootserversName,
   );
   console.log(result);
 }
@@ -51,11 +54,14 @@ async function springbootserversDeleteMinimumSetGen() {
   const siteName = "hlkrzldhyobavtabgpubtjbhlslnjmsvkthwcfboriwyxndacjypzbj";
   const springbootserversName = "zkarbqnwnxeozvjrkpdqmgnwedwgtwcmmyqwaijkn";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootservers.beginDeleteAndWait(
     resourceGroupName,
     siteName,
-    springbootserversName
+    springbootserversName,
   );
   console.log(result);
 }

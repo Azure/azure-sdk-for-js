@@ -12,7 +12,7 @@ import { ErrorSummaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OffAzureSpringBoot } from "../offAzureSpringBoot";
+import { SpringAppDiscoveryManagementClient } from "../springAppDiscoveryManagementClient";
 import {
   ErrorSummary,
   ErrorSummariesListBySiteNextOptionalParams,
@@ -20,19 +20,19 @@ import {
   ErrorSummariesListBySiteResponse,
   ErrorSummariesGetOptionalParams,
   ErrorSummariesGetResponse,
-  ErrorSummariesListBySiteNextResponse
+  ErrorSummariesListBySiteNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ErrorSummaries operations. */
 export class ErrorSummariesImpl implements ErrorSummaries {
-  private readonly client: OffAzureSpringBoot;
+  private readonly client: SpringAppDiscoveryManagementClient;
 
   /**
    * Initialize a new instance of the class ErrorSummaries class.
    * @param client Reference to the service client
    */
-  constructor(client: OffAzureSpringBoot) {
+  constructor(client: SpringAppDiscoveryManagementClient) {
     this.client = client;
   }
 
@@ -45,7 +45,7 @@ export class ErrorSummariesImpl implements ErrorSummaries {
   public listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: ErrorSummariesListBySiteOptionalParams
+    options?: ErrorSummariesListBySiteOptionalParams,
   ): PagedAsyncIterableIterator<ErrorSummary> {
     const iter = this.listBySitePagingAll(resourceGroupName, siteName, options);
     return {
@@ -63,9 +63,9 @@ export class ErrorSummariesImpl implements ErrorSummaries {
           resourceGroupName,
           siteName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class ErrorSummariesImpl implements ErrorSummaries {
     resourceGroupName: string,
     siteName: string,
     options?: ErrorSummariesListBySiteOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ErrorSummary[]> {
     let result: ErrorSummariesListBySiteResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class ErrorSummariesImpl implements ErrorSummaries {
         resourceGroupName,
         siteName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class ErrorSummariesImpl implements ErrorSummaries {
   private async *listBySitePagingAll(
     resourceGroupName: string,
     siteName: string,
-    options?: ErrorSummariesListBySiteOptionalParams
+    options?: ErrorSummariesListBySiteOptionalParams,
   ): AsyncIterableIterator<ErrorSummary> {
     for await (const page of this.listBySitePagingPage(
       resourceGroupName,
       siteName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class ErrorSummariesImpl implements ErrorSummaries {
     resourceGroupName: string,
     siteName: string,
     errorSummaryName: string,
-    options?: ErrorSummariesGetOptionalParams
+    options?: ErrorSummariesGetOptionalParams,
   ): Promise<ErrorSummariesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, errorSummaryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class ErrorSummariesImpl implements ErrorSummaries {
   private _listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: ErrorSummariesListBySiteOptionalParams
+    options?: ErrorSummariesListBySiteOptionalParams,
   ): Promise<ErrorSummariesListBySiteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, options },
-      listBySiteOperationSpec
+      listBySiteOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class ErrorSummariesImpl implements ErrorSummaries {
     resourceGroupName: string,
     siteName: string,
     nextLink: string,
-    options?: ErrorSummariesListBySiteNextOptionalParams
+    options?: ErrorSummariesListBySiteNextOptionalParams,
   ): Promise<ErrorSummariesListBySiteNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, nextLink, options },
-      listBySiteNextOperationSpec
+      listBySiteNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class ErrorSummariesImpl implements ErrorSummaries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/errorSummaries/{errorSummaryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/errorSummaries/{errorSummaryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ErrorSummary
+      bodyMapper: Mappers.ErrorSummary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,51 +187,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.errorSummaryName
+    Parameters.errorSummaryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySiteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/errorSummaries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/errorSummaries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ErrorSummaryList
+      bodyMapper: Mappers.ErrorSummaryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySiteNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ErrorSummaryList
+      bodyMapper: Mappers.ErrorSummaryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

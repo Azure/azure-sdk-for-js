@@ -16,7 +16,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { OffAzureSpringBoot } from "../src/offAzureSpringBoot";
+import { SpringAppDiscoveryManagementClient } from "../src/springAppDiscoveryManagementClient";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -36,7 +36,7 @@ export const testPollingOptions = {
 describe("OffAzureSpringBoot test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: OffAzureSpringBoot;
+  let client: SpringAppDiscoveryManagementClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
@@ -47,7 +47,7 @@ describe("OffAzureSpringBoot test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new OffAzureSpringBoot(credential, subscriptionId, recorder.configureClientOptions({}));
+    client = new SpringAppDiscoveryManagementClient(credential, subscriptionId, recorder.configureClientOptions({}));
     location = "eastus2euap";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";

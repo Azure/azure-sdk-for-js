@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OffAzureSpringBoot } from "@azure/arm-springappdiscovery";
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,10 +27,13 @@ async function springbootsitesListByResourceGroupMaximumSetGen() {
   const resourceGroupName =
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootsites";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.springbootsites.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -50,10 +53,13 @@ async function springbootsitesListByResourceGroupMinimumSetGen() {
   const resourceGroupName =
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootsites";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const resArray = new Array();
   for await (let item of client.springbootsites.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

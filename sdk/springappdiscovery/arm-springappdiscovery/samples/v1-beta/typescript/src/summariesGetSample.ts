@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { OffAzureSpringBoot } from "@azure/arm-springappdiscovery";
+import { SpringAppDiscoveryManagementClient } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -28,11 +28,14 @@ async function summariesGetMaximumSetGen() {
   const siteName = "xxkzlvbihwxunadjcpjpjmghmhxrqyvghtpfps";
   const summaryName = "vjB";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.summaries.get(
     resourceGroupName,
     siteName,
-    summaryName
+    summaryName,
   );
   console.log(result);
 }
@@ -51,11 +54,14 @@ async function summariesGetMinimumSetGen() {
   const siteName = "xxkzlvbihwxunadjcpjpjmghmhxrqyvghtpfps";
   const summaryName = "vjB";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.summaries.get(
     resourceGroupName,
     siteName,
-    summaryName
+    summaryName,
   );
   console.log(result);
 }

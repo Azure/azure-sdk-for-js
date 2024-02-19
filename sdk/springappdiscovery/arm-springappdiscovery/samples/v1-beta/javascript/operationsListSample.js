@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { OffAzureSpringBoot } = require("@azure/arm-springappdiscovery");
+const { SpringAppDiscoveryManagementClient } = require("@azure/arm-springappdiscovery");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -22,7 +22,7 @@ async function operationsListMaximumSetGen() {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.operations.list()) {
     resArray.push(item);
@@ -40,7 +40,7 @@ async function operationsListMinimumSetGen() {
   const subscriptionId =
     process.env["SPRINGAPPDISCOVERY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.operations.list()) {
     resArray.push(item);

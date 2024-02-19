@@ -11,7 +11,7 @@ import {
   Summary,
   SummariesListBySiteOptionalParams,
   SummariesGetOptionalParams,
-  SummariesGetResponse
+  SummariesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Summaries {
   listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: SummariesListBySiteOptionalParams
+    options?: SummariesListBySiteOptionalParams,
   ): PagedAsyncIterableIterator<Summary>;
   /**
    * Gets the Summaries resource.
@@ -39,6 +39,6 @@ export interface Summaries {
     resourceGroupName: string,
     siteName: string,
     summaryName: string,
-    options?: SummariesGetOptionalParams
+    options?: SummariesGetOptionalParams,
   ): Promise<SummariesGetResponse>;
 }

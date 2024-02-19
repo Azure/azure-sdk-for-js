@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { OffAzureSpringBoot } = require("@azure/arm-springappdiscovery");
+const { SpringAppDiscoveryManagementClient } = require("@azure/arm-springappdiscovery");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -25,7 +25,7 @@ async function springbootappsGetMaximumSetGen() {
   const siteName = "pdfosfhtemfsaglvwjdyqlyeipucrd";
   const springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const result = await client.springbootapps.get(resourceGroupName, siteName, springbootappsName);
   console.log(result);
 }
@@ -43,7 +43,7 @@ async function springbootappsGetMinimumSetGen() {
   const siteName = "pdfosfhtemfsaglvwjdyqlyeipucrd";
   const springbootappsName = "ofjeesoahqtnovlbuvflyknpbhcpeqqhekntvqxyemuwbcqnuxjgfhsf";
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(credential, subscriptionId);
   const result = await client.springbootapps.get(resourceGroupName, siteName, springbootappsName);
   console.log(result);
 }

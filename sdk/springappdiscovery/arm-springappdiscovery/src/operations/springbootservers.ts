@@ -12,11 +12,11 @@ import { Springbootservers } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OffAzureSpringBoot } from "../offAzureSpringBoot";
+import { SpringAppDiscoveryManagementClient } from "../springAppDiscoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -37,19 +37,19 @@ import {
   SpringbootserversUpdateOptionalParams,
   SpringbootserversUpdateResponse,
   SpringbootserversListByResourceGroupNextResponse,
-  SpringbootserversListBySubscriptionNextResponse
+  SpringbootserversListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Springbootservers operations. */
 export class SpringbootserversImpl implements Springbootservers {
-  private readonly client: OffAzureSpringBoot;
+  private readonly client: SpringAppDiscoveryManagementClient;
 
   /**
    * Initialize a new instance of the class Springbootservers class.
    * @param client Reference to the service client
    */
-  constructor(client: OffAzureSpringBoot) {
+  constructor(client: SpringAppDiscoveryManagementClient) {
     this.client = client;
   }
 
@@ -62,12 +62,12 @@ export class SpringbootserversImpl implements Springbootservers {
   public listByResourceGroup(
     resourceGroupName: string,
     siteName: string,
-    options?: SpringbootserversListByResourceGroupOptionalParams
+    options?: SpringbootserversListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootserversModel> {
     const iter = this.listByResourceGroupPagingAll(
       resourceGroupName,
       siteName,
-      options
+      options,
     );
     return {
       next() {
@@ -84,9 +84,9 @@ export class SpringbootserversImpl implements Springbootservers {
           resourceGroupName,
           siteName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +94,7 @@ export class SpringbootserversImpl implements Springbootservers {
     resourceGroupName: string,
     siteName: string,
     options?: SpringbootserversListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SpringbootserversModel[]> {
     let result: SpringbootserversListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class SpringbootserversImpl implements Springbootservers {
       result = await this._listByResourceGroup(
         resourceGroupName,
         siteName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -114,7 +114,7 @@ export class SpringbootserversImpl implements Springbootservers {
         resourceGroupName,
         siteName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -126,12 +126,12 @@ export class SpringbootserversImpl implements Springbootservers {
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
     siteName: string,
-    options?: SpringbootserversListByResourceGroupOptionalParams
+    options?: SpringbootserversListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<SpringbootserversModel> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
       siteName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,7 +144,7 @@ export class SpringbootserversImpl implements Springbootservers {
    */
   public listBySubscription(
     siteName: string,
-    options?: SpringbootserversListBySubscriptionOptionalParams
+    options?: SpringbootserversListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootserversModel> {
     const iter = this.listBySubscriptionPagingAll(siteName, options);
     return {
@@ -159,14 +159,14 @@ export class SpringbootserversImpl implements Springbootservers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(siteName, options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     siteName: string,
     options?: SpringbootserversListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SpringbootserversModel[]> {
     let result: SpringbootserversListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -181,7 +181,7 @@ export class SpringbootserversImpl implements Springbootservers {
       result = await this._listBySubscriptionNext(
         siteName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -192,11 +192,11 @@ export class SpringbootserversImpl implements Springbootservers {
 
   private async *listBySubscriptionPagingAll(
     siteName: string,
-    options?: SpringbootserversListBySubscriptionOptionalParams
+    options?: SpringbootserversListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<SpringbootserversModel> {
     for await (const page of this.listBySubscriptionPagingPage(
       siteName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -213,11 +213,11 @@ export class SpringbootserversImpl implements Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversGetOptionalParams
+    options?: SpringbootserversGetOptionalParams,
   ): Promise<SpringbootserversGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, springbootserversName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -234,7 +234,7 @@ export class SpringbootserversImpl implements Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversModel,
-    options?: SpringbootserversCreateOrUpdateOptionalParams
+    options?: SpringbootserversCreateOrUpdateOptionalParams,
   ): Promise<SpringbootserversCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -242,9 +242,9 @@ export class SpringbootserversImpl implements Springbootservers {
         siteName,
         springbootserversName,
         springbootservers,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -259,7 +259,7 @@ export class SpringbootserversImpl implements Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversDeleteOptionalParams
+    options?: SpringbootserversDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootserversDeleteResponse>,
@@ -268,21 +268,20 @@ export class SpringbootserversImpl implements Springbootservers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SpringbootserversDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -291,8 +290,8 @@ export class SpringbootserversImpl implements Springbootservers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -300,15 +299,15 @@ export class SpringbootserversImpl implements Springbootservers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, siteName, springbootserversName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       SpringbootserversDeleteResponse,
@@ -316,7 +315,7 @@ export class SpringbootserversImpl implements Springbootservers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -333,13 +332,13 @@ export class SpringbootserversImpl implements Springbootservers {
     resourceGroupName: string,
     siteName: string,
     springbootserversName: string,
-    options?: SpringbootserversDeleteOptionalParams
+    options?: SpringbootserversDeleteOptionalParams,
   ): Promise<SpringbootserversDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       siteName,
       springbootserversName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -357,7 +356,7 @@ export class SpringbootserversImpl implements Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams
+    options?: SpringbootserversUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootserversUpdateResponse>,
@@ -366,21 +365,20 @@ export class SpringbootserversImpl implements Springbootservers {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<SpringbootserversUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -389,8 +387,8 @@ export class SpringbootserversImpl implements Springbootservers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -398,8 +396,8 @@ export class SpringbootserversImpl implements Springbootservers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -410,9 +408,9 @@ export class SpringbootserversImpl implements Springbootservers {
         siteName,
         springbootserversName,
         springbootservers,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       SpringbootserversUpdateResponse,
@@ -420,7 +418,7 @@ export class SpringbootserversImpl implements Springbootservers {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -439,14 +437,14 @@ export class SpringbootserversImpl implements Springbootservers {
     siteName: string,
     springbootserversName: string,
     springbootservers: SpringbootserversPatch,
-    options?: SpringbootserversUpdateOptionalParams
+    options?: SpringbootserversUpdateOptionalParams,
   ): Promise<SpringbootserversUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       siteName,
       springbootserversName,
       springbootservers,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -460,11 +458,11 @@ export class SpringbootserversImpl implements Springbootservers {
   private _listByResourceGroup(
     resourceGroupName: string,
     siteName: string,
-    options?: SpringbootserversListByResourceGroupOptionalParams
+    options?: SpringbootserversListByResourceGroupOptionalParams,
   ): Promise<SpringbootserversListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -475,11 +473,11 @@ export class SpringbootserversImpl implements Springbootservers {
    */
   private _listBySubscription(
     siteName: string,
-    options?: SpringbootserversListBySubscriptionOptionalParams
+    options?: SpringbootserversListBySubscriptionOptionalParams,
   ): Promise<SpringbootserversListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { siteName, options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -494,11 +492,11 @@ export class SpringbootserversImpl implements Springbootservers {
     resourceGroupName: string,
     siteName: string,
     nextLink: string,
-    options?: SpringbootserversListByResourceGroupNextOptionalParams
+    options?: SpringbootserversListByResourceGroupNextOptionalParams,
   ): Promise<SpringbootserversListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -511,11 +509,11 @@ export class SpringbootserversImpl implements Springbootservers {
   private _listBySubscriptionNext(
     siteName: string,
     nextLink: string,
-    options?: SpringbootserversListBySubscriptionNextOptionalParams
+    options?: SpringbootserversListBySubscriptionNextOptionalParams,
   ): Promise<SpringbootserversListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { siteName, nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -523,16 +521,15 @@ export class SpringbootserversImpl implements Springbootservers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -540,25 +537,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.springbootserversName
+    Parameters.springbootserversName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     201: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.springbootservers,
   queryParameters: [Parameters.apiVersion],
@@ -567,32 +563,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.springbootserversName
+    Parameters.springbootserversName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.SpringbootserversDeleteHeaders
+      headersMapper: Mappers.SpringbootserversDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.SpringbootserversDeleteHeaders
+      headersMapper: Mappers.SpringbootserversDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.SpringbootserversDeleteHeaders
+      headersMapper: Mappers.SpringbootserversDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.SpringbootserversDeleteHeaders
+      headersMapper: Mappers.SpringbootserversDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -600,31 +595,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.springbootserversName
+    Parameters.springbootserversName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers/{springbootserversName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     201: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     202: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     204: {
-      bodyMapper: Mappers.SpringbootserversModel
+      bodyMapper: Mappers.SpringbootserversModel,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.springbootservers1,
   queryParameters: [Parameters.apiVersion],
@@ -633,93 +627,91 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.springbootserversName
+    Parameters.springbootserversName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversListResult
+      bodyMapper: Mappers.SpringbootserversListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/springbootservers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversListResult
+      bodyMapper: Mappers.SpringbootserversListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversListResult
+      bodyMapper: Mappers.SpringbootserversListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SpringbootserversListResult
+      bodyMapper: Mappers.SpringbootserversListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

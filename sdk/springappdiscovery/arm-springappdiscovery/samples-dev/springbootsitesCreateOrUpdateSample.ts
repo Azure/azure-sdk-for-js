@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SpringbootsitesModel,
-  OffAzureSpringBoot
+  SpringAppDiscoveryManagementClient,
 } from "@azure/arm-springappdiscovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,16 +35,19 @@ async function springbootsitesCreateOrUpdateMaximumSetGen() {
     location: "tgobtvxktootwhhvjtsmpddvlqlrq",
     properties: {
       masterSiteId: "xsoimrgshsactearljwuljmi",
-      migrateProjectId: "wwuattybgco"
+      migrateProjectId: "wwuattybgco",
     },
-    tags: { key3558: "xeuhtglamqzj" }
+    tags: { key3558: "xeuhtglamqzj" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootsites.createOrUpdate(
     resourceGroupName,
     springbootsitesName,
-    springbootsites
+    springbootsites,
   );
   console.log(result);
 }
@@ -63,14 +66,17 @@ async function springbootsitesCreateOrUpdateMinimumSetGen() {
     process.env["SPRINGAPPDISCOVERY_RESOURCE_GROUP"] || "rgspringbootsites";
   const springbootsitesName = "xrmzlavpewxtfeitghdrj";
   const springbootsites: SpringbootsitesModel = {
-    location: "tgobtvxktootwhhvjtsmpddvlqlrq"
+    location: "tgobtvxktootwhhvjtsmpddvlqlrq",
   };
   const credential = new DefaultAzureCredential();
-  const client = new OffAzureSpringBoot(credential, subscriptionId);
+  const client = new SpringAppDiscoveryManagementClient(
+    credential,
+    subscriptionId,
+  );
   const result = await client.springbootsites.createOrUpdate(
     resourceGroupName,
     springbootsitesName,
-    springbootsites
+    springbootsites,
   );
   console.log(result);
 }

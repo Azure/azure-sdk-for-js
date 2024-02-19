@@ -12,7 +12,7 @@ import { Summaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { OffAzureSpringBoot } from "../offAzureSpringBoot";
+import { SpringAppDiscoveryManagementClient } from "../springAppDiscoveryManagementClient";
 import {
   Summary,
   SummariesListBySiteNextOptionalParams,
@@ -20,19 +20,19 @@ import {
   SummariesListBySiteResponse,
   SummariesGetOptionalParams,
   SummariesGetResponse,
-  SummariesListBySiteNextResponse
+  SummariesListBySiteNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing Summaries operations. */
 export class SummariesImpl implements Summaries {
-  private readonly client: OffAzureSpringBoot;
+  private readonly client: SpringAppDiscoveryManagementClient;
 
   /**
    * Initialize a new instance of the class Summaries class.
    * @param client Reference to the service client
    */
-  constructor(client: OffAzureSpringBoot) {
+  constructor(client: SpringAppDiscoveryManagementClient) {
     this.client = client;
   }
 
@@ -45,7 +45,7 @@ export class SummariesImpl implements Summaries {
   public listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: SummariesListBySiteOptionalParams
+    options?: SummariesListBySiteOptionalParams,
   ): PagedAsyncIterableIterator<Summary> {
     const iter = this.listBySitePagingAll(resourceGroupName, siteName, options);
     return {
@@ -63,9 +63,9 @@ export class SummariesImpl implements Summaries {
           resourceGroupName,
           siteName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -73,7 +73,7 @@ export class SummariesImpl implements Summaries {
     resourceGroupName: string,
     siteName: string,
     options?: SummariesListBySiteOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Summary[]> {
     let result: SummariesListBySiteResponse;
     let continuationToken = settings?.continuationToken;
@@ -89,7 +89,7 @@ export class SummariesImpl implements Summaries {
         resourceGroupName,
         siteName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -101,12 +101,12 @@ export class SummariesImpl implements Summaries {
   private async *listBySitePagingAll(
     resourceGroupName: string,
     siteName: string,
-    options?: SummariesListBySiteOptionalParams
+    options?: SummariesListBySiteOptionalParams,
   ): AsyncIterableIterator<Summary> {
     for await (const page of this.listBySitePagingPage(
       resourceGroupName,
       siteName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -123,11 +123,11 @@ export class SummariesImpl implements Summaries {
     resourceGroupName: string,
     siteName: string,
     summaryName: string,
-    options?: SummariesGetOptionalParams
+    options?: SummariesGetOptionalParams,
   ): Promise<SummariesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, summaryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -140,11 +140,11 @@ export class SummariesImpl implements Summaries {
   private _listBySite(
     resourceGroupName: string,
     siteName: string,
-    options?: SummariesListBySiteOptionalParams
+    options?: SummariesListBySiteOptionalParams,
   ): Promise<SummariesListBySiteResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, options },
-      listBySiteOperationSpec
+      listBySiteOperationSpec,
     );
   }
 
@@ -159,11 +159,11 @@ export class SummariesImpl implements Summaries {
     resourceGroupName: string,
     siteName: string,
     nextLink: string,
-    options?: SummariesListBySiteNextOptionalParams
+    options?: SummariesListBySiteNextOptionalParams,
   ): Promise<SummariesListBySiteNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, siteName, nextLink, options },
-      listBySiteNextOperationSpec
+      listBySiteNextOperationSpec,
     );
   }
 }
@@ -171,16 +171,15 @@ export class SummariesImpl implements Summaries {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/summaries/{summaryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/summaries/{summaryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Summary
+      bodyMapper: Mappers.Summary,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -188,51 +187,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.siteName,
-    Parameters.summaryName
+    Parameters.summaryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySiteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/summaries",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OffAzureSpringBoot/springbootsites/{siteName}/summaries",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SummaryList
+      bodyMapper: Mappers.SummaryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySiteNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SummaryList
+      bodyMapper: Mappers.SummaryList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.siteName
+    Parameters.siteName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

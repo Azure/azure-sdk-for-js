@@ -22,7 +22,7 @@ import {
   SpringbootsitesUpdateOptionalParams,
   SpringbootsitesUpdateResponse,
   SpringbootsitesTriggerRefreshSiteOptionalParams,
-  SpringbootsitesTriggerRefreshSiteResponse
+  SpringbootsitesTriggerRefreshSiteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,14 +35,14 @@ export interface Springbootsites {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SpringbootsitesListByResourceGroupOptionalParams
+    options?: SpringbootsitesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootsitesModel>;
   /**
    * List springbootsites resource by subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: SpringbootsitesListBySubscriptionOptionalParams
+    options?: SpringbootsitesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SpringbootsitesModel>;
   /**
    * Get a springbootsites resource.
@@ -53,7 +53,7 @@ export interface Springbootsites {
   get(
     resourceGroupName: string,
     springbootsitesName: string,
-    options?: SpringbootsitesGetOptionalParams
+    options?: SpringbootsitesGetOptionalParams,
   ): Promise<SpringbootsitesGetResponse>;
   /**
    * Create a springbootsites resource.
@@ -66,7 +66,7 @@ export interface Springbootsites {
     resourceGroupName: string,
     springbootsitesName: string,
     springbootsites: SpringbootsitesModel,
-    options?: SpringbootsitesCreateOrUpdateOptionalParams
+    options?: SpringbootsitesCreateOrUpdateOptionalParams,
   ): Promise<SpringbootsitesCreateOrUpdateResponse>;
   /**
    * Delete a springbootsites resource.
@@ -77,7 +77,7 @@ export interface Springbootsites {
   beginDelete(
     resourceGroupName: string,
     springbootsitesName: string,
-    options?: SpringbootsitesDeleteOptionalParams
+    options?: SpringbootsitesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootsitesDeleteResponse>,
@@ -93,7 +93,7 @@ export interface Springbootsites {
   beginDeleteAndWait(
     resourceGroupName: string,
     springbootsitesName: string,
-    options?: SpringbootsitesDeleteOptionalParams
+    options?: SpringbootsitesDeleteOptionalParams,
   ): Promise<SpringbootsitesDeleteResponse>;
   /**
    * Update a springbootsites resource.
@@ -106,7 +106,7 @@ export interface Springbootsites {
     resourceGroupName: string,
     springbootsitesName: string,
     springbootsites: SpringbootsitesPatch,
-    options?: SpringbootsitesUpdateOptionalParams
+    options?: SpringbootsitesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootsitesUpdateResponse>,
@@ -124,7 +124,7 @@ export interface Springbootsites {
     resourceGroupName: string,
     springbootsitesName: string,
     springbootsites: SpringbootsitesPatch,
-    options?: SpringbootsitesUpdateOptionalParams
+    options?: SpringbootsitesUpdateOptionalParams,
   ): Promise<SpringbootsitesUpdateResponse>;
   /**
    * Trigger refresh springbootsites action
@@ -135,7 +135,7 @@ export interface Springbootsites {
   beginTriggerRefreshSite(
     resourceGroupName: string,
     springbootsitesName: string,
-    options?: SpringbootsitesTriggerRefreshSiteOptionalParams
+    options?: SpringbootsitesTriggerRefreshSiteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SpringbootsitesTriggerRefreshSiteResponse>,
@@ -151,6 +151,6 @@ export interface Springbootsites {
   beginTriggerRefreshSiteAndWait(
     resourceGroupName: string,
     springbootsitesName: string,
-    options?: SpringbootsitesTriggerRefreshSiteOptionalParams
+    options?: SpringbootsitesTriggerRefreshSiteOptionalParams,
   ): Promise<SpringbootsitesTriggerRefreshSiteResponse>;
 }
