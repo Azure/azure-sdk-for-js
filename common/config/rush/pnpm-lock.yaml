@@ -650,6 +650,9 @@ dependencies:
   '@rush-temp/arm-sphere':
     specifier: file:./projects/arm-sphere.tgz
     version: file:projects/arm-sphere.tgz
+  '@rush-temp/arm-springappdiscovery':
+    specifier: file:./projects/arm-springappdiscovery.tgz
+    version: file:projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql':
     specifier: file:./projects/arm-sql.tgz
     version: file:projects/arm-sql.tgz
@@ -3264,7 +3267,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3311,7 +3314,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.5:
@@ -3433,7 +3436,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -16311,6 +16314,34 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-springappdiscovery.tgz:
+    resolution: {integrity: sha512-A2tlPSTSESOP8s72ohjMiNNc7W7kN8Pgw9wsV/zDSF35uegD/9bh23qRy8UWHk65fzivRT6677tPfLyYIVrp/A==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.15
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
