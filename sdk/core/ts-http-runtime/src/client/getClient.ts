@@ -14,7 +14,7 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common.js";
-import { sendRequest, sendRequestAsStream } from "./sendRequest.js";
+import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
 import { PipelineOptions } from "../createPipelineFromOptions.js";
 
@@ -177,22 +177,22 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }
