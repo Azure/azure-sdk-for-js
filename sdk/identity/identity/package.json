@@ -26,7 +26,7 @@
     "./dist-esm/src/credentials/azureApplicationCredential.js": "./dist-esm/src/credentials/azureApplicationCredential.browser.js",
     "./dist-esm/src/credentials/onBehalfOfCredential.js": "./dist-esm/src/credentials/onBehalfOfCredential.browser.js",
     "./dist-esm/src/credentials/workloadIdentityCredential.js": "./dist-esm/src/credentials/workloadIdentityCredential.browser.js",
-    "./dist-esm/src/msal/utils.js": "./dist-esm/src/msal/utils.browser.js",
+    "./dist-esm/src/msal/msal.js": "./dist-esm/src/msal/msal.browser.js",
     "./dist-esm/src/util/authHostEnv.js": "./dist-esm/src/util/authHostEnv.browser.js",
     "./dist-esm/src/util/processMultiTenantRequest.js": "./dist-esm/src/util/processMultiTenantRequest.browser.js",
     "./dist-esm/src/tokenCache/TokenCachePersistence.js": "./dist-esm/src/tokenCache/TokenCachePersistence.browser.js",
@@ -159,7 +159,6 @@
     "sinon": "^17.0.0",
     "ts-node": "^10.0.0",
     "typescript": "~5.3.3",
-    "util": "^0.12.1",
-    "esm": "^3.2.18"
+    "util": "^0.12.1"
   }
 }

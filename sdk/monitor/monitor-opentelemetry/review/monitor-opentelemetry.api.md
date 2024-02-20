@@ -17,10 +17,10 @@ export interface AzureMonitorOpenTelemetryOptions {
     enableLiveMetrics?: boolean;
     enableStandardMetrics?: boolean;
     instrumentationOptions?: InstrumentationOptions;
-    logRecordProcessors?: [LogRecordProcessor];
+    logRecordProcessors?: LogRecordProcessor[];
     resource?: Resource;
     samplingRatio?: number;
-    spanProcessors?: [SpanProcessor];
+    spanProcessors?: SpanProcessor[];
 }
 
 // @public
@@ -42,7 +42,7 @@ export interface InstrumentationOptions {
 }
 
 // @public
-export function shutdownAzureMonitor(): void;
+export function shutdownAzureMonitor(): Promise<void>;
 
 // @public
 export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void;
