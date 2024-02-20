@@ -44,8 +44,7 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const reporterArgs =
-    `--reporter=verbose --reporter=junit --outputFile=test-results${options["browser"] ? ".browser" : ""}.xml`;
+  const reporterArgs = `--reporter=verbose --reporter=junit --outputFile=test-results${options["browser"] ? ".browser" : ""}.xml`;
   const args = options["browser"] ? "-c vitest.browser.config.mts" : "";
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,

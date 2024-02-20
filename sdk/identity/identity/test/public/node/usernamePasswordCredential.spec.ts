@@ -5,6 +5,7 @@
 
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, env, isLiveMode } from "@azure-tools/test-recorder";
+
 import { AbortController } from "@azure/abort-controller";
 import { Context } from "mocha";
 import { UsernamePasswordCredential } from "../../../src";
@@ -54,6 +55,9 @@ describe("UsernamePasswordCredential", function () {
       clientId,
       env.AZURE_IDENTITY_TEST_USERNAME || env.AZURE_USERNAME!,
       env.AZURE_IDENTITY_TEST_PASSWORD || env.AZURE_PASSWORD!,
+      recorder.configureClientOptions({
+        authorityHost: "https://fake-authority.com",
+      }),
     );
 
     const controller = new AbortController();
