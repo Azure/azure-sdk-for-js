@@ -16,7 +16,6 @@ import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "../util/typeGuards.js";
 import { HttpResponse, RequestParameters } from "./common.js";
-import { binaryArrayToString } from "./helpers/getBinaryBody.js";
 
 /**
  * Helper function to send request used by the client
@@ -137,11 +136,7 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (ArrayBuffer.isView(body)) {
-    if (body instanceof Uint8Array) {
-      return { body: binaryArrayToString(body) };
-    } else {
-      return { body: JSON.stringify(body) };
-    }
+    return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
   }
 
   switch (firstType) {
@@ -164,7 +159,7 @@ function isFormData(body: unknown): body is FormDataMap {
 }
 
 /**
- * Checks if binary data is in Uint8Array format, if so decode it to a binary string
+ * Checks if binary data is in Uint8Array format, if so wrap it in a Blob
  * to send over the wire
  */
 function processFormData(formData?: FormDataMap): FormDataMap | undefined {
@@ -177,7 +172,9 @@ function processFormData(formData?: FormDataMap): FormDataMap | undefined {
   for (const element in formData) {
     const item = formData[element];
     if (item instanceof Uint8Array) {
-      processedFormData[element] = binaryArrayToString(item);
+      // Some RLCs take a Uint8Array for the parameter, whereas FormDataMap expects
+      // a File or a Blob, so we need to wrap it.
+      processedFormData[element] = new Blob([item]);
     } else {
       processedFormData[element] = item;
     }

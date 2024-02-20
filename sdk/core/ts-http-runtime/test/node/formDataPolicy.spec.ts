@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { describe, it, assert, vi } from "vitest";
+import { describe, it, assert } from "vitest";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { BodyPart, MultipartRequestBody } from "../../src/interfaces.js";
 import { isBlob } from "../../src/util/typeGuards.js";
