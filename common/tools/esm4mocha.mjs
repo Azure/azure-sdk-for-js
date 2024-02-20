@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { readFile, stat, constants } from "node:fs/promises";
+import { constants, readFile, stat } from "node:fs/promises";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "url";
+
 import { Project } from "./dev-tool/node_modules/ts-morph/dist/ts-morph.js";
+import { fileURLToPath } from "url";
+
+// urls of resolved modules that we change to format of "module"
+const modified = new Set();
 
 // if modules are loaded from dist-esm/ treat them as ESM
 export async function resolve(specifier, context, defaultResolve) {
   consoleDir({ label: "resolving", specifier, context });
   const resolved = await defaultResolve(specifier, context, defaultResolve);
   consoleDir({ resolved });
-  if (resolved.url.includes("dist-esm/")) {
+  if (resolved.url.includes("dist-esm/") && resolved.format !== "module") {
     resolved.format = "module";
+    modified.add(resolved.url);
   }
   return resolved;
 }
@@ -21,7 +26,7 @@ export async function resolve(specifier, context, defaultResolve) {
 // for relative imports/exports as that is required by ESM.
 export async function load(url, context, defaultLoad) {
   consoleDir({ label: "loading...", url, context });
-  if (url.includes("dist-esm/")) {
+  if (url.includes("dist-esm/") && modified.has(url)) {
     const path = fileURLToPath(url);
     const source = await readFile(path);
     const transformed = await addJsExtensionToRelativeModules(source, path);
@@ -32,7 +37,8 @@ export async function load(url, context, defaultLoad) {
     };
   }
   const { source } = await defaultLoad(url, context, defaultLoad);
-  return { format: context.format, source, shortCircuit: true };
+  const format = context.format ?? "builtin";
+  return { format, source, shortCircuit: true };
 }
 
 async function updateSpecifierValueIfRelative(declaration, base) {

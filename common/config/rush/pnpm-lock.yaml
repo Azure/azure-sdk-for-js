@@ -650,6 +650,9 @@ dependencies:
   '@rush-temp/arm-sphere':
     specifier: file:./projects/arm-sphere.tgz
     version: file:projects/arm-sphere.tgz
+  '@rush-temp/arm-springappdiscovery':
+    specifier: file:./projects/arm-springappdiscovery.tgz
+    version: file:projects/arm-springappdiscovery.tgz
   '@rush-temp/arm-sql':
     specifier: file:./projects/arm-sql.tgz
     version: file:projects/arm-sql.tgz
@@ -2219,6 +2222,16 @@ packages:
       lodash: 4.17.21
     dev: false
 
+  /@microsoft/api-extractor-model@7.28.11(@types/node@18.19.15):
+    resolution: {integrity: sha512-iyYqSH4gI3dFj4GLTTvi4Usgd5bILc9bbB5m2xul5tJ0JQ9G9lc1rY67rSD6O0hU62E1WRHOai9GUUVXMgCTdA==}
+    dependencies:
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 4.0.0(@types/node@18.19.15)
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
   /@microsoft/api-extractor-model@7.28.8(@types/node@20.10.8):
     resolution: {integrity: sha512-/q6ds8XQVqs4Tq0/HueFiMk0wwJH8RaXHm+Z7XJ9ffeZ+6/oQUh6E0++uVfNoMD0JmZvLTV8++UgQ4dXMRQFWA==}
     dependencies:
@@ -2299,6 +2312,26 @@ packages:
       '@rushstack/node-core-library': 3.66.0(@types/node@18.19.15)
       '@rushstack/rig-package': 0.5.1
       '@rushstack/ts-command-line': 4.17.1
+      colors: 1.2.5
+      lodash: 4.17.21
+      resolve: 1.22.8
+      semver: 7.5.4
+      source-map: 0.6.1
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@types/node'
+    dev: false
+
+  /@microsoft/api-extractor@7.40.3(@types/node@18.19.15):
+    resolution: {integrity: sha512-mh1BTKFxowAcArjUG3ryKN7seUEQt5BawAWCEtVq7nJYT2w2lBRGBmMBy93fnrWUxnvatXdtWgNi++Dl5R+7sQ==}
+    hasBin: true
+    dependencies:
+      '@microsoft/api-extractor-model': 7.28.11(@types/node@18.19.15)
+      '@microsoft/tsdoc': 0.14.2
+      '@microsoft/tsdoc-config': 0.16.2
+      '@rushstack/node-core-library': 4.0.0(@types/node@18.19.15)
+      '@rushstack/rig-package': 0.5.2
+      '@rushstack/ts-command-line': 4.17.2
       colors: 1.2.5
       lodash: 4.17.21
       resolve: 1.22.8
@@ -3072,6 +3105,24 @@ packages:
       z-schema: 5.0.5
     dev: false
 
+  /@rushstack/node-core-library@4.0.0(@types/node@18.19.15):
+    resolution: {integrity: sha512-4ocU3K2NtpILEWG6LjSMRSwrb0CjvYOioVTzqvIOj6vc5yD0BcscfpVp5dkHGLZxnqdmkBrTKvyg6AmqhWnw1w==}
+    peerDependencies:
+      '@types/node': '*'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+    dependencies:
+      '@types/node': 18.19.15
+      colors: 1.2.5
+      fs-extra: 7.0.1
+      import-lazy: 4.0.0
+      jju: 1.4.0
+      resolve: 1.22.8
+      semver: 7.5.4
+      z-schema: 5.0.5
+    dev: false
+
   /@rushstack/rig-package@0.5.1:
     resolution: {integrity: sha512-pXRYSe29TjRw7rqxD4WS3HN/sRSbfr+tJs4a9uuaSIBAITbUggygdhuG0VrO0EO+QqH91GhYMN4S6KRtOEmGVA==}
     dependencies:
@@ -3079,8 +3130,24 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
+  /@rushstack/rig-package@0.5.2:
+    resolution: {integrity: sha512-mUDecIJeH3yYGZs2a48k+pbhM6JYwWlgjs2Ca5f2n1G2/kgdgP9D/07oglEGf6mRyXEnazhEENeYTSNDRCwdqA==}
+    dependencies:
+      resolve: 1.22.8
+      strip-json-comments: 3.1.1
+    dev: false
+
   /@rushstack/ts-command-line@4.17.1:
     resolution: {integrity: sha512-2jweO1O57BYP5qdBGl6apJLB+aRIn5ccIRTPDyULh0KMwVzFqWtw6IZWt1qtUoZD/pD2RNkIOosH6Cq45rIYeg==}
+    dependencies:
+      '@types/argparse': 1.0.38
+      argparse: 1.0.10
+      colors: 1.2.5
+      string-argv: 0.3.2
+    dev: false
+
+  /@rushstack/ts-command-line@4.17.2:
+    resolution: {integrity: sha512-QS2S2nJo9zXq/+9Dk10LmvIFugMizI9IeQUH4jnhIcoaeqYlsv2fK830U+/gMKpI5vomXz19XMXfkUfZzO4R3A==}
     dependencies:
       '@types/argparse': 1.0.38
       argparse: 1.0.10
@@ -3264,7 +3331,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3311,7 +3378,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.5:
@@ -3433,7 +3500,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.15
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -3692,12 +3759,12 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@vitest/browser@1.2.2(playwright@1.41.2)(vitest@1.2.2):
-    resolution: {integrity: sha512-N8myxNVLbS9AbZ7B2cK33HTGYVzUTDArbMh3hLojOxaj7s7ZrBYYmzs0Q5J2wyDrOgs51p6OUrrzAIb1Z+Ck3A==}
+  /@vitest/browser@1.3.1(playwright@1.41.2)(vitest@1.3.1):
+    resolution: {integrity: sha512-pRof8G8nqRWwg3ouyIctyhfIVk5jXgF056uF//sqdi37+pVtDz9kBI/RMu0xlc8tgCyJ2aEMfbgJZPUydlEVaQ==}
     peerDependencies:
       playwright: '*'
       safaridriver: '*'
-      vitest: ^1.0.0
+      vitest: 1.3.1
       webdriverio: '*'
     peerDependenciesMeta:
       playwright:
@@ -3707,64 +3774,64 @@ packages:
       webdriverio:
         optional: true
     dependencies:
-      '@vitest/utils': 1.2.2
+      '@vitest/utils': 1.3.1
       magic-string: 0.30.7
       playwright: 1.41.2
       sirv: 2.0.4
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     dev: false
 
-  /@vitest/coverage-istanbul@1.2.2(vitest@1.2.2):
-    resolution: {integrity: sha512-tJybwO8JT4H9ANz0T0/tJ1M5g3BkuHKYF1w5YO3z9sAiHBdGANrxN9c5lomJx1WSnLzCxQR5xxlJ4TLKbzrR3w==}
+  /@vitest/coverage-istanbul@1.3.1(vitest@1.3.1):
+    resolution: {integrity: sha512-aBVgQ2eY9gzrxBJjGKbWgatTU2w1CacEx0n8OMctPzl9836KqoM5X/WigJpjM7wZEtX2N0ZTE5KDGPmVM+o2Wg==}
     peerDependencies:
-      vitest: ^1.0.0
+      vitest: 1.3.1
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
       istanbul-lib-coverage: 3.2.2
-      istanbul-lib-instrument: 6.0.1
+      istanbul-lib-instrument: 6.0.2
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 4.0.1
       istanbul-reports: 3.1.6
       magicast: 0.3.3
       picocolors: 1.0.0
       test-exclude: 6.0.0
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - supports-color
     dev: false
 
-  /@vitest/expect@1.2.2:
-    resolution: {integrity: sha512-3jpcdPAD7LwHUUiT2pZTj2U82I2Tcgg2oVPvKxhn6mDI2On6tfvPQTjAI4628GUGDZrCm4Zna9iQHm5cEexOAg==}
+  /@vitest/expect@1.3.1:
+    resolution: {integrity: sha512-xofQFwIzfdmLLlHa6ag0dPV8YsnKOCP1KdAeVVh34vSjN2dcUiXYCD9htu/9eM7t8Xln4v03U9HLxLpPlsXdZw==}
     dependencies:
-      '@vitest/spy': 1.2.2
-      '@vitest/utils': 1.2.2
+      '@vitest/spy': 1.3.1
+      '@vitest/utils': 1.3.1
       chai: 4.3.10
     dev: false
 
-  /@vitest/runner@1.2.2:
-    resolution: {integrity: sha512-JctG7QZ4LSDXr5CsUweFgcpEvrcxOV1Gft7uHrvkQ+fsAVylmWQvnaAr/HDp3LAH1fztGMQZugIheTWjaGzYIg==}
+  /@vitest/runner@1.3.1:
+    resolution: {integrity: sha512-5FzF9c3jG/z5bgCnjr8j9LNq/9OxV2uEBAITOXfoe3rdZJTdO7jzThth7FXv/6b+kdY65tpRQB7WaKhNZwX+Kg==}
     dependencies:
-      '@vitest/utils': 1.2.2
+      '@vitest/utils': 1.3.1
       p-limit: 5.0.0
       pathe: 1.1.2
     dev: false
 
-  /@vitest/snapshot@1.2.2:
-    resolution: {integrity: sha512-SmGY4saEw1+bwE1th6S/cZmPxz/Q4JWsl7LvbQIky2tKE35US4gd0Mjzqfr84/4OD0tikGWaWdMja/nWL5NIPA==}
+  /@vitest/snapshot@1.3.1:
+    resolution: {integrity: sha512-EF++BZbt6RZmOlE3SuTPu/NfwBF6q4ABS37HHXzs2LUVPBLx2QoY/K0fKpRChSo8eLiuxcbCVfqKgx/dplCDuQ==}
     dependencies:
       magic-string: 0.30.7
       pathe: 1.1.2
       pretty-format: 29.7.0
     dev: false
 
-  /@vitest/spy@1.2.2:
-    resolution: {integrity: sha512-k9Gcahssw8d7X3pSLq3e3XEu/0L78mUkCjivUqCQeXJm9clfXR/Td8+AP+VC1O6fKPIDLcHDTAmBOINVuv6+7g==}
+  /@vitest/spy@1.3.1:
+    resolution: {integrity: sha512-xAcW+S099ylC9VLU7eZfdT9myV67Nor9w9zhf0mGCYJSO+zM2839tOeROTdikOi/8Qeusffvxb/MyBSOja1Uig==}
     dependencies:
       tinyspy: 2.2.1
     dev: false
 
-  /@vitest/utils@1.2.2:
-    resolution: {integrity: sha512-WKITBHLsBHlpjnDQahr+XK6RE7MiAsgrIkr0pGhQ9ygoxBfUeG0lUG5iLlzqjmKSlBv3+j5EGsriBzh+C3Tq9g==}
+  /@vitest/utils@1.3.1:
+    resolution: {integrity: sha512-d3Waie/299qqRyHTm2DjADeTaNdNSVsnwHPWrs20JMpjh6eiVq7ggggweO8rc4arhf6rRkWuHKwvxGvejUXZZQ==}
     dependencies:
       diff-sequences: 29.6.3
       estree-walker: 3.0.3
@@ -6673,8 +6740,8 @@ packages:
       - supports-color
     dev: false
 
-  /istanbul-lib-instrument@6.0.1:
-    resolution: {integrity: sha512-EAMEJBsYuyyztxMxW3g7ugGPkrZsV57v0Hmv3mm1uQsmB+QnZuepg731CRaIgeUVSdmsTngOkSnauNF8p7FIhA==}
+  /istanbul-lib-instrument@6.0.2:
+    resolution: {integrity: sha512-1WUsZ9R1lA0HtBSohTkm39WTPlNKSJ5iFk7UwqXkBLoHQT+hfqPsfsTDVuZdKGaBwn7din9bS7SsnoAr943hvw==}
     engines: {node: '>=10'}
     dependencies:
       '@babel/core': 7.23.9
@@ -6741,6 +6808,10 @@ packages:
 
   /js-tokens@4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
+    dev: false
+
+  /js-tokens@8.0.3:
+    resolution: {integrity: sha512-UfJMcSJc+SEXEl9lH/VLHSZbThQyLpw1vLO1Lb+j4RWDvG3N2f7yj3PVQA3cmkTBNldJ9eFnM+xEXxHIXrYiJw==}
     dev: false
 
   /js-yaml@3.14.1:
@@ -8163,6 +8234,11 @@ packages:
       fsevents: 2.3.2
     dev: false
 
+  /polite-json@4.0.1:
+    resolution: {integrity: sha512-8LI5ZeCPBEb4uBbcYKNVwk4jgqNx1yHReWoW4H4uUihWlSqZsUDfSITrRhjliuPgxsNPFhNSudGO2Zu4cbWinQ==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    dev: false
+
   /postcss@8.4.35:
     resolution: {integrity: sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -9219,10 +9295,10 @@ packages:
     engines: {node: '>=14.16'}
     dev: false
 
-  /strip-literal@1.3.0:
-    resolution: {integrity: sha512-PugKzOsyXpArk0yWmUwqOZecSO0GH0bPoctLcqNDH9J04pVW3lflYE0ujElBGTloevcxF5MofAOZ7C5l2b+wLg==}
+  /strip-literal@2.0.0:
+    resolution: {integrity: sha512-f9vHgsCWBq2ugHAkGMiiYY+AYG0D/cbloKKg0nhaaaSNsujdGIpVXCNsrJpCKr5M0f4aI31mr13UjY6GAuXCKA==}
     dependencies:
-      acorn: 8.11.3
+      js-tokens: 8.0.3
     dev: false
 
   /strnum@1.0.5:
@@ -9521,8 +9597,8 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
-  /tshy@1.11.0:
-    resolution: {integrity: sha512-5T5PVyuYQKTcOKz5a2lpwx4WKi8yEzQGO0Q5l+9clJMYupMaTI7ONEwKggGAZDQQGIgCOyUCfBWnSkG0XdJc+A==}
+  /tshy@1.11.1:
+    resolution: {integrity: sha512-AzATR8weBaUW46Nh4B1k5cfxVuADKJTXe95xHh7BzcI1RjQQy6HeUXQDY+erGEGTLpiv6N6xMFmtEsMMc7x40Q==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
     hasBin: true
     dependencies:
@@ -9530,6 +9606,7 @@ packages:
       chokidar: 3.6.0
       foreground-child: 3.1.1
       mkdirp: 3.0.1
+      polite-json: 4.0.1
       resolve-import: 1.4.5
       rimraf: 5.0.5
       sync-content: 1.0.2
@@ -9834,8 +9911,8 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /vite-node@1.2.2(@types/node@18.19.15):
-    resolution: {integrity: sha512-1as4rDTgVWJO3n1uHmUYqq7nsFgINQ9u+mRcXpjeOMJUmviqNKjcZB7UfRZrlM7MjYXMKpuWp5oGkjaFLnjawg==}
+  /vite-node@1.3.1(@types/node@18.19.15):
+    resolution: {integrity: sha512-azbRrqRxlWTJEVbzInZCTchx0X69M/XPTCz4H+TLvlTcR/xH/3hkRqhOakT41fMJCMzXTu4UvegkZiEoJAWvng==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     dependencies:
@@ -9891,15 +9968,15 @@ packages:
       fsevents: 2.3.3
     dev: false
 
-  /vitest@1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2):
-    resolution: {integrity: sha512-d5Ouvrnms3GD9USIK36KG8OZ5bEvKEkITFtnGv56HFaSlbItJuYr7hv2Lkn903+AvRAgSixiamozUVfORUekjw==}
+  /vitest@1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1):
+    resolution: {integrity: sha512-/1QJqXs8YbCrfv/GPQ05wAZf2eakUPLPa18vkJAKE7RXOKfVHqMZZ1WlTjiwl6Gcn65M5vpNUB6EFLnEdRdEXQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
       '@types/node': ^18.0.0 || >=20.0.0
-      '@vitest/browser': ^1.0.0
-      '@vitest/ui': ^1.0.0
+      '@vitest/browser': 1.3.1
+      '@vitest/ui': 1.3.1
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -9917,14 +9994,13 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/expect': 1.2.2
-      '@vitest/runner': 1.2.2
-      '@vitest/snapshot': 1.2.2
-      '@vitest/spy': 1.2.2
-      '@vitest/utils': 1.2.2
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/expect': 1.3.1
+      '@vitest/runner': 1.3.1
+      '@vitest/snapshot': 1.3.1
+      '@vitest/spy': 1.3.1
+      '@vitest/utils': 1.3.1
       acorn-walk: 8.3.2
-      cac: 6.7.14
       chai: 4.3.10
       debug: 4.3.4(supports-color@8.1.1)
       execa: 8.0.1
@@ -9933,11 +10009,11 @@ packages:
       pathe: 1.1.2
       picocolors: 1.0.0
       std-env: 3.7.0
-      strip-literal: 1.3.0
+      strip-literal: 2.0.0
       tinybench: 2.6.0
       tinypool: 0.8.2
       vite: 5.1.1(@types/node@18.19.15)
-      vite-node: 1.2.2(@types/node@18.19.15)
+      vite-node: 1.3.1(@types/node@18.19.15)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
@@ -10286,16 +10362,16 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-do7DXKJF9wnf1IOK9iVq3ccmB4JMgdINVo/1pcxerhDmfwmPVS3nxckDlsJ+ZzZN7iJSHeeZpuS9i44SLdwHaw==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-6KmwcmAc6Zw8aAD3MJMfxMFu/eU1by4j5WCbNbMnTh+SAEBmhRppxYLE57CHk/4zJEAr+ssjbLGmiSDO9XWAqg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -10314,10 +10390,10 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11031,7 +11107,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-FPbz3Hg7lZ2FEmtfj9z17mHC2PPMiboExhsqSoLYUQNg1xchG0sfIgeevVwdQZe3yGlbpdic6boGxZpPgmBXww==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-I5Dk5KGkZcareqejzIneRVjBdEPEwb41zVSXnvxEpvAiSoPs5guqYtPzFWWE+U5IDEvwnT9RATkNIbVaOWm1Lg==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -16424,6 +16500,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-springappdiscovery.tgz:
+    resolution: {integrity: sha512-A2tlPSTSESOP8s72ohjMiNNc7W7kN8Pgw9wsV/zDSF35uegD/9bh23qRy8UWHk65fzivRT6677tPfLyYIVrp/A==, tarball: file:projects/arm-springappdiscovery.tgz}
+    name: '@rush-temp/arm-springappdiscovery'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.15
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-sql.tgz:
     resolution: {integrity: sha512-ex3UJHDftkICLCA5doTfowXFXLLV4D2nc4rTG/shZZjNsxDI92pqASoxVQgatsHDeFd4oklXVCoQHIG105bc4g==, tarball: file:projects/arm-sql.tgz}
     name: '@rush-temp/arm-sql'
@@ -17456,7 +17560,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-3Bgb/5bSZBRgrKG+9vrdePkf/bg7I71LK2ZB81LsIE4Mi2CGJrC62gKk8xTkNu03qVXrey33H31A/t/gF+32KA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-desk9yMknQZik9abM0PiJhgOyw+Aq3MBTiSFM36lA1c8PGoR8NLXGnoe1rl7KyEnqnPO0CqIs09AAeAs9iIeSg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -17466,6 +17570,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       autorest: 3.7.1
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.4
@@ -17962,16 +18067,16 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-E7jIm8DfxY2bKzmD8qm7zMIAr1YfY0oFdSSWuzDbM4hOC60gjU9QkxLSHamDAQD3Q8FI4GyLWOuN9/O9R5TItw==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-1LK36hxl/yFX4MHmS5CUf58rso7ZrsDtta31EihcL2mIW0rMVX4dlwG4iu2NvRvl4W1q475ps748uDNjE5Z21w==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -17981,11 +18086,11 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18003,17 +18108,17 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-fDFU85YNoOth7XIHltbDEkzYo7PW/Zky1kbLGTz0lYbtZ7Dj7VOrVJ4PsECtgwzOoKRyoK/hBW3rDWPhT6YG1A==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-OLJyHTL0U4vLGSMZ1Uwm/cbaCSnQpJWNwZxfuqyuHvtF6GoyCXBb9RdB6KZgMhJJgBvEZr3BhxTqM57nciV7lg==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18034,11 +18139,11 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18056,17 +18161,17 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-NIM4xTh/NppDFdPO8aAtwig+pzPlDhYqLcPpC8KE2301wZG0TMLYBChr366FYyrWVGO9bnvpyzvz4ueMPu3Ymw==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-J+mQDVAxm/CPhw9yQFUrQt3TLclaYwfzkmNDWVcG3wYLZPyNF6m6Oz5ZyzQpwtQgA1GrZFMtJ6ALGyXqdOYGww==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18086,10 +18191,10 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18107,15 +18212,15 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-+G//zktXuBmBRkbDLN7K/Z/32shKV7pBsMB/s8TPpAftwRQ6fQMewGKPmm7yHD1y8yeMnFJppVHR/8HQx+uxDg==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-o4+VSa/YjxAuW8meTMp04lfhMav4XhxI2mQBUsgLm6qrsG+UInoYc1XjeoG9dxsSbtoDT8iNguuNKzCXTdAEnA==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       cross-env: 7.0.3
       eslint: 8.56.0
       mocha: 10.3.0
@@ -18123,9 +18228,9 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18143,15 +18248,15 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-W2o8vTQlCnfGqf2SvqCuPwxhpd/numvHN/h7Ve01hwZFpM7C4Z6gxXQ1EGBnAx528edS5N60XtlvzxO4k4421w==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-4z+td5KBrB4E4AC1W8sIikhPFggJTtbjtzYitU01rvQe6H97SnwxgSX95X3VYJuuz6FTtaTu8Ygodk7U9AvdUA==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       c8: 8.0.1
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18169,10 +18274,10 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18190,16 +18295,16 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-kMVs8oXUUt2Muzn3T4XlyF7huQ4qDzQfE3VY+EhMLlUl65kZlUFI5CkMWmimK1I+7EGsiHNPAY02H5nE6oWqqA==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-ZSI0Vg4yD2/EK/sq4+YxdzQy9YGswtLd5DeTD397iaMoy0vyp/6BKURyIPiSoBTofFUIV3j7MwaO9tfkyHbT8Q==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18217,10 +18322,10 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18238,24 +18343,24 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-VZ5iunYjZBasNcRyzBW2Sv7kXeDRleQy40Bdj3/M9THVwzbf0ND0x5sF4qTbtDV6hCVHeNFjSjXbmerAduYkNw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-SxZK8Sn3iHsCf4SUWs631chCquZR4EoAnGCZIBAN53fzEx7zu7Fn5kMgthrV7k6sZqNh3Gr+2UoTzrdfd96aKA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       eslint: 8.56.0
       http-proxy-agent: 7.0.0
       https-proxy-agent: 7.0.2
       playwright: 1.41.2
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18273,15 +18378,15 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-/gpo1S/2Eq1Ro6BWsOmue/3fuQA0G0Km3w1K5H33/K/9V7NnQ6f+nB5jkXVftYfeIN5PyDX8aH7A6cR7Q0JKJg==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-SQ12AH5WYq1DSw8s4W2KBK4lI0JqidtDTYrSBid8ji11C+5EG6brZOmlEsstwrE4/ou2BRGQZjYOiFhCQASPOw==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       c8: 8.0.1
       cross-env: 7.0.3
       dotenv: 16.4.4
@@ -18305,10 +18410,10 @@ packages:
       puppeteer: 22.0.0(typescript@5.3.3)
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.2.2
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18326,17 +18431,17 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-lIe8GLYc5Vj0BqB51r7dEXHfXQF2QEe/sld49q0iqaNWFF5OUTyZndHEKCaki2YOSh9HGlCCmVQln9himeTgtg==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-OiN48Pr2CrhzGy/wuAmQKNxNq/JVEDsgVVIbSTMLBh09mRgHVAt1dDP2RiazPOUoVgO+a8sg0lUlT9UuJkbLQA==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18356,11 +18461,11 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18378,22 +18483,22 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-apKXyOJNNRMayfMFOpyOOVxgptIGZYG1rIR6Y59auD82kI7nJwbuEK5ut2TmIJdtbbUmYHkFy0ZyjYfSMhjxgA==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-m6EGouRXU6ZC5lviRF/UxOy9EcUOR0s05AMbEYkhx9w71Ohu4X8eWea8RiX5kplEaCvQj/Pxpjpk+FqIMiq6tw==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/node': 18.19.15
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       eslint: 8.56.0
       playwright: 1.41.2
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18411,17 +18516,17 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-OGdw+6qLAgTEChgDrOjAdSPKt8jETqcyjwhfk+WhK9HKC23nVv9MgPlU08q/+bxLprWi+HC4NhZC1OLAhllRTA==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-nHFQ7K/R0RCToo50zrD/m7qx1IwTGRhgSD2sa/u5eP323N1Ekv9SolsTKReAM3bqD1PPirvytI8pP9WC2dvkpg==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/trusted-types': 2.0.7
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       cross-env: 7.0.3
       eslint: 8.56.0
@@ -18441,11 +18546,11 @@ packages:
       prettier: 3.2.5
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19241,7 +19346,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-ruu02BC8golDTf85SJTFWELLDl+Zy2BQatuyJyf/UpOUF61YdK8HuKyf6V23ICPn/0M8l9Cud8LzzOT8bdPI7g==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-fO1XIna4VY+PdwoHkYkDN0HH/926BMjo5zeacrD70jlTpd0bybvpdVHkNVxxNZgfuAhoZoYRNR+XB4Y/Ev0yIQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19299,7 +19404,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-mHDnc19JVP2Y52YBkoHrTNtbLFqQUmmbDGpcwmOrruyaM0ChYJq954qqY7ITGvalI9CZ4pwFDup/WUaUjblb1g==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-08inZjul+kMfLt6nCv70T37daAOTfuBmr/TqX4Wp2jEcQE1072QO/xi9JuigpjFXoWcVS9rUgY1KXJE/43iMqg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -19309,6 +19414,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/uuid': 8.3.4
+      c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.4
@@ -19388,7 +19494,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-0RP/YolaFQsMNgv5QtH6gZej5qV3NMrlkxbj2V8rzwl2JdBolVKSQHwKF/wby6w7FgUqDUHPPUWMD7+Rf+tpXw==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-T58Ayegj9K+MC5jWgSGt8/EtBbpZwicIMI4gCgvCUBWmS9yPJrwgi4B01F1KbfEbuEHpc9QVktulVfndrSs3ug==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
@@ -19420,7 +19526,7 @@ packages:
     dev: false
 
   file:projects/keyvault-certificates.tgz:
-    resolution: {integrity: sha512-DIQESwDpf/GdB4E3TxOnqsgOPDaMLXt/PO7N6t9FeW69AWMq7gtoixFxEYcocjuCpXT0180wRigcOp1gDLNG9Q==, tarball: file:projects/keyvault-certificates.tgz}
+    resolution: {integrity: sha512-UOdy99iMG/hWN6Sj9AY2l9pl06lmWxg+RnGqMPKV38dC8SWORh/HiZEy0kP5kn4M28LvgZLNPqoiAHJ34b3IBA==, tarball: file:projects/keyvault-certificates.tgz}
     name: '@rush-temp/keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -19631,17 +19737,17 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-e4523AuQIJZJkvL/P8Oh0WyTwVe8qPqGdlzxcPSNca7/kcu2HcAZEma8G9a65qUykP4tHBmjqvytcSF/oTpr4w==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-+9REBcc8JqvPZtrlasULq44Rf/SZCr0g9nSSc62oxWhgQPsk/YBYMbcsfim7y562Vno8uYTFfqAH3xEjznwgnA==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
@@ -19663,10 +19769,10 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20167,7 +20273,7 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-R0F44ALQH8wMZsJUMtW5dmriw3nhkUZ6q4777dhgDev7MsgBdOCnZC8Mqlu10q0g/x8kUlmQwvTp65rwrejQPA==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-HlHgzSJnLpwoLUyooqPuF4iuVRhygYHgsg8x1O4YlmHGo2811G7hBGHnzwrbSij/FhHfjjETNOiEH23jSH9uzA==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
@@ -20574,7 +20680,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-certificates.tgz:
-    resolution: {integrity: sha512-RmThZOxtiuMapfumczYtaqi0UrM4tJPMvdqxkbSUyzr7L2T1UguEGJOo1Pcn/FMso5U/WEab/u9dHECdyGjqWQ==, tarball: file:projects/perf-keyvault-certificates.tgz}
+    resolution: {integrity: sha512-jwi5Zn2ftbeHfXLgBJ+5JKNa5dz06aQWb1dDRpZOSeDth4AYDtWCGnVc2/XS8jsZHDRK7FdI+ens84rG8Cx81Q==, tarball: file:projects/perf-keyvault-certificates.tgz}
     name: '@rush-temp/perf-keyvault-certificates'
     version: 0.0.0
     dependencies:
@@ -20596,7 +20702,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-keys.tgz:
-    resolution: {integrity: sha512-2K5ktseCXeTYixLZOkyq0uie6/fj9mRd0mbX/sZxVO+DyhMzWThyLKfN6vZ0kkvhihbemq2VgwnsL8yAIFc75A==, tarball: file:projects/perf-keyvault-keys.tgz}
+    resolution: {integrity: sha512-cLJnP+/F+v8sXSpWbpi/xfU/4tLihNc01sjUS+CncM7g1gVBoNK9o+r3azQGmsxTJoKAJEJCOIbJYkvY+r0nHg==, tarball: file:projects/perf-keyvault-keys.tgz}
     name: '@rush-temp/perf-keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -20618,7 +20724,7 @@ packages:
     dev: false
 
   file:projects/perf-keyvault-secrets.tgz:
-    resolution: {integrity: sha512-DvcrK4EkseFXt9ctvPYyU4w7vhtFlkdX0ptSJR1KHejrFVAF9BhE+6WikeU1yVV8WdEu+KTIGsX204jNonjS/A==, tarball: file:projects/perf-keyvault-secrets.tgz}
+    resolution: {integrity: sha512-BqOYZCWnqEqhzydKMiLIBNdNg1fohd0+gBIsuY6+6zOKzpdvK8JLRI/y7HSNM8f2CDhOqLUrniHisaB7AHm+eQ==, tarball: file:projects/perf-keyvault-secrets.tgz}
     name: '@rush-temp/perf-keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -21271,7 +21377,7 @@ packages:
     dev: false
 
   file:projects/service-bus.tgz:
-    resolution: {integrity: sha512-LqhpJwnhHWnc84l3xMhtQgfpvY8Rc+kmbqZumXeR6fWjL/eC2o7ToXVic1R33AfvYoyuxGgMTYIrIpR+Rye+AA==, tarball: file:projects/service-bus.tgz}
+    resolution: {integrity: sha512-z056stcwgVFeU0n4k4vAokL+Qp5i6Pkc8kSCfHk8LuceWJ2/9rwmYTVB/Gf8OiybE8MKfKXsopQW0sDpz5yN2w==, tarball: file:projects/service-bus.tgz}
     name: '@rush-temp/service-bus'
     version: 0.0.0
     dependencies:
@@ -22085,19 +22191,19 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-/U3Oyf+94/P3c+f31gfM06vll+t+GWHQjKRZ77O8qjoOY1+5RAcOVLSoAG2Hmbe4TlbJTbr/v+ZE9645d7w8Ow==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-HyGi6Yahjy4aNreOcQN4NWv7LGcax0E/7Rpg+HuM3U022EdzNwaNQ3szWW0F/RMNw8Rph1gDvG41R0SsyELwuQ==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.15)
       '@opentelemetry/api': 1.7.0
       '@types/chai': 4.3.11
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.6
       '@types/node': 18.19.15
       '@types/sinon': 17.0.3
-      '@vitest/browser': 1.2.2(playwright@1.41.2)(vitest@1.2.2)
-      '@vitest/coverage-istanbul': 1.2.2(vitest@1.2.2)
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       chai: 4.3.10
       chai-as-promised: 7.1.1(chai@4.3.10)
       cross-env: 7.0.3
@@ -22122,11 +22228,11 @@ packages:
       rimraf: 5.0.5
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
-      tshy: 1.11.0
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
-      vitest: 1.2.2(@types/node@18.19.15)(@vitest/browser@1.2.2)
+      vitest: 1.3.1(@types/node@18.19.15)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
