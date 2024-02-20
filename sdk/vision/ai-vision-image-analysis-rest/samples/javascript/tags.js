@@ -18,7 +18,7 @@ const feature = [
   'Tags'
 ];
 
-const imageUrl = 'https://aka.ms/azai/vision/image-analysis-sample.jpg';
+const imageUrl = 'https://aka.ms/azsdk/image-analysis/sample.jpg';
 
 async function analyzeImage() {
 
