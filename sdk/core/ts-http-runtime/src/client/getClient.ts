@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-import { KeyCredential } from "../auth/keyCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
 import { HttpClient, HttpMethods } from "../interfaces.js";
 import { Pipeline } from "../pipeline.js";
 import { createDefaultPipeline } from "./clientHelpers.js";
@@ -200,9 +200,5 @@ function buildOperation(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions,
 ): param is TokenCredential | KeyCredential {
-  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
-    return true;
-  }
-
-  return false;
+  return isKeyCredential(param) || isTokenCredential(param);
 }
