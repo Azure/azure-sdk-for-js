@@ -261,9 +261,9 @@ export async function createIndex(
           kind: "azureOpenAI",
           name: vectorizer,
           azureOpenAIParameters: {
-            apiKey: env.OPENAI_KEY,
-            deploymentId: env.OPENAI_DEPLOYMENT_NAME,
-            resourceUri: env.OPENAI_ENDPOINT,
+            apiKey: env.AZURE_OPENAI_KEY,
+            deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
+            resourceUri: env.AZURE_OPENAI_ENDPOINT,
           },
         },
       ],
@@ -514,7 +514,7 @@ async function addVectorDescriptions(
   documents: Hotel[],
   openAIClient: OpenAIClient,
 ): Promise<void> {
-  const deploymentName = process.env.OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
+  const deploymentName = process.env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name";
 
   const descriptionMap: Map<number, Hotel> = documents.reduce((map, document, i) => {
     map.set(i, document);
