@@ -167,7 +167,7 @@ export class ChatThreadClient {
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(request: RequestBodyType, options?: UploadImageOptions): Promise<UploadChatImageResult>;
+    uploadImage(request: RequestBodyType, options: UploadImageOptions): Promise<UploadChatImageResult>;
 }
 
 // @public
@@ -339,7 +339,10 @@ export interface UploadChatImageResult {
 }
 
 // @public
-export type UploadImageOptions = OperationOptions;
+export interface UploadImageOptions extends OperationOptions {
+    imageBytes?: number;
+    imageFilename: string;
+}
 
 // (No @packageDocumentation comment for this package)
 

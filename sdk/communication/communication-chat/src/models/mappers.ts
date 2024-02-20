@@ -65,7 +65,7 @@ export const mapToChatAttachmentRestModel = (
   chatAttachment: ChatAttachment,
 ): RestModel.ChatAttachment => {
   const { attachmentType, ...rest } = chatAttachment;
-  if (attachmentType == "unknown") {
+  if (attachmentType === "unknown") {
     throw new Error("'unknown' attachmentType not supported");
   }
   return {
@@ -83,14 +83,14 @@ export const mapToSendChatMessageRequestRestModel = (
   sendMessageOptions: SendMessageOptions,
 ): RestModel.SendChatMessageRequest => {
   const { attachments, ...restOptions } = sendMessageOptions;
-  let request: RestModel.SendChatMessageRequest = { ...sendMessageRequest, ...restOptions }
+  let request: RestModel.SendChatMessageRequest = { ...sendMessageRequest, ...restOptions };
   if (attachments) {
     request = {
       ...request,
       attachments: attachments?.map((attachment) => mapToChatAttachmentRestModel(attachment)),
     };
   }
-  return request
+  return request;
 };
 
 /**
@@ -101,14 +101,14 @@ export const mapToUpdateChatMessageRequestRestModel = (
   updateMessageOptions: UpdateMessageOptions,
 ): RestModel.UpdateChatMessageRequest => {
   const { attachments, ...restOptions } = updateMessageOptions;
-  let request: RestModel.UpdateChatMessageRequest = { ...restOptions }
+  let request: RestModel.UpdateChatMessageRequest = { ...restOptions };
   if (attachments) {
     request = {
       ...request,
       attachments: attachments?.map((attachment) => mapToChatAttachmentRestModel(attachment)),
     };
   }
-  return request
+  return request;
 };
 
 /**
@@ -147,7 +147,8 @@ export const mapToChatAttachmentSdkModel = (
 export const mapToChatContentSdkModel = (
   content: RestModel.ChatMessageContent,
 ): ChatMessageContent => {
-  const { participants, attachments, initiatorCommunicationIdentifier, ...otherChatContents } = content;
+  const { participants, attachments, initiatorCommunicationIdentifier, ...otherChatContents } =
+    content;
   let result: ChatMessageContent = { ...otherChatContents };
   if (initiatorCommunicationIdentifier) {
     const initiator = deserializeCommunicationIdentifier(

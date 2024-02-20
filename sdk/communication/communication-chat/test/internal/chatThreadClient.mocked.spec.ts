@@ -3,9 +3,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import {
-  RequestBodyType as HttpRequestBody,
-} from "@azure/core-rest-pipeline";
+import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import {
   AzureCommunicationTokenCredential,
   CommunicationUserIdentifier,
