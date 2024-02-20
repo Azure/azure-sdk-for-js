@@ -12,6 +12,7 @@ import {
 } from "../../../src/index";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
 import { StatsbeatFeature, StatsbeatInstrumentation } from "../../../src/types";
+import { getOsPrefix } from "../../../src/utils/common";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 
@@ -50,7 +51,7 @@ describe("Main functions", () => {
     assert.ok(logs.getLoggerProvider());
   });
 
-  it("should shutdown azureMonitor", () => {
+  it("should shutdown azureMonitor - sync", () => {
     let config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -58,6 +59,18 @@ describe("Main functions", () => {
     };
     useAzureMonitor(config);
     shutdownAzureMonitor();
+    const meterProvider = metrics.getMeterProvider() as MeterProvider;
+    assert.strictEqual(meterProvider["_shutdown"], true);
+  });
+
+  it("should shutdown azureMonitor - async", async () => {
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    await shutdownAzureMonitor();
     const meterProvider = metrics.getMeterProvider() as MeterProvider;
     assert.strictEqual(meterProvider["_shutdown"], true);
   });
@@ -177,5 +190,47 @@ describe("Main functions", () => {
     assert.ok(numberOutput & StatsbeatFeature.DISK_RETRY, "DISK_RETRY not set");
     assert.ok(numberOutput & StatsbeatFeature.DISTRO, "DISTRO not set");
     assert.ok(!(numberOutput & StatsbeatFeature.BROWSER_SDK_LOADER), "BROWSER_SDK_LOADER is set");
+  });
+
+  it("should capture the app service SDK prefix correctly", () => {
+    const os = getOsPrefix();
+    const env = <{ [id: string]: string }>{};
+    env.WEBSITE_SITE_NAME = "test-azure-app-service";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `a${os}m_`);
+  });
+
+  it("should capture the azure function SDK prefix correctly", () => {
+    const os = getOsPrefix();
+    const env = <{ [id: string]: string }>{};
+    env.FUNCTIONS_WORKER_RUNTIME = "test-azure-functions";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `f${os}m_`);
+  });
+
+  it("should capture the AKS SDK prefix correctly", () => {
+    const os = getOsPrefix();
+    const env = <{ [id: string]: string }>{};
+    env.AKS_ARM_NAMESPACE_ID = "test-AKS";
+    process.env = env;
+    let config: AzureMonitorOpenTelemetryOptions = {
+      azureMonitorExporterOptions: {
+        connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
+      },
+    };
+    useAzureMonitor(config);
+    assert.strictEqual(process.env["AZURE_MONITOR_PREFIX"], `k${os}m_`);
   });
 });
