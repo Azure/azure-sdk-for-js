@@ -68,7 +68,7 @@ extends:
         safeName: azurecorehttpcompat
       - name: azure-core-sse
         safeName: azurecoresse
-      - name: azure-core-httpclients
+      - name: azure-core-http-client-xhr
         safeName: azurecorehttpclients
       - name: typespec-ts-http-runtime
         safeName: typespectshttpruntime

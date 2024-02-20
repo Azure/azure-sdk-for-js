@@ -1,6 +1,6 @@
 # Azure Core HttpClients library for JavaScript
 
-This package provides API to create instances that implements `HttpClient` interface used in Azure SDK client libraries.
+This package provides API to create `XMLHTTPRequest`-based HTTP clients that implements `HttpClient` interface used in Azure SDK client libraries.
 
 ## Getting started
 
@@ -15,10 +15,10 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Installation
 
-Install the Container Registry client library for JavaScript with `npm`:
+Install the Core Http Client XHR library for JavaScript with `npm`:
 
 ```bash
-npm install @azure/core-httpclients
+npm install @azure/core-http-client-xhr
 ```
 
 ## Key concepts
@@ -26,7 +26,7 @@ npm install @azure/core-httpclients
 Most Azure SDK client libraries for JavaScript allow passing an instance of `HttpClient` to replace the default one used by service clients to send requests. This is done via the `CommonClientOptions.httpClient` option.
 
 ```javascript
-const { createXhrHttpClient } = require("@azure/core-httpclients");
+const { createXhrHttpClient } = require("@azure/core-http-client-xhr");
 const azureIdentity = require("@azure/identity");
 const appConfig = require("@azure/app-configuration");
 
@@ -60,4 +60,4 @@ If you run into issues while using this library, please feel free to [file an is
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-httpclients%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcore%2Fcore-http-client-xhr%2FREADME.png)

@@ -551,8 +551,8 @@
       "versionPolicyName": "core"
     },
     {
-      "packageName": "@azure/core-httpclients",
-      "projectFolder": "sdk/core/core-httpclients",
+      "packageName": "@azure/core-http-client-xhr",
+      "projectFolder": "sdk/core/core-http-client-xhr",
       "versionPolicyName": "core"
     },
     {

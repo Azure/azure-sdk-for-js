@@ -1,5 +1,5 @@
 {
-  "name": "@azure/core-httpclients",
+  "name": "@azure/core-http-client-xhr",
   "version": "1.0.0-beta.1",
   "description": "HttpClients that can be passed to Azure SDK service clients to replace the default.",
   "sdk-type": "client",
@@ -11,7 +11,7 @@
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
   },
-  "types": "types/core-httpclients.d.ts",
+  "types": "types/core-http-client-xhr.d.ts",
   "scripts": {
     "build:samples": "echo Obsolete",
     "build:test": "echo Obsolete",
@@ -37,7 +37,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/core-httpclients.d.ts",
+    "types/core-http-client-xhr.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -54,7 +54,7 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-httpclients/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-http-client-xhr/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
