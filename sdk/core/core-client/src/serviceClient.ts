@@ -6,7 +6,7 @@ import {
   OperationArguments,
   OperationRequest,
   OperationSpec,
-} from "./interfaces";
+} from "./interfaces.js";
 import {
   HttpClient,
   Pipeline,
@@ -15,13 +15,13 @@ import {
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
-import { createClientPipeline } from "./pipeline";
-import { flattenResponse } from "./utils";
-import { getCachedDefaultHttpClient } from "./httpClientCache";
-import { getOperationRequestInfo } from "./operationHelpers";
-import { getRequestUrl } from "./urlHelpers";
-import { getStreamingResponseStatusCodes } from "./interfaceHelpers";
-import { logger } from "./log";
+import { createClientPipeline } from "./pipeline.js";
+import { flattenResponse } from "./utils.js";
+import { getCachedDefaultHttpClient } from "./httpClientCache.js";
+import { getOperationRequestInfo } from "./operationHelpers.js";
+import { getRequestUrl } from "./urlHelpers.js";
+import { getStreamingResponseStatusCodes } from "./interfaceHelpers.js";
+import { logger } from "./log.js";
 
 /**
  * Options to be provided while creating the client.

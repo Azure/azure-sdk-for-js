@@ -3,8 +3,8 @@
 
 import express from "express";
 import { PerfOptionDictionary, PerfTest } from "@azure/test-utils-perf";
-import { Server } from "http";
-import { AddressInfo } from "net";
+import { Server } from "node:http";
+import { AddressInfo } from "node:net";
 
 let app: express.Application;
 let server: Server;
