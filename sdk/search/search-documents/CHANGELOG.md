@@ -1,6 +1,6 @@
 # Release History
 
-## 12.1.0-beta.1 (2024-02-06)
+## 12.0.1-beta.1 (2024-02-06)
 
 ### Bugs Fixed
 
