@@ -53,7 +53,7 @@
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 180000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:node-js-input --use-esm-workaround=true -- --timeout 180000 'dist-esm/test/**/*.spec.js'",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
