@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { PipelinePolicy } from "../pipeline";
-import type { TlsSettings } from "../interfaces";
+import type { PipelinePolicy } from "../pipeline.js";
+import type { TlsSettings } from "../interfaces.js";
 
 /**
  * Name of the TLS Policy
