@@ -50,9 +50,10 @@ describe("OpenAI", function () {
 
         it("wrong prompt type", async function () {
           // TODO: Update the error message expectations
-          assertOpenAiError(client.getEmbeddings(modelName, true as any), {
-            messagePattern: /\$.input invalid/,
+          await assertOpenAiError(client.getEmbeddings(modelName, true as any), {
+            messagePattern: /'\$\.input' is invalid/,
             type: `invalid_request_error`,
+            errorCode: null,
           });
         });
       });

@@ -289,20 +289,20 @@ export interface KeyVaultClientSelectiveKeyRestoreOperationHeaders {
   azureAsyncOperation?: string;
 }
 
-/** Known values of {@link ApiVersion75Preview1} that the service accepts. */
-export enum KnownApiVersion75Preview1 {
-  /** Api Version '7.5-preview.1' */
-  Seven5Preview1 = "7.5-preview.1"
+/** Known values of {@link ApiVersion75} that the service accepts. */
+export enum KnownApiVersion75 {
+  /** Api Version '7.5' */
+  Seven5 = "7.5"
 }
 
 /**
- * Defines values for ApiVersion75Preview1. \
- * {@link KnownApiVersion75Preview1} can be used interchangeably with ApiVersion75Preview1,
+ * Defines values for ApiVersion75. \
+ * {@link KnownApiVersion75} can be used interchangeably with ApiVersion75,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **7.5-preview.1**: Api Version '7.5-preview.1'
+ * **7.5**: Api Version '7.5'
  */
-export type ApiVersion75Preview1 = string;
+export type ApiVersion75 = string;
 
 /** Known values of {@link RoleType} that the service accepts. */
 export enum KnownRoleType {

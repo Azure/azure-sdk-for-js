@@ -106,7 +106,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionResumed | TranscriptionFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -892,6 +892,26 @@ export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RestTeamsComplianceRecordingStateChanged" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComplianceRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "TeamsComplianceRecordingStateChanged";
+    serverCallId: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "TeamsRecordingStateChanged";
+    serverCallId: string;
+}
+
 // @public
 export interface TextSource extends PlaySource {
     // (undocumented)
@@ -928,17 +948,6 @@ export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "call
     kind: "TranscriptionFailed";
     resultInformation?: RestResultInformation;
     serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTranscriptionResumed" needs to be exported by the entry point index.d.ts
-//
-// @public (undocumented)
-export interface TranscriptionResumed extends Omit<RestTranscriptionResumed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
-    callConnectionId?: string;
-    correlationId?: string;
-    kind: "TranscriptionResumed";
-    resultInformation?: RestResultInformation;
-    serverCallId?: string;
 }
 
 // Warning: (ae-forgotten-export) The symbol "RestTranscriptionStarted" needs to be exported by the entry point index.d.ts
