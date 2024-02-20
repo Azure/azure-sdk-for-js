@@ -5,11 +5,11 @@ import { RequestParameters } from "@azure-rest/core-client";
 import { SchemaContentTypeValues } from "./models";
 
 export type ListSchemaGroupsParameters = RequestParameters;
-export type GetSchemaByIdParameters = RequestParameters;
 export type ListSchemaVersionsParameters = RequestParameters;
+export type GetSchemaByIdParameters = RequestParameters;
 export type GetSchemaByVersionParameters = RequestParameters;
 
-export interface GetSchemaIdByContentBodyParam {
+export interface GetSchemaPropertiesByContentBodyParam {
   /**
    * String representation (UTF-8) of the registered schema.
    *
@@ -22,14 +22,14 @@ export interface GetSchemaIdByContentBodyParam {
     | NodeJS.ReadableStream;
 }
 
-export interface GetSchemaIdByContentMediaTypesParam {
+export interface GetSchemaPropertiesByContentMediaTypesParam {
   /** The content type for given schema. */
   contentType: SchemaContentTypeValues;
 }
 
-export type GetSchemaIdByContentParameters =
-  GetSchemaIdByContentMediaTypesParam &
-    GetSchemaIdByContentBodyParam &
+export type GetSchemaPropertiesByContentParameters =
+  GetSchemaPropertiesByContentMediaTypesParam &
+    GetSchemaPropertiesByContentBodyParam &
     RequestParameters;
 
 export interface RegisterSchemaBodyParam {

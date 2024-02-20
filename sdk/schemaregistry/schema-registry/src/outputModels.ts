@@ -1,27 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Paged } from "@azure/core-paging";
-
-/** Schema Group resource. */
-export interface SchemaGroupOutput {
-  /** Name of schema group. */
-  readonly groupName: string;
+/** The list of strings with server paging support. */
+export interface StringsListOutput {
+  /** The collection of pageable items. */
+  value: string[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Schema versions resource. */
-export interface VersionOutput {
-  /** Version number of specific schema. */
-  readonly schemaVersion: number;
+/** The list of int32s with server paging support. */
+export interface Int32sListOutput {
+  /** The collection of pageable items. */
+  value: number[];
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
-/** Paged collection of SchemaGroup items */
-export type PagedSchemaGroupOutput = Paged<SchemaGroupOutput>;
 /** Alias for SchemaContentTypeValuesOutput */
 export type SchemaContentTypeValuesOutput =
   | "application/json; serialization=Avro"
-  | "application/json; serialization=json"
+  | "application/json; serialization=Json"
   | "text/plain; charset=utf-8"
   | "text/vnd.ms.protobuf";
-/** Paged collection of Version items */
-export type PagedVersionOutput = Paged<VersionOutput>;

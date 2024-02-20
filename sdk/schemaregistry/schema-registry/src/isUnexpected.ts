@@ -4,46 +4,45 @@
 import {
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
-  GetSchemaById200Response,
-  GetSchemaByIdDefaultResponse,
   ListSchemaVersions200Response,
   ListSchemaVersionsDefaultResponse,
+  GetSchemaById200Response,
+  GetSchemaByIdDefaultResponse,
   GetSchemaByVersion200Response,
   GetSchemaByVersionDefaultResponse,
-  GetSchemaIdByContent204Response,
-  GetSchemaIdByContentDefaultResponse,
+  GetSchemaPropertiesByContent204Response,
+  GetSchemaPropertiesByContentDefaultResponse,
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /$schemaGroups": ["200"],
+  "GET /$schemaGroups/{groupName}/schemas/{schemaName}/versions": ["200"],
   "GET /$schemaGroups/$schemas/{id}": ["200"],
-  "GET /$schemaGroups/{groupName}/schemas/{name}/versions": ["200"],
-  "GET /$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}": [
-    "200",
-  ],
-  "POST /$schemaGroups/{groupName}/schemas/{name}:get-id": ["204"],
-  "PUT /$schemaGroups/{groupName}/schemas/{name}": ["204"],
+  "GET /$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}":
+    ["200"],
+  "POST /$schemaGroups/{groupName}/schemas/{schemaName}:get-id": ["204"],
+  "PUT /$schemaGroups/{groupName}/schemas/{schemaName}": ["204"],
 };
 
 export function isUnexpected(
   response: ListSchemaGroups200Response | ListSchemaGroupsDefaultResponse,
 ): response is ListSchemaGroupsDefaultResponse;
 export function isUnexpected(
-  response: GetSchemaById200Response | GetSchemaByIdDefaultResponse,
-): response is GetSchemaByIdDefaultResponse;
-export function isUnexpected(
   response: ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse,
 ): response is ListSchemaVersionsDefaultResponse;
+export function isUnexpected(
+  response: GetSchemaById200Response | GetSchemaByIdDefaultResponse,
+): response is GetSchemaByIdDefaultResponse;
 export function isUnexpected(
   response: GetSchemaByVersion200Response | GetSchemaByVersionDefaultResponse,
 ): response is GetSchemaByVersionDefaultResponse;
 export function isUnexpected(
   response:
-    | GetSchemaIdByContent204Response
-    | GetSchemaIdByContentDefaultResponse,
-): response is GetSchemaIdByContentDefaultResponse;
+    | GetSchemaPropertiesByContent204Response
+    | GetSchemaPropertiesByContentDefaultResponse,
+): response is GetSchemaPropertiesByContentDefaultResponse;
 export function isUnexpected(
   response: RegisterSchema204Response | RegisterSchemaDefaultResponse,
 ): response is RegisterSchemaDefaultResponse;
@@ -51,22 +50,22 @@ export function isUnexpected(
   response:
     | ListSchemaGroups200Response
     | ListSchemaGroupsDefaultResponse
-    | GetSchemaById200Response
-    | GetSchemaByIdDefaultResponse
     | ListSchemaVersions200Response
     | ListSchemaVersionsDefaultResponse
+    | GetSchemaById200Response
+    | GetSchemaByIdDefaultResponse
     | GetSchemaByVersion200Response
     | GetSchemaByVersionDefaultResponse
-    | GetSchemaIdByContent204Response
-    | GetSchemaIdByContentDefaultResponse
+    | GetSchemaPropertiesByContent204Response
+    | GetSchemaPropertiesByContentDefaultResponse
     | RegisterSchema204Response
     | RegisterSchemaDefaultResponse,
 ): response is
   | ListSchemaGroupsDefaultResponse
-  | GetSchemaByIdDefaultResponse
   | ListSchemaVersionsDefaultResponse
+  | GetSchemaByIdDefaultResponse
   | GetSchemaByVersionDefaultResponse
-  | GetSchemaIdByContentDefaultResponse
+  | GetSchemaPropertiesByContentDefaultResponse
   | RegisterSchemaDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);

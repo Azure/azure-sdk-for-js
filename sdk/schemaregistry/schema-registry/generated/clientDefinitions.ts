@@ -3,23 +3,23 @@
 
 import {
   ListSchemaGroupsParameters,
-  GetSchemaByIdParameters,
   ListSchemaVersionsParameters,
+  GetSchemaByIdParameters,
   GetSchemaByVersionParameters,
-  GetSchemaIdByContentParameters,
+  GetSchemaPropertiesByContentParameters,
   RegisterSchemaParameters,
 } from "./parameters";
 import {
   ListSchemaGroups200Response,
   ListSchemaGroupsDefaultResponse,
-  GetSchemaById200Response,
-  GetSchemaByIdDefaultResponse,
   ListSchemaVersions200Response,
   ListSchemaVersionsDefaultResponse,
+  GetSchemaById200Response,
+  GetSchemaByIdDefaultResponse,
   GetSchemaByVersion200Response,
   GetSchemaByVersionDefaultResponse,
-  GetSchemaIdByContent204Response,
-  GetSchemaIdByContentDefaultResponse,
+  GetSchemaPropertiesByContent204Response,
+  GetSchemaPropertiesByContentDefaultResponse,
   RegisterSchema204Response,
   RegisterSchemaDefaultResponse,
 } from "./responses";
@@ -34,13 +34,6 @@ export interface ListSchemaGroups {
   >;
 }
 
-export interface GetSchemaById {
-  /** Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
-  get(
-    options?: GetSchemaByIdParameters,
-  ): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse>;
-}
-
 export interface ListSchemaVersions {
   /** Gets the list of all versions of one schema. */
   get(
@@ -48,6 +41,13 @@ export interface ListSchemaVersions {
   ): StreamableMethod<
     ListSchemaVersions200Response | ListSchemaVersionsDefaultResponse
   >;
+}
+
+export interface GetSchemaById {
+  /** Gets a registered schema by its unique ID.  Azure Schema Registry guarantees that ID is unique within a namespace. Operation response type is based on serialization of schema requested. */
+  get(
+    options?: GetSchemaByIdParameters,
+  ): StreamableMethod<GetSchemaById200Response | GetSchemaByIdDefaultResponse>;
 }
 
 export interface GetSchemaByVersion {
@@ -59,12 +59,13 @@ export interface GetSchemaByVersion {
   >;
 }
 
-export interface GetSchemaIdByContent {
-  /** Gets the ID referencing an existing schema within the specified schema group, as matched by schema content comparison. */
+export interface GetSchemaPropertiesByContent {
+  /** Gets the properties referencing an existing schema within the specified schema group, as matched by schema content comparison. */
   post(
-    options: GetSchemaIdByContentParameters,
+    options: GetSchemaPropertiesByContentParameters,
   ): StreamableMethod<
-    GetSchemaIdByContent204Response | GetSchemaIdByContentDefaultResponse
+    | GetSchemaPropertiesByContent204Response
+    | GetSchemaPropertiesByContentDefaultResponse
   >;
 }
 
@@ -80,32 +81,32 @@ export interface RegisterSchema {
 export interface Routes {
   /** Resource for '/$schemaGroups' has methods for the following verbs: get */
   (path: "/$schemaGroups"): ListSchemaGroups;
+  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{schemaName\}/versions' has methods for the following verbs: get */
+  (
+    path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions",
+    groupName: string,
+    schemaName: string,
+  ): ListSchemaVersions;
   /** Resource for '/$schemaGroups/$schemas/\{id\}' has methods for the following verbs: get */
   (path: "/$schemaGroups/$schemas/{id}", id: string): GetSchemaById;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}/versions' has methods for the following verbs: get */
+  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{schemaName\}/versions/\{schemaVersion\}' has methods for the following verbs: get */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}/versions",
+    path: "/$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}",
     groupName: string,
-    name: string,
-  ): ListSchemaVersions;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}/versions/\{schemaVersion\}' has methods for the following verbs: get */
-  (
-    path: "/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}",
-    groupName: string,
-    name: string,
+    schemaName: string,
     schemaVersion: number,
   ): GetSchemaByVersion;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}:get-id' has methods for the following verbs: post */
+  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{schemaName\}:get-id' has methods for the following verbs: post */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}:get-id",
+    path: "/$schemaGroups/{groupName}/schemas/{schemaName}:get-id",
     groupName: string,
-    name: string,
-  ): GetSchemaIdByContent;
-  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{name\}' has methods for the following verbs: put */
+    schemaName: string,
+  ): GetSchemaPropertiesByContent;
+  /** Resource for '/$schemaGroups/\{groupName\}/schemas/\{schemaName\}' has methods for the following verbs: put */
   (
-    path: "/$schemaGroups/{groupName}/schemas/{name}",
+    path: "/$schemaGroups/{groupName}/schemas/{schemaName}",
     groupName: string,
-    name: string,
+    schemaName: string,
   ): RegisterSchema;
 }
 

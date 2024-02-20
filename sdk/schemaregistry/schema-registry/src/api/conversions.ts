@@ -4,7 +4,7 @@
 import {
   GetSchemaById200Response,
   GetSchemaByVersion200Response,
-  GetSchemaIdByContent204Response,
+  GetSchemaPropertiesByContent204Response,
   RegisterSchema204Response,
 } from "../responses";
 import { SchemaProperties, Schema } from "../models/models";
@@ -19,7 +19,7 @@ const customFormat = "Custom";
  */
 type GeneratedSchemaIdResponse =
   | RegisterSchema204Response
-  | GetSchemaIdByContent204Response
+  | GetSchemaPropertiesByContent204Response
   | GetSchemaByVersion200Response;
 /**
  * Union of generated client's responses that return schema definition.

@@ -4,15 +4,15 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  PagedSchemaGroupOutput,
+  StringsListOutput,
+  Int32sListOutput,
   SchemaContentTypeValuesOutput,
-  PagedVersionOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
 export interface ListSchemaGroups200Response extends HttpResponse {
   status: "200";
-  body: PagedSchemaGroupOutput;
+  body: StringsListOutput;
 }
 
 export interface ListSchemaGroupsDefaultHeaders {
@@ -24,6 +24,23 @@ export interface ListSchemaGroupsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & ListSchemaGroupsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface ListSchemaVersions200Response extends HttpResponse {
+  status: "200";
+  body: Int32sListOutput;
+}
+
+export interface ListSchemaVersionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface ListSchemaVersionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & ListSchemaVersionsDefaultHeaders;
 }
 
 export interface GetSchemaById200Headers {
@@ -43,7 +60,7 @@ export interface GetSchemaById200Headers {
   "content-type": SchemaContentTypeValuesOutput;
 }
 
-/** The request has succeeded. */
+/** The schema, including its metadata and content. */
 export interface GetSchemaById200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
@@ -60,23 +77,6 @@ export interface GetSchemaByIdDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
   headers: RawHttpHeaders & GetSchemaByIdDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface ListSchemaVersions200Response extends HttpResponse {
-  status: "200";
-  body: PagedVersionOutput;
-}
-
-export interface ListSchemaVersionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface ListSchemaVersionsDefaultResponse extends HttpResponse {
-  status: string;
-  body: ErrorResponse;
-  headers: RawHttpHeaders & ListSchemaVersionsDefaultHeaders;
 }
 
 export interface GetSchemaByVersion200Headers {
@@ -96,7 +96,7 @@ export interface GetSchemaByVersion200Headers {
   "content-type": SchemaContentTypeValuesOutput;
 }
 
-/** The request has succeeded. */
+/** The schema, including its metadata and content. */
 export interface GetSchemaByVersion200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
@@ -115,7 +115,7 @@ export interface GetSchemaByVersionDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & GetSchemaByVersionDefaultHeaders;
 }
 
-export interface GetSchemaIdByContent204Headers {
+export interface GetSchemaPropertiesByContent204Headers {
   /** URL location of schema, identified by schema group, schema name, and version. */
   location: string;
   /** References specific schema in registry namespace. */
@@ -131,20 +131,21 @@ export interface GetSchemaIdByContent204Headers {
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface GetSchemaIdByContent204Response extends HttpResponse {
+export interface GetSchemaPropertiesByContent204Response extends HttpResponse {
   status: "204";
-  headers: RawHttpHeaders & GetSchemaIdByContent204Headers;
+  headers: RawHttpHeaders & GetSchemaPropertiesByContent204Headers;
 }
 
-export interface GetSchemaIdByContentDefaultHeaders {
+export interface GetSchemaPropertiesByContentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface GetSchemaIdByContentDefaultResponse extends HttpResponse {
+export interface GetSchemaPropertiesByContentDefaultResponse
+  extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & GetSchemaIdByContentDefaultHeaders;
+  headers: RawHttpHeaders & GetSchemaPropertiesByContentDefaultHeaders;
 }
 
 export interface RegisterSchema204Headers {
