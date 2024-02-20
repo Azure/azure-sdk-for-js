@@ -33,6 +33,7 @@ export class AzureMonitorStatsbeatExporter
       instrumentationKey: this.instrumentationKey,
       trackStatsbeat: this.trackStatsbeat,
       exporterOptions: options,
+      isStatsbeatSender: true,
     });
   }
 

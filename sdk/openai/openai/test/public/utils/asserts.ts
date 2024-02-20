@@ -435,7 +435,7 @@ export async function assertOpenAiError<T>(
   expectations: {
     messagePattern?: RegExp;
     type?: string;
-    errorCode?: string;
+    errorCode?: string | null;
   },
 ): Promise<void> {
   try {
@@ -452,7 +452,7 @@ export async function assertOpenAiError<T>(
     } else {
       assert.isUndefined(e.type);
     }
-    if (errorCode) {
+    if (errorCode !== undefined) {
       assert.equal(e.code, errorCode);
     } else {
       assert.isUndefined(e.code);
