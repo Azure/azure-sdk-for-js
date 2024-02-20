@@ -118,7 +118,7 @@
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv @Azure/azsdk-keyvault
+/sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger @joheredi @mpodwysocki
@@ -653,6 +653,9 @@
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/security/arm-security/ @qiaozha @MaryGao

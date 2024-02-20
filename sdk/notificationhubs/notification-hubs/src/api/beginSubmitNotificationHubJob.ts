@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
 import { NotificationHubJob, NotificationHubJobPoller } from "../models/notificationHubJob.js";
 import { NotificationHubsClientContext } from "./index.js";
 import { PolledOperationOptions } from "../models/options.js";
+import { delay } from "@azure/core-util";
 import { getNotificationHubJob } from "./getNotificationHubJob.js";
 import { submitNotificationHubJob } from "./submitNotificationHubJob.js";
 
@@ -71,33 +72,38 @@ export async function beginSubmitNotificationHubJob(
     pollUntilDone(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<NotificationHubJob> {
       return (resultPromise ??= (async () => {
         const { abortSignal: inputAbortSignal } = pollOptions || {};
-        const { signal: abortSignal } = inputAbortSignal
-          ? new AbortController([inputAbortSignal, abortController.signal])
-          : abortController;
-        if (!poller.isDone()) {
-          await poller.poll({ abortSignal });
-          while (!poller.isDone()) {
-            const delay = sleep(currentPollIntervalInMs, abortSignal);
-            cancelJob = () => abortController.abort();
-            await delay;
+        // In the future we can use AbortSignal.any() instead
+        function abortListener(): void {
+          abortController.abort();
+        }
+        const abortSignal = abortController.signal;
+        if (inputAbortSignal?.aborted) {
+          abortController.abort();
+        } else if (!abortSignal.aborted) {
+          inputAbortSignal?.addEventListener("abort", abortListener, { once: true });
+        }
+
+        try {
+          if (!poller.isDone()) {
             await poller.poll({ abortSignal });
+            while (!poller.isDone()) {
+              await delay(currentPollIntervalInMs, { abortSignal });
+              await poller.poll({ abortSignal });
+            }
           }
+        } finally {
+          inputAbortSignal?.removeEventListener("abort", abortListener);
         }
         switch (state.status) {
-          case "succeeded": {
+          case "succeeded":
             return poller.getResult() as NotificationHubJob;
-          }
-          case "canceled": {
+          case "canceled":
             throw new Error("Operation was canceled");
-          }
-          case "failed": {
+          case "failed":
             throw state.error;
-          }
           case "notStarted":
-          case "running": {
-            // Unreachable
-            throw new Error(`polling completed without succeeding or failing`);
-          }
+          case "running":
+            throw new Error(`Polling completed without succeeding or failing`);
         }
       })().finally(() => {
         resultPromise = undefined;
@@ -138,33 +144,4 @@ export async function beginSubmitNotificationHubJob(
   };
 
   return poller;
-}
-
-const REJECTED_ERR = new Error("The operation has been aborted");
-
-function sleep(ms: number, signal: AbortSignalLike): Promise<void> {
-  return new Promise<void>((resolve, reject) => {
-    if (signal.aborted) {
-      reject(REJECTED_ERR);
-      return;
-    }
-
-    const id = setTimeout(() => {
-      signal.removeEventListener("abort", onAbort);
-
-      if (signal.aborted) {
-        reject(REJECTED_ERR);
-        return;
-      }
-
-      resolve();
-    }, ms);
-
-    signal.addEventListener("abort", onAbort, { once: true });
-
-    function onAbort(): void {
-      clearTimeout(id);
-      reject(REJECTED_ERR);
-    }
-  });
 }

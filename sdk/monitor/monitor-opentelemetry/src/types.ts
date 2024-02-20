@@ -65,8 +65,15 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.2.0";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.3.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
+export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
+export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";
+
+export enum AttachTypePrefix {
+  INTEGRATED_AUTO = "i",
+  MANUAL = "m",
+}
 
 /**
  * Default Browser SDK Loader Source

@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */{
+ */ {
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -403,6 +403,11 @@
     {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/openai",
+      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
@@ -2171,6 +2176,11 @@
     {
       "packageName": "@azure/arm-largeinstance",
       "projectFolder": "sdk/largeinstance/arm-largeinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-springappdiscovery",
+      "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
       "versionPolicyName": "management"
     }
   ]
