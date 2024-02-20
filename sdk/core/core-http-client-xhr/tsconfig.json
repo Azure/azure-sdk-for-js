@@ -1,14 +1,15 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "outDir": "./dist-esm",
     "rootDir": "./",
     "declarationDir": "./types",
     "paths": {
       "@azure/core-http-client-xhr": ["./src/index"]
     },
-    "lib": ["dom", "dom.iterable"],
-    "verbatimModuleSyntax": true
+    "lib": ["dom", "dom.iterable"]
   },
   "include": ["src/**/*.ts"]
 }

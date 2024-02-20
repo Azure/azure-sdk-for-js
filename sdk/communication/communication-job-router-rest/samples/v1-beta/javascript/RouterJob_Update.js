@@ -3,8 +3,9 @@
 /**
  * @summary router job crud
  */
-const JobRouter = require("../src").default;
+const JobRouter = require("@azure-rest/communication-job-router").default;
 require("dotenv").config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // Update a router job

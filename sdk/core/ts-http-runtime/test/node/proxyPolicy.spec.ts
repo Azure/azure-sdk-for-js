@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import * as sinon from "sinon";
+import * as process from "node:process";
+import { describe, it, assert, vi, afterEach } from "vitest";
 import {
   ProxySettings,
   SendRequest,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-} from "../../src";
-import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy";
+} from "../../src/index.js";
+import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {
@@ -24,11 +24,11 @@ describe("proxyPolicy (node)", function () {
       url: "https://bing.com",
     });
 
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     policy.sendRequest(request, next);
 
-    assert.isTrue(next.calledOnceWith(request), "next called with request");
+    assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
     assert.strictEqual(request.proxySettings, proxySettings);
   });
 
@@ -49,11 +49,11 @@ describe("proxyPolicy (node)", function () {
       proxySettings: requestProxySettings,
     });
 
-    const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
     policy.sendRequest(request, next);
 
-    assert.isTrue(next.calledOnceWith(request), "next called with request");
+    assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
     assert.strictEqual(request.proxySettings, requestProxySettings);
   });
 
@@ -74,11 +74,11 @@ describe("proxyPolicy (node)", function () {
         url: "https://proxytest.com",
       });
 
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
       policy.sendRequest(request, next);
 
-      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
       assert.strictEqual(request.proxySettings, undefined);
 
       request.url = "https://www.proxytest.com";
@@ -129,13 +129,13 @@ describe("proxyPolicy (node)", function () {
       };
 
       const policy1 = proxyPolicy(proxySettings, { customNoProxyList: ["test.com"] });
-      const next = sinon.stub<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
 
       const request = createPipelineRequest({
         url: "https://proxytest.om",
       });
       policy1.sendRequest(request, next);
-      assert.isTrue(next.calledOnceWith(request), "next called with request");
+      assert.deepStrictEqual(next.mock.calls, [[request]], "next called with request");
       assert.strictEqual(request.proxySettings, proxySettings);
 
       request.url = "https://test.com";
