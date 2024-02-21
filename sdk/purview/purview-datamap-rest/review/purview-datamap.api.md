@@ -1066,7 +1066,7 @@ export interface DateFormatOutput {
 
 // @public (undocumented)
 export interface DiscoveryAutoComplete {
-    post(options: DiscoveryAutoCompleteParameters): StreamableMethod<DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse>;
+    post(options?: DiscoveryAutoCompleteParameters): StreamableMethod<DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse>;
 }
 
 // @public
@@ -1079,7 +1079,8 @@ export interface DiscoveryAutoComplete200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoveryAutoCompleteBodyParam {
-    body: AutoCompleteOptions;
+    // (undocumented)
+    body?: AutoCompleteOptions;
 }
 
 // @public (undocumented)
@@ -1095,7 +1096,7 @@ export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteBodyParam & R
 
 // @public (undocumented)
 export interface DiscoveryQuery {
-    post(options: DiscoveryQueryParameters): StreamableMethod<DiscoveryQuery200Response | DiscoveryQueryDefaultResponse>;
+    post(options?: DiscoveryQueryParameters): StreamableMethod<DiscoveryQuery200Response | DiscoveryQueryDefaultResponse>;
 }
 
 // @public
@@ -1108,7 +1109,8 @@ export interface DiscoveryQuery200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoveryQueryBodyParam {
-    body: QueryOptions;
+    // (undocumented)
+    body?: QueryOptions;
 }
 
 // @public (undocumented)
@@ -1124,7 +1126,7 @@ export type DiscoveryQueryParameters = DiscoveryQueryBodyParam & RequestParamete
 
 // @public (undocumented)
 export interface DiscoverySuggest {
-    post(options: DiscoverySuggestParameters): StreamableMethod<DiscoverySuggest200Response | DiscoverySuggestDefaultResponse>;
+    post(options?: DiscoverySuggestParameters): StreamableMethod<DiscoverySuggest200Response | DiscoverySuggestDefaultResponse>;
 }
 
 // @public
@@ -1137,7 +1139,8 @@ export interface DiscoverySuggest200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface DiscoverySuggestBodyParam {
-    body: SuggestOptions;
+    // (undocumented)
+    body?: SuggestOptions;
 }
 
 // @public (undocumented)
@@ -1153,7 +1156,7 @@ export type DiscoverySuggestParameters = DiscoverySuggestBodyParam & RequestPara
 
 // @public (undocumented)
 export interface EntityAddClassification {
-    post(options: EntityAddClassificationParameters): StreamableMethod<EntityAddClassification204Response | EntityAddClassificationDefaultResponse>;
+    post(options?: EntityAddClassificationParameters): StreamableMethod<EntityAddClassification204Response | EntityAddClassificationDefaultResponse>;
 }
 
 // @public
@@ -1164,7 +1167,8 @@ export interface EntityAddClassification204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityAddClassificationBodyParam {
-    body: ClassificationAssociateOptions;
+    // (undocumented)
+    body?: ClassificationAssociateOptions;
 }
 
 // @public (undocumented)
@@ -1247,7 +1251,7 @@ export interface EntityAddLabel204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityAddLabelBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public (undocumented)
@@ -1269,7 +1273,7 @@ export interface EntityAddLabelsByUniqueAttribute204Response extends HttpRespons
 
 // @public (undocumented)
 export interface EntityAddLabelsByUniqueAttributeBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public (undocumented)
@@ -1359,7 +1363,8 @@ export interface EntityBulkCreateOrUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityBulkCreateOrUpdateBodyParam {
-    body: AtlasEntitiesWithExtInfo;
+    // (undocumented)
+    body?: AtlasEntitiesWithExtInfo;
 }
 
 // @public (undocumented)
@@ -1417,7 +1422,7 @@ export interface EntityBulkDeleteQueryParamProperties {
 
 // @public (undocumented)
 export interface EntityBulkSetClassifications {
-    post(options: EntityBulkSetClassificationsParameters): StreamableMethod<EntityBulkSetClassifications200Response | EntityBulkSetClassificationsDefaultResponse>;
+    post(options?: EntityBulkSetClassificationsParameters): StreamableMethod<EntityBulkSetClassifications200Response | EntityBulkSetClassificationsDefaultResponse>;
 }
 
 // @public
@@ -1430,7 +1435,8 @@ export interface EntityBulkSetClassifications200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityBulkSetClassificationsBodyParam {
-    body: AtlasEntityHeaders;
+    // (undocumented)
+    body?: AtlasEntityHeaders;
 }
 
 // @public (undocumented)
@@ -1446,7 +1452,7 @@ export type EntityBulkSetClassificationsParameters = EntityBulkSetClassification
 
 // @public (undocumented)
 export interface EntityCreateOrUpdate {
-    post(options: EntityCreateOrUpdateParameters): StreamableMethod<EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse>;
+    post(options?: EntityCreateOrUpdateParameters): StreamableMethod<EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1459,7 +1465,8 @@ export interface EntityCreateOrUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityCreateOrUpdateBodyParam {
-    body: AtlasEntityWithExtInfo;
+    // (undocumented)
+    body?: AtlasEntityWithExtInfo;
 }
 
 // @public (undocumented)
@@ -1553,7 +1560,7 @@ export interface EntityGet200Response extends HttpResponse {
 export interface EntityGetByUniqueAttributes {
     delete(options?: EntityDeleteByUniqueAttributeParameters): StreamableMethod<EntityDeleteByUniqueAttribute200Response | EntityDeleteByUniqueAttributeDefaultResponse>;
     get(options?: EntityGetByUniqueAttributesParameters): StreamableMethod<EntityGetByUniqueAttributes200Response | EntityGetByUniqueAttributesDefaultResponse>;
-    put(options: EntityPartialUpdateByUniqueAttributesParameters): StreamableMethod<EntityPartialUpdateByUniqueAttributes200Response | EntityPartialUpdateByUniqueAttributesDefaultResponse>;
+    put(options?: EntityPartialUpdateByUniqueAttributesParameters): StreamableMethod<EntityPartialUpdateByUniqueAttributes200Response | EntityPartialUpdateByUniqueAttributesDefaultResponse>;
 }
 
 // @public
@@ -1750,7 +1757,7 @@ export type EntityImportBusinessMetadataParameters = EntityImportBusinessMetadat
 export interface EntityListByGuids {
     delete(options: EntityBulkDeleteParameters): StreamableMethod<EntityBulkDelete200Response | EntityBulkDeleteDefaultResponse>;
     get(options: EntityListByGuidsParameters): StreamableMethod<EntityListByGuids200Response | EntityListByGuidsDefaultResponse>;
-    post(options: EntityBulkCreateOrUpdateParameters): StreamableMethod<EntityBulkCreateOrUpdate200Response | EntityBulkCreateOrUpdateDefaultResponse>;
+    post(options?: EntityBulkCreateOrUpdateParameters): StreamableMethod<EntityBulkCreateOrUpdate200Response | EntityBulkCreateOrUpdateDefaultResponse>;
 }
 
 // @public
@@ -1837,7 +1844,8 @@ export interface EntityMoveEntitiesToCollection200Response extends HttpResponse 
 
 // @public (undocumented)
 export interface EntityMoveEntitiesToCollectionBodyParam {
-    body: MoveEntitiesOptions;
+    // (undocumented)
+    body?: MoveEntitiesOptions;
 }
 
 // @public (undocumented)
@@ -1914,7 +1922,8 @@ export interface EntityPartialUpdateByUniqueAttributes200Response extends HttpRe
 
 // @public (undocumented)
 export interface EntityPartialUpdateByUniqueAttributesBodyParam {
-    body: AtlasEntityWithExtInfo;
+    // (undocumented)
+    body?: AtlasEntityWithExtInfo;
 }
 
 // @public (undocumented)
@@ -2047,9 +2056,9 @@ export type EntityRemoveClassificationParameters = RequestParameters;
 
 // @public (undocumented)
 export interface EntityRemoveLabels {
-    delete(options: EntityRemoveLabelsParameters): StreamableMethod<EntityRemoveLabels204Response | EntityRemoveLabelsDefaultResponse>;
-    post(options: EntitySetLabelsParameters): StreamableMethod<EntitySetLabels204Response | EntitySetLabelsDefaultResponse>;
-    put(options: EntityAddLabelParameters): StreamableMethod<EntityAddLabel204Response | EntityAddLabelDefaultResponse>;
+    delete(options?: EntityRemoveLabelsParameters): StreamableMethod<EntityRemoveLabels204Response | EntityRemoveLabelsDefaultResponse>;
+    post(options?: EntitySetLabelsParameters): StreamableMethod<EntitySetLabels204Response | EntitySetLabelsDefaultResponse>;
+    put(options?: EntityAddLabelParameters): StreamableMethod<EntityAddLabel204Response | EntityAddLabelDefaultResponse>;
 }
 
 // @public
@@ -2060,14 +2069,14 @@ export interface EntityRemoveLabels204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntityRemoveLabelsBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public (undocumented)
 export interface EntityRemoveLabelsByUniqueAttribute {
-    delete(options: EntityRemoveLabelsByUniqueAttributeParameters): StreamableMethod<EntityRemoveLabelsByUniqueAttribute204Response | EntityRemoveLabelsByUniqueAttributeDefaultResponse>;
-    post(options: EntitySetLabelsByUniqueAttributeParameters): StreamableMethod<EntitySetLabelsByUniqueAttribute204Response | EntitySetLabelsByUniqueAttributeDefaultResponse>;
-    put(options: EntityAddLabelsByUniqueAttributeParameters): StreamableMethod<EntityAddLabelsByUniqueAttribute204Response | EntityAddLabelsByUniqueAttributeDefaultResponse>;
+    delete(options?: EntityRemoveLabelsByUniqueAttributeParameters): StreamableMethod<EntityRemoveLabelsByUniqueAttribute204Response | EntityRemoveLabelsByUniqueAttributeDefaultResponse>;
+    post(options?: EntitySetLabelsByUniqueAttributeParameters): StreamableMethod<EntitySetLabelsByUniqueAttribute204Response | EntitySetLabelsByUniqueAttributeDefaultResponse>;
+    put(options?: EntityAddLabelsByUniqueAttributeParameters): StreamableMethod<EntityAddLabelsByUniqueAttribute204Response | EntityAddLabelsByUniqueAttributeDefaultResponse>;
 }
 
 // @public
@@ -2078,7 +2087,7 @@ export interface EntityRemoveLabelsByUniqueAttribute204Response extends HttpResp
 
 // @public (undocumented)
 export interface EntityRemoveLabelsByUniqueAttributeBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public (undocumented)
@@ -2122,7 +2131,7 @@ export interface EntitySetLabels204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface EntitySetLabelsBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public
@@ -2133,7 +2142,7 @@ export interface EntitySetLabelsByUniqueAttribute204Response extends HttpRespons
 
 // @public (undocumented)
 export interface EntitySetLabelsByUniqueAttributeBodyParam {
-    body: string[];
+    body?: string[];
 }
 
 // @public (undocumented)
@@ -2256,7 +2265,8 @@ export interface GlossaryCreate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryCreateBodyParam {
-    body: AtlasGlossary;
+    // (undocumented)
+    body?: AtlasGlossary;
 }
 
 // @public (undocumented)
@@ -2290,7 +2300,7 @@ export type GlossaryCreateCategoriesParameters = GlossaryCreateCategoriesBodyPar
 
 // @public (undocumented)
 export interface GlossaryCreateCategory {
-    post(options: GlossaryCreateCategoryParameters): StreamableMethod<GlossaryCreateCategory200Response | GlossaryCreateCategoryDefaultResponse>;
+    post(options?: GlossaryCreateCategoryParameters): StreamableMethod<GlossaryCreateCategory200Response | GlossaryCreateCategoryDefaultResponse>;
 }
 
 // @public
@@ -2303,7 +2313,8 @@ export interface GlossaryCreateCategory200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryCreateCategoryBodyParam {
-    body: AtlasGlossaryCategory;
+    // (undocumented)
+    body?: AtlasGlossaryCategory;
 }
 
 // @public (undocumented)
@@ -2330,7 +2341,7 @@ export type GlossaryCreateParameters = GlossaryCreateBodyParam & RequestParamete
 
 // @public (undocumented)
 export interface GlossaryCreateTerm {
-    post(options: GlossaryCreateTermParameters): StreamableMethod<GlossaryCreateTerm200Response | GlossaryCreateTermDefaultResponse>;
+    post(options?: GlossaryCreateTermParameters): StreamableMethod<GlossaryCreateTerm200Response | GlossaryCreateTermDefaultResponse>;
 }
 
 // @public
@@ -2343,7 +2354,8 @@ export interface GlossaryCreateTerm200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryCreateTermBodyParam {
-    body: AtlasGlossaryTerm;
+    // (undocumented)
+    body?: AtlasGlossaryTerm;
 }
 
 // @public (undocumented)
@@ -2485,7 +2497,7 @@ export type GlossaryDeleteTermParameters = RequestParameters;
 export interface GlossaryGet {
     delete(options?: GlossaryDeleteParameters): StreamableMethod<GlossaryDeleteOperation204Response | GlossaryDeleteOperationDefaultResponse>;
     get(options?: GlossaryGetParameters): StreamableMethod<GlossaryGet200Response | GlossaryGetDefaultResponse>;
-    put(options: GlossaryUpdateParameters): StreamableMethod<GlossaryUpdate200Response | GlossaryUpdateDefaultResponse>;
+    put(options?: GlossaryUpdateParameters): StreamableMethod<GlossaryUpdate200Response | GlossaryUpdateDefaultResponse>;
 }
 
 // @public
@@ -2500,7 +2512,7 @@ export interface GlossaryGet200Response extends HttpResponse {
 export interface GlossaryGetCategory {
     delete(options?: GlossaryDeleteCategoryParameters): StreamableMethod<GlossaryDeleteCategory204Response | GlossaryDeleteCategoryDefaultResponse>;
     get(options?: GlossaryGetCategoryParameters): StreamableMethod<GlossaryGetCategory200Response | GlossaryGetCategoryDefaultResponse>;
-    put(options: GlossaryUpdateCategoryParameters): StreamableMethod<GlossaryUpdateCategory200Response | GlossaryUpdateCategoryDefaultResponse>;
+    put(options?: GlossaryUpdateCategoryParameters): StreamableMethod<GlossaryUpdateCategory200Response | GlossaryUpdateCategoryDefaultResponse>;
 }
 
 // @public
@@ -2561,7 +2573,7 @@ export type GlossaryGetParameters = RequestParameters;
 export interface GlossaryGetTerm {
     delete(options?: GlossaryDeleteTermParameters): StreamableMethod<GlossaryDeleteTerm204Response | GlossaryDeleteTermDefaultResponse>;
     get(options?: GlossaryGetTermParameters): StreamableMethod<GlossaryGetTerm200Response | GlossaryGetTermDefaultResponse>;
-    put(options: GlossaryUpdateTermParameters): StreamableMethod<GlossaryUpdateTerm200Response | GlossaryUpdateTermDefaultResponse>;
+    put(options?: GlossaryUpdateTermParameters): StreamableMethod<GlossaryUpdateTerm200Response | GlossaryUpdateTermDefaultResponse>;
 }
 
 // @public
@@ -2586,7 +2598,7 @@ export type GlossaryGetTermParameters = RequestParameters;
 // @public (undocumented)
 export interface GlossaryList {
     get(options?: GlossaryListParameters): StreamableMethod<GlossaryList200Response | GlossaryListDefaultResponse>;
-    post(options: GlossaryCreateParameters): StreamableMethod<GlossaryCreate200Response | GlossaryCreateDefaultResponse>;
+    post(options?: GlossaryCreateParameters): StreamableMethod<GlossaryCreate200Response | GlossaryCreateDefaultResponse>;
 }
 
 // @public
@@ -3039,7 +3051,8 @@ export interface GlossaryUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryUpdateBodyParam {
-    body: AtlasGlossary;
+    // (undocumented)
+    body?: AtlasGlossary;
 }
 
 // @public
@@ -3052,7 +3065,8 @@ export interface GlossaryUpdateCategory200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryUpdateCategoryBodyParam {
-    body: AtlasGlossaryCategory;
+    // (undocumented)
+    body?: AtlasGlossaryCategory;
 }
 
 // @public (undocumented)
@@ -3098,7 +3112,8 @@ export interface GlossaryUpdateTerm200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface GlossaryUpdateTermBodyParam {
-    body: AtlasGlossaryTerm;
+    // (undocumented)
+    body?: AtlasGlossaryTerm;
 }
 
 // @public (undocumented)
@@ -3626,17 +3641,17 @@ export interface QueryOptions {
 
 // @public
 export interface QueryResultOutput {
-    "@search.count"?: number;
-    "@search.count.approximate"?: boolean;
-    "@search.facets"?: SearchFacetResultValueOutput;
     continuationToken?: string;
+    searchCount?: number;
+    searchCountApproximate?: boolean;
+    searchFacets?: SearchFacetResultValueOutput;
     value?: Array<SearchResultValueOutput>;
 }
 
 // @public (undocumented)
 export interface RelationshipCreate {
-    post(options: RelationshipCreateParameters): StreamableMethod<RelationshipCreate200Response | RelationshipCreateDefaultResponse>;
-    put(options: RelationshipUpdateParameters): StreamableMethod<RelationshipUpdate200Response | RelationshipUpdateDefaultResponse>;
+    post(options?: RelationshipCreateParameters): StreamableMethod<RelationshipCreate200Response | RelationshipCreateDefaultResponse>;
+    put(options?: RelationshipUpdateParameters): StreamableMethod<RelationshipUpdate200Response | RelationshipUpdateDefaultResponse>;
 }
 
 // @public
@@ -3649,7 +3664,8 @@ export interface RelationshipCreate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RelationshipCreateBodyParam {
-    body: AtlasRelationship;
+    // (undocumented)
+    body?: AtlasRelationship;
 }
 
 // @public (undocumented)
@@ -3726,7 +3742,8 @@ export interface RelationshipUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface RelationshipUpdateBodyParam {
-    body: AtlasRelationship;
+    // (undocumented)
+    body?: AtlasRelationship;
 }
 
 // @public (undocumented)
@@ -3865,8 +3882,6 @@ export interface SearchHighlightsOutput {
 
 // @public
 export interface SearchResultValueOutput {
-    "@search.highlights"?: SearchHighlightsOutput;
-    "@search.score"?: number;
     assetType?: string[];
     classification?: string[];
     contact?: Array<ContactSearchResultValueOutput>;
@@ -3883,6 +3898,8 @@ export interface SearchResultValueOutput {
     objectType?: string;
     owner?: string;
     qualifiedName?: string;
+    searchHighlights?: SearchHighlightsOutput;
+    searchScore?: number;
     term?: Array<TermSearchResultValueOutput>;
     termStatus?: string;
     termTemplate?: string[];
@@ -3909,8 +3926,6 @@ export interface SuggestResultOutput {
 
 // @public
 export interface SuggestResultValueOutput {
-    "@search.score"?: number;
-    "@search.text"?: string;
     assetType?: string[];
     classification?: string[];
     contact?: Array<ContactSearchResultValueOutput>;
@@ -3927,6 +3942,8 @@ export interface SuggestResultValueOutput {
     objectType?: string;
     owner?: string;
     qualifiedName?: string;
+    searchScore?: number;
+    searchText?: string;
     term?: Array<TermSearchResultValueOutput>;
     termStatus?: string;
     termTemplate?: string[];
@@ -4022,7 +4039,8 @@ export interface TypeBulkCreate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface TypeBulkCreateBodyParam {
-    body: AtlasTypesDef;
+    // (undocumented)
+    body?: AtlasTypesDef;
 }
 
 // @public (undocumented)
@@ -4044,7 +4062,8 @@ export interface TypeBulkDelete204Response extends HttpResponse {
 
 // @public (undocumented)
 export interface TypeBulkDeleteBodyParam {
-    body: AtlasTypesDef;
+    // (undocumented)
+    body?: AtlasTypesDef;
 }
 
 // @public (undocumented)
@@ -4068,7 +4087,8 @@ export interface TypeBulkUpdate200Response extends HttpResponse {
 
 // @public (undocumented)
 export interface TypeBulkUpdateBodyParam {
-    body: AtlasTypesDef;
+    // (undocumented)
+    body?: AtlasTypesDef;
 }
 
 // @public (undocumented)
@@ -4486,10 +4506,10 @@ export type TypeGetTermTemplateDefByNameParameters = RequestParameters;
 
 // @public (undocumented)
 export interface TypeList {
-    delete(options: TypeBulkDeleteParameters): StreamableMethod<TypeBulkDelete204Response | TypeBulkDeleteDefaultResponse>;
+    delete(options?: TypeBulkDeleteParameters): StreamableMethod<TypeBulkDelete204Response | TypeBulkDeleteDefaultResponse>;
     get(options?: TypeListParameters): StreamableMethod<TypeList200Response | TypeListDefaultResponse>;
-    post(options: TypeBulkCreateParameters): StreamableMethod<TypeBulkCreate200Response | TypeBulkCreateDefaultResponse>;
-    put(options: TypeBulkUpdateParameters): StreamableMethod<TypeBulkUpdate200Response | TypeBulkUpdateDefaultResponse>;
+    post(options?: TypeBulkCreateParameters): StreamableMethod<TypeBulkCreate200Response | TypeBulkCreateDefaultResponse>;
+    put(options?: TypeBulkUpdateParameters): StreamableMethod<TypeBulkUpdate200Response | TypeBulkUpdateDefaultResponse>;
 }
 
 // @public
