@@ -4,8 +4,6 @@ This package contains a JavaScript SDK for Azure Communication Messages Services
 
 Key links:
 
-- [Source code](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest)
-- [Package (NPM)](https://www.npmjs.com/package/@azure-rest/communication-messages)
 - [Quick Start][azure_communication_messaging_qs]
 
 ## Getting started
@@ -236,9 +234,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 [azure_powershell]: https://docs.microsoft.com/powershell/module/az.communication/new-azcommunicationservice
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
-[azure_communication_messaging_qs]: https://learn.microsoft.com/en-us/azure/communication-services/concepts/advanced-messaging/whatsapp/whatsapp-overview
+[azure_communication_messaging_qs]: https://learn.microsoft.com/azure/communication-services/concepts/advanced-messaging/whatsapp/whatsapp-overview
 [register_whatsapp_business_account]: https://learn.microsoft.com/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account
 [create-manage-whatsapp-template]: https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/
-
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcommunication%2Fcommunication-sms%2FREADME.png)
