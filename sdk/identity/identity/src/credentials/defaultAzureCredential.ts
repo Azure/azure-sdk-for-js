@@ -109,6 +109,16 @@ function createDefaultWorkloadIdentityCredential(
     };
     return new WorkloadIdentityCredential(workloadIdentityCredentialOptions);
   }
+  if(options?.serviceConnectionId && workloadIdentityClientId){
+    const workloadIdentityCredentialOptions: WorkloadIdentityCredentialOptions = {
+      ...options,
+      tenantId,
+      clientId: workloadIdentityClientId,
+      serviceConnectionId: options?.serviceConnectionId,
+    };
+    return new WorkloadIdentityCredential(workloadIdentityCredentialOptions);
+
+  }
   if (tenantId) {
     const workloadIdentityClientTenantOptions: WorkloadIdentityCredentialOptions = {
       ...options,
