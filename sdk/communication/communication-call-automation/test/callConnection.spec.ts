@@ -576,7 +576,9 @@ describe("CallConnection Live Tests", function () {
       }
     }
     assert.isTrue(isMuted);
-  }).timeout(90000).skip();
+  })
+    .timeout(90000)
+    .skip();
 
   it("Add a participant cancels add participant request", async function () {
     testName = this.test?.fullTitle()
