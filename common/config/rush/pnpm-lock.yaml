@@ -19052,16 +19052,16 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/identity': 3.4.1
-      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.8)
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.17)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.8
+      '@types/node': 18.19.17
       autorest: 3.7.1
       c8: 8.0.1
       chai: 4.3.10
       cross-env: 7.0.3
-      dotenv: 16.3.2
+      dotenv: 16.4.5
       eslint: 8.56.0
       esm: 3.2.25
       karma: 6.4.2(debug@4.3.4)
@@ -19075,12 +19075,12 @@ packages:
       karma-source-map-support: 1.4.0
       karma-sourcemap-loader: 0.4.0
       mkdirp: 2.1.6
-      mocha: 10.2.0
+      mocha: 10.3.0
       rimraf: 5.0.5
       source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.8)(typescript@5.2.2)
+      ts-node: 10.9.2(@types/node@18.19.17)(typescript@5.3.3)
       tslib: 2.6.2
-      typescript: 5.2.2
+      typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
