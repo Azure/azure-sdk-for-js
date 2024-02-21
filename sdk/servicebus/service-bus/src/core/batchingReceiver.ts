@@ -329,6 +329,7 @@ export class BatchingReceiverLite {
   private async tryDrainReceiver(
     receiver: MinimalReceiver,
     loggingPrefix: string,
+    remainingWaitTimeInMs: number,
     abortSignal?: AbortSignalLike,
   ): Promise<void> {
     if (!receiver.isOpen() || receiver.credit <= 0) {
@@ -336,6 +337,7 @@ export class BatchingReceiverLite {
     }
     let drainTimedout: boolean = false;
     let drainTimer: ReturnType<typeof setTimeout>;
+    const timeToWaitInMs = Math.max(this._drainTimeoutInMs, remainingWaitTimeInMs);
     const drainPromise = new Promise<void>((resolve) => {
       function drainListener() {
         logger.verbose(`${loggingPrefix} Receiver has been drained.`);
@@ -356,19 +358,19 @@ export class BatchingReceiverLite {
         drainTimedout = true;
         removeListeners();
         resolve();
-      }, this._drainTimeoutInMs);
+      }, timeToWaitInMs);
       receiver.once(ReceiverEvents.receiverDrained, drainListener);
       abortSignal?.addEventListener("abort", onAbort);
     });
 
     receiver.drainCredit();
     logger.verbose(
-      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${this._drainTimeoutInMs} milliseconds...`,
+      `${loggingPrefix} Draining leftover credits(${receiver.credit}), waiting for event_drained event, or timing out after ${timeToWaitInMs} milliseconds...`,
     );
     await drainPromise;
     if (drainTimedout) {
       logger.warning(
-        `${loggingPrefix} Time out after ${this._drainTimeoutInMs} milliseconds when draining credits. Closing receiver...`,
+        `${loggingPrefix} Time out after ${timeToWaitInMs} milliseconds when draining credits. Closing receiver...`,
       );
       // Close the receiver link since we have not received the receiver drain event
       // to prevent out-of-sync state between local and remote
@@ -463,7 +465,8 @@ export class BatchingReceiverLite {
         return;
       }
 
-      await this.tryDrainReceiver(receiver, loggingPrefix, args.abortSignal);
+      const remainingWaitTimeInMs = getRemainingWaitTimeInMs();
+      await this.tryDrainReceiver(receiver, loggingPrefix, remainingWaitTimeInMs, args.abortSignal);
       logger.verbose(
         `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`,
       );

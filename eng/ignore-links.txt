@@ -11,3 +11,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics
 https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork
+https://docs.microsoft.com/javascript/api/@azure/arm-springappdiscovery?view=azure-node-preview

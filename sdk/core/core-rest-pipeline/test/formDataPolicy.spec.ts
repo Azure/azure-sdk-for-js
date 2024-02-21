@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi } from "vitest";
-
+import { describe, it, assert, vi } from "vitest";
 import {
   type PipelineResponse,
   type SendRequest,
@@ -11,8 +10,8 @@ import {
   formDataPolicy,
   createFile,
   createFileFromStream,
-} from "../src";
-import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces";
+} from "../src/index.js";
+import type { BodyPart, FormDataMap, MultipartRequestBody } from "../src/interfaces.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 export async function performRequest(formData: FormDataMap): Promise<PipelineResponse> {
