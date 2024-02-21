@@ -186,7 +186,7 @@ export class EnvironmentsImpl implements Environments {
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
    * @param environmentName The name of the environment.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -194,7 +194,7 @@ export class EnvironmentsImpl implements Environments {
     serviceName: string,
     workspaceName: string,
     environmentName: string,
-    payload: Environment,
+    resource: Environment,
     options?: EnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -203,7 +203,7 @@ export class EnvironmentsImpl implements Environments {
         serviceName,
         workspaceName,
         environmentName,
-        payload,
+        resource,
         options,
       },
       createOrUpdateOperationSpec,
@@ -350,7 +350,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload9,
+  requestBody: Parameters.resource7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

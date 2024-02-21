@@ -201,7 +201,7 @@ export class ApiVersionsImpl implements ApiVersions {
    * @param workspaceName The name of the workspace.
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -210,7 +210,7 @@ export class ApiVersionsImpl implements ApiVersions {
     workspaceName: string,
     apiName: string,
     versionName: string,
-    payload: ApiVersion,
+    resource: ApiVersion,
     options?: ApiVersionsCreateOrUpdateOptionalParams,
   ): Promise<ApiVersionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -220,7 +220,7 @@ export class ApiVersionsImpl implements ApiVersions {
         workspaceName,
         apiName,
         versionName,
-        payload,
+        resource,
         options,
       },
       createOrUpdateOperationSpec,
@@ -384,7 +384,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload6,
+  requestBody: Parameters.resource5,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -46,9 +46,9 @@ export interface ApiDefinitionPropertiesSpecification {
 export interface ApiDefinitions {
     beginExportSpecification(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, options?: ApiDefinitionsExportSpecificationOptionalParams): Promise<SimplePollerLike<OperationState<ApiDefinitionsExportSpecificationResponse>, ApiDefinitionsExportSpecificationResponse>>;
     beginExportSpecificationAndWait(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, options?: ApiDefinitionsExportSpecificationOptionalParams): Promise<ApiDefinitionsExportSpecificationResponse>;
-    beginImportSpecification(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, payload: ApiSpecImportRequest, options?: ApiDefinitionsImportSpecificationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginImportSpecificationAndWait(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, payload: ApiSpecImportRequest, options?: ApiDefinitionsImportSpecificationOptionalParams): Promise<void>;
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, payload: ApiDefinition, options?: ApiDefinitionsCreateOrUpdateOptionalParams): Promise<ApiDefinitionsCreateOrUpdateResponse>;
+    beginImportSpecification(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, body: ApiSpecImportRequest, options?: ApiDefinitionsImportSpecificationOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginImportSpecificationAndWait(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, body: ApiSpecImportRequest, options?: ApiDefinitionsImportSpecificationOptionalParams): Promise<void>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, resource: ApiDefinition, options?: ApiDefinitionsCreateOrUpdateOptionalParams): Promise<ApiDefinitionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, options?: ApiDefinitionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, options?: ApiDefinitionsGetOptionalParams): Promise<ApiDefinitionsGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, definitionName: string, options?: ApiDefinitionsHeadOptionalParams): Promise<ApiDefinitionsHeadResponse>;
@@ -159,7 +159,7 @@ export interface ApiProperties {
 
 // @public
 export interface Apis {
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, payload: Api, options?: ApisCreateOrUpdateOptionalParams): Promise<ApisCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, resource: Api, options?: ApisCreateOrUpdateOptionalParams): Promise<ApisCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, options?: ApisDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, options?: ApisGetOptionalParams): Promise<ApisGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, options?: ApisHeadOptionalParams): Promise<ApisHeadResponse>;
@@ -262,7 +262,7 @@ export interface ApiVersionProperties {
 
 // @public
 export interface ApiVersions {
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, payload: ApiVersion, options?: ApiVersionsCreateOrUpdateOptionalParams): Promise<ApiVersionsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, resource: ApiVersion, options?: ApiVersionsCreateOrUpdateOptionalParams): Promise<ApiVersionsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, options?: ApiVersionsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, options?: ApiVersionsGetOptionalParams): Promise<ApiVersionsGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, versionName: string, options?: ApiVersionsHeadOptionalParams): Promise<ApiVersionsHeadResponse>;
@@ -391,7 +391,7 @@ export interface DeploymentProperties {
 
 // @public
 export interface Deployments {
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, deploymentName: string, payload: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, deploymentName: string, resource: Deployment, options?: DeploymentsCreateOrUpdateOptionalParams): Promise<DeploymentsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, deploymentName: string, options?: DeploymentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, deploymentName: string, options?: DeploymentsGetOptionalParams): Promise<DeploymentsGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, apiName: string, deploymentName: string, options?: DeploymentsHeadOptionalParams): Promise<DeploymentsHeadResponse>;
@@ -484,7 +484,7 @@ export interface EnvironmentProperties {
 
 // @public
 export interface Environments {
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, environmentName: string, payload: Environment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<EnvironmentsCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, environmentName: string, resource: Environment, options?: EnvironmentsCreateOrUpdateOptionalParams): Promise<EnvironmentsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, environmentName: string, options?: EnvironmentsDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, environmentName: string, options?: EnvironmentsGetOptionalParams): Promise<EnvironmentsGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, environmentName: string, options?: EnvironmentsHeadOptionalParams): Promise<EnvironmentsHeadResponse>;
@@ -759,7 +759,7 @@ export interface MetadataSchemaProperties {
 
 // @public
 export interface MetadataSchemas {
-    createOrUpdate(resourceGroupName: string, serviceName: string, metadataSchemaName: string, payload: MetadataSchema, options?: MetadataSchemasCreateOrUpdateOptionalParams): Promise<MetadataSchemasCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, metadataSchemaName: string, resource: MetadataSchema, options?: MetadataSchemasCreateOrUpdateOptionalParams): Promise<MetadataSchemasCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, metadataSchemaName: string, options?: MetadataSchemasDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, metadataSchemaName: string, options?: MetadataSchemasGetOptionalParams): Promise<MetadataSchemasGetResponse>;
     head(resourceGroupName: string, serviceName: string, metadataSchemaName: string, options?: MetadataSchemasHeadOptionalParams): Promise<MetadataSchemasHeadResponse>;
@@ -903,14 +903,14 @@ export interface ServiceProperties {
 
 // @public
 export interface Services {
-    beginExportMetadataSchema(resourceGroupName: string, serviceName: string, payload: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<SimplePollerLike<OperationState<ServicesExportMetadataSchemaResponse>, ServicesExportMetadataSchemaResponse>>;
-    beginExportMetadataSchemaAndWait(resourceGroupName: string, serviceName: string, payload: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<ServicesExportMetadataSchemaResponse>;
+    beginExportMetadataSchema(resourceGroupName: string, serviceName: string, body: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<SimplePollerLike<OperationState<ServicesExportMetadataSchemaResponse>, ServicesExportMetadataSchemaResponse>>;
+    beginExportMetadataSchemaAndWait(resourceGroupName: string, serviceName: string, body: MetadataSchemaExportRequest, options?: ServicesExportMetadataSchemaOptionalParams): Promise<ServicesExportMetadataSchemaResponse>;
     createOrUpdate(resourceGroupName: string, serviceName: string, resource: Service, options?: ServicesCreateOrUpdateOptionalParams): Promise<ServicesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, options?: ServicesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, options?: ServicesGetOptionalParams): Promise<ServicesGetResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ServicesListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Service>;
     listBySubscription(options?: ServicesListBySubscriptionOptionalParams): PagedAsyncIterableIterator<Service>;
-    update(resourceGroupName: string, serviceName: string, payload: ServiceUpdate, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
+    update(resourceGroupName: string, serviceName: string, properties: ServiceUpdate, options?: ServicesUpdateOptionalParams): Promise<ServicesUpdateResponse>;
 }
 
 // @public
@@ -1040,7 +1040,7 @@ export interface WorkspaceProperties {
 
 // @public
 export interface Workspaces {
-    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, payload: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
+    createOrUpdate(resourceGroupName: string, serviceName: string, workspaceName: string, resource: Workspace, options?: WorkspacesCreateOrUpdateOptionalParams): Promise<WorkspacesCreateOrUpdateResponse>;
     delete(resourceGroupName: string, serviceName: string, workspaceName: string, options?: WorkspacesDeleteOptionalParams): Promise<void>;
     get(resourceGroupName: string, serviceName: string, workspaceName: string, options?: WorkspacesGetOptionalParams): Promise<WorkspacesGetResponse>;
     head(resourceGroupName: string, serviceName: string, workspaceName: string, options?: WorkspacesHeadOptionalParams): Promise<WorkspacesHeadResponse>;

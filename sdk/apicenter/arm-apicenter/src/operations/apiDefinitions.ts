@@ -233,7 +233,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -243,7 +243,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiDefinition,
+    resource: ApiDefinition,
     options?: ApiDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<ApiDefinitionsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -254,7 +254,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         apiName,
         versionName,
         definitionName,
-        payload,
+        resource,
         options,
       },
       createOrUpdateOperationSpec,
@@ -453,7 +453,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginImportSpecification(
@@ -463,7 +463,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiSpecImportRequest,
+    body: ApiSpecImportRequest,
     options?: ApiDefinitionsImportSpecificationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
@@ -513,7 +513,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
         apiName,
         versionName,
         definitionName,
-        payload,
+        body,
         options,
       },
       spec: importSpecificationOperationSpec,
@@ -535,7 +535,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginImportSpecificationAndWait(
@@ -545,7 +545,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiSpecImportRequest,
+    body: ApiSpecImportRequest,
     options?: ApiDefinitionsImportSpecificationOptionalParams,
   ): Promise<void> {
     const poller = await this.beginImportSpecification(
@@ -555,7 +555,7 @@ export class ApiDefinitionsImpl implements ApiDefinitions {
       apiName,
       versionName,
       definitionName,
-      payload,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -663,7 +663,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload7,
+  requestBody: Parameters.resource6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -772,7 +772,7 @@ const importSpecificationOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload8,
+  requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

@@ -56,7 +56,7 @@ export interface Environments {
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
    * @param environmentName The name of the environment.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -64,7 +64,7 @@ export interface Environments {
     serviceName: string,
     workspaceName: string,
     environmentName: string,
-    payload: Environment,
+    resource: Environment,
     options?: EnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<EnvironmentsCreateOrUpdateResponse>;
   /**

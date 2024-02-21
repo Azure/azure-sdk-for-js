@@ -246,17 +246,17 @@ export class ServicesImpl implements Services {
    * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     serviceName: string,
-    payload: ServiceUpdate,
+    properties: ServiceUpdate,
     options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, payload, options },
+      { resourceGroupName, serviceName, properties, options },
       updateOperationSpec,
     );
   }
@@ -282,13 +282,13 @@ export class ServicesImpl implements Services {
    * Exports the effective metadata schema.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginExportMetadataSchema(
     resourceGroupName: string,
     serviceName: string,
-    payload: MetadataSchemaExportRequest,
+    body: MetadataSchemaExportRequest,
     options?: ServicesExportMetadataSchemaOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -336,7 +336,7 @@ export class ServicesImpl implements Services {
 
     const lro = createLroSpec({
       sendOperationFn,
-      args: { resourceGroupName, serviceName, payload, options },
+      args: { resourceGroupName, serviceName, body, options },
       spec: exportMetadataSchemaOperationSpec,
     });
     const poller = await createHttpPoller<
@@ -355,19 +355,19 @@ export class ServicesImpl implements Services {
    * Exports the effective metadata schema.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   async beginExportMetadataSchemaAndWait(
     resourceGroupName: string,
     serviceName: string,
-    payload: MetadataSchemaExportRequest,
+    body: MetadataSchemaExportRequest,
     options?: ServicesExportMetadataSchemaOptionalParams,
   ): Promise<ServicesExportMetadataSchemaResponse> {
     const poller = await this.beginExportMetadataSchema(
       resourceGroupName,
       serviceName,
-      payload,
+      body,
       options,
     );
     return poller.pollUntilDone();
@@ -502,7 +502,7 @@ const updateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload,
+  requestBody: Parameters.properties,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -554,7 +554,7 @@ const exportMetadataSchemaOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload1,
+  requestBody: Parameters.body,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

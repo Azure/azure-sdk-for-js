@@ -158,18 +158,18 @@ export class MetadataSchemasImpl implements MetadataSchemas {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param metadataSchemaName The name of the metadata schema.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
     metadataSchemaName: string,
-    payload: MetadataSchema,
+    resource: MetadataSchema,
     options?: MetadataSchemasCreateOrUpdateOptionalParams,
   ): Promise<MetadataSchemasCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, metadataSchemaName, payload, options },
+      { resourceGroupName, serviceName, metadataSchemaName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
@@ -294,7 +294,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload2,
+  requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

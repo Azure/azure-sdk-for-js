@@ -56,7 +56,7 @@ export interface Apis {
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
    * @param apiName The name of the API.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -64,7 +64,7 @@ export interface Apis {
     serviceName: string,
     workspaceName: string,
     apiName: string,
-    payload: Api,
+    resource: Api,
     options?: ApisCreateOrUpdateOptionalParams,
   ): Promise<ApisCreateOrUpdateResponse>;
   /**

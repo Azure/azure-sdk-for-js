@@ -201,7 +201,7 @@ export class DeploymentsImpl implements Deployments {
    * @param workspaceName The name of the workspace.
    * @param apiName The name of the API.
    * @param deploymentName The name of the API deployment.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -210,7 +210,7 @@ export class DeploymentsImpl implements Deployments {
     workspaceName: string,
     apiName: string,
     deploymentName: string,
-    payload: Deployment,
+    resource: Deployment,
     options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
@@ -220,7 +220,7 @@ export class DeploymentsImpl implements Deployments {
         workspaceName,
         apiName,
         deploymentName,
-        payload,
+        resource,
         options,
       },
       createOrUpdateOperationSpec,
@@ -384,7 +384,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload5,
+  requestBody: Parameters.resource4,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

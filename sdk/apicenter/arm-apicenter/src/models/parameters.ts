@@ -132,13 +132,13 @@ export const resource: OperationParameter = {
   mapper: ServiceMapper,
 };
 
-export const payload: OperationParameter = {
-  parameterPath: "payload",
+export const properties: OperationParameter = {
+  parameterPath: "properties",
   mapper: ServiceUpdateMapper,
 };
 
-export const payload1: OperationParameter = {
-  parameterPath: "payload",
+export const body: OperationParameter = {
+  parameterPath: "body",
   mapper: MetadataSchemaExportRequestMapper,
 };
 
@@ -168,8 +168,8 @@ export const metadataSchemaName: OperationURLParameter = {
   },
 };
 
-export const payload2: OperationParameter = {
-  parameterPath: "payload",
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
   mapper: MetadataSchemaMapper,
 };
 
@@ -189,8 +189,8 @@ export const workspaceName: OperationURLParameter = {
   },
 };
 
-export const payload3: OperationParameter = {
-  parameterPath: "payload",
+export const resource2: OperationParameter = {
+  parameterPath: "resource",
   mapper: WorkspaceMapper,
 };
 
@@ -210,8 +210,8 @@ export const apiName: OperationURLParameter = {
   },
 };
 
-export const payload4: OperationParameter = {
-  parameterPath: "payload",
+export const resource3: OperationParameter = {
+  parameterPath: "resource",
   mapper: ApiMapper,
 };
 
@@ -231,8 +231,8 @@ export const deploymentName: OperationURLParameter = {
   },
 };
 
-export const payload5: OperationParameter = {
-  parameterPath: "payload",
+export const resource4: OperationParameter = {
+  parameterPath: "resource",
   mapper: DeploymentMapper,
 };
 
@@ -252,8 +252,8 @@ export const versionName: OperationURLParameter = {
   },
 };
 
-export const payload6: OperationParameter = {
-  parameterPath: "payload",
+export const resource5: OperationParameter = {
+  parameterPath: "resource",
   mapper: ApiVersionMapper,
 };
 
@@ -273,13 +273,13 @@ export const definitionName: OperationURLParameter = {
   },
 };
 
-export const payload7: OperationParameter = {
-  parameterPath: "payload",
+export const resource6: OperationParameter = {
+  parameterPath: "resource",
   mapper: ApiDefinitionMapper,
 };
 
-export const payload8: OperationParameter = {
-  parameterPath: "payload",
+export const body1: OperationParameter = {
+  parameterPath: "body",
   mapper: ApiSpecImportRequestMapper,
 };
 
@@ -299,7 +299,7 @@ export const environmentName: OperationURLParameter = {
   },
 };
 
-export const payload9: OperationParameter = {
-  parameterPath: "payload",
+export const resource7: OperationParameter = {
+  parameterPath: "resource",
   mapper: EnvironmentMapper,
 };

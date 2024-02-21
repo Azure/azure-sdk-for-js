@@ -61,7 +61,7 @@ export interface Deployments {
    * @param workspaceName The name of the workspace.
    * @param apiName The name of the API.
    * @param deploymentName The name of the API deployment.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -70,7 +70,7 @@ export interface Deployments {
     workspaceName: string,
     apiName: string,
     deploymentName: string,
-    payload: Deployment,
+    resource: Deployment,
     options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse>;
   /**

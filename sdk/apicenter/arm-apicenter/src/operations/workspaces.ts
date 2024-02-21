@@ -158,18 +158,18 @@ export class WorkspacesImpl implements Workspaces {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
    * @param workspaceName The name of the workspace.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     serviceName: string,
     workspaceName: string,
-    payload: Workspace,
+    resource: Workspace,
     options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, serviceName, workspaceName, payload, options },
+      { resourceGroupName, serviceName, workspaceName, resource, options },
       createOrUpdateOperationSpec,
     );
   }
@@ -294,7 +294,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.payload3,
+  requestBody: Parameters.resource2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

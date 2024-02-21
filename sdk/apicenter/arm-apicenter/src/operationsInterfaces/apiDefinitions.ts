@@ -71,7 +71,7 @@ export interface ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload Resource create parameters.
+   * @param resource Resource create parameters.
    * @param options The options parameters.
    */
   createOrUpdate(
@@ -81,7 +81,7 @@ export interface ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiDefinition,
+    resource: ApiDefinition,
     options?: ApiDefinitionsCreateOrUpdateOptionalParams,
   ): Promise<ApiDefinitionsCreateOrUpdateResponse>;
   /**
@@ -173,7 +173,7 @@ export interface ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginImportSpecification(
@@ -183,7 +183,7 @@ export interface ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiSpecImportRequest,
+    body: ApiSpecImportRequest,
     options?: ApiDefinitionsImportSpecificationOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
@@ -194,7 +194,7 @@ export interface ApiDefinitions {
    * @param apiName The name of the API.
    * @param versionName The name of the API version.
    * @param definitionName The name of the API definition.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginImportSpecificationAndWait(
@@ -204,7 +204,7 @@ export interface ApiDefinitions {
     apiName: string,
     versionName: string,
     definitionName: string,
-    payload: ApiSpecImportRequest,
+    body: ApiSpecImportRequest,
     options?: ApiDefinitionsImportSpecificationOptionalParams,
   ): Promise<void>;
 }

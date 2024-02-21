@@ -72,13 +72,13 @@ export interface Services {
    * Updates existing service.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The resource properties to be updated.
+   * @param properties The resource properties to be updated.
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     serviceName: string,
-    payload: ServiceUpdate,
+    properties: ServiceUpdate,
     options?: ServicesUpdateOptionalParams,
   ): Promise<ServicesUpdateResponse>;
   /**
@@ -96,13 +96,13 @@ export interface Services {
    * Exports the effective metadata schema.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginExportMetadataSchema(
     resourceGroupName: string,
     serviceName: string,
-    payload: MetadataSchemaExportRequest,
+    body: MetadataSchemaExportRequest,
     options?: ServicesExportMetadataSchemaOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -114,13 +114,13 @@ export interface Services {
    * Exports the effective metadata schema.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serviceName The name of Azure API Center service.
-   * @param payload The content of the action request
+   * @param body The content of the action request
    * @param options The options parameters.
    */
   beginExportMetadataSchemaAndWait(
     resourceGroupName: string,
     serviceName: string,
-    payload: MetadataSchemaExportRequest,
+    body: MetadataSchemaExportRequest,
     options?: ServicesExportMetadataSchemaOptionalParams,
   ): Promise<ServicesExportMetadataSchemaResponse>;
 }
