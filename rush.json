@@ -321,6 +321,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-catalog",
       "projectFolder": "sdk/purview/purview-catalog-rest",
       "versionPolicyName": "client"
@@ -633,7 +638,7 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [ "@azure/keyvault-keys" ],
       "versionPolicyName": "client"
     },
     {

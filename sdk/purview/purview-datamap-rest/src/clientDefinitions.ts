@@ -306,7 +306,7 @@ export interface EntityCreateOrUpdate {
    * For each contact type, the maximum number of contacts is 20.
    */
   post(
-    options: EntityCreateOrUpdateParameters,
+    options?: EntityCreateOrUpdateParameters,
   ): StreamableMethod<
     EntityCreateOrUpdate200Response | EntityCreateOrUpdateDefaultResponse
   >;
@@ -330,7 +330,7 @@ export interface EntityListByGuids {
    * is 20.
    */
   post(
-    options: EntityBulkCreateOrUpdateParameters,
+    options?: EntityBulkCreateOrUpdateParameters,
   ): StreamableMethod<
     | EntityBulkCreateOrUpdate200Response
     | EntityBulkCreateOrUpdateDefaultResponse
@@ -349,7 +349,7 @@ export interface EntityListByGuids {
 export interface EntityAddClassification {
   /** Associate a classification to multiple entities in bulk. */
   post(
-    options: EntityAddClassificationParameters,
+    options?: EntityAddClassificationParameters,
   ): StreamableMethod<
     EntityAddClassification204Response | EntityAddClassificationDefaultResponse
   >;
@@ -463,7 +463,7 @@ export interface EntityGetByUniqueAttributes {
    * /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   put(
-    options: EntityPartialUpdateByUniqueAttributesParameters,
+    options?: EntityPartialUpdateByUniqueAttributesParameters,
   ): StreamableMethod<
     | EntityPartialUpdateByUniqueAttributes200Response
     | EntityPartialUpdateByUniqueAttributesDefaultResponse
@@ -523,7 +523,7 @@ export interface EntityAddClassificationsByUniqueAttribute {
 export interface EntityBulkSetClassifications {
   /** Set classifications on entities in bulk. */
   post(
-    options: EntityBulkSetClassificationsParameters,
+    options?: EntityBulkSetClassificationsParameters,
   ): StreamableMethod<
     | EntityBulkSetClassifications200Response
     | EntityBulkSetClassificationsDefaultResponse
@@ -625,19 +625,19 @@ export interface EntityImportBusinessMetadata {
 export interface EntityRemoveLabels {
   /** Delete given labels to a given entity. */
   delete(
-    options: EntityRemoveLabelsParameters,
+    options?: EntityRemoveLabelsParameters,
   ): StreamableMethod<
     EntityRemoveLabels204Response | EntityRemoveLabelsDefaultResponse
   >;
   /** Set labels to a given entity. */
   post(
-    options: EntitySetLabelsParameters,
+    options?: EntitySetLabelsParameters,
   ): StreamableMethod<
     EntitySetLabels204Response | EntitySetLabelsDefaultResponse
   >;
   /** Add given labels to a given entity. */
   put(
-    options: EntityAddLabelParameters,
+    options?: EntityAddLabelParameters,
   ): StreamableMethod<
     EntityAddLabel204Response | EntityAddLabelDefaultResponse
   >;
@@ -660,7 +660,7 @@ export interface EntityRemoveLabelsByUniqueAttribute {
    * /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   delete(
-    options: EntityRemoveLabelsByUniqueAttributeParameters,
+    options?: EntityRemoveLabelsByUniqueAttributeParameters,
   ): StreamableMethod<
     | EntityRemoveLabelsByUniqueAttribute204Response
     | EntityRemoveLabelsByUniqueAttributeDefaultResponse
@@ -683,7 +683,7 @@ export interface EntityRemoveLabelsByUniqueAttribute {
    * /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   post(
-    options: EntitySetLabelsByUniqueAttributeParameters,
+    options?: EntitySetLabelsByUniqueAttributeParameters,
   ): StreamableMethod<
     | EntitySetLabelsByUniqueAttribute204Response
     | EntitySetLabelsByUniqueAttributeDefaultResponse
@@ -706,7 +706,7 @@ export interface EntityRemoveLabelsByUniqueAttribute {
    * /v2/entity/uniqueAttribute/type/aType?attr:aTypeAttribute=someValue.
    */
   put(
-    options: EntityAddLabelsByUniqueAttributeParameters,
+    options?: EntityAddLabelsByUniqueAttributeParameters,
   ): StreamableMethod<
     | EntityAddLabelsByUniqueAttribute204Response
     | EntityAddLabelsByUniqueAttributeDefaultResponse
@@ -739,7 +739,7 @@ export interface GlossaryList {
   ): StreamableMethod<GlossaryList200Response | GlossaryListDefaultResponse>;
   /** Create a glossary. */
   post(
-    options: GlossaryCreateParameters,
+    options?: GlossaryCreateParameters,
   ): StreamableMethod<
     GlossaryCreate200Response | GlossaryCreateDefaultResponse
   >;
@@ -758,7 +758,7 @@ export interface GlossaryCreateCategories {
 export interface GlossaryCreateCategory {
   /** Create a glossary category. */
   post(
-    options: GlossaryCreateCategoryParameters,
+    options?: GlossaryCreateCategoryParameters,
   ): StreamableMethod<
     GlossaryCreateCategory200Response | GlossaryCreateCategoryDefaultResponse
   >;
@@ -773,7 +773,7 @@ export interface GlossaryGetCategory {
   >;
   /** Update the given glossary category by its GUID. */
   put(
-    options: GlossaryUpdateCategoryParameters,
+    options?: GlossaryUpdateCategoryParameters,
   ): StreamableMethod<
     GlossaryUpdateCategory200Response | GlossaryUpdateCategoryDefaultResponse
   >;
@@ -824,7 +824,7 @@ export interface GlossaryListCategoryTerms {
 export interface GlossaryCreateTerm {
   /** Create a glossary term. */
   post(
-    options: GlossaryCreateTermParameters,
+    options?: GlossaryCreateTermParameters,
   ): StreamableMethod<
     GlossaryCreateTerm200Response | GlossaryCreateTermDefaultResponse
   >;
@@ -839,7 +839,7 @@ export interface GlossaryGetTerm {
   >;
   /** Update the given glossary term by its GUID. */
   put(
-    options: GlossaryUpdateTermParameters,
+    options?: GlossaryUpdateTermParameters,
   ): StreamableMethod<
     GlossaryUpdateTerm200Response | GlossaryUpdateTermDefaultResponse
   >;
@@ -927,7 +927,7 @@ export interface GlossaryGet {
   ): StreamableMethod<GlossaryGet200Response | GlossaryGetDefaultResponse>;
   /** Update the given glossary. */
   put(
-    options: GlossaryUpdateParameters,
+    options?: GlossaryUpdateParameters,
   ): StreamableMethod<
     GlossaryUpdate200Response | GlossaryUpdateDefaultResponse
   >;
@@ -1030,7 +1030,7 @@ export interface GlossaryListTermHeaders {
 export interface DiscoveryQuery {
   /** Get data using search. */
   post(
-    options: DiscoveryQueryParameters,
+    options?: DiscoveryQueryParameters,
   ): StreamableMethod<
     DiscoveryQuery200Response | DiscoveryQueryDefaultResponse
   >;
@@ -1039,7 +1039,7 @@ export interface DiscoveryQuery {
 export interface DiscoverySuggest {
   /** Get search suggestions by query criteria. */
   post(
-    options: DiscoverySuggestParameters,
+    options?: DiscoverySuggestParameters,
   ): StreamableMethod<
     DiscoverySuggest200Response | DiscoverySuggestDefaultResponse
   >;
@@ -1048,7 +1048,7 @@ export interface DiscoverySuggest {
 export interface DiscoveryAutoComplete {
   /** Get auto complete options. */
   post(
-    options: DiscoveryAutoCompleteParameters,
+    options?: DiscoveryAutoCompleteParameters,
   ): StreamableMethod<
     DiscoveryAutoComplete200Response | DiscoveryAutoCompleteDefaultResponse
   >;
@@ -1100,13 +1100,13 @@ export interface LineageGetByUniqueAttribute {
 export interface RelationshipCreate {
   /** Create a new relationship between entities. */
   post(
-    options: RelationshipCreateParameters,
+    options?: RelationshipCreateParameters,
   ): StreamableMethod<
     RelationshipCreate200Response | RelationshipCreateDefaultResponse
   >;
   /** Update an existing relationship between entities. */
   put(
-    options: RelationshipUpdateParameters,
+    options?: RelationshipUpdateParameters,
   ): StreamableMethod<
     RelationshipUpdate200Response | RelationshipUpdateDefaultResponse
   >;
@@ -1273,7 +1273,7 @@ export interface TypeList {
    * Any changes to the existing definitions will be discarded.
    */
   post(
-    options: TypeBulkCreateParameters,
+    options?: TypeBulkCreateParameters,
   ): StreamableMethod<
     TypeBulkCreate200Response | TypeBulkCreateDefaultResponse
   >;
@@ -1282,13 +1282,13 @@ export interface TypeList {
    * persisted.
    */
   put(
-    options: TypeBulkUpdateParameters,
+    options?: TypeBulkUpdateParameters,
   ): StreamableMethod<
     TypeBulkUpdate200Response | TypeBulkUpdateDefaultResponse
   >;
   /** Delete API for all types in bulk. */
   delete(
-    options: TypeBulkDeleteParameters,
+    options?: TypeBulkDeleteParameters,
   ): StreamableMethod<
     TypeBulkDelete204Response | TypeBulkDeleteDefaultResponse
   >;

@@ -583,9 +583,9 @@ export interface QueryResultOutput {
    * The total number of search results (not the number of documents in a single
    * page).
    */
-  "@search.count"?: number;
+  searchCount?: number;
   /** 'True' if the '@search.count' is an approximate value and vise versa. */
-  "@search.count.approximate"?: boolean;
+  searchCountApproximate?: boolean;
   /** The token used to get next batch of data. Absent if there's no more data. */
   continuationToken?: string;
   /**
@@ -593,7 +593,7 @@ export interface QueryResultOutput {
    * contactId, and label. When the facet is specified in the request, the value of
    * the facet is returned as an element of @search.facets.
    */
-  "@search.facets"?: SearchFacetResultValueOutput;
+  searchFacets?: SearchFacetResultValueOutput;
   /** Search result value */
   value?: Array<SearchResultValueOutput>;
 }
@@ -640,14 +640,14 @@ export interface SearchResultValueOutput {
    * The search score calculated by the search engine. The results are ordered by
    * search score by default.
    */
-  "@search.score"?: number;
+  searchScore?: number;
   /**
    * A highlight list that consists of index fields id ,qualifiedName, name,
    * description, entityType. When the keyword appears in those fields, the value of
    * the field, attached with emphasis mark, is returned as an element of
    * @search.highlights.
    */
-  "@search.highlights"?: SearchHighlightsOutput;
+  searchHighlights?: SearchHighlightsOutput;
   /**
    * The object type of the record. Object type is the top-level property to
    * distinguish whether a record is an asset or a term.
@@ -750,12 +750,12 @@ export interface SuggestResultValueOutput {
    * The search score calculated by the search engine. The results are ordered by
    * search score by default.
    */
-  "@search.score"?: number;
+  searchScore?: number;
   /**
    * The target text that contains the keyword as prefix. The keyword is wrapped
    * with emphasis mark.
    */
-  "@search.text"?: string;
+  searchText?: string;
   /**
    * The object type of the record. Object type is the top-level property to
    * distinguish whether a record is an asset or a term.

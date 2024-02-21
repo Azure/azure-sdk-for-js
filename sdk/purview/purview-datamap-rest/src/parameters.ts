@@ -21,8 +21,7 @@ import {
 } from "./models";
 
 export interface EntityCreateOrUpdateBodyParam {
-  /** Atlas entity with extended information. */
-  body: AtlasEntityWithExtInfo;
+  body?: AtlasEntityWithExtInfo;
 }
 
 export interface EntityCreateOrUpdateQueryParamProperties {
@@ -65,8 +64,7 @@ export type EntityListByGuidsParameters = EntityListByGuidsQueryParam &
   RequestParameters;
 
 export interface EntityBulkCreateOrUpdateBodyParam {
-  /** An array of entities to create or update. */
-  body: AtlasEntitiesWithExtInfo;
+  body?: AtlasEntitiesWithExtInfo;
 }
 
 export interface EntityBulkCreateOrUpdateQueryParamProperties {
@@ -106,8 +104,7 @@ export type EntityBulkDeleteParameters = EntityBulkDeleteQueryParam &
   RequestParameters;
 
 export interface EntityAddClassificationBodyParam {
-  /** The request to associate a classification to multiple entities. */
-  body: ClassificationAssociateOptions;
+  body?: ClassificationAssociateOptions;
 }
 
 export type EntityAddClassificationParameters =
@@ -185,8 +182,7 @@ export type EntityGetByUniqueAttributesParameters =
   EntityGetByUniqueAttributesQueryParam & RequestParameters;
 
 export interface EntityPartialUpdateByUniqueAttributesBodyParam {
-  /** Atlas entity with extended information. */
-  body: AtlasEntityWithExtInfo;
+  body?: AtlasEntityWithExtInfo;
 }
 
 export interface EntityPartialUpdateByUniqueAttributesQueryParamProperties {
@@ -281,8 +277,7 @@ export type EntityUpdateClassificationsByUniqueAttributeParameters =
     RequestParameters;
 
 export interface EntityBulkSetClassificationsBodyParam {
-  /** Atlas entity headers. */
-  body: AtlasEntityHeaders;
+  body?: AtlasEntityHeaders;
 }
 
 export type EntityBulkSetClassificationsParameters =
@@ -358,7 +353,7 @@ export type EntityGetSampleBusinessMetadataTemplateParameters =
   RequestParameters;
 
 export interface EntityImportBusinessMetadataBodyParam {
-  body?: { file: Uint8Array | File };
+  body?: { file: string };
 }
 
 export interface EntityImportBusinessMetadataMediaTypesParam {
@@ -373,7 +368,7 @@ export type EntityImportBusinessMetadataParameters =
 
 export interface EntityRemoveLabelsBodyParam {
   /** set of labels to be deleted */
-  body: string[];
+  body?: string[];
 }
 
 export type EntityRemoveLabelsParameters = EntityRemoveLabelsBodyParam &
@@ -381,7 +376,7 @@ export type EntityRemoveLabelsParameters = EntityRemoveLabelsBodyParam &
 
 export interface EntitySetLabelsBodyParam {
   /** set of labels to be set to the entity */
-  body: string[];
+  body?: string[];
 }
 
 export type EntitySetLabelsParameters = EntitySetLabelsBodyParam &
@@ -389,7 +384,7 @@ export type EntitySetLabelsParameters = EntitySetLabelsBodyParam &
 
 export interface EntityAddLabelBodyParam {
   /** set of labels to be added */
-  body: string[];
+  body?: string[];
 }
 
 export type EntityAddLabelParameters = EntityAddLabelBodyParam &
@@ -397,7 +392,7 @@ export type EntityAddLabelParameters = EntityAddLabelBodyParam &
 
 export interface EntityRemoveLabelsByUniqueAttributeBodyParam {
   /** set of labels to be deleted */
-  body: string[];
+  body?: string[];
 }
 
 export interface EntityRemoveLabelsByUniqueAttributeQueryParamProperties {
@@ -419,7 +414,7 @@ export type EntityRemoveLabelsByUniqueAttributeParameters =
 
 export interface EntitySetLabelsByUniqueAttributeBodyParam {
   /** set of labels to be set */
-  body: string[];
+  body?: string[];
 }
 
 export interface EntitySetLabelsByUniqueAttributeQueryParamProperties {
@@ -441,7 +436,7 @@ export type EntitySetLabelsByUniqueAttributeParameters =
 
 export interface EntityAddLabelsByUniqueAttributeBodyParam {
   /** set of labels to be added */
-  body: string[];
+  body?: string[];
 }
 
 export interface EntityAddLabelsByUniqueAttributeQueryParamProperties {
@@ -462,8 +457,7 @@ export type EntityAddLabelsByUniqueAttributeParameters =
     RequestParameters;
 
 export interface EntityMoveEntitiesToCollectionBodyParam {
-  /** Entity guids to be moved to target collection. */
-  body: MoveEntitiesOptions;
+  body?: MoveEntitiesOptions;
 }
 
 export interface EntityMoveEntitiesToCollectionQueryParamProperties {
@@ -498,12 +492,7 @@ export interface GlossaryListQueryParam {
 export type GlossaryListParameters = GlossaryListQueryParam & RequestParameters;
 
 export interface GlossaryCreateBodyParam {
-  /**
-   * Glossary definition, terms & categories can be anchored to a glossary.
-   * Using
-   * the anchor attribute when creating the Term/Category.
-   */
-  body: AtlasGlossary;
+  body?: AtlasGlossary;
 }
 
 export type GlossaryCreateParameters = GlossaryCreateBodyParam &
@@ -518,13 +507,7 @@ export type GlossaryCreateCategoriesParameters =
   GlossaryCreateCategoriesBodyParam & RequestParameters;
 
 export interface GlossaryCreateCategoryBodyParam {
-  /**
-   * The glossary category definition. A category must be anchored to a Glossary
-   * when creating.
-   * Optionally, terms belonging to the category and the hierarchy
-   * can also be defined during creation.
-   */
-  body: AtlasGlossaryCategory;
+  body?: AtlasGlossaryCategory;
 }
 
 export type GlossaryCreateCategoryParameters = GlossaryCreateCategoryBodyParam &
@@ -532,8 +515,7 @@ export type GlossaryCreateCategoryParameters = GlossaryCreateCategoryBodyParam &
 export type GlossaryGetCategoryParameters = RequestParameters;
 
 export interface GlossaryUpdateCategoryBodyParam {
-  /** The glossary category to be updated. */
-  body: AtlasGlossaryCategory;
+  body?: AtlasGlossaryCategory;
 }
 
 export type GlossaryUpdateCategoryParameters = GlossaryUpdateCategoryBodyParam &
@@ -584,12 +566,7 @@ export type GlossaryListCategoryTermsParameters =
   GlossaryListCategoryTermsQueryParam & RequestParameters;
 
 export interface GlossaryCreateTermBodyParam {
-  /**
-   * The glossary term definition. A term must be anchored to a Glossary at the time
-   * of creation.
-   * Optionally it can be categorized as well.
-   */
-  body: AtlasGlossaryTerm;
+  body?: AtlasGlossaryTerm;
 }
 
 export interface GlossaryCreateTermQueryParamProperties {
@@ -607,8 +584,7 @@ export type GlossaryCreateTermParameters = GlossaryCreateTermQueryParam &
 export type GlossaryGetTermParameters = RequestParameters;
 
 export interface GlossaryUpdateTermBodyParam {
-  /** The glossary term to be updated. */
-  body: AtlasGlossaryTerm;
+  body?: AtlasGlossaryTerm;
 }
 
 export interface GlossaryUpdateTermQueryParamProperties {
@@ -715,8 +691,7 @@ export type GlossaryListRelatedTermsParameters =
 export type GlossaryGetParameters = RequestParameters;
 
 export interface GlossaryUpdateBodyParam {
-  /** The glossary definition to be updated. */
-  body: AtlasGlossary;
+  body?: AtlasGlossary;
 }
 
 export interface GlossaryUpdateQueryParamProperties {
@@ -820,24 +795,21 @@ export type GlossaryListTermHeadersParameters =
   GlossaryListTermHeadersQueryParam & RequestParameters;
 
 export interface DiscoveryQueryBodyParam {
-  /** An object specifying the search criteria. */
-  body: QueryOptions;
+  body?: QueryOptions;
 }
 
 export type DiscoveryQueryParameters = DiscoveryQueryBodyParam &
   RequestParameters;
 
 export interface DiscoverySuggestBodyParam {
-  /** An object specifying the suggest criteria. */
-  body: SuggestOptions;
+  body?: SuggestOptions;
 }
 
 export type DiscoverySuggestParameters = DiscoverySuggestBodyParam &
   RequestParameters;
 
 export interface DiscoveryAutoCompleteBodyParam {
-  /** An object specifying the autocomplete criteria. */
-  body: AutoCompleteOptions;
+  body?: AutoCompleteOptions;
 }
 
 export type DiscoveryAutoCompleteParameters = DiscoveryAutoCompleteBodyParam &
@@ -904,22 +876,14 @@ export type LineageGetByUniqueAttributeParameters =
   LineageGetByUniqueAttributeQueryParam & RequestParameters;
 
 export interface RelationshipCreateBodyParam {
-  /**
-   * The AtlasRelationship object containing the information for the relationship to
-   * be created.
-   */
-  body: AtlasRelationship;
+  body?: AtlasRelationship;
 }
 
 export type RelationshipCreateParameters = RelationshipCreateBodyParam &
   RequestParameters;
 
 export interface RelationshipUpdateBodyParam {
-  /**
-   * The AtlasRelationship object containing the information for the relationship to
-   * be created.
-   */
-  body: AtlasRelationship;
+  body?: AtlasRelationship;
 }
 
 export type RelationshipUpdateParameters = RelationshipUpdateBodyParam &
@@ -975,24 +939,21 @@ export interface TypeListQueryParam {
 export type TypeListParameters = TypeListQueryParam & RequestParameters;
 
 export interface TypeBulkCreateBodyParam {
-  /** A composite wrapper object with corresponding lists of the type definition. */
-  body: AtlasTypesDef;
+  body?: AtlasTypesDef;
 }
 
 export type TypeBulkCreateParameters = TypeBulkCreateBodyParam &
   RequestParameters;
 
 export interface TypeBulkUpdateBodyParam {
-  /** A composite object that captures all type definition changes. */
-  body: AtlasTypesDef;
+  body?: AtlasTypesDef;
 }
 
 export type TypeBulkUpdateParameters = TypeBulkUpdateBodyParam &
   RequestParameters;
 
 export interface TypeBulkDeleteBodyParam {
-  /** A composite object that captures all types to be deleted */
-  body: AtlasTypesDef;
+  body?: AtlasTypesDef;
 }
 
 export type TypeBulkDeleteParameters = TypeBulkDeleteBodyParam &
