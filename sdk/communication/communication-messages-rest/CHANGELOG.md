@@ -4,7 +4,7 @@
 
 ### Features Added
 
-This is the initial release of the @azure-rest version of Advance Messaging SDK.
+This is the initial release of the @azure-rest version of Azure Communication Messages Services.
 
 Using MessagesServiceClient:
 
