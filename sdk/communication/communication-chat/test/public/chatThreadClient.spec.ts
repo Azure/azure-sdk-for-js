@@ -113,7 +113,7 @@ describe("ChatThreadClient", function () {
 
     assert.equal(retentionPolicy.kind, chatThreadResult.chatThread?.retentionPolicy?.kind);
 
-    await chatThreadClient.updateProperties({ retentionPolicy: undefined });
+    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
 
     const thread = await chatThreadClient.getProperties();
     assert.isUndefined(thread.retentionPolicy);
