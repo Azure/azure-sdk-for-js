@@ -73,7 +73,7 @@
 /sdk/communication/communication-email/ @yogeshmo
 
 # PRLabel: %Communication - Job Router
-/sdk/communication/communication-job-router/ @bgams @marche0133
+/sdk/communication/communication-job-router/ @marche0133
 
 # PRLabel: %Communication - Phone Numbers
 /sdk/communication/communication-phone-numbers/ @miguhern @whisper6284 @RoyHerrod @danielav7
@@ -82,7 +82,7 @@
 /sdk/communication/communication-network-traversal/ @ajpeacock0 @nathpete-msft
 
 # PRLabel: %Communication - Rooms
-/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @Mrayyan @shwali-msft @allchiang-msft
+/sdk/communication/communication-rooms/ @anujissarMS @minnieliu @paolamvhz @shwali-msft @allchiang-msft
 
 # PRLabel: %Communication - SMS
 /sdk/communication/communication-sms/ @gfeitosa-msft @phermanov-msft @ilyapaliakou-msft
@@ -100,7 +100,7 @@
 /sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
 
 # ServiceLabel: %Cosmos %Service Attention
-#/<NotInRepo>/ @sajeetharan @pjohari-ms @simorenoh @v1k1
+#/<NotInRepo>/ @sajeetharan @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
 /sdk/digitaltwins/ @sjiherzig @johngallardo @olivakar
@@ -156,10 +156,10 @@
 /sdk/test-utils/ @HarshaNalluru @timovv
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen @witemple-msft
+/sdk/textanalytics/ @quentinRobinson @minhanh-phan @deyaaeldeen @witemple-msft
 
 # PRLabel: %Cognitive - Language
-/sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
+/sdk/cognitivelanguage/ @quentinRobinson @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
@@ -180,7 +180,7 @@
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Cognitive - Content Safety
-/sdk/contentsafety/ @bowgong @mengai @minjuewu
+/sdk/contentsafety/ @xirzec
 
 # PRLabel: %Search
 /sdk/search/ @dgetu @xirzec @Azure/azsdk-search
@@ -890,7 +890,7 @@
 #/<NotInRepo>/          @ctstone @vkurpad
 
 # ServiceLabel: %Cognitive - Anomaly Detector %Service Attention
-#/<NotInRepo>/          @yingqunpku @bowgong
+#/<NotInRepo>/          @yingqunpku
 
 # ServiceLabel: %Cognitive - Custom Vision %Service Attention
 #/<NotInRepo>/          @areddish @tburns10
