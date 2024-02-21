@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { stringToUint8Array } from "../util/bytesEncoding";
-import { toStream, concatenateStreams } from "../util/stream";
-import { isBlob } from "../util/typeGuards";
-import { randomUUID } from "../util/uuidUtils";
+import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { toStream, concatenateStreams } from "../util/stream.js";
+import { isBlob } from "../util/typeGuards.js";
+import { randomUUID } from "../util/uuidUtils.js";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;

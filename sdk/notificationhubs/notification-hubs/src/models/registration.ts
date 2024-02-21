@@ -15,6 +15,8 @@ export type RegistrationType =
   | "BrowserTemplate"
   | "Gcm"
   | "GcmTemplate"
+  | "FcmV1"
+  | "FcmV1Template"
   | "Mpns"
   | "MpnsTemplate"
   | "Xiaomi"
@@ -425,6 +427,72 @@ export function createFcmLegacyTemplateRegistrationDescription(
 }
 
 /**
+ * Represents Notification Hub registration description for Google Cloud Messaging.
+ */
+export interface FcmV1RegistrationDescriptionCommon extends RegistrationDescriptionCommon {
+  /**
+   * Registration id obtained from the Firebase Cloud Messaging service.
+   */
+  fcmV1RegistrationId: string;
+}
+
+/**
+ * Represents Notification Hub registration description for Google Cloud Messaging.
+ */
+export interface FcmV1RegistrationDescription extends FcmV1RegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "FcmV1";
+}
+
+/**
+ * Creates a Firebase V1 registration description.
+ * @param description - A partial FCM V1 registration description.
+ * @returns A created FCM V1 registration description.
+ */
+export function createFcmV1RegistrationDescription(
+  description: FcmV1RegistrationDescriptionCommon,
+): FcmV1RegistrationDescription {
+  return {
+    ...description,
+    kind: "FcmV1",
+  };
+}
+
+/**
+ * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
+ */
+export interface FcmV1TemplateRegistrationDescriptionCommon
+  extends FcmV1RegistrationDescriptionCommon,
+    TemplateRegistrationDescription {}
+
+/**
+ * Represents Notification Hub template registration description for Firebase V1 Cloud Messaging.
+ */
+export interface FcmV1TemplateRegistrationDescription
+  extends FcmV1TemplateRegistrationDescriptionCommon {
+  /**
+   * The kind of the registration.
+   */
+  kind: "FcmV1Template";
+}
+
+/**
+ * Creates a FCM V1 template registration description.
+ * @param description - A partial FCM V1 template registration description.
+ * @returns A created FCM V1 template registration description.
+ */
+export function createFcmV1TemplateRegistrationDescription(
+  description: FcmV1TemplateRegistrationDescriptionCommon,
+): FcmV1TemplateRegistrationDescription {
+  return {
+    ...description,
+    kind: "FcmV1Template",
+  };
+}
+
+/**
  * Represents a Windows Phone Notification Services registration description.
  * @deprecated Windows Phone is no longer supported.
  */
@@ -640,6 +708,8 @@ export type RegistrationDescription =
   | BrowserTemplateRegistrationDescription
   | GcmRegistrationDescription
   | GcmTemplateRegistrationDescription
+  | FcmV1RegistrationDescription
+  | FcmV1TemplateRegistrationDescription
   | MpnsRegistrationDescription
   | MpnsTemplateRegistrationDescription
   | XiaomiRegistrationDescription
@@ -730,6 +800,20 @@ export interface FirebaseLegacyRegistrationChannel {
 }
 
 /**
+ * Describes an Firebase Legacy Registration channel query.
+ */
+export interface FirebaseV1RegistrationChannel {
+  /**
+   * The FCM V1 registration ID.
+   */
+  fcmV1RegistrationId: string;
+  /**
+   * The kind of the registration channel.
+   */
+  kind: "fcmv1";
+}
+
+/**
  * Describes an Windows Notification Services Registration channel query.
  */
 export interface WindowsRegistrationChannel {
@@ -766,5 +850,6 @@ export type RegistrationChannel =
   | BaiduRegistrationChannel
   | BrowserRegistrationChannel
   | FirebaseLegacyRegistrationChannel
+  | FirebaseV1RegistrationChannel
   | XiaomiRegistrationChannel
   | WindowsRegistrationChannel;

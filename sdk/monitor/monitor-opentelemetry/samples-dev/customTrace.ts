@@ -56,8 +56,8 @@ function doWork(parent: Span) {
   span.end();
 }
 
-main().catch((error) => {
+main().catch(async (error) => {
   console.error("An error occurred:", error);
-  shutdownAzureMonitor();
+  await shutdownAzureMonitor();
   process.exit(1);
 });

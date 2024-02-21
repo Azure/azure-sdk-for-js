@@ -18,7 +18,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "dependencies": {
     "cross-spawn": "^7.0.3",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "semver": "^7.5.4",
     "yargs": "^17.7.2",
     "@azure-tools/eng-package-utils": "file:../eng-package-utils"

@@ -5,16 +5,14 @@
  */
 
 
-import {
-  AzureCommunicationRoutingServiceClient, paginate
-} from "../src";
-import JobRouter from "../src"; 
+import JobRouter, {
+  AzureCommunicationRoutingServiceClient,
+  paginate
+} from "@azure-rest/communication-job-router";
 import * as dotenv from "dotenv";
 dotenv.config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
-
-
-
 
 // List distribution policies
 async function listDistributionPolicies(): Promise<void> {
@@ -24,7 +22,7 @@ async function listDistributionPolicies(): Promise<void> {
 
   const maxPageSize = 3;
   // Get the first page which also contains information on how to get the next page.
-  const initialResponse = await routerClient.path("/routing/distributionPolicies").get({ queryParameters: { maxpagesize: maxPageSize} })
+  const initialResponse = await routerClient.path("/routing/distributionPolicies").get({ queryParameters: { maxpagesize: maxPageSize } })
 
   if (initialResponse.status == "200") {
     // The paginate helper creates a paged async iterator using metadata from the first page.
