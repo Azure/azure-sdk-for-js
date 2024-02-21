@@ -61,7 +61,11 @@ function getTotalLength(
   return total;
 }
 
-async function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): Promise<void> {
+async function buildRequestBody(
+  request: PipelineRequest,
+  parts: BodyPart[],
+  boundary: string,
+): Promise<void> {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
