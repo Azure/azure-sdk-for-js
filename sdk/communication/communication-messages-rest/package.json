@@ -116,16 +116,12 @@
     "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
   },
   "//sampleConfiguration": {
-    "productName": "Azure client library for Azure Communication Services - Advance Messaging",
+    "productName": "Azure client library for Azure Communication Messages Services",
     "productSlugs": [
       "azure",
       "azure-communication-services"
     ],
     "disableDocsMs": true,
-    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/communication-messages",
-    "requiredResources": {
-      "Azure Communication Services Resource": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource",
-      "Advance Messaging Services Resource": "https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account"
-    }
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/communication-messages"
   }
 }

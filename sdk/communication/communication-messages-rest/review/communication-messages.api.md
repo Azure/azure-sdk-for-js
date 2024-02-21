@@ -295,7 +295,7 @@ export interface RepeatabilityRequestHeadersOutput {
 export interface RepeatabilityResponseHeadersOutput {
 }
 
-// @public (undocumented)
+// @public
 export type RepeatabilityResultOutput = "accepted" | "rejected";
 
 // @public (undocumented)

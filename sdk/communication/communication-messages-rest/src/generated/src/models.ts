@@ -50,7 +50,7 @@ export interface MessageTemplate {
 
 /** The class describes a parameter of a template. */
 export interface MessageTemplateValueParent {
-  /** Name of the Template value */
+  /** Template binding reference name */
   name: string;
   kind: string;
 }

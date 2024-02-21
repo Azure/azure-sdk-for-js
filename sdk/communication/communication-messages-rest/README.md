@@ -1,6 +1,6 @@
 # Azure CommunicationMessages REST client library for JavaScript
 
-The Advance Messaging in Azure Communication Service is used to send messages (text, template & media) to different channels (e.g. WhatsApp). Current supported channel is WhatsApp.
+This package contains a JavaScript SDK for Azure Communication Messages Services.
 
 Key links:
 

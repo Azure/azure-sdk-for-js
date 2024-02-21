@@ -54,6 +54,7 @@ export interface WhatsAppMessageTemplateItemOutput
 export type MessageTemplateItemOutput =
   | MessageTemplateItemOutputParent
   | WhatsAppMessageTemplateItemOutput;
+/** Alias for RepeatabilityResultOutput */
 export type RepeatabilityResultOutput = "accepted" | "rejected";
 /** Paged collection of MessageTemplateItem items */
 export type PagedMessageTemplateItemOutput = Paged<MessageTemplateItemOutput>;

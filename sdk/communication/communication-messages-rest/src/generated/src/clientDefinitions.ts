@@ -31,7 +31,7 @@ export interface Send {
 }
 
 export interface ListTemplates {
-  /** List all templates for given ACS channel */
+  /** List all templates for given Azure Communication Services channel */
   get(
     options?: ListTemplatesParameters,
   ): StreamableMethod<ListTemplates200Response | ListTemplatesDefaultResponse>;
