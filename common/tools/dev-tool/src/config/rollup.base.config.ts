@@ -137,6 +137,11 @@ export function sourcemaps() {
       if (!id.endsWith(".js")) {
         return null;
       }
+      if (id.startsWith("\x00")) {
+        // Some Rollup plugins mark virtual modules with \0 prefix. Other plugins should not try to process it.
+        //     https://rollupjs.org/plugin-development/#conventions
+        return null;
+      }
       try {
         const code = await readFile(id, "utf8");
         if (code.includes("sourceMappingURL")) {

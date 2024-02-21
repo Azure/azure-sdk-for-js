@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the redirectPolicy.
