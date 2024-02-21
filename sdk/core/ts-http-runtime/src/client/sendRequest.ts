@@ -17,6 +17,7 @@ import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "../util/typeGuards.js";
 import { HttpResponse, RequestParameters } from "./common.js";
+import { createFile } from "../util/file.js";
 
 /**
  * Helper function to send request used by the client
@@ -187,7 +188,7 @@ function isRLCFormDataInput(body: unknown): body is RLCFormDataInput {
 }
 
 function processFormDataValue(value: RLCFormDataValue): FormDataValue {
-  return value instanceof Uint8Array ? new Blob([value]) : value;
+  return value instanceof Uint8Array ? createFile(value, "blob") : value;
 }
 
 /**
