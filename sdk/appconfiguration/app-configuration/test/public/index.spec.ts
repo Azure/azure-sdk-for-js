@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, ConfigurationSetting, ConfigurationSettingParam } from "../../src";
+import {
+  AppConfigurationClient,
+  ConfigurationSetting,
+  ConfigurationSettingParam,
+  ListConfigurationSettingPage,
+} from "../../src";
 import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
@@ -851,7 +856,7 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it.only("list with multiple pages - bypage and etags", async function () {
+    it("list with multiple pages - bypage and etags", async function () {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
@@ -865,89 +870,76 @@ describe("AppConfigurationClient", () => {
         `listMultiplePagesOfResults${Math.floor(Math.random() * 1000)}`,
       );
 
-      // this number is arbitrarily chosen to match the size of a page + 1
-      const expectedNumberOfLabels = 200;
+      const pageSize = 100;
 
-      let addSettingPromises = [];
+      // this number is chosen to create 2 full page an an empty 3 page
+      const expectedNumberOfLabels = pageSize * 2;
 
-      for (let i = 0; i < expectedNumberOfLabels; i++) {
-        addSettingPromises.push(
-          client.addConfigurationSetting({
-            key,
-            value: `the value for ${i}`,
-            label: i.toString(),
-          }),
-        );
+      async function addConfigSettings(numToAdd: number, begin: number = 0) {
+        let addSettingPromises = [];
 
-        if (i !== 0 && i % 2 === 0) {
-          await Promise.all(addSettingPromises);
-          addSettingPromises = [];
+        for (let i = begin; i < begin + numToAdd; i++) {
+          addSettingPromises.push(
+            client.addConfigurationSetting({
+              key,
+              value: `the value for ${i}`,
+              label: i.toString(),
+            }),
+          );
+
+          if (i !== 0 && i % 2 === 0) {
+            await Promise.all(addSettingPromises);
+            addSettingPromises = [];
+          }
         }
+
+        await Promise.all(addSettingPromises);
       }
 
-      await Promise.all(addSettingPromises);
+      await addConfigSettings(expectedNumberOfLabels);
 
       // Passing marker as an argument
-      let iterator = client.listConfigurationSettings({ keyFilter: key, }).byPage();
+      let pageCount = 0;
+      let iterator = client.listConfigurationSettings({ keyFilter: key }).byPage();
       const etags: string[] = [];
       for await (const page of iterator) {
-        console.log(`  page: ${JSON.stringify(page)}`);
+        assert.isDefined(page.etag);
+        pageCount++;
         etags.push(page.etag ?? "");
       }
+      // 2 full page and 1 empty pages
+      assert.equal(pageCount, 3);
 
-      // Add 50 more settings
-      addSettingPromises = [];
+      // This number is arbitrarily chosen to add new setting to the 3rd page
+      const additionalNumberOfLabels = 50;
+      await addConfigSettings(additionalNumberOfLabels, expectedNumberOfLabels);
 
-      for (let i = expectedNumberOfLabels; i < expectedNumberOfLabels * 5 / 4; i++) {
-        addSettingPromises.push(
-          client.addConfigurationSetting({
-            key,
-            value: `the value for ${i}`,
-            label: i.toString(),
-          }),
-        );
-
-        if (i !== 0 && i % 2 === 0) {
-          await Promise.all(addSettingPromises);
-          addSettingPromises = [];
-        }
-      }
-
-      await Promise.all(addSettingPromises);
-
-
-      // Second run
-      console.log("------------- Second run --------------");
+      // Second run with added settings
       iterator = client.listConfigurationSettings({ keyFilter: key, etagList: etags }).byPage();
-      for await (const page of iterator) {
-        const statusCode = page._response.status;
-        if (statusCode === 304) {
-          console.log("No updates for this page");
-        } else if (statusCode === 200) {
-          console.log("Updates available");
-          console.log(`  page: ${JSON.stringify(page)}`);
-        }
+
+      // First page no change
+      let response = await iterator.next();
+      assertPage(response.value, 0, 304);
+
+      // Second page: full settings with change
+      response = await iterator.next();
+      assertPage(response.value, pageSize, 200);
+
+      // Third page: new settings with changes
+      response = await iterator.next();
+      assertPage(response.value, additionalNumberOfLabels, 200);
+
+      function assertPage(
+        page: ListConfigurationSettingPage,
+        expectedLength: number,
+        status: number,
+      ) {
+        assert.equal(page._response.status, status);
+        assert.equal(page.items.length, expectedLength);
+        assert.isDefined(page.etag);
       }
-      console.log("------------- End of Second run --------------");
 
-      // Second run ends
-
-      // const listResult = client.listConfigurationSettings({
-      //   keyFilter: key,
-      // });
-
-      // const sortedResults = await toSortedArray(listResult);
-      // assert.equal(sortedResults.length, 200);
-
-      // // make sure we have 200 unique labels
-      // const uniqueLabels = new Set(sortedResults.map((res) => res.label));
-      // assert.equal(uniqueLabels.size, 200);
-
-      // for (let i = 0; i < 200; ++i) {
-      //   assert.ok(uniqueLabels.has(i.toString()));
-      // }
-
-      for (let i = 0; i < expectedNumberOfLabels; i++) {
+      for (let i = 0; i < expectedNumberOfLabels + additionalNumberOfLabels; i++) {
         await client.deleteConfigurationSetting({ key, label: i.toString() });
       }
     });

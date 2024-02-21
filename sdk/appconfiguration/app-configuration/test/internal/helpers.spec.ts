@@ -135,10 +135,10 @@ describe("helper methods", () => {
     });
 
     it("extractAfterTokenFromLinkHeader", () => {
-      const link = '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
-      const expectedLink = 'bGlzdE4';
+      const link = '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"';
+      const expectedLink = "bGlzdE4";
 
-      assert.equal(expectedLink, extractAfterTokenFromLinkHeader(link))
+      assert.equal(expectedLink, extractAfterTokenFromLinkHeader(link));
     });
   });
 

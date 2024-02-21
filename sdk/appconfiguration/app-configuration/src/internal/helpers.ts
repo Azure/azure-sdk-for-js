@@ -35,7 +35,10 @@ import { OperationOptions } from "@azure/core-client";
  * Also provides `fields` which allows you to selectively choose which fields are populated in the
  * result.
  */
-export interface SendConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions, EtagEntity {
+export interface SendConfigurationSettingsOptions
+  extends OperationOptions,
+    ListSettingsOptions,
+    EtagEntity {
   /**
    * A filter used get configuration setting for a snapshot. Not valid when used with 'key' and 'label' filters
    */
@@ -192,22 +195,22 @@ export function extractAfterTokenFromNextLink(nextLink: string): string {
 /**
  * Take the header link that gets returned from 304 response and extract the 'after' token needed
  * to get the next page of results.
- * 
+ *
  * Example transformation of the link header
- * link: 
+ * link:
  *    '</kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>; rel="next"'
- *    
+ *
  * linkValue:
  *     </kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4>
- * 
+ *
  * nextLink:
  *      /kv?api-version=2023-10-01&key=listResults714&after=bGlzdE4
  * @internal
  */
 export function extractAfterTokenFromLinkHeader(link: string): string {
   const linkValue = link.split(";")[0];
-  const nextLink = linkValue.substring(1, linkValue.length - 1)
-  return extractAfterTokenFromNextLink(nextLink)
+  const nextLink = linkValue.substring(1, linkValue.length - 1);
+  return extractAfterTokenFromNextLink(nextLink);
 }
 
 /**

@@ -162,7 +162,7 @@ export class AppConfigurationClient {
       } else {
         throw new Error(
           `Invalid connection string. Valid connection strings should match the regex '${ConnectionStringRegex.source}'.` +
-          ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
+            ` To mitigate the issue, please refer to the troubleshooting guide here at https://aka.ms/azsdk/js/app-configuration/troubleshoot.`,
         );
       }
     }
@@ -334,43 +334,52 @@ export class AppConfigurationClient {
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const etagList = options.etagList ? [...options.etagList] : undefined;
     delete options.etagList;
-    const etag = etagList?.shift()
+    const etag = etagList?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        try {
-          const response = await this.sendConfigurationSettingsRequest({ ...options, etag }, pageLink);
-          const currentResponse: ListConfigurationSettingPage = {
-            ...response,
-            items: response.items != null ? response.items?.map(transformKeyValue) : [],
-            continuationToken: response.nextLink
-              ? extractAfterTokenFromNextLink(response.nextLink)
-              : undefined,
-            _response: response._response
-          };
-          return {
-            page: currentResponse,
-            nextPageLink: currentResponse.continuationToken,
-          };
-        } catch (error) {
-          const err = error as RestError;
-          
-          const link = err.response?.headers?.get("link");
-          const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          try {
+            const response = await this.sendConfigurationSettingsRequest(
+              { ...options, etag },
+              pageLink,
+            );
+            const currentResponse: ListConfigurationSettingPage = {
+              ...response,
+              items: response.items != null ? response.items?.map(transformKeyValue) : [],
+              continuationToken: response.nextLink
+                ? extractAfterTokenFromNextLink(response.nextLink)
+                : undefined,
+              _response: response._response,
+            };
+            return {
+              page: currentResponse,
+              nextPageLink: currentResponse.continuationToken,
+            };
+          } catch (error) {
+            const err = error as RestError;
 
-          if (err.statusCode === 304) {
-            err.message = `Status 304: No updates for this page`;
-            logger.info(`[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`);
+            const link = err.response?.headers?.get("link");
+            const continuationToken = link ? extractAfterTokenFromLinkHeader(link) : undefined;
+
+            if (err.statusCode === 304) {
+              err.message = `Status 304: No updates for this page`;
+              logger.info(
+                `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
+              );
+            }
+            return {
+              page: {
+                items: [],
+                etag,
+                _response: { ...err.response, status: 304 },
+              } as unknown as ListConfigurationSettingPage,
+              nextPageLink: continuationToken,
+            };
           }
-          return {
-            page: { items: [], _response: { ...err.response, status: 304 } } as unknown as ListConfigurationSettingPage,
-            nextPageLink: continuationToken
-          };
-        }
-      },
-      toElements: (page) => page.items,
-    };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
@@ -389,27 +398,27 @@ export class AppConfigurationClient {
     options: ListConfigurationSettingsForSnapshotOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
-    {
-      firstPageLink: undefined,
-      getPage: async (pageLink: string | undefined) => {
-        const response = await this.sendConfigurationSettingsRequest(
-          { snapshotName, ...options },
-          pageLink,
-        );
-        const currentResponse = {
-          ...response,
-          items: response.items != null ? response.items?.map(transformKeyValue) : [],
-          continuationToken: response.nextLink
-            ? extractAfterTokenFromNextLink(response.nextLink)
-            : undefined,
-        };
-        return {
-          page: currentResponse,
-          nextPageLink: currentResponse.continuationToken,
-        };
-      },
-      toElements: (page) => page.items,
-    };
+      {
+        firstPageLink: undefined,
+        getPage: async (pageLink: string | undefined) => {
+          const response = await this.sendConfigurationSettingsRequest(
+            { snapshotName, ...options },
+            pageLink,
+          );
+          const currentResponse = {
+            ...response,
+            items: response.items != null ? response.items?.map(transformKeyValue) : [],
+            continuationToken: response.nextLink
+              ? extractAfterTokenFromNextLink(response.nextLink)
+              : undefined,
+          };
+          return {
+            page: currentResponse,
+            nextPageLink: currentResponse.continuationToken,
+          };
+        },
+        toElements: (page) => page.items,
+      };
     return getPagedAsyncIterator(pagedResult);
   }
 
