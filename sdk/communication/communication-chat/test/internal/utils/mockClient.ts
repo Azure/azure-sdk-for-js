@@ -53,6 +53,14 @@ export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
   invalidParticipants: undefined,
 };
 
+export const mockThreadItemWithRetentionPolicy: RestModel.ChatThreadProperties = {
+  id: "threadid",
+  topic: "topic",
+  createdByCommunicationIdentifier: mockCommunicationIdentifier,
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
+};
+
 export const mockThreadItem: RestModel.ChatThreadItem = {
   id: "threadid",
   topic: "topic",

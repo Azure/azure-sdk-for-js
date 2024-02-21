@@ -139,6 +139,7 @@ export class ChatClient {
               mapToChatParticipantRestModel(participant),
             ),
             metadata: options.metadata,
+            retentionPolicy: options.retentionPolicy,
           },
           updatedRestModelOptions,
         );

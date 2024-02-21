@@ -67,3 +67,13 @@ directive:
   transform: >
     $["x-ms-client-name"] = "teamsAppId";
 ```
+
+### Set RetentionPolicyKind Model as string false
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.ChatRetentionPolicy.properties.kind"
+  transform: >
+    $["x-ms-enum"].modelAsString = false;
+```

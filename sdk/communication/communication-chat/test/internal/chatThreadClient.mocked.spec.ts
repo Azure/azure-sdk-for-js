@@ -10,6 +10,7 @@ import {
 } from "@azure/communication-common";
 import {
   AddParticipantsRequest,
+  ChatRetentionPolicy,
   ChatThreadClient,
   SendMessageOptions,
   SendMessageRequest,
@@ -105,6 +106,40 @@ describe("[Mocked] ChatThreadClient", async function () {
     assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
     assert.equal(request.method, "PATCH");
     assert.deepEqual(JSON.parse(request.body as string), { metadata: metadata });
+  });
+
+  it("makes successful update thread retention policy request", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const retentionPolicy: ChatRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: retentionPolicy });
+  });
+
+  it("makes successful update thread retention policy to null", async function () {
+    const mockHttpClient = generateHttpClient(204);
+    chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
+
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    await chatThreadClient.updateProperties({ retentionPolicy: null as any });
+
+    sinon.assert.calledOnce(spy);
+    const request = spy.getCall(0).args[0];
+    assert.equal(request.url, `${baseUri}/chat/threads/${threadId}?api-version=${API_VERSION}`);
+    assert.equal(request.method, "PATCH");
+    assert.deepEqual(JSON.parse(request.body as string), { retentionPolicy: null });
   });
 
   it("makes successful send message request", async function () {
