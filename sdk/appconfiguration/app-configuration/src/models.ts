@@ -261,7 +261,7 @@ export interface GetConfigurationSettingOptions
  * Common options for 'list' style APIs in AppConfig used to specify wildcards as well as
  * the accept date time header.
  */
-export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedField {
+export interface ListSettingsOptions extends OptionalFields {
   /**
    * Requests the server to respond with the state of the resource at the specified time.
    */

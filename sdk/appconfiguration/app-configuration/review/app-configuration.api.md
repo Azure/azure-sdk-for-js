@@ -234,7 +234,7 @@ export interface ListRevisionsPage extends HttpResponseField<SyncTokenHeaderFiel
 }
 
 // @public
-export interface ListSettingsOptions extends OptionalFields, HttpOnlyIfChangedField {
+export interface ListSettingsOptions extends OptionalFields {
     acceptDateTime?: Date;
     keyFilter?: string;
     labelFilter?: string;
