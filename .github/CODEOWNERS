@@ -66,15 +66,14 @@
 /sdk/appconfiguration/ @HarshaNalluru @minhanh-phan
 
 # ServiceOwners:  @anilba06 @gkostal
-# AzureSdkOwners: @LarryOsterman @deyaaeldeen
 # ServiceLabel: %Attestation
+
 # PRLabel: %Attestation
 /sdk/attestation/ @LarryOsterman @deyaaeldeen @anilba06 @gkostal
 
-# ServiceOwners: @jingjlii @wanghoppe @dpwatrous @NickKouds
 # ServiceLabel: %Batch
 # PRLabel: %Batch
-/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds @deyaaeldeen
+/sdk/batch/ @jingjlii @wanghoppe @dpwatrous @NickKouds
 
 # PRLabel: %Communication
 # ServiceLabel: %Communication
@@ -129,9 +128,10 @@
 # ServiceLabel: %Container Registry
 /sdk/containerregistry/ @timovv @jeremymeng @Azure/azsdk-acr
 
-# PRLabel: %Cosmos
 # ServiceLabel: %Cosmos %Service Attention
 # ServiceOwners: @sajeetharan @simorenoh @v1k1
+
+# PRLabel: %Cosmos
 /sdk/cosmosdb/ @kushagraThapar @kirankumarkolli @simorenoh @v1k1
 
 # PRLabel: %Digital Twins
@@ -229,15 +229,14 @@
 # ServiceLabel: %Cognitive - Language
 /sdk/cognitivelanguage/ @quentinRobinson
 
-# PRLabel: %OpenAI
 # ServiceLabel: %OpenAI
-# AzureSdkOwners: @deyaaeldeen @minhanh-phan
 # ServiceOwners: @glharper
+
+# PRLabel: %OpenAI
 /sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Image Analysis
 # ServiceLabel: %Image Analysis
-# ServiceOwners: @rhurey @dargilco
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco 
 
 # PRLabel: %Schema Registry
