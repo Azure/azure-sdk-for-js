@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import { stringToUint8Array } from "@azure/core-util";
-import { createHttpHeaders } from "../httpHeaders";
+import { createHttpHeaders } from "../httpHeaders.js";
 import type {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
