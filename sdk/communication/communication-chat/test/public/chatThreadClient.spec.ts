@@ -153,7 +153,7 @@ describe("ChatThreadClient", function () {
     }
 
     let pagesCount = 0;
-    const maxPageSize = 3;
+    const maxPageSize = 2;
     const receivedPagedItems: ChatMessage[] = [];
     for await (const page of chatThreadClient.listMessages({ maxPageSize: maxPageSize }).byPage()) {
       ++pagesCount;
