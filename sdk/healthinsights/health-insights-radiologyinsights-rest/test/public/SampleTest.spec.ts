@@ -76,7 +76,7 @@ const patientDocumentData = {
   specialtyType: "radiology",
   administrativeMetadata: administrativeMetadata,
   content: content,
-  createdDateTime: new Date("2021-06-01T00:00:00.000"),
+  createdDateTime: new Date("2021-05-31T22:00:00.000Z"),
   orderedProceduresAsCsv: "CT ABD/PELVIS"
 };
 
@@ -155,4 +155,3 @@ describe("Radiology Insights Test", () => {
     assert.equal(res.status, "200");
   });
 });
-
