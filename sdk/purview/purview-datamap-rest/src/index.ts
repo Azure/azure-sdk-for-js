@@ -11,5 +11,6 @@ export * from "./isUnexpected";
 export * from "./models";
 export * from "./outputModels";
 export * from "./serializeHelper";
+export { createFile, createFileFromStream } from "@azure/core-rest-pipeline
 
 export default PurviewDataMapClient;
