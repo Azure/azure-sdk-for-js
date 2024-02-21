@@ -426,21 +426,6 @@ export enum KnownCommunicationCloudEnvironmentModel {
  */
 export type CommunicationCloudEnvironmentModel = string;
 
-/** Known values of {@link RetentionPolicyKind} that the service accepts. */
-export enum KnownRetentionPolicyKind {
-  /** Thread retention policy based on thread creation date. */
-  ThreadCreationDate = "threadCreationDate",
-}
-
-/**
- * Defines values for RetentionPolicyKind. \
- * {@link KnownRetentionPolicyKind} can be used interchangeably with RetentionPolicyKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **threadCreationDate**: Thread retention policy based on thread creation date.
- */
-export type RetentionPolicyKind = string;
-
 /** Known values of {@link ImageViewType} that the service accepts. */
 export enum KnownImageViewType {
   /** Original */

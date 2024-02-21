@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatAttachment, ChatParticipant } from "./models";
+import { ChatAttachment, ChatParticipant, ChatRetentionPolicy } from "./models";
 
 export {
   RestListMessagesOptions,
@@ -40,6 +40,8 @@ export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
   topic?: string;
   /** Thread metadata. */
   metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**
@@ -88,6 +90,8 @@ export interface CreateChatThreadOptions extends OperationOptions {
   idempotencyToken?: string;
   /** metadata */
   metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**

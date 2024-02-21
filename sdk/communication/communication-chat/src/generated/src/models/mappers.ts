@@ -758,8 +758,9 @@ export const ChatRetentionPolicy: coreClient.CompositeMapper = {
     },
     modelProperties: {
       kind: {
+        defaultValue: "threadCreationDate",
+        isConstant: true,
         serializedName: "kind",
-        required: true,
         type: {
           name: "String",
         },

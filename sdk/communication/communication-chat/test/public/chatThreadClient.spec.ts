@@ -4,7 +4,12 @@
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { ChatClient, ChatMessage, ChatThreadClient } from "../../src";
+import {
+  ChatClient,
+  ChatMessage,
+  ChatThreadClient,
+  ThreadCreationDateRetentionPolicy,
+} from "../../src";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
 import { CommunicationIdentifier, getIdentifierKind } from "@azure/communication-common";
 import { Context } from "mocha";
@@ -78,6 +83,40 @@ describe("ChatThreadClient", function () {
 
     const thread = await chatThreadClient.getProperties();
     assert.equal(metadata.threadType, thread.metadata?.threadType);
+    assert.isUndefined(thread.retentionPolicy);
+  });
+
+  it("successfully updates the thread retention policy", async function () {
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+    await chatThreadClient.updateProperties({ retentionPolicy: retentionPolicy });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.equal(retentionPolicy.kind, thread.retentionPolicy?.kind);
+    assert.equal(
+      retentionPolicy.deleteThreadAfterDays,
+      thread.retentionPolicy?.deleteThreadAfterDays,
+    );
+  });
+
+  it("successfully updates the thread retention policy to undefined", async function () {
+    const request = { topic: "test topic" };
+    const retentionPolicy: ThreadCreationDateRetentionPolicy = {
+      kind: "threadCreationDate",
+      deleteThreadAfterDays: 90,
+    };
+
+    const chatThreadResult = await chatClient.createChatThread(request, { retentionPolicy });
+    threadId = chatThreadResult.chatThread?.id as string;
+
+    assert.equal(retentionPolicy.kind, chatThreadResult.chatThread?.retentionPolicy?.kind);
+
+    await chatThreadClient.updateProperties({ retentionPolicy: undefined });
+
+    const thread = await chatThreadClient.getProperties();
+    assert.isUndefined(thread.retentionPolicy);
   });
 
   it("successfully sends a message", async function () {
