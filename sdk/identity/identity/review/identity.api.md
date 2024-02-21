@@ -233,6 +233,7 @@ export interface DefaultAzureCredentialClientIdOptions extends DefaultAzureCrede
 // @public
 export interface DefaultAzureCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     processTimeoutInMs?: number;
+    serviceConnectionId?: string;
     tenantId?: string;
 }
 
@@ -433,6 +434,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
 // @public
 export interface WorkloadIdentityCredentialOptions extends MultiTenantTokenCredentialOptions, AuthorityValidationOptions {
     clientId?: string;
+    serviceConnectionId?: string;
     tenantId?: string;
     tokenFilePath?: string;
 }
