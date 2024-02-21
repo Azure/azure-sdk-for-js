@@ -22,4 +22,9 @@ export interface WorkloadIdentityCredentialOptions
    * The path to a file containing a Kubernetes service account token that authenticates the identity.
    */
   tokenFilePath?: string;
+
+  /**
+   * The service connection id for Azure Devops WI.
+   */
+  serviceConnectionId?: string;
 }
