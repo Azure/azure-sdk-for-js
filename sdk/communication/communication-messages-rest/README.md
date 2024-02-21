@@ -18,7 +18,7 @@ Key links:
 
 - You must have an [Azure subscription][azure_sub] to use this package.
 - An existing Communication Services resource. If you need to create the resource, you can use the [Azure Portal][azure_portal], the [Azure PowerShell][azure_powershell], or the [Azure CLI][azure_cli].
-- See [how to register whatsapp business account & create a channel][register_whatsapp_waba] for registering whatsapp channel to your Communication Services resource.
+- See [how to register whatsapp business account & create a channel][register_whatsapp_business_account] for registering whatsapp channel to your Communication Services resource.
 
 ### Install the `@azure-rest/communication-messages` package
 
@@ -27,6 +27,7 @@ Install the Azure CommunicationMessages REST client REST client library for Java
 ```bash
 npm install @azure-rest/communication-messages
 ```
+
 ## Authentication
 
 You can get a key and/or connection string from your Communication Services resource in [Azure Portal][azure_portal]. Once you have a key, you may authenticate with any of the following methods:
@@ -236,7 +237,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity
 [azure_communication_messaging_qs]: https://learn.microsoft.com/en-us/azure/communication-services/concepts/advanced-messaging/whatsapp/whatsapp-overview
-[register_whatsapp_waba]: https://learn.microsoft.com/en-us/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account
+[register_whatsapp_business_account]: https://learn.microsoft.com/azure/communication-services/quickstarts/advanced-messaging/whatsapp/connect-whatsapp-business-account
 [create-manage-whatsapp-template]: https://developers.facebook.com/docs/whatsapp/business-management-api/message-templates/
 
 
