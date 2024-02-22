@@ -4,9 +4,10 @@
  * @summary Exception policy crud
  */
 
-const { paginate } = require("../src");
-const JobRouter = require("../src").default;
+const { paginate } = require("@azure-rest/communication-job-router");
+const JobRouter = require("@azure-rest/communication-job-router").default;
 require("dotenv").config();
+
 const connectionString = process.env["COMMUNICATION_CONNECTION_STRING"] || "";
 
 // List exception policies

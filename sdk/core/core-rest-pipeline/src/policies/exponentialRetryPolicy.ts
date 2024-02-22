@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import type { PipelinePolicy } from "../pipeline";
-import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
-import { retryPolicy } from "./retryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
+import type { PipelinePolicy } from "../pipeline.js";
+import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
+import { retryPolicy } from "./retryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 
 /**
  * The programmatic identifier of the exponentialRetryPolicy.

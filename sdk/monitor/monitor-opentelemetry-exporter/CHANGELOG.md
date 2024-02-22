@@ -1,16 +1,19 @@
 # Release History
 
-## 1.0.0-beta.20 ()
-
-### Features Added
+## 1.0.0-beta.20 (2024-02-13)
 
 ### Bugs Fixed
 
 - Added exception handling for reading files to avoid concurrency errors.
+- Fixed issues with formatting for the duration field.
 
 ### Other Changes
 
+- Changed the environment variable used to pass the sdk prefix.
 - Errors are no longer thrown upon failed statsbeat export.
+- Added exception handling for file creation and lookup used for telemetry caching.
+- Update OpenTelemetry depdendencies.
+- Change time precision to nanoseconds.
 
 ## 1.0.0-beta.19 (2024-01-23)
 
