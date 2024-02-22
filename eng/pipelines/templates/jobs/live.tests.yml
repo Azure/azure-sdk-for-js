@@ -40,7 +40,8 @@ parameters:
 - name: UsePlatformContainer
   type: boolean
   default: false
-
+- name: OSName
+  type: string
 
 jobs:
   - job:
