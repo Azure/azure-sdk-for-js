@@ -5,7 +5,10 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [],
+  "exclude": [
+    ".././src/state-cjs.cts",
+    ".././src/state-browser.mts"
+  ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
   }
