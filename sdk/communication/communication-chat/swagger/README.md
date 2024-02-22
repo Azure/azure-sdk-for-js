@@ -58,16 +58,6 @@ directive:
     $["x-ms-enum"].modelAsString = false;
 ```
 
-### Directive renaming "appId" property to "teamsAppId"
-
-```yaml
-directive:
-  from: swagger-document
-  where: "$.definitions.MicrosoftTeamsAppIdentifierModel.properties.appId"
-  transform: >
-    $["x-ms-client-name"] = "teamsAppId";
-```
-
 ### Set RetentionPolicyKind Model as string false
 
 ```yaml

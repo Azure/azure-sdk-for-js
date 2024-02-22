@@ -23,7 +23,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { ParticipantsAddedEvent } from '@azure/communication-signaling';
 import { ParticipantsRemovedEvent } from '@azure/communication-signaling';
 import { ReadReceiptReceivedEvent } from '@azure/communication-signaling';
-import { RequestBodyType } from '@azure/core-rest-pipeline';
 import { TypingIndicatorReceivedEvent } from '@azure/communication-signaling';
 
 // @public
@@ -170,7 +169,7 @@ export class ChatThreadClient {
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(request: RequestBodyType, options: UploadImageOptions): Promise<UploadChatImageResult>;
+    uploadImage(request: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream, options: UploadImageOptions): Promise<UploadChatImageResult>;
 }
 
 // @public

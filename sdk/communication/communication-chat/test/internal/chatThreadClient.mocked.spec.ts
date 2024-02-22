@@ -3,7 +3,6 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import {
   AzureCommunicationTokenCredential,
   CommunicationUserIdentifier,
@@ -642,7 +641,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const imageBody: HttpRequestBody = "someImageBase64EncodedBytes";
+    const imageBody = new TextEncoder().encode("someImageBase64EncodedBytes");
 
     const sendOptions: UploadImageOptions = {
       imageFilename: mockImageAttachment.name ?? "image.png",
@@ -659,8 +658,9 @@ describe("[Mocked] ChatThreadClient", async function () {
       request.url,
       `${baseUri}/chat/threads/${threadId}/images?api-version=${API_VERSION}`,
     );
+
     assert.equal(request.method, "POST");
-    assert.deepEqual(request.body as string, imageBody);
+    assert.deepEqual(request.body, imageBody);
   });
 
   it("makes successful delete image request", async function () {

@@ -181,7 +181,7 @@ export const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper = {
     name: "Composite",
     className: "MicrosoftTeamsAppIdentifierModel",
     modelProperties: {
-      teamsAppId: {
+      appId: {
         serializedName: "appId",
         required: true,
         type: {

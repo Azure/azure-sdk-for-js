@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RequestBodyType as HttpRequestBody,
-  // createXhrHttpClient,
-} from "@azure/core-rest-pipeline";
 import { logger } from "./models/logger";
 import {
   CommunicationIdentifier,
@@ -603,7 +599,7 @@ export class ChatThreadClient {
    * @param options - Operation options.
    */
   public async uploadImage(
-    request: HttpRequestBody,
+    request: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     options: UploadImageOptions,
   ): Promise<UploadChatImageResult> {
     return tracingClient.withSpan(

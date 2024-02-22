@@ -74,7 +74,7 @@ export interface MicrosoftTeamsUserIdentifierModel {
 /** A Microsoft Teams application. */
 export interface MicrosoftTeamsAppIdentifierModel {
   /** The Id of the Microsoft Teams application. */
-  teamsAppId: string;
+  appId: string;
   /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
