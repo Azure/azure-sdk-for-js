@@ -755,6 +755,9 @@ dependencies:
   '@rush-temp/communication-job-router-1':
     specifier: file:./projects/communication-job-router-1.tgz
     version: file:projects/communication-job-router-1.tgz
+  '@rush-temp/communication-messages':
+    specifier: file:./projects/communication-messages.tgz
+    version: file:projects/communication-messages.tgz
   '@rush-temp/communication-network-traversal':
     specifier: file:./projects/communication-network-traversal.tgz
     version: file:projects/communication-network-traversal.tgz
@@ -9659,6 +9662,37 @@ packages:
       yn: 3.1.1
     dev: false
 
+  /ts-node@10.9.2(@types/node@18.19.11)(typescript@5.2.2):
+    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
+    hasBin: true
+    peerDependencies:
+      '@swc/core': '>=1.2.50'
+      '@swc/wasm': '>=1.2.50'
+      '@types/node': '*'
+      typescript: '>=2.7'
+    peerDependenciesMeta:
+      '@swc/core':
+        optional: true
+      '@swc/wasm':
+        optional: true
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.9
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 18.19.11
+      acorn: 8.11.3
+      acorn-walk: 8.3.2
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.2.2
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+    dev: false
+
   /ts-node@10.9.2(@types/node@18.19.11)(typescript@5.3.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -17760,6 +17794,49 @@ packages:
       - utf-8-validate
     dev: false
 
+  file:projects/communication-messages.tgz:
+    resolution: {integrity: sha512-ay8Z7Sikte3gL1nRo6XQGltuZAkclwGt6dkZANAd/bltC4f15OpEcWT1XDqcNlclsCS2QVaPQdAd1iduVPp2Vg==, tarball: file:projects/communication-messages.tgz}
+    name: '@rush-temp/communication-messages'
+    version: 0.0.0
+    dependencies:
+      '@azure/identity': 3.4.2
+      '@microsoft/api-extractor': 7.40.4(@types/node@18.19.11)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.11
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 8.56.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.11)(typescript@5.2.2)
+      tslib: 2.6.2
+      typescript: 5.2.2
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   file:projects/communication-network-traversal.tgz:
     resolution: {integrity: sha512-npkjXYkd+mIgz5lD7TmMvZgMNNqC0NNQJc63LYZDLND77U2ISarkLcZHDfX0cBR94bbbG+qd8q9ImWH9uJbf7w==, tarball: file:projects/communication-network-traversal.tgz}
     name: '@rush-temp/communication-network-traversal'
@@ -21206,7 +21283,7 @@ packages:
     dev: false
 
   file:projects/purview-datamap.tgz:
-    resolution: {integrity: sha512-KYZ07b+xDgBmx68jS0Hr0g8M4EJvUCTY1qxA9PanWfe5bPQ2iNlgU3T8SUQKbGOikWijreqebroJNvEjw71GQA==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-MPU8oy5HsM3vuL72Bcc7dEd9fPp/y8HISqzHIivsXBrfHRHFM4JXvc+aRdXx4IvjTQsLvoT/M6iot/4cPbCUBQ==, tarball: file:projects/purview-datamap.tgz}
     name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:

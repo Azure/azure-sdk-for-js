@@ -1,9 +1,6 @@
 # Azure PurviewDataMap REST client library for JavaScript
 
-Purview Data Map Service is a fully managed cloud service whose users can
-discover the data sources they need and understand the data sources they find.
-At the same time, Data Map helps organizations get more value from their
-existing investments. This spec defines REST API of Purview Data Map Service.
+Microsoft Purview Data Map provides the foundation for data discovery and data governance. Microsoft Purview Data Map is a cloud native PaaS service that captures metadata about enterprise data present in analytics and operation systems on-premises and cloud. Azure PurviewDataMap client provides a set of APIs in Purview Data Map Data Plane. For a full list of APIs, please refer to [Data Map API](https://learn.microsoft.com/rest/api/purview/datamapdataplane/operation-groups?view=rest-purview-datamapdataplane-2023-09-01).
 
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 

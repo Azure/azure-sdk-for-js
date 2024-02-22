@@ -27,6 +27,6 @@ describe("purview datamap typedefs test", () => {
       assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
     }
 
-    //assert.isDefined(result.body.length);
+    assert.isDefined(result.body.length);
   });
 }).timeout(60000000000);
