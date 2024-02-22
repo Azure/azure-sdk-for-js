@@ -59,6 +59,7 @@ jobs:
     pool:
       name: $(Pool)
       vmImage: $(OSVmImage)
+      os: ${{ parameters.OSName }}
 
     timeoutInMinutes: ${{ parameters.TimeoutInMinutes }}
 
