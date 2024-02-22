@@ -8,10 +8,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { RestError } from "./restError.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+} from "../interfaces.js";
+import { RestError } from "../restError.js";
+import { createHttpHeaders } from "../httpHeaders.js";
+import { isNodeReadableStream, isWebReadableStream } from "../util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like

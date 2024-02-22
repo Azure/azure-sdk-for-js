@@ -8,10 +8,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
-import { isReadableStream } from "./util/typeGuards.js";
+} from "../interfaces.js";
+import { createHttpHeaders } from "../httpHeaders.js";
+import { RestError } from "../restError.js";
+import { isReadableStream } from "../util/typeGuards.js";
 
 /**
  * A HttpClient implementation that uses XMLHttpRequest to send HTTP requests.

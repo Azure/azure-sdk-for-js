@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import type { HttpClient } from "./interfaces.js";
-import { createFetchHttpClient } from "./fetchHttpClient.js";
+import { createFetchHttpClient } from "./clients/fetchHttpClient.js";
 
 /**
  * Create the correct HttpClient for the current environment.
