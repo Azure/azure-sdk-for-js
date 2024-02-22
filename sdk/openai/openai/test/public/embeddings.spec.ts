@@ -8,6 +8,7 @@ import { createClient, startRecorder } from "./utils/recordedClient.js";
 import { getDeployments, getModels } from "./utils/utils.js";
 import { OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
+import { assertOpenAiError } from "./utils/asserts.js";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
