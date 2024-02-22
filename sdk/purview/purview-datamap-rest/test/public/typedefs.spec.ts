@@ -19,11 +19,9 @@ describe("purview datamap typedefs test", () => {
   });
 
   it("should list all available typedefs sources", async () => {
-	const client = await createClient(recorder);
+    const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/types/typedefs").get();
 
-    
-	assert.strictEqual(result.status, "200");
-
+    assert.strictEqual(result.status, "200");
   });
 }).timeout(60000000000);

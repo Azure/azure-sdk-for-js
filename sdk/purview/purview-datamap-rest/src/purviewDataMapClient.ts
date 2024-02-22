@@ -33,17 +33,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://purview.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://purview.azure.net/.default"],
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options,
-  ) as PurviewDataMapClient;
+  const client = getClient(baseUrl, credentials, options) as PurviewDataMapClient;
 
   return client;
 }

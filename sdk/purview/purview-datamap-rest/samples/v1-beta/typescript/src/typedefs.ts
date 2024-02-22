@@ -5,7 +5,6 @@
  * This sample demonstrates how get a list of typedefs
  *
  * @summary gets a list of typedefs for entities
- * @azsdk-weight 40
  */
 
 import PurviewDataMap from "@azure-rest/purview-datamap";

@@ -6,8 +6,6 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { createClient } from "./utils/recordedClient";
 
-
-
 describe("purview datamap glossary test", () => {
   let recorder: Recorder;
 
@@ -20,11 +18,10 @@ describe("purview datamap glossary test", () => {
   });
 
   it("Should get glossary", async () => {
-	const client = await createClient(recorder);
+    const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/glossary").get();
 
     console.log("returned result: ", result);
     assert.strictEqual(result.status, "200");
   });
-
 }).timeout(60000000000);

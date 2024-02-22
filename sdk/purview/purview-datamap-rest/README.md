@@ -44,6 +44,37 @@ can be used to authenticate the client.
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
 AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 
+## Examples
+
+The following sections provide several code snippets covering some of the most common Purview DataMap scenarios, including:
+
+- [Get All Type Definitions](#get-all-type-definitions)
+
+### Get All Type Definitions
+
+```javascript
+import PurviewDataMap from "@azure-rest/purview-datamap";
+import { DefaultAzureCredential } from "@azure/identity";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+const endpoint = process.env["ENDPOINT"] || "";
+
+async function main() {
+  console.log("== List entity typedefs sample ==");
+  const client = PurviewDataMap(endpoint, new DefaultAzureCredential());
+
+  const result = await client.path("/atlas/v2/types/typedefs").get();
+
+  if (result .status !== "200") {
+    throw result;
+  }
+}
+
+main().catch(console.error);
+```
+
 ## Troubleshooting
 
 ### Logging

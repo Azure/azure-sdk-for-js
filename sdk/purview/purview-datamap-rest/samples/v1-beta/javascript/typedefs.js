@@ -5,14 +5,11 @@
  * This sample demonstrates how get a list of typedefs
  *
  * @summary gets a list of typedefs for entities
- * @azsdk-weight 40
  */
 
-import PurviewDataMap from "@azure-rest/purview-datamap";
-import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+const PurviewDataMap = require("@azure-rest/purview-datamap").default;
+const { DefaultAzureCredential } = require("@azure/identity");
+require("dotenv").config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
@@ -22,10 +19,9 @@ async function main() {
 
   const result = await client.path("/atlas/v2/types/typedefs").get();
 
-  if (result .status !== "200") {
-    throw result ;
+  if (result.status !== "200") {
+    throw result;
   }
-
 }
 
 main().catch(console.error);

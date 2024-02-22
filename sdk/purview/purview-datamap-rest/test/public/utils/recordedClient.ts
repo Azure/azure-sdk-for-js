@@ -16,8 +16,6 @@ const envSetupForPlayback: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
 };
 
-
-
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
 };
