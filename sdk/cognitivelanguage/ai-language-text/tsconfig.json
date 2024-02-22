@@ -4,8 +4,8 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure/ai-language-text": ["./src/index"],
-    },
+      "@azure/ai-language-text": ["./src/index"]
+    }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

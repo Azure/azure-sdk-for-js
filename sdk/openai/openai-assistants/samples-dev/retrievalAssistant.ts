@@ -37,11 +37,7 @@ export async function main() {
   console.log(assistantThread);
 
   const question = "I need to know codes for apple and banana. Can you help me?";
-  const threadResponse = await assistantsClient.createMessage(
-    assistantThread.id,
-    "user",
-    question
-  );
+  const threadResponse = await assistantsClient.createMessage(assistantThread.id, "user", question);
   console.log(threadResponse);
   let runResponse = await assistantsClient.createRun(
     assistantThread.id,
@@ -61,14 +57,10 @@ export async function main() {
     await new Promise((r) => setTimeout(r, 500));
     runResponse = await assistantsClient.getRun(assistantThread.id, runResponse.id);
     console.log(runResponse);
-    const runSteps = await assistantsClient.listRunSteps(
-      assistantThread.id,
-      runResponse.id,
-      {
-        requestOptions: {},
-        limit: 1,
-      }
-    );
+    const runSteps = await assistantsClient.listRunSteps(assistantThread.id, runResponse.id, {
+      requestOptions: {},
+      limit: 1,
+    });
     console.log(runSteps);
   } while (runResponse.status === "queued" || runResponse.status === "in_progress");
 

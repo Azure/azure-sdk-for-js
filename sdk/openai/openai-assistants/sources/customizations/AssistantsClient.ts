@@ -125,5 +125,4 @@ export class AssistantsClient {
     });
     this.pipeline = this._client.pipeline;
   }
-
 }

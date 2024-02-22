@@ -526,8 +526,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     ensureValidMsalToken(scopes, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
     return {
-      token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime(),
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime(),
     };
   }
 }
