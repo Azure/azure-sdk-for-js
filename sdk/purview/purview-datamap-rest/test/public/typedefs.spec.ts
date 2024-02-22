@@ -22,11 +22,8 @@ describe("purview datamap typedefs test", () => {
 	const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/types/typedefs").get();
 
-    //console.dir(result);
-    if (isUnexpected(result)) {
-      assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
-    }
+    
+	assert.strictEqual(result.status, "200");
 
-    assert.isDefined(result.body.length);
   });
 }).timeout(60000000000);

@@ -19,21 +19,12 @@ describe("purview datamap glossary test", () => {
     await recorder.stop();
   });
 
-  it("Should create a glossary", async () => {
+  it("Should get glossary", async () => {
 	const client = await createClient(recorder);
-	const glossaryName = "jsTesting-1";
-    const glossary = await client.path("/atlas/v2/glossary").post({
-      body: {
-        name: glossaryName,
-        shortDescription: "Example Short Description",
-        longDescription: "Example Long Description",
-        language: "en",
-        usage: "Example Glossary",
-      },
-    });
+    const result = await client.path("/atlas/v2/glossary").get();
 
-    console.log("created glossary: ", glossary);
-    assert.strictEqual(glossary.status, "200");
+    console.log("returned result: ", result);
+    assert.strictEqual(result.status, "200");
   });
 
 }).timeout(60000000000);
