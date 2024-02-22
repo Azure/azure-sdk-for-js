@@ -1,18 +1,14 @@
 {
+  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "target": "es2015",
-    "module": "commonjs",
-    "outDir": "./dist",
     "declarationDir": "./types",
+    "outDir": "./dist-esm",
     "downlevelIteration": true,
-    "sourceMap": true,
-    "strict": true,
-    "declaration": true,
-    /* Advanced Options */
-    "skipLibCheck": true,
-    "noUnusedLocals": false,
-    "forceConsistentCasingInFileNames": true
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@azure/event-hubs": ["./../event-hubs/src/index"]
+    }
   },
-  "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"]
+  "exclude": ["node_modules", "./types/**/*.d.ts", "./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts"]
 }

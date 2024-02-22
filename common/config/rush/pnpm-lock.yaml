@@ -1225,6 +1225,26 @@ packages:
       - encoding
     dev: false
 
+  /@azure/core-amqp@3.3.0:
+    resolution: {integrity: sha512-RYIyC8PtGpMzZRiSokADw0ezFgNq1eUkCPV8rd7tJ85dn8CAhYDEYapzMYxAwIBLWidshu14m9UWjQS7hKYDpA==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-util': 1.7.0
+      '@azure/logger': 1.0.4
+      buffer: 6.0.3
+      events: 3.3.0
+      jssha: 3.3.1
+      process: 0.11.10
+      rhea: 3.0.2
+      rhea-promise: 3.0.1
+      tslib: 2.6.2
+      util: 0.12.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/core-auth@1.6.0:
     resolution: {integrity: sha512-3X9wzaaGgRaBCwhLQZDtFp5uLIXCPrGbwJNWPPugvL4xbIGgScv77YzzxToKGLAKvG9amDoofMoP+9hsH1vs1w==}
     engines: {node: '>=18.0.0'}
@@ -1370,6 +1390,26 @@ packages:
     dependencies:
       '@azure/abort-controller': 2.0.0
       tslib: 2.6.2
+    dev: false
+
+  /@azure/event-hubs@5.11.2:
+    resolution: {integrity: sha512-Q8VK8hHNDA/5eVBrMtWeERxHLis/JagHp3W/NBqqUu22+sOqoHkXhOWqFfhwvqFrVwCRLMqUrbRJd26z9e8oTg==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-amqp': 3.3.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.7.0
+      '@azure/logger': 1.0.4
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      jssha: 3.3.1
+      process: 0.11.10
+      rhea-promise: 3.0.1
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   /@azure/functions@3.5.1:
@@ -18584,7 +18624,7 @@ packages:
     dev: false
 
   file:projects/event-hubs.tgz:
-    resolution: {integrity: sha512-P1/G2vjpKDyOdKwo4x34H2JCaDeXb+DMQnfJpHAJC5Q8Plu3H+J0HjofA1uEIQk9GFTvxYnlC6wnJhkh5Zvc8Q==, tarball: file:projects/event-hubs.tgz}
+    resolution: {integrity: sha512-iDtum+O2vJxKWBotVoTz5EHud9VV+aZz5R/2X3v/pjRSlGyy+xNtwAHcooQFVtzqcG8231h/mpALSsLHSeL8XA==, tarball: file:projects/event-hubs.tgz}
     name: '@rush-temp/event-hubs'
     version: 0.0.0
     dependencies:
@@ -19734,14 +19774,25 @@ packages:
     dev: false
 
   file:projects/mock-hub.tgz:
-    resolution: {integrity: sha512-f8T8GJAzfxLmlNnGEQ8b3O2W+hw8d/8wdZYaUDmFtxZW6pD16DDD7vTmD6kfAdK4QE5qfRIIlftFjsdbZ6812g==, tarball: file:projects/mock-hub.tgz}
+    resolution: {integrity: sha512-n+Pvz7P94y4DNLbuKDpHJG6xx6kll+2QXYIuZRwfATWiWbOOOYISSIJ3G1hT7ZLO3OBn3QGl0h9VXXb/NQZnPA==, tarball: file:projects/mock-hub.tgz}
     name: '@rush-temp/mock-hub'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/event-hubs': 5.11.2
+      '@types/chai': 4.3.11
+      '@types/chai-as-promised': 7.1.8
+      '@types/chai-string': 1.4.5
+      '@types/mocha': 10.0.6
       '@types/node': 18.19.14
+      chai: 4.3.10
+      chai-as-promised: 7.1.1(chai@4.3.10)
+      chai-exclude: 2.1.0(chai@4.3.10)
+      chai-string: 1.5.0(chai@4.3.10)
+      cross-env: 7.0.3
       dotenv: 16.4.1
       eslint: 8.56.0
+      mocha: 10.2.0
       rhea: 3.0.2
       rimraf: 3.0.2
       ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
@@ -20064,7 +20115,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-uEhCBBO+t2FK/uNgd2eJYGIbex8VF25jUIC7u7XH5XAppDQzxRTQn28i600weYE6zfM0iv14+pC0Db9w+tGayg==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-obXb6vm/bNL9CLo3VIhpsCeY0v9qbzpa8/iCAGWGHLQCqiKrC38nOBVU86j6McQhLyTeviWOz04ax4b0w2Df8g==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -20100,8 +20151,6 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.14)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
-    transitivePeerDependencies:
-      - supports-color
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:

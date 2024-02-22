@@ -7,6 +7,8 @@ import { EventPosition } from "../utils/eventPosition";
 import { Message } from "rhea";
 import { Queue } from "./queue";
 
+const delay = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
+
 export interface MessageRecord {
   partitionKey?: string;
   enqueuedTime: Date;
@@ -176,6 +178,8 @@ export class MessageStore {
 
     let shouldStop = false;
     do {
+      await delay(100);
+      console.log("waiting for 100ms")
       const nextItem = await queueView.shift();
       if (this._isValidPositionedRecord(nextItem, startPosition)) {
         shouldStop = Boolean(yield nextItem);
