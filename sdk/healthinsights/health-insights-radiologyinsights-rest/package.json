@@ -57,10 +57,6 @@
     "@azure/core-lro": "^2.5.4",
     "@azure/abort-controller": "^1.0.0"
   },
-    "peerDependencies": {
-    "@typespec/compiler": "~0.40.0",
-    "@typespec/rest": "~0.40.0"
-  },
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "autorest": "latest",
