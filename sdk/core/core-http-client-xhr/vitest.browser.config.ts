@@ -6,7 +6,14 @@ import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 
 export default defineConfig({
   plugins: [browserMap()],
+  define: {
+    "process.env": process.env,
+  },
   test: {
+    reporters: ["basic", "junit"],
+    outputFile: {
+      junit: "test-results.browser.xml",
+    },
     browser: {
       enabled: true,
       headless: true,
@@ -14,10 +21,19 @@ export default defineConfig({
       provider: "playwright",
     },
     fakeTimers: {
-      toFake: ["setTimeout", "Date"],
+      toFake: ["setTimeout"],
     },
     watch: false,
-    include: ["test/**/*.spec.ts"],
-    exclude: ["test/**/node/*.spec.ts"],
+    include: ["dist-test/browser/**/*.spec.js"],
+    coverage: {
+      include: ["dist-test/browser/**/*.js"],
+      exclude: [
+        "dist-test/browser/**/*./*-browser.mjs",
+        "dist-test/browser/**/*./*-react-native.mjs",
+      ],
+      provider: "istanbul",
+      reporter: ["text", "json", "html"],
+      reportsDirectory: "coverage-browser",
+    },
   },
 });
