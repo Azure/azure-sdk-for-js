@@ -3,22 +3,17 @@
   "version": "1.0.0-beta.1",
   "description": "HttpClients that can be passed to Azure SDK service clients to replace the default.",
   "sdk-type": "client",
+  "type": "module",
   "main": "./dist/commonjs/index.js",
-  "browser": {
-    "./dist-esm/src/index.js": "./dist-esm/src/index.browser.js"
-  },
-  "react-native": {
-    "./dist/index.js": "./dist-esm/src/index.js"
-  },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build:samples": "echo Obsolete",
     "build:test": "echo Obsolete",
-    "build": "npm run clean && tshy && tsc -p . && dev-tool run bundle --browser-test false && api-extractor run --local",
+    "build": "npm run clean && tshy  && dev-tool run bundle --browser-test false && api-extractor run --local",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && api-extractor run --local",
+    "extract-api": "tshy && api-extractor run --local",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\"  \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -35,8 +30,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/core-http-client-xhr.d.ts",
     "LICENSE",
     "README.md"
   ],
@@ -118,6 +111,5 @@
         "default": "./dist/commonjs/index.js"
       }
     }
-  },
-  "type": "module"
+  }
 }
