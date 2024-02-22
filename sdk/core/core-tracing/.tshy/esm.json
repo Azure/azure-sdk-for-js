@@ -6,7 +6,7 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/instrumenter-state-cjs.cts"
+    ".././src/state-cjs.cts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
