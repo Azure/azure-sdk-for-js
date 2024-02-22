@@ -311,7 +311,6 @@ function buildBodyStream(
 
 /**
  * Create a new HttpClient instance for the browser environment.
- * @internal
  */
 export function createFetchHttpClient(): HttpClient {
   return new FetchHttpClient();
