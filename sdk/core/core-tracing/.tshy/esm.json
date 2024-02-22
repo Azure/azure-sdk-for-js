@@ -6,7 +6,8 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/state-cjs.cts"
+    ".././src/state-cjs.cts",
+    ".././src/state-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
