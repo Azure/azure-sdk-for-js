@@ -191,13 +191,11 @@ jobs:
           codeCoverageTool: Cobertura
           summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
 
-      - task: PublishPipelineArtifact@1
-        displayName: "Publish Browser Code Coverage Report Artifact"
-        continueOnError: true
-        condition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
-        inputs:
-          path: "$(PackagePath)/coverage-browser"
-          artifact: BrowserCodeCoverageReport
+      - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+        parameters:
+          ArtifactPath: "$(PackagePath)/coverage-browser"
+          ArtifactName: BrowserCodeCoverageReport
+          CustomCondition: and(succeededOrFailed(),eq(variables['TestType'], 'browser'),eq(variables['PublishCodeCoverage'], true))
 
       # Unlink node_modules folders to significantly improve performance of subsequent tasks
       # which need to walk the directory tree (and are hardcoded to follow symlinks).
