@@ -25,11 +25,22 @@ describe("MultiTenantAuthentication", function () {
   });
 
   it("supports calling graph with client secret", async function () {
-    // TODO: validate that env vars exist
+    const [tenantId, clientId, clientSecret] = [
+      env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID,
+      env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID,
+      env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET,
+    ];
+
+    if (!tenantId || !clientId || !clientSecret) {
+      // multi-tenant credentials live in a shared keyvault whose values are mounted in CI, but not in local dev
+      console.log("Multi-tenant credentials not provided, skipping test");
+      this.skip();
+    }
+
     const credential = new ClientSecretCredential(
-      env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID!,
-      env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID!,
-      env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET!,
+      tenantId,
+      clientId,
+      clientSecret,
       recorder.configureClientOptions({}),
     );
 
