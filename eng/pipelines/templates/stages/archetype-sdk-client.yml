@@ -46,7 +46,7 @@ variables:
 stages:
   - stage: Build
     jobs:
-      - template: /eng/pipelines/templates/jobs/ci.yml
+      - template: /eng/pipelines/templates/jobs/ci.yml@self
         parameters:
           ServiceDirectory: ${{ parameters.ServiceDirectory }}          
           TestProxy: ${{ parameters.TestProxy }}
@@ -69,7 +69,7 @@ stages:
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
-    - template: archetype-js-release.yml
+    - template: archetype-js-release.yml@self
       parameters:
         DependsOn: Build
         ServiceDirectory: ${{ parameters.ServiceDirectory }}
