@@ -68,6 +68,7 @@ const content = {
   value:
     "\n\nThe results were faxed to Julie Carter on July 6 2016 at 3 PM.\n\nThe results were sent via Powerscribe to George Brown, PA.\n\n\t\t",
 };
+
 const patientDocumentData = {
   type: "note",
   clinicalType: "radiologyReport",
