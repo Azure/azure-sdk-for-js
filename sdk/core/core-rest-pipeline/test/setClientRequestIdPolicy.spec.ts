@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi } from "vitest";
-
+import { describe, it, assert, vi } from "vitest";
 import {
   type HttpClient,
   type PipelineResponse,
@@ -11,7 +10,7 @@ import {
   createPipelineFromOptions,
   createPipelineRequest,
   setClientRequestIdPolicy,
-} from "../src";
+} from "../src/index.js";
 
 describe("setClientRequestIdPolicy", function () {
   it("should set the header name with `x-ms-client-request-id` if no header name is provided", async () => {

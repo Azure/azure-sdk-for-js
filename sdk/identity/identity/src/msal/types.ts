@@ -16,6 +16,11 @@ export interface MsalToken {
 }
 
 /**
+ * Represents a valid (i.e. complete) MSAL token.
+ */
+export type ValidMsalToken = { [P in keyof MsalToken]-?: NonNullable<MsalToken[P]> };
+
+/**
  * Internal representation of MSAL's Account information.
  * Helps us to disambiguate the MSAL classes accross environments.
  * @internal
