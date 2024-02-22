@@ -20,12 +20,10 @@ steps:
       ServiceDirectory: "template"
       TestPipeline: ${{ parameters.TestPipeline }}
 
-  - task: PublishPipelineArtifact@1
-    condition: succeededOrFailed()
-    displayName: "Publish Report Artifacts"
-    inputs:
-      artifactName: package-diffs
-      path: $(Build.ArtifactStagingDirectory)
+  - template: /eng/common/pipelines/templates/steps/publish-artifact.yml
+    parameters:
+      ArtifactPath: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: 'package-diffs'
 
   - template: /eng/common/pipelines/templates/steps/verify-readme.yml
     parameters:
