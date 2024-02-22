@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { defineConfig } from "vitest/config";
-import { resolve } from "path";
+import { resolve } from "node:path";
 
 export default defineConfig({
   test: {
