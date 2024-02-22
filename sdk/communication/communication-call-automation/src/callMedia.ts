@@ -141,14 +141,13 @@ export class CallMedia {
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    options: PlayOptions = { loop: false, interruptCallMediaOperation: false },
+    options: PlayOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
-        interruptCallMediaOperation: false,
       },
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
       operationCallbackUri: options.operationCallbackUrl,
@@ -157,18 +156,10 @@ export class CallMedia {
     if (options.loop !== undefined) {
       playRequest.playOptions = playRequest.playOptions || {
         loop: false,
-        interruptCallMediaOperation: false,
       }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
 
-    if (options.interruptCallMediaOperation !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-        interruptCallMediaOperation: false,
-      }; // Ensure playOptions is defined
-      playRequest.playOptions.interruptCallMediaOperation = options.interruptCallMediaOperation;
-    }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
     const playResult: PlayResult = {
