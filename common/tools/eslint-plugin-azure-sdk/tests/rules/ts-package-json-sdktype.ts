@@ -108,7 +108,7 @@ const examplePackageGood = `{
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure/mock-hub": "^1.0.0",
+    "@azure-tools/mock-hub": "^1.0.0",
     "@azure/test-utils": "^1.0.0",
     "@azure/test-utils-perf": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",

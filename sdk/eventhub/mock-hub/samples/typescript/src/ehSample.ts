@@ -3,7 +3,7 @@
 
 import { readFileSync } from "fs";
 import { resolve as resolvePath } from "path";
-import { MockEventHub } from "@azure/mock-hub";
+import { MockEventHub } from "@azure-tools/mock-hub";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";

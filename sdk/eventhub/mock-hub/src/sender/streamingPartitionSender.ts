@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortController, AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+// eslint-disable-next-line no-restricted-imports
 import { DeliveryAnnotations, Sender, SenderEvents, types } from "rhea";
 import { MessageRecord, MessageStore } from "../storage/messageStore";
 import { EventPosition } from "../utils/eventPosition";
+// eslint-disable-next-line no-restricted-imports
 import { Message } from "rhea";
 
 /**
@@ -121,6 +123,7 @@ export class StreamingPartitionSender {
   private _waitForSendable(sender: Sender, abortSignal: AbortSignalLike): Promise<void> {
     return new Promise((resolve, reject) => {
       const onAbort = (): void => {
+        // eslint-disable-next-line @typescript-eslint/no-use-before-define
         sender.removeListener(SenderEvents.sendable, onSendable);
         abortSignal.removeEventListener("abort", onAbort);
         reject(new AbortError("Cancelled operation."));

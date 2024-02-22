@@ -3,7 +3,7 @@
 
 const { readFileSync } = require("fs");
 const { resolve: resolvePath } = require("path");
-const { MockEventHub } = require("@azure/mock-hub");
+const { MockEventHub } = require("@azure-tools/mock-hub");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
