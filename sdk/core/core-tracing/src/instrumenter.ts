@@ -9,7 +9,7 @@ import {
 } from "./interfaces.js";
 
 import { createTracingContext } from "./tracingContext.js";
-import { state } from "./state.js";
+import { state } from "./instrumenter-state.js";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {

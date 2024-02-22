@@ -6,7 +6,7 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/state-cjs.cts"
+    ".././src/instrumenter-state-cjs.cts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/react-native"
