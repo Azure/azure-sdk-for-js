@@ -85,6 +85,8 @@ stages:
                 # JS recording files are implicit excluded here since they are using '.js' file extension.
                 - "sdk/${{ parameters.ServiceDirectory }}/**/*.json"
               JobTemplatePath: /eng/pipelines/templates/jobs/live.tests.yml
+              OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
+              Pool: azsdk-pool-mms-ubuntu-2004-1es-pt
               AdditionalParameters:
                 PackageName: ${{ parameters.PackageName }}
                 ServiceDirectory: ${{ parameters.ServiceDirectory }}
