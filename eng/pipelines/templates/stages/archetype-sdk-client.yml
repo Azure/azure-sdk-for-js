@@ -98,7 +98,7 @@ extends:
               MatrixReplace: ${{ parameters.MatrixReplace }}
               IncludeRelease: ${{ parameters.IncludeRelease }}
         variables:
-          - template: ../variables/globals.yml
+          - template: ../variables/globals.yml@self
 
       - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
           - template: archetype-js-release.yml@self
