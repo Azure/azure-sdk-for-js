@@ -351,15 +351,13 @@ export interface ContactPointOutput {
 }
 
 /** A notification for age mismatch is displayed when the age mentioned in a document for a specific patient does not match the age specified in the patient information. */
-export interface AgeMismatchInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface AgeMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "ageMismatch";
 }
 
 /** A notification for a sex mismatch is displayed when the gender, personal pronouns, gender-related body parts, or gender-related procedures mentioned in a patient's clinical document are either inconsistent or do not match the gender specified in the patient information. */
-export interface SexMismatchInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent { 
   /** Inference type. */
   kind: "sexMismatch";
   /** Sex indication : SNOMED CT code for gender finding. */
@@ -367,8 +365,7 @@ export interface SexMismatchInferenceOutput
 }
 
 /** A laterality mismatch occurs when there is a discrepancy between the clinical documentation and the ordered procedure (orderLateralityMismatch), a contradiction within the clinical document (textLateralityContradiction), or when no laterality is mentioned (textLateralityMissing). */
-export interface LateralityDiscrepancyInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface LateralityDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "lateralityDiscrepancy";
   /** Laterality indication : SNOMED CT code for laterality qualifier value. */
@@ -382,8 +379,7 @@ export interface LateralityDiscrepancyInferenceOutput
 }
 
 /** A complete order discrepancy is shown when one or more body parts and/or measurements that should be in the document (because there is a complete order) are not present. */
-export interface CompleteOrderDiscrepancyInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface CompleteOrderDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "completeOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -395,8 +391,7 @@ export interface CompleteOrderDiscrepancyInferenceOutput
 }
 
 /** A limited order discrepancy occurs when there is a limited order, but all body parts and measurements that are needed for a complete order are present in the document. */
-export interface LimitedOrderDiscrepancyInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface LimitedOrderDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "limitedOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -408,8 +403,7 @@ export interface LimitedOrderDiscrepancyInferenceOutput
 }
 
 /** Findings in a radiology report typically describe abnormalities, lesions, or other notable observations related to the anatomy or pathology of the imaged area. */
-export interface FindingInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface FindingInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "finding";
   /** Finding data : contains extensions, fields and components linked with the finding. */
@@ -663,8 +657,7 @@ export interface ResearchStudyOutput extends DomainResourceOutputParent {
 }
 
 /** Critical results refer to findings of utmost importance that may require timely attention due to their potential impact on patient care. */
-export interface CriticalResultInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface CriticalResultInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "criticalResult";
   /** The complete Critical Result, as outlined below, will be reused for the recommendation. */
@@ -680,8 +673,7 @@ export interface CriticalResultOutput {
 }
 
 /** Radiology procedures are the specific imaging studies or examinations ordered for the patient, extracted from the document information and text. */
-export interface RadiologyProcedureInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface RadiologyProcedureInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "radiologyProcedure";
   /** LOINC codes for the procedure. */
@@ -725,8 +717,7 @@ export interface OrderedProcedureOutput {
 }
 
 /** Follow-up recommendations offer guidance to healthcare providers on managing and monitoring patients based on the findings of imaging studies. */
-export interface FollowupRecommendationInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface FollowupRecommendationInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "followupRecommendation";
   /** Date and time are displayed when the procedure is recommended to be done at a specific point in time. */
@@ -769,8 +760,7 @@ export interface ProcedureRecommendationOutputParent {
 }
 
 /** Generic procedure information. */
-export interface GenericProcedureRecommendationOutput
-  extends ProcedureRecommendationOutputParent {
+export interface GenericProcedureRecommendationOutput extends ProcedureRecommendationOutputParent {
   /** Procedure type : generic. */
   kind: "genericProcedureRecommendation";
   /** Procedure modality : SNOMED CT code. */
@@ -780,8 +770,7 @@ export interface GenericProcedureRecommendationOutput
 }
 
 /** Imaging procedures. */
-export interface ImagingProcedureRecommendationOutput
-  extends ProcedureRecommendationOutputParent {
+export interface ImagingProcedureRecommendationOutput extends ProcedureRecommendationOutputParent {
   /** Procedure type : imaging. */
   kind: "imagingProcedureRecommendation";
   /** LOINC codes for the procedure. */
@@ -791,8 +780,7 @@ export interface ImagingProcedureRecommendationOutput
 }
 
 /** Follow-up communication involves the exchange of important information, recommendations, or updates between radiologists and other healthcare professionals involved in a patient's care. */
-export interface FollowupCommunicationInferenceOutput
-  extends RadiologyInsightsInferenceOutputParent {
+export interface FollowupCommunicationInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "followupCommunication";
   /** Communication date and time. */
