@@ -4,6 +4,7 @@ resources:
       type: git
       name: 1ESPipelineTemplates/1ESPipelineTemplates
       ref: refs/tags/release
+
 parameters:
   - name: Artifacts
     type: object
