@@ -4,8 +4,10 @@
 
 ```ts
 
+import { HttpClient } from '@azure/core-rest-pipeline';
+
 // @public
-export function createXhrHttpClient(): never;
+export function createXhrHttpClient(): HttpClient;
 
 // (No @packageDocumentation comment for this package)
 

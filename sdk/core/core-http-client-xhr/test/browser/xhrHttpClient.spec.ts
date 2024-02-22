@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert, describe, beforeEach, afterEach, it, vi } from "vitest";
-import { createXhrHttpClient } from "../../src/xhrHttpClient";
+import { createXhrHttpClient } from "../../src/xhrHttpClient.js";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("XhrHttpClient", function () {
