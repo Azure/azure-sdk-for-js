@@ -5,7 +5,10 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [],
+  "exclude": [
+    ".././src/index-browser.mts",
+    ".././src/index-react-native.mts"
+  ],
   "compilerOptions": {
     "outDir": "../.tshy-build/esm"
   }

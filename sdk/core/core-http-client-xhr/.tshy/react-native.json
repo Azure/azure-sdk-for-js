@@ -5,7 +5,9 @@
     "../src/**/*.mts",
     "../src/**/*.tsx"
   ],
-  "exclude": [],
+  "exclude": [
+    ".././src/index-browser.mts"
+  ],
   "compilerOptions": {
     "outDir": "../.tshy-build/react-native"
   }

@@ -6,7 +6,9 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    "../src/**/*.mts"
+    "../src/**/*.mts",
+    "../src/index-browser.mts",
+    "../src/index-react-native.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/commonjs"
