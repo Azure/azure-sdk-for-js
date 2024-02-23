@@ -99,21 +99,21 @@ export function inferLroMode(
         requestPath,
         resourceLocationConfig,
       }),
-      initialUri: requestPath,
+      initialUrl: requestPath,
       requestMethod,
     };
   } else if (location !== undefined) {
     return {
       mode: "ResourceLocation",
       operationLocation: location,
-      initialUri: requestPath,
+      initialUrl: requestPath,
       requestMethod,
     };
   } else if (normalizedRequestMethod === "PUT" && requestPath) {
     return {
       mode: "Body",
       operationLocation: requestPath,
-      initialUri: requestPath,
+      initialUrl: requestPath,
       requestMethod,
     };
   } else {

@@ -149,14 +149,14 @@ export async function initOperation<TResponse, TResult, TState>(inputs: {
     withOperationLocation,
     setErrorAsResult,
   } = inputs;
-  const { operationLocation, resourceLocation, initialUri, requestMethod, metadata, response } =
+  const { operationLocation, resourceLocation, initialUrl, requestMethod, metadata, response } =
     await init();
   if (operationLocation) withOperationLocation?.(operationLocation, false);
   const config = {
     metadata,
     operationLocation,
     resourceLocation,
-    initialUri,
+    initialUrl,
     requestMethod,
   };
   logger.verbose(`LRO: Operation description:`, config);
