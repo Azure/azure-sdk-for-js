@@ -2,13 +2,16 @@
 // Licensed under the MIT license.
 
 import {
-  ImplementationName
+  ImplementationName,
+  assertDivergentBehavior,
+  assertError,
+  createDoubleHeaders,
+  Result
 } from "./utils/utils.js";
 import { describe, it, assert } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "./matrix.js";
-
 matrix(
   [["createPoller"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {
@@ -2245,7 +2248,7 @@ matrix(
               config: {
                 metadata: { mode: "Body" },
                 operationLocation: "path",
-                initialUri: "path",
+                initialUrl: "path",
                 requestMethod: "PUT",
               },
               result: retResult,
@@ -2270,7 +2273,7 @@ matrix(
             id: "100",
             name: "foo",
           };
-          const retResult = {
+          const retResult: Result = {
             ...bodyObj,
             statusCode: 200,
           };
@@ -2316,7 +2319,7 @@ matrix(
               config: {
                 metadata: { mode: "OperationLocation" },
                 operationLocation: "pollingPath",
-                initialUri: "path",
+                initialUrl: "path",
                 requestMethod: "POST",
               },
             },
@@ -2334,7 +2337,7 @@ matrix(
             },
           });
           assert.equal(pollCount, 0);
-          assert.deepEqual(retResult as Result, await restoredPoller);
+          assert.deepEqual(retResult, await restoredPoller);
           assert.equal(pollCount, 11);
           assert.equal(restoredPoller.operationState.status, "succeeded");
           assert.deepEqual(restoredPoller.result, retResult);
@@ -2691,7 +2694,7 @@ matrix(
             id: "100",
             name: "foo",
           };
-          const retResult = {
+          const retResult: Result = {
             ...bodyObj,
             statusCode: 200,
           };
@@ -2730,7 +2733,7 @@ matrix(
           assert.isUndefined(poller.result);
           assert.equal(pollCount, 0);
           const result = await poller;
-          assert.deepEqual(retResult as Result, result);
+          assert.deepEqual(retResult, result);
           assert.equal(pollCount, 11);
           assert.equal(poller.operationState.status, "succeeded");
           assert.deepEqual(poller.result, retResult);
@@ -2772,7 +2775,7 @@ matrix(
               metadata: { mode: "Body" },
               operationLocation: "path",
               resourceLocation: undefined,
-              initialUri: "path",
+              initialUrl: "path",
               requestMethod: "PUT",
             },
             result: {
