@@ -100,7 +100,7 @@ export interface ExtensionOutput extends ElementOutput {
 export interface QuantityOutput extends ElementOutput {
   /** Numerical value (with implicit precision) */
   value?: number;
-  /** < | <= | >= | > - how to understand the value */
+  /** \< | \<= | \>= | \> - how to understand the value */
   comparator?: string;
   /** Unit representation */
   unit?: string;

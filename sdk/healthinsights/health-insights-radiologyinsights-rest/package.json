@@ -15,7 +15,7 @@
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "types": "./types/health-insights-radiologyinsights.d.ts",
+  "types": "./types/health-insights-radiologyinsights-rest.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
