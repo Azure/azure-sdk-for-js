@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.11.0",
+  "pnpmVersion": "8.15.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -510,7 +510,7 @@
       "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"
     },
-	{
+    {
       "packageName": "@azure-rest/communication-messages",
       "projectFolder": "sdk/communication/communication-messages-rest",
       "versionPolicyName": "client"
@@ -2181,6 +2181,11 @@
     {
       "packageName": "@azure/arm-astro",
       "projectFolder": "sdk/astro/arm-astro",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-largeinstance",
+      "projectFolder": "sdk/largeinstance/arm-largeinstance",
       "versionPolicyName": "management"
     },
     {
