@@ -11855,10 +11855,11 @@ packages:
     dev: false
 
   file:projects/arm-apicenter.tgz:
-    resolution: {integrity: sha512-RbDvzljuHag9yvSF1KJ8xOkCdUA/tHuEb8mzOeYG6jpNNYDqHcHTys3rOKmqECnf5wF+n0J5r70lY5eUOHxpMA==, tarball: file:projects/arm-apicenter.tgz}
+    resolution: {integrity: sha512-+pRFPielS0gDX8JVCaOPr0hufVi5RDa6CVbp3lRglARFGjy3zK2Cf6/QJUZXmoxEdYTFqKjwgIcJdkCJk+bwFQ==, tarball: file:projects/arm-apicenter.tgz}
     name: '@rush-temp/arm-apicenter'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -11867,13 +11868,17 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
