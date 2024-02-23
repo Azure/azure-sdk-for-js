@@ -98,6 +98,9 @@ dependencies:
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-astro':
+    specifier: file:./projects/arm-astro.tgz
+    version: file:projects/arm-astro.tgz
   '@rush-temp/arm-attestation':
     specifier: file:./projects/arm-attestation.tgz
     version: file:projects/arm-attestation.tgz
@@ -12131,6 +12134,34 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-astro.tgz:
+    resolution: {integrity: sha512-pfLYFPuJdkULAxrnj9El8VyRO+vaLNJgInb0OAgAWYtrvXpn5IUO2uSSrnAFHcQbi405BS+X6gCMQDZhmPC+DA==, tarball: file:projects/arm-astro.tgz}
+    name: '@rush-temp/arm-astro'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-attestation.tgz:
