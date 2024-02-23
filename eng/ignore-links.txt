@@ -11,11 +11,7 @@ https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics
 https://docs.microsoft.com/javascript/api/@azure/arm-networkanalytics?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-hybridnetwork
-<<<<<<< HEAD
 https://docs.microsoft.com/javascript/api/@azure/arm-astro?view=azure-node-preview
-https://docs.microsoft.com/javascript/api/@azure/arm-astro
-=======
 https://docs.microsoft.com/javascript/api/@azure/arm-largeinstance?view=azure-node-preview
->>>>>>> main
 https://docs.microsoft.com/javascript/api/@azure/arm-springappdiscovery?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/communication-message
