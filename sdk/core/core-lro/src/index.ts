@@ -9,10 +9,11 @@ export {
   PollerLike,
   RestorableOperationState,
   OperationConfig,
+} from "./poller/models.js";
 export {
   ResourceLocationConfig,
   LongRunningOperation,
   OperationResponse,
   RawResponse,
 } from "./http/models.js";
-export { deserializeState } from "./poller/operation";
+export { deserializeState } from "./poller/operation.js";

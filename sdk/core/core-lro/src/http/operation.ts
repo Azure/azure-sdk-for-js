@@ -16,7 +16,7 @@ import {
   RestorableOperationState,
   StateProxy,
 } from "../poller/models.js";
-import { pollOperation } from "../poller/operation";
+import { pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { logger } from "../logger.js";
 

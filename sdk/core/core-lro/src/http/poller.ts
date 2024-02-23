@@ -4,8 +4,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LongRunningOperation, OperationResponse } from "./models";
-import { OperationState, PollerLike } from "../poller/models";
+import { LongRunningOperation, OperationResponse } from "./models.js";
+import { OperationState, PollerLike } from "../poller/models.js";
 import {
   getErrorFromResponse,
   getOperationLocation,

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ImplementationName } from "./utils/utils";
+import {
+  ImplementationName
 } from "./utils/utils.js";
 import { describe, it, assert } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "./matrix.js";
-import { Result, assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils";
 
 matrix(
   [["createPoller"], [true, false]] as const,

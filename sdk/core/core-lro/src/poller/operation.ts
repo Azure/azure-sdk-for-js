@@ -11,7 +11,6 @@ import {
 } from "./models.js";
 import { logger } from "../logger.js";
 import { terminalStates } from "./constants.js";
-import { logger } from "../logger";
 
 /**
  * Deserializes the state
@@ -212,10 +211,8 @@ async function pollOperationHelper<TResponse, TState, TResult, TOptions>(inputs:
   );
   const status = getOperationStatus(response, state);
   logger.verbose(
-    `LRO: Status:\n\tPolling from: ${
-      state.config.operationLocation
-    }\n\tOperation status: ${status}\n\tPolling status: ${
-      terminalStates.includes(status) ? "Stopped" : "Running"
+    `LRO: Status:\n\tPolling from: ${state.config.operationLocation
+    }\n\tOperation status: ${status}\n\tPolling status: ${terminalStates.includes(status) ? "Stopped" : "Running"
     }`,
   );
   if (status === "succeeded") {
