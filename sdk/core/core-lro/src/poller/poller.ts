@@ -73,13 +73,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-          let called = false;
-          return (operationLocation: string, isUpdated: boolean) => {
-            if (isUpdated) withOperationLocationCallback(operationLocation);
-            else if (!called) withOperationLocationCallback(operationLocation);
-            called = true;
-          };
-        })()
+        let called = false;
+        return (operationLocation: string, isUpdated: boolean) => {
+          if (isUpdated) withOperationLocationCallback(operationLocation);
+          else if (!called) withOperationLocationCallback(operationLocation);
+          called = true;
+        };
+      })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState>;
@@ -135,6 +135,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       pollUntilDone: async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
         resultPromise ??= (async () => {
           await statePromise;
+          if (!state) {
+            throw new Error("Poller should be initialized but it is not!");
+          }
           const { abortSignal: inputAbortSignal } = pollOptions || {};
           // In the future we can use AbortSignal.any() instead
           function abortListener(): void {
@@ -167,7 +170,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
               case "canceled":
                 throw new Error(cancelErrMsg);
               case "failed":
-                throw state!.error;
+                throw state.error;
               case "notStarted":
               case "running":
                 throw new Error(`Polling completed without succeeding or failing`);
@@ -180,6 +183,9 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       },
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
         await statePromise;
+        if (!state) {
+          throw new Error("Poller should be initialized but it is not!");
+        }
         if (resolveOnUnsuccessful) {
           if (poller.isDone) return state!;
         } else {
@@ -189,12 +195,12 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
-              throw state!.error;
+              throw state.error;
           }
         }
         await pollOperation({
           poll,
-          state: state!,
+          state: state,
           stateProxy,
           getOperationLocation,
           isOperationError,
