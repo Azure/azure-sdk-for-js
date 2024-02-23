@@ -8,8 +8,9 @@ import {
   OperationStatus,
   RestorableOperationState,
   StateProxy,
-} from "./models";
-import { terminalStates } from "./constants";
+} from "./models.js";
+import { logger } from "../logger.js";
+import { terminalStates } from "./constants.js";
 import { logger } from "../logger";
 
 /**

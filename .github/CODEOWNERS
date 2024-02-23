@@ -118,7 +118,7 @@
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
-/sdk/keyvault/ @timovv @Azure/azsdk-keyvault
+/sdk/keyvault/ @timovv @maorleger @Azure/azsdk-keyvault
 
 # PRLabel: %OpenTelemetryInstrumentation
 /sdk/instrumentation/ @maorleger @joheredi @mpodwysocki
@@ -162,7 +162,7 @@
 /sdk/cognitivelanguage/ @quentinRobinson @wangyuantao @minhanh-phan @deyaaeldeen
 
 # PRLabel: %OpenAI
-/sdk/openai/ @deyaaeldeen @minhanh-phan
+/sdk/openai/ @glharper @deyaaeldeen @minhanh-phan
 
 # PRLabel: %Image Analysis
 /sdk/vision/ai-vision-image-analysis-rest/ @rhurey @dargilco
@@ -469,6 +469,9 @@
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -650,6 +653,9 @@
 
 # PRLabel: %Mgmt
 /sdk/search/arm-search/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/springappdiscovery/arm-springappdiscovery/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/security/arm-security/ @qiaozha @MaryGao

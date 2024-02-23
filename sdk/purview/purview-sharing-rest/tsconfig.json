@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/purview-sharing": ["./src/index"] },
+    "paths": { "@azure-rest/purview-sharing": ["./src/index"] }
   },
-  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"],
+  "include": ["src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -17,7 +17,7 @@ import {
   State,
   createProcessor,
   generate,
-} from "./utils";
+} from "./utils.js";
 import { PollerLike, createHttpPoller } from "../../src";
 import {
   OperationResponse,
@@ -26,8 +26,8 @@ import {
   ResponseBody,
 } from "../../src/http/models";
 import { AbortError } from "@azure/abort-controller";
-import { createCoreRestPipelineLro } from "./coreRestPipelineLro";
-import { getYieldedValue } from "@azure/test-utils";
+import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
+import { getYieldedValue } from "../getYieldedValue.js";
 
 /**
  * Dummy value for the path of the initial request

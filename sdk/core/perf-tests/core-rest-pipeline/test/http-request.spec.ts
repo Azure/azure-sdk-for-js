@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as http from "http";
-import * as https from "https";
-import { BaseHttpTest } from "./baseHttpTest";
+import * as http from "node:http";
+import * as https from "node:https";
+import { BaseHttpTest } from "./baseHttpTest.js";
 
 export class HttpRequestTest extends BaseHttpTest {
   static httpAgent = new http.Agent({ keepAlive: true });

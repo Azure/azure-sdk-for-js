@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { stringToUint8Array } from "../util/bytesEncoding";
-import { createHttpHeaders } from "../httpHeaders";
+import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { createHttpHeaders } from "../httpHeaders.js";
 import {
   BodyPart,
   FormDataMap,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-} from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
+} from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.

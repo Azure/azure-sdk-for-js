@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { LongRunningOperation, OperationResponse } from "./models";
 import { OperationState, PollerLike } from "../poller/models";
 import {
@@ -12,9 +15,9 @@ import {
   inferLroMode,
   isOperationError,
   parseRetryAfter,
-} from "./operation";
-import { CreateHttpPollerOptions } from "./models";
-import { buildCreatePoller } from "../poller/poller";
+} from "./operation.js";
+import { CreateHttpPollerOptions } from "./models.js";
+import { buildCreatePoller } from "../poller/poller.js";
 
 /**
  * Creates a poller that can be used to poll a long-running operation.

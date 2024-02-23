@@ -58,7 +58,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "^1.4.0",
-    "@azure/identity": "^4.0.0",
+    "@azure/identity": "^4.0.1",
     "@azure/msal-node": "^2.5.1",
     "@azure/msal-node-extensions": "^1.0.7",
     "tslib": "^2.2.0"
@@ -79,7 +79,7 @@
     "cross-env": "^7.0.2",
     "eslint": "^8.0.0",
     "mocha": "^10.0.0",
-    "puppeteer": "^20.5.0",
+    "puppeteer": "^22.2.0",
     "rimraf": "^5.0.1",
     "typescript": "~5.3.3",
     "sinon": "^17.0.0",

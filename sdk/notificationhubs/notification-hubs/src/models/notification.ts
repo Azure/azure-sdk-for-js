@@ -6,6 +6,7 @@ import {
   AdmNativeMessage,
   AppleNativeMessage,
   FirebaseLegacyNativeMessage,
+  FirebaseV1NativeMessage,
 } from "./notificationBodyBuilder.js";
 import { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
 
@@ -205,6 +206,47 @@ export function createFcmLegacyNotification(
     ...notification,
     body,
     platform: "gcm",
+    contentType: Constants.JSON_CONTENT_TYPE,
+  };
+}
+
+/**
+ * Represents an Firebase V1 API notification that can be sent to a device.
+ */
+export interface FcmV1Notification extends JsonNotification {
+  /**
+   * The platform for the push notification.
+   */
+  platform: "fcmv1";
+}
+
+/**
+ * Represents an Firebase Legacy notification that can be sent to a device.
+ */
+export interface FcmV1NotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | FirebaseV1NativeMessage;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
+ * Creates a notification to send to Firebase.
+ * @param notification - A partial message used to create a message for Firebase.
+ * @returns A newly created Firebase notification.
+ */
+export function createFcmV1Notification(notification: FcmV1NotificationParams): FcmV1Notification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
+  return {
+    ...notification,
+    body,
+    platform: "fcmv1",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
 }
