@@ -5,7 +5,7 @@ import type { TokenCredential, TracingContext } from "@azure/core-auth";
 import {
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
-  createHttpHeaders,
+  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 
 /**
@@ -62,16 +62,11 @@ export function getBearerTokenProvider(
             headers: request.headers,
           }),
       },
-      {
-        headers: createHttpHeaders(),
-        method: "GET",
+      createPipelineRequest({
         url: "https://example.com",
-        requestId: "",
-        timeout: 0,
-        withCredentials: false,
         abortSignal,
         tracingOptions,
-      },
+      }),
     );
     const accessToken = res.headers.get("authorization")?.split(" ")[1];
     if (!accessToken) {

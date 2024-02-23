@@ -22,6 +22,7 @@ export async function main(): Promise<void> {
   const request: PipelineRequest = createPipelineRequest({ url: "https://example.com" });
   // add the access token to the request
   request.headers.set("Authorization", `Bearer ${token}`);
+  console.log("Authorization header has been added to the request");
 }
 
 main().catch((err) => {
