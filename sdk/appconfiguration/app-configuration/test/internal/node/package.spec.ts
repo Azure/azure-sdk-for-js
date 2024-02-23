@@ -14,19 +14,22 @@ describe("packagejson related tests", () => {
     let userAgent: string | undefined;
     const client = new AppConfigurationClient(
       "https://myresource.azconfig.io",
-      { getToken: (_scopes) => {
-        return Promise.resolve({
-          token: "fakevalue",
-          expiresOnTimestamp: new Date().getTime() + 24 * 60 * 60 * 1000
-        })
-      }} as TokenCredential, {
+      {
+        getToken: (_scopes) => {
+          return Promise.resolve({
+            token: "fakevalue",
+            expiresOnTimestamp: new Date().getTime() + 24 * 60 * 60 * 1000,
+          });
+        },
+      } as TokenCredential,
+      {
         httpClient: {
           sendRequest: async (request) => {
             userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
             throw new Error("only a test");
           },
-        },        
-      }
+        },
+      },
     );
 
     try {
