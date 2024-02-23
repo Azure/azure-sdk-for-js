@@ -365,7 +365,8 @@ export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOu
 }
 
 /** A laterality mismatch occurs when there is a discrepancy between the clinical documentation and the ordered procedure (orderLateralityMismatch), a contradiction within the clinical document (textLateralityContradiction), or when no laterality is mentioned (textLateralityMissing). */
-export interface LateralityDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+export interface LateralityDiscrepancyInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "lateralityDiscrepancy";
   /** Laterality indication : SNOMED CT code for laterality qualifier value. */
@@ -379,7 +380,8 @@ export interface LateralityDiscrepancyInferenceOutput extends RadiologyInsightsI
 }
 
 /** A complete order discrepancy is shown when one or more body parts and/or measurements that should be in the document (because there is a complete order) are not present. */
-export interface CompleteOrderDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+export interface CompleteOrderDiscrepancyInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "completeOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -391,7 +393,8 @@ export interface CompleteOrderDiscrepancyInferenceOutput extends RadiologyInsigh
 }
 
 /** A limited order discrepancy occurs when there is a limited order, but all body parts and measurements that are needed for a complete order are present in the document. */
-export interface LimitedOrderDiscrepancyInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+export interface LimitedOrderDiscrepancyInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "limitedOrderDiscrepancy";
   /** Order type : CPT ultrasound complete code for abdomen, retroperitoneal, pelvis or breast. */
@@ -717,7 +720,8 @@ export interface OrderedProcedureOutput {
 }
 
 /** Follow-up recommendations offer guidance to healthcare providers on managing and monitoring patients based on the findings of imaging studies. */
-export interface FollowupRecommendationInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+export interface FollowupRecommendationInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "followupRecommendation";
   /** Date and time are displayed when the procedure is recommended to be done at a specific point in time. */
@@ -780,7 +784,8 @@ export interface ImagingProcedureRecommendationOutput extends ProcedureRecommend
 }
 
 /** Follow-up communication involves the exchange of important information, recommendations, or updates between radiologists and other healthcare professionals involved in a patient's care. */
-export interface FollowupCommunicationInferenceOutput extends RadiologyInsightsInferenceOutputParent {
+export interface FollowupCommunicationInferenceOutput
+  extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "followupCommunication";
   /** Communication date and time. */

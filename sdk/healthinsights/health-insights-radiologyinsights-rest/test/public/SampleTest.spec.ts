@@ -43,8 +43,8 @@ const patientInfo = {
 const encounterData = {
   id: "encounterid1",
   period: {
-   start: "2021-8-28T00:00:00",
-   end: "2021-8-28T00:00:00"
+    start: "2021-8-28T00:00:00",
+    end: "2021-8-28T00:00:00",
   },
   class: "inpatient",
 };
@@ -140,16 +140,16 @@ describe("Radiology Insights Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
- beforeEach(async function(this: Context) {
+  beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  it("radiology Insights test", async function() {
+  it("radiology Insights test", async function () {
     const result = await client.path("/radiology-insights/jobs").post(radiologyInsightsParameter);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
