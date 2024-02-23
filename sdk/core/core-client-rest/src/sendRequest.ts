@@ -15,9 +15,9 @@ import {
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getCachedDefaultHttpsClient } from "./clientHelpers";
-import { isReadableStream } from "./helpers/isReadableStream";
-import { HttpResponse, RequestParameters } from "./common";
+import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
+import { isReadableStream } from "./helpers/isReadableStream.js";
+import { HttpResponse, RequestParameters } from "./common.js";
 
 /**
  * Helper function to send request used by the client
@@ -57,16 +57,38 @@ export async function sendRequest(
 }
 
 /**
+ * Function to determine the request content type
+ * @param options - request options InternalRequestParameters
+ * @returns returns the content-type
+ */
+function getRequestContentType(options: InternalRequestParameters = {}): string {
+  return (
+    options.contentType ??
+    (options.headers?.["content-type"] as string) ??
+    getContentType(options.body)
+  );
+}
+
+/**
  * Function to determine the content-type of a body
  * this is used if an explicit content-type is not provided
  * @param body - body in the request
  * @returns returns the content-type
  */
-function getContentType(body: any): string {
+function getContentType(body: any): string | undefined {
   if (ArrayBuffer.isView(body)) {
     return "application/octet-stream";
   }
 
+  if (typeof body === "string") {
+    try {
+      JSON.parse(body);
+      return "application/json; charset=UTF-8";
+    } catch (error: any) {
+      // If we fail to parse the body, it is not json
+      return undefined;
+    }
+  }
   // By default return json
   return "application/json; charset=UTF-8";
 }
@@ -80,15 +102,17 @@ function buildPipelineRequest(
   url: string,
   options: InternalRequestParameters = {},
 ): PipelineRequest {
-  const { body, formData } = getRequestBody(options.body, options.contentType);
+  const requestContentType = getRequestContentType(options);
+  const { body, formData } = getRequestBody(options.body, requestContentType);
   const hasContent = body !== undefined || formData !== undefined;
 
   const headers = createHttpHeaders({
     ...(options.headers ? options.headers : {}),
     accept: options.accept ?? "application/json",
-    ...(hasContent && {
-      "content-type": options.contentType ?? getContentType(options.body),
-    }),
+    ...(hasContent &&
+      requestContentType && {
+        "content-type": requestContentType,
+      }),
   });
 
   return createPipelineRequest({
@@ -124,10 +148,6 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
   }
 
   if (isReadableStream(body)) {
-    return { body };
-  }
-
-  if (!contentType && typeof body === "string") {
     return { body };
   }
 

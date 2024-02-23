@@ -11,8 +11,8 @@
     /* Advanced Options */
     "skipLibCheck": true,
     "noUnusedLocals": false,
-    "forceConsistentCasingInFileNames": true,
+    "forceConsistentCasingInFileNames": true
   },
   "exclude": ["node_modules"],
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts"]
 }

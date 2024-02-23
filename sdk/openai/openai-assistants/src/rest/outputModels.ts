@@ -286,7 +286,6 @@ export interface SubmitToolOutputsDetailsOutput {
   tool_calls: Array<RequiredToolCallOutput>;
 }
 
-
 /** A representation of a requested call to a function tool, needed by the model to continue evaluation of a run. */
 export interface RequiredFunctionToolCallOutput {
   /** The ID of the tool call. This ID must be referenced when submitting tool outputs. */
@@ -294,7 +293,7 @@ export interface RequiredFunctionToolCallOutput {
   /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: FunctionDefinitionOutput;
+  function: FunctionToolCallDetailsOutput;
 }
 
 /** The details of an error as encountered by an assistant thread run. */

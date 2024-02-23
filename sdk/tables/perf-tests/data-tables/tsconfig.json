@@ -4,8 +4,8 @@
     "module": "CommonJS",
     "noEmit": true,
     "declarationDir": "./types",
-    "lib": ["dom", "esnext"],
+    "lib": ["dom", "esnext"]
   },
   "compileOnSave": true,
-  "include": ["./test/**/*.ts"],
+  "include": ["./test/**/*.ts"]
 }

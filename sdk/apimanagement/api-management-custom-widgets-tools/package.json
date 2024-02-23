@@ -93,12 +93,12 @@
     "ts-node": "^10.0.0"
   },
   "dependencies": {
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.0.1",
     "@azure-rest/core-client": "^1.0.0-beta.10",
     "@azure/storage-blob": "^12.9.0",
     "mime": "^4.0.1",
     "mustache": "^4.2.0",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "tslib": "^2.2.0"
   }
 }

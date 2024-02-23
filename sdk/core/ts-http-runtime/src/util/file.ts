@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { toWebStream } from "./stream";
+import { toWebStream } from "./stream.js";
 
 /**
  * Options passed into createFile specifying metadata about the file.
