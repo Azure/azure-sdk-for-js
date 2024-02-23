@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to purge(force delete) a recovery services provider from the vault.
  *
  * @summary The operation to purge(force delete) a recovery services provider from the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_Purge.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_Purge.json
  */
 async function purgesRecoveryServiceProviderFromFabric() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function purgesRecoveryServiceProviderFromFabric() {
     resourceName,
     resourceGroupName,
     fabricName,
-    providerName
+    providerName,
   );
   console.log(result);
 }

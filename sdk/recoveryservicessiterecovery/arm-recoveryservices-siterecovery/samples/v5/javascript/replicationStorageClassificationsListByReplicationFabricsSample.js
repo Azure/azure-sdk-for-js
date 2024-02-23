@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the storage classifications available in the specified fabric.
  *
  * @summary Lists the storage classifications available in the specified fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_ListByReplicationFabrics.json
  */
 async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheListOfStorageClassificationObjectsUnderAFabric() {
   for await (let item of client.replicationStorageClassifications.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

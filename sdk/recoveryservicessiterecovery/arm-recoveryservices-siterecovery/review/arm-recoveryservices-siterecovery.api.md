@@ -97,6 +97,7 @@ export interface A2ACrossClusterMigrationReplicationDetails extends ReplicationP
 
 // @public
 export interface A2AEnableProtectionInput extends EnableProtectionProviderSpecificInput {
+    autoProtectionOfDataDisk?: AutoProtectionOfDataDisk;
     diskEncryptionInfo?: DiskEncryptionInfo;
     fabricObjectId: string;
     instanceType: "A2A";
@@ -1000,6 +1001,26 @@ export interface EncryptionDetails {
     kekCertExpiryDate?: Date;
     kekCertThumbprint?: string;
     kekState?: string;
+}
+
+// @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
 }
 
 // @public
@@ -4495,6 +4516,8 @@ export interface ReplicationFabrics {
     beginPurgeAndWait(resourceName: string, resourceGroupName: string, fabricName: string, options?: ReplicationFabricsPurgeOptionalParams): Promise<void>;
     beginReassociateGateway(resourceName: string, resourceGroupName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsReassociateGatewayResponse>, ReplicationFabricsReassociateGatewayResponse>>;
     beginReassociateGatewayAndWait(resourceName: string, resourceGroupName: string, fabricName: string, failoverProcessServerRequest: FailoverProcessServerRequest, options?: ReplicationFabricsReassociateGatewayOptionalParams): Promise<ReplicationFabricsReassociateGatewayResponse>;
+    beginRemoveInfra(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsRemoveInfraResponse>, ReplicationFabricsRemoveInfraResponse>>;
+    beginRemoveInfraAndWait(resourceGroupName: string, resourceName: string, fabricName: string, options?: ReplicationFabricsRemoveInfraOptionalParams): Promise<ReplicationFabricsRemoveInfraResponse>;
     beginRenewCertificate(resourceName: string, resourceGroupName: string, fabricName: string, renewCertificate: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams): Promise<SimplePollerLike<OperationState<ReplicationFabricsRenewCertificateResponse>, ReplicationFabricsRenewCertificateResponse>>;
     beginRenewCertificateAndWait(resourceName: string, resourceGroupName: string, fabricName: string, renewCertificate: RenewCertificateInput, options?: ReplicationFabricsRenewCertificateOptionalParams): Promise<ReplicationFabricsRenewCertificateResponse>;
     get(resourceName: string, resourceGroupName: string, fabricName: string, options?: ReplicationFabricsGetOptionalParams): Promise<ReplicationFabricsGetResponse>;
@@ -4567,6 +4590,21 @@ export interface ReplicationFabricsReassociateGatewayOptionalParams extends core
 
 // @public
 export type ReplicationFabricsReassociateGatewayResponse = Fabric;
+
+// @public
+export interface ReplicationFabricsRemoveInfraHeaders {
+    // (undocumented)
+    location?: string;
+}
+
+// @public
+export interface ReplicationFabricsRemoveInfraOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type ReplicationFabricsRemoveInfraResponse = ReplicationFabricsRemoveInfraHeaders;
 
 // @public
 export interface ReplicationFabricsRenewCertificateOptionalParams extends coreClient.OperationOptions {
