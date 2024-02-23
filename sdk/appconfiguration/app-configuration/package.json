@@ -73,6 +73,10 @@
         "prefix": "packageVersion"
       },
       {
+        "path": "src/generated/src/appConfiguration.ts",
+        "prefix": "packageDetails"
+      },
+      {
         "path": "swagger/swagger.md",
         "prefix": "package-version"
       }
