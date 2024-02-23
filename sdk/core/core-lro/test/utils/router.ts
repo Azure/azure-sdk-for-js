@@ -221,11 +221,11 @@ async function runLro<TState>(settings: {
 
 export const createRunLroWith =
   <TState>(variables: { implName: ImplementationName; throwOnNon2xxResponse?: boolean }) =>
-    (settings: {
-      routes: LroResponseSpec[];
-      onProgress?: (state: TState) => void;
-      resourceLocationConfig?: ResourceLocationConfig;
-      processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
-      updateState?: (state: TState, lastResponse: RawResponse) => void;
-    }): Promise<Result> =>
-      runLro({ ...settings, ...variables });
+  (settings: {
+    routes: LroResponseSpec[];
+    onProgress?: (state: TState) => void;
+    resourceLocationConfig?: ResourceLocationConfig;
+    processResult?: (result: unknown, state: TState) => Result | Promise<Result>;
+    updateState?: (state: TState, lastResponse: RawResponse) => void;
+  }): Promise<Result> =>
+    runLro({ ...settings, ...variables });

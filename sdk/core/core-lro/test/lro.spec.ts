@@ -6,7 +6,7 @@ import {
   assertDivergentBehavior,
   assertError,
   createDoubleHeaders,
-  Result
+  Result,
 } from "./utils/utils.js";
 import { describe, it, assert } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
@@ -3121,7 +3121,9 @@ matrix(
             });
             let err: any;
             try {
-              await poller.catch((e) => { err = e; });
+              await poller.catch((e) => {
+                err = e;
+              });
               assert.equal(err.message, errMsg);
             } catch (e: any) {
               assert.fail("should not throw error");

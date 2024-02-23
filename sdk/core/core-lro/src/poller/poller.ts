@@ -73,13 +73,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-        let called = false;
-        return (operationLocation: string, isUpdated: boolean) => {
-          if (isUpdated) withOperationLocationCallback(operationLocation);
-          else if (!called) withOperationLocationCallback(operationLocation);
-          called = true;
-        };
-      })()
+          let called = false;
+          return (operationLocation: string, isUpdated: boolean) => {
+            if (isUpdated) withOperationLocationCallback(operationLocation);
+            else if (!called) withOperationLocationCallback(operationLocation);
+            called = true;
+          };
+        })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState>;
