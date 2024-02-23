@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SwitchProtectionInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to switch protection from one container to another or one replication provider to another.
  *
  * @summary Operation to switch protection from one container to another or one replication provider to another.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_SwitchProtection.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_SwitchProtection.json
  */
 async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProviderToAnother() {
   const subscriptionId =
@@ -35,18 +35,19 @@ async function switchesProtectionFromOneContainerToAnotherOrOneReplicationProvid
   const switchInput: SwitchProtectionInput = {
     properties: {
       providerSpecificDetails: { instanceType: "A2A" },
-      replicationProtectedItemName: "a2aSwapOsVm"
-    }
+      replicationProtectedItemName: "a2aSwapOsVm",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainers.beginSwitchProtectionAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    switchInput
-  );
+  const result =
+    await client.replicationProtectionContainers.beginSwitchProtectionAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      switchInput,
+    );
   console.log(result);
 }
 

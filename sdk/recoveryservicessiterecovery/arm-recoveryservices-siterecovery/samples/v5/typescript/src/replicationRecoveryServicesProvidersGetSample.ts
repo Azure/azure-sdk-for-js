@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of registered recovery services provider.
  *
  * @summary Gets the details of registered recovery services provider.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_Get.json
  */
 async function getsTheDetailsOfARecoveryServicesProvider() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getsTheDetailsOfARecoveryServicesProvider() {
     resourceName,
     resourceGroupName,
     fabricName,
-    providerName
+    providerName,
   );
   console.log(result);
 }
