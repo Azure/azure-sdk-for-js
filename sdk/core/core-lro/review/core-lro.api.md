@@ -9,19 +9,10 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public
 export type CancelOnProgress = () => void;
 
+// Warning: (ae-forgotten-export) The symbol "CreateHttpPollerOptions" needs to be exported by the entry point index.d.ts
+//
 // @public
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
-
-// @public
-export interface CreateHttpPollerOptions<TResult, TState> {
-    intervalInMs?: number;
-    processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
-    resolveOnUnsuccessful?: boolean;
-    resourceLocationConfig?: ResourceLocationConfig;
-    restoreFrom?: string;
-    updateState?: (state: TState, response: OperationResponse) => void;
-    withOperationLocation?: (operationLocation: string) => void;
-}
 
 // @public
 export function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
@@ -36,7 +27,7 @@ export interface LongRunningOperation<T = unknown> {
 
 // @public
 export interface OperationConfig {
-    initialUri?: string;
+    initialUrl?: string;
     metadata?: Record<string, string>;
     operationLocation?: string;
     requestMethod?: string;
