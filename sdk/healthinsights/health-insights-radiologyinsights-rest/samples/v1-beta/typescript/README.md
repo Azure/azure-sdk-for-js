@@ -56,7 +56,7 @@ npx cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHT
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta/typescript/src/sample_critical_result_inference_async.js
+[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta/typescript/src/sample_critical_result_inference_async.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md
