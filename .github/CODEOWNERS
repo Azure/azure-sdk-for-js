@@ -469,6 +469,9 @@
 /sdk/labservices/arm-labservices/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/largeinstance/arm-largeinstance/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/links/arm-links/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt

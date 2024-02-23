@@ -68,6 +68,9 @@ export async function msalNodeTestSetup(
         IDENTITY_SP_CERT_PEM: "",
         AZURE_CAE_MANAGEMENT_ENDPOINT: "https://management.azure.com/",
         AZURE_CLIENT_CERTIFICATE_PATH: "assets/fake-cert.pem",
+        AZURE_IDENTITY_MULTI_TENANT_TENANT_ID: "99999999-9999-9999-9999-999999999999",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID: "azure_multi_tenant_client_id",
+        AZURE_IDENTITY_MULTI_TENANT_CLIENT_SECRET: "azure_multi_tenant_client_secret",
       },
       sanitizerOptions: {
         headerSanitizers: [
