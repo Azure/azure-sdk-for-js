@@ -332,9 +332,9 @@ export class AppConfigurationClient {
   listConfigurationSettings(
     options: ListConfigurationSettingsOptions = {},
   ): PagedAsyncIterableIterator<ConfigurationSetting, ListConfigurationSettingPage, PageSettings> {
-    const etagList = options.etagList ? [...options.etagList] : undefined;
-    delete options.etagList;
-    const etag = etagList?.shift();
+    const pageEtags = options.pageEtags ? [...options.pageEtags] : undefined;
+    delete options.pageEtags;
+    const etag = pageEtags?.shift();
     const pagedResult: PagedResult<ListConfigurationSettingPage, PageSettings, string | undefined> =
       {
         firstPageLink: undefined,

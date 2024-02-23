@@ -322,7 +322,7 @@ export interface ListConfigurationSettingsOptions extends OperationOptions, List
   /**
    * etag
    */
-  etagList?: string[];
+  pageEtags?: string[];
 }
 
 /**

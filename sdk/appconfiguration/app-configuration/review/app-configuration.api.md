@@ -221,7 +221,7 @@ export interface ListConfigurationSettingsForSnapshotOptions extends OperationOp
 
 // @public
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
-    etagList?: string[];
+    pageEtags?: string[];
 }
 
 // @public

@@ -915,7 +915,7 @@ describe("AppConfigurationClient", () => {
       await addConfigSettings(additionalNumberOfLabels, expectedNumberOfLabels);
 
       // Second run with added settings
-      iterator = client.listConfigurationSettings({ keyFilter: key, etagList: etags }).byPage();
+      iterator = client.listConfigurationSettings({ keyFilter: key, pageEtags: etags }).byPage();
 
       // First page no change
       let response = await iterator.next();
