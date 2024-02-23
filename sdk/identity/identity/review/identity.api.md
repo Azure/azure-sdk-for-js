@@ -10,7 +10,6 @@ import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
 import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
-import type { TracingContext } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -289,15 +288,7 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getBearerTokenProvider(credential: TokenCredential, scopes: string | string[], options?: GetBearerTokenProviderOptions): () => Promise<string>;
-
-// @public
-export interface GetBearerTokenProviderOptions extends TokenCyclerOptions {
-    abortSignal?: AbortSignal;
-    tracingOptions?: {
-        tracingContext?: TracingContext;
-    };
-}
+export function getBearerTokenProvider(credential: TokenCredential, scopes: string | string[]): () => Promise<string>;
 
 // @public
 export function getDefaultAzureCredential(): TokenCredential;
@@ -409,13 +400,6 @@ export interface TokenCredentialOptions extends CommonClientOptions {
         allowLoggingAccountIdentifiers?: boolean;
         enableUnsafeSupportLogging?: boolean;
     };
-}
-
-// @public
-export interface TokenCyclerOptions {
-    forcedRefreshWindowInMs: number;
-    refreshWindowInMs: number;
-    retryIntervalInMs: number;
 }
 
 // @public
