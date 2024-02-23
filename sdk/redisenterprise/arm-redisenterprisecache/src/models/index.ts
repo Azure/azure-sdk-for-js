@@ -235,27 +235,6 @@ export interface Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** A partial update to the RedisEnterprise cluster */
@@ -441,48 +420,10 @@ export interface ForceUnlinkParameters {
   ids: string[];
 }
 
-/** Parameters for a Redis Enterprise active geo-replication flush operation. */
+/** Parameters for a Redis Enterprise active geo-replication flush operation */
 export interface FlushParameters {
-  /** The resource identifiers of all the other database resources in the georeplication group to be flushed */
+  /** The identifiers of all the other database resources in the georeplication group to be flushed. */
   ids?: string[];
-}
-
-/** List of details about all the available SKUs */
-export interface RegionSkuDetails {
-  /** List of Sku Detail */
-  value?: RegionSkuDetail[];
-}
-
-/** Details about the location requested and the available skus in the location */
-export interface RegionSkuDetail {
-  /** Resource type which has the SKU, such as Microsoft.Cache/redisEnterprise */
-  resourceType?: string;
-  /** Details about location and its capabilities */
-  locationInfo?: LocationInfo;
-  /** Details about available skus */
-  skuDetails?: SkuDetail;
-}
-
-/** Information about location (for example: features that it supports) */
-export interface LocationInfo {
-  /** Location name */
-  location?: string;
-  /** List of capabilities */
-  capabilities?: Capability[];
-}
-
-/** Information about the features the location supports */
-export interface Capability {
-  /** Feature name */
-  name?: string;
-  /** Indicates whether feature is supported or not */
-  value?: boolean;
-}
-
-/** Information about Sku */
-export interface SkuDetail {
-  /** The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.) */
-  name?: SkuName;
 }
 
 /** The Private Endpoint Connection resource. */
@@ -594,6 +535,14 @@ export interface Database extends ProxyResource {
 
 /** Defines headers for Databases_flush operation. */
 export interface DatabasesFlushHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+  /** URI to poll for the operation status */
+  azureAsyncOperation?: string;
+}
+
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
   /** Location URI to poll for result */
   location?: string;
   /** URI to poll for the operation status */
@@ -787,7 +736,11 @@ export enum KnownResourceState {
   /** DisableFailed */
   DisableFailed = "DisableFailed",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
+  /** Scaling */
+  Scaling = "Scaling",
+  /** ScalingFailed */
+  ScalingFailed = "ScalingFailed"
 }
 
 /**
@@ -806,7 +759,9 @@ export enum KnownResourceState {
  * **EnableFailed** \
  * **Disabling** \
  * **DisableFailed** \
- * **Disabled**
+ * **Disabled** \
+ * **Scaling** \
+ * **ScalingFailed**
  */
 export type ResourceState = string;
 
@@ -854,30 +809,6 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * **Failed**
  */
 export type PrivateEndpointConnectionProvisioningState = string;
-
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
 
 /** Known values of {@link Protocol} that the service accepts. */
 export enum KnownProtocol {
@@ -1245,7 +1176,12 @@ export type PrivateEndpointConnectionsPutResponse = PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams
@@ -1253,12 +1189,6 @@ export interface PrivateLinkResourcesListByClusterOptionalParams
 
 /** Contains response data for the listByCluster operation. */
 export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
-
-/** Optional parameters. */
-export interface SkusListOptionalParams extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type SkusListResponse = RegionSkuDetails;
 
 /** Optional parameters. */
 export interface RedisEnterpriseManagementClientOptionalParams
