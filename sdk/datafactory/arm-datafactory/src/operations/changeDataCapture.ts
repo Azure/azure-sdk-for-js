@@ -27,7 +27,7 @@ import {
   ChangeDataCaptureStopOptionalParams,
   ChangeDataCaptureStatusOptionalParams,
   ChangeDataCaptureStatusResponse,
-  ChangeDataCaptureListByFactoryNextResponse
+  ChangeDataCaptureListByFactoryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: ChangeDataCaptureListByFactoryOptionalParams
+    options?: ChangeDataCaptureListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ChangeDataCaptureResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
           resourceGroupName,
           factoryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     options?: ChangeDataCaptureListByFactoryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ChangeDataCaptureResource[]> {
     let result: ChangeDataCaptureListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +116,12 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: ChangeDataCaptureListByFactoryOptionalParams
+    options?: ChangeDataCaptureListByFactoryOptionalParams,
   ): AsyncIterableIterator<ChangeDataCaptureResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -136,11 +136,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: ChangeDataCaptureListByFactoryOptionalParams
+    options?: ChangeDataCaptureListByFactoryOptionalParams,
   ): Promise<ChangeDataCaptureListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec
+      listByFactoryOperationSpec,
     );
   }
 
@@ -157,7 +157,7 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     factoryName: string,
     changeDataCaptureName: string,
     changeDataCapture: ChangeDataCaptureResource,
-    options?: ChangeDataCaptureCreateOrUpdateOptionalParams
+    options?: ChangeDataCaptureCreateOrUpdateOptionalParams,
   ): Promise<ChangeDataCaptureCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -165,9 +165,9 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
         factoryName,
         changeDataCaptureName,
         changeDataCapture,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureGetOptionalParams
+    options?: ChangeDataCaptureGetOptionalParams,
   ): Promise<ChangeDataCaptureGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, changeDataCaptureName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureDeleteOptionalParams
+    options?: ChangeDataCaptureDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, changeDataCaptureName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -220,11 +220,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStartOptionalParams
+    options?: ChangeDataCaptureStartOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, changeDataCaptureName, options },
-      startOperationSpec
+      startOperationSpec,
     );
   }
 
@@ -239,11 +239,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStopOptionalParams
+    options?: ChangeDataCaptureStopOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, changeDataCaptureName, options },
-      stopOperationSpec
+      stopOperationSpec,
     );
   }
 
@@ -258,11 +258,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     changeDataCaptureName: string,
-    options?: ChangeDataCaptureStatusOptionalParams
+    options?: ChangeDataCaptureStatusOptionalParams,
   ): Promise<ChangeDataCaptureStatusResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, changeDataCaptureName, options },
-      statusOperationSpec
+      statusOperationSpec,
     );
   }
 
@@ -277,11 +277,11 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: ChangeDataCaptureListByFactoryNextOptionalParams
+    options?: ChangeDataCaptureListByFactoryNextOptionalParams,
   ): Promise<ChangeDataCaptureListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec
+      listByFactoryNextOperationSpec,
     );
   }
 }
@@ -289,38 +289,36 @@ export class ChangeDataCaptureImpl implements ChangeDataCapture {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeDataCaptureListResponse
+      bodyMapper: Mappers.ChangeDataCaptureListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeDataCaptureResource
+      bodyMapper: Mappers.ChangeDataCaptureResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.changeDataCapture,
   queryParameters: [Parameters.apiVersion],
@@ -329,27 +327,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeDataCaptureResource
+      bodyMapper: Mappers.ChangeDataCaptureResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -357,21 +354,20 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -379,20 +375,19 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const startOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/start",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/start",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -400,20 +395,19 @@ const startOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const stopOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/stop",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/stop",
   httpMethod: "POST",
   responses: {
     200: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -421,22 +415,21 @@ const stopOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const statusOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/status",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/adfcdcs/{changeDataCaptureName}/status",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "String" } }
+      bodyMapper: { type: { name: "String" } },
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -444,29 +437,29 @@ const statusOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.changeDataCaptureName
+    Parameters.changeDataCaptureName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangeDataCaptureListResponse
+      bodyMapper: Mappers.ChangeDataCaptureListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

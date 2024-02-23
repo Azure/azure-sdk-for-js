@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { OperationArguments, OperationSpec, QueryCollectionFormat } from "./interfaces";
-import { getOperationArgumentValueFromParameter } from "./operationHelpers";
-import { getPathStringFromParameter } from "./interfaceHelpers";
+import { OperationArguments, OperationSpec, QueryCollectionFormat } from "./interfaces.js";
+import { getOperationArgumentValueFromParameter } from "./operationHelpers.js";
+import { getPathStringFromParameter } from "./interfaceHelpers.js";
 
 const CollectionFormatToDelimiterMap: { [key in QueryCollectionFormat]: string } = {
   CSV: ",",
