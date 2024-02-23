@@ -20,7 +20,7 @@ export function isUnexpected(
 ): response is GetJobDefaultResponse;
 export function isUnexpected(
  response: CreateJob202Response | CreateJobLogicalResponse | CreateJobDefaultResponse,
-):  response is CreateJobDefaultResponse;
+): response is CreateJobDefaultResponse;
 export function isUnexpected(
   response:
     | GetJob200Response
