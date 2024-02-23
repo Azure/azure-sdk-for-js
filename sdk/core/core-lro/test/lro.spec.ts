@@ -3134,46 +3134,6 @@ matrix(
             }
           });
         });
-        // describe("verify pollUntilDone call times", () => {
-        //   it.only("catch/finally on the same poller will call pollUntilDone once", async () => {
-        //     const body = { status: "canceled", results: [1, 2] };
-        //     const errMsg = "Operation was canceled";
-        //     const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
-        //     const poller = createTestPoller({
-        //       routes: [
-        //         {
-        //           method: "POST",
-        //           status: 202,
-        //           headers: {
-        //             location: "/postasync/retry/succeeded/operationResults/foo/200/",
-        //             ["Operation-Location"]: pollingPath,
-        //             "retry-after": "0",
-        //           },
-        //           body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo"}`,
-        //         },
-        //         {
-        //           method: "GET",
-        //           path: pollingPath,
-        //           status: 200,
-        //           body: JSON.stringify(body),
-        //         },
-        //       ],
-        //       implName,
-        //       throwOnNon2xxResponse: true,
-        //     });
-        //     // let callCounts = 0;
-        //     // const pollerWrapper = Object.assign({}, poller);
-        //     // console.log("ttt", poller, pollerWrapper, poller === pollerWrapper)
-        //     // poller.pollUntilDone = async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
-        //     //   callCounts++;
-        //     //   return poller.pollUntilDone(pollOptions);
-        //     // };
-        //     await poller.catch((e: any) => { assert.equal(e.message, errMsg) });
-        //     await poller.finally(() => { assert.isNotNull(poller.result) });
-        //     assert.equal(poller.callCounts, 1);
-        //   });
-        //   it("different then would trigger different promise & every `then` would trigger pollUntilDone once", async () => { });
-        // });
       });
     });
   },
