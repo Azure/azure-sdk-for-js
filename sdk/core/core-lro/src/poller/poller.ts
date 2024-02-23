@@ -187,11 +187,11 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
           throw new Error("Poller should be initialized but it is not!");
         }
         if (resolveOnUnsuccessful) {
-          if (poller.isDone) return state!;
+          if (poller.isDone) return state;
         } else {
           switch (state.status) {
             case "succeeded":
-              return state!;
+              return state;
             case "canceled":
               throw new Error(cancelErrMsg);
             case "failed":
