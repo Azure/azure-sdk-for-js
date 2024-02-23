@@ -612,8 +612,11 @@ export class ChatThreadClient {
           ((!this.supportsReadableStream() && this.isReadableStream(request)) || // is readable stream but no support, need to convert
             !this.isReadableStream(request))
         ) {
+          // use xhrClient if (to support onUploadProgress)
+          // - is readable stream but no support => convert to ArrayBuffer (so will have content-length)
+          // - is not readable stream
           console.log("using xhrClient");
-          result = await this.client.chatThread.uploadChatImage(
+          result = await this.xhrClient.chatThread.uploadChatImage(
             this.threadId,
             this.isReadableStream(request)
               ? await this.getArrayBufferFromReadableStream(request)
@@ -621,21 +624,18 @@ export class ChatThreadClient {
             updatedOptions,
           );
         } else {
-          // backend & fetch client for readable stream
+          // backend (node fetch client) or readable readable stream
           console.log("using default client");
 
-          // backend (no browser) need to convert Blob to ReadableStream or ArrayBuffer
-          result = await this.client.chatThread.uploadChatImage(
-            this.threadId,
-            this.isBlob(request) ? await this.getArrayBufferFromBlob(request) : request,
-            updatedOptions,
-          );
+          // Backend (no browser) need to convert Blob/ReadableStream to ArrayBuffer
+          let chatImageFile = request;
+          if (this.isBlob(request)) {
+            chatImageFile = await this.getArrayBufferFromBlob(request);
+          } else if (this.isReadableStream(request)) {
+            chatImageFile = await this.getArrayBufferFromReadableStream(request);
+          }
+          result = await this.client.chatThread.uploadChatImage(this.threadId, chatImageFile, updatedOptions);
         }
-        // const result = await this.client.chatThread.uploadChatImage(
-        //   this.threadId,
-        //   request, // todo
-        //   updatedOptions,
-        // );
         return result;
       },
     );
