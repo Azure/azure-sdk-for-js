@@ -12,6 +12,7 @@ import { describe, it, assert } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
 import { matrix } from "./matrix.js";
+import { AbortSignalLike } from "@azure/abort-controller";
 matrix(
   [["createPoller"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {
@@ -2311,7 +2312,6 @@ matrix(
           });
           assert.isUndefined(poller.operationState);
           const serialized = await poller.serialize();
-          console.log("serialized", serialized);
           assert.equal(pollCount, 0);
           const expectedSerialized = JSON.stringify({
             state: {
@@ -2975,6 +2975,205 @@ matrix(
             );
           }
         });
+      });
+
+      describe("promise poller", () => {
+        describe("await the same poller in multiple times", () => {
+          it("should be the same result", async () => {
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "PUT",
+                  status: 200,
+                  body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
+                },
+              ],
+              throwOnNon2xxResponse,
+            });
+            const await1 = await poller;
+            const await2 = await poller;
+            const await3 = await poller;
+            assert.equal(await1.statusCode, 200);
+            assert.isTrue(await1 === await2);
+            assert.isTrue(await1 === await3);
+          });
+          it("thenable should return the same result", async () => {
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "PUT",
+                  status: 200,
+                  body: `{ "properties": { "provisioningState": "Succeeded" }, "id": "100", "name": "foo" }`,
+                },
+              ],
+              throwOnNon2xxResponse,
+            });
+            const await1 = await poller.then((result) => {
+              assert.equal(result.statusCode, 200);
+              return result;
+            });
+            const await2 = await poller.then((result) => {
+              assert.equal(result.statusCode, 200);
+              return result;
+            });
+            assert.isTrue(await1 === await2);
+          });
+          it("should trigger the whole polling process to server side only once", async () => {
+            let pollCount = 0;
+            const pollingPath = "pollingPath";
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    "Operation-Location": pollingPath,
+                  },
+                },
+                ...Array(10).fill({
+                  method: "GET",
+                  path: pollingPath,
+                  body: `{ "status": "running" }`,
+                  status: 200,
+                }),
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  body: `{ "status": "succeeded" }`,
+                  status: 200,
+                },
+              ],
+              implName,
+              throwOnNon2xxResponse,
+              updateState: () => {
+                pollCount++;
+              },
+            });
+            await poller;
+            await poller;
+            await poller;
+            assert.equal(pollCount, 11);
+          });
+          it("should catch the same error in multiple times", async () => {
+            const body = { status: "canceled", results: [1, 2] };
+            const errMsg = "Operation was canceled";
+            const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    location: "/postasync/retry/succeeded/operationResults/foo/200/",
+                    ["Operation-Location"]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: JSON.stringify(body),
+                },
+              ],
+              implName,
+              throwOnNon2xxResponse: true,
+            });
+            try {
+              await poller;
+              assert.fail("should throw error");
+            } catch (e: any) {
+              assert.equal(e.message, errMsg);
+            }
+            try {
+              await poller;
+              assert.fail("should throw error");
+            } catch (e: any) {
+              assert.equal(e.message, errMsg);
+            }
+          });
+          it("should work properly when mixing catch and await", async () => {
+            const body = { status: "canceled", results: [1, 2] };
+            const errMsg = "Operation was canceled";
+            const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+            const poller = createTestPoller({
+              routes: [
+                {
+                  method: "POST",
+                  status: 202,
+                  headers: {
+                    location: "/postasync/retry/succeeded/operationResults/foo/200/",
+                    ["Operation-Location"]: pollingPath,
+                    "retry-after": "0",
+                  },
+                  body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo"}`,
+                },
+                {
+                  method: "GET",
+                  path: pollingPath,
+                  status: 200,
+                  body: JSON.stringify(body),
+                },
+              ],
+              implName,
+              throwOnNon2xxResponse: true,
+            });
+            let err: any;
+            try {
+              await poller.catch((e) => { err = e; });
+              assert.equal(err.message, errMsg);
+            } catch (e: any) {
+              assert.fail("should not throw error");
+            }
+            try {
+              await poller;
+              assert.fail("should throw error");
+            } catch (e: any) {
+              assert.equal(e.message, errMsg);
+            }
+          });
+        });
+        // describe("verify pollUntilDone call times", () => {
+        //   it.only("catch/finally on the same poller will call pollUntilDone once", async () => {
+        //     const body = { status: "canceled", results: [1, 2] };
+        //     const errMsg = "Operation was canceled";
+        //     const pollingPath = "/LROPostDoubleHeadersFinalAzureHeaderGetDefault/asyncOperationUrl";
+        //     const poller = createTestPoller({
+        //       routes: [
+        //         {
+        //           method: "POST",
+        //           status: 202,
+        //           headers: {
+        //             location: "/postasync/retry/succeeded/operationResults/foo/200/",
+        //             ["Operation-Location"]: pollingPath,
+        //             "retry-after": "0",
+        //           },
+        //           body: `{ "properties": { "provisioningState": "Accepted"}, "id": "100", "name": "foo"}`,
+        //         },
+        //         {
+        //           method: "GET",
+        //           path: pollingPath,
+        //           status: 200,
+        //           body: JSON.stringify(body),
+        //         },
+        //       ],
+        //       implName,
+        //       throwOnNon2xxResponse: true,
+        //     });
+        //     // let callCounts = 0;
+        //     // const pollerWrapper = Object.assign({}, poller);
+        //     // console.log("ttt", poller, pollerWrapper, poller === pollerWrapper)
+        //     // poller.pollUntilDone = async (pollOptions?: { abortSignal?: AbortSignalLike }) => {
+        //     //   callCounts++;
+        //     //   return poller.pollUntilDone(pollOptions);
+        //     // };
+        //     await poller.catch((e: any) => { assert.equal(e.message, errMsg) });
+        //     await poller.finally(() => { assert.isNotNull(poller.result) });
+        //     assert.equal(poller.callCounts, 1);
+        //   });
+        //   it("different then would trigger different promise & every `then` would trigger pollUntilDone once", async () => { });
+        // });
       });
     });
   },
