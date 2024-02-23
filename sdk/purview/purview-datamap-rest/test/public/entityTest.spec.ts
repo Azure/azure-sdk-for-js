@@ -6,8 +6,7 @@ import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { createClient } from "./utils/recordedClient";
-import { createFileFromStream } from "../../src/index";
-import fs from "fs";
+import { createFile } from "../../src/index";
 
 describe("purview datamap entity test", () => {
   let recorder: Recorder;
@@ -22,14 +21,13 @@ describe("purview datamap entity test", () => {
 
   it("Import entity business metadata ", async function () {
     const client = await createClient(recorder);
+	const fileContent = new TextEncoder().encode(`TypeName,UniqueAttributeValue,BusinessAttributeName,BusinessAttributeValue,UniqueAttributeName[optional]
+hive_database,hive_db_1,bmWithAllTypes.attr8,"Awesome Attribute 1",name`);
 
     const response = await client.path("/atlas/v2/entity/businessmetadata/import").post({
       contentType: "multipart/form-data",
       body: {
-        file: createFileFromStream(
-          () => fs.createReadStream("test/public/template_2.csv"),
-          "template_2.csv",
-        ),
+        file: createFile(fileContent, "template_2.csv"),
       },
     });
     assert.strictEqual(response.status, "200");
