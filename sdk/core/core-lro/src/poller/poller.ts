@@ -14,6 +14,7 @@ import {
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
+import { logger } from "../logger.js";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
   TState,
@@ -136,6 +137,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         resultPromise ??= (async () => {
           await statePromise;
           if (!state) {
+            logger.verbose(`LRO: Poller state:`, state);
             throw new Error("Poller should be initialized but it is not!");
           }
           const { abortSignal: inputAbortSignal } = pollOptions || {};
@@ -184,6 +186,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
       async poll(pollOptions?: { abortSignal?: AbortSignalLike }): Promise<TState> {
         await statePromise;
         if (!state) {
+          logger.verbose(`LRO: Poller state:`, state);
           throw new Error("Poller should be initialized but it is not!");
         }
         if (resolveOnUnsuccessful) {
