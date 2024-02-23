@@ -20,6 +20,7 @@ export type AccessTokenGetter = (
   options: GetTokenOptions,
 ) => Promise<AccessToken>;
 
+/** Options to configure how the access tokens are being refreshed. */
 export interface TokenCyclerOptions {
   /**
    * The window of time before token expiration during which the token will be
@@ -223,6 +224,21 @@ export function createTokenCycler(
 }
 
 /**
+ * The options to configure the token provider.
+ */
+export interface GetBearerTokenProviderOptions extends TokenCyclerOptions {
+  /** The abort signal to abort requests to get tokens */
+  abortSignal?: AbortSignal;
+  /** The tracing options for the requests to get tokens */
+  tracingOptions?: {
+    /**
+     * Tracing Context for the current request to get a token.
+     */
+    tracingContext?: TracingContext;
+  };
+}
+
+/**
  * Returns a callback that provides a bearer token.
  * For example, the bearer token can be used to authenticate a request as follows:
  * ```js
@@ -245,15 +261,7 @@ export function createTokenCycler(
 export function getBearerTokenProvider(
   credential: TokenCredential,
   scopes: string | string[],
-  options?: {
-    abortSignal?: AbortSignal;
-    tracingOptions?: {
-      /**
-       * Tracing Context for the current request.
-       */
-      tracingContext?: TracingContext;
-    };
-  },
+  options?: GetBearerTokenProviderOptions,
 ): () => Promise<string> {
   const { abortSignal, tracingOptions } = options || {};
   const getAccessToken = createTokenCycler(credential);
