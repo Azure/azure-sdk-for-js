@@ -1,8 +1,14 @@
 # Release History
 
-## 3.0.0-beta.1 (Unreleased)
+## 2.6.1 (Unreleased)
 
-- Initial implementation of synchronized LRO
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
 
 ## 2.6.0 (2024-02-01)
 
