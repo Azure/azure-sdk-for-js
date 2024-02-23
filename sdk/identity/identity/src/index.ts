@@ -114,4 +114,4 @@ export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
 }
 
-export { getBearerTokenProvider } from "./tokenProvider";
+export { getBearerTokenProvider, GetBearerTokenProviderOptions } from "./tokenProvider";

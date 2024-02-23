@@ -10,6 +10,7 @@ import { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
 import { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
+import type { TracingContext } from '@azure/core-auth';
 
 export { AccessToken }
 
@@ -288,7 +289,15 @@ export interface ErrorResponse {
 }
 
 // @public
-export function getBearerTokenProvider(credential: TokenCredential, scopes: string | string[]): () => Promise<string>;
+export function getBearerTokenProvider(credential: TokenCredential, scopes: string | string[], options?: GetBearerTokenProviderOptions): () => Promise<string>;
+
+// @public
+export interface GetBearerTokenProviderOptions {
+    abortSignal?: AbortSignal;
+    tracingOptions?: {
+        tracingContext?: TracingContext;
+    };
+}
 
 // @public
 export function getDefaultAzureCredential(): TokenCredential;
