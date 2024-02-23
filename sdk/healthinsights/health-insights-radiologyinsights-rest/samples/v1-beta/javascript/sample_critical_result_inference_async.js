@@ -6,8 +6,8 @@
  */
 
 const dotenv = require("dotenv");
-const AzureHealthInsightsClient = require('../../../src').default,
-  { getLongRunningPoller, isUnexpected } = require('../../../src');
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
 const { AzureKeyCredential } = require("@azure/core-auth");
 
 dotenv.config();

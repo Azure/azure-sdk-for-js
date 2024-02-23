@@ -712,8 +712,4 @@ export interface FindingOptions {
  * A resource with narrative, extensions, and contained resources
  * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
  */
-export type DomainResource =
-  | DomainResourceParent
-  | Observation
-  | Condition
-  | ResearchStudy;
+export type DomainResource = DomainResourceParent | Observation | Condition | ResearchStudy;

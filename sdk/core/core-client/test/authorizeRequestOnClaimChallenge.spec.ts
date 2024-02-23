@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   HttpClient,
@@ -13,9 +14,8 @@ import {
 import {
   authorizeRequestOnClaimChallenge,
   parseCAEChallenge,
-} from "../src/authorizeRequestOnClaimChallenge";
-import { assert } from "chai";
-import { encodeString } from "../src/base64";
+} from "../src/authorizeRequestOnClaimChallenge.js";
+import { encodeString } from "../src/base64.js";
 
 describe("authorizeRequestOnClaimChallenge", function () {
   it(`should try to get the access token if the response has a valid claims parameter on the WWW-Authenticate header`, async function () {

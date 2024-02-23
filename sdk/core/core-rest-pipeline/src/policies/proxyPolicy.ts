@@ -5,9 +5,14 @@ import type * as http from "http";
 import type * as https from "https";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { HttpProxyAgent } from "http-proxy-agent";
-import type { PipelineRequest, PipelineResponse, ProxySettings, SendRequest } from "../interfaces";
-import type { PipelinePolicy } from "../pipeline";
-import { logger } from "../log";
+import type {
+  PipelineRequest,
+  PipelineResponse,
+  ProxySettings,
+  SendRequest,
+} from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
+import { logger } from "../log.js";
 
 const HTTPS_PROXY = "HTTPS_PROXY";
 const HTTP_PROXY = "HTTP_PROXY";
