@@ -68,7 +68,7 @@ function getLroResponse<TResult extends HttpResponse>(response: TResult): LroRes
   if (Number.isNaN(response.status)) {
     throw new TypeError(`Status code of the response is not a number. Value: ${response.status}`);
   }
-  
+
   return {
     flatResponse: response,
     rawResponse: {
