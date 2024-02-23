@@ -357,7 +357,7 @@ export interface AgeMismatchInferenceOutput extends RadiologyInsightsInferenceOu
 }
 
 /** A notification for a sex mismatch is displayed when the gender, personal pronouns, gender-related body parts, or gender-related procedures mentioned in a patient's clinical document are either inconsistent or do not match the gender specified in the patient information. */
-export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent { 
+export interface SexMismatchInferenceOutput extends RadiologyInsightsInferenceOutputParent {
   /** Inference type. */
   kind: "sexMismatch";
   /** Sex indication : SNOMED CT code for gender finding. */

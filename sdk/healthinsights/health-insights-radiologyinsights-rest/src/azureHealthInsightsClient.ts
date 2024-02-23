@@ -32,10 +32,10 @@ export default function createClient(
     loggingOptions: {
       logger: options.loggingOptions?.logger ?? logger.info,
     },
-   credentials: {
+    credentials: {
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
 
-return getClient(baseUrl, credentials, options) as AzureHealthInsightsClient;
+  return getClient(baseUrl, credentials, options) as AzureHealthInsightsClient;
 }

@@ -9,7 +9,7 @@ import AHIClient, { AzureHealthInsightsClient } from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTH_INSIGHTS_ENDPOINT: "https://endpoint",
-  HEALTH_INSIGHTS_KEY: "fake_key",  
+  HEALTH_INSIGHTS_KEY: "fake_key",
   AZURE_CLIENT_ID: "azure_client_id",
   AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
   SUBSCRIPTION_ID: "azure_subscription_id",

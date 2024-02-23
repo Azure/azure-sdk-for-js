@@ -43,15 +43,15 @@ const patientInfo = {
 const encounterData = {
   id: "encounterid1",
   period: {
-    "start": "2021-8-28T00:00:00",
-    "end": "2021-8-28T00:00:00"
+   start: "2021-8-28T00:00:00",
+   end: "2021-8-28T00:00:00"
   },
   class: "inpatient",
 };
 
 const authorData = {
-  "id": "authorid1",
-  "name": "authorname1",
+  id: "authorid1",
+  name: "authorname1",
 };
 
 const orderedProceduresData = {
@@ -60,7 +60,7 @@ const orderedProceduresData = {
 };
 const administrativeMetadata = {
   orderedProcedures: [orderedProceduresData],
-  encounterId: "encounterid1"
+  encounterId: "encounterid1",
 };
 
 const content = {
@@ -81,7 +81,6 @@ const patientDocumentData = {
   createdDateTime: new Date("2021-05-31T22:00:00.000Z"),
   orderedProceduresAsCsv: "CT ABD/PELVIS",
 };
-
 
 const patientData = {
   id: "Samantha Jones",
