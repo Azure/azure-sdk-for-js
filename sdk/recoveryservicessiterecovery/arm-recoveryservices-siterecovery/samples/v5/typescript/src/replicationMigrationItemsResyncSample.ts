@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ResyncInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to resynchronize replication of an ASR migration item.
  *
  * @summary The operation to resynchronize replication of an ASR migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Resync.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Resync.json
  */
 async function resynchronizesReplication() {
   const subscriptionId =
@@ -38,9 +38,9 @@ async function resynchronizesReplication() {
     properties: {
       providerSpecificDetails: {
         instanceType: "VMwareCbt",
-        skipCbtReset: "true"
-      }
-    }
+        skipCbtReset: "true",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -50,7 +50,7 @@ async function resynchronizesReplication() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    input
+    input,
   );
   console.log(result);
 }
