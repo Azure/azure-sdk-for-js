@@ -1,6 +1,6 @@
-# HealthInsightsRadiologyInsights samples for JavaScript (Beta)
+# HealthInsightsRadiologyInsights client library samples for TypeScript (Beta)
 
-These sample programs show how to use the JavaScript client libraries for HealthInsightsRadiologyInsights in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for HealthInsightsRadiologyInsights in some common scenarios.
 
 | **File Name**                                                                                       | **Description**           |
 | --------------------------------------------------------------------------------------------------- | ------------------------- |
@@ -9,6 +9,12 @@ These sample programs show how to use the JavaScript client libraries for Health
 ## Prerequisites
 
 The sample programs are compatible with [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule).
+
+Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using:
+
+```bash
+npm install -g typescript
+```
 
 You need [an Azure subscription][freesub] to run these sample programs.
 
@@ -26,25 +32,32 @@ To run the samples using the published version of the package:
 npm install
 ```
 
-2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
-
-3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+2. Compile the samples:
 
 ```bash
-node sample_critical_result_inference_async.js
+npm run build
+```
+
+3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
+
+4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
+
+```bash
+node dist/sample_critical_result_inference_async.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AZURE_HEALTH_INSIGHTS_KEY="<health insights key>" AZURE_HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node sample_critical_result_inference_async.js
+npx cross-env HEALTH_INSIGHTS_API_KEY="<health insights api key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node dist/sample_critical_result_inference_async.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta/javascript/sample_critical_result_inference_async.js
+[sample_critical_result_inference_async]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta/typescript/src/sample_critical_result_inference_async.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-clinicalmatching-rest/README.md
+[typescript]: https://www.typescriptlang.org/docs/home.html
