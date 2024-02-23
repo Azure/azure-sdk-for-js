@@ -15935,7 +15935,7 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-pG6olWt7L7JsG4s9x7zEbcQ5wVS/YX1qlky6SJ4O8/2tuJJYPzYRgJO6w7GdbWoYlAQ1R1r0VBDgAnzd81Ul+A==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-uvMCb4UDoIroxhOOohR+imdakfekXiJkBk0ltX3gJ7i+as7tkqfauzRGRzpSTJCaEVDXSW50P2nBUFZp63xKtQ==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
@@ -15948,6 +15948,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
