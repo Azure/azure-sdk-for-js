@@ -14781,18 +14781,18 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.40.1(@types/node@18.19.15)
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.3)
       '@types/chai': 4.3.11
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.15
+      '@types/node': 18.19.3
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.4
       esm: 3.2.25
       mkdirp: 2.1.6
-      mocha: 10.3.0
+      mocha: 10.2.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.15)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
@@ -17293,7 +17293,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-uZLIosJ2WYY7h5f1ZjNGPpsQqqhupyDCK1kmYGxZ9SCN4H0VS1YFE7cBcCKFB5glHJ99eUAVYCa9Dh2aPm91Ag==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-BmqN6ugeFzb49BkhF1bWQ6xJ8CD5y0mfAg+d+ZweVu0kjPTKCbhF8+Mh/mLpJ0zp2ha7S0EEE7ePWhTk0CAVpw==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -17306,9 +17306,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
