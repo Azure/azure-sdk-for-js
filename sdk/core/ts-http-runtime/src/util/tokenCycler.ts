@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential";
-import { delay } from "./helpers";
+import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
+import { delay } from "./helpers.js";
 
 /**
  * A function that gets a promise of an access token and allows providing

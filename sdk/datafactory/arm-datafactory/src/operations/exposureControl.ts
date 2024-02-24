@@ -19,7 +19,7 @@ import {
   ExposureControlGetFeatureValueByFactoryResponse,
   ExposureControlBatchRequest,
   ExposureControlQueryFeatureValuesByFactoryOptionalParams,
-  ExposureControlQueryFeatureValuesByFactoryResponse
+  ExposureControlQueryFeatureValuesByFactoryResponse,
 } from "../models";
 
 /** Class containing ExposureControl operations. */
@@ -43,11 +43,11 @@ export class ExposureControlImpl implements ExposureControl {
   getFeatureValue(
     locationId: string,
     exposureControlRequest: ExposureControlRequest,
-    options?: ExposureControlGetFeatureValueOptionalParams
+    options?: ExposureControlGetFeatureValueOptionalParams,
   ): Promise<ExposureControlGetFeatureValueResponse> {
     return this.client.sendOperationRequest(
       { locationId, exposureControlRequest, options },
-      getFeatureValueOperationSpec
+      getFeatureValueOperationSpec,
     );
   }
 
@@ -62,11 +62,11 @@ export class ExposureControlImpl implements ExposureControl {
     resourceGroupName: string,
     factoryName: string,
     exposureControlRequest: ExposureControlRequest,
-    options?: ExposureControlGetFeatureValueByFactoryOptionalParams
+    options?: ExposureControlGetFeatureValueByFactoryOptionalParams,
   ): Promise<ExposureControlGetFeatureValueByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, exposureControlRequest, options },
-      getFeatureValueByFactoryOperationSpec
+      getFeatureValueByFactoryOperationSpec,
     );
   }
 
@@ -81,11 +81,11 @@ export class ExposureControlImpl implements ExposureControl {
     resourceGroupName: string,
     factoryName: string,
     exposureControlBatchRequest: ExposureControlBatchRequest,
-    options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams
+    options?: ExposureControlQueryFeatureValuesByFactoryOptionalParams,
   ): Promise<ExposureControlQueryFeatureValuesByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, exposureControlBatchRequest, options },
-      queryFeatureValuesByFactoryOperationSpec
+      queryFeatureValuesByFactoryOperationSpec,
     );
   }
 }
@@ -93,39 +93,37 @@ export class ExposureControlImpl implements ExposureControl {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getFeatureValueOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/getFeatureValue",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExposureControlResponse
+      bodyMapper: Mappers.ExposureControlResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.exposureControlRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationId
+    Parameters.locationId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getFeatureValueByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getFeatureValue",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExposureControlResponse
+      bodyMapper: Mappers.ExposureControlResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.exposureControlRequest,
   queryParameters: [Parameters.apiVersion],
@@ -133,23 +131,22 @@ const getFeatureValueByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const queryFeatureValuesByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryFeaturesValue",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/queryFeaturesValue",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExposureControlBatchResponse
+      bodyMapper: Mappers.ExposureControlBatchResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.exposureControlBatchRequest,
   queryParameters: [Parameters.apiVersion],
@@ -157,9 +154,9 @@ const queryFeatureValuesByFactoryOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

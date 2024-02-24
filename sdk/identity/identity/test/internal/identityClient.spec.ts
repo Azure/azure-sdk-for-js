@@ -31,7 +31,10 @@ describe("IdentityClient", function () {
   it("throws an exception if the credential is not available (can't resolve discovery endpoint)", async () => {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scope"],
-      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret"),
+      credential: new ClientSecretCredential(PlaybackTenantId, "client", "secret", {
+        // createResponse below will simulate a 400 error when trying to resolve the authority
+        authorityHost: "https://fake-authority.com",
+      }),
       secureResponses: [
         createResponse(400, {
           error: "test_error",
@@ -52,7 +55,11 @@ describe("IdentityClient", function () {
   it("throws an exception when an authentication request fails", async () => {
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["https://test/.default"],
-      credential: new ClientSecretCredential("adfs", "client", "secret"),
+      credential: new ClientSecretCredential("adfs", "client", "secret", {
+        // createResponse below will simulate a 200 when trying to resolve the authority,
+        // then the 400 error when trying to get the token
+        authorityHost: "https://fake-authority.com",
+      }),
       secureResponses: [
         ...prepareMSALResponses(),
         createResponse(400, {
@@ -174,7 +181,7 @@ describe("IdentityClient", function () {
       (msg: string) => msg.indexOf("azure:identity:") >= 0,
     );
 
-    assert.equal(expectedMessages.length, logMessages.length);
+    assert.equal(logMessages.length, expectedMessages.length);
 
     for (let i = 0; i < logMessages.length; i++) {
       assert.ok(logMessages[i].match(expectedMessages[i]), `Checking[${i}] ${logMessages[i]}`);

@@ -6,13 +6,13 @@
     "lib": ["dom", "es5", "es6", "es7", "esnext"],
 
     "paths": {
-      "@azure/storage-file-datalake": ["./src/index"],
-    },
+      "@azure/storage-file-datalake": ["./src/index"]
+    }
   },
   "include": [
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./samples-dev/**/*.ts",
-    "../storage-common/**/*.ts",
-  ],
+    "../storage-common/**/*.ts"
+  ]
 }

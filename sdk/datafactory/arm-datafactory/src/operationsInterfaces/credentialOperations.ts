@@ -14,7 +14,7 @@ import {
   CredentialOperationsCreateOrUpdateResponse,
   CredentialOperationsGetOptionalParams,
   CredentialOperationsGetResponse,
-  CredentialOperationsDeleteOptionalParams
+  CredentialOperationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface CredentialOperations {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: CredentialOperationsListByFactoryOptionalParams
+    options?: CredentialOperationsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ManagedIdentityCredentialResource>;
   /**
    * Creates or updates a credential.
@@ -44,7 +44,7 @@ export interface CredentialOperations {
     factoryName: string,
     credentialName: string,
     credential: ManagedIdentityCredentialResource,
-    options?: CredentialOperationsCreateOrUpdateOptionalParams
+    options?: CredentialOperationsCreateOrUpdateOptionalParams,
   ): Promise<CredentialOperationsCreateOrUpdateResponse>;
   /**
    * Gets a credential.
@@ -57,7 +57,7 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsGetOptionalParams
+    options?: CredentialOperationsGetOptionalParams,
   ): Promise<CredentialOperationsGetResponse>;
   /**
    * Deletes a credential.
@@ -70,6 +70,6 @@ export interface CredentialOperations {
     resourceGroupName: string,
     factoryName: string,
     credentialName: string,
-    options?: CredentialOperationsDeleteOptionalParams
+    options?: CredentialOperationsDeleteOptionalParams,
   ): Promise<void>;
 }
