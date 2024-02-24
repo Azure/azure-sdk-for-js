@@ -159,6 +159,10 @@ export interface PhoneNumberSearchResult {
   cost: PhoneNumberCost;
   /** The date that this search result expires and phone numbers are no longer on hold. A search result expires in less than 15min, e.g. 2020-11-19T16:31:49.048Z. */
   searchExpiresBy: Date;
+  /** The error code of the search. */
+  errorCode?: number;
+  /** Mapping Error Messages to Codes */
+  error?: PhoneNumberSearchResultError;
 }
 
 /** The phone number search purchase request. */
@@ -326,6 +330,25 @@ export type PhoneNumberCapabilityType =
   | "inbound"
   | "outbound"
   | "inbound+outbound";
+/** Defines values for PhoneNumberSearchResultError. */
+export type PhoneNumberSearchResultError =
+  | "NoError"
+  | "UnknownErrorCode"
+  | "OutOfStock"
+  | "AuthorizationDenied"
+  | "MissingAddress"
+  | "InvalidAddress"
+  | "InvalidOfferModel"
+  | "NotEnoughLicenses"
+  | "NoWallet"
+  | "NotEnoughCredit"
+  | "NumbersPartiallyAcquired"
+  | "AllNumbersNotAcquired"
+  | "ReservationExpired"
+  | "PurchaseFailed"
+  | "BillingUnavailable"
+  | "ProvisioningFailed"
+  | "UnknownSearchError";
 /** Defines values for PhoneNumberOperationType. */
 export type PhoneNumberOperationType =
   | "purchase"
@@ -511,17 +534,6 @@ export interface PhoneNumbersListPhoneNumbersOptionalParams
 
 /** Contains response data for the listPhoneNumbers operation. */
 export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers;
-
-/** Optional parameters. */
-export interface PhoneNumbersOperatorInformationSearchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Phone number(s) whose operator information is being requested */
-  phoneNumbers?: string[];
-}
-
-/** Contains response data for the operatorInformationSearch operation. */
-export type PhoneNumbersOperatorInformationSearchResponse =
-  OperatorInformationResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams

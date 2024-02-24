@@ -78,6 +78,13 @@
               "localizedName": "WA",
               "abbreviatedName": "WA"
             }
+          },
+          {
+            "localizedName": "Alexandria",
+            "administrativeDivision": {
+              "localizedName": "MN",
+              "abbreviatedName": "MN"
+            }
           }
         ],
         "nextLink": null
