@@ -64,13 +64,13 @@ directive:
     $["x-ms-client-name"] = "AreaCodeItem";
 ```
 
-``` yaml
+<!-- ``` yaml
 directive:
   from: swagger-document
   where: $.definitions.PhoneNumberSearchResult.properties.error.x-ms-enum
   transform: >
     $["name"] = "PhoneNumberSearchResultError";
-```
+``` -->
 
 ### Removed Property error from PhoneNumberSearchResult
 ``` yaml
