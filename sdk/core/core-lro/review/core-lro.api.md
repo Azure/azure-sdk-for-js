@@ -9,10 +9,19 @@ import { AbortSignalLike } from '@azure/abort-controller';
 // @public
 export type CancelOnProgress = () => void;
 
-// Warning: (ae-forgotten-export) The symbol "CreateHttpPollerOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+
+// @public
+export interface CreateHttpPollerOptions<TResult, TState> {
+    intervalInMs?: number;
+    processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
+    resolveOnUnsuccessful?: boolean;
+    resourceLocationConfig?: ResourceLocationConfig;
+    restoreFrom?: string;
+    updateState?: (state: TState, response: OperationResponse) => void;
+    withOperationLocation?: (operationLocation: string) => void;
+}
 
 // @public
 export function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
@@ -34,8 +43,6 @@ export interface OperationConfig {
     resourceLocation?: string;
 }
 
-// Warning: (ae-forgotten-export) The symbol "RawRequest" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface OperationResponse<T = unknown, TRequest extends RawRequest = RawRequest> {
     flatResponse: T;
@@ -67,6 +74,13 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult> ext
     readonly result: TResult | undefined;
     serialize(): Promise<string>;
     submitted(): Promise<void>;
+}
+
+// @public
+export interface RawRequest {
+    body?: unknown;
+    method: string;
+    url: string;
 }
 
 // @public

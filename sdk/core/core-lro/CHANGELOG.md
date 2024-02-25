@@ -4,7 +4,7 @@
 
 ### Features Added
 
-Initial implementation of synchronized LRO
+Initial implementation of next-generation for Long Running Operations (LROs) in which we allow to create poller in a synchronized way.
 
 ## 2.6.0 (2024-02-01)
 

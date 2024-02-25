@@ -26,6 +26,9 @@ export interface ResponseBody extends Record<string, unknown> {
   resourceLocation?: string;
 }
 
+/**
+ * Simple type of the raw request.
+ */
 export interface RawRequest {
   /** The HTTP request method */
   method: string;

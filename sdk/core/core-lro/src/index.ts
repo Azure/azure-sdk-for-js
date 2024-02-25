@@ -15,5 +15,7 @@ export {
   LongRunningOperation,
   OperationResponse,
   RawResponse,
+  RawRequest,
+  CreateHttpPollerOptions
 } from "./http/models.js";
 export { deserializeState } from "./poller/operation.js";
