@@ -16,6 +16,6 @@ export {
   OperationResponse,
   RawResponse,
   RawRequest,
-  CreateHttpPollerOptions
+  CreateHttpPollerOptions,
 } from "./http/models.js";
 export { deserializeState } from "./poller/operation.js";
