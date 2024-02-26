@@ -863,7 +863,7 @@ describe("AppConfigurationClient", () => {
       //
       // Remove the following line if you want to hit the live service.
       // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      // if (isLiveMode()) this.skip();
+      if (isLiveMode()) this.skip();
 
       const key = recorder.variable(
         "listMultiplePagesOfResults",
