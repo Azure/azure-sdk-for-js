@@ -110,6 +110,7 @@
     "esmDialects": [
       "browser",
       "react-native"
-    ]
+    ],
+    "selfLink": false
   }
 }

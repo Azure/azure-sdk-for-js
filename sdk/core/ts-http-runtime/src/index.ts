@@ -86,7 +86,7 @@ export {
 export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 export { AbortError } from "./abort-controller/AbortError.js";
 export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential.js";
-export { KeyCredential } from "./auth/keyCredential.js";
+export { KeyCredential, isKeyCredential } from "./auth/keyCredential.js";
 export {
   Instrumenter,
   InstrumenterSpanOptions,

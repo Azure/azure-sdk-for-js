@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to refresh the information from the recovery services provider.
  *
  * @summary The operation to refresh the information from the recovery services provider.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_RefreshProvider.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_RefreshProvider.json
  */
 async function refreshDetailsFromTheRecoveryServicesProvider() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function refreshDetailsFromTheRecoveryServicesProvider() {
     resourceName,
     resourceGroupName,
     fabricName,
-    providerName
+    providerName,
   );
   console.log(result);
 }

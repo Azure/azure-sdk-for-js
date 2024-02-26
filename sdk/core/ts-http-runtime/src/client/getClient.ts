@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-import { KeyCredential } from "../auth/keyCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
 import { HttpClient, HttpMethods } from "../interfaces.js";
 import { Pipeline } from "../pipeline.js";
 import { createDefaultPipeline } from "./clientHelpers.js";
@@ -14,7 +14,7 @@ import {
   RequestParameters,
   StreamableMethod,
 } from "./common.js";
-import { sendRequest, sendRequestAsStream } from "./sendRequest.js";
+import { sendRequest } from "./sendRequest.js";
 import { buildRequestUrl } from "./urlHelpers.js";
 import { PipelineOptions } from "../createPipelineFromOptions.js";
 
@@ -177,22 +177,22 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }
@@ -200,9 +200,5 @@ function buildOperation(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions,
 ): param is TokenCredential | KeyCredential {
-  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
-    return true;
-  }
-
-  return false;
+  return isKeyCredential(param) || isTokenCredential(param);
 }

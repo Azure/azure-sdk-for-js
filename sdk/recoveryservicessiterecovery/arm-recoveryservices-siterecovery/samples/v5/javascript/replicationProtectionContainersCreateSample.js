@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to create a protection container.
  *
  * @summary Operation to create a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_Create.json
  */
 async function createAProtectionContainer() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function createAProtectionContainer() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    creationInput
+    creationInput,
   );
   console.log(result);
 }
