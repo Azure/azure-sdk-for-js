@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to purge(force delete) a protection container mapping.
  *
  * @summary The operation to purge(force delete) a protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_Purge.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Purge.json
  */
 async function purgeProtectionContainerMapping() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function purgeProtectionContainerMapping() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    mappingName
+    mappingName,
   );
   console.log(result);
 }

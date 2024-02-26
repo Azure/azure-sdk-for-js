@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the registered recovery services providers for the specified fabric.
  *
  * @summary Lists the registered recovery services providers for the specified fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryServicesProviders_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryServicesProviders_ListByReplicationFabrics.json
  */
 async function getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheListOfRegisteredRecoveryServicesProvidersForTheFabric() {
   for await (let item of client.replicationRecoveryServicesProviders.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

@@ -11,7 +11,7 @@ import {
   MigrationRecoveryPoint,
   MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
   MigrationRecoveryPointsGetOptionalParams,
-  MigrationRecoveryPointsGetResponse
+  MigrationRecoveryPointsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface MigrationRecoveryPoints {
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams
+    options?: MigrationRecoveryPointsListByReplicationMigrationItemsOptionalParams,
   ): PagedAsyncIterableIterator<MigrationRecoveryPoint>;
   /**
    * Gets a recovery point for a migration item.
@@ -53,6 +53,6 @@ export interface MigrationRecoveryPoints {
     protectionContainerName: string,
     migrationItemName: string,
     migrationRecoveryPointName: string,
-    options?: MigrationRecoveryPointsGetOptionalParams
+    options?: MigrationRecoveryPointsGetOptionalParams,
   ): Promise<MigrationRecoveryPointsGetResponse>;
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to export the details of the Azure Site Recovery jobs of the vault.
  *
  * @summary The operation to export the details of the Azure Site Recovery jobs of the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Export.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationJobs_Export.json
  */
 async function exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function exportsTheDetailsOfTheAzureSiteRecoveryJobsOfTheVault() {
   const result = await client.replicationJobs.beginExportAndWait(
     resourceName,
     resourceGroupName,
-    jobQueryParameter
+    jobQueryParameter,
   );
   console.log(result);
 }

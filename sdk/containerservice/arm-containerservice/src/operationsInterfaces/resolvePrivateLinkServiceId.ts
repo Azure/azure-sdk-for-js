@@ -9,7 +9,7 @@
 import {
   PrivateLinkResource,
   ResolvePrivateLinkServiceIdPostOptionalParams,
-  ResolvePrivateLinkServiceIdPostResponse
+  ResolvePrivateLinkServiceIdPostResponse,
 } from "../models";
 
 /** Interface representing a ResolvePrivateLinkServiceId. */
@@ -25,6 +25,6 @@ export interface ResolvePrivateLinkServiceId {
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateLinkResource,
-    options?: ResolvePrivateLinkServiceIdPostOptionalParams
+    options?: ResolvePrivateLinkServiceIdPostOptionalParams,
   ): Promise<ResolvePrivateLinkServiceIdPostResponse>;
 }

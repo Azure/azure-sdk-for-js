@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to initiate test migrate cleanup.
  *
  * @summary The operation to initiate test migrate cleanup.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_TestMigrateCleanup.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_TestMigrateCleanup.json
  */
 async function testMigrateCleanup() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function testMigrateCleanup() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    testMigrateCleanupInput
+    testMigrateCleanupInput,
   );
   console.log(result);
 }
