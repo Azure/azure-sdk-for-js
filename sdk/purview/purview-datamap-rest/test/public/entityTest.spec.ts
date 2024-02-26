@@ -21,7 +21,8 @@ describe("purview datamap entity test", () => {
 
   it("Import entity business metadata ", async function () {
     const client = await createClient(recorder);
-	const fileContent = new TextEncoder().encode(`TypeName,UniqueAttributeValue,BusinessAttributeName,BusinessAttributeValue,UniqueAttributeName[optional]
+    const fileContent = new TextEncoder()
+      .encode(`TypeName,UniqueAttributeValue,BusinessAttributeName,BusinessAttributeValue,UniqueAttributeName[optional]
 hive_database,hive_db_1,bmWithAllTypes.attr8,"Awesome Attribute 1",name`);
 
     const response = await client.path("/atlas/v2/entity/businessmetadata/import").post({
