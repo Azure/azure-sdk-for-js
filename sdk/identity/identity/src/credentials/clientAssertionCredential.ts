@@ -6,6 +6,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../msal/flows";
@@ -82,9 +83,6 @@ export class ClientAssertionCredential implements TokenCredential {
         );
 
         const arrayScopes = Array.isArray(scopes) ? scopes : [scopes];
-        // how this might look
-        // const assertion = await this.getassertion()
-        // return this.msalClient.getTokenByClientAssertion(arrayScopes, assertion, newOptions)
         return this.msalFlow.getToken(arrayScopes, newOptions);
       },
     );
