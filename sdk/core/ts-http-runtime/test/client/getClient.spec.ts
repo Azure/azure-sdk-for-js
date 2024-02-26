@@ -237,4 +237,27 @@ describe("getClient", () => {
       allowInsecureConnection: false,
     });
   });
+
+  it("stream methods should call onResponse", async () => {
+    let called = false;
+    const fakeHttpClient: HttpClient = {
+      sendRequest: async (request) => {
+        return { headers: createHttpHeaders(), status: 200, request };
+      },
+    };
+
+    const client = getClient("https://example.org", {
+      httpClient: fakeHttpClient,
+    });
+    const res = client.pathUnchecked("/foo").get({
+      onResponse: () => {
+        called = true;
+      },
+    });
+    await res.asNodeStream();
+    assert.isTrue(called);
+    called = false;
+    await res.asBrowserStream();
+    assert.isTrue(called);
+  });
 });
