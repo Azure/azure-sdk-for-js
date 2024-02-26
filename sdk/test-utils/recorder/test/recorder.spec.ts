@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { expect } from "chai";
+import { describe, it } from "vitest";
 
 import { calculatePaths } from "../src/recorder.js";
 
@@ -22,7 +23,7 @@ describe("Recorder file paths", () => {
   });
 
   it("calculates paths for a vitest test", () => {
-    const vitestTest = () => {
+    const vitestTest = (): void => {
       /* no-op */
     };
     (vitestTest as any).task = {
@@ -40,7 +41,7 @@ describe("Recorder file paths", () => {
   });
 
   it("calculates paths for a vitest test with nested suites", () => {
-    const vitestTest = () => {
+    const vitestTest = (): void => {
       /* no-op */
     };
     (vitestTest as any).task = {

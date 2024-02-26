@@ -6,7 +6,7 @@ import { expect } from "chai";
 import { Recorder } from "../src/recorder.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { encodeBase64 } from "../src/utils/encoding.js";
-import { describe, it, beforeEach, TaskContext } from "vitest";
+import { describe, it, beforeEach } from "vitest";
 
 describe("State Manager", function () {
   it("throws error if started twice", function () {
@@ -39,8 +39,8 @@ describe("State Manager", function () {
 
 describe("handleTestProxyErrors", function () {
   let recorder: Recorder;
-  beforeEach(function (this: TaskContext) {
-    recorder = new Recorder(this.task.context);
+  beforeEach(function (context) {
+    recorder = new Recorder(context);
   });
 
   it("x-request-mismatch header", function () {

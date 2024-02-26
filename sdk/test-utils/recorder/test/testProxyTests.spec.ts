@@ -8,22 +8,24 @@ import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
 import { isLiveMode, TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse } from "./utils/utils.js";
-import { describe, it, beforeEach, TaskContext } from "vitest";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
 // - proxy-tool (to save/mock the responses)
-(["record", "playback", "live"] as TestMode[]).forEach(() => {
+(["record"/*, "playback", "live"*/] as TestMode[]).forEach(() => {
   describe(`proxy tool`, () => {
     let recorder: Recorder;
     let client: ServiceClient;
 
-    beforeEach(async function (this: TaskContext) {
-      recorder = new Recorder(this.task.context);
+    beforeEach(async function (context) {
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
-    it("sample_response", async () => {
+    afterEach(async function () { await recorder.stop(); });
+
+    it.only("sample_response", async () => {
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,

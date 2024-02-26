@@ -6,7 +6,7 @@ import { env, isPlaybackMode, Recorder } from "../src/index.js";
 import { TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
-import { describe, it, beforeEach, afterEach, beforeAll, TaskContext } from "vitest";
+import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -23,11 +23,10 @@ import { describe, it, beforeEach, afterEach, beforeAll, TaskContext } from "vit
       setTestMode(mode);
     });
 
-    beforeEach(async function (this: TaskContext) {
-      const test = this.task.context;
+    beforeEach(async function (context) {
       env.TEST_VARIABLE_1 = "the answer!";
       env.TEST_VARIABLE_2 = "answer!";
-      recorder = new Recorder(test);
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });

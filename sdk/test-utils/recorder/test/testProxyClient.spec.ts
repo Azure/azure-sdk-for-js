@@ -28,8 +28,8 @@ describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
   let testContext: TaskContext | undefined;
-  beforeEach(async function (this: TaskContext) {
-    testContext = this.task.context;
+  beforeEach(async function (context) {
+    testContext = context;
     client = new Recorder(testContext);
     clientHttpClient = client["httpClient"] as HttpClient;
   });
