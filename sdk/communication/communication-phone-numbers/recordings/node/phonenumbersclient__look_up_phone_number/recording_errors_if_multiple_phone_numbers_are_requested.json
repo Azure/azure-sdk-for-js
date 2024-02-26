@@ -13,7 +13,8 @@
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "2EDM3upLeKceABF7H36PeBLMu8mkETj7g\u002B9zLKBEw8U=",
-        "x-ms-date": "Fri, 14 Jul 2023 05:01:33 GMT"
+        "x-ms-date": "Fri, 14 Jul 2023 05:01:33 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "phoneNumbers": [
