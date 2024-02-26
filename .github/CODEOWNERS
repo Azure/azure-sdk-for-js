@@ -155,7 +155,6 @@
 
 # PRLabel: %Iot
 # ServiceLabel: %Iot
-# AzureSdkOwners:  @xirzec
 /sdk/iot/ @xirzec
 
 # PRLabel: %KeyVault
@@ -241,22 +240,21 @@
 
 # PRLabel: %Schema Registry
 # ServiceLabel: %Schema Registry
-# AzureSdkOwners: @deyaaeldeen @minhanh-phan
-/sdk/schemaregistry/ @deyaaeldeen @minhanh-phan
+# AzureSdkOwners: @minhanh-phan
+/sdk/schemaregistry/ @minhanh-phan @deyaaeldeen 
 
 # PRLabel: %Cognitive - Form Recognizer
 # ServiceLabel: %Cognitive - Form Recognizer
-# AzureSdkOwners: @HarshaNalluru @jeremymeng
+# AzureSdkOwners: @HarshaNalluru
 /sdk/formrecognizer/ @HarshaNalluru @jeremymeng
 
 # PRLabel: %Cognitive - Metrics Advisor
 # ServiceLabel: %Cognitive - Metrics Advisor
-# AzureSdkOwners: @KarishmaGhiya @jeremymeng
+# AzureSdkOwners: @KarishmaGhiya
 /sdk/metricsadvisor/ @KarishmaGhiya @jeremymeng
 
 # PRLabel: %Cognitive - Content Safety
 # ServiceLabel: %Cognitive - Content Safety
-# AzureSdkOwners: @xirzec
 /sdk/contentsafety/ @xirzec
 
 # PRLabel: %Search
