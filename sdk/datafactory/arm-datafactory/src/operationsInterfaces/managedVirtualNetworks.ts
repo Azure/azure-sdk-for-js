@@ -13,7 +13,7 @@ import {
   ManagedVirtualNetworksCreateOrUpdateOptionalParams,
   ManagedVirtualNetworksCreateOrUpdateResponse,
   ManagedVirtualNetworksGetOptionalParams,
-  ManagedVirtualNetworksGetResponse
+  ManagedVirtualNetworksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface ManagedVirtualNetworks {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: ManagedVirtualNetworksListByFactoryOptionalParams
+    options?: ManagedVirtualNetworksListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<ManagedVirtualNetworkResource>;
   /**
    * Creates or updates a managed Virtual Network.
@@ -43,7 +43,7 @@ export interface ManagedVirtualNetworks {
     factoryName: string,
     managedVirtualNetworkName: string,
     managedVirtualNetwork: ManagedVirtualNetworkResource,
-    options?: ManagedVirtualNetworksCreateOrUpdateOptionalParams
+    options?: ManagedVirtualNetworksCreateOrUpdateOptionalParams,
   ): Promise<ManagedVirtualNetworksCreateOrUpdateResponse>;
   /**
    * Gets a managed Virtual Network.
@@ -56,6 +56,6 @@ export interface ManagedVirtualNetworks {
     resourceGroupName: string,
     factoryName: string,
     managedVirtualNetworkName: string,
-    options?: ManagedVirtualNetworksGetOptionalParams
+    options?: ManagedVirtualNetworksGetOptionalParams,
   ): Promise<ManagedVirtualNetworksGetResponse>;
 }

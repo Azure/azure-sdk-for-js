@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to add disks(s) to the replication protected item.
  *
  * @summary Operation to add disks(s) to the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_AddDisks.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_AddDisks.json
  */
 async function addDiskSForProtection() {
   const subscriptionId =
@@ -52,7 +52,7 @@ async function addDiskSForProtection() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    addDisksInput
+    addDisksInput,
   );
   console.log(result);
 }

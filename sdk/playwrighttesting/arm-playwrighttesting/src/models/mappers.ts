@@ -242,6 +242,47 @@ export const AccountListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const AccountProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountProperties",
+    modelProperties: {
+      dashboardUri: {
+        serializedName: "dashboardUri",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      },
+      regionalAffinity: {
+        serializedName: "regionalAffinity",
+        type: {
+          name: "String"
+        }
+      },
+      scalableExecution: {
+        serializedName: "scalableExecution",
+        type: {
+          name: "String"
+        }
+      },
+      reporting: {
+        serializedName: "reporting",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -352,6 +393,29 @@ export const QuotaListResult: coreClient.CompositeMapper = {
   }
 };
 
+export const QuotaProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QuotaProperties",
+    modelProperties: {
+      freeTrial: {
+        serializedName: "freeTrial",
+        type: {
+          name: "Composite",
+          className: "FreeTrialProperties"
+        }
+      },
+      provisioningState: {
+        serializedName: "provisioningState",
+        readOnly: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const FreeTrialProperties: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -433,20 +497,36 @@ export const AccountUpdate: coreClient.CompositeMapper = {
           value: { type: { name: "String" } }
         }
       },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "AccountUpdateProperties"
+        }
+      }
+    }
+  }
+};
+
+export const AccountUpdateProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AccountUpdateProperties",
+    modelProperties: {
       regionalAffinity: {
-        serializedName: "properties.regionalAffinity",
+        serializedName: "regionalAffinity",
         type: {
           name: "String"
         }
       },
       scalableExecution: {
-        serializedName: "properties.scalableExecution",
+        serializedName: "scalableExecution",
         type: {
           name: "String"
         }
       },
       reporting: {
-        serializedName: "properties.reporting",
+        serializedName: "reporting",
         type: {
           name: "String"
         }
@@ -495,36 +575,11 @@ export const Account: coreClient.CompositeMapper = {
     className: "Account",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      dashboardUri: {
-        serializedName: "properties.dashboardUri",
-        readOnly: true,
+      properties: {
+        serializedName: "properties",
         type: {
-          name: "String"
-        }
-      },
-      regionalAffinity: {
-        serializedName: "properties.regionalAffinity",
-        type: {
-          name: "String"
-        }
-      },
-      scalableExecution: {
-        serializedName: "properties.scalableExecution",
-        type: {
-          name: "String"
-        }
-      },
-      reporting: {
-        serializedName: "properties.reporting",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
+          name: "Composite",
+          className: "AccountProperties"
         }
       }
     }
@@ -537,18 +592,11 @@ export const Quota: coreClient.CompositeMapper = {
     className: "Quota",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
-      freeTrial: {
-        serializedName: "properties.freeTrial",
+      properties: {
+        serializedName: "properties",
         type: {
           name: "Composite",
-          className: "FreeTrialProperties"
-        }
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String"
+          className: "QuotaProperties"
         }
       }
     }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the data of supported operating systems by SRS.
  *
  * @summary Gets the data of supported operating systems by SRS.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/SupportedOperatingSystems_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/SupportedOperatingSystems_Get.json
  */
 async function getsTheDataOfSupportedOperatingSystemsBySrs() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheDataOfSupportedOperatingSystemsBySrs() {
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.supportedOperatingSystemsOperations.get(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   );
   console.log(result);
 }
