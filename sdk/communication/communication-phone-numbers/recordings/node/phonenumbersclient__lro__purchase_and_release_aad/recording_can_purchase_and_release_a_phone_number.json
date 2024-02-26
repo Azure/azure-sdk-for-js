@@ -514,7 +514,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -549,7 +549,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/purchase_sanitized?api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -793,7 +793,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -827,7 +827,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/release_sanitized?api-version=2023-10-01-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
