@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { Recorder } from "./recorder";
-export { relativeRecordingsPath } from "./utils/relativePathCalculator";
+export { Recorder } from "./recorder.js";
+export { relativeRecordingsPath } from "./utils/relativePathCalculator.js";
 export {
   SanitizerOptions,
   RecorderStartOptions,
@@ -12,7 +12,7 @@ export {
   assertEnvironmentVariable,
   setEnvironmentVariables,
   testPollingOptions,
-} from "./utils/utils";
-export { env } from "./utils/env";
-export { delay } from "./utils/delay";
-export { CustomMatcherOptions } from "./matcher";
+} from "./utils/utils.js";
+export { env } from "./utils/env.js";
+export { delay } from "./utils/delay.js";
+export { CustomMatcherOptions } from "./matcher.js";

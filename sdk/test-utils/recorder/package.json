@@ -3,9 +3,8 @@
   "version": "3.1.0",
   "sdk-type": "utility",
   "description": "This library provides interfaces and helper methods to provide recording and playback capabilities for the tests in Azure JS/TS SDKs",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "./types/src/index.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "browser": {
     "./dist-esm/src/utils/relativePathCalculator.js": "./dist-esm/src/utils/relativePathCalculator.browser.js",
     "./dist-esm/src/utils/env.js": "./dist-esm/src/utils/env.browser.js",
@@ -15,20 +14,20 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "echo skipped",
-    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:node": "tshy && npm run build:test",
     "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle",
+    "build:test": "tshy && dev-tool run build-test ",
+    "build": "npm run clean && npm run build:test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist typings *.tgz *.log",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "concurrently \"npm run tests:server\" \"npm run test:browser-with-proxy\" --kill-others --success first",
     "integration-test:node": "concurrently \"npm run tests:server\" \"npm run test:node-with-proxy\" --kill-others --success first",
-    "test:node-with-proxy": "dev-tool run test:node-ts-input -- --timeout 1200000 \"test/*.spec.ts\"",
-    "test:browser-with-proxy": "dev-tool run test:browser",
+    "test:node-with-proxy": "dev-tool run test:vitest -- \"test/*.spec.ts\"",
+    "test:browser-with-proxy": "dev-tool run test:vitest --browser",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "tests:server": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" ts-node test/utils/server.ts",
+    "tests:server": "ts-node --esm server.ts",
     "lint:fix": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint --no-eslintrc -c ../../.eslintrc.internal.json package.json src test --ext .ts",
     "pack": "npm pack 2>&1",
@@ -99,6 +98,46 @@
     "rimraf": "^3.0.0",
     "tslib": "^2.2.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3"
-  }
+    "tshy": "1.11.1",
+    "typescript": "~5.3.3",
+    "vitest": "^1.0.0",
+    "@vitest/browser": "^1.3.1",
+    "@vitest/coverage-istanbul": "^1.0.0"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ]
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "type": "module"
 }

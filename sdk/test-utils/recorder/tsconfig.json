@@ -1,9 +1,16 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
-    "lib": ["dom"]
+    "lib": ["dom"],
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "src/utils/encoding-browser.mts",
+    "src/utils/relativePathCalculator-browser.mts",
+    "src/utils/env-browser.mts"
+  ]
 }

@@ -5,29 +5,22 @@ import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
 import assert from "assert";
 import { expect } from "chai";
-import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
-import { isLiveMode, TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
+import { isLiveMode, TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse } from "./utils/utils.js";
+import { describe, it, beforeEach } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
 // - proxy-tool (to save/mock the responses)
-(["record", "playback", "live"] as TestMode[]).forEach((mode) => {
+(["record", "playback", "live"] as TestMode[]).forEach(() => {
   describe(`proxy tool`, () => {
     let recorder: Recorder;
     let client: ServiceClient;
 
-    before(() => {
-      setTestMode(mode);
-    });
-
-    beforeEach(async function () {
+    beforeEach(async function (this: Mocha.Context) {
       recorder = new Recorder(this.currentTest);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
-    });
-
-    afterEach(async () => {
-      await recorder.stop();
     });
 
     it("sample_response", async () => {
@@ -282,9 +275,8 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${
-                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-              }`,
+              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+                }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],

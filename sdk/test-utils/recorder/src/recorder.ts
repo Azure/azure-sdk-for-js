@@ -19,21 +19,21 @@ import {
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
-} from "./utils/utils";
+} from "./utils/utils.js";
 import { Test } from "mocha";
-import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
-import { SanitizerOptions } from "./utils/utils";
-import { paths } from "./utils/paths";
-import { addSanitizers, transformsInfo } from "./sanitizer";
-import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
-import { addTransform, Transform } from "./transform";
-import { createRecordingRequest } from "./utils/createRecordingRequest";
-import { logger } from "./log";
-import { setRecordingOptions } from "./options";
+import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath.js";
+import { SanitizerOptions } from "./utils/utils.js";
+import { paths } from "./utils/paths.js";
+import { addSanitizers, transformsInfo } from "./sanitizer.js";
+import { handleEnvSetup } from "./utils/envSetupForPlayback.js";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher.js";
+import { addTransform, Transform } from "./transform.js";
+import { createRecordingRequest } from "./utils/createRecordingRequest.js";
+import { logger } from "./log.js";
+import { setRecordingOptions } from "./options.js";
 import { isBrowser, isNode } from "@azure/core-util";
-import { env } from "./utils/env";
-import { decodeBase64 } from "./utils/encoding";
+import { env } from "./utils/env.js";
+import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
 
 /**

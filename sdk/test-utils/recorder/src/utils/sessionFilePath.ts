@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { isNode } from "@azure/core-util";
-import { generateTestRecordingFilePath } from "./filePathGenerator";
-import { relativeRecordingsPath } from "./relativePathCalculator";
-import { RecorderError } from "./utils";
+import { generateTestRecordingFilePath } from "./filePathGenerator.js";
+import { relativeRecordingsPath } from "./relativePathCalculator.js";
+import { RecorderError } from "./utils.js";
 
 export function sessionFilePath(testContext: Mocha.Test): string {
   // sdk/service/project/recordings/{node|browsers}/<describe-block-title>/recording_<test-title>.json
