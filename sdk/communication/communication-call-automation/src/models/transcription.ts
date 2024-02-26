@@ -68,25 +68,3 @@ export interface TranscriptionData {
   /** Status of the result of transcription. */
   resultStatus: ResultStatus;
 }
-
-/**
- * Streaming Transcription.
- */
-export interface TranscriptionDataInternal {
-  /** The display form of the recognized word. */
-  text: string;
-  /** The format of text. */
-  format: TextFormat;
-  /** Confidence of recognition of the whole phrase, from 0.0 (no confidence) to 1.0 (full confidence). */
-  confidence: number;
-  /** The position of this payload. */
-  offset: number;
-  /** Duration in ticks. 1 tick = 100 nanoseconds. */
-  duration: number;
-  /** The result for each word of the phrase. */
-  words: WordData[];
-  /** The identified speaker based on participant raw ID. */
-  participantRawID: string;
-  /** Status of the result of transcription. */
-  resultStatus: ResultStatus;
-}

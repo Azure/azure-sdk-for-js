@@ -2,15 +2,11 @@
 // Licensed under the MIT license.
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
-import {
-  TranscriptionDataInternal,
-  TranscriptionMetadata,
-  TranscriptionData,
-} from "../models/transcription";
+import { TranscriptionMetadata, TranscriptionData } from "../models/transcription";
 
 /** Parse the incoming package. */
 export function streamingDataParser(
-  packetData: string | BinaryData,
+  packetData: string | ArrayBuffer,
 ): TranscriptionMetadata | TranscriptionData {
   let stringJson: string;
   if (typeof packetData === "string") {
@@ -29,16 +25,15 @@ export function streamingDataParser(
       return transcriptionMetadata;
     }
     case "TranscriptionData": {
-      const transcriptionDataInternal: TranscriptionDataInternal = jsonObject.transcriptionData;
       const transcriptionData: TranscriptionData = {
-        text: transcriptionDataInternal.text,
-        format: transcriptionDataInternal.format,
-        confidence: transcriptionDataInternal.confidence,
-        offset: transcriptionDataInternal.offset,
-        duration: transcriptionDataInternal.duration,
-        words: transcriptionDataInternal.words,
-        participant: createIdentifierFromRawId(transcriptionDataInternal.participantRawID),
-        resultStatus: transcriptionDataInternal.resultStatus,
+        text: jsonObject.transcriptionData.text,
+        format: jsonObject.transcriptionData.format,
+        confidence: jsonObject.transcriptionData.confidence,
+        offset: jsonObject.transcriptionData.offset,
+        duration: jsonObject.transcriptionData.duration,
+        words: jsonObject.transcriptionData.words,
+        participant: createIdentifierFromRawId(jsonObject.transcriptionData.participantRawID),
+        resultStatus: jsonObject.transcriptionData.resultStatus,
       };
       return transcriptionData;
     }
