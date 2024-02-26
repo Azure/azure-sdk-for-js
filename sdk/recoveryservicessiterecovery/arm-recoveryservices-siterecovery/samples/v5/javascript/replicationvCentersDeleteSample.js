@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to remove(unregister) a registered vCenter server from the vault.
  *
  * @summary The operation to remove(unregister) a registered vCenter server from the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_Delete.json
  */
 async function removeVCenterOperation() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function removeVCenterOperation() {
     resourceName,
     resourceGroupName,
     fabricName,
-    vcenterName
+    vcenterName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
  *
  * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
  */
 async function updateTheMobilityServiceOnAProtectedItem() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function updateTheMobilityServiceOnAProtectedItem() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    updateMobilityServiceRequest
+    updateMobilityServiceRequest,
   );
   console.log(result);
 }
