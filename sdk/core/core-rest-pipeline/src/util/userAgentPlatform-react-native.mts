@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-/* @ts-ignore */
 const { Platform } = await import("react-native");
 
 /**
