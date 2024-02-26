@@ -98,6 +98,9 @@ dependencies:
   '@rush-temp/arm-appservice-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-appservice-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-appservice-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-astro':
+    specifier: file:./projects/arm-astro.tgz
+    version: file:projects/arm-astro.tgz
   '@rush-temp/arm-attestation':
     specifier: file:./projects/arm-attestation.tgz
     version: file:projects/arm-attestation.tgz
@@ -11852,10 +11855,11 @@ packages:
     dev: false
 
   file:projects/arm-apicenter.tgz:
-    resolution: {integrity: sha512-gfeidrvoLbc6/pKX5cV8vrTAEYAE+K16juwMudvGfHFzW19n1nIl58GZRGt/mXIX1aeTsqq16FHPnY0AUHNQbA==, tarball: file:projects/arm-apicenter.tgz}
+    resolution: {integrity: sha512-I7XVaUB5zLRaozqNoPd0XDmfpMBMbEicQxn8lFbAe5pm1C9l3C07LLk6jU6UkwO7XMZ6KHmtvvGmsdP/83W4IQ==, tarball: file:projects/arm-apicenter.tgz}
     name: '@rush-temp/arm-apicenter'
     version: 0.0.0
     dependencies:
+      '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.39.0(@types/node@18.19.3)
       '@types/chai': 4.3.11
@@ -11864,13 +11868,17 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
       - supports-color
     dev: false
 
@@ -12131,6 +12139,34 @@ packages:
       - debug
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/arm-astro.tgz:
+    resolution: {integrity: sha512-9WhXfWQ2IRgbLqxa1ZPCCpAHEIgBGTbEGhQDzaF6tiaOb8iBnU4o2Tjk2WhoN7opuV+opjcsYQOmMfOGsH0iFg==, tarball: file:projects/arm-astro.tgz}
+    name: '@rush-temp/arm-astro'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.40.3(@types/node@18.19.3)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.3
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.2.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
     dev: false
 
   file:projects/arm-attestation.tgz:
@@ -15904,7 +15940,7 @@ packages:
     dev: false
 
   file:projects/arm-playwrighttesting.tgz:
-    resolution: {integrity: sha512-GQRU2WfX0EcPUhfoOg5AXo8isYzO5E+XD8bytsRHJAmveO5YbPR5dfWwsh8AC4G5LyRECwlT3lPU7vsqO9tJ7A==, tarball: file:projects/arm-playwrighttesting.tgz}
+    resolution: {integrity: sha512-CJf33p9Vv7ylIvsbdEzMuXFikIrP2QojqX601qJoHwFanjrU05ADROulvioErYQgMjafcnUV2TaxQRv7e89mbA==, tarball: file:projects/arm-playwrighttesting.tgz}
     name: '@rush-temp/arm-playwrighttesting'
     version: 0.0.0
     dependencies:
@@ -15917,6 +15953,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
       rimraf: 5.0.5
@@ -16278,7 +16315,7 @@ packages:
     dev: false
 
   file:projects/arm-recoveryservices-siterecovery.tgz:
-    resolution: {integrity: sha512-S2FAwhwCd3PXIbmrG7Iw5Q51t9T55NCIS7av39X9XHBedTt3bZVtWSXX2TyTDK9xpKg+GaMtrZAgn20hv+JT5A==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
+    resolution: {integrity: sha512-b/d81K7IFPOaKtope73jrqBUNX3I3gT8DCJD2gFLWxwmkkjD0CJLFOmMUhAxlIO0RSyvOakXpwYaKwsc1BF7nA==, tarball: file:projects/arm-recoveryservices-siterecovery.tgz}
     name: '@rush-temp/arm-recoveryservices-siterecovery'
     version: 0.0.0
     dependencies:
@@ -16291,9 +16328,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -16415,7 +16453,7 @@ packages:
     dev: false
 
   file:projects/arm-redisenterprisecache.tgz:
-    resolution: {integrity: sha512-luNnjN7wa9aYAXSLOhi2IDQrXNSgJG+nsJbsi0O+Yjvw5a0W+zxeOpHeJG4ZnhtQwEZjm28cfUjDbSa6cOjjyg==, tarball: file:projects/arm-redisenterprisecache.tgz}
+    resolution: {integrity: sha512-s+JbUbQxJxp9Xp8Em9GYV0o7ngPo55Mg97VaiwgBe6l9vu5LMcTTD383xdtwO7UDGkSfXEFUoNbNw+G4jKGtDw==, tarball: file:projects/arm-redisenterprisecache.tgz}
     name: '@rush-temp/arm-redisenterprisecache'
     version: 0.0.0
     dependencies:
@@ -16428,9 +16466,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -17293,7 +17332,7 @@ packages:
     dev: false
 
   file:projects/arm-storagecache.tgz:
-    resolution: {integrity: sha512-/4QyVn3P5+lHTnVYyIp7upL3uAktN0Thoo3GP0gISgd8WP5euKiROj4zfuUaJQHVz48RLEd1y3PCCVlIKcb/Dw==, tarball: file:projects/arm-storagecache.tgz}
+    resolution: {integrity: sha512-fM8T5Xb2jI4+F4Qh6yq2mwkfi+pSw781mYwVS9QvZcwoEpSAr779vVEdfdjyHseT5aGvVxMtdHUoSadfFgDSGg==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
     version: 0.0.0
     dependencies:
@@ -17306,9 +17345,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.3.1
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.2.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.3)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -20036,7 +20076,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-kgTvwCwSw0Hdc6p7UWepwm5UZEacydC90jJOpOl+nftmPwLlNfp7TeEG8avM/ZI1CCDmpK/HwhI/XJNH8VMNEg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-/VnE5l5LjhNg5nfdHDtTuIU+sqMsT+st+3sGdFW0zw6Oyn1kJrTlDiKm6q6BR1RKNmZCUPL+k77qWoz1qGDt7A==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
