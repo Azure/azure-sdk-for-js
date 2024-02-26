@@ -6,7 +6,7 @@ import { env, isPlaybackMode, Recorder } from "../src/index.js";
 import { TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
-import { describe, it, beforeEach, afterEach, beforeAll, Vitest, TaskContext } from "vitest";
+import { describe, it, beforeEach, afterEach, beforeAll, TaskContext } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)

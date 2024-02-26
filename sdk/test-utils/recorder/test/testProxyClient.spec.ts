@@ -12,7 +12,7 @@ import { env, Recorder } from "../src/index.js";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
 import { paths } from "../src/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
-import { describe, it, beforeEach, afterEach, } from "vitest";
+import { describe, it, beforeEach, afterEach, TaskContext, } from "vitest";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -27,11 +27,11 @@ const testRedirectedRequest = (
 describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test | undefined;
-  beforeEach(function (this: Mocha.Context) {
-    client = new Recorder(this.currentTest);
+  let testContext: TaskContext | undefined;
+  beforeEach(async function (this: TaskContext) {
+    testContext = this.task.context;
+    client = new Recorder(testContext);
     clientHttpClient = client["httpClient"] as HttpClient;
-    testContext = this.currentTest;
   });
 
   afterEach(() => {

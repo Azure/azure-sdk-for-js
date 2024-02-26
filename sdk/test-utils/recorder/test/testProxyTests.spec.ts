@@ -8,7 +8,7 @@ import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
 import { isLiveMode, TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse } from "./utils/utils.js";
-import { describe, it, beforeEach } from "vitest";
+import { describe, it, beforeEach, TaskContext } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -18,8 +18,8 @@ import { describe, it, beforeEach } from "vitest";
     let recorder: Recorder;
     let client: ServiceClient;
 
-    beforeEach(async function (this: Mocha.Context) {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (this: TaskContext) {
+      recorder = new Recorder(this.task.context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
