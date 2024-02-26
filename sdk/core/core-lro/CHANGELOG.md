@@ -1,14 +1,18 @@
 # Release History
 
-## 2.6.1 (Unreleased)
+## 3.0.0-beta.1 (2024-02-25)
 
-### Features Added
+Initial implementation of next-generation for Long Running Operations (LROs) in which we deprecate the `LroEngine` support and change poller creation to a synchronized way.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- `LroEngine` is deprecated and no long supported
+- The return type of `createHttpPoller` is changed from `Promise<SimplePollerLike>` to `PollerLike`
+- Some interfaces are renamed. `SimplePollerLike` is renamed as `PollerLike`, `LroResponse` is renamed as `OperationResponse` and `LroResourceLocationConfig` is to `ResourceLocationConfig`
+- Functions `getOperationState()`, `getResult()`, `isDone()` and `isStopped()` is changed to read-only attributes `operationState`, `result`, `isDone` and `isStopped`
+- Deprecated the attributes `requestMethod` and `requestPath` in `LongRunningOperation`
+- Added a new function `serialize` to help serialize the poller
+- Added a new function `submitted` to help wait for the poller submitted succesffully
+- Added a new parameter `TRequest` for `OperationResponse` to accept the raw request
+- Export the function `deserializeState` to the public
 
 ## 2.6.0 (2024-02-01)
 

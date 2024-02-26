@@ -4,8 +4,8 @@
 import {
   HttpOperationMode,
   LongRunningOperation,
-  LroResourceLocationConfig,
-  LroResponse,
+  ResourceLocationConfig,
+  OperationResponse,
   RawResponse,
   ResponseBody,
 } from "./models.js";
@@ -16,7 +16,7 @@ import {
   RestorableOperationState,
   StateProxy,
 } from "../poller/models.js";
-import { initOperation, pollOperation } from "../poller/operation.js";
+import { pollOperation } from "../poller/operation.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { logger } from "../logger.js";
 
@@ -44,7 +44,7 @@ function findResourceLocation(inputs: {
   requestMethod?: string;
   location?: string;
   requestPath?: string;
-  resourceLocationConfig?: LroResourceLocationConfig;
+  resourceLocationConfig?: ResourceLocationConfig;
 }): string | undefined {
   const { location, requestMethod, requestPath, resourceLocationConfig } = inputs;
   switch (requestMethod) {
@@ -78,13 +78,12 @@ function findResourceLocation(inputs: {
   }
 }
 
-export function inferLroMode(inputs: {
-  rawResponse: RawResponse;
-  requestPath?: string;
-  requestMethod?: string;
-  resourceLocationConfig?: LroResourceLocationConfig;
-}): (OperationConfig & { mode: HttpOperationMode }) | undefined {
-  const { rawResponse, requestMethod, requestPath, resourceLocationConfig } = inputs;
+export function inferLroMode(
+  rawResponse: RawResponse,
+  resourceLocationConfig?: ResourceLocationConfig,
+): (OperationConfig & { mode: HttpOperationMode }) | undefined {
+  const requestPath = rawResponse.request.url;
+  const requestMethod = rawResponse.request.method;
   const operationLocation = getOperationLocationHeader(rawResponse);
   const azureAsyncOperation = getAzureAsyncOperationHeader(rawResponse);
   const pollingUrl = getOperationLocationPollingUrl({ operationLocation, azureAsyncOperation });
@@ -100,16 +99,22 @@ export function inferLroMode(inputs: {
         requestPath,
         resourceLocationConfig,
       }),
+      initialUrl: requestPath,
+      requestMethod,
     };
   } else if (location !== undefined) {
     return {
       mode: "ResourceLocation",
       operationLocation: location,
+      initialUrl: requestPath,
+      requestMethod,
     };
   } else if (normalizedRequestMethod === "PUT" && requestPath) {
     return {
       mode: "Body",
       operationLocation: requestPath,
+      initialUrl: requestPath,
+      requestMethod,
     };
   } else {
     return undefined;
@@ -167,7 +172,7 @@ function toOperationStatus(statusCode: number): OperationStatus {
   }
 }
 
-export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | undefined {
+export function parseRetryAfter<T>({ rawResponse }: OperationResponse<T>): number | undefined {
   const retryAfter: string | undefined = rawResponse.headers["retry-after"];
   if (retryAfter !== undefined) {
     // Retry-After header value is either in HTTP date format, or in seconds
@@ -179,7 +184,7 @@ export function parseRetryAfter<T>({ rawResponse }: LroResponse<T>): number | un
   return undefined;
 }
 
-export function getErrorFromResponse<T>(response: LroResponse<T>): LroError | undefined {
+export function getErrorFromResponse<T>(response: OperationResponse<T>): LroError | undefined {
   const error = accessBodyProperty(response, "error");
   if (!error) {
     logger.warning(
@@ -206,7 +211,7 @@ function calculatePollingIntervalFromDate(retryAfterDate: Date): number | undefi
 }
 
 export function getStatusFromInitialResponse<TState>(inputs: {
-  response: LroResponse<unknown>;
+  response: OperationResponse<unknown>;
   state: RestorableOperationState<TState>;
   operationLocation?: string;
 }): OperationStatus {
@@ -226,44 +231,8 @@ export function getStatusFromInitialResponse<TState>(inputs: {
   return status === "running" && operationLocation === undefined ? "succeeded" : status;
 }
 
-/**
- * Initiates the long-running operation.
- */
-export async function initHttpOperation<TResult, TState>(inputs: {
-  stateProxy: StateProxy<TState, TResult>;
-  resourceLocationConfig?: LroResourceLocationConfig;
-  processResult?: (result: unknown, state: TState) => TResult;
-  setErrorAsResult: boolean;
-  lro: LongRunningOperation;
-}): Promise<RestorableOperationState<TState>> {
-  const { stateProxy, resourceLocationConfig, processResult, lro, setErrorAsResult } = inputs;
-  return initOperation({
-    init: async () => {
-      const response = await lro.sendInitialRequest();
-      const config = inferLroMode({
-        rawResponse: response.rawResponse,
-        requestPath: lro.requestPath,
-        requestMethod: lro.requestMethod,
-        resourceLocationConfig,
-      });
-      return {
-        response,
-        operationLocation: config?.operationLocation,
-        resourceLocation: config?.resourceLocation,
-        ...(config?.mode ? { metadata: { mode: config.mode } } : {}),
-      };
-    },
-    stateProxy,
-    processResult: processResult
-      ? ({ flatResponse }, state) => processResult(flatResponse, state)
-      : ({ flatResponse }) => flatResponse as TResult,
-    getOperationStatus: getStatusFromInitialResponse,
-    setErrorAsResult,
-  });
-}
-
 export function getOperationLocation<TState>(
-  { rawResponse }: LroResponse,
+  { rawResponse }: OperationResponse,
   state: RestorableOperationState<TState>,
 ): string | undefined {
   const mode = state.config.metadata?.["mode"];
@@ -285,7 +254,7 @@ export function getOperationLocation<TState>(
 }
 
 export function getOperationStatus<TState>(
-  { rawResponse }: LroResponse,
+  { rawResponse }: OperationResponse,
   state: RestorableOperationState<TState>,
 ): OperationStatus {
   const mode = state.config.metadata?.["mode"];
@@ -305,14 +274,14 @@ export function getOperationStatus<TState>(
 }
 
 function accessBodyProperty<P extends string>(
-  { flatResponse, rawResponse }: LroResponse,
+  { flatResponse, rawResponse }: OperationResponse,
   prop: P,
 ): ResponseBody[P] {
   return (flatResponse as ResponseBody)?.[prop] ?? (rawResponse.body as ResponseBody)?.[prop];
 }
 
 export function getResourceLocation<TState>(
-  res: LroResponse,
+  res: OperationResponse,
   state: RestorableOperationState<TState>,
 ): string | undefined {
   const loc = accessBodyProperty(res, "resourceLocation");
@@ -331,8 +300,8 @@ export async function pollHttpOperation<TState, TResult>(inputs: {
   lro: LongRunningOperation;
   stateProxy: StateProxy<TState, TResult>;
   processResult?: (result: unknown, state: TState) => TResult;
-  updateState?: (state: TState, lastResponse: LroResponse) => void;
-  isDone?: (lastResponse: LroResponse, state: TState) => boolean;
+  updateState?: (state: TState, lastResponse: OperationResponse) => void;
+  isDone?: (lastResponse: OperationResponse, state: TState) => boolean;
   setDelay: (intervalInMs: number) => void;
   options?: { abortSignal?: AbortSignalLike };
   state: RestorableOperationState<TState>;
