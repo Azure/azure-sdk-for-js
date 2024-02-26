@@ -110,6 +110,7 @@ export {
   PurchasedPhoneNumber,
   OperatorDetails,
   OperatorInformation,
+  OperatorInformationOptions,
   OperatorInformationResult,
   OperatorNumberType
 } from "./generated/src/models/";
