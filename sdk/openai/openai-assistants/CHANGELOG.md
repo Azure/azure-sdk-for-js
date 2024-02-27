@@ -5,7 +5,7 @@
 ### Bugs Fixed
 
 - Fixed issue 28561 - OpenAI uses unix timestamps so all Date instances are broken
-  
+
 ## 1.0.0-beta.3 (2024-02-09)
 
 ### Bugs Fixed
