@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/phoneNumbers/invalid_phone_number/capabilities?api-version=2023-05-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/invalid_phone_number/capabilities?api-version=2024-03-01-preview",
       "RequestMethod": "PATCH",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -10,10 +10,11 @@
         "Connection": "keep-alive",
         "Content-Length": "35",
         "Content-Type": "application/merge-patch\u002Bjson",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
+        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.14.1 Node/18.18.1 OS/(x64-Windows_NT-10.0.22621)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "UC9kRixTqGBHL8/8LDOWaZFJCLceepyhWJ\u002B/vn6WEYQ=",
-        "x-ms-date": "Fri, 14 Jul 2023 05:01:31 GMT"
+        "x-ms-date": "Tue, 27 Feb 2024 18:50:07 GMT",
+        "x-ms-useragent": "fake-useragent"
       },
       "RequestBody": {
         "calling": "none",
@@ -21,15 +22,15 @@
       },
       "StatusCode": 400,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "api-supported-versions": "2021-03-07, 2022-01-11-preview2, 2022-06-01-preview, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01-preview, 2024-08-31-preview",
         "Content-Type": "application/json",
-        "Date": "Fri, 14 Jul 2023 05:01:31 GMT",
-        "MS-CV": "hxQ52BUBRUKRDekSi0MWYw.0",
+        "Date": "Tue, 27 Feb 2024 18:50:06 GMT",
+        "MS-CV": "cjtAezQbBUWyOU3CWKHDUw.0",
         "Strict-Transport-Security": "max-age=2592000",
         "Transfer-Encoding": "chunked",
-        "X-Azure-Ref": "0rNawZAAAAABrSEq\u002BwGfSQaFBHPyQd4uNV1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "03i7eZQAAAAA9Yct8yVQtRqzTZgKOXCbWV1NURURHRTAxMTQAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "147ms"
+        "X-Processing-Time": "172ms"
       },
       "ResponseBody": {
         "error": {

@@ -553,15 +553,13 @@ export class PhoneNumbersClient {
   ): Promise<OperatorInformationResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-searchOperatorInformation",
-      {
-        ...options,
-        options: { includeAdditionalOperatorDetails: options.includeAdditionalOperatorDetails }
-      }
+      options
     );
 
     try {
       return this.client.phoneNumbers.operatorInformationSearch(phoneNumbers, {
-        ...updatedOptions
+        ...updatedOptions,
+        options: { "includeAdditionalOperatorDetails": options.includeAdditionalOperatorDetails }
       });
     } catch (e: any) {
       span.setStatus({
