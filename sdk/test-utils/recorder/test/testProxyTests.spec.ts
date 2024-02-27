@@ -7,25 +7,31 @@ import assert from "assert";
 import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
 import { isLiveMode, TestMode } from "../src/utils/utils.js";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse } from "./utils/utils.js";
-import { describe, it, beforeEach, afterEach } from "vitest";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
+import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
 // - proxy-tool (to save/mock the responses)
-(["record"/*, "playback", "live"*/] as TestMode[]).forEach(() => {
+(["record", "playback", "live"] as TestMode[]).forEach((mode) => {
   describe(`proxy tool`, () => {
     let recorder: Recorder;
     let client: ServiceClient;
+
+    beforeAll(() => {
+      setTestMode(mode);
+    });
 
     beforeEach(async function (context) {
       recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
-    afterEach(async function () { await recorder.stop(); });
+    afterEach(async function () {
+      await recorder.stop();
+    });
 
-    it.only("sample_response", async () => {
+    it("sample_response", async () => {
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
@@ -277,8 +283,9 @@ import { describe, it, beforeEach, afterEach } from "vitest";
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-                }`,
+              path: `/sample_response${
+                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+              }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],

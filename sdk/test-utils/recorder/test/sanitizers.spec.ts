@@ -178,8 +178,9 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -338,8 +339,9 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {

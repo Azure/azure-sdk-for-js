@@ -12,7 +12,7 @@ import { env, Recorder } from "../src/index.js";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
 import { paths } from "../src/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
-import { describe, it, beforeEach, afterEach, TaskContext, } from "vitest";
+import { describe, it, beforeEach, afterEach, TaskContext } from "vitest";
 
 const testRedirectedRequest = (
   client: Recorder,
