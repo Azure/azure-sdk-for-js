@@ -549,17 +549,17 @@ export class PhoneNumbersClient {
    */
   public searchOperatorInformation(
     phoneNumbers: string[],
-    options: SearchOperatorInformationOptions = { "includeAdditionalOperatorDetails": false }
+    options: SearchOperatorInformationOptions = { includeAdditionalOperatorDetails: false },
   ): Promise<OperatorInformationResult> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "PhoneNumbersClient-searchOperatorInformation",
-      options
+      options,
     );
 
     try {
       return this.client.phoneNumbers.operatorInformationSearch(phoneNumbers, {
         ...updatedOptions,
-        options: { "includeAdditionalOperatorDetails": options.includeAdditionalOperatorDetails }
+        options: { includeAdditionalOperatorDetails: options.includeAdditionalOperatorDetails },
       });
     } catch (e: any) {
       span.setStatus({

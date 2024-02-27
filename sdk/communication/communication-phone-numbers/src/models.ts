@@ -112,7 +112,7 @@ export {
   OperatorInformation,
   OperatorInformationOptions,
   OperatorInformationResult,
-  OperatorNumberType
+  OperatorNumberType,
 } from "./generated/src/models/";
 
 export { SipRoutingError, SipTrunkRoute } from "./generated/src/siprouting/models";
