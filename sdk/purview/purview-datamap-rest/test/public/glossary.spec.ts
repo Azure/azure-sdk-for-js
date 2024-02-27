@@ -22,7 +22,6 @@ describe("purview datamap glossary test", () => {
     const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/glossary").get();
 
-    // console.log("returned result: ", result);
     assert.strictEqual(isUnexpected(result), false);
   });
 }).timeout(60000000000);
