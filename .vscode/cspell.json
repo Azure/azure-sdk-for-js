@@ -321,6 +321,17 @@
       ]
     },
     {
+      "filename": "sdk/communication/communication-ten-dlc/review/**/*.md",
+      "words": [
+        "GIIN",
+        "Ucaas",
+        "Icex",
+        "Sehk",
+        "Szse",
+        "Twse"
+      ]
+    },
+    {
       "filename": "sdk/eventgrid/eventgrid/review/**/*.md",
       "words": [
         "Dicom",
