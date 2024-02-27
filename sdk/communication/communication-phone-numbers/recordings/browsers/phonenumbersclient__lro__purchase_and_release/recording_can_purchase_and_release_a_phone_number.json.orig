@@ -21,13 +21,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "4/hFIxcYwXqhguSdYcV2TsQR1Tf8cOFyLfVXdBF8OBU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:08 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:35 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
@@ -76,13 +71,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:09 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:37 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -128,13 +118,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:10 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:37 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -227,13 +212,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:15 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:40 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -279,13 +259,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:15 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:40 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -340,15 +315,9 @@
         "Sec-Fetch-Site": "same-site",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
-<<<<<<< HEAD
-        "x-ms-content-sha256": "7y7CnmPxrI4eh5ZGSYsfr/oid3uMYH/tvXVHj34pJvI=",
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:15 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-content-sha256": "O4v56yo2F8/w6SEo011JpVUd2HbGasCmQAeoo9133tg=",
         "x-ms-date": "Fri, 06 Jan 2023 17:35:42 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": {
         "searchId": "sanitized"
@@ -390,13 +359,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:17 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:44 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -440,13 +404,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:17 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:44 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -490,13 +449,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:19 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:47 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -585,13 +539,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:24 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:49 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -635,13 +584,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:26 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:52 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -685,13 +629,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:29 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:55 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -735,13 +674,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:31 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:35:57 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -785,13 +719,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:33 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:00 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -835,13 +764,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:36 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:02 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -884,13 +808,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:36 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:03 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -942,13 +861,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:37 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:05 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 202,
@@ -987,13 +901,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:39 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:07 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1006,9 +915,6 @@
         "Transfer-Encoding": "chunked",
         "X-Azure-Ref": "0UyayZAAAAABxB1qQCKezSZG0wm5e5eELV1NURURHRTA4MTEAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-<<<<<<< HEAD
-        "X-Processing-Time": "217ms"
-=======
         "X-Processing-Time": "401ms"
       },
       "ResponseBody": {
@@ -1098,7 +1004,6 @@
         "X-Azure-Ref": "0CFy4YwAAAAAUIQfbjFcmQ7Uqykl6HrTrTUVYMzBFREdFMTEwOQA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Processing-Time": "406ms"
->>>>>>> main
       },
       "ResponseBody": {
         "operationType": "releasePhoneNumber",
@@ -1128,13 +1033,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:39 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:13 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1177,13 +1077,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:42 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:15 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1226,13 +1121,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:44 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:18 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -1275,13 +1165,8 @@
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/112.0.5614.0 Safari/537.36",
         "x-ms-client-request-id": "sanitized",
         "x-ms-content-sha256": "47DEQpj8HBSa\u002B/TImW\u002B5JCeuQeRkm5NMpJWZG3hSuFU=",
-<<<<<<< HEAD
-        "x-ms-date": "Sat, 15 Jul 2023 04:53:46 GMT",
-        "x-ms-useragent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 OS"
-=======
         "x-ms-date": "Fri, 06 Jan 2023 17:36:20 GMT",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,

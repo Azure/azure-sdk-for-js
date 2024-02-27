@@ -10,14 +10,9 @@
         "Connection": "keep-alive",
         "Content-Length": "133",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": {
         "phoneNumberType": "tollFree",
@@ -55,14 +50,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -97,14 +87,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -139,14 +124,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -181,14 +161,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -233,14 +208,9 @@
         "Connection": "keep-alive",
         "Content-Length": "24",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": {
         "searchId": "sanitized"
@@ -271,14 +241,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -311,14 +276,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -351,14 +311,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -391,14 +346,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -431,14 +381,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -471,14 +416,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -511,14 +451,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -551,14 +486,9 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "Content-Type": "application/json",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -658,14 +588,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -706,14 +631,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 202,
@@ -741,14 +661,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -780,14 +695,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -819,14 +729,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -858,14 +763,9 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-<<<<<<< HEAD
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized"
-=======
         "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0-beta.5 core-rest-pipeline/1.10.1 Node/v16.17.0 OS/(x64-Linux-5.10.102.1-microsoft-standard-WSL2)",
         "x-ms-client-request-id": "sanitized",
         "x-ms-useragent": "fake-useragent"
->>>>>>> main
       },
       "RequestBody": null,
       "StatusCode": 200,
