@@ -49,33 +49,33 @@ export interface MsalClient {
 /**
  * Options for creating an instance of the MsalClient.
  */
-export type CreateMsalClientOptions = Partial<Omit<MsalNodeOptions, "clientId" | "tenantId">>;
+export type MsalClientOptions = Partial<Omit<MsalNodeOptions, "clientId" | "tenantId">>;
 
 /**
  * Generates the configuration for MSAL (Microsoft Authentication Library).
  *
  * @param clientId - The client ID of the application.
  * @param  tenantId - The tenant ID of the Azure Active Directory.
- * @param  createMsalClientOptions - Optional. Additional options for creating the MSAL client.
+ * @param  msalClientOptions - Optional. Additional options for creating the MSAL client.
  * @returns  The MSAL configuration object.
  */
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions = {},
+  msalClientOptions: MsalClientOptions = {},
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
 
   // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(
     resolvedTenant,
-    createMsalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
+    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
   );
 
   const httpClient = new IdentityClient({
-    ...createMsalClientOptions.tokenCredentialOptions,
+    ...msalClientOptions.tokenCredentialOptions,
     authorityHost: authority,
-    loggingOptions: createMsalClientOptions.loggingOptions,
+    loggingOptions: msalClientOptions.loggingOptions,
   });
 
   const msalConfig: msal.Configuration = {
@@ -85,15 +85,15 @@ export function generateMsalConfiguration(
       knownAuthorities: getKnownAuthorities(
         resolvedTenant,
         authority,
-        createMsalClientOptions.disableInstanceDiscovery,
+        msalClientOptions.disableInstanceDiscovery,
       ),
     },
     system: {
       networkClient: httpClient,
       loggerOptions: {
-        loggerCallback: defaultLoggerCallback(createMsalClientOptions.logger ?? msalLogger),
+        loggerCallback: defaultLoggerCallback(msalClientOptions.logger ?? msalLogger),
         logLevel: getMSALLogLevel(getLogLevel()),
-        piiLoggingEnabled: createMsalClientOptions.loggingOptions?.enableUnsafeSupportLogging,
+        piiLoggingEnabled: msalClientOptions.loggingOptions?.enableUnsafeSupportLogging,
       },
     },
   };
@@ -130,7 +130,7 @@ interface MsalClientState {
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: CreateMsalClientOptions = {},
+  createMsalClientOptions: MsalClientOptions = {},
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),

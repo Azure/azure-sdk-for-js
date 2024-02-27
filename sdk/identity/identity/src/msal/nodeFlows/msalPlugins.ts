@@ -5,7 +5,7 @@ import * as msalNode from "@azure/msal-node";
 
 import { nativeBrokerInfo, persistenceProvider } from "./msalNodeCommon";
 
-import { CreateMsalClientOptions } from "./msalClient";
+import { MsalClientOptions } from "./msalClient";
 
 // TODO: invert this relationship, instead of importing from msalNodeCommon and calling into it, we should _export_ the right things from here and import them in msalNodeCommon
 // Then, there's a single source for plugins across both msalClient and msalNodeCommon
@@ -38,7 +38,7 @@ export interface PluginConfiguration {
  * @param options - options for creating the MSAL client
  * @returns plugin configuration
  */
-export function generatePluginConfiguration(options: CreateMsalClientOptions): PluginConfiguration {
+export function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
   const config: PluginConfiguration = {
     cache: {},
     broker: {

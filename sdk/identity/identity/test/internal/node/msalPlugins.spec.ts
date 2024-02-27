@@ -11,11 +11,11 @@ import {
   msalNodeFlowNativeBrokerControl,
 } from "../../../src/msal/nodeFlows/msalNodeCommon";
 
-import { CreateMsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
+import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
 import { assert } from "@azure/test-utils";
 
 describe("#generatePluginConfiguration", function () {
-  let options: CreateMsalClientOptions;
+  let options: MsalClientOptions;
 
   beforeEach(() => {
     options = {};
