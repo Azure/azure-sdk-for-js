@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to start the planned failover of a recovery plan.
  *
  * @summary The operation to start the planned failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_PlannedFailover.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_PlannedFailover.json
  */
 async function executePlannedFailoverOfTheRecoveryPlan() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function executePlannedFailoverOfTheRecoveryPlan() {
     resourceName,
     resourceGroupName,
     recoveryPlanName,
-    input
+    input,
   );
   console.log(result);
 }

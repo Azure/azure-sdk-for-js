@@ -16,7 +16,7 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -40,7 +40,9 @@ import {
   RenewCertificateInput,
   ReplicationFabricsRenewCertificateOptionalParams,
   ReplicationFabricsRenewCertificateResponse,
-  ReplicationFabricsListNextResponse
+  ReplicationFabricsRemoveInfraOptionalParams,
+  ReplicationFabricsRemoveInfraResponse,
+  ReplicationFabricsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -66,7 +68,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationFabricsListOptionalParams
+    options?: ReplicationFabricsListOptionalParams,
   ): PagedAsyncIterableIterator<Fabric> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -84,9 +86,9 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -94,7 +96,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationFabricsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Fabric[]> {
     let result: ReplicationFabricsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -110,7 +112,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,12 +124,12 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationFabricsListOptionalParams
+    options?: ReplicationFabricsListOptionalParams,
   ): AsyncIterableIterator<Fabric> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +145,11 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationFabricsListOptionalParams
+    options?: ReplicationFabricsListOptionalParams,
   ): Promise<ReplicationFabricsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -163,11 +165,11 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsGetOptionalParams
+    options?: ReplicationFabricsGetOptionalParams,
   ): Promise<ReplicationFabricsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -185,7 +187,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     input: FabricCreationInput,
-    options?: ReplicationFabricsCreateOptionalParams
+    options?: ReplicationFabricsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationFabricsCreateResponse>,
@@ -194,21 +196,20 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationFabricsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -217,8 +218,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -226,22 +227,22 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, fabricName, input, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationFabricsCreateResponse,
       OperationState<ReplicationFabricsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -261,14 +262,14 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     input: FabricCreationInput,
-    options?: ReplicationFabricsCreateOptionalParams
+    options?: ReplicationFabricsCreateOptionalParams,
   ): Promise<ReplicationFabricsCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
       resourceGroupName,
       fabricName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,25 +286,24 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsPurgeOptionalParams
+    options?: ReplicationFabricsPurgeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +312,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,19 +321,19 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, fabricName, options },
-      spec: purgeOperationSpec
+      spec: purgeOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -351,13 +351,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsPurgeOptionalParams
+    options?: ReplicationFabricsPurgeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginPurge(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -374,7 +374,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsCheckConsistencyOptionalParams
+    options?: ReplicationFabricsCheckConsistencyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationFabricsCheckConsistencyResponse>,
@@ -383,21 +383,20 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationFabricsCheckConsistencyResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -406,8 +405,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -415,22 +414,22 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, fabricName, options },
-      spec: checkConsistencyOperationSpec
+      spec: checkConsistencyOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationFabricsCheckConsistencyResponse,
       OperationState<ReplicationFabricsCheckConsistencyResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -448,13 +447,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsCheckConsistencyOptionalParams
+    options?: ReplicationFabricsCheckConsistencyOptionalParams,
   ): Promise<ReplicationFabricsCheckConsistencyResponse> {
     const poller = await this.beginCheckConsistency(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -471,25 +470,24 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsMigrateToAadOptionalParams
+    options?: ReplicationFabricsMigrateToAadOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -498,8 +496,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -507,19 +505,19 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, fabricName, options },
-      spec: migrateToAadOperationSpec
+      spec: migrateToAadOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -537,13 +535,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsMigrateToAadOptionalParams
+    options?: ReplicationFabricsMigrateToAadOptionalParams,
   ): Promise<void> {
     const poller = await this.beginMigrateToAad(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -562,7 +560,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
-    options?: ReplicationFabricsReassociateGatewayOptionalParams
+    options?: ReplicationFabricsReassociateGatewayOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationFabricsReassociateGatewayResponse>,
@@ -571,21 +569,20 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationFabricsReassociateGatewayResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -594,8 +591,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -603,8 +600,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -615,16 +612,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         resourceGroupName,
         fabricName,
         failoverProcessServerRequest,
-        options
+        options,
       },
-      spec: reassociateGatewayOperationSpec
+      spec: reassociateGatewayOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationFabricsReassociateGatewayResponse,
       OperationState<ReplicationFabricsReassociateGatewayResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -644,14 +641,14 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     failoverProcessServerRequest: FailoverProcessServerRequest,
-    options?: ReplicationFabricsReassociateGatewayOptionalParams
+    options?: ReplicationFabricsReassociateGatewayOptionalParams,
   ): Promise<ReplicationFabricsReassociateGatewayResponse> {
     const poller = await this.beginReassociateGateway(
       resourceName,
       resourceGroupName,
       fabricName,
       failoverProcessServerRequest,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -668,25 +665,24 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsDeleteOptionalParams
+    options?: ReplicationFabricsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -695,8 +691,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -704,19 +700,19 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, fabricName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -734,13 +730,13 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationFabricsDeleteOptionalParams
+    options?: ReplicationFabricsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -759,7 +755,7 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
-    options?: ReplicationFabricsRenewCertificateOptionalParams
+    options?: ReplicationFabricsRenewCertificateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationFabricsRenewCertificateResponse>,
@@ -768,21 +764,20 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationFabricsRenewCertificateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -791,8 +786,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -800,8 +795,8 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -812,16 +807,16 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
         resourceGroupName,
         fabricName,
         renewCertificate,
-        options
+        options,
       },
-      spec: renewCertificateOperationSpec
+      spec: renewCertificateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationFabricsRenewCertificateResponse,
       OperationState<ReplicationFabricsRenewCertificateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -841,14 +836,110 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceGroupName: string,
     fabricName: string,
     renewCertificate: RenewCertificateInput,
-    options?: ReplicationFabricsRenewCertificateOptionalParams
+    options?: ReplicationFabricsRenewCertificateOptionalParams,
   ): Promise<ReplicationFabricsRenewCertificateResponse> {
     const poller = await this.beginRenewCertificate(
       resourceName,
       resourceGroupName,
       fabricName,
       renewCertificate,
-      options
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  async beginRemoveInfra(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationFabricsRemoveInfraResponse>,
+      ReplicationFabricsRemoveInfraResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ReplicationFabricsRemoveInfraResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, resourceName, fabricName, options },
+      spec: removeInfraOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ReplicationFabricsRemoveInfraResponse,
+      OperationState<ReplicationFabricsRemoveInfraResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Removes the appliance's infrastructure under the fabric.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   *                          present.
+   * @param resourceName Resource name.
+   * @param fabricName Fabric name.
+   * @param options The options parameters.
+   */
+  async beginRemoveInfraAndWait(
+    resourceGroupName: string,
+    resourceName: string,
+    fabricName: string,
+    options?: ReplicationFabricsRemoveInfraOptionalParams,
+  ): Promise<ReplicationFabricsRemoveInfraResponse> {
+    const poller = await this.beginRemoveInfra(
+      resourceGroupName,
+      resourceName,
+      fabricName,
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -865,11 +956,11 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationFabricsListNextOptionalParams
+    options?: ReplicationFabricsListNextOptionalParams,
   ): Promise<ReplicationFabricsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -877,32 +968,30 @@ export class ReplicationFabricsImpl implements ReplicationFabrics {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FabricCollection
-    }
+      bodyMapper: Mappers.FabricCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Fabric
-    }
+      bodyMapper: Mappers.Fabric,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.filter],
   urlParameters: [
@@ -910,28 +999,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     201: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     202: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     204: {
-      bodyMapper: Mappers.Fabric
-    }
+      bodyMapper: Mappers.Fabric,
+    },
   },
   requestBody: Parameters.input,
   queryParameters: [Parameters.apiVersion],
@@ -940,15 +1028,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const purgeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -957,27 +1044,26 @@ const purgeOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
-  serializer
+  serializer,
 };
 const checkConsistencyOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     201: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     202: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     204: {
-      bodyMapper: Mappers.Fabric
-    }
+      bodyMapper: Mappers.Fabric,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -985,14 +1071,13 @@ const checkConsistencyOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const migrateToAadOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -1001,27 +1086,26 @@ const migrateToAadOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
-  serializer
+  serializer,
 };
 const reassociateGatewayOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     201: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     202: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     204: {
-      bodyMapper: Mappers.Fabric
-    }
+      bodyMapper: Mappers.Fabric,
+    },
   },
   requestBody: Parameters.failoverProcessServerRequest,
   queryParameters: [Parameters.apiVersion],
@@ -1030,15 +1114,14 @@ const reassociateGatewayOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove",
   httpMethod: "POST",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion],
@@ -1047,27 +1130,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
-  serializer
+  serializer,
 };
 const renewCertificateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     201: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     202: {
-      bodyMapper: Mappers.Fabric
+      bodyMapper: Mappers.Fabric,
     },
     204: {
-      bodyMapper: Mappers.Fabric
-    }
+      bodyMapper: Mappers.Fabric,
+    },
   },
   requestBody: Parameters.renewCertificate,
   queryParameters: [Parameters.apiVersion],
@@ -1076,27 +1158,58 @@ const renewCertificateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const removeInfraOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders,
+    },
+    201: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders,
+    },
+    202: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders,
+    },
+    204: {
+      headersMapper: Mappers.ReplicationFabricsRemoveInfraHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName1,
+    Parameters.fabricName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FabricCollection
-    }
+      bodyMapper: Mappers.FabricCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

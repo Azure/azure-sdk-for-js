@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the available target compute sizes for a replication protected item.
  *
  * @summary Lists the available target compute sizes for a replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/TargetComputeSizes_ListByReplicationProtectedItems.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/TargetComputeSizes_ListByReplicationProtectedItems.json
  */
 async function getsTheListOfTargetComputeSizesForTheReplicationProtectedItem() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getsTheListOfTargetComputeSizesForTheReplicationProtectedItem() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    replicatedProtectedItemName
+    replicatedProtectedItemName,
   )) {
     resArray.push(item);
   }

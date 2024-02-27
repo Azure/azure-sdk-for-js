@@ -16,7 +16,7 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -55,13 +55,14 @@ import {
   ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
   ReplicationMigrationItemsTestMigrateCleanupResponse,
   ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse,
-  ReplicationMigrationItemsListNextResponse
+  ReplicationMigrationItemsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ReplicationMigrationItems operations. */
 export class ReplicationMigrationItemsImpl
-  implements ReplicationMigrationItems {
+  implements ReplicationMigrationItems
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -86,14 +87,14 @@ export class ReplicationMigrationItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
   ): PagedAsyncIterableIterator<MigrationItem> {
     const iter = this.listByReplicationProtectionContainersPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options
+      options,
     );
     return {
       next() {
@@ -112,9 +113,9 @@ export class ReplicationMigrationItemsImpl
           fabricName,
           protectionContainerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -124,7 +125,7 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MigrationItem[]> {
     let result: ReplicationMigrationItemsListByReplicationProtectionContainersResponse;
     let continuationToken = settings?.continuationToken;
@@ -134,7 +135,7 @@ export class ReplicationMigrationItemsImpl
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -148,7 +149,7 @@ export class ReplicationMigrationItemsImpl
         fabricName,
         protectionContainerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -162,14 +163,14 @@ export class ReplicationMigrationItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams
+    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
   ): AsyncIterableIterator<MigrationItem> {
     for await (const page of this.listByReplicationProtectionContainersPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
       protectionContainerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -185,7 +186,7 @@ export class ReplicationMigrationItemsImpl
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationMigrationItemsListOptionalParams
+    options?: ReplicationMigrationItemsListOptionalParams,
   ): PagedAsyncIterableIterator<MigrationItem> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -203,9 +204,9 @@ export class ReplicationMigrationItemsImpl
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -213,7 +214,7 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationMigrationItemsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MigrationItem[]> {
     let result: ReplicationMigrationItemsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -229,7 +230,7 @@ export class ReplicationMigrationItemsImpl
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -241,12 +242,12 @@ export class ReplicationMigrationItemsImpl
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationMigrationItemsListOptionalParams
+    options?: ReplicationMigrationItemsListOptionalParams,
   ): AsyncIterableIterator<MigrationItem> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -266,19 +267,17 @@ export class ReplicationMigrationItemsImpl
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams
-  ): Promise<
-    ReplicationMigrationItemsListByReplicationProtectionContainersResponse
-  > {
+    options?: ReplicationMigrationItemsListByReplicationProtectionContainersOptionalParams,
+  ): Promise<ReplicationMigrationItemsListByReplicationProtectionContainersResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
         resourceGroupName,
         fabricName,
         protectionContainerName,
-        options
+        options,
       },
-      listByReplicationProtectionContainersOperationSpec
+      listByReplicationProtectionContainersOperationSpec,
     );
   }
 
@@ -298,7 +297,7 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsGetOptionalParams
+    options?: ReplicationMigrationItemsGetOptionalParams,
   ): Promise<ReplicationMigrationItemsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -307,9 +306,9 @@ export class ReplicationMigrationItemsImpl
         fabricName,
         protectionContainerName,
         migrationItemName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -331,7 +330,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams
+    options?: ReplicationMigrationItemsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsCreateResponse>,
@@ -340,21 +339,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -363,8 +361,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -372,8 +370,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -386,16 +384,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         input,
-        options
+        options,
       },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsCreateResponse,
       OperationState<ReplicationMigrationItemsCreateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -419,7 +417,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: EnableMigrationInput,
-    options?: ReplicationMigrationItemsCreateOptionalParams
+    options?: ReplicationMigrationItemsCreateOptionalParams,
   ): Promise<ReplicationMigrationItemsCreateResponse> {
     const poller = await this.beginCreate(
       resourceName,
@@ -428,7 +426,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -449,25 +447,24 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams
+    options?: ReplicationMigrationItemsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -476,8 +473,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -485,8 +482,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -498,13 +495,13 @@ export class ReplicationMigrationItemsImpl
         fabricName,
         protectionContainerName,
         migrationItemName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -526,7 +523,7 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     migrationItemName: string,
-    options?: ReplicationMigrationItemsDeleteOptionalParams
+    options?: ReplicationMigrationItemsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceName,
@@ -534,7 +531,7 @@ export class ReplicationMigrationItemsImpl
       fabricName,
       protectionContainerName,
       migrationItemName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -557,7 +554,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams
+    options?: ReplicationMigrationItemsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsUpdateResponse>,
@@ -566,21 +563,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -589,8 +585,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -598,8 +594,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -612,16 +608,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         input,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsUpdateResponse,
       OperationState<ReplicationMigrationItemsUpdateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -645,7 +641,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: UpdateMigrationItemInput,
-    options?: ReplicationMigrationItemsUpdateOptionalParams
+    options?: ReplicationMigrationItemsUpdateOptionalParams,
   ): Promise<ReplicationMigrationItemsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceName,
@@ -654,7 +650,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -677,7 +673,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams
+    options?: ReplicationMigrationItemsMigrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsMigrateResponse>,
@@ -686,21 +682,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -709,8 +704,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -718,8 +713,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -732,16 +727,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         migrateInput,
-        options
+        options,
       },
-      spec: migrateOperationSpec
+      spec: migrateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsMigrateResponse,
       OperationState<ReplicationMigrationItemsMigrateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -765,7 +760,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     migrateInput: MigrateInput,
-    options?: ReplicationMigrationItemsMigrateOptionalParams
+    options?: ReplicationMigrationItemsMigrateOptionalParams,
   ): Promise<ReplicationMigrationItemsMigrateResponse> {
     const poller = await this.beginMigrate(
       resourceName,
@@ -774,7 +769,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       migrateInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -797,7 +792,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsPauseReplicationResponse>,
@@ -806,21 +801,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsPauseReplicationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -829,8 +823,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -838,8 +832,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -852,16 +846,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         pauseReplicationInput,
-        options
+        options,
       },
-      spec: pauseReplicationOperationSpec
+      spec: pauseReplicationOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsPauseReplicationResponse,
       OperationState<ReplicationMigrationItemsPauseReplicationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -885,7 +879,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     pauseReplicationInput: PauseReplicationInput,
-    options?: ReplicationMigrationItemsPauseReplicationOptionalParams
+    options?: ReplicationMigrationItemsPauseReplicationOptionalParams,
   ): Promise<ReplicationMigrationItemsPauseReplicationResponse> {
     const poller = await this.beginPauseReplication(
       resourceName,
@@ -894,7 +888,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       pauseReplicationInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -917,7 +911,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsResumeReplicationResponse>,
@@ -926,21 +920,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsResumeReplicationResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -949,8 +942,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -958,8 +951,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -972,16 +965,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         resumeReplicationInput,
-        options
+        options,
       },
-      spec: resumeReplicationOperationSpec
+      spec: resumeReplicationOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsResumeReplicationResponse,
       OperationState<ReplicationMigrationItemsResumeReplicationResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1005,7 +998,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     resumeReplicationInput: ResumeReplicationInput,
-    options?: ReplicationMigrationItemsResumeReplicationOptionalParams
+    options?: ReplicationMigrationItemsResumeReplicationOptionalParams,
   ): Promise<ReplicationMigrationItemsResumeReplicationResponse> {
     const poller = await this.beginResumeReplication(
       resourceName,
@@ -1014,7 +1007,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       resumeReplicationInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1037,7 +1030,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams
+    options?: ReplicationMigrationItemsResyncOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsResyncResponse>,
@@ -1046,21 +1039,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsResyncResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1069,8 +1061,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1078,8 +1070,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1092,16 +1084,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         input,
-        options
+        options,
       },
-      spec: resyncOperationSpec
+      spec: resyncOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsResyncResponse,
       OperationState<ReplicationMigrationItemsResyncResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1125,7 +1117,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     input: ResyncInput,
-    options?: ReplicationMigrationItemsResyncOptionalParams
+    options?: ReplicationMigrationItemsResyncOptionalParams,
   ): Promise<ReplicationMigrationItemsResyncResponse> {
     const poller = await this.beginResync(
       resourceName,
@@ -1134,7 +1126,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       input,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1157,7 +1149,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsTestMigrateResponse>,
@@ -1166,21 +1158,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsTestMigrateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1189,8 +1180,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1198,8 +1189,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1212,16 +1203,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         testMigrateInput,
-        options
+        options,
       },
-      spec: testMigrateOperationSpec
+      spec: testMigrateOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsTestMigrateResponse,
       OperationState<ReplicationMigrationItemsTestMigrateResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1245,7 +1236,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateInput: TestMigrateInput,
-    options?: ReplicationMigrationItemsTestMigrateOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateOptionalParams,
   ): Promise<ReplicationMigrationItemsTestMigrateResponse> {
     const poller = await this.beginTestMigrate(
       resourceName,
@@ -1254,7 +1245,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       testMigrateInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1277,7 +1268,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>,
@@ -1286,21 +1277,20 @@ export class ReplicationMigrationItemsImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -1309,8 +1299,8 @@ export class ReplicationMigrationItemsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -1318,8 +1308,8 @@ export class ReplicationMigrationItemsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -1332,16 +1322,16 @@ export class ReplicationMigrationItemsImpl
         protectionContainerName,
         migrationItemName,
         testMigrateCleanupInput,
-        options
+        options,
       },
-      spec: testMigrateCleanupOperationSpec
+      spec: testMigrateCleanupOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationMigrationItemsTestMigrateCleanupResponse,
       OperationState<ReplicationMigrationItemsTestMigrateCleanupResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -1365,7 +1355,7 @@ export class ReplicationMigrationItemsImpl
     protectionContainerName: string,
     migrationItemName: string,
     testMigrateCleanupInput: TestMigrateCleanupInput,
-    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams
+    options?: ReplicationMigrationItemsTestMigrateCleanupOptionalParams,
   ): Promise<ReplicationMigrationItemsTestMigrateCleanupResponse> {
     const poller = await this.beginTestMigrateCleanup(
       resourceName,
@@ -1374,7 +1364,7 @@ export class ReplicationMigrationItemsImpl
       protectionContainerName,
       migrationItemName,
       testMigrateCleanupInput,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -1389,11 +1379,11 @@ export class ReplicationMigrationItemsImpl
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationMigrationItemsListOptionalParams
+    options?: ReplicationMigrationItemsListOptionalParams,
   ): Promise<ReplicationMigrationItemsListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -1414,10 +1404,8 @@ export class ReplicationMigrationItemsImpl
     fabricName: string,
     protectionContainerName: string,
     nextLink: string,
-    options?: ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams
-  ): Promise<
-    ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse
-  > {
+    options?: ReplicationMigrationItemsListByReplicationProtectionContainersNextOptionalParams,
+  ): Promise<ReplicationMigrationItemsListByReplicationProtectionContainersNextResponse> {
     return this.client.sendOperationRequest(
       {
         resourceName,
@@ -1425,9 +1413,9 @@ export class ReplicationMigrationItemsImpl
         fabricName,
         protectionContainerName,
         nextLink,
-        options
+        options,
       },
-      listByReplicationProtectionContainersNextOperationSpec
+      listByReplicationProtectionContainersNextOperationSpec,
     );
   }
 
@@ -1443,51 +1431,50 @@ export class ReplicationMigrationItemsImpl
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationMigrationItemsListNextOptionalParams
+    options?: ReplicationMigrationItemsListNextOptionalParams,
   ): Promise<ReplicationMigrationItemsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItemCollection
-    }
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.filter,
-    Parameters.skipToken,
-    Parameters.takeToken
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
+const listByReplicationProtectionContainersOperationSpec: coreClient.OperationSpec =
+  {
+    path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MigrationItemCollection,
+      },
+    },
+    queryParameters: [
+      Parameters.apiVersion,
+      Parameters.filter,
+      Parameters.skipToken,
+      Parameters.takeToken,
+    ],
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -1497,28 +1484,27 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.input3,
   queryParameters: [Parameters.apiVersion],
@@ -1529,15 +1515,14 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
   httpMethod: "DELETE",
   responses: { 200: {}, 201: {}, 202: {}, 204: {} },
   queryParameters: [Parameters.apiVersion, Parameters.deleteOption],
@@ -1548,27 +1533,26 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.input4,
   queryParameters: [Parameters.apiVersion],
@@ -1579,29 +1563,28 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const migrateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.migrateInput,
   queryParameters: [Parameters.apiVersion],
@@ -1612,29 +1595,28 @@ const migrateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const pauseReplicationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.pauseReplicationInput,
   queryParameters: [Parameters.apiVersion],
@@ -1645,29 +1627,28 @@ const pauseReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resumeReplicationOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.resumeReplicationInput,
   queryParameters: [Parameters.apiVersion],
@@ -1678,29 +1659,28 @@ const resumeReplicationOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const resyncOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.input5,
   queryParameters: [Parameters.apiVersion],
@@ -1711,29 +1691,28 @@ const resyncOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const testMigrateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.testMigrateInput,
   queryParameters: [Parameters.apiVersion],
@@ -1744,29 +1723,28 @@ const testMigrateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const testMigrateCleanupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     201: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     202: {
-      bodyMapper: Mappers.MigrationItem
+      bodyMapper: Mappers.MigrationItem,
     },
     204: {
-      bodyMapper: Mappers.MigrationItem
-    }
+      bodyMapper: Mappers.MigrationItem,
+    },
   },
   requestBody: Parameters.testMigrateCleanupInput,
   queryParameters: [Parameters.apiVersion],
@@ -1777,43 +1755,63 @@ const testMigrateCleanupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceName,
     Parameters.fabricName,
     Parameters.protectionContainerName,
-    Parameters.migrationItemName
+    Parameters.migrationItemName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItemCollection
-    }
+      bodyMapper: Mappers.MigrationItemCollection,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.skipToken,
-    Parameters.takeToken
+    Parameters.takeToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec = {
+const listByReplicationProtectionContainersNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.MigrationItemCollection,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.resourceGroupName,
+      Parameters.subscriptionId,
+      Parameters.nextLink,
+      Parameters.resourceName,
+      Parameters.fabricName,
+      Parameters.protectionContainerName,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MigrationItemCollection
-    }
+      bodyMapper: Mappers.MigrationItemCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -1821,27 +1819,7 @@ const listByReplicationProtectionContainersNextOperationSpec: coreClient.Operati
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName,
-    Parameters.protectionContainerName
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.MigrationItemCollection
-    }
-  },
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.nextLink,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

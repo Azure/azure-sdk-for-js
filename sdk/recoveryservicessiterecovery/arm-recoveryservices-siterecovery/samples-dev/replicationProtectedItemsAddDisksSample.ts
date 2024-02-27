@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AddDisksInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to add disks(s) to the replication protected item.
  *
  * @summary Operation to add disks(s) to the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_AddDisks.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_AddDisks.json
  */
 async function addDiskSForProtection() {
   const subscriptionId =
@@ -45,11 +45,11 @@ async function addDiskSForProtection() {
             primaryStagingAzureStorageAccountId:
               "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourcegroups/primaryResource/providers/Microsoft.Storage/storageAccounts/vmcachestorage",
             recoveryAzureStorageAccountId:
-              "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourcegroups/recoveryResource/providers/Microsoft.Storage/storageAccounts/recoverystorage"
-          }
-        ]
-      }
-    }
+              "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourcegroups/recoveryResource/providers/Microsoft.Storage/storageAccounts/recoverystorage",
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function addDiskSForProtection() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    addDisksInput
+    addDisksInput,
   );
   console.log(result);
 }
