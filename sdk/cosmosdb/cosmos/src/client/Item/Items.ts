@@ -5,7 +5,14 @@ const uuid = v4;
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
 import { ClientContext } from "../../ClientContext";
-import { getIdFromLink, getPathFromLink, isItemResourceValid, ResourceType } from "../../common";
+import {
+  getIdFromLink,
+  getPathFromLink,
+  isItemResourceValid,
+  ResourceType,
+  StatusCodes,
+  SubStatusCodes,
+} from "../../common";
 import { extractPartitionKeys } from "../../extractPartitionKey";
 import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
@@ -29,7 +36,7 @@ import { readPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
 import { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { PartitionKeyRangeCache } from "../../routing";
+import { PartitionKeyRangeCache, QueryRange } from "../../routing";
 import {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
@@ -45,7 +52,7 @@ import {
   withDiagnostics,
   addDignosticChild,
 } from "../../utils/diagnostics";
-
+import Queue from "queue-fifo";
 /**
  * @hidden
  */
@@ -484,52 +491,141 @@ export class Items {
       const path = getPathFromLink(this.container.url, ResourceType.item);
 
       const orderedResponses: OperationResponse[] = [];
-      await Promise.all(
-        batches
-          .filter((batch: Batch) => batch.operations.length)
-          .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
-          .map(async (batch: Batch) => {
-            if (batch.operations.length > 100) {
-              throw new Error(
-                "Cannot run bulk request with more than 100 operations per partition",
-              );
-            }
-            try {
-              const response = await addDignosticChild(
-                async (childNode: DiagnosticNodeInternal) =>
-                  this.clientContext.bulk({
-                    body: batch.operations,
-                    partitionKeyRangeId: batch.rangeId,
-                    path,
-                    resourceId: this.container.url,
-                    bulkOptions,
-                    options,
-                    diagnosticNode: childNode,
-                  }),
+      const batchesQueue: Queue<Batch> = new Queue<Batch>();
+
+      batches
+        .filter((batch: Batch) => batch.operations.length)
+        .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
+        .map(async (batch: Batch) => {
+          if (batch.operations.length > 100) {
+            throw new Error("Cannot run bulk request with more than 100 operations per partition");
+          }
+          batchesQueue.enqueue(batch);
+        });
+
+      while (!batchesQueue.isEmpty()) {
+        const batch = batchesQueue.dequeue();
+        try {
+          const response = await addDignosticChild(
+            async (childNode: DiagnosticNodeInternal) =>
+              this.clientContext.bulk({
+                body: batch.operations,
+                partitionKeyRangeId: batch.rangeId,
+                path,
+                resourceId: this.container.url,
+                bulkOptions,
+                options,
+                diagnosticNode: childNode,
+              }),
+            diagnosticNode,
+            DiagnosticNodeType.BATCH_REQUEST,
+          );
+          response.result.forEach((operationResponse: OperationResponse, index: number) => {
+            orderedResponses[batch.indexes[index]] = operationResponse;
+          });
+        } catch (err: any) {
+          // In the case of 410 errors, we need to recompute the partition key ranges
+          // and redo the batch request, however, 410 errors occur for unsupported
+          // partition key types as well since we don't support them, so for now we throw
+
+          if (err.code === StatusCodes.Gone) {
+            if (
+              err.subStatusCode === SubStatusCodes.PartitionKeyRangeGone ||
+              err.subStatusCode === SubStatusCodes.CompletingSplit
+            ) {
+              const queryRange = new QueryRange(batch.min, batch.max, true, false);
+              const overlappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
+                this.container.url,
+                queryRange,
                 diagnosticNode,
-                DiagnosticNodeType.BATCH_REQUEST,
               );
-              response.result.forEach((operationResponse: OperationResponse, index: number) => {
-                orderedResponses[batch.indexes[index]] = operationResponse;
-              });
-            } catch (err: any) {
-              // In the case of 410 errors, we need to recompute the partition key ranges
-              // and redo the batch request, however, 410 errors occur for unsupported
-              // partition key types as well since we don't support them, so for now we throw
-              if (err.code === 410) {
-                throw new Error(
-                  "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type" +
-                    err.message,
-                );
+              if (overlappingRanges.length < 1) {
+                throw new Error("Partition split/merge detected but no overlapping ranges found.");
               }
-              throw new Error(`Bulk request errored with: ${err.message}`);
+              // This covers both cases of merge and split.
+              // resolvedRanges.length > 1 in case of split.
+              // resolvedRanges.length === 1 in case of merge.
+              if (overlappingRanges.length >= 1) {
+                const splitBatches: Batch[] = [];
+                const newBatches: Batch[] = this.createNewBatches(
+                  overlappingRanges,
+                  batch,
+                  partitionKeyDefinition,
+                );
+                // Add new batches creation from partition splits to the original list of batches
+                splitBatches.push(...newBatches);
+                // Add the remaining batches to queue for which the partition key range is same
+                while (
+                  !batchesQueue.isEmpty() &&
+                  batch.min === batchesQueue.peek().min &&
+                  batch.max === batchesQueue.peek().max
+                ) {
+                  const nextBatch = batchesQueue.dequeue();
+                  const newBatches: Batch[] = this.createNewBatches(
+                    overlappingRanges,
+                    nextBatch,
+                    partitionKeyDefinition,
+                  );
+                  splitBatches.push(...newBatches);
+                }
+                // Add the new split batches to the queue
+                splitBatches.forEach((splitBatch: Batch) => {
+                  batchesQueue.enqueue(splitBatch);
+                });
+              }
+            } else {
+              throw new Error(
+                "Partition key error. An operation has an unsupported partitionKey type" +
+                  err.message,
+              );
             }
-          }),
-      );
+          } else {
+            throw new Error(`Bulk request errored with: ${err.message}`);
+          }
+        }
+      }
+
       const response: any = orderedResponses;
       response.diagnostics = diagnosticNode.toDiagnostic(this.clientContext.getClientConfig());
       return response;
     }, this.clientContext);
+  }
+
+  private createNewBatches(
+    overlappingRanges: PartitionKeyRange[],
+    batch: Batch,
+    partitionKeyDefinition: PartitionKeyDefinition,
+  ) {
+    const newBatches: Batch[] = overlappingRanges.map((keyRange: PartitionKeyRange) => {
+      return {
+        min: keyRange.minInclusive,
+        max: keyRange.maxExclusive,
+        rangeId: keyRange.id,
+        indexes: [],
+        operations: [],
+      };
+    });
+    let indexValue = 0;
+    batch.operations.forEach((operation) => {
+      const partitionKey = JSON.parse(operation.partitionKey);
+      const hashed = hashPartitionKey(
+        assertNotUndefined(
+          partitionKey,
+          "undefined value for PartitionKey is not expected during grouping of bulk operations.",
+        ),
+        partitionKeyDefinition,
+      );
+      const batchForKey = assertNotUndefined(
+        newBatches.find((newBatch: Batch) => {
+          return isKeyInRange(newBatch.min, newBatch.max, hashed);
+        }),
+        "No suitable Batch found.",
+      );
+      batchForKey.operations.push(operation);
+      batchForKey.indexes.push(batch.indexes[indexValue]);
+      indexValue++;
+    });
+    return newBatches;
   }
 
   /**

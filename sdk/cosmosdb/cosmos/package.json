@@ -96,7 +96,8 @@
     "tslib": "^2.2.0",
     "universal-user-agent": "^6.0.0",
     "uuid": "^8.3.0",
-    "@azure/abort-controller": "^1.0.0"
+    "@azure/abort-controller": "^1.0.0",
+    "queue-fifo": "^0.2.6"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -128,7 +129,8 @@
     "@types/sinonjs__fake-timers": "~8.1.2",
     "@sinonjs/fake-timers": "^11.0.0",
     "chai": "~4.3.8",
-    "@types/chai": "~4.3.6"
+    "@types/chai": "~4.3.6",
+    "queue-fifo": "^0.2.6"
   },
   "//sampleConfiguration": {
     "skip": [
