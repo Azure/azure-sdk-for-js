@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TestFailoverInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to perform a test failover of the replication protected item.
  *
  * @summary Operation to perform a test failover of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_TestFailover.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_TestFailover.json
  */
 async function executeTestFailover() {
   const subscriptionId =
@@ -40,19 +40,20 @@ async function executeTestFailover() {
       networkId:
         "/subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/siterecoveryProd1/providers/Microsoft.Network/virtualNetworks/vnetavrai",
       networkType: "VmNetworkAsInput",
-      providerSpecificDetails: { instanceType: "HyperVReplicaAzure" }
-    }
+      providerSpecificDetails: { instanceType: "HyperVReplicaAzure" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginTestFailoverAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName,
-    testfailoverInput
-  );
+  const result =
+    await client.replicationProtectedItems.beginTestFailoverAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      testfailoverInput,
+    );
   console.log(result);
 }
 

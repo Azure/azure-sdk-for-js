@@ -107,6 +107,13 @@
             }
           },
           {
+            "localizedName": "Escondido",
+            "administrativeDivision": {
+              "localizedName": "CA",
+              "abbreviatedName": "CA"
+            }
+          },
+          {
             "localizedName": "Fresno",
             "administrativeDivision": {
               "localizedName": "CA",
@@ -310,13 +317,6 @@
             }
           },
           {
-            "localizedName": "Port St Lucie",
-            "administrativeDivision": {
-              "localizedName": "FL",
-              "abbreviatedName": "FL"
-            }
-          },
-          {
             "localizedName": "Sarasota",
             "administrativeDivision": {
               "localizedName": "FL",
@@ -401,13 +401,6 @@
             }
           },
           {
-            "localizedName": "Iowa City",
-            "administrativeDivision": {
-              "localizedName": "IA",
-              "abbreviatedName": "IA"
-            }
-          },
-          {
             "localizedName": "Mason City",
             "administrativeDivision": {
               "localizedName": "IA",
@@ -437,13 +430,6 @@
           },
           {
             "localizedName": "Aurora",
-            "administrativeDivision": {
-              "localizedName": "IL",
-              "abbreviatedName": "IL"
-            }
-          },
-          {
-            "localizedName": "Bloomington",
             "administrativeDivision": {
               "localizedName": "IL",
               "abbreviatedName": "IL"
@@ -604,13 +590,6 @@
             }
           },
           {
-            "localizedName": "Boston",
-            "administrativeDivision": {
-              "localizedName": "MA",
-              "abbreviatedName": "MA"
-            }
-          },
-          {
             "localizedName": "Chicopee",
             "administrativeDivision": {
               "localizedName": "MA",
@@ -710,6 +689,13 @@
           },
           {
             "localizedName": "Otsego",
+            "administrativeDivision": {
+              "localizedName": "MI",
+              "abbreviatedName": "MI"
+            }
+          },
+          {
+            "localizedName": "Pontiac",
             "administrativeDivision": {
               "localizedName": "MI",
               "abbreviatedName": "MI"

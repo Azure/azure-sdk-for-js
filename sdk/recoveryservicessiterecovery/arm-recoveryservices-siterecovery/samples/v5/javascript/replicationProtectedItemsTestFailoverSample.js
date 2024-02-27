@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to perform a test failover of the replication protected item.
  *
  * @summary Operation to perform a test failover of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_TestFailover.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_TestFailover.json
  */
 async function executeTestFailover() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function executeTestFailover() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    testfailoverInput
+    testfailoverInput,
   );
   console.log(result);
 }

@@ -56,10 +56,6 @@
             "countryCode": "FR"
           },
           {
-            "localizedName": "Germany",
-            "countryCode": "DE"
-          },
-          {
             "localizedName": "Hong Kong SAR",
             "countryCode": "HK"
           },
@@ -84,10 +80,6 @@
             "countryCode": "KR"
           },
           {
-            "localizedName": "Luxembourg",
-            "countryCode": "LU"
-          },
-          {
             "localizedName": "Malaysia",
             "countryCode": "MY"
           },
@@ -100,10 +92,6 @@
             "countryCode": "NZ"
           },
           {
-            "localizedName": "Norway",
-            "countryCode": "NO"
-          },
-          {
             "localizedName": "Philippines",
             "countryCode": "PH"
           },
@@ -112,40 +100,20 @@
             "countryCode": "PL"
           },
           {
-            "localizedName": "Portugal",
-            "countryCode": "PT"
-          },
-          {
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
-          },
-          {
-            "localizedName": "Saudi Arabia",
-            "countryCode": "SA"
           },
           {
             "localizedName": "Singapore",
             "countryCode": "SG"
           },
           {
-            "localizedName": "Slovakia",
-            "countryCode": "SK"
-          },
-          {
             "localizedName": "South Africa",
             "countryCode": "ZA"
           },
           {
-            "localizedName": "Spain",
-            "countryCode": "ES"
-          },
-          {
             "localizedName": "Sweden",
             "countryCode": "SE"
-          },
-          {
-            "localizedName": "Switzerland",
-            "countryCode": "CH"
           },
           {
             "localizedName": "Taiwan",

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of an ASR replication protection intent.
  *
  * @summary Gets the details of an ASR replication protection intent.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionIntents_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionIntents_Get.json
  */
 async function getsTheDetailsOfAReplicationProtectionIntentItem() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getsTheDetailsOfAReplicationProtectionIntentItem() {
   const result = await client.replicationProtectionIntents.get(
     resourceName,
     resourceGroupName,
-    intentObjectName
+    intentObjectName,
   );
   console.log(result);
 }

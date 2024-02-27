@@ -79,6 +79,278 @@
             "id": "14155550100",
             "phoneNumber": "\u002B14155550100",
             "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:36:43.2477114\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:36:13.5514009\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T05:09:18.7391177\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T05:11:43.8093725\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T05:09:44.856727\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T05:10:43.0470316\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T05:11:13.2871013\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:35:43.3598754\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:35:14.2925013\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:35:17.7642032\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:37:57.7589612\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:38:01.2490062\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "person",
+            "purchaseDate": "2021-06-24T06:38:10.7033129\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "geographic",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "none"
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2021-06-24T15:41:42.6103267\u002B00:00",
+            "cost": {
+              "amount": 1.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "inbound\u002Boutbound"
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2021-06-23T23:30:51.9182995\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
+            "phoneNumberType": "tollFree",
+            "capabilities": {
+              "calling": "inbound\u002Boutbound",
+              "sms": "inbound\u002Boutbound"
+            },
+            "assignmentType": "application",
+            "purchaseDate": "2021-06-23T23:30:17.6614122\u002B00:00",
+            "cost": {
+              "amount": 2.0,
+              "currencyCode": "USD",
+              "billingFrequency": "monthly"
+            }
+          },
+          {
+            "id": "14155550100",
+            "phoneNumber": "\u002B14155550100",
+            "countryCode": "US",
             "phoneNumberType": "tollFree",
             "capabilities": {
               "calling": "inbound",

@@ -831,7 +831,7 @@
       },
       "ResponseBody": {
         "operationType": "releasePhoneNumber",
-        "status": "notStarted",
+        "status": "running",
         "resourceLocation": null,
         "createdDateTime": "2024-02-01T23:49:24.9379072\u002B00:00",
         "id": "release_sanitized",
