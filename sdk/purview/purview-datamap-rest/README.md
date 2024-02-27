@@ -52,7 +52,7 @@ The following sections provide several code snippets covering some of the most c
 
 ### Get All Type Definitions
 
-```javascript
+```typescript
 import PurviewDataMap from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
