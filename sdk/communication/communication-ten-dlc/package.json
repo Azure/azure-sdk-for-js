@@ -1,6 +1,6 @@
 {
   "name": "@azure-tools/communication-ten-dlc",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "SDK for Azure Communication Services which facilitates 10 DLC administration.",
   "sdk-type": "client",
   "main": "dist/index.js",
