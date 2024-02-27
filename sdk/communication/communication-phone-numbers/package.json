@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-phone-numbers",
-  "version": "1.2.1",
+  "version": "1.3.0-beta.3",
   "description": "SDK for Azure Communication service which facilitates phone number management.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && api-extractor run --local",
-    "build:clean": "rush update --recheck && rush rebuild && dev-tool run build",
+    "build:clean": "rush update --recheck && rush rebuild -t @azure/communication-phone-numbers && dev-tool run build",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
     "bundle": "dev-tool run bundle",
