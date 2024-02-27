@@ -74,8 +74,6 @@ const client = new TenDlcClient("<endpoint-from-resource>", credential);
 
 ## Usage
 
-
-
 ## Troubleshooting
 
 ## Next steps
