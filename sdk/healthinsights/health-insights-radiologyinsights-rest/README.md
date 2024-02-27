@@ -64,6 +64,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const credential = new AzureKeyCredential(apiKey);
 const client = RadiologyInsightsRestClient(endpoint, credential);
+```
 
 ## Troubleshooting
 
