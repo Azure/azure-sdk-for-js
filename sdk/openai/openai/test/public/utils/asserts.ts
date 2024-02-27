@@ -75,7 +75,8 @@ async function assertAsyncIterable<T>(
       validate(item);
     } catch (e: any) {
       throw new Error(
-        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${e.message
+        `Error validating item:\n ${JSON.stringify(item, undefined, 2)}\n\n${
+          e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
           .join("\n")}\n\n Stack trace: ${e.stack}`,
@@ -129,7 +130,9 @@ function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetai
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.customBlocklists, (arr) => assertArray(arr, assertContentFilterBlocklistIdResult));
+    ifDefined(cfr.customBlocklists, (arr) =>
+      assertArray(arr, assertContentFilterBlocklistIdResult),
+    );
   }
 }
 

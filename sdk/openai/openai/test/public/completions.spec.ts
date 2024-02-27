@@ -307,19 +307,18 @@ describe("OpenAI", function () {
           it("ensure schema name is not transformed with snake case", async function () {
             const getAssetInfo = {
               name: "getAssetInfo",
-              description:
-                "Returns information about an asset",
+              description: "Returns information about an asset",
               parameters: {
                 type: "object",
                 properties: {
                   assetName: {
                     type: "string",
                     description: "The asset name. This is a required parameter.",
-                  }
+                  },
                 },
                 required: ["assetName"],
               },
-            }
+            };
             updateWithSucceeded(
               await withDeployments(
                 getSucceeded(
@@ -339,7 +338,7 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
-                  assert.isDefined(res.choices[0].message?.toolCalls)
+                  assert.isDefined(res.choices[0].message?.toolCalls);
                   const argument = res.choices[0].message?.toolCalls[0].function.arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
