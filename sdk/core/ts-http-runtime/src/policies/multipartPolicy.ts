@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BodyPart, HttpHeaders, PipelineRequest, RequestBodyType } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { stringToUint8Array } from "../util/bytesEncoding";
-import { toStream, concatenateStreams } from "../util/stream";
-import { isBlob } from "../util/typeGuards";
-import { randomUUID } from "../util/uuidUtils";
+import type { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { stringToUint8Array } from "../util/bytesEncoding.js";
+import { isBlob } from "../util/typeGuards.js";
+import { randomUUID } from "../util/uuidUtils.js";
+import { concat } from "../util/concat.js";
 
 function generateBoundary(): string {
   return `----AzSDKFormBoundary${randomUUID()}`;
@@ -61,7 +61,11 @@ function getTotalLength(
   return total;
 }
 
-function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary: string): void {
+async function buildRequestBody(
+  request: PipelineRequest,
+  parts: BodyPart[],
+  boundary: string,
+): Promise<void> {
   const sources = [
     stringToUint8Array(`--${boundary}`, "utf-8"),
     ...parts.flatMap((part) => [
@@ -79,10 +83,7 @@ function buildRequestBody(request: PipelineRequest, parts: BodyPart[], boundary:
     request.headers.set("Content-Length", contentLength);
   }
 
-  request.body = (() =>
-    concatenateStreams(
-      sources.map((source) => (typeof source === "function" ? source() : source)).map(toStream),
-    )) as RequestBodyType;
+  request.body = await concat(sources);
 }
 
 /**
@@ -111,7 +112,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    sendRequest(request, next) {
+    async sendRequest(request, next) {
       if (!request.multipartBody) {
         return next(request);
       }
@@ -144,7 +145,7 @@ export function multipartPolicy(): PipelinePolicy {
         boundary = generateBoundary();
       }
       request.headers.set("Content-Type", `${contentType}; boundary=${boundary}`);
-      buildRequestBody(request, request.multipartBody.parts, boundary);
+      await buildRequestBody(request, request.multipartBody.parts, boundary);
 
       request.multipartBody = undefined;
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a recovery plan.
  *
  * @summary Delete a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_Delete.json
  */
 async function deletesTheSpecifiedRecoveryPlan() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function deletesTheSpecifiedRecoveryPlan() {
   const result = await client.replicationRecoveryPlans.beginDeleteAndWait(
     resourceName,
     resourceGroupName,
-    recoveryPlanName
+    recoveryPlanName,
   );
   console.log(result);
 }

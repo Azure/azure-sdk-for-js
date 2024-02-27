@@ -69,3 +69,7 @@ extends:
         safeName: azuretoolscommunicationtiering
         skipPublishDocMs: true
         skipPublishDocGithubIo: true
+      - name: azure-rest-communication-messages
+        safeName: azurerestcommunicationmessages
+        skipPublishDocMs: true
+        skipPublishDocGithubIo: true
