@@ -129,6 +129,13 @@ export const CommunicationIdentifierModel: coreClient.CompositeMapper = {
           className: "MicrosoftTeamsUserIdentifierModel",
         },
       },
+      microsoftTeamsApp: {
+        serializedName: "microsoftTeamsApp",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsAppIdentifierModel",
+        },
+      },
     },
   },
 };
@@ -181,6 +188,28 @@ export const MicrosoftTeamsUserIdentifierModel: coreClient.CompositeMapper = {
         serializedName: "isAnonymous",
         type: {
           name: "Boolean",
+        },
+      },
+      cloud: {
+        serializedName: "cloud",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MicrosoftTeamsAppIdentifierModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MicrosoftTeamsAppIdentifierModel",
+    modelProperties: {
+      appId: {
+        serializedName: "appId",
+        required: true,
+        type: {
+          name: "String",
         },
       },
       cloud: {
@@ -392,7 +421,7 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
         },
       },
       originalPstnTarget: {
-        serializedName: "originalPSTNTarget",
+        serializedName: "originalPstnTarget",
         type: {
           name: "Composite",
           className: "PhoneNumberIdentifierModel",
@@ -1175,6 +1204,63 @@ export const UpdateTranscriptionRequest: coreClient.CompositeMapper = {
   },
 };
 
+export const HoldRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "HoldRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      playSourceInfo: {
+        serializedName: "playSourceInfo",
+        type: {
+          name: "Composite",
+          className: "PlaySourceInternal",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const UnholdRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "UnholdRequest",
+    modelProperties: {
+      targetParticipant: {
+        serializedName: "targetParticipant",
+        type: {
+          name: "Composite",
+          className: "CommunicationIdentifierModel",
+        },
+      },
+      operationContext: {
+        serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const StartHoldMusicRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -1202,6 +1288,12 @@ export const StartHoldMusicRequest: coreClient.CompositeMapper = {
       },
       operationContext: {
         serializedName: "operationContext",
+        type: {
+          name: "String",
+        },
+      },
+      operationCallbackUri: {
+        serializedName: "operationCallbackUri",
         type: {
           name: "String",
         },
@@ -1887,6 +1979,121 @@ export const RecordingStateResponse: coreClient.CompositeMapper = {
   },
 };
 
+export const AnswerFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AnswerFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestResultInformation: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestResultInformation",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "Number",
+        },
+      },
+      subCode: {
+        serializedName: "subCode",
+        type: {
+          name: "Number",
+        },
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const CreateCallFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "CreateCallFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const CollectTonesResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2014,33 +2221,6 @@ export const DialogCompleted: coreClient.CompositeMapper = {
       correlationId: {
         serializedName: "correlationId",
         readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const RestResultInformation: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "RestResultInformation",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "Number",
-        },
-      },
-      subCode: {
-        serializedName: "subCode",
-        type: {
-          name: "Number",
-        },
-      },
-      message: {
-        serializedName: "message",
         type: {
           name: "String",
         },
@@ -4035,7 +4215,7 @@ export const RestTranscriptionFailed: coreClient.CompositeMapper = {
 };
 
 export const AzureOpenAIDialog: coreClient.CompositeMapper = {
-  serializedName: "AzureOpenAI",
+  serializedName: "azureOpenAI",
   type: {
     name: "Composite",
     className: "AzureOpenAIDialog",
@@ -4048,7 +4228,7 @@ export const AzureOpenAIDialog: coreClient.CompositeMapper = {
 };
 
 export const PowerVirtualAgentsDialog: coreClient.CompositeMapper = {
-  serializedName: "PowerVirtualAgents",
+  serializedName: "powerVirtualAgents",
   type: {
     name: "Composite",
     className: "PowerVirtualAgentsDialog",
@@ -4074,7 +4254,7 @@ export const PowerVirtualAgentsDialog: coreClient.CompositeMapper = {
 };
 
 export const AzureOpenAIDialogUpdate: coreClient.CompositeMapper = {
-  serializedName: "AzureOpenAI",
+  serializedName: "azureOpenAI",
   type: {
     name: "Composite",
     className: "AzureOpenAIDialogUpdate",
@@ -4089,7 +4269,7 @@ export const AzureOpenAIDialogUpdate: coreClient.CompositeMapper = {
 export let discriminators = {
   BaseDialog: BaseDialog,
   DialogUpdateBase: DialogUpdateBase,
-  "BaseDialog.AzureOpenAI": AzureOpenAIDialog,
-  "BaseDialog.PowerVirtualAgents": PowerVirtualAgentsDialog,
-  "DialogUpdateBase.AzureOpenAI": AzureOpenAIDialogUpdate,
+  "BaseDialog.azureOpenAI": AzureOpenAIDialog,
+  "BaseDialog.powerVirtualAgents": PowerVirtualAgentsDialog,
+  "DialogUpdateBase.azureOpenAI": AzureOpenAIDialogUpdate,
 };
