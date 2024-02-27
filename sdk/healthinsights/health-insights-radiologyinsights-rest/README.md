@@ -8,16 +8,20 @@
 
 Key links:
 
-- Source code
-- Package (NPM)
-- API reference documentation
-- Samples
+Key links:
+
+- [Source code][source_code]
+- [Package (NPM)][npm_link]
+- [API reference documentation][api_ref]
+- [Product Information](https://docs.microsoft.com/rest/api/maps/route)
+- [Samples][samples]
 
 ## Getting started
 
 ### Currently supported environments
 
 - LTS versions of Node.js
+- Latest versions of Safari, Chrome, Edge and Firefox.
 
 ### Prerequisites
 
@@ -39,14 +43,13 @@ npm install @azure-rest/health-insights-radiologyinsights
 |-------------|---------------|
 |1.0.0-beta.1 | 2024-01-19-preview|
 
-To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
-provide an instance of the desired credential type obtained from the
-[@azure/identity](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) library.
+To use an [Azure Active Directory (AAD) token credential][token_credential],
+provide an instance of the desired credential type obtained from the [Azure Identity library][azure_identity].
 
-To authenticate with AAD, you must first `npm` install [`@azure/identity`](https://www.npmjs.com/package/@azure/identity)
+To authenticate with AAD, you must first `npm` install [`@azure/identity`][identity]
 
-After setup, you can choose which type of [credential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials) from `@azure/identity` to use.
-As an example, [DefaultAzureCredential](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#defaultazurecredential)
+After setup, you can choose which type of [credential][credential] from `@azure/identity` to use.
+As an example, [DefaultAzureCredential][defaultazurecredential]
 can be used to authenticate the client.
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables:
@@ -57,7 +60,7 @@ AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_CLIENT_SECRET
 ### Create a RadiologyInsights asynchronous client
 
 ```typescript
-const apiKey = process.env["HEALTH_INSIGHTS_API_KEY"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 const credential = new AzureKeyCredential(apiKey);
 const client = RadiologyInsightsRestClient(endpoint, credential);
@@ -79,3 +82,12 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 <!-- LINKS -->
 [health_insights]: https://learn.microsoft.com/azure/azure-health-insights/overview
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
+[source_code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
+[npm_link]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
+[api_ref]: https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-radiologyinsights
+[samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[identity]: https://www.npmjs.com/package/@azure/identity
+[token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
+[credential]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity#credentials

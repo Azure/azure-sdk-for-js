@@ -59,9 +59,11 @@
     "CONTOSO",
     "deps",
     "deserialization",
+    "deserializers",
     "devboxes",
     "devcenter",
     "devdeps",
+    "dicom",
     "dotenv",
     "DTDL",
     "dtmi",
@@ -89,6 +91,7 @@
     "lcov",
     "lcovonly",
     "Localizable",
+    "loinc",
     "Lucene",
     "Mibps",
     "mkdir",
@@ -102,6 +105,8 @@
     "npmjs",
     "ODATA",
     "Odbc",
+    "Onco",
+    "oncophenotype",
     "openai",
     "perfstress",
     "personalizer",
@@ -147,12 +152,7 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi",
-    "Onco",
-    "oncophenotype",
-    "dicom",
-    "loinc",
-    "deserializers"
+    "Xiaomi"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -469,9 +469,9 @@
     {
       "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
       "words": [
-        "nify",
+        "ctxt",
         "mros",
-        "ctxt"
+        "nify"
       ]
     },
     {
