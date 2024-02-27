@@ -7,6 +7,7 @@ import { createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { createClient } from "./utils/recordedClient";
 import { createFile } from "../../src/index";
+import { isUnexpected } from "../../src/isUnexpected";
 
 describe("purview datamap entity test", () => {
   let recorder: Recorder;
@@ -31,6 +32,6 @@ hive_database,hive_db_1,bmWithAllTypes.attr8,"Awesome Attribute 1",name`);
         file: createFile(fileContent, "template_2.csv"),
       },
     });
-    assert.strictEqual(response.status, "200");
+    assert.strictEqual(isUnexpected(response), false);
   });
 });

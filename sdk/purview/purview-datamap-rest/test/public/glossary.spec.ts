@@ -5,6 +5,7 @@ import { createRecorder } from "./utils/recordedClient";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { createClient } from "./utils/recordedClient";
+import { isUnexpected } from "../../src/isUnexpected";
 
 describe("purview datamap glossary test", () => {
   let recorder: Recorder;
@@ -21,7 +22,7 @@ describe("purview datamap glossary test", () => {
     const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/glossary").get();
 
-    console.log("returned result: ", result);
-    assert.strictEqual(result.status, "200");
+    //console.log("returned result: ", result);
+    assert.strictEqual(isUnexpected(result), false);
   });
 }).timeout(60000000000);

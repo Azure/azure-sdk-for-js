@@ -11,6 +11,7 @@
 import PurviewDataMap from "@azure-rest/purview-datamap";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
+import { isUnexpected } from "@azure-rest/purview-datamap";
 
 dotenv.config();
 
@@ -22,8 +23,8 @@ async function main() {
 
   const result = await client.path("/atlas/v2/types/typedefs").get();
 
-  if (result .status !== "200") {
-    throw result ;
+  if (isUnexpected(result)) {
+    throw result;
   }
 
 }

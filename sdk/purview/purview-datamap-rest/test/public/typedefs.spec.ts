@@ -6,6 +6,7 @@ import { assert } from "chai";
 import { createClient } from "./utils/recordedClient";
 import { Context } from "mocha";
 import { createRecorder } from "./utils/recordedClient";
+import { isUnexpected } from "../../src/isUnexpected";
 
 describe("purview datamap typedefs test", () => {
   let recorder: Recorder;
@@ -22,6 +23,6 @@ describe("purview datamap typedefs test", () => {
     const client = await createClient(recorder);
     const result = await client.path("/atlas/v2/types/typedefs").get();
 
-    assert.strictEqual(result.status, "200");
+    assert.strictEqual(isUnexpected(result), false);
   });
 }).timeout(60000000000);
