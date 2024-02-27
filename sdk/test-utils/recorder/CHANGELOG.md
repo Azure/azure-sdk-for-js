@@ -6,6 +6,14 @@
 
 - Add support for setting `TLSValidationCert` in the Test Proxy Transport.
 - Add a `testPollingOptions` that allow skip polling wait in playback mode.
+- Enhanced the `addSanitizers` method and `SanitizerOptions` options bag by exposing the following sanitizer types for more flexible usage:
+  - `FindReplaceSanitizer`: A sanitizer that finds and replaces specified strings.
+  - `RegexSanitizer`: A sanitizer that uses regular expressions for pattern matching and replacement.
+  - `StringSanitizer`: A sanitizer that handles string-based sanitization tasks.
+  - `HeaderSanitizer`: A sanitizer specifically designed for handling HTTP headers.
+  - `ConnectionStringSanitizer`: A sanitizer that securely handles connection strings.
+  - `RemoveHeaderSanitizer`: A sanitizer that removes specified headers from HTTP requests or responses.
+    This update aims to provide users with a more comprehensive and customizable sanitization process.
 
 ### Breaking Changes
 
@@ -20,6 +28,7 @@
   - Forward mismatch error when recording file cannot be found during `start` call in playback mode
   - Add more descriptive message in the case that the test proxy has not been started before running the tests
 - Ignore `Accept-Language` header for browsers in Playback mode.
+
 ## 3.0.0 (2023-03-07)
 
 ### Features Added

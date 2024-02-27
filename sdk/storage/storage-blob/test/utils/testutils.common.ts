@@ -9,7 +9,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import {
   FindReplaceSanitizer,
   RegexSanitizer,
-} from "@azure-tools/test-recorder/types/src/utils/utils";
+} from "@azure-tools/test-recorder";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
