@@ -12,7 +12,7 @@
 
 - Re-fixed issue 28529 - import error for TypeScript users - add types/src to build output
 
-## 1.0.0-beta.2 (2024-02-09)
+## 1.0.0-beta.2 (2024-02-08)
 
 ### Bugs Fixed
 
