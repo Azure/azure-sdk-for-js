@@ -49,12 +49,12 @@ describe("test bulk operations", async function () {
         () =>
           ({
             ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-          } as any)
+          }) as any,
       );
       const response = await container.items.bulk(operations);
       // Create
       response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
       );
     });
     it("Check case when cumulative size of all operations is greater than threshold - payload size is 5x threshold", async function () {
@@ -62,15 +62,15 @@ describe("test bulk operations", async function () {
         () =>
           ({
             ...generateOperationOfSize(
-              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
+              Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
             ),
             partitionKey: {},
-          } as any)
+          }) as any,
       );
       const response = await container.items.bulk(operations);
       // Create
       response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
       );
     });
     it("Check case when cumulative size of all operations is greater than threshold - payload size is 25x threshold", async function () {
@@ -80,14 +80,14 @@ describe("test bulk operations", async function () {
             ...generateOperationOfSize(
               Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
               {},
-              { key: "key_value" }
+              { key: "key_value" },
             ),
-          } as any)
+          }) as any,
       );
       const response = await container.items.bulk(operations);
       // Create
       response.forEach((res, index) =>
-        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+        assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
       );
     });
   });
@@ -176,12 +176,12 @@ describe("test bulk operations", async function () {
           () =>
             ({
               ...generateOperationOfSize(100, { partitionKey: "key_value" }, { key: "key_value" }),
-            } as any)
+            }) as any,
         );
         const response = await container.items.bulk(operations);
         // Create
         response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
         );
       });
       it("Check case when cumulative size of all operations is greater than threshold", async function () {
@@ -189,15 +189,15 @@ describe("test bulk operations", async function () {
           () =>
             ({
               ...generateOperationOfSize(
-                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2)
+                Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
               ),
               partitionKey: {},
-            } as any)
+            }) as any,
         );
         const response = await container.items.bulk(operations);
         // Create
         response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
         );
       });
       it("Check case when cumulative size of all operations is greater than threshold", async function () {
@@ -207,14 +207,14 @@ describe("test bulk operations", async function () {
               ...generateOperationOfSize(
                 Math.floor(Constants.DefaultMaxBulkRequestBodySizeInBytes / 2),
                 {},
-                { key: "key_value" }
+                { key: "key_value" },
               ),
-            } as any)
+            }) as any,
         );
         const response = await container.items.bulk(operations);
         // Create
         response.forEach((res, index) =>
-          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`)
+          assert.strictEqual(res.statusCode, 201, `Status should be 201 for operation ${index}`),
         );
       });
     });
@@ -259,7 +259,7 @@ describe("test bulk operations", async function () {
         assert.strictEqual(
           readResponse[0].resourceBody.id,
           readItemId,
-          "Read Items id should match"
+          "Read Items id should match",
         );
       });
       it("create operation with default partition", async function () {
@@ -301,7 +301,7 @@ describe("test bulk operations", async function () {
         assert.strictEqual(
           readResponse[0].resourceBody.id,
           readItemId,
-          "Read Items id should match"
+          "Read Items id should match",
         );
       });
 
@@ -310,11 +310,6 @@ describe("test bulk operations", async function () {
           {
             operationType: BulkOperationType.Create,
             resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" },
-          },
-          {
-            operationType: BulkOperationType.Upsert,
-            partitionKey: "A",
-            resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" },
           },
           {
             operationType: BulkOperationType.Read,
@@ -334,22 +329,34 @@ describe("test bulk operations", async function () {
           },
         ];
         const container = await getSplitContainer();
+        await container.items.create({
+          id: deleteItemId,
+          key: "A",
+          class: "2010",
+        });
+        await container.items.create({
+          id: readItemId,
+          key: "A",
+          class: "2010",
+        });
+        await container.items.create({
+          id: replaceItemId,
+          key: 5,
+          class: "2010",
+        });
         const response = await container.items.bulk(operations);
         console.log("response: ", response);
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
         assert.equal(response[0].statusCode, 201);
-        // Upsert
-        assert.equal(response[1].resourceBody.name, "other");
-        assert.equal(response[1].statusCode, 201);
         // Read
-        assert.equal(response[2].resourceBody.class, "2010");
-        assert.equal(response[2].statusCode, 200);
+        assert.equal(response[1].resourceBody.class, "2010");
+        assert.equal(response[1].statusCode, 200);
         // Delete
-        assert.equal(response[3].statusCode, 204);
+        assert.equal(response[2].statusCode, 204);
         // Replace
-        assert.equal(response[4].resourceBody.name, "nice");
-        assert.equal(response[4].statusCode, 200);
+        assert.equal(response[3].resourceBody.name, "nice");
+        assert.equal(response[3].statusCode, 200);
       });
       async function getSplitContainer() {
         let responseIndex = 0;
@@ -376,7 +383,9 @@ describe("test bulk operations", async function () {
           diagnosticLevel: CosmosDbDiagnosticLevel.debug,
           plugins,
         });
-        const splitContainer = await getTestContainer("split container", client);
+        const splitContainer = await getTestContainer("split container", client, {
+          partitionKey: { paths: ["/key"] },
+        });
         return splitContainer;
       }
     });
@@ -443,20 +452,20 @@ describe("test bulk operations", async function () {
           }
           const response = await container.items.bulk(
             dataset.operations.map((value) => value.operation),
-            dataset.bulkOperationOptions
+            dataset.bulkOperationOptions,
           );
           dataset.operations.forEach(({ description, expectedOutput }, index) => {
             if (expectedOutput) {
               assert.strictEqual(
                 response[index].statusCode,
                 expectedOutput.statusCode,
-                `Failed during - ${description}`
+                `Failed during - ${description}`,
               );
               expectedOutput.propertysToMatch.forEach(({ name, value }) => {
                 assert.strictEqual(
                   response[index].resourceBody[name],
                   value,
-                  `Failed during - ${description}`
+                  `Failed during - ${description}`,
                 );
               });
             }
@@ -469,7 +478,7 @@ describe("test bulk operations", async function () {
         operationType: any,
         partitionKeySpecifier?: { partitionKey?: PartitionKey },
         resourceBody?: any,
-        id?: string
+        id?: string,
       ): OperationInput {
         let op: OperationInput = {
           operationType,
@@ -482,7 +491,7 @@ describe("test bulk operations", async function () {
       }
       function creatreBulkOperationExpectedOutput(
         statusCode: number,
-        propertysToMatch: { name: string; value: any }[]
+        propertysToMatch: { name: string; value: any }[],
       ): {
         statusCode: number;
         propertysToMatch: {
@@ -499,16 +508,16 @@ describe("test bulk operations", async function () {
         it("Hierarchical Partitions with two keys", async function () {
           readItemId = addEntropy("item1");
           const createItemWithBooleanPartitionKeyId = addEntropy(
-            "createItemWithBooleanPartitionKeyId"
+            "createItemWithBooleanPartitionKeyId",
           );
           const createItemWithStringPartitionKeyId = addEntropy(
-            "createItemWithStringPartitionKeyId"
+            "createItemWithStringPartitionKeyId",
           );
           const createItemWithUnknownPartitionKeyId = addEntropy(
-            "createItemWithUnknownPartitionKeyId"
+            "createItemWithUnknownPartitionKeyId",
           );
           const createItemWithNumberPartitionKeyId = addEntropy(
-            "createItemWithNumberPartitionKeyId"
+            "createItemWithNumberPartitionKeyId",
           );
           replaceItemId = addEntropy("item3");
           patchItemId = addEntropy("item4");
@@ -549,7 +558,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [true, false] },
                   undefined,
-                  createItemWithBooleanPartitionKeyId
+                  createItemWithBooleanPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -561,7 +570,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [undefined, undefined] },
                   undefined,
-                  createItemWithUnknownPartitionKeyId
+                  createItemWithUnknownPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -573,7 +582,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Create,
                   { partitionKey: undefined },
-                  { id: addEntropy("doc10"), name: "sample", key: "A", key2: "B" }
+                  { id: addEntropy("doc10"), name: "sample", key: "A", key2: "B" },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(400, []),
               },
@@ -583,7 +592,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [0, 3] },
                   undefined,
-                  createItemWithNumberPartitionKeyId
+                  createItemWithNumberPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -594,7 +603,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Create,
                   { partitionKey: ["A", "B"] },
-                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" }
+                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(201, [
                   { name: "name", value: "sample" },
@@ -605,7 +614,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Create,
                   { partitionKey: ["A", "V"] },
-                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" }
+                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B" },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(400, []),
               },
@@ -614,7 +623,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Upsert,
                   { partitionKey: ["U", "V"] },
-                  { name: "other", key: "U", key2: "V" }
+                  { name: "other", key: "U", key2: "V" },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(201, [
                   { name: "name", value: "other" },
@@ -626,7 +635,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [true, true] },
                   undefined,
-                  readItemId
+                  readItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -639,7 +648,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Delete,
                   { partitionKey: [{}, {}] },
                   undefined,
-                  deleteItemId
+                  deleteItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(204, []),
               },
@@ -649,7 +658,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Replace,
                   {},
                   { id: replaceItemId, name: "nice", key: 5, key2: 5 },
-                  replaceItemId
+                  replaceItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "name", value: "nice" },
@@ -665,7 +674,7 @@ describe("test bulk operations", async function () {
                       { op: PatchOperationType.add, path: "/great", value: "goodValue" },
                     ],
                   },
-                  patchItemId
+                  patchItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "great", value: "goodValue" },
@@ -682,7 +691,7 @@ describe("test bulk operations", async function () {
                     ],
                     condition: "from c where NOT IS_DEFINED(c.newImproved)",
                   },
-                  patchItemId
+                  patchItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, []),
               },
@@ -693,16 +702,16 @@ describe("test bulk operations", async function () {
         it("Hierarchical Partitions with three keys", async function () {
           readItemId = addEntropy("item1");
           const createItemWithBooleanPartitionKeyId = addEntropy(
-            "createItemWithBooleanPartitionKeyId"
+            "createItemWithBooleanPartitionKeyId",
           );
           const createItemWithStringPartitionKeyId = addEntropy(
-            "createItemWithStringPartitionKeyId"
+            "createItemWithStringPartitionKeyId",
           );
           const createItemWithUnknownPartitionKeyId = addEntropy(
-            "createItemWithUnknownPartitionKeyId"
+            "createItemWithUnknownPartitionKeyId",
           );
           const createItemWithNumberPartitionKeyId = addEntropy(
-            "createItemWithNumberPartitionKeyId"
+            "createItemWithNumberPartitionKeyId",
           );
           replaceItemId = addEntropy("item3");
           patchItemId = addEntropy("item4");
@@ -756,7 +765,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [true, false, true] },
                   undefined,
-                  createItemWithBooleanPartitionKeyId
+                  createItemWithBooleanPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -768,7 +777,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [{}, {}, {}] },
                   undefined,
-                  createItemWithUnknownPartitionKeyId
+                  createItemWithUnknownPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -780,7 +789,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [0, 3, 5] },
                   undefined,
-                  createItemWithNumberPartitionKeyId
+                  createItemWithNumberPartitionKeyId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -791,7 +800,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Create,
                   { partitionKey: ["A", "B", "C"] },
-                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: "C" }
+                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: "C" },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(201, [
                   { name: "name", value: "sample" },
@@ -802,7 +811,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Create,
                   { partitionKey: ["A", "V", true] },
-                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: true }
+                  { id: addEntropy("doc1"), name: "sample", key: "A", key2: "B", key3: true },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(400, []),
               },
@@ -811,7 +820,7 @@ describe("test bulk operations", async function () {
                 operation: createBulkOperation(
                   BulkOperationType.Upsert,
                   { partitionKey: ["U", "V", 5] },
-                  { name: "other", key: "U", key2: "V", key3: 5 }
+                  { name: "other", key: "U", key2: "V", key3: 5 },
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(201, [
                   { name: "name", value: "other" },
@@ -823,7 +832,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Read,
                   { partitionKey: [true, true, true] },
                   undefined,
-                  readItemId
+                  readItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "class", value: "2010" },
@@ -836,7 +845,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Delete,
                   { partitionKey: [{}, {}, {}] },
                   undefined,
-                  deleteItemId
+                  deleteItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(204, []),
               },
@@ -846,7 +855,7 @@ describe("test bulk operations", async function () {
                   BulkOperationType.Replace,
                   {},
                   { id: replaceItemId, name: "nice", key: 5, key2: 5, key3: "T" },
-                  replaceItemId
+                  replaceItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "name", value: "nice" },
@@ -862,7 +871,7 @@ describe("test bulk operations", async function () {
                       { op: PatchOperationType.add, path: "/great", value: "goodValue" },
                     ],
                   },
-                  patchItemId
+                  patchItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, [
                   { name: "great", value: "goodValue" },
@@ -879,7 +888,7 @@ describe("test bulk operations", async function () {
                     ],
                     condition: "from c where NOT IS_DEFINED(c.newImproved)",
                   },
-                  patchItemId
+                  patchItemId,
                 ),
                 expectedOutput: creatreBulkOperationExpectedOutput(200, []),
               },
@@ -901,7 +910,7 @@ describe("test bulk operations", async function () {
                 BulkOperationType.Delete,
                 { partitionKey: "A" },
                 undefined,
-                readItemId
+                readItemId,
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(204, []),
             },
@@ -911,7 +920,7 @@ describe("test bulk operations", async function () {
                 BulkOperationType.Read,
                 { partitionKey: "A" },
                 undefined,
-                readItemId
+                readItemId,
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(404, []),
             },
@@ -935,7 +944,7 @@ describe("test bulk operations", async function () {
               operation: createBulkOperation(
                 BulkOperationType.Create,
                 { partitionKey: "A" },
-                { key: "A", licenseType: "B", id: "o239uroihndsf" }
+                { key: "A", licenseType: "B", id: "o239uroihndsf" },
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(424, []),
             },
@@ -963,7 +972,7 @@ describe("test bulk operations", async function () {
               operation: createBulkOperation(
                 BulkOperationType.Create,
                 {},
-                { key: "A", licenseType: "B", id: addEntropy("sifjsiof") }
+                { key: "A", licenseType: "B", id: addEntropy("sifjsiof") },
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(201, []),
             },
@@ -981,7 +990,7 @@ describe("test bulk operations", async function () {
               operation: createBulkOperation(
                 BulkOperationType.Create,
                 {},
-                { key: "A", licenseType: "C" }
+                { key: "A", licenseType: "C" },
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(201, []),
             },
@@ -1008,7 +1017,7 @@ describe("test bulk operations", async function () {
                 BulkOperationType.Read,
                 { partitionKey: null },
                 {},
-                item1Id
+                item1Id,
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(200, []),
             },
@@ -1018,7 +1027,7 @@ describe("test bulk operations", async function () {
                 BulkOperationType.Read,
                 { partitionKey: 0 },
                 {},
-                item2Id
+                item2Id,
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(200, []),
             },
@@ -1028,7 +1037,7 @@ describe("test bulk operations", async function () {
                 BulkOperationType.Read,
                 { partitionKey: undefined },
                 {},
-                item3Id
+                item3Id,
               ),
               expectedOutput: creatreBulkOperationExpectedOutput(200, []),
             },
@@ -1155,7 +1164,7 @@ describe("test bulk operations", async function () {
           locationEndpointsContacted: 1,
           gatewayStatisticsTestSpec: [{}, {}], // Corresponding to two physical partitions
         },
-        true // bulk operations happen in parallel.
+        true, // bulk operations happen in parallel.
       );
     });
   });
