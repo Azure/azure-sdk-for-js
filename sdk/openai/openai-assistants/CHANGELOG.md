@@ -1,4 +1,5 @@
 # Release History
+
 ## 1.0.0-beta.4 (2024-02-27)
 
 ### Bugs Fixed
