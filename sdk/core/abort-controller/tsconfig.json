@@ -8,5 +8,5 @@
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
 }
