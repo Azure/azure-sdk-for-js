@@ -3,6 +3,7 @@
 ## 4.1.0-beta.2 (Unreleased)
 
 ### Features Added
+- Updated Identity Azure Cache for Redis Code Samples with the new scope.
 
 ### Breaking Changes
 
