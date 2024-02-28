@@ -1018,3 +1018,5 @@ export type ProcedureRecommendationOutput =
   | ProcedureRecommendationOutputParent
   | GenericProcedureRecommendationOutput
   | ImagingProcedureRecommendationOutput;
+/** Alias for RepeatabilityResultOutput */
+export type RepeatabilityResultOutput = "accepted" | "rejected";
