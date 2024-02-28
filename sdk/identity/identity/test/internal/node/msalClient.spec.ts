@@ -24,7 +24,7 @@ describe("MsalClient", function () {
     });
 
     beforeEach(async function () {
-      ({ cleanup, recorder } = await msalNodeTestSetup(this.currentTest, "azure_client_id"));
+      ({ cleanup, recorder } = await msalNodeTestSetup(this.currentTest));
     });
 
     it("supports getTokenByClientSecret", async function () {
