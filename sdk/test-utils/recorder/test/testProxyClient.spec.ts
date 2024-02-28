@@ -171,7 +171,8 @@ describe("TestProxyClient functions", () => {
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error: any) {
           assert.equal((error as RecorderError).name, "RecorderError");
-          assert.equal((error as RecorderError).message, 
+          assert.equal(
+            (error as RecorderError).message,
             "No recording ID returned for a successful start request.",
           );
         }
@@ -206,7 +207,8 @@ describe("TestProxyClient functions", () => {
             throw new Error("should not have reached here, stop() call should have failed");
           } catch (error: any) {
             assert.equal((error as RecorderError).name, "RecorderError");
-            assert.equal((error as RecorderError).message, 
+            assert.equal(
+              (error as RecorderError).message,
               "Bad state, recordingId is not defined when called stop.",
             );
           }
@@ -252,7 +254,8 @@ describe("TestProxyClient functions", () => {
   describe("variable method", () => {
     it("throws an error in record mode if a variable is accessed without giving it a value", () => {
       env.TEST_MODE = "record";
-      assert.throws(() => client.variable("nonExistentVariable"), 
+      assert.throws(
+        () => client.variable("nonExistentVariable"),
         "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it.",
       );
     });
@@ -277,7 +280,8 @@ describe("TestProxyClient functions", () => {
 
     it("throws an error if a variable does not exist in playback mode", () => {
       env.TEST_MODE = "playback";
-      assert.throws(() => client.variable("var1", "ignored"), 
+      assert.throws(
+        () => client.variable("var1", "ignored"),
         "Tried to access a variable in playback that was not set in recording: var1",
       );
     });

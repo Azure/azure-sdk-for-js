@@ -16,7 +16,8 @@ describe("State Manager", function () {
       throw new Error("should not have reached here, previous assignment should have failed");
     } catch (error: any) {
       assert.equal((error as RecorderError).name, "RecorderError");
-      assert.equal((error as RecorderError).message, 
+      assert.equal(
+        (error as RecorderError).message,
         "Already started, should not have called start again.",
       );
     }
@@ -29,7 +30,8 @@ describe("State Manager", function () {
       throw new Error("should not have reached here, previous assignment should have failed");
     } catch (error: any) {
       assert.equal((error as RecorderError).name, "RecorderError");
-      assert.equal((error as RecorderError).message,
+      assert.equal(
+        (error as RecorderError).message,
         "Already stopped, should not have called stop again.",
       );
     }
