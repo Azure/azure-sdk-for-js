@@ -14,7 +14,7 @@ import {
   ScopeConnectionsCreateOrUpdateResponse,
   ScopeConnectionsGetOptionalParams,
   ScopeConnectionsGetResponse,
-  ScopeConnectionsDeleteOptionalParams
+  ScopeConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ScopeConnections {
   list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ScopeConnectionsListOptionalParams
+    options?: ScopeConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<ScopeConnection>;
   /**
    * Creates or updates scope connection from Network Manager
@@ -44,7 +44,7 @@ export interface ScopeConnections {
     networkManagerName: string,
     scopeConnectionName: string,
     parameters: ScopeConnection,
-    options?: ScopeConnectionsCreateOrUpdateOptionalParams
+    options?: ScopeConnectionsCreateOrUpdateOptionalParams,
   ): Promise<ScopeConnectionsCreateOrUpdateResponse>;
   /**
    * Get specified scope connection created by this Network Manager.
@@ -57,7 +57,7 @@ export interface ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     scopeConnectionName: string,
-    options?: ScopeConnectionsGetOptionalParams
+    options?: ScopeConnectionsGetOptionalParams,
   ): Promise<ScopeConnectionsGetResponse>;
   /**
    * Delete the pending scope connection created by this network manager.
@@ -70,6 +70,6 @@ export interface ScopeConnections {
     resourceGroupName: string,
     networkManagerName: string,
     scopeConnectionName: string,
-    options?: ScopeConnectionsDeleteOptionalParams
+    options?: ScopeConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

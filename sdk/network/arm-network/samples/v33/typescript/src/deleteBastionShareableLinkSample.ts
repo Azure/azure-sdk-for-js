@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BastionShareableLinkListRequest,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Deletes the Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionShareableLinkDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionShareableLinkDelete.json
  */
 async function deleteBastionShareableLinksForTheRequestVMS() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -31,24 +31,22 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
     vms: [
       {
         vm: {
-          id:
-            "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1"
-        }
+          id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
+        },
       },
       {
         vm: {
-          id:
-            "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2"
-        }
-      }
-    ]
+          id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
+        },
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.beginDeleteBastionShareableLinkAndWait(
     resourceGroupName,
     bastionHostName,
-    bslRequest
+    bslRequest,
   );
   console.log(result);
 }
