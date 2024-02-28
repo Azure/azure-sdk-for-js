@@ -135,11 +135,6 @@ export async function msalNodeTestSetup(
             target: `client-request-id=[a-zA-Z0-9-]+`,
             value: `client-request-id=${playbackValues.correlationId}`,
           },
-          {
-            regex: true,
-            target: `client_id=[a-zA-Z0-9-]+`,
-            value: `client_id=${playbackClientId}`,
-          },
         ],
         bodyKeySanitizers: [
           {
@@ -183,13 +178,6 @@ export async function msalNodeTestSetup(
             jsonPath: "$.client_info",
             value:
               "eyJ1aWQiOiIxMjM0NTY3OC0xMjM0LTEyMzQtMTIzNC0xMjM0NTY3ODkwMTIiLCJ1dGlkIjoiMTIzNDU2NzgtMTIzNC0xMjM0LTEyMzQtMTIzNDU2Nzg5MDEyIn0K",
-          },
-        ],
-        uriSanitizers: [
-          {
-            regex: true,
-            target: "/[a-zA-Z0-9-]+/oauth2",
-            value: `/${PlaybackTenantId}/oauth2`,
           },
         ],
       },
