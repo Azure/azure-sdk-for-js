@@ -116,7 +116,6 @@ describe("MsalClient", function () {
   describe("#getTokenByClientSecret", function () {
     let sandbox: sinon.SinonSandbox;
 
-    // TODO: helper to fetch env vars
     const clientId = "client-id";
     const tenantId = "tenant-id";
 
@@ -218,7 +217,7 @@ describe("MsalClient", function () {
 
         sandbox
           .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
-          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get rethrown
+          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
 
         const scopes = ["https://vault.azure.net/.default"];
         const clientSecret = process.env.AZURE_CLIENT_SECRET!;
