@@ -13,12 +13,14 @@ import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
+  OperatorInformationResult,
   PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
   PhoneNumberOffering,
   PhoneNumberSearchResult,
+  PhoneNumbersOperatorInformationSearchOptionalParams,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
@@ -32,6 +34,7 @@ import {
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
+  SearchOperatorInformationOptions,
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -283,10 +286,12 @@ export class PhoneNumbersClient {
    * ```
    *
    * @param searchId - The id of the search to purchase. Returned from `beginSearchAvailablePhoneNumbers`
+   * @param consentToNotResellNumbers - The consent to not resell Phone Numbers.
    * @param options - Additional request options.
    */
   public beginPurchasePhoneNumbers(
     searchId: string,
+    consentToNotResellNumbers: boolean = false,
     options: BeginPurchasePhoneNumbersOptions = {},
   ): Promise<
     PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>
@@ -295,7 +300,11 @@ export class PhoneNumbersClient {
       "PhoneNumbersClient-beginPurchasePhoneNumbers",
       options,
       (updatedOptions) => {
-        return this.client.phoneNumbers.beginPurchasePhoneNumbers({ ...updatedOptions, searchId });
+        return this.client.phoneNumbers.beginPurchasePhoneNumbers({
+          ...updatedOptions,
+          searchId,
+          consentToNotResellNumbers,
+        });
       },
     );
   }
@@ -537,5 +546,26 @@ export class PhoneNumbersClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Search for operator information about specified phone numbers.
+   *
+   * @param phoneNumbers - The phone numbers to search.
+   * @param options - Additional request options.
+   */
+  public searchOperatorInformation(
+    phoneNumbers: string[],
+    options: SearchOperatorInformationOptions = {},
+  ): Promise<OperatorInformationResult> {
+    return tracingClient.withSpan(
+      "PhoneNumbersClient-searchOperatorInformation",
+      options,
+      (updatedOptions) => {
+        const params: PhoneNumbersOperatorInformationSearchOptionalParams = updatedOptions;
+        params.phoneNumbers = phoneNumbers;
+        return this.client.phoneNumbers.operatorInformationSearch(params);
+      },
+    );
   }
 }

@@ -73,6 +73,29 @@ export interface ListTollFreeAreaCodesOptions extends Omit<PhoneNumbersListAreaC
 }
 
 // @public
+export interface OperatorDetails {
+    mobileCountryCode?: string;
+    mobileNetworkCode?: string;
+    name?: string;
+}
+
+// @public
+export interface OperatorInformation {
+    isoCountryCode?: string;
+    numberType?: OperatorNumberType;
+    operatorDetails?: OperatorDetails;
+    phoneNumber?: string;
+}
+
+// @public
+export interface OperatorInformationResult {
+    values?: OperatorInformation[];
+}
+
+// @public
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
+
+// @public
 export interface PhoneNumberAdministrativeDivision {
     abbreviatedName: string;
     localizedName: string;
@@ -133,7 +156,7 @@ export class PhoneNumbersClient {
     constructor(connectionString: string, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumbersClientOptions);
     constructor(url: string, credential: TokenCredential, options?: PhoneNumbersClientOptions);
-    beginPurchasePhoneNumbers(searchId: string, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
+    beginPurchasePhoneNumbers(searchId: string, consentToNotResellNumbers?: boolean, options?: BeginPurchasePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PurchasePhoneNumbersResult>, PurchasePhoneNumbersResult>>;
     beginReleasePhoneNumber(phoneNumber: string, options?: BeginReleasePhoneNumberOptions): Promise<PollerLike<PollOperationState<ReleasePhoneNumberResult>, ReleasePhoneNumberResult>>;
     beginSearchAvailablePhoneNumbers(search: SearchAvailablePhoneNumbersRequest, options?: BeginSearchAvailablePhoneNumbersOptions): Promise<PollerLike<PollOperationState<PhoneNumberSearchResult>, PhoneNumberSearchResult>>;
     beginUpdatePhoneNumberCapabilities(phoneNumber: string, request: PhoneNumberCapabilitiesRequest, options?: BeginUpdatePhoneNumberCapabilitiesOptions): Promise<PollerLike<PollOperationState<PurchasedPhoneNumber>, PurchasedPhoneNumber>>;
@@ -144,6 +167,7 @@ export class PhoneNumbersClient {
     listAvailableOfferings(countryCode: string, options?: ListOfferingsOptions): PagedAsyncIterableIterator<PhoneNumberOffering>;
     listAvailableTollFreeAreaCodes(countryCode: string, options?: ListTollFreeAreaCodesOptions): PagedAsyncIterableIterator<PhoneNumberAreaCode>;
     listPurchasedPhoneNumbers(options?: ListPurchasedPhoneNumbersOptions): PagedAsyncIterableIterator<PurchasedPhoneNumber>;
+    searchOperatorInformation(phoneNumbers: string[], options?: SearchOperatorInformationOptions): Promise<OperatorInformationResult>;
 }
 
 // @public
@@ -191,6 +215,8 @@ export interface PurchasedPhoneNumber {
     cost: PhoneNumberCost;
     countryCode: string;
     id: string;
+    operatorId?: string;
+    operatorName?: string;
     phoneNumber: string;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
@@ -207,6 +233,10 @@ export interface ReleasePhoneNumberResult {
 // @public
 export interface SearchAvailablePhoneNumbersRequest extends PhoneNumberSearchRequest {
     countryCode: string;
+}
+
+// @public
+export interface SearchOperatorInformationOptions extends OperationOptions {
 }
 
 // @public
