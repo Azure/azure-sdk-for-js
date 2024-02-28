@@ -11,6 +11,8 @@ import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
 import sinon from "sinon";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder } from "@azure-tools/test-recorder";
 
 describe("MsalClient", function () {
   describe("#createMsalClient", function () {
@@ -84,31 +86,35 @@ describe("MsalClient", function () {
 
   describe("#getTokenByClientSecret", function () {
     let sandbox: sinon.SinonSandbox;
+    let cleanup: MsalTestCleanup | undefined;
+    let recorder: Recorder;
 
     // TODO: helper to fetch env vars
     const clientId = process.env.AZURE_CLIENT_ID!;
     const tenantId = process.env.AZURE_TENANT_ID!;
 
     afterEach(async function () {
-      sandbox.restore();
+      cleanup?.();
     });
 
     beforeEach(async function () {
-      sandbox = sinon.createSandbox();
+      ({ sandbox, cleanup, recorder } = await msalNodeTestSetup(this.currentTest, "azureclientid"));
     });
 
     it("is supported", async function () {
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+      const clientOptions = recorder.configureClientOptions({});
+      const client = msalClient.createMsalClient(clientId, tenantId, {
+        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+      });
 
-      const client = msalClient.createMsalClient(clientId, tenantId);
-
-      sandbox
-        .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
-        .resolves({
-          accessToken: "token",
-          expiresOn: new Date(Date.now() + 3600 * 1000),
-        } as AuthenticationResult);
+      // sandbox
+      //   .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
+      //   .resolves({
+      //     accessToken: "token",
+      //     expiresOn: new Date(Date.now() + 3600 * 1000),
+      //   } as AuthenticationResult);
 
       const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
       assert.isNotEmpty(accessToken.token);
