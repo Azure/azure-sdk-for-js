@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RecorderError, RecordingStateManager } from "../src/utils/utils";
-import { expect } from "chai";
-import { Recorder } from "../src/recorder";
+import { describe, it, assert, beforeEach } from "vitest";
+import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
+import { Recorder } from "../src/recorder.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { encodeBase64 } from "../src/utils/encoding";
+import { encodeBase64 } from "../src/utils/encoding.js";
 
 describe("State Manager", function () {
   it("throws error if started twice", function () {
@@ -15,8 +15,8 @@ describe("State Manager", function () {
       manager.state = "started";
       throw new Error("should not have reached here, previous assignment should have failed");
     } catch (error: any) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
+      assert.equal((error as RecorderError).name, "RecorderError");
+      assert.equal((error as RecorderError).message, 
         "Already started, should not have called start again.",
       );
     }
@@ -28,8 +28,8 @@ describe("State Manager", function () {
       manager.state = "stopped";
       throw new Error("should not have reached here, previous assignment should have failed");
     } catch (error: any) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal(
+      assert.equal((error as RecorderError).name, "RecorderError");
+      assert.equal((error as RecorderError).message,
         "Already stopped, should not have called stop again.",
       );
     }
@@ -38,8 +38,8 @@ describe("State Manager", function () {
 
 describe("handleTestProxyErrors", function () {
   let recorder: Recorder;
-  beforeEach(function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(function (ctx) {
+    recorder = new Recorder(ctx);
   });
 
   it("x-request-mismatch header", function () {
@@ -53,8 +53,8 @@ describe("handleTestProxyErrors", function () {
         headers,
       });
     } catch (error) {
-      expect((error as RecorderError).name).to.equal("RecorderError");
-      expect((error as RecorderError).message).to.equal("this is a mismatch error");
+      assert.equal((error as RecorderError).name, "RecorderError");
+      assert.equal((error as RecorderError).message, "this is a mismatch error");
     }
   });
 });

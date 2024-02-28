@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
-import { expect } from "chai";
-import { env } from "../../src";
-import { isLiveMode, TestMode } from "../../src/utils/utils";
+import { assert } from "vitest";
+import { env } from "../../src/index.js";
+import { isLiveMode, TestMode } from "../../src/utils/utils.js";
 import { ServiceClient } from "@azure/core-client";
 
 export const setTestMode = (mode: TestMode): TestMode => {
@@ -46,12 +46,12 @@ export async function makeRequestAndVerifyResponse(
       throw new Error("Expected response.bodyAsText to be defined");
     }
 
-    expect(JSON.parse(response.bodyAsText)).to.deep.equal(expectedResponse);
+    assert.deepEqual(JSON.parse(response.bodyAsText), expectedResponse);
   }
 
   if (expectedHeaders) {
     for (const [headerName, headerValue] of Object.entries(expectedHeaders)) {
-      expect(response.headers.get(headerName)).to.equal(headerValue);
+      assert.equal(response.headers.get(headerName), headerValue);
     }
   }
 

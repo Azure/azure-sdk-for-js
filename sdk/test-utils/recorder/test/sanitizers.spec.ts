@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, beforeAll, beforeEach, afterEach } from "vitest";
 import { ServiceClient } from "@azure/core-client";
-import { env, isPlaybackMode, Recorder } from "../src";
-import { TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { env, isPlaybackMode, Recorder } from "../src/index.js";
+import { TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
 
 // These tests require the following to be running in parallel
@@ -18,14 +19,14 @@ import { randomUUID } from "@azure/core-util";
     const secretValue = "abcdef";
     let currentValue: string;
 
-    before(() => {
+    beforeAll(() => {
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
+    beforeEach(async function (ctx) {
       env.TEST_VARIABLE_1 = "the answer!";
       env.TEST_VARIABLE_2 = "answer!";
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(ctx);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });

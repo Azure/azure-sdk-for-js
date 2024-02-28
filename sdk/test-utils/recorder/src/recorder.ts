@@ -19,22 +19,60 @@ import {
   RecorderError,
   RecorderStartOptions,
   RecordingStateManager,
-} from "./utils/utils";
-import { Test } from "mocha";
-import { assetsJsonPath, sessionFilePath } from "./utils/sessionFilePath";
-import { SanitizerOptions } from "./utils/utils";
-import { paths } from "./utils/paths";
-import { addSanitizers, transformsInfo } from "./sanitizer";
-import { handleEnvSetup } from "./utils/envSetupForPlayback";
-import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher";
-import { addTransform, Transform } from "./transform";
-import { createRecordingRequest } from "./utils/createRecordingRequest";
-import { logger } from "./log";
-import { setRecordingOptions } from "./options";
+} from "./utils/utils.js";
+import { assetsJsonPath, sessionFilePath, TestContext } from "./utils/sessionFilePath.js";
+import { SanitizerOptions } from "./utils/utils.js";
+import { paths } from "./utils/paths.js";
+import { addSanitizers, transformsInfo } from "./sanitizer.js";
+import { handleEnvSetup } from "./utils/envSetupForPlayback.js";
+import { CustomMatcherOptions, Matcher, setMatcher } from "./matcher.js";
+import { addTransform, Transform } from "./transform.js";
+import { createRecordingRequest } from "./utils/createRecordingRequest.js";
+import { logger } from "./log.js";
+import { setRecordingOptions } from "./options.js";
 import { isBrowser, isNode } from "@azure/core-util";
-import { env } from "./utils/env";
-import { decodeBase64 } from "./utils/encoding";
+import { env } from "./utils/env.js";
+import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
+import { isMochaTest, isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
+
+/**
+ * Caculates session file path and JSON assets path from test context
+ *
+ * @internal
+ */
+export function calculatePaths(testContext: TestInfo): TestContext {
+  if (isMochaTest(testContext)) {
+    if (!testContext.parent) {
+      throw new RecorderError(
+        `The parent of test '${testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
+      );
+    }
+    return {
+      suiteTitle: testContext.parent.fullTitle(),
+      testTitle: testContext.title,
+    };
+  } else if (isVitestTestContext(testContext)) {
+    if (!testContext.task.name || !testContext.task.suite.name) {
+      throw new RecorderError(
+        `Unable to determine the recording file path. Unexpected empty Vitest context`,
+      );
+    }
+    const suites: string[] = [];
+    let p: VitestSuite | undefined = testContext.task.suite;
+    while (p?.name) {
+      suites.push(p.name);
+      p = p.suite;
+    }
+
+    return {
+      suiteTitle: suites.reverse().join("_"),
+      testTitle: testContext.task.name,
+    };
+  } else {
+    throw new RecorderError(`Unrecognized test info: ${testContext}`);
+  }
+}
 
 /**
  * This client manages the recorder life cycle and interacts with the proxy-tool to do the recording,
@@ -54,19 +92,23 @@ export class Recorder {
   private variables: Record<string, string>;
   private matcherSet = false;
 
-  constructor(private testContext?: Test | undefined) {
+  constructor(private testContext?: TestInfo) {
+    if (!this.testContext) {
+      throw new Error(
+        "Unable to determine the recording file path, testContext provided is not defined.",
+      );
+    }
+
     logger.info(`[Recorder#constructor] Creating a recorder instance in ${getTestMode()} mode`);
     if (isRecordMode() || isPlaybackMode()) {
-      if (this.testContext) {
-        this.sessionFile = sessionFilePath(this.testContext);
-        this.assetsJson = assetsJsonPath();
+      const context = calculatePaths(this.testContext);
 
+      this.sessionFile = sessionFilePath(context);
+      this.assetsJson = assetsJsonPath();
+
+      if (this.testContext) {
         logger.info(`[Recorder#constructor] Using a session file located at ${this.sessionFile}`);
         this.httpClient = createDefaultHttpClient();
-      } else {
-        throw new Error(
-          "Unable to determine the recording file path, testContext provided is not defined.",
-        );
       }
     }
     this.variables = {};

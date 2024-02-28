@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import express from "express";
-import { randomUUID } from "@azure/core-util";
+import { randomUUID } from "crypto";
 
 const app = express();
 const port = 8080;

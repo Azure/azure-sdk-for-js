@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createHttpHeaders,
   HttpClient,
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import { expect } from "chai";
-import { env, Recorder } from "../src";
-import { createRecordingRequest } from "../src/utils/createRecordingRequest";
-import { paths } from "../src/utils/paths";
-import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils";
+import { env, Recorder } from "../src/index.js";
+import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
+import { paths } from "../src/utils/paths.js";
+import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
+import { TestInfo } from "../src/testInfo.js";
 
 const testRedirectedRequest = (
   client: Recorder,
@@ -20,17 +21,17 @@ const testRedirectedRequest = (
 ) => {
   const redirectedRequest = makeRequest();
   client["redirectRequest"](redirectedRequest);
-  expect(redirectedRequest).to.deep.equal(expectedModification(makeRequest()));
+  assert.deepEqual(redirectedRequest, expectedModification(makeRequest()));
 };
 
 describe("TestProxyClient functions", () => {
   let client: Recorder;
   let clientHttpClient: HttpClient;
-  let testContext: Mocha.Test | undefined;
-  beforeEach(function () {
-    client = new Recorder(this.currentTest);
+  let testContext: TestInfo | undefined;
+  beforeEach(function (ctx) {
+    client = new Recorder(ctx);
     clientHttpClient = client["httpClient"] as HttpClient;
-    testContext = this.currentTest;
+    testContext = ctx;
   });
 
   afterEach(() => {
@@ -125,7 +126,7 @@ describe("TestProxyClient functions", () => {
             });
           };
           await client.start({ envSetupForPlayback: {} });
-          expect(client.recordingId).to.eql(recordingId);
+          assert.equal(client.recordingId, recordingId);
         },
       );
 
@@ -151,8 +152,8 @@ describe("TestProxyClient functions", () => {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error: any) {
-          expect((error as RecorderError).name).to.equal("RecorderError");
-          expect((error as RecorderError).message).to.equal("Start request failed.");
+          assert.equal((error as RecorderError).name, "RecorderError");
+          assert.equal((error as RecorderError).message, "Start request failed.");
         }
       });
 
@@ -169,8 +170,8 @@ describe("TestProxyClient functions", () => {
           await client.start({ envSetupForPlayback: {} });
           throw new Error("should not have reached here, start() call should have failed");
         } catch (error: any) {
-          expect((error as RecorderError).name).to.equal("RecorderError");
-          expect((error as RecorderError).message).to.equal(
+          assert.equal((error as RecorderError).name, "RecorderError");
+          assert.equal((error as RecorderError).message, 
             "No recording ID returned for a successful start request.",
           );
         }
@@ -204,8 +205,8 @@ describe("TestProxyClient functions", () => {
             await client.stop();
             throw new Error("should not have reached here, stop() call should have failed");
           } catch (error: any) {
-            expect((error as RecorderError).name).to.equal("RecorderError");
-            expect((error as RecorderError).message).to.equal(
+            assert.equal((error as RecorderError).name, "RecorderError");
+            assert.equal((error as RecorderError).message, 
               "Bad state, recordingId is not defined when called stop.",
             );
           }
@@ -227,8 +228,8 @@ describe("TestProxyClient functions", () => {
           await client.stop();
           throw new Error("should not have reached here, stop() call should have failed");
         } catch (error: any) {
-          expect((error as RecorderError).name).to.equal("RecorderError");
-          expect((error as RecorderError).message).to.equal("Stop request failed.");
+          assert.equal((error as RecorderError).name, "RecorderError");
+          assert.equal((error as RecorderError).message, "Stop request failed.");
         }
       });
 
@@ -251,7 +252,7 @@ describe("TestProxyClient functions", () => {
   describe("variable method", () => {
     it("throws an error in record mode if a variable is accessed without giving it a value", () => {
       env.TEST_MODE = "record";
-      expect(() => client.variable("nonExistentVariable")).to.throw(
+      assert.throws(() => client.variable("nonExistentVariable"), 
         "Tried to access uninitialized variable: nonExistentVariable. You must initialize it with a value before using it.",
       );
     });
@@ -259,24 +260,24 @@ describe("TestProxyClient functions", () => {
     it("sets the variable correctly in record mode", () => {
       env.TEST_MODE = "record";
       client.variable("var1", "value");
-      expect(client["variables"]["var1"]).to.equal("value");
+      assert.equal(client["variables"]["var1"], "value");
     });
 
     it("allows for the shorthand syntax to be used in record mode after a variable is initialized", () => {
       env.TEST_MODE = "record";
       client.variable("var1", "value");
-      expect(client.variable("var1")).to.equal("value");
+      assert.equal(client.variable("var1"), "value");
     });
 
     it("recalls the variable in playback mode", () => {
       env.TEST_MODE = "playback";
       client["variables"]["var1"] = "realValue";
-      expect(client.variable("var1", "ignored")).to.equal("realValue");
+      assert.equal(client.variable("var1", "ignored"), "realValue");
     });
 
     it("throws an error if a variable does not exist in playback mode", () => {
       env.TEST_MODE = "playback";
-      expect(() => client.variable("var1", "ignored")).to.throw(
+      assert.throws(() => client.variable("var1", "ignored"), 
         "Tried to access a variable in playback that was not set in recording: var1",
       );
     });
@@ -289,11 +290,11 @@ describe("TestProxyClient functions", () => {
         client["sessionFile"],
         client.recordingId,
       );
-      expect(returnedRequest.url).to.equal(initialRequest.url);
-      expect(returnedRequest.method).to.equal("POST");
-      expect(returnedRequest.body).not.to.be.undefined;
-      expect(returnedRequest.headers.get("x-recording-id")).to.equal(client.recordingId);
-      expect(returnedRequest.url).to.equal(initialRequest.url);
+      assert.equal(returnedRequest.url, initialRequest.url);
+      assert.equal(returnedRequest.method, "POST");
+      assert.isDefined(returnedRequest.body);
+      assert.equal(returnedRequest.headers.get("x-recording-id"), client.recordingId);
+      assert.equal(returnedRequest.url, initialRequest.url);
     });
   });
 
@@ -311,9 +312,9 @@ describe("TestProxyClient functions", () => {
         "Live",
       ].forEach((testMode) => {
         env.TEST_MODE = testMode;
-        expect(getTestMode()).to.equal(testMode.toLowerCase());
-        expect(isRecordMode()).to.equal(testMode.toLowerCase() === "record");
-        expect(isLiveMode()).to.equal(testMode.toLowerCase() === "live");
+        assert.equal(getTestMode(), testMode.toLowerCase());
+        assert.equal(isRecordMode(), testMode.toLowerCase() === "record");
+        assert.equal(isLiveMode(), testMode.toLowerCase() === "live");
       });
     });
   });
