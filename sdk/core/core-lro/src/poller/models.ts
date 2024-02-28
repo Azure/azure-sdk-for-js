@@ -177,11 +177,10 @@ export type CancelOnProgress = () => void;
 /**
  * A simple poller interface.
  */
-export interface PollerLike<TState extends OperationState<TResult>, TResult>
-  extends Promise<TResult> {
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
   /**
-   * Returns true if the poller has finished polling.
-   */
+    * Returns true if the poller has finished polling.
+    */
   readonly isDone: boolean;
   /**
    * Returns true if the poller is stopped.
@@ -225,6 +224,13 @@ export interface PollerLike<TState extends OperationState<TResult>, TResult>
    * Returns a promise that could be used to check if the poller has been submitted.
    */
   submitted(): Promise<void>;
+}
+
+/**
+ * A poller interface which extends Promise and SimplePollerLike
+ */
+export interface PollerLike<TState extends OperationState<TResult>, TResult>
+  extends Promise<TResult>, SimplePollerLike<TState, TResult> {
 }
 
 /**
