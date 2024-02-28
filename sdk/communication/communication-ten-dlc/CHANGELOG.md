@@ -4,11 +4,3 @@
 
 ### Features Added
 - Setting up Ten Dlc SDK
-
-### Breaking Changes
-
-### Bugs Fixed
-
-
-### Other Changes
-
