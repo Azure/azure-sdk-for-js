@@ -105,6 +105,10 @@ export {
   PhoneNumberSearchResult,
   PhoneNumberType,
   PurchasedPhoneNumber,
+  OperatorDetails,
+  OperatorInformation,
+  OperatorInformationResult,
+  OperatorNumberType,
   PurchasedPhoneNumberCapabilities,
 } from "./generated/src/models/";
 
