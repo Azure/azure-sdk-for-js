@@ -1,16 +1,6 @@
 # Release History
 
-##  1.0.0-beta.1.
-Setting up Ten Dlc SDK
+##  1.0.0-beta.1 (2024-02-27)
 
 ### Features Added
-
-
-
-### Breaking Changes
-
-### Bugs Fixed
-
-
-### Other Changes
-
+- Setting up Ten Dlc SDK
