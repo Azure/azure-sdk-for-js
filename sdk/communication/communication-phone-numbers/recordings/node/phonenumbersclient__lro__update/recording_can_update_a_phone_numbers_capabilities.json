@@ -159,7 +159,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2023-10-01-preview",
+      "RequestUri": "https://endpoint/phoneNumbers/operations/capabilities_sanitized?api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
