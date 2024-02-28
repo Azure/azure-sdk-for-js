@@ -1,37 +1,32 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries?skip=0\u0026maxPageSize=100\u0026api-version=2022-12-01",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries?skip=0\u0026maxPageSize=100\u0026api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.1 core-rest-pipeline/1.12.3 Node/v18.18.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "fake-useragent",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview",
+        "api-supported-versions": "2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "1968",
+        "Content-Length": "1734",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Wed, 22 Nov 2023 10:01:42 GMT",
-        "MS-CV": "xD6QvY7NjUqaFgVNzsNntw.0",
+        "Date": "Thu, 01 Feb 2024 20:29:07 GMT",
+        "MS-CV": "Ouxd/kESkUGgONQmg2CfXw.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0hNFdZQAAAACJUkcTs6bFSIHLAroedccTUFJHMDFFREdFMDkxNgA5ZmM3YjUxOS1hOGNjLTRmODktOTM1ZS1jOTE0OGFlMDllODE=",
+        "X-Azure-Ref": "0Ev\u002B7ZQAAAADS9hNm6EmwS7aPxVHxkVzlU04xRURHRTIxMTgAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "2551ms"
+        "X-Processing-Time": "1652ms"
       },
       "ResponseBody": {
         "countries": [
-          {
-            "localizedName": "Argentina",
-            "countryCode": "AR"
-          },
           {
             "localizedName": "Austria",
             "countryCode": "AT"
@@ -41,24 +36,12 @@
             "countryCode": "BE"
           },
           {
-            "localizedName": "Brazil",
-            "countryCode": "BR"
-          },
-          {
             "localizedName": "Canada",
             "countryCode": "CA"
           },
           {
-            "localizedName": "Chile",
-            "countryCode": "CL"
-          },
-          {
             "localizedName": "China",
             "countryCode": "CN"
-          },
-          {
-            "localizedName": "Colombia",
-            "countryCode": "CO"
           },
           {
             "localizedName": "Denmark",
@@ -71,10 +54,6 @@
           {
             "localizedName": "France",
             "countryCode": "FR"
-          },
-          {
-            "localizedName": "Germany",
-            "countryCode": "DE"
           },
           {
             "localizedName": "Hong Kong SAR",
@@ -101,16 +80,8 @@
             "countryCode": "KR"
           },
           {
-            "localizedName": "Luxembourg",
-            "countryCode": "LU"
-          },
-          {
             "localizedName": "Malaysia",
             "countryCode": "MY"
-          },
-          {
-            "localizedName": "Mexico",
-            "countryCode": "MX"
           },
           {
             "localizedName": "Netherlands",
@@ -121,10 +92,6 @@
             "countryCode": "NZ"
           },
           {
-            "localizedName": "Norway",
-            "countryCode": "NO"
-          },
-          {
             "localizedName": "Philippines",
             "countryCode": "PH"
           },
@@ -133,40 +100,20 @@
             "countryCode": "PL"
           },
           {
-            "localizedName": "Portugal",
-            "countryCode": "PT"
-          },
-          {
             "localizedName": "Puerto Rico",
             "countryCode": "PR"
-          },
-          {
-            "localizedName": "Saudi Arabia",
-            "countryCode": "SA"
           },
           {
             "localizedName": "Singapore",
             "countryCode": "SG"
           },
           {
-            "localizedName": "Slovakia",
-            "countryCode": "SK"
-          },
-          {
             "localizedName": "South Africa",
             "countryCode": "ZA"
           },
           {
-            "localizedName": "Spain",
-            "countryCode": "ES"
-          },
-          {
             "localizedName": "Sweden",
             "countryCode": "SE"
-          },
-          {
-            "localizedName": "Switzerland",
-            "countryCode": "CH"
           },
           {
             "localizedName": "Taiwan",

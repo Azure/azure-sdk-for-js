@@ -9,7 +9,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
   .query(false)
   .reply(202, "", [
   'Location',
-  '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01',
+  '/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview',
   'Access-Control-Expose-Headers',
   'Location,Operation-Location,operation-id,search-id',
   'MS-CV',
@@ -17,7 +17,7 @@ nock('https://endpoint', {"encodedQueryParams":false})
   'Strict-Transport-Security',
   'max-age=2592000',
   'Operation-Location',
-  '/phoneNumbers/operations/search_sanitized?api-version=2022-12-01',
+  '/phoneNumbers/operations/search_sanitized?api-version=2024-01-31-preview',
   'operation-id',
   'search_sanitized',
   'search-id',
@@ -39,13 +39,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(false)
-  .reply(200, {"operationType":"search","status":"running","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"operationType":"search","status":"running","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01',
+  '/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview',
   'Access-Control-Expose-Headers',
   'Location',
   'MS-CV',
@@ -67,13 +67,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(false)
-  .reply(200, {"operationType":"search","status":"running","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"operationType":"search","status":"running","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01',
+  '/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview',
   'Access-Control-Expose-Headers',
   'Location',
   'MS-CV',
@@ -95,13 +95,13 @@ nock('https://endpoint', {"encodedQueryParams":false})
 nock('https://endpoint', {"encodedQueryParams":false})
   .get('/phoneNumbers/operations/search_sanitized')
   .query(false)
-  .reply(200, {"operationType":"search","status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
+  .reply(200, {"operationType":"search","status":"succeeded","resourceLocation":"/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview","createdDateTime":"2022-12-08T16:03:11.7287434+00:00","id":"search_sanitized","lastActionDateTime":"0001-01-01T00:00:00+00:00"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  '/availablePhoneNumbers/searchResults/sanitized?api-version=2022-12-01',
+  '/availablePhoneNumbers/searchResults/sanitized?api-version=2024-01-31-preview',
   'Access-Control-Expose-Headers',
   'Location',
   'MS-CV',

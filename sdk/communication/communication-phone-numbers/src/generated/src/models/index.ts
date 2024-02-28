@@ -165,6 +165,8 @@ export interface PhoneNumberSearchResult {
 export interface PhoneNumberPurchaseRequest {
   /** The search id. */
   searchId?: string;
+  /** The consent to not resell numbers. */
+  consentToNotResellNumbers?: boolean;
 }
 
 export interface PhoneNumberOperation {
@@ -193,6 +195,8 @@ export interface PhoneNumberCapabilitiesRequest {
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
   sms?: PhoneNumberCapabilityType;
+  /** Campaign Brief Id to attach to a number. For adding SMS to local numbers */
+  tenDLCCampaignBriefId?: string;
 }
 
 /** Represents a purchased phone number. */
@@ -206,13 +210,27 @@ export interface PurchasedPhoneNumber {
   /** The phone number's type, e.g. geographic, tollFree. */
   phoneNumberType: PhoneNumberType;
   /** Capabilities of a phone number. */
-  capabilities: PhoneNumberCapabilities;
+  capabilities: PurchasedPhoneNumberCapabilities;
   /** The assignment type of the phone number. A phone number can be assigned to a person, or to an application. */
   assignmentType: PhoneNumberAssignmentType;
   /** The date and time that the phone number was purchased. */
   purchaseDate: Date;
   /** The incurred cost for a single phone number. */
   cost: PhoneNumberCost;
+  /** Id of the operator that provided the number */
+  operatorId?: string;
+  /** Name of the operator that provided the number */
+  operatorName?: string;
+}
+
+/** Capabilities of a phone number. */
+export interface PurchasedPhoneNumberCapabilities {
+  /** Capability value for calling. */
+  calling: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms: PhoneNumberCapabilityType;
+  /** Ten DLC campaign brief id attached to the number */
+  tenDLCCampaignBriefId?: string;
 }
 
 /** The list of purchased phone numbers. */
@@ -221,6 +239,43 @@ export interface PurchasedPhoneNumbers {
   phoneNumbers: PurchasedPhoneNumber[];
   /** Represents the URL link to the next page of phone number results. */
   nextLink?: string;
+}
+
+/** Represents a search request for operator information for the given phone numbers */
+export interface OperatorInformationRequest {
+  /** Phone number(s) whose operator information is being requested */
+  phoneNumbers?: string[];
+}
+
+/** Represents a search result containing operator information associated with the requested phone numbers */
+export interface OperatorInformationResult {
+  /**
+   * Results of a search.
+   * This array will have one entry per requested phone number which will contain the relevant operator information.
+   */
+  values?: OperatorInformation[];
+}
+
+/** Represents metadata about a phone number that is controlled/provided by that phone number's operator. */
+export interface OperatorInformation {
+  /** E.164 formatted string representation of the phone number */
+  phoneNumber?: string;
+  /** Type of service associated with the phone number */
+  numberType?: OperatorNumberType;
+  /** ISO 3166-1 two character ('alpha-2') code associated with the phone number. */
+  isoCountryCode?: string;
+  /** Represents metadata describing the operator of a phone number */
+  operatorDetails?: OperatorDetails;
+}
+
+/** Represents metadata describing the operator of a phone number */
+export interface OperatorDetails {
+  /** Name of the phone operator */
+  name?: string;
+  /** Mobile Network Code */
+  mobileNetworkCode?: string;
+  /** Mobile Country Code */
+  mobileCountryCode?: string;
 }
 
 /** Defines headers for PhoneNumbers_searchAvailablePhoneNumbers operation. */
@@ -288,13 +343,16 @@ export type PhoneNumberOperationType =
   | "purchase"
   | "releasePhoneNumber"
   | "search"
-  | "updatePhoneNumberCapabilities";
+  | "updatePhoneNumberCapabilities"
+  | "reservationPurchase";
 /** Defines values for PhoneNumberOperationStatus. */
 export type PhoneNumberOperationStatus =
   | "notStarted"
   | "running"
   | "succeeded"
   | "failed";
+/** Defines values for OperatorNumberType. */
+export type OperatorNumberType = "unknown" | "other" | "geographic" | "mobile";
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesOptionalParams
@@ -303,7 +361,7 @@ export interface PhoneNumbersListAreaCodesOptionalParams
   skip?: number;
   /** An optional parameter for how many entries to return, for pagination purposes. The default value is 100. */
   maxPageSize?: number;
-  /** Filter by assignmentType, e.g. User, Application. */
+  /** Filter by assignmentType, e.g. Person, Application. */
   assignmentType?: PhoneNumberAssignmentType;
   /** The name of locality or town in which to search for the area code. This is required if the number type is Geographic. */
   locality?: string;
@@ -378,8 +436,8 @@ export interface PhoneNumbersSearchAvailablePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the searchAvailablePhoneNumbers operation. */
-export type PhoneNumbersSearchAvailablePhoneNumbersResponse = PhoneNumbersSearchAvailablePhoneNumbersHeaders &
-  PhoneNumberSearchResult;
+export type PhoneNumbersSearchAvailablePhoneNumbersResponse =
+  PhoneNumbersSearchAvailablePhoneNumbersHeaders & PhoneNumberSearchResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetSearchResultOptionalParams
@@ -393,6 +451,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
   extends coreClient.OperationOptions {
   /** The search id. */
   searchId?: string;
+  /** The consent to not resell numbers. */
+  consentToNotResellNumbers?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -400,7 +460,8 @@ export interface PhoneNumbersPurchasePhoneNumbersOptionalParams
 }
 
 /** Contains response data for the purchasePhoneNumbers operation. */
-export type PhoneNumbersPurchasePhoneNumbersResponse = PhoneNumbersPurchasePhoneNumbersHeaders;
+export type PhoneNumbersPurchasePhoneNumbersResponse =
+  PhoneNumbersPurchasePhoneNumbersHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetOperationOptionalParams
@@ -421,6 +482,8 @@ export interface PhoneNumbersUpdateCapabilitiesOptionalParams
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
   sms?: PhoneNumberCapabilityType;
+  /** Campaign Brief Id to attach to a number. For adding SMS to local numbers */
+  tenDLCCampaignBriefId?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -428,8 +491,8 @@ export interface PhoneNumbersUpdateCapabilitiesOptionalParams
 }
 
 /** Contains response data for the updateCapabilities operation. */
-export type PhoneNumbersUpdateCapabilitiesResponse = PhoneNumbersUpdateCapabilitiesHeaders &
-  PurchasedPhoneNumber;
+export type PhoneNumbersUpdateCapabilitiesResponse =
+  PhoneNumbersUpdateCapabilitiesHeaders & PurchasedPhoneNumber;
 
 /** Optional parameters. */
 export interface PhoneNumbersGetByNumberOptionalParams
@@ -448,7 +511,8 @@ export interface PhoneNumbersReleasePhoneNumberOptionalParams
 }
 
 /** Contains response data for the releasePhoneNumber operation. */
-export type PhoneNumbersReleasePhoneNumberResponse = PhoneNumbersReleasePhoneNumberHeaders;
+export type PhoneNumbersReleasePhoneNumberResponse =
+  PhoneNumbersReleasePhoneNumberHeaders;
 
 /** Optional parameters. */
 export interface PhoneNumbersListPhoneNumbersOptionalParams
@@ -461,6 +525,17 @@ export interface PhoneNumbersListPhoneNumbersOptionalParams
 
 /** Contains response data for the listPhoneNumbers operation. */
 export type PhoneNumbersListPhoneNumbersResponse = PurchasedPhoneNumbers;
+
+/** Optional parameters. */
+export interface PhoneNumbersOperatorInformationSearchOptionalParams
+  extends coreClient.OperationOptions {
+  /** Phone number(s) whose operator information is being requested */
+  phoneNumbers?: string[];
+}
+
+/** Contains response data for the operatorInformationSearch operation. */
+export type PhoneNumbersOperatorInformationSearchResponse =
+  OperatorInformationResult;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAreaCodesNextOptionalParams
@@ -480,7 +555,8 @@ export interface PhoneNumbersListAvailableCountriesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableCountriesNext operation. */
-export type PhoneNumbersListAvailableCountriesNextResponse = PhoneNumberCountries;
+export type PhoneNumbersListAvailableCountriesNextResponse =
+  PhoneNumberCountries;
 
 /** Optional parameters. */
 export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
@@ -490,7 +566,8 @@ export interface PhoneNumbersListAvailableLocalitiesNextOptionalParams
 }
 
 /** Contains response data for the listAvailableLocalitiesNext operation. */
-export type PhoneNumbersListAvailableLocalitiesNextResponse = PhoneNumberLocalities;
+export type PhoneNumbersListAvailableLocalitiesNextResponse =
+  PhoneNumberLocalities;
 
 /** Optional parameters. */
 export interface PhoneNumbersListOfferingsNextOptionalParams
