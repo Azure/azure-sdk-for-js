@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ApplyRecoveryPointInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to change the recovery point of a failed over replication protected item.
  *
  * @summary The operation to change the recovery point of a failed over replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_ApplyRecoveryPoint.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_ApplyRecoveryPoint.json
  */
 async function changeOrApplyRecoveryPoint() {
   const subscriptionId =
@@ -38,19 +38,20 @@ async function changeOrApplyRecoveryPoint() {
     properties: {
       providerSpecificDetails: { instanceType: "HyperVReplicaAzure" },
       recoveryPointId:
-        "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b/recoveryPoints/e4d05fe9-5dfd-47be-b50b-aad306b2802d"
-    }
+        "/Subscriptions/c183865e-6077-46f2-a3b1-deb0f4f4650a/resourceGroups/resourceGroupPS1/providers/Microsoft.RecoveryServices/vaults/vault1/replicationFabrics/cloud1/replicationProtectionContainers/cloud_6d224fc6-f326-5d35-96de-fbf51efb3179/replicationProtectedItems/f8491e4f-817a-40dd-a90c-af773978c75b/recoveryPoints/e4d05fe9-5dfd-47be-b50b-aad306b2802d",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginApplyRecoveryPointAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName,
-    applyRecoveryPointInput
-  );
+  const result =
+    await client.replicationProtectedItems.beginApplyRecoveryPointAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      applyRecoveryPointInput,
+    );
   console.log(result);
 }
 

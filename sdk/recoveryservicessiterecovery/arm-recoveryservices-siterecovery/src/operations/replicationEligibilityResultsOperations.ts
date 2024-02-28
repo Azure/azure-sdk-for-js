@@ -15,12 +15,13 @@ import {
   ReplicationEligibilityResultsListOptionalParams,
   ReplicationEligibilityResultsListResponse,
   ReplicationEligibilityResultsGetOptionalParams,
-  ReplicationEligibilityResultsGetResponse
+  ReplicationEligibilityResultsGetResponse,
 } from "../models";
 
 /** Class containing ReplicationEligibilityResultsOperations operations. */
 export class ReplicationEligibilityResultsOperationsImpl
-  implements ReplicationEligibilityResultsOperations {
+  implements ReplicationEligibilityResultsOperations
+{
   private readonly client: SiteRecoveryManagementClient;
 
   /**
@@ -41,11 +42,11 @@ export class ReplicationEligibilityResultsOperationsImpl
   list(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ReplicationEligibilityResultsListOptionalParams
+    options?: ReplicationEligibilityResultsListOptionalParams,
   ): Promise<ReplicationEligibilityResultsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -59,11 +60,11 @@ export class ReplicationEligibilityResultsOperationsImpl
   get(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: ReplicationEligibilityResultsGetOptionalParams
+    options?: ReplicationEligibilityResultsGetOptionalParams,
   ): Promise<ReplicationEligibilityResultsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualMachineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -71,40 +72,38 @@ export class ReplicationEligibilityResultsOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationEligibilityResultsCollection
-    }
+      bodyMapper: Mappers.ReplicationEligibilityResultsCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ReplicationEligibilityResults
-    }
+      bodyMapper: Mappers.ReplicationEligibilityResults,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualMachineName
+    Parameters.virtualMachineName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

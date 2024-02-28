@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all nat gateways in a resource group.
  *
  * @summary Gets all nat gateways in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NatGatewayList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NatGatewayList.json
  */
 async function listNatGatewaysInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

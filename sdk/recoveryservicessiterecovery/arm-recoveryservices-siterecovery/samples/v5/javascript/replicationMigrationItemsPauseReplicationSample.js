@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to initiate pause replication of the item.
  *
  * @summary The operation to initiate pause replication of the item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_PauseReplication.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_PauseReplication.json
  */
 async function pauseReplication() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function pauseReplication() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    pauseReplicationInput
+    pauseReplicationInput,
   );
   console.log(result);
 }

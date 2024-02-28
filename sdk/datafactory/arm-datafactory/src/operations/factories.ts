@@ -39,7 +39,7 @@ import {
   FactoriesGetDataPlaneAccessOptionalParams,
   FactoriesGetDataPlaneAccessResponse,
   FactoriesListNextResponse,
-  FactoriesListByResourceGroupNextResponse
+  FactoriesListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +60,7 @@ export class FactoriesImpl implements Factories {
    * @param options The options parameters.
    */
   public list(
-    options?: FactoriesListOptionalParams
+    options?: FactoriesListOptionalParams,
   ): PagedAsyncIterableIterator<Factory> {
     const iter = this.listPagingAll(options);
     return {
@@ -75,13 +75,13 @@ export class FactoriesImpl implements Factories {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: FactoriesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Factory[]> {
     let result: FactoriesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -102,7 +102,7 @@ export class FactoriesImpl implements Factories {
   }
 
   private async *listPagingAll(
-    options?: FactoriesListOptionalParams
+    options?: FactoriesListOptionalParams,
   ): AsyncIterableIterator<Factory> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -116,7 +116,7 @@ export class FactoriesImpl implements Factories {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams
+    options?: FactoriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Factory> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -133,16 +133,16 @@ export class FactoriesImpl implements Factories {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: FactoriesListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Factory[]> {
     let result: FactoriesListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -157,7 +157,7 @@ export class FactoriesImpl implements Factories {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -168,11 +168,11 @@ export class FactoriesImpl implements Factories {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams
+    options?: FactoriesListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<Factory> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -183,7 +183,7 @@ export class FactoriesImpl implements Factories {
    * @param options The options parameters.
    */
   private _list(
-    options?: FactoriesListOptionalParams
+    options?: FactoriesListOptionalParams,
   ): Promise<FactoriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -197,11 +197,11 @@ export class FactoriesImpl implements Factories {
   configureFactoryRepo(
     locationId: string,
     factoryRepoUpdate: FactoryRepoUpdate,
-    options?: FactoriesConfigureFactoryRepoOptionalParams
+    options?: FactoriesConfigureFactoryRepoOptionalParams,
   ): Promise<FactoriesConfigureFactoryRepoResponse> {
     return this.client.sendOperationRequest(
       { locationId, factoryRepoUpdate, options },
-      configureFactoryRepoOperationSpec
+      configureFactoryRepoOperationSpec,
     );
   }
 
@@ -212,11 +212,11 @@ export class FactoriesImpl implements Factories {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: FactoriesListByResourceGroupOptionalParams
+    options?: FactoriesListByResourceGroupOptionalParams,
   ): Promise<FactoriesListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -231,11 +231,11 @@ export class FactoriesImpl implements Factories {
     resourceGroupName: string,
     factoryName: string,
     factory: Factory,
-    options?: FactoriesCreateOrUpdateOptionalParams
+    options?: FactoriesCreateOrUpdateOptionalParams,
   ): Promise<FactoriesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, factory, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -250,11 +250,11 @@ export class FactoriesImpl implements Factories {
     resourceGroupName: string,
     factoryName: string,
     factoryUpdateParameters: FactoryUpdateParameters,
-    options?: FactoriesUpdateOptionalParams
+    options?: FactoriesUpdateOptionalParams,
   ): Promise<FactoriesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, factoryUpdateParameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -267,11 +267,11 @@ export class FactoriesImpl implements Factories {
   get(
     resourceGroupName: string,
     factoryName: string,
-    options?: FactoriesGetOptionalParams
+    options?: FactoriesGetOptionalParams,
   ): Promise<FactoriesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -284,11 +284,11 @@ export class FactoriesImpl implements Factories {
   delete(
     resourceGroupName: string,
     factoryName: string,
-    options?: FactoriesDeleteOptionalParams
+    options?: FactoriesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -303,11 +303,11 @@ export class FactoriesImpl implements Factories {
     resourceGroupName: string,
     factoryName: string,
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
-    options?: FactoriesGetGitHubAccessTokenOptionalParams
+    options?: FactoriesGetGitHubAccessTokenOptionalParams,
   ): Promise<FactoriesGetGitHubAccessTokenResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, gitHubAccessTokenRequest, options },
-      getGitHubAccessTokenOperationSpec
+      getGitHubAccessTokenOperationSpec,
     );
   }
 
@@ -322,11 +322,11 @@ export class FactoriesImpl implements Factories {
     resourceGroupName: string,
     factoryName: string,
     policy: UserAccessPolicy,
-    options?: FactoriesGetDataPlaneAccessOptionalParams
+    options?: FactoriesGetDataPlaneAccessOptionalParams,
   ): Promise<FactoriesGetDataPlaneAccessResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, policy, options },
-      getDataPlaneAccessOperationSpec
+      getDataPlaneAccessOperationSpec,
     );
   }
 
@@ -337,11 +337,11 @@ export class FactoriesImpl implements Factories {
    */
   private _listNext(
     nextLink: string,
-    options?: FactoriesListNextOptionalParams
+    options?: FactoriesListNextOptionalParams,
   ): Promise<FactoriesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -354,11 +354,11 @@ export class FactoriesImpl implements Factories {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: FactoriesListByResourceGroupNextOptionalParams
+    options?: FactoriesListByResourceGroupNextOptionalParams,
   ): Promise<FactoriesListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -366,77 +366,73 @@ export class FactoriesImpl implements Factories {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/factories",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/factories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FactoryListResponse
+      bodyMapper: Mappers.FactoryListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const configureFactoryRepoOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.DataFactory/locations/{locationId}/configureFactoryRepo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.Factory
+      bodyMapper: Mappers.Factory,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.factoryRepoUpdate,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationId
+    Parameters.locationId,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FactoryListResponse
+      bodyMapper: Mappers.FactoryListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Factory
+      bodyMapper: Mappers.Factory,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.factory,
   queryParameters: [Parameters.apiVersion],
@@ -444,27 +440,26 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [
     Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Factory
+      bodyMapper: Mappers.Factory,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.factoryUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -472,67 +467,64 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Factory
+      bodyMapper: Mappers.Factory,
     },
     304: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifNoneMatch],
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getGitHubAccessToken",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getGitHubAccessToken",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.GitHubAccessTokenResponse
+      bodyMapper: Mappers.GitHubAccessTokenResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.gitHubAccessTokenRequest,
   queryParameters: [Parameters.apiVersion],
@@ -540,23 +532,22 @@ const getGitHubAccessTokenOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getDataPlaneAccessOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/getDataPlaneAccess",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessPolicyResponse
+      bodyMapper: Mappers.AccessPolicyResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.policy,
   queryParameters: [Parameters.apiVersion],
@@ -564,48 +555,48 @@ const getDataPlaneAccessOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FactoryListResponse
+      bodyMapper: Mappers.FactoryListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FactoryListResponse
+      bodyMapper: Mappers.FactoryListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to migrate an Azure Site Recovery fabric to AAD.
  *
  * @summary The operation to migrate an Azure Site Recovery fabric to AAD.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_MigrateToAad.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_MigrateToAad.json
  */
 async function migratesTheSiteToAad() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function migratesTheSiteToAad() {
   const result = await client.replicationFabrics.beginMigrateToAadAndWait(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   );
   console.log(result);
 }

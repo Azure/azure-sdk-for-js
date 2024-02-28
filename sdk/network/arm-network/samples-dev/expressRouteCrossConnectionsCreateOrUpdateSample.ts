@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ExpressRouteCrossConnection,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the specified ExpressRouteCrossConnection.
  *
  * @summary Update the specified ExpressRouteCrossConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCrossConnectionUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCrossConnectionUpdate.json
  */
 async function updateExpressRouteCrossConnection() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,15 +29,16 @@ async function updateExpressRouteCrossConnection() {
     process.env["NETWORK_RESOURCE_GROUP"] || "CrossConnection-SiliconValley";
   const crossConnectionName = "<circuitServiceKey>";
   const parameters: ExpressRouteCrossConnection = {
-    serviceProviderProvisioningState: "NotProvisioned"
+    serviceProviderProvisioningState: "NotProvisioned",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.expressRouteCrossConnections.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    crossConnectionName,
-    parameters
-  );
+  const result =
+    await client.expressRouteCrossConnections.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      crossConnectionName,
+      parameters,
+    );
   console.log(result);
 }
 

@@ -233,6 +233,9 @@
 /sdk/appservice/arm-appservice-rest/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/astro/arm-astro/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/attestation/arm-attestation/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
