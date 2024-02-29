@@ -7,7 +7,7 @@ import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenti
 import { createDefaultHttpClient } from "../defaultHttpClient.js";
 import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
 import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-import { KeyCredential } from "../auth/keyCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
 import { ClientOptions } from "./common.js";
 import { apiVersionPolicy } from "./apiVersionPolicy.js";
 import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
@@ -73,10 +73,6 @@ export function createDefaultPipeline(
 
   addCredentialPipelinePolicy(pipeline, baseUrl, { credential, clientOptions: options });
   return pipeline;
-}
-
-function isKeyCredential(credential: any): credential is KeyCredential {
-  return (credential as KeyCredential).key !== undefined;
 }
 
 export function getCachedDefaultHttpsClient(): HttpClient {

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MigrateInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to initiate migration of the item.
  *
  * @summary The operation to initiate migration of the item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationMigrationItems_Migrate.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationMigrationItems_Migrate.json
  */
 async function migrateItem() {
   const subscriptionId =
@@ -38,9 +38,9 @@ async function migrateItem() {
     properties: {
       providerSpecificDetails: {
         instanceType: "VMwareCbt",
-        performShutdown: "true"
-      }
-    }
+        performShutdown: "true",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -50,7 +50,7 @@ async function migrateItem() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    migrateInput
+    migrateInput,
   );
   console.log(result);
 }

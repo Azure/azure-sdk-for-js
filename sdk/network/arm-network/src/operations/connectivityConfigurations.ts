@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   ConnectivityConfigurationsCreateOrUpdateOptionalParams,
   ConnectivityConfigurationsCreateOrUpdateResponse,
   ConnectivityConfigurationsDeleteOptionalParams,
-  ConnectivityConfigurationsListNextResponse
+  ConnectivityConfigurationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ConnectivityConfigurations operations. */
 export class ConnectivityConfigurationsImpl
-  implements ConnectivityConfigurations {
+  implements ConnectivityConfigurations
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -55,12 +56,12 @@ export class ConnectivityConfigurationsImpl
   public list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ConnectivityConfigurationsListOptionalParams
+    options?: ConnectivityConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectivityConfiguration> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkManagerName,
-      options
+      options,
     );
     return {
       next() {
@@ -77,9 +78,9 @@ export class ConnectivityConfigurationsImpl
           resourceGroupName,
           networkManagerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +88,7 @@ export class ConnectivityConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     options?: ConnectivityConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ConnectivityConfiguration[]> {
     let result: ConnectivityConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -103,7 +104,7 @@ export class ConnectivityConfigurationsImpl
         resourceGroupName,
         networkManagerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -115,12 +116,12 @@ export class ConnectivityConfigurationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ConnectivityConfigurationsListOptionalParams
+    options?: ConnectivityConfigurationsListOptionalParams,
   ): AsyncIterableIterator<ConnectivityConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkManagerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -138,11 +139,11 @@ export class ConnectivityConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsGetOptionalParams
+    options?: ConnectivityConfigurationsGetOptionalParams,
   ): Promise<ConnectivityConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -160,7 +161,7 @@ export class ConnectivityConfigurationsImpl
     networkManagerName: string,
     configurationName: string,
     connectivityConfiguration: ConnectivityConfiguration,
-    options?: ConnectivityConfigurationsCreateOrUpdateOptionalParams
+    options?: ConnectivityConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConnectivityConfigurationsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -168,9 +169,9 @@ export class ConnectivityConfigurationsImpl
         networkManagerName,
         configurationName,
         connectivityConfiguration,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -186,25 +187,24 @@ export class ConnectivityConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsDeleteOptionalParams
+    options?: ConnectivityConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +213,8 @@ export class ConnectivityConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,8 +222,8 @@ export class ConnectivityConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,14 +233,14 @@ export class ConnectivityConfigurationsImpl
         resourceGroupName,
         networkManagerName,
         configurationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -258,13 +258,13 @@ export class ConnectivityConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     configurationName: string,
-    options?: ConnectivityConfigurationsDeleteOptionalParams
+    options?: ConnectivityConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       networkManagerName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -278,11 +278,11 @@ export class ConnectivityConfigurationsImpl
   private _list(
     resourceGroupName: string,
     networkManagerName: string,
-    options?: ConnectivityConfigurationsListOptionalParams
+    options?: ConnectivityConfigurationsListOptionalParams,
   ): Promise<ConnectivityConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -297,11 +297,11 @@ export class ConnectivityConfigurationsImpl
     resourceGroupName: string,
     networkManagerName: string,
     nextLink: string,
-    options?: ConnectivityConfigurationsListNextOptionalParams
+    options?: ConnectivityConfigurationsListNextOptionalParams,
   ): Promise<ConnectivityConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkManagerName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -309,16 +309,15 @@ export class ConnectivityConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectivityConfiguration
+      bodyMapper: Mappers.ConnectivityConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -326,25 +325,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectivityConfiguration
+      bodyMapper: Mappers.ConnectivityConfiguration,
     },
     201: {
-      bodyMapper: Mappers.ConnectivityConfiguration
+      bodyMapper: Mappers.ConnectivityConfiguration,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.connectivityConfiguration,
   queryParameters: [Parameters.apiVersion],
@@ -353,15 +351,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations/{configurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -369,8 +366,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.force],
   urlParameters: [
@@ -378,55 +375,54 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkManagerName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/connectivityConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectivityConfigurationListResult
+      bodyMapper: Mappers.ConnectivityConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.top,
-    Parameters.skipToken
+    Parameters.skipToken,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ConnectivityConfigurationListResult
+      bodyMapper: Mappers.ConnectivityConfigurationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkManagerName
+    Parameters.networkManagerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

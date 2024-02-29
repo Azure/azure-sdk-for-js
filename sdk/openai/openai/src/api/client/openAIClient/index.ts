@@ -750,13 +750,14 @@ function _getChatCompletionsWithAzureExtensionsSend(
   | GetChatCompletionsWithAzureExtensions200Response
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
-  const { functions, functionCall, messages, dataSources, ...rest } = body;
+  const { functions, functionCall, messages, dataSources, tools, ...rest } = body;
   return context
     .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentName)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
         ...snakeCaseKeys(rest),
+        tools,
         dataSources: dataSources?.map(
           ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
         ),
@@ -792,11 +793,12 @@ function _getChatCompletionsSend(
   body: GeneratedChatCompletionsOptions,
   options: ClientOpenAIClientGetChatCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
-  const { functions, functionCall, messages, ...rest } = body;
+  const { functions, functionCall, messages, tools, ...rest } = body;
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentName).post({
     ...operationOptionsToRequestParameters(options),
     body: {
       ...snakeCaseKeys(rest),
+      tools,
       functions,
       function_call: functionCall,
       messages: messages.map(serializeChatRequestMessage),

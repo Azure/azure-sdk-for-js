@@ -14,7 +14,7 @@ import {
   GlobalParametersGetResponse,
   GlobalParametersCreateOrUpdateOptionalParams,
   GlobalParametersCreateOrUpdateResponse,
-  GlobalParametersDeleteOptionalParams
+  GlobalParametersDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface GlobalParameters {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: GlobalParametersListByFactoryOptionalParams
+    options?: GlobalParametersListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<GlobalParameterResource>;
   /**
    * Gets a Global parameter
@@ -42,7 +42,7 @@ export interface GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     globalParameterName: string,
-    options?: GlobalParametersGetOptionalParams
+    options?: GlobalParametersGetOptionalParams,
   ): Promise<GlobalParametersGetResponse>;
   /**
    * Creates or updates a Global parameter
@@ -57,7 +57,7 @@ export interface GlobalParameters {
     factoryName: string,
     globalParameterName: string,
     defaultParam: GlobalParameterResource,
-    options?: GlobalParametersCreateOrUpdateOptionalParams
+    options?: GlobalParametersCreateOrUpdateOptionalParams,
   ): Promise<GlobalParametersCreateOrUpdateResponse>;
   /**
    * Deletes a Global parameter
@@ -70,6 +70,6 @@ export interface GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     globalParameterName: string,
-    options?: GlobalParametersDeleteOptionalParams
+    options?: GlobalParametersDeleteOptionalParams,
   ): Promise<void>;
 }
