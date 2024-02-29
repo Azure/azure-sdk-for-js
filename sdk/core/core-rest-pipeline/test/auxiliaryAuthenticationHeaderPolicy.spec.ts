@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, beforeEach, afterEach, vi, expect } from "vitest";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import {
   type PipelinePolicy,
@@ -10,8 +9,9 @@ import {
   auxiliaryAuthenticationHeaderPolicy,
   createHttpHeaders,
   createPipelineRequest,
-} from "../src";
-import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler";
+} from "../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 

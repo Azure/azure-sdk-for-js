@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential";
-import { KeyCredential } from "../auth/keyCredential";
-import { HttpClient, HttpMethods } from "../interfaces";
-import { Pipeline } from "../pipeline";
-import { createDefaultPipeline } from "./clientHelpers";
+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
+import { HttpClient, HttpMethods } from "../interfaces.js";
+import { Pipeline } from "../pipeline.js";
+import { createDefaultPipeline } from "./clientHelpers.js";
 import {
   Client,
   ClientOptions,
@@ -13,10 +13,10 @@ import {
   HttpNodeStreamResponse,
   RequestParameters,
   StreamableMethod,
-} from "./common";
-import { sendRequest, sendRequestAsStream } from "./sendRequest";
-import { buildRequestUrl } from "./urlHelpers";
-import { PipelineOptions } from "../createPipelineFromOptions";
+} from "./common.js";
+import { sendRequest } from "./sendRequest.js";
+import { buildRequestUrl } from "./urlHelpers.js";
+import { PipelineOptions } from "../createPipelineFromOptions.js";
 
 /**
  * Creates a client with a default pipeline
@@ -63,7 +63,7 @@ export function getClient(
 
   const { allowInsecureConnection, httpClient } = clientOptions;
   const client = (path: string, ...args: Array<any>) => {
-    const getUrl = (requestOptions: RequestParameters) =>
+    const getUrl = (requestOptions: RequestParameters): string =>
       buildRequestUrl(baseUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
@@ -177,22 +177,22 @@ function buildOperation(
       ).then(onFulfilled, onrejected);
     },
     async asBrowserStream() {
-      return sendRequestAsStream<HttpBrowserStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpBrowserStreamResponse>;
     },
     async asNodeStream() {
-      return sendRequestAsStream<HttpNodeStreamResponse>(
+      return sendRequest(
         method,
         url,
         pipeline,
-        { ...options, allowInsecureConnection },
+        { ...options, allowInsecureConnection, responseAsStream: true },
         httpClient,
-      );
+      ) as Promise<HttpNodeStreamResponse>;
     },
   };
 }
@@ -200,9 +200,5 @@ function buildOperation(
 function isCredential(
   param: (TokenCredential | KeyCredential) | PipelineOptions,
 ): param is TokenCredential | KeyCredential {
-  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
-    return true;
-  }
-
-  return false;
+  return isKeyCredential(param) || isTokenCredential(param);
 }

@@ -122,11 +122,26 @@ export interface ErrorAdditionalInfo {
 }
 
 /** The response of a Service list operation. */
-export interface ServiceCollection {
-  /** The Service items on this page */
-  value: Service[];
-  /** The link to the next page of items */
-  nextLink?: string;
+export interface ServiceListResult {
+  /**
+   * The Service items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Service[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** The properties of the service. */
+export interface ServiceProperties {
+  /**
+   * Provisioning state of the service.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -203,13 +218,330 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** The service properties to be updated. */
+/** The type used for update operations of the Service. */
 export interface ServiceUpdate {
+  /** The managed service identities assigned to this resource. */
+  identity?: ManagedServiceIdentity;
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The metadata schema export request. */
+export interface MetadataSchemaExportRequest {
+  /** An entity the metadata schema is requested for. */
+  assignedTo?: MetadataAssignmentEntity;
+}
+
+/** The metadata schema export result. */
+export interface MetadataSchemaExportResult {
+  /** The export format for the schema */
+  format?: MetadataSchemaExportFormat;
+  /** The result of the export operation. */
+  value?: string;
+}
+
+/** The response of a MetadataSchema list operation. */
+export interface MetadataSchemaListResult {
   /**
-   * The status of the last operation.
+   * The MetadataSchema items on this page
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly provisioningState?: ProvisioningState;
+  readonly value: MetadataSchema[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Metadata schema properties. */
+export interface MetadataSchemaProperties {
+  /** The schema defining the type. */
+  schema: string;
+  /** The assignees */
+  assignedTo?: MetadataAssignment[];
+}
+
+/** Assignment metadata */
+export interface MetadataAssignment {
+  /** The entities this metadata schema component gets applied to. */
+  entity?: MetadataAssignmentEntity;
+  /** Required assignment */
+  required?: boolean;
+  /** Deprecated assignment */
+  deprecated?: boolean;
+}
+
+/** The response of a Workspace list operation. */
+export interface WorkspaceListResult {
+  /**
+   * The Workspace items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Workspace[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Workspace properties. */
+export interface WorkspaceProperties {
+  /** Workspace title. */
+  title: string;
+  /** Workspace description. */
+  description?: string;
+}
+
+/** The response of a Api list operation. */
+export interface ApiListResult {
+  /**
+   * The Api items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Api[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** API properties. */
+export interface ApiProperties {
+  /** API title. */
+  title: string;
+  /** Kind of API. For example, REST or GraphQL. */
+  kind: ApiKind;
+  /** Description of the API. */
+  description?: string;
+  /** Short description of the API. */
+  summary?: string;
+  /**
+   * Current lifecycle stage of the API.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lifecycleStage?: LifecycleStage;
+  /** Terms of service for the API. */
+  termsOfService?: TermsOfService;
+  /** The set of external documentation */
+  externalDocumentation?: ExternalDocumentation[];
+  /** The set of contacts */
+  contacts?: Contact[];
+  /** The license information for the API. */
+  license?: License;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
+}
+
+/** Terms of service for the API. */
+export interface TermsOfService {
+  /** URL pointing to the terms of service. */
+  url: string;
+}
+
+/** Additional, external documentation for the API. */
+export interface ExternalDocumentation {
+  /** Title of the documentation. */
+  title?: string;
+  /** Description of the documentation. */
+  description?: string;
+  /** URL pointing to the documentation. */
+  url: string;
+}
+
+/** Contact information */
+export interface Contact {
+  /** Name of the contact. */
+  name?: string;
+  /** URL for the contact. */
+  url?: string;
+  /** Email address of the contact. */
+  email?: string;
+}
+
+/** The license information for the API. */
+export interface License {
+  /** Name of the license. */
+  name?: string;
+  /**
+   * URL pointing to the license details. The URL field is mutually exclusive of the
+   * identifier field.
+   */
+  url?: string;
+  /**
+   * SPDX license information for the API. The identifier field is mutually
+   * exclusive of the URL field.
+   */
+  identifier?: string;
+}
+
+/** The response of a Deployment list operation. */
+export interface DeploymentListResult {
+  /**
+   * The Deployment items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Deployment[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** API deployment entity properties. */
+export interface DeploymentProperties {
+  /** API deployment title */
+  title?: string;
+  /** Description of the deployment. */
+  description?: string;
+  /** API center-scoped environment resource ID. */
+  environmentId?: string;
+  /** API center-scoped definition resource ID. */
+  definitionId?: string;
+  /** State of API deployment. */
+  state?: DeploymentState;
+  /** The deployment server */
+  server?: DeploymentServer;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
+}
+
+/** Server */
+export interface DeploymentServer {
+  /** Base runtime URLs for this deployment. */
+  runtimeUri?: string[];
+}
+
+/** The response of a ApiVersion list operation. */
+export interface ApiVersionListResult {
+  /**
+   * The ApiVersion items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: ApiVersion[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** API version properties entity. */
+export interface ApiVersionProperties {
+  /** API version title. */
+  title: string;
+  /** Current lifecycle stage of the API. */
+  lifecycleStage: LifecycleStage;
+}
+
+/** The response of a ApiDefinition list operation. */
+export interface ApiDefinitionListResult {
+  /**
+   * The ApiDefinition items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: ApiDefinition[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** API definition properties entity. */
+export interface ApiDefinitionProperties {
+  /** API definition title. */
+  title: string;
+  /** API definition description. */
+  description?: string;
+  /**
+   * API specification details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly specification?: ApiDefinitionPropertiesSpecification;
+}
+
+/** API specification details. */
+export interface ApiDefinitionPropertiesSpecification {
+  /** Specification name. */
+  name?: string;
+  /** Specification version. */
+  version?: string;
+}
+
+/** The API specification export result. */
+export interface ApiSpecExportResult {
+  /** The format of exported result */
+  format?: ApiSpecExportResultFormat;
+  /** The result of the export operation. */
+  value?: string;
+}
+
+/** The API specification source entity properties. */
+export interface ApiSpecImportRequest {
+  /** Value of the API specification source. */
+  value?: string;
+  /** Format of the API specification source. */
+  format?: ApiSpecImportSourceFormat;
+  /** API specification details. */
+  specification?: ApiSpecImportRequestSpecification;
+}
+
+/** API specification details. */
+export interface ApiSpecImportRequestSpecification {
+  /** Specification name. */
+  name?: string;
+  /** Specification version. */
+  version?: string;
+}
+
+/** The response of a Environment list operation. */
+export interface EnvironmentListResult {
+  /**
+   * The Environment items on this page
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value: Environment[];
+  /**
+   * The link to the next page of items
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Environment properties entity. */
+export interface EnvironmentProperties {
+  /** Environment title. */
+  title: string;
+  /** The environment description. */
+  description?: string;
+  /** Environment kind. */
+  kind: EnvironmentKind;
+  /** Server information of the environment. */
+  server?: EnvironmentServer;
+  /** Environment onboarding information */
+  onboarding?: Onboarding;
+  /** The custom metadata defined for API catalog entities. */
+  customProperties?: Record<string, unknown>;
+}
+
+/** Server information of the environment. */
+export interface EnvironmentServer {
+  /** Type of the server that represents the environment. */
+  type?: EnvironmentServerType;
+  /** The location of the management portal */
+  managementPortalUri?: string[];
+}
+
+/** Onboarding information */
+export interface Onboarding {
+  /** Onboarding guide. */
+  instructions?: string;
+  /** The location of the development portal */
+  developerPortalUri?: string[];
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -220,15 +552,165 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
 /** The service entity. */
 export interface Service extends TrackedResource {
-  /** The identity of the service. */
+  /** The resource-specific properties for this resource. */
+  properties?: ServiceProperties;
+  /** The managed service identities assigned to this resource. */
   identity?: ManagedServiceIdentity;
-  /**
-   * The status of the last operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+}
+
+/** Metadata schema entity. Used to define metadata for the entities in API catalog. */
+export interface MetadataSchema extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: MetadataSchemaProperties;
+}
+
+/** Workspace entity. */
+export interface Workspace extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: WorkspaceProperties;
+}
+
+/** API entity. */
+export interface Api extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ApiProperties;
+}
+
+/** API deployment entity. */
+export interface Deployment extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: DeploymentProperties;
+}
+
+/** API version entity. */
+export interface ApiVersion extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ApiVersionProperties;
+}
+
+/** API definition entity. */
+export interface ApiDefinition extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: ApiDefinitionProperties;
+}
+
+/** Environment entity. */
+export interface Environment extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: EnvironmentProperties;
+}
+
+/** Defines headers for Services_exportMetadataSchema operation. */
+export interface ServicesExportMetadataSchemaHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for MetadataSchemas_get operation. */
+export interface MetadataSchemasGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for MetadataSchemas_createOrUpdate operation. */
+export interface MetadataSchemasCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Workspaces_get operation. */
+export interface WorkspacesGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Workspaces_createOrUpdate operation. */
+export interface WorkspacesCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Apis_get operation. */
+export interface ApisGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Apis_createOrUpdate operation. */
+export interface ApisCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Deployments_get operation. */
+export interface DeploymentsGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Deployments_createOrUpdate operation. */
+export interface DeploymentsCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiVersions_get operation. */
+export interface ApiVersionsGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiVersions_createOrUpdate operation. */
+export interface ApiVersionsCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiDefinitions_get operation. */
+export interface ApiDefinitionsGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiDefinitions_createOrUpdate operation. */
+export interface ApiDefinitionsCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for ApiDefinitions_exportSpecification operation. */
+export interface ApiDefinitionsExportSpecificationHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for ApiDefinitions_importSpecification operation. */
+export interface ApiDefinitionsImportSpecificationHeaders {
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+}
+
+/** Defines headers for Environments_get operation. */
+export interface EnvironmentsGetHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
+}
+
+/** Defines headers for Environments_createOrUpdate operation. */
+export interface EnvironmentsCreateOrUpdateHeaders {
+  /** The entity tag for the response. */
+  eTag?: string;
 }
 
 /** Known values of {@link Origin} that the service accepts. */
@@ -238,7 +720,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -255,7 +737,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -269,12 +751,12 @@ export type ActionType = string;
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {
-  /** Succeeded */
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled"
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
 }
 
 /**
@@ -282,9 +764,9 @@ export enum KnownProvisioningState {
  * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
  */
 export type ProvisioningState = string;
 
@@ -297,7 +779,7 @@ export enum KnownManagedServiceIdentityType {
   /** UserAssigned */
   UserAssigned = "UserAssigned",
   /** SystemAssignedUserAssigned */
-  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned"
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -321,7 +803,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -335,6 +817,238 @@ export enum KnownCreatedByType {
  * **Key**
  */
 export type CreatedByType = string;
+
+/** Known values of {@link MetadataAssignmentEntity} that the service accepts. */
+export enum KnownMetadataAssignmentEntity {
+  /** Assigned to API */
+  Api = "api",
+  /** Assigned to Environment */
+  Environment = "environment",
+  /** Assigned to Deployment */
+  Deployment = "deployment",
+}
+
+/**
+ * Defines values for MetadataAssignmentEntity. \
+ * {@link KnownMetadataAssignmentEntity} can be used interchangeably with MetadataAssignmentEntity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **api**: Assigned to API \
+ * **environment**: Assigned to Environment \
+ * **deployment**: Assigned to Deployment
+ */
+export type MetadataAssignmentEntity = string;
+
+/** Known values of {@link MetadataSchemaExportFormat} that the service accepts. */
+export enum KnownMetadataSchemaExportFormat {
+  /** The inlined content of a schema document. */
+  Inline = "inline",
+  /** The link to a schema document. The URL is valid for 5 minutes. */
+  Link = "link",
+}
+
+/**
+ * Defines values for MetadataSchemaExportFormat. \
+ * {@link KnownMetadataSchemaExportFormat} can be used interchangeably with MetadataSchemaExportFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inline**: The inlined content of a schema document. \
+ * **link**: The link to a schema document. The URL is valid for 5 minutes.
+ */
+export type MetadataSchemaExportFormat = string;
+
+/** Known values of {@link ApiKind} that the service accepts. */
+export enum KnownApiKind {
+  /** A Representational State Transfer Api */
+  Rest = "rest",
+  /** A Graph query language Api */
+  Graphql = "graphql",
+  /** A gRPC Api */
+  Grpc = "grpc",
+  /** A SOAP Api */
+  Soap = "soap",
+  /** Web Hook */
+  Webhook = "webhook",
+  /** Web Socket */
+  Websocket = "websocket",
+}
+
+/**
+ * Defines values for ApiKind. \
+ * {@link KnownApiKind} can be used interchangeably with ApiKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **rest**: A Representational State Transfer Api \
+ * **graphql**: A Graph query language Api \
+ * **grpc**: A gRPC Api \
+ * **soap**: A SOAP Api \
+ * **webhook**: Web Hook \
+ * **websocket**: Web Socket
+ */
+export type ApiKind = string;
+
+/** Known values of {@link LifecycleStage} that the service accepts. */
+export enum KnownLifecycleStage {
+  /** design stage */
+  Design = "design",
+  /** development stage */
+  Development = "development",
+  /** testing stage */
+  Testing = "testing",
+  /** In preview */
+  Preview = "preview",
+  /** In production */
+  Production = "production",
+  /** deprecated stage */
+  Deprecated = "deprecated",
+  /** Retired stage */
+  Retired = "retired",
+}
+
+/**
+ * Defines values for LifecycleStage. \
+ * {@link KnownLifecycleStage} can be used interchangeably with LifecycleStage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **design**: design stage \
+ * **development**: development stage \
+ * **testing**: testing stage \
+ * **preview**: In preview \
+ * **production**: In production \
+ * **deprecated**: deprecated stage \
+ * **retired**: Retired stage
+ */
+export type LifecycleStage = string;
+
+/** Known values of {@link DeploymentState} that the service accepts. */
+export enum KnownDeploymentState {
+  /** Active State */
+  Active = "active",
+  /** Inactive State */
+  Inactive = "inactive",
+}
+
+/**
+ * Defines values for DeploymentState. \
+ * {@link KnownDeploymentState} can be used interchangeably with DeploymentState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **active**: Active State \
+ * **inactive**: Inactive State
+ */
+export type DeploymentState = string;
+
+/** Known values of {@link ApiSpecExportResultFormat} that the service accepts. */
+export enum KnownApiSpecExportResultFormat {
+  /** The inlined content of a specification document. */
+  Inline = "inline",
+  /** The link to the result of the export operation. The URL is valid for 5 minutes. */
+  Link = "link",
+}
+
+/**
+ * Defines values for ApiSpecExportResultFormat. \
+ * {@link KnownApiSpecExportResultFormat} can be used interchangeably with ApiSpecExportResultFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inline**: The inlined content of a specification document. \
+ * **link**: The link to the result of the export operation. The URL is valid for 5 minutes.
+ */
+export type ApiSpecExportResultFormat = string;
+
+/** Known values of {@link ApiSpecImportSourceFormat} that the service accepts. */
+export enum KnownApiSpecImportSourceFormat {
+  /** The inlined content of a specification document. */
+  Inline = "inline",
+  /**
+   * The link to a specification document hosted on a publicly accessible internet
+   * address.
+   */
+  Link = "link",
+}
+
+/**
+ * Defines values for ApiSpecImportSourceFormat. \
+ * {@link KnownApiSpecImportSourceFormat} can be used interchangeably with ApiSpecImportSourceFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **inline**: The inlined content of a specification document. \
+ * **link**: The link to a specification document hosted on a publicly accessible internet
+ * address.
+ */
+export type ApiSpecImportSourceFormat = string;
+
+/** Known values of {@link EnvironmentKind} that the service accepts. */
+export enum KnownEnvironmentKind {
+  /** Development environment */
+  Development = "development",
+  /** Testing environment */
+  Testing = "testing",
+  /** Staging environment */
+  Staging = "staging",
+  /** Production environment */
+  Production = "production",
+}
+
+/**
+ * Defines values for EnvironmentKind. \
+ * {@link KnownEnvironmentKind} can be used interchangeably with EnvironmentKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **development**: Development environment \
+ * **testing**: Testing environment \
+ * **staging**: Staging environment \
+ * **production**: Production environment
+ */
+export type EnvironmentKind = string;
+
+/** Known values of {@link EnvironmentServerType} that the service accepts. */
+export enum KnownEnvironmentServerType {
+  /** Api Management Server */
+  AzureAPIManagement = "Azure API Management",
+  /** Compute server */
+  AzureComputeService = "Azure compute service",
+  /** Apigee server */
+  ApigeeAPIManagement = "Apigee API Management",
+  /** AWS Api Gateway server */
+  AWSAPIGateway = "AWS API Gateway",
+  /** Kong API Gateway server */
+  KongAPIGateway = "Kong API Gateway",
+  /** Kubernetes server */
+  Kubernetes = "Kubernetes",
+  /** Mulesoft Api Management server */
+  MuleSoftAPIManagement = "MuleSoft API Management",
+}
+
+/**
+ * Defines values for EnvironmentServerType. \
+ * {@link KnownEnvironmentServerType} can be used interchangeably with EnvironmentServerType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Azure API Management**: Api Management Server \
+ * **Azure compute service**: Compute server \
+ * **Apigee API Management**: Apigee server \
+ * **AWS API Gateway**: AWS Api Gateway server \
+ * **Kong API Gateway**: Kong API Gateway server \
+ * **Kubernetes**: Kubernetes server \
+ * **MuleSoft API Management**: Mulesoft Api Management server
+ */
+export type EnvironmentServerType = string;
+
+/** Known values of {@link Versions} that the service accepts. */
+export enum KnownVersions {
+  /** The initial service version */
+  V20240301 = "2024-03-01",
+}
+
+/**
+ * Defines values for Versions. \
+ * {@link KnownVersions} can be used interchangeably with Versions,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **2024-03-01**: The initial service version
+ */
+export type Versions = string;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -355,14 +1069,14 @@ export interface ServicesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ServicesListBySubscriptionResponse = ServiceCollection;
+export type ServicesListBySubscriptionResponse = ServiceListResult;
 
 /** Optional parameters. */
 export interface ServicesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ServicesListByResourceGroupResponse = ServiceCollection;
+export type ServicesListByResourceGroupResponse = ServiceListResult;
 
 /** Optional parameters. */
 export interface ServicesGetOptionalParams
@@ -373,20 +1087,14 @@ export type ServicesGetResponse = Service;
 
 /** Optional parameters. */
 export interface ServicesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The service entity. */
-  resource?: Service;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
 export type ServicesCreateOrUpdateResponse = Service;
 
 /** Optional parameters. */
 export interface ServicesUpdateOptionalParams
-  extends coreClient.OperationOptions {
-  /** The service properties to be updated. */
-  parameters?: ServiceUpdate;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
 export type ServicesUpdateResponse = Service;
@@ -396,18 +1104,363 @@ export interface ServicesDeleteOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface ServicesExportMetadataSchemaOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportMetadataSchema operation. */
+export type ServicesExportMetadataSchemaResponse = MetadataSchemaExportResult;
+
+/** Optional parameters. */
 export interface ServicesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ServicesListBySubscriptionNextResponse = ServiceCollection;
+export type ServicesListBySubscriptionNextResponse = ServiceListResult;
 
 /** Optional parameters. */
 export interface ServicesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ServicesListByResourceGroupNextResponse = ServiceCollection;
+export type ServicesListByResourceGroupNextResponse = ServiceListResult;
+
+/** Optional parameters. */
+export interface MetadataSchemasListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type MetadataSchemasListResponse = MetadataSchemaListResult;
+
+/** Optional parameters. */
+export interface MetadataSchemasGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MetadataSchemasGetResponse = MetadataSchemasGetHeaders &
+  MetadataSchema;
+
+/** Optional parameters. */
+export interface MetadataSchemasCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type MetadataSchemasCreateOrUpdateResponse =
+  MetadataSchemasCreateOrUpdateHeaders & MetadataSchema;
+
+/** Optional parameters. */
+export interface MetadataSchemasDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface MetadataSchemasHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type MetadataSchemasHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface MetadataSchemasListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MetadataSchemasListNextResponse = MetadataSchemaListResult;
+
+/** Optional parameters. */
+export interface WorkspacesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type WorkspacesListResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface WorkspacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type WorkspacesGetResponse = WorkspacesGetHeaders & Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type WorkspacesCreateOrUpdateResponse = WorkspacesCreateOrUpdateHeaders &
+  Workspace;
+
+/** Optional parameters. */
+export interface WorkspacesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface WorkspacesHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type WorkspacesHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface WorkspacesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type WorkspacesListNextResponse = WorkspaceListResult;
+
+/** Optional parameters. */
+export interface ApisListOptionalParams extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ApisListResponse = ApiListResult;
+
+/** Optional parameters. */
+export interface ApisGetOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApisGetResponse = ApisGetHeaders & Api;
+
+/** Optional parameters. */
+export interface ApisCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApisCreateOrUpdateResponse = ApisCreateOrUpdateHeaders & Api;
+
+/** Optional parameters. */
+export interface ApisDeleteOptionalParams extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApisHeadOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type ApisHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface ApisListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApisListNextResponse = ApiListResult;
+
+/** Optional parameters. */
+export interface DeploymentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type DeploymentsListResponse = DeploymentListResult;
+
+/** Optional parameters. */
+export interface DeploymentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DeploymentsGetResponse = DeploymentsGetHeaders & Deployment;
+
+/** Optional parameters. */
+export interface DeploymentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DeploymentsCreateOrUpdateResponse =
+  DeploymentsCreateOrUpdateHeaders & Deployment;
+
+/** Optional parameters. */
+export interface DeploymentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface DeploymentsHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type DeploymentsHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface DeploymentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type DeploymentsListNextResponse = DeploymentListResult;
+
+/** Optional parameters. */
+export interface ApiVersionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ApiVersionsListResponse = ApiVersionListResult;
+
+/** Optional parameters. */
+export interface ApiVersionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiVersionsGetResponse = ApiVersionsGetHeaders & ApiVersion;
+
+/** Optional parameters. */
+export interface ApiVersionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiVersionsCreateOrUpdateResponse =
+  ApiVersionsCreateOrUpdateHeaders & ApiVersion;
+
+/** Optional parameters. */
+export interface ApiVersionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiVersionsHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type ApiVersionsHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface ApiVersionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiVersionsListNextResponse = ApiVersionListResult;
+
+/** Optional parameters. */
+export interface ApiDefinitionsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type ApiDefinitionsListResponse = ApiDefinitionListResult;
+
+/** Optional parameters. */
+export interface ApiDefinitionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ApiDefinitionsGetResponse = ApiDefinitionsGetHeaders &
+  ApiDefinition;
+
+/** Optional parameters. */
+export interface ApiDefinitionsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ApiDefinitionsCreateOrUpdateResponse =
+  ApiDefinitionsCreateOrUpdateHeaders & ApiDefinition;
+
+/** Optional parameters. */
+export interface ApiDefinitionsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface ApiDefinitionsHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type ApiDefinitionsHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface ApiDefinitionsExportSpecificationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the exportSpecification operation. */
+export type ApiDefinitionsExportSpecificationResponse = ApiSpecExportResult;
+
+/** Optional parameters. */
+export interface ApiDefinitionsImportSpecificationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ApiDefinitionsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type ApiDefinitionsListNextResponse = ApiDefinitionListResult;
+
+/** Optional parameters. */
+export interface EnvironmentsListOptionalParams
+  extends coreClient.OperationOptions {
+  /** OData filter parameter. */
+  filter?: string;
+}
+
+/** Contains response data for the list operation. */
+export type EnvironmentsListResponse = EnvironmentListResult;
+
+/** Optional parameters. */
+export interface EnvironmentsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type EnvironmentsGetResponse = EnvironmentsGetHeaders & Environment;
+
+/** Optional parameters. */
+export interface EnvironmentsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type EnvironmentsCreateOrUpdateResponse =
+  EnvironmentsCreateOrUpdateHeaders & Environment;
+
+/** Optional parameters. */
+export interface EnvironmentsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface EnvironmentsHeadOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the head operation. */
+export type EnvironmentsHeadResponse = {
+  body: boolean;
+};
+
+/** Optional parameters. */
+export interface EnvironmentsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type EnvironmentsListNextResponse = EnvironmentListResult;
 
 /** Optional parameters. */
 export interface AzureAPICenterOptionalParams

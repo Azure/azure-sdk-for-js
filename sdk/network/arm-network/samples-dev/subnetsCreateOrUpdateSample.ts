@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetCreate.json
  */
 async function createSubnet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -33,7 +33,7 @@ async function createSubnet() {
     resourceGroupName,
     virtualNetworkName,
     subnetName,
-    subnetParameters
+    subnetParameters,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function createSubnet() {
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetCreateWithDelegation.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetCreateWithDelegation.json
  */
 async function createSubnetWithADelegation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -57,7 +57,7 @@ async function createSubnetWithADelegation() {
     resourceGroupName,
     virtualNetworkName,
     subnetName,
-    subnetParameters
+    subnetParameters,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function createSubnetWithADelegation() {
  * This sample demonstrates how to Creates or updates a subnet in the specified virtual network.
  *
  * @summary Creates or updates a subnet in the specified virtual network.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/SubnetCreateServiceEndpoint.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/SubnetCreateServiceEndpoint.json
  */
 async function createSubnetWithServiceEndpoints() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -76,7 +76,7 @@ async function createSubnetWithServiceEndpoints() {
   const subnetName = "subnet1";
   const subnetParameters: Subnet = {
     addressPrefix: "10.0.0.0/16",
-    serviceEndpoints: [{ service: "Microsoft.Storage" }]
+    serviceEndpoints: [{ service: "Microsoft.Storage" }],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
@@ -84,7 +84,7 @@ async function createSubnetWithServiceEndpoints() {
     resourceGroupName,
     virtualNetworkName,
     subnetName,
-    subnetParameters
+    subnetParameters,
   );
   console.log(result);
 }

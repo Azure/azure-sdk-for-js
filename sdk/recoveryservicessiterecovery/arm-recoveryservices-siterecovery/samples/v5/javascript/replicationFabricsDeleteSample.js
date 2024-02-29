@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete or remove an Azure Site Recovery fabric.
  *
  * @summary The operation to delete or remove an Azure Site Recovery fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_Delete.json
  */
 async function deletesTheSite() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deletesTheSite() {
   const result = await client.replicationFabrics.beginDeleteAndWait(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   );
   console.log(result);
 }

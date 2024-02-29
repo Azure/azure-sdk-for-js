@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to start the test failover of a recovery plan.
  *
  * @summary The operation to start the test failover of a recovery plan.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationRecoveryPlans_TestFailover.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationRecoveryPlans_TestFailover.json
  */
 async function executeTestFailoverOfTheRecoveryPlan() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function executeTestFailoverOfTheRecoveryPlan() {
     resourceName,
     resourceGroupName,
     recoveryPlanName,
-    input
+    input,
   );
   console.log(result);
 }

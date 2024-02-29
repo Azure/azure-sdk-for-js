@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateApplianceForReplicationProtectedItemInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update appliance of an ASR replication protected item.
  *
  * @summary The operation to update appliance of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_UpdateAppliance.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateAppliance.json
  */
 async function updatesApplianceForReplicationProtectedItem() {
   const subscriptionId =
@@ -35,25 +35,27 @@ async function updatesApplianceForReplicationProtectedItem() {
   const protectionContainerName = "Ayan-0106-SA-Vaultreplicationcontainer";
   const replicatedProtectedItemName =
     "idclab-vcen67_50158124-8857-3e08-0893-2ddf8ebb8c1f";
-  const applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput = {
-    properties: {
-      providerSpecificDetails: {
-        instanceType: "InMageRcm",
-        runAsAccountId: ""
+  const applianceUpdateInput: UpdateApplianceForReplicationProtectedItemInput =
+    {
+      properties: {
+        providerSpecificDetails: {
+          instanceType: "InMageRcm",
+          runAsAccountId: "",
+        },
+        targetApplianceId: "",
       },
-      targetApplianceId: ""
-    }
-  };
+    };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginUpdateApplianceAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName,
-    applianceUpdateInput
-  );
+  const result =
+    await client.replicationProtectedItems.beginUpdateApplianceAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      applianceUpdateInput,
+    );
   console.log(result);
 }
 

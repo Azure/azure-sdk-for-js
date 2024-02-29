@@ -70,7 +70,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
  * The current persistence provider, undefined by default.
  * @internal
  */
-let persistenceProvider:
+export let persistenceProvider:
   | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
   | undefined = undefined;
 
@@ -526,8 +526,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     ensureValidMsalToken(scopes, result, getTokenOptions);
     this.logger.getToken.info(formatSuccess(scopes));
     return {
-      token: result!.accessToken!,
-      expiresOnTimestamp: result!.expiresOn!.getTime(),
+      token: result.accessToken,
+      expiresOnTimestamp: result.expiresOn.getTime(),
     };
   }
 }
