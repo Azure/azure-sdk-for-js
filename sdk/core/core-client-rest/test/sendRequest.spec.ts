@@ -5,6 +5,7 @@ import { describe, it, assert } from "vitest";
 import { sendRequest } from "../src/sendRequest.js";
 import {
   FormDataValue,
+  MultipartRequestBody,
   Pipeline,
   PipelineResponse,
   RestError,
@@ -13,6 +14,7 @@ import {
   createHttpHeaders,
 } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
+import { ExtendedFormDataMap } from "../src/common.js";
 
 describe("sendRequest", () => {
   const foo = new Uint8Array([0x66, 0x6f, 0x6f]);
@@ -551,5 +553,56 @@ describe("sendRequest", () => {
       },
     });
     assert.isTrue(called);
+  });
+
+  describe("bodyKind", () => {
+    it("should pass through form data map when body kind set to formData", async () => {
+      const formData: ExtendedFormDataMap = {
+        aaa: "aaa",
+        bbb: "bbb",
+      };
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.isUndefined(request.body);
+        assert.deepEqual(request.formData, formData);
+
+        return {
+          headers: createHttpHeaders(),
+        } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: formData,
+        bodyKind: "formData",
+      });
+    });
+
+    it("should pass through multipart request body when body kind set to multipart", async () => {
+      const multipartBody: MultipartRequestBody = {
+        boundary: "bbbb",
+        parts: [
+          {
+            headers: createHttpHeaders(),
+            body: new Uint8Array([1, 2, 3]),
+          },
+        ],
+      };
+
+      const mockPipeline: Pipeline = createEmptyPipeline();
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.isUndefined(request.body);
+        assert.deepEqual(request.multipartBody, multipartBody);
+
+        return {
+          headers: createHttpHeaders(),
+        } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: multipartBody,
+        bodyKind: "multipart",
+      });
+    });
   });
 });

@@ -2,8 +2,10 @@
 // Licensed under the MIT license.
 
 import {
+  FormDataValue,
   HttpClient,
   LogPolicyOptions,
+  MultipartRequestBody,
   Pipeline,
   PipelineOptions,
   PipelinePolicy,
@@ -17,11 +19,7 @@ import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { OperationTracingOptions } from "@azure/core-tracing";
 
-/**
- * Shape of the default request parameters, this may be overriden by the specific
- * request types to provide strong types
- */
-export type RequestParameters = {
+type RequestParametersCommon = {
   /**
    * Headers to send along with the request
    */
@@ -32,10 +30,6 @@ export type RequestParameters = {
    * this property will take precedence.
    */
   accept?: string;
-  /**
-   * Body to send with the request
-   */
-  body?: unknown;
   /**
    * Query parameters to send with the request
    */
@@ -86,6 +80,60 @@ export type RequestParameters = {
    */
   onResponse?: RawResponseCallback;
 };
+
+export type RequestParametersWithGenericBody = RequestParametersCommon & {
+  /**
+   * The shape of the request body. If left undefined, the default body handling will be
+   * used.
+   */
+  bodyKind?: undefined;
+
+  /**
+   * The request body if any.
+   */
+  body?: unknown;
+};
+
+export type ExtendedFormDataValue = FormDataValue | Uint8Array;
+// | ReadableStream<Uint8Array>
+// | NodeJS.ReadableStream;
+
+export type ExtendedFormDataMap = Record<string, ExtendedFormDataValue | ExtendedFormDataValue[]>;
+
+export type RequestParametersWithFormDataBody = RequestParametersCommon & {
+  /**
+   * The shape of the request body. When specifying "formData", the body will be a FormDataMap to be encoded
+   * into form data by core-rest-pipeline.
+   */
+  bodyKind: "formData";
+
+  /**
+   * The body as a FormDataMap with additional support for streaming types.
+   */
+  body: ExtendedFormDataMap;
+};
+
+export type RequestParametersWithMultipartBody = RequestParametersCommon & {
+  /**
+   * The shape of the request body. When specifying "multipart", the body will be a MultipartRequestBody to be
+   * encoded into the multipart wire format by core-rest-pipeline.
+   */
+  bodyKind: "multipart";
+
+  /**
+   * The body as a MultipartRequestBody.
+   */
+  body: MultipartRequestBody;
+};
+
+/**
+ * Shape of the default request parameters, this may be overriden by the specific
+ * request types to provide strong types
+ */
+export type RequestParameters =
+  | RequestParametersWithGenericBody
+  | RequestParametersWithFormDataBody
+  | RequestParametersWithMultipartBody;
 
 /**
  * A function to be called each time a response is received from the server
