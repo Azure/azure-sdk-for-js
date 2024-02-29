@@ -284,7 +284,7 @@ describe("test bulk operations", async function () {
         assert.strictEqual(readResponse[1].resourceBody.id, id, "Read item's id should match");
       });
       it("read operation with partition split", async function () {
-        // using plugins gerate split repose from backend and also add plugins to the client
+        // using plugins generate split response from backend
         const splitContainer = await getSplitContainer();
         await splitContainer.items.create({
           id: readItemId,
@@ -294,15 +294,17 @@ describe("test bulk operations", async function () {
         const operation: OperationInput = {
           operationType: BulkOperationType.Read,
           id: readItemId,
+          partitionKey: "B",
         };
         const readResponse: OperationResponse[] = await splitContainer.items.bulk([operation]);
-        console.log("readResponse: ", readResponse);
-        // assert.strictEqual(readResponse[0].statusCode, 200);
+        assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
           readResponse[0].resourceBody.id,
           readItemId,
           "Read Items id should match",
         );
+        // cleanup
+        await splitContainer.database.delete();
       });
 
       it("container handles Create, Read, Upsert, Delete opertion with partition split", async function () {
@@ -328,23 +330,23 @@ describe("test bulk operations", async function () {
             resourceBody: { id: replaceItemId, name: "nice", key: 5 },
           },
         ];
-        const container = await getSplitContainer();
-        await container.items.create({
+        const splitContainer = await getSplitContainer();
+        await splitContainer.items.create({
           id: deleteItemId,
           key: "A",
           class: "2010",
         });
-        await container.items.create({
+        await splitContainer.items.create({
           id: readItemId,
           key: "A",
           class: "2010",
         });
-        await container.items.create({
+        await splitContainer.items.create({
           id: replaceItemId,
           key: 5,
           class: "2010",
         });
-        const response = await container.items.bulk(operations);
+        const response = await splitContainer.items.bulk(operations);
         console.log("response: ", response);
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
@@ -357,15 +359,18 @@ describe("test bulk operations", async function () {
         // Replace
         assert.equal(response[3].resourceBody.name, "nice");
         assert.equal(response[3].statusCode, 200);
+
+        // cleanup
+        await splitContainer.database.delete();
       });
-      async function getSplitContainer() {
+      async function getSplitContainer(): Promise<Container> {
         let responseIndex = 0;
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
             plugin: async (context, diagNode, next) => {
               if (context.operationType === "batch" && responseIndex < 1) {
-                let error = new ErrorResponse();
+                const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
                 error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
                 responseIndex++;
@@ -1085,6 +1090,68 @@ describe("test bulk operations", async function () {
 
         const createResponse = await container.items.bulk(operations);
         assert.equal(createResponse[0].statusCode, 201);
+      });
+    });
+    describe("multi partitioned container with many items - handle partition split", async function () {
+      let container: Container;
+      before(async function () {
+        let responseIndex = 0;
+        const plugins: PluginConfig[] = [
+          {
+            on: PluginOn.request,
+            plugin: async (context, diagNode, next) => {
+              if (context.operationType === "batch" && responseIndex % 50 === 0) {
+                const error = new ErrorResponse();
+                error.code = StatusCodes.Gone;
+                error.subStatusCode = SubStatusCodes.PartitionKeyRangeGone;
+                responseIndex++;
+                throw error;
+              }
+              const res = await next(context);
+              responseIndex++;
+              return res;
+            },
+          },
+        ];
+
+        const client = new CosmosClient({
+          key: masterKey,
+          endpoint,
+          diagnosticLevel: CosmosDbDiagnosticLevel.debug,
+          plugins,
+        });
+        container = await getTestContainer("bulk split container", client, {
+          partitionKey: {
+            paths: ["/key"],
+            version: 2,
+          },
+          throughput: 25100,
+        });
+        for (let i = 0; i < 300; i++) {
+          await container.items.create({
+            id: "item" + i,
+            key: i,
+            class: "2010",
+          });
+        }
+      });
+
+      it("check multiple partition splits during bulk", async function () {
+        const operations: OperationInput[] = [];
+        for (let i = 0; i < 300; i++) {
+          operations.push({
+            operationType: BulkOperationType.Read,
+            id: "item" + i,
+            partitionKey: i,
+          });
+        }
+        const response = await container.items.bulk(operations);
+        response.forEach((res, index) => {
+          assert.strictEqual(res.statusCode, 200, `Status should be 200 for operation ${index}`);
+          assert.strictEqual(res.resourceBody.id, "item" + index, "Read Items id should match");
+        });
+        // Delete database after use
+        await container.database.delete();
       });
     });
   });
