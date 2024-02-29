@@ -3,7 +3,6 @@
 
 /**
  * @summary Demonstrates listing multiple configuration settings by page using page etags.
- * @azsdk-weight 50
  */
 import { AppConfigurationClient } from "@azure/app-configuration";
 
