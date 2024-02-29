@@ -8,7 +8,7 @@ import { Context } from "mocha";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 
-describe("AzureWebApps Integration test", function() {
+describe.only("AzureWebApps Integration test", function() {
     it("test the Azure Web Apps endpoint where the sync MI credential is used.", async function(this: Context) {
         if(!isLiveMode){
             this.skip();

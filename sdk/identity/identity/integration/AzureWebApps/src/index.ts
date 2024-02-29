@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as express from "express";
+import express from "express";
 import { ManagedIdentityCredential } from "@azure/identity";
 import { BlobServiceClient } from "@azure/storage-blob";
-import * as dotenv from "dotenv";
+import dotenv from "dotenv";
 // Initialize the environment
 dotenv.config();
 const app = express();

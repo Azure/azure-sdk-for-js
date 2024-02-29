@@ -110,7 +110,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
 resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: '${baseName}2'
   location: location
-  sku: {
+  sku: { 
     name: 'Standard_LRS'
   }
   kind: 'StorageV2'
@@ -151,7 +151,7 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
     httpsOnly: true
     keyVaultReferenceIdentity: 'SystemAssigned'
     siteConfig: {
-      linuxFxVersion: 'NODE|18'
+      linuxFxVersion: 'NODE|18-lts'
       http20Enabled: true
       minTlsVersion: '1.2'
       appSettings: [
@@ -231,6 +231,10 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
         {
           name: 'FUNCTIONS_WORKER_RUNTIME'
           value: 'node'
+        }
+        {
+          name: 'DOCKER_CUSTOM_IMAGE_NAME'
+          value: 'mcr.microsoft.com/azure-functions/node:4-node18-appservice-stage3'
         }
       ]
     }
@@ -314,6 +318,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
 }
 
 output IDENTITY_WEBAPP_NAME string = web.name
+output IDENTITY_WEBAPP_PLAN string = farm.name
 output IDENTITY_USER_DEFINED_IDENTITY string = userAssignedIdentity.id
 output IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID string = userAssignedIdentity.properties.clientId
 output IDENTITY_USER_DEFINED_IDENTITY_NAME string = userAssignedIdentity.name

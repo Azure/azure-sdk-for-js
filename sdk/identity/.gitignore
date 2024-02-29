@@ -1,2 +1,4 @@
 sshKey
 sshKey.pub
+identity/integration/AzureFunctions/app.zip
+identity/integration/AzureWebApps/.azure/
