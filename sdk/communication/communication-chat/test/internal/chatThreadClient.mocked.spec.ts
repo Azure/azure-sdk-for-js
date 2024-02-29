@@ -658,7 +658,7 @@ describe("[Mocked] ChatThreadClient", async function () {
     );
 
     assert.equal(request.method, "POST");
-    assert.deepEqual(request.body, imageBody);
+    assert.deepEqual(request.body, imageArrayBuff);
   });
 
   it("makes successful delete image request", async function () {

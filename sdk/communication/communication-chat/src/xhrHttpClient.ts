@@ -18,9 +18,19 @@ function isNodeReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 /**
- * Checks if the body is a ReadableStream supported by browsers
+ * Checks if the body is a Blob or Blob-like
+ * @internal
  */
-function isReadableStream(body: unknown): body is ReadableStream {
+export function isBlob(body: unknown): body is Blob {
+  // File objects count as a type of Blob, so we want to use instanceof explicitly
+  return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
+}
+
+/**
+ * Checks if the body is a ReadableStream supported by browsers
+ * @internal
+ */
+export function isReadableStream(body: unknown): body is ReadableStream {
   return Boolean(
     body &&
       typeof (body as ReadableStream).getReader === "function" &&

@@ -67,7 +67,11 @@ import {
   ChatThreadDeleteChatImageOptionalParams,
 } from "./generated/src";
 import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { createXhrHttpClient } from "./xhrHttpClient";
+import {
+  createXhrHttpClient,
+  isReadableStream,
+  isBlob,
+} from "./xhrHttpClient";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
 
@@ -647,29 +651,26 @@ export class ChatThreadClient {
         let result: UploadChatImageResult;
         if (
           this.xhrClient && // is browser
-          ((!this.supportsReadableStream() && this.isReadableStream(image)) || // is readable stream but no support, need to convert
-            !this.isReadableStream(image))
+          ((!this.supportsReadableStream() && isReadableStream(image)) || // is readable stream but no support, need to convert
+            !isReadableStream(image))
         ) {
           // use xhrClient if (to support onUploadProgress)
           // - is readable stream but no support => convert to ArrayBuffer (so will have content-length)
           // - is not readable stream
-          console.log("using xhrClient");
           result = await this.xhrClient.chatThread.uploadChatImage(
             this.threadId,
-            this.isReadableStream(image)
+            isReadableStream(image)
               ? await this.getArrayBufferFromReadableStream(image)
               : image,
             { imageFilename, ...updatedOptions },
           );
         } else {
           // backend (node fetch client) or readable readable stream
-          console.log("using default client");
-
           // Backend (no browser) need to convert Blob/ReadableStream to ArrayBuffer
           let chatImageFile = image;
-          if (this.isBlob(image)) {
+          if (isBlob(image)) {
             chatImageFile = await this.getArrayBufferFromBlob(image);
-          } else if (this.isReadableStream(image)) {
+          } else if (isReadableStream(image)) {
             chatImageFile = await this.getArrayBufferFromReadableStream(image);
           }
           result = await this.client.chatThread.uploadChatImage(
@@ -716,32 +717,11 @@ export class ChatThreadClient {
   private async getArrayBufferFromReadableStream(
     body: ReadableStream<Uint8Array>,
   ): Promise<ArrayBuffer> {
-    console.log("getArrayBufferFromReadableStream");
     const arrayBuffer = await new Response(body).arrayBuffer();
     return new Uint8Array(arrayBuffer);
   }
 
   private async getArrayBufferFromBlob(body: Blob): Promise<ArrayBuffer> {
-    console.log("getArrayBufferFromBlob");
     return new Uint8Array(await body.arrayBuffer());
-  }
-
-  /**
-   * Checks if the body is a ReadableStream supported by browsers
-   */
-  private isReadableStream(body: unknown): body is ReadableStream {
-    return Boolean(
-      body &&
-        typeof (body as ReadableStream).getReader === "function" &&
-        typeof (body as ReadableStream).tee === "function",
-    );
-  }
-
-  /**
-   * Checks if the body is a Blob or Blob-like
-   */
-  private isBlob(body: unknown): body is Blob {
-    // File objects count as a type of Blob, so we want to use instanceof explicitly
-    return (typeof Blob === "function" || typeof Blob === "object") && body instanceof Blob;
   }
 }
