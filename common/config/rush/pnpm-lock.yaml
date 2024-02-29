@@ -8513,7 +8513,6 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
-    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -16906,7 +16905,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-7IO9bMvkZu7j4FAeYanxnxzpDtwgopz9kqI5/OpEFeaZF2g/Cr+bRSo+PZoRs3Vobc2nmjGOb6fPB+f2Ej7cAQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-lUO5FclctX19VVQ2hjcS9wBbwCjkgS2ruhc/e4slK88hBm6oSsdR5ZFGSGXlIVUaFfoMiDqZkN2DvDeKeIsz8w==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -16918,9 +16917,11 @@ packages:
       '@types/node': 18.19.18
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3

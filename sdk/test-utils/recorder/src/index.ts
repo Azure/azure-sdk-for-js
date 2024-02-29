@@ -17,7 +17,7 @@ export {
   StringSanitizer,
   HeaderSanitizer,
   ConnectionStringSanitizer,
-  RemoveHeaderSanitizer
+  RemoveHeaderSanitizer,
 } from "./utils/utils.js";
 export { env } from "./utils/env.js";
 export { delay } from "./utils/delay.js";
