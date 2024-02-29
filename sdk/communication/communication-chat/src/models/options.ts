@@ -156,6 +156,11 @@ export interface UploadImageOptions extends OperationOptions {
 }
 
 /**
+ * Options to upload a chat image stream.
+ */
+export type UploadImageStreamOptions = OperationOptions;
+
+/**
  * Options to delete a chat image.
  */
 export type DeleteImageOptions = OperationOptions;

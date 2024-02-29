@@ -51,6 +51,7 @@ import {
   UpdateChatThreadPropertiesOptions,
   DeleteImageOptions,
   UploadImageOptions,
+  UploadImageStreamOptions,
 } from "./models/options";
 import {
   ChatApiClient,
@@ -612,19 +613,19 @@ export class ChatThreadClient {
   ): Promise<UploadChatImageResult>;
 
    /**
-   * Uploads stream, an chat image to a thread identified by threadId.
+   * Uploads an chat image stream to a thread identified by threadId.
    * Allowed image types "jpg", "png", "gif", "heic", "webp".
    * Returns the id of the uploaded image.
    * @param image - Request for uploading an image.
    * @param imageFileName - The image's file name with file extension.
-   * @param imageBytesLength - The image's file length in bytes..
+   * @param imageBytesLength - The image's file length in bytes.
    * @param options - Operation options.
    */
   public async uploadImage(
     image: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     imageFileName: string,
     imageBytesLength: number,
-    options?: UploadImageOptions,
+    options?: UploadImageStreamOptions,
   ): Promise<UploadChatImageResult>;
 
   
@@ -632,15 +633,15 @@ export class ChatThreadClient {
     image: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     imageFilename: string,
     imageBytesLengthOrOptions?: number | UploadImageOptions,
-    options: UploadImageOptions = {},
+    options: UploadImageStreamOptions = {},
   ): Promise<UploadChatImageResult> {
 
-    let uploadImageOptions = options;
+    let uploadImageOptions = {};
     if (imageBytesLengthOrOptions !== undefined) {
       if (typeof(imageBytesLengthOrOptions) === 'number') {
-        uploadImageOptions = { ...uploadImageOptions, imageBytesLength: imageBytesLengthOrOptions }
+        uploadImageOptions = { ...options, imageBytesLength: imageBytesLengthOrOptions }
       } else {
-        uploadImageOptions = { ...uploadImageOptions, ...imageBytesLengthOrOptions }
+        uploadImageOptions = { ...options, ...imageBytesLengthOrOptions }
       }
     };
     
