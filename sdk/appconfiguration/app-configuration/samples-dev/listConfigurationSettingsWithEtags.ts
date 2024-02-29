@@ -32,18 +32,16 @@ export async function main() {
     }),
   }
 
-  console.log("Get the current page Etags")
-  let pageCount = 0;
+  console.log("Get the current page Etags into a list")
   let iterator = client.listConfigurationSettings({ keyFilter: key }).byPage();
   const etags: string[] = [];
   for await (const page of iterator) {
-    assert.isDefined(page.etag);
-    pageCount++;
+    console.log(`  The current page etag is ${page.etag}`)
     etags.push(page.etag ?? "");
   }
 
   // This number is arbitrarily chosen to add new setting to the 3rd page
-  console.log("Creating the 3rd page of setting")
+  console.log("Add additional etags to create a 3rd page")
   const additionalNumberOfLabels = 50; 
   for (let i = expectedNumberOfLabels; i < expectedNumberOfLabels + additionalNumberOfLabels; i++) {
     client.addConfigurationSetting({
@@ -63,10 +61,9 @@ export async function main() {
       console.log("No updates for this page");
     } else if (statusCode === 200) {
       console.log("Updates available for this page");
-      console.log(`  page: ${JSON.stringify(page)}`);
+      console.log(`  The new page etag is ${page.etag}`)
     }
   }
-
 
   for (let i = 0; i < expectedNumberOfLabels + additionalNumberOfLabels; i++) {
     await client.deleteConfigurationSetting({ key, label: i.toString() });
