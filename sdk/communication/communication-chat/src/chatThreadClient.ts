@@ -625,6 +625,7 @@ export class ChatThreadClient {
     image: ReadableStream<Uint8Array> | NodeJS.ReadableStream,
     imageFileName: string,
     imageBytesLength: number,
+    // eslint-disable-next-line
     options?: UploadImageStreamOptions,
   ): Promise<UploadChatImageResult>;
 
