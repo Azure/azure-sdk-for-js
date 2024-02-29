@@ -16,7 +16,7 @@ import {
   WebApplicationFirewallPoliciesGetResponse,
   WebApplicationFirewallPoliciesCreateOrUpdateOptionalParams,
   WebApplicationFirewallPoliciesCreateOrUpdateResponse,
-  WebApplicationFirewallPoliciesDeleteOptionalParams
+  WebApplicationFirewallPoliciesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,14 +29,14 @@ export interface WebApplicationFirewallPolicies {
    */
   list(
     resourceGroupName: string,
-    options?: WebApplicationFirewallPoliciesListOptionalParams
+    options?: WebApplicationFirewallPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
    * Gets all the WAF policies in a subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: WebApplicationFirewallPoliciesListAllOptionalParams
+    options?: WebApplicationFirewallPoliciesListAllOptionalParams,
   ): PagedAsyncIterableIterator<WebApplicationFirewallPolicy>;
   /**
    * Retrieve protection policy with specified name within a resource group.
@@ -47,7 +47,7 @@ export interface WebApplicationFirewallPolicies {
   get(
     resourceGroupName: string,
     policyName: string,
-    options?: WebApplicationFirewallPoliciesGetOptionalParams
+    options?: WebApplicationFirewallPoliciesGetOptionalParams,
   ): Promise<WebApplicationFirewallPoliciesGetResponse>;
   /**
    * Creates or update policy with specified rule set name within a resource group.
@@ -60,7 +60,7 @@ export interface WebApplicationFirewallPolicies {
     resourceGroupName: string,
     policyName: string,
     parameters: WebApplicationFirewallPolicy,
-    options?: WebApplicationFirewallPoliciesCreateOrUpdateOptionalParams
+    options?: WebApplicationFirewallPoliciesCreateOrUpdateOptionalParams,
   ): Promise<WebApplicationFirewallPoliciesCreateOrUpdateResponse>;
   /**
    * Deletes Policy.
@@ -71,7 +71,7 @@ export interface WebApplicationFirewallPolicies {
   beginDelete(
     resourceGroupName: string,
     policyName: string,
-    options?: WebApplicationFirewallPoliciesDeleteOptionalParams
+    options?: WebApplicationFirewallPoliciesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes Policy.
@@ -82,6 +82,6 @@ export interface WebApplicationFirewallPolicies {
   beginDeleteAndWait(
     resourceGroupName: string,
     policyName: string,
-    options?: WebApplicationFirewallPoliciesDeleteOptionalParams
+    options?: WebApplicationFirewallPoliciesDeleteOptionalParams,
   ): Promise<void>;
 }

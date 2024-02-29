@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetworkManagementClient.",
-  "version": "33.0.1",
+  "version": "33.1.0",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -35,7 +35,7 @@
     "rimraf": "^5.0.0",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^3.3.0",
+    "@azure/identity": "^4.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure-tools/test-credential": "^1.0.0",
     "mocha": "^10.0.0",
@@ -78,7 +78,6 @@
     "pack": "npm pack 2>&1",
     "extract-api": "api-extractor run --local",
     "lint": "echo skipped",
-    "audit": "echo skipped",
     "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",

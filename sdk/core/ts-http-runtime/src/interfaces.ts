@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike";
-import { OperationTracingOptions } from "./tracing/interfaces";
+import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import { OperationTracingOptions } from "./tracing/interfaces.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.

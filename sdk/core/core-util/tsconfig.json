@@ -1,9 +1,13 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest",
-    "verbatimModuleSyntax": true,
+    "paths": {
+      "@azure/core-util": ["./src/index.ts"]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts"],
+  "exclude": ["./samples/**/*.ts"],
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
 }

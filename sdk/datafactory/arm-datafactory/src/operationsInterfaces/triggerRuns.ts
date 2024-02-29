@@ -11,7 +11,7 @@ import {
   TriggerRunsCancelOptionalParams,
   RunFilterParameters,
   TriggerRunsQueryByFactoryOptionalParams,
-  TriggerRunsQueryByFactoryResponse
+  TriggerRunsQueryByFactoryResponse,
 } from "../models";
 
 /** Interface representing a TriggerRuns. */
@@ -29,7 +29,7 @@ export interface TriggerRuns {
     factoryName: string,
     triggerName: string,
     runId: string,
-    options?: TriggerRunsRerunOptionalParams
+    options?: TriggerRunsRerunOptionalParams,
   ): Promise<void>;
   /**
    * Cancel a single trigger instance by runId.
@@ -44,7 +44,7 @@ export interface TriggerRuns {
     factoryName: string,
     triggerName: string,
     runId: string,
-    options?: TriggerRunsCancelOptionalParams
+    options?: TriggerRunsCancelOptionalParams,
   ): Promise<void>;
   /**
    * Query trigger runs.
@@ -57,6 +57,6 @@ export interface TriggerRuns {
     resourceGroupName: string,
     factoryName: string,
     filterParameters: RunFilterParameters,
-    options?: TriggerRunsQueryByFactoryOptionalParams
+    options?: TriggerRunsQueryByFactoryOptionalParams,
   ): Promise<TriggerRunsQueryByFactoryResponse>;
 }
