@@ -7321,6 +7321,12 @@ packages:
       get-func-name: 2.0.2
     dev: false
 
+  /loupe@3.1.0:
+    resolution: {integrity: sha512-qKl+FrLXUhFuHUoDJG7f8P8gEMHq9NFS0c6ghXG1J0rldmZFQZoNVv/vyirE9qwCIhWZDsvEFd1sbFu3GvRQFg==}
+    dependencies:
+      get-func-name: 2.0.2
+    dev: false
+
   /lru-cache@10.2.0:
     resolution: {integrity: sha512-2bIM8x+VAf6JT4bKAljS1qUWgMsqZRPGJS6FSahIMPVvctcNhyVp7AJu7quxOW9jwkryBReKZY5tY5JYv2n/7Q==}
     engines: {node: 14 || >=16.14}
@@ -8507,6 +8513,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -22070,10 +22077,11 @@ packages:
     dev: false
 
   file:projects/test-recorder.tgz:
-    resolution: {integrity: sha512-gvoghqhx8xZzNQleNhlAPUVWypgpyDNdfFgAlQQFvyJFX4GhSb30kzBRiiGVR/ycU0bM2KaSBVJGZZz1/aOxBw==, tarball: file:projects/test-recorder.tgz}
+    resolution: {integrity: sha512-YXUBlvnIMdTJCoP2kyuRUz/C5/j8PqsO5F2HI0WIBy3v0j4gbJ14XqioHFrs8pxFA4ClMcQuKIAA4l8IrhUKXA==, tarball: file:projects/test-recorder.tgz}
     name: '@rush-temp/test-recorder'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@types/chai': 4.3.12
       '@types/express': 4.17.21
       '@types/fs-extra': 8.1.5
@@ -22097,8 +22105,11 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
+      loupe: 3.1.0
       mocha: 10.3.0
-      rimraf: 3.0.2
+      playwright: 1.41.2
+      prettier: 3.2.5
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tshy: 1.11.1
       tslib: 2.6.2
@@ -22115,7 +22126,6 @@ packages:
       - jsdom
       - less
       - lightningcss
-      - playwright
       - safaridriver
       - sass
       - stylus
