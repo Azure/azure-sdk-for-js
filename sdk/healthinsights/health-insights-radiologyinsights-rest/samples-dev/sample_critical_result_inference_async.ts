@@ -128,7 +128,6 @@ function createRequestBody(): CreateJobParameters {
     orderedProceduresAsCsv: "US PELVIS COMPLETE"
   };
 
-
   const patientData = {
     id: "Samantha Jones",
     info: patientInfo,
