@@ -30,7 +30,7 @@ describe("MsalClient", function () {
     it("supports getTokenByClientSecret", async function () {
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
-      const clientId = env.IDENTITY_SPI_CLIENT_ID || env.AZURE_CLIENT_ID!;
+      const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
       const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
