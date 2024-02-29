@@ -7,9 +7,11 @@
 /// <reference types="node" />
 
 import { AbortSignalLike } from '@azure/abort-controller';
+import { FormDataValue } from '@azure/core-rest-pipeline';
 import { HttpClient } from '@azure/core-rest-pipeline';
 import { KeyCredential } from '@azure/core-auth';
 import { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import { MultipartRequestBody } from '@azure/core-rest-pipeline';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { PipelineOptions } from '@azure/core-rest-pipeline';
@@ -79,6 +81,12 @@ export interface ErrorModel {
 export interface ErrorResponse {
     error: ErrorModel;
 }
+
+// @public (undocumented)
+export type ExtendedFormDataMap = Record<string, ExtendedFormDataValue | ExtendedFormDataValue[]>;
+
+// @public (undocumented)
+export type ExtendedFormDataValue = FormDataValue | Uint8Array;
 
 // @public
 export interface FullOperationResponse extends PipelineResponse {
@@ -157,21 +165,26 @@ export type PathUncheckedResponse = HttpResponse & {
 export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 // @public
-export type RequestParameters = {
-    headers?: RawHttpHeadersInput;
-    accept?: string;
+export type RequestParameters = RequestParametersWithGenericBody | RequestParametersWithFormDataBody | RequestParametersWithMultipartBody;
+
+// Warning: (ae-forgotten-export) The symbol "RequestParametersCommon" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export type RequestParametersWithFormDataBody = RequestParametersCommon & {
+    bodyKind: "formData";
+    body: ExtendedFormDataMap;
+};
+
+// @public (undocumented)
+export type RequestParametersWithGenericBody = RequestParametersCommon & {
+    bodyKind?: undefined;
     body?: unknown;
-    queryParameters?: Record<string, unknown>;
-    contentType?: string;
-    allowInsecureConnection?: boolean;
-    skipUrlEncoding?: boolean;
-    pathParameters?: Record<string, any>;
-    timeout?: number;
-    onUploadProgress?: (progress: TransferProgressEvent) => void;
-    onDownloadProgress?: (progress: TransferProgressEvent) => void;
-    abortSignal?: AbortSignalLike;
-    tracingOptions?: OperationTracingOptions;
-    onResponse?: RawResponseCallback;
+};
+
+// @public (undocumented)
+export type RequestParametersWithMultipartBody = RequestParametersCommon & {
+    bodyKind: "multipart";
+    body: MultipartRequestBody;
 };
 
 // @public
