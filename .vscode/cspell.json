@@ -149,6 +149,7 @@
     "usgovarizona",
     "usgovtexas",
     "usgovvirginia",
+    "vectorizer",
     "westus"
   ],
   "allowCompoundWords": true,
