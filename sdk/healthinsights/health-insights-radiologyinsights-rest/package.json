@@ -28,7 +28,9 @@
     "LICENSE",
     "review/*"
   ],
-  "engines": { "node": ">=18.0.0" },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
@@ -103,7 +105,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/README.md",
   "//metadata": {
     "constantPaths": [
-      { "path": "src/azureHealthInsightsClient.ts", "prefix": "userAgentInfo" }
+      {
+        "path": "src/azureHealthInsightsClient.ts",
+        "prefix": "userAgentInfo"
+      }
     ]
   },
   "browser": {
@@ -111,7 +116,9 @@
   },
   "//sampleConfiguration": {
     "productName": "HealthInsightsRadiologyInsights",
-    "productSlugs": ["azure"],
+    "productSlugs": [
+      "azure"
+    ],
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api"
   }
