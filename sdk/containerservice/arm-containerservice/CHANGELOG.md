@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 19.8.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 19.8.0-beta.1 (2024-02-05)
     
 **Features**
