@@ -151,10 +151,8 @@ export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
  * Options to upload a chat image.
  */
 export interface UploadImageOptions extends OperationOptions {
-  /** The file name of the image with file extension. */
-  imageFilename: string;
   /** Image blob size in bytes. */
-  imageBytes?: number;
+  imageBytesLength?: number;
 }
 
 /**

@@ -14,7 +14,6 @@ import {
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
-  UploadImageOptions,
 } from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
@@ -643,11 +642,9 @@ describe("[Mocked] ChatThreadClient", async function () {
 
     const imageBody = new TextEncoder().encode("someImageBase64EncodedBytes");
 
-    const sendOptions: UploadImageOptions = {
-      imageFilename: mockImageAttachment.name ?? "image.png",
-    };
+    const imageFilename = mockImageAttachment.name ?? "image.png";
 
-    const response = await chatThreadClient.uploadImage(imageBody, sendOptions);
+    const response = await chatThreadClient.uploadImage(imageBody, imageFilename);
 
     sinon.assert.calledOnce(spy);
     assert.equal(response.id, mockImageAttachment.id);

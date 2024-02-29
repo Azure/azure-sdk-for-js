@@ -169,7 +169,8 @@ export class ChatThreadClient {
     updateMessage(messageId: string, options?: UpdateMessageOptions): Promise<void>;
     updateProperties(options?: UpdateChatThreadPropertiesOptions): Promise<void>;
     updateTopic(topic: string, options?: UpdateTopicOptions): Promise<void>;
-    uploadImage(request: ArrayBuffer | Blob | ReadableStream<Uint8Array> | NodeJS.ReadableStream, options: UploadImageOptions): Promise<UploadChatImageResult>;
+    uploadImage(image: ArrayBuffer | Blob, imageFilename: string, options?: UploadImageOptions): Promise<UploadChatImageResult>;
+    uploadImage(image: ReadableStream<Uint8Array> | NodeJS.ReadableStream, imageFileName: string, imageBytesLength: number, options?: UploadImageOptions): Promise<UploadChatImageResult>;
 }
 
 // @public
@@ -351,8 +352,7 @@ export interface UploadChatImageResult {
 
 // @public
 export interface UploadImageOptions extends OperationOptions {
-    imageBytes?: number;
-    imageFilename: string;
+    imageBytesLength?: number;
 }
 
 // (No @packageDocumentation comment for this package)
