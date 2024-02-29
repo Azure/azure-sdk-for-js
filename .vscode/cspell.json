@@ -390,12 +390,8 @@
       "words": ["Abgr", "Argb", "Bgra", "Grpc", "Onvif", "abgr", "argb", "bgra", "onvif"]
     },
     {
-      "filename": "sdk/web-pubsub/web-pubsub-client-protobuf/review/web-pubsub-client-protobuf.api.md",
-      "words": ["protobuf"]
-    },
-    {
-      "filename": "sdk/web-pubsub/web-pubsub-client/review/web-pubsub-client.api.md",
-      "words": ["protobuf"]
+      "filename": "sdk/notificationhubs/notification-hubs/review/notification-hubs.api.md",
+      "words": ["fcmv"]
     }
   ]
 }
