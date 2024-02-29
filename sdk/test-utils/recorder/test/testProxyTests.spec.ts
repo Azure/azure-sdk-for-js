@@ -3,7 +3,7 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import assert from "node:assert";
+import { assert } from "vitest";
 import { expect } from "chai";
 import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
 import { isLiveMode, TestMode } from "../src/utils/utils.js";

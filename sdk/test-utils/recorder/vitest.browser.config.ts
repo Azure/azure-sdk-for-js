@@ -3,6 +3,11 @@
 
 import { defineConfig } from "vitest/config";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
+import { relativeRecordingsPath } from "./src";
+import { config } from "dotenv";
+config();
+
+process.env.RECORDINGS_RELATIVE_PATH = relativeRecordingsPath();
 
 export default defineConfig({
   define: {
