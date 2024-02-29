@@ -640,11 +640,12 @@ describe("[Mocked] ChatThreadClient", async function () {
     chatThreadClient = createChatThreadClient(threadId, mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
-    const imageBody = new TextEncoder().encode("someImageBase64EncodedBytes");
+    const imageArrayBuff = new TextEncoder().encode("someImageBase64EncodedBytes");
+    const imageBlob = new Blob([new Uint8Array(imageArrayBuff, 0, imageArrayBuff.length)]);
 
     const imageFilename = mockImageAttachment.name ?? "image.png";
 
-    const response = await chatThreadClient.uploadImage(imageBody, imageFilename);
+    const response = await chatThreadClient.uploadImage(imageBlob.stream(), imageFilename, imageArrayBuff.length);
 
     sinon.assert.calledOnce(spy);
     assert.equal(response.id, mockImageAttachment.id);
