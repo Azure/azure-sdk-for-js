@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Express Route Circuit Connection from the specified express route circuit.
  *
  * @summary Gets the specified Express Route Circuit Connection from the specified express route circuit.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRouteCircuitConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRouteCircuitConnectionGet.json
  */
 async function expressRouteCircuitConnectionGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid1";
@@ -32,7 +32,7 @@ async function expressRouteCircuitConnectionGet() {
     resourceGroupName,
     circuitName,
     peeringName,
-    connectionName
+    connectionName,
   );
   console.log(result);
 }

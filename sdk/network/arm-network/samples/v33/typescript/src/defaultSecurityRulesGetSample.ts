@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the specified default network security rule.
  *
  * @summary Get the specified default network security rule.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DefaultSecurityRuleGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/DefaultSecurityRuleGet.json
  */
 async function defaultSecurityRuleGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function defaultSecurityRuleGet() {
   const result = await client.defaultSecurityRules.get(
     resourceGroupName,
     networkSecurityGroupName,
-    defaultSecurityRuleName
+    defaultSecurityRuleName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an IpAllocation in the specified resource group.
  *
  * @summary Creates or updates an IpAllocation in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/IpAllocationCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/IpAllocationCreate.json
  */
 async function createIPAllocation() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,17 +28,17 @@ async function createIPAllocation() {
     typePropertiesType: "Hypernet",
     allocationTags: {
       vNetID:
-        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1"
+        "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
     },
     location: "centraluseuap",
-    prefix: "3.2.5.0/24"
+    prefix: "3.2.5.0/24",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.ipAllocations.beginCreateOrUpdateAndWait(
     resourceGroupName,
     ipAllocationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -20,13 +20,14 @@ import {
   ExpressRoutePortsLocationsListResponse,
   ExpressRoutePortsLocationsGetOptionalParams,
   ExpressRoutePortsLocationsGetResponse,
-  ExpressRoutePortsLocationsListNextResponse
+  ExpressRoutePortsLocationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ExpressRoutePortsLocations operations. */
 export class ExpressRoutePortsLocationsImpl
-  implements ExpressRoutePortsLocations {
+  implements ExpressRoutePortsLocations
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -43,7 +44,7 @@ export class ExpressRoutePortsLocationsImpl
    * @param options The options parameters.
    */
   public list(
-    options?: ExpressRoutePortsLocationsListOptionalParams
+    options?: ExpressRoutePortsLocationsListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRoutePortsLocation> {
     const iter = this.listPagingAll(options);
     return {
@@ -58,13 +59,13 @@ export class ExpressRoutePortsLocationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: ExpressRoutePortsLocationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExpressRoutePortsLocation[]> {
     let result: ExpressRoutePortsLocationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +86,7 @@ export class ExpressRoutePortsLocationsImpl
   }
 
   private async *listPagingAll(
-    options?: ExpressRoutePortsLocationsListOptionalParams
+    options?: ExpressRoutePortsLocationsListOptionalParams,
   ): AsyncIterableIterator<ExpressRoutePortsLocation> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -98,7 +99,7 @@ export class ExpressRoutePortsLocationsImpl
    * @param options The options parameters.
    */
   private _list(
-    options?: ExpressRoutePortsLocationsListOptionalParams
+    options?: ExpressRoutePortsLocationsListOptionalParams,
   ): Promise<ExpressRoutePortsLocationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -111,11 +112,11 @@ export class ExpressRoutePortsLocationsImpl
    */
   get(
     locationName: string,
-    options?: ExpressRoutePortsLocationsGetOptionalParams
+    options?: ExpressRoutePortsLocationsGetOptionalParams,
   ): Promise<ExpressRoutePortsLocationsGetResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -126,11 +127,11 @@ export class ExpressRoutePortsLocationsImpl
    */
   private _listNext(
     nextLink: string,
-    options?: ExpressRoutePortsLocationsListNextOptionalParams
+    options?: ExpressRoutePortsLocationsListNextOptionalParams,
   ): Promise<ExpressRoutePortsLocationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -138,59 +139,57 @@ export class ExpressRoutePortsLocationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRoutePortsLocationListResult
+      bodyMapper: Mappers.ExpressRoutePortsLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/ExpressRoutePortsLocations/{locationName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRoutePortsLocation
+      bodyMapper: Mappers.ExpressRoutePortsLocation,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpressRoutePortsLocationListResult
+      bodyMapper: Mappers.ExpressRoutePortsLocationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
