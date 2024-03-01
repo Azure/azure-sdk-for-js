@@ -219,6 +219,17 @@ export interface AtlasClassificationsOutput {
   totalCount?: number;
 }
 
+/** Business metadata to send to the service */
+export interface BusinessMetadataOptionsOutput {
+  /**
+   * InputStream of file
+   *
+   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
+   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
+   */
+  file: Uint8Array;
+}
+
 /** Bulk import result */
 export interface BulkImportResultOutput {
   /** failed importInfoList */
