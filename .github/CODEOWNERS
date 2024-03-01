@@ -480,6 +480,9 @@
 /sdk/eventgrid/arm-eventgrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/edgemarketplace/arm-edgemarketplace/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/eventhub/arm-eventhub/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
