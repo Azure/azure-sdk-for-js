@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update ExpressRoutePort tags.
  *
  * @summary Update ExpressRoutePort tags.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/ExpressRoutePortUpdateTags.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/ExpressRoutePortUpdateTags.json
  */
 async function expressRoutePortUpdateTags() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function expressRoutePortUpdateTags() {
   const result = await client.expressRoutePorts.updateTags(
     resourceGroupName,
     expressRoutePortName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

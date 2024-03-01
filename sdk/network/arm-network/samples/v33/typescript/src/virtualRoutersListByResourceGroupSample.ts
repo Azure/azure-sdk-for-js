@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Virtual Routers in a resource group.
  *
  * @summary Lists all Virtual Routers in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualRouterListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualRouterListByResourceGroup.json
  */
 async function listAllVirtualRouterForAGivenResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,7 +27,7 @@ async function listAllVirtualRouterForAGivenResourceGroup() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.virtualRouters.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

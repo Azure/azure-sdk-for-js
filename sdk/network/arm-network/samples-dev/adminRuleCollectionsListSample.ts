@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all the rule collections in a security admin configuration, in a paginated format.
  *
  * @summary Lists all the rule collections in a security admin configuration, in a paginated format.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerAdminRuleCollectionList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerAdminRuleCollectionList.json
  */
 async function listSecurityAdminRuleCollections() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function listSecurityAdminRuleCollections() {
   for await (let item of client.adminRuleCollections.list(
     resourceGroupName,
     networkManagerName,
-    configurationName
+    configurationName,
   )) {
     resArray.push(item);
   }

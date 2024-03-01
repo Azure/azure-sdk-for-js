@@ -20,7 +20,7 @@ import {
   ExpressRouteGatewaysUpdateTagsResponse,
   ExpressRouteGatewaysGetOptionalParams,
   ExpressRouteGatewaysGetResponse,
-  ExpressRouteGatewaysDeleteOptionalParams
+  ExpressRouteGatewaysDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ExpressRouteGateways. */
@@ -30,7 +30,7 @@ export interface ExpressRouteGateways {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ExpressRouteGatewaysListBySubscriptionOptionalParams
+    options?: ExpressRouteGatewaysListBySubscriptionOptionalParams,
   ): Promise<ExpressRouteGatewaysListBySubscriptionResponse>;
   /**
    * Lists ExpressRoute gateways in a given resource group.
@@ -39,7 +39,7 @@ export interface ExpressRouteGateways {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ExpressRouteGatewaysListByResourceGroupOptionalParams
+    options?: ExpressRouteGatewaysListByResourceGroupOptionalParams,
   ): Promise<ExpressRouteGatewaysListByResourceGroupResponse>;
   /**
    * Creates or updates a ExpressRoute gateway in a specified resource group.
@@ -53,7 +53,7 @@ export interface ExpressRouteGateways {
     resourceGroupName: string,
     expressRouteGatewayName: string,
     putExpressRouteGatewayParameters: ExpressRouteGateway,
-    options?: ExpressRouteGatewaysCreateOrUpdateOptionalParams
+    options?: ExpressRouteGatewaysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExpressRouteGatewaysCreateOrUpdateResponse>,
@@ -72,7 +72,7 @@ export interface ExpressRouteGateways {
     resourceGroupName: string,
     expressRouteGatewayName: string,
     putExpressRouteGatewayParameters: ExpressRouteGateway,
-    options?: ExpressRouteGatewaysCreateOrUpdateOptionalParams
+    options?: ExpressRouteGatewaysCreateOrUpdateOptionalParams,
   ): Promise<ExpressRouteGatewaysCreateOrUpdateResponse>;
   /**
    * Updates express route gateway tags.
@@ -86,7 +86,7 @@ export interface ExpressRouteGateways {
     resourceGroupName: string,
     expressRouteGatewayName: string,
     expressRouteGatewayParameters: TagsObject,
-    options?: ExpressRouteGatewaysUpdateTagsOptionalParams
+    options?: ExpressRouteGatewaysUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ExpressRouteGatewaysUpdateTagsResponse>,
@@ -105,7 +105,7 @@ export interface ExpressRouteGateways {
     resourceGroupName: string,
     expressRouteGatewayName: string,
     expressRouteGatewayParameters: TagsObject,
-    options?: ExpressRouteGatewaysUpdateTagsOptionalParams
+    options?: ExpressRouteGatewaysUpdateTagsOptionalParams,
   ): Promise<ExpressRouteGatewaysUpdateTagsResponse>;
   /**
    * Fetches the details of a ExpressRoute gateway in a resource group.
@@ -116,7 +116,7 @@ export interface ExpressRouteGateways {
   get(
     resourceGroupName: string,
     expressRouteGatewayName: string,
-    options?: ExpressRouteGatewaysGetOptionalParams
+    options?: ExpressRouteGatewaysGetOptionalParams,
   ): Promise<ExpressRouteGatewaysGetResponse>;
   /**
    * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can
@@ -128,7 +128,7 @@ export interface ExpressRouteGateways {
   beginDelete(
     resourceGroupName: string,
     expressRouteGatewayName: string,
-    options?: ExpressRouteGatewaysDeleteOptionalParams
+    options?: ExpressRouteGatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified ExpressRoute gateway in a resource group. An ExpressRoute gateway resource can
@@ -140,6 +140,6 @@ export interface ExpressRouteGateways {
   beginDeleteAndWait(
     resourceGroupName: string,
     expressRouteGatewayName: string,
-    options?: ExpressRouteGatewaysDeleteOptionalParams
+    options?: ExpressRouteGatewaysDeleteOptionalParams,
   ): Promise<void>;
 }
