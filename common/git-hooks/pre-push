@@ -2,30 +2,22 @@
 
 const { execSync } = require("child_process");
 
-function getRemoteName() {
+function preparePrePushRemote() {
   try {
-    const remoteName = execSync(`git rev-parse --abbrev-ref --symbolic-full-name @{u}`, {
-      encoding: "utf-8",
-      stdio: ["pipe", "pipe", "pipe"],
-    })
-      .toString()
-      .trim()
-      .split("/");
-    return remoteName[0];
+    execSync("git remote add prepush https://github.com/Azure/azure-sdk-for-js.git");
   } catch (e) {
-    return "";
+    console.log("Remote 'prepush' already exists. No need to add it again. Continuing...");
   }
+  execSync("git fetch prepush");
 }
 
 function getLocalCommitsNotMerged() {
   // Fetch updates from the remote repository
   execSync("git fetch");
-
-  const remoteName = getRemoteName();
-  if (remoteName == "") return [];
+  preparePrePushRemote();
 
   // Get the list of commits not merged to the remote main branch
-  const localCommitsNotMerged = execSync(`git log ${remoteName}/main..HEAD --oneline`)
+  const localCommitsNotMerged = execSync(`git log prepush/main..HEAD --oneline`)
     .toString()
     .trim()
     .split("\n");
@@ -90,12 +82,15 @@ function executeScript(projectFolderPath, script) {
 async function execute(listOfModifiedProjects, check_script, fix_script) {
   const errors = [];
   listOfModifiedProjects.forEach((projectFolderPath) => {
-    const error = executeScript(projectFolderPath, check_script);
-    if (error !== "") {
-      errors.push({
-        project: projectFolderPath,
-        err: error,
-      });
+    if (projectFolderPath && projectFolderPath.trim() != "") {
+      console.log(`Checking the format for the project: ${projectFolderPath}`);
+      const error = executeScript(projectFolderPath, check_script);
+      if (error !== "") {
+        errors.push({
+          project: projectFolderPath,
+          err: error,
+        });
+      }
     }
   });
 
@@ -122,7 +117,7 @@ async function execute(listOfModifiedProjects, check_script, fix_script) {
   return false;
 }
 
-console.log("About to Push the code to Github\n");
+console.log("Preparing the pre-push script....\n");
 
 async function main() {
   const localCommits = getLocalCommitsNotMerged();
@@ -137,4 +132,4 @@ async function main() {
   }
 }
 
-// main();
+main();
