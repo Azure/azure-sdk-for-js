@@ -11,7 +11,7 @@
 import {
   VirtualMachineScaleSetVMInstanceRequiredIDs,
   VirtualMachineScaleSetsDeleteInstancesOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,19 +32,20 @@ async function virtualMachineScaleSetDeleteInstancesMaximumSetGen() {
   const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaa";
   const forceDeletion = true;
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const options: VirtualMachineScaleSetsDeleteInstancesOptionalParams = {
-    forceDeletion
+    forceDeletion,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs,
-    options
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+      options,
+    );
   console.log(result);
 }
 
@@ -61,15 +62,16 @@ async function virtualMachineScaleSetDeleteInstancesMinimumSetGen() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "rgcompute";
   const vmScaleSetName = "aaaaaaaaaaaaaaa";
   const vmInstanceIDs: VirtualMachineScaleSetVMInstanceRequiredIDs = {
-    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"]
+    instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmInstanceIDs
-  );
+  const result =
+    await client.virtualMachineScaleSets.beginDeleteInstancesAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmInstanceIDs,
+    );
   console.log(result);
 }
 

@@ -29,14 +29,14 @@ async function getASasOnASnapshot() {
   const grantAccessData: GrantAccessData = {
     access: "Read",
     durationInSeconds: 300,
-    fileFormat: "VHDX"
+    fileFormat: "VHDX",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.snapshots.beginGrantAccessAndWait(
     resourceGroupName,
     snapshotName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }

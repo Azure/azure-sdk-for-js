@@ -1200,6 +1200,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-compute@21.4.0:
+    resolution: {integrity: sha512-c0oZwFYkpf1klmI6yYDkpbWtJkTHKDFO602/M4lZARwqutu9mSdErGHZAK+re32rpS4uOuoq67TBwIzkWdPe6g==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-client': 1.8.0
+      '@azure/core-lro': 2.6.0
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.14.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-cosmosdb@16.0.0-beta.6:
     resolution: {integrity: sha512-Ue4ocP8qCsFDeBZ/MjMNyVt4e9QhU3UgrRfZSw6kWiMzdrCgDePnZvjzZs9PQpjAsXbHGd9HlEIXg9Dl6Y/uww==}
     engines: {node: '>=14.0.0'}
@@ -12190,7 +12205,7 @@ packages:
     dev: false
 
   file:projects/arm-compute-1.tgz:
-    resolution: {integrity: sha512-2pDKAUFh7gYxN+AxznwxTdgYakg6UZrlVhES6ckbX0YlQnf4DeDXa8Pa6HUMK9ubYaaVjuH8KQOLN/cJoeIDiA==, tarball: file:projects/arm-compute-1.tgz}
+    resolution: {integrity: sha512-PEjcZNwjOwpHlawotPzKKhYAq+GI/KCn6ssxxtUjWx83zos8R3+wk2FDOxpIRqYtsq1mJvPTHEcCLLPLXyfuIQ==, tarball: file:projects/arm-compute-1.tgz}
     name: '@rush-temp/arm-compute-1'
     version: 0.0.0
     dependencies:
@@ -13951,11 +13966,12 @@ packages:
     dev: false
 
   file:projects/arm-imagebuilder.tgz:
-    resolution: {integrity: sha512-jtoCXQudxlOMVFYekAyBSLImoRlpAvAFvXFEgBb/GVXscEzSeDsTd5VCUH1Zvrs8B9CTqy7U2nA0NaveCXa06A==, tarball: file:projects/arm-imagebuilder.tgz}
+    resolution: {integrity: sha512-bGIlc5cLG9GJhXFSz7GVJ2o6hZaVHQll52YMGpxzLUO9f/yJGayD8rgyWmrAo200prwUBcONRm+zDTCCeqo9wQ==, tarball: file:projects/arm-imagebuilder.tgz}
     name: '@rush-temp/arm-imagebuilder'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-compute': 21.4.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@types/chai': 4.3.12
@@ -19289,7 +19305,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-RFdIlHIdZI9Zh26wyT5eDW9DpjGuVaLV1soVgKF7Vy2hqtoJr302KYkhWs9NXcdkPOPiSIGOBsWni8XmhOAUTA==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-3yTUwwHHm7cLqyVBM7+0ib4KVQ3shK7ztMPmQXlPaYFy8iES/flshTkponZ1+NewX5vJOtqkpobW+XpKPn9xBA==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
