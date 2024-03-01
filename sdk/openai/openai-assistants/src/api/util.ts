@@ -118,5 +118,5 @@ function toSnakeCase<P extends string>(str: P): SnakeCase<P> {
 }
 
 export function unixToDate(unix: number): Date {
-  return new Date(unix * 1000)
+  return new Date(unix * 1000);
 }

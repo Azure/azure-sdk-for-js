@@ -781,13 +781,16 @@ export async function _updateRunDeserialize(result: UpdateRun200Response): Promi
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
       result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
       result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
     metadata: result.body["metadata"],
   };
 }
@@ -1164,13 +1167,16 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
       result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
       result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -1210,13 +1216,16 @@ export async function _submitToolOutputsToRunDeserialize(
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
       result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
       result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -1256,13 +1265,16 @@ export async function _createThreadAndRunDeserialize(
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
       result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
       result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -1299,13 +1311,16 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     createdAt: unixToDate(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
-    startedAt: result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
       result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
       result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
-    failedAt: result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
     metadata: result.body["metadata"],
   };
 }
