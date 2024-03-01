@@ -1,15 +1,17 @@
 # Release History
 
-## 1.6.0-beta.1 (2023-12-06)
+## 1.6.0-beta.1 (2024-04-11 )
 
 ### Features Added
 
 - Added Upload Image feature for TeamsInterops scenario
-  - New `uploadImage(...)` to upload an image
-  - New `deleteImage(...)` to delete an image
-  - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`
+  - New `uploadImage(...)` to upload an image.
+  - New `deleteImage(...)` to delete an image.
+  - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`.
 - Added Data Retention feature for threads
-  - Added `retentionPolicy` for chat thread properties
+  - New `RetentionPolicy` property in `ChatThreadProperties`.
+  - Updated `CreateChatThreadOptions` to include `retentionPolicy` and `metadata`.
+  - New `updateProperties(...)` to update `ChatThreadProperties` including `retentionPolicy`.
 
 ### Other Changes
 
