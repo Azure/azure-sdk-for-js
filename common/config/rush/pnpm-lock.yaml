@@ -16903,7 +16903,7 @@ packages:
     dev: false
 
   file:projects/arm-streamanalytics.tgz:
-    resolution: {integrity: sha512-7IO9bMvkZu7j4FAeYanxnxzpDtwgopz9kqI5/OpEFeaZF2g/Cr+bRSo+PZoRs3Vobc2nmjGOb6fPB+f2Ej7cAQ==, tarball: file:projects/arm-streamanalytics.tgz}
+    resolution: {integrity: sha512-lUO5FclctX19VVQ2hjcS9wBbwCjkgS2ruhc/e4slK88hBm6oSsdR5ZFGSGXlIVUaFfoMiDqZkN2DvDeKeIsz8w==, tarball: file:projects/arm-streamanalytics.tgz}
     name: '@rush-temp/arm-streamanalytics'
     version: 0.0.0
     dependencies:
@@ -16915,9 +16915,11 @@ packages:
       '@types/node': 18.19.18
       chai: 4.3.10
       cross-env: 7.0.3
-      mkdirp: 1.0.4
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
@@ -19291,7 +19293,7 @@ packages:
     dev: false
 
   file:projects/identity-cache-persistence.tgz:
-    resolution: {integrity: sha512-kgTvwCwSw0Hdc6p7UWepwm5UZEacydC90jJOpOl+nftmPwLlNfp7TeEG8avM/ZI1CCDmpK/HwhI/XJNH8VMNEg==, tarball: file:projects/identity-cache-persistence.tgz}
+    resolution: {integrity: sha512-/VnE5l5LjhNg5nfdHDtTuIU+sqMsT+st+3sGdFW0zw6Oyn1kJrTlDiKm6q6BR1RKNmZCUPL+k77qWoz1qGDt7A==, tarball: file:projects/identity-cache-persistence.tgz}
     name: '@rush-temp/identity-cache-persistence'
     version: 0.0.0
     dependencies:
@@ -21015,7 +21017,7 @@ packages:
     dev: false
 
   file:projects/purview-datamap.tgz:
-    resolution: {integrity: sha512-MPU8oy5HsM3vuL72Bcc7dEd9fPp/y8HISqzHIivsXBrfHRHFM4JXvc+aRdXx4IvjTQsLvoT/M6iot/4cPbCUBQ==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-KYZ07b+xDgBmx68jS0Hr0g8M4EJvUCTY1qxA9PanWfe5bPQ2iNlgU3T8SUQKbGOikWijreqebroJNvEjw71GQA==, tarball: file:projects/purview-datamap.tgz}
     name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:
