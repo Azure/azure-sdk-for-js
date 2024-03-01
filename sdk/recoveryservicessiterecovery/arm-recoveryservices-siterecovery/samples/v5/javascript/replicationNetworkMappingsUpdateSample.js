@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update an ASR network mapping.
  *
  * @summary The operation to update an ASR network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Update.json
  */
 async function updatesNetworkMapping() {
   const subscriptionId =
@@ -44,7 +44,7 @@ async function updatesNetworkMapping() {
     fabricName,
     networkName,
     networkMappingName,
-    input
+    input,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Network Manager.
  *
  * @summary Gets the specified Network Manager.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerGet.json
  */
 async function networkManagersGet() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function networkManagersGet() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkManagers.get(
     resourceGroupName,
-    networkManagerName
+    networkManagerName,
   );
   console.log(result);
 }

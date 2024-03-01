@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LoadBalancerNetworkInterfaceListSimple.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerNetworkInterfaceListSimple.json
  */
 async function loadBalancerNetworkInterfaceListSimple() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function loadBalancerNetworkInterfaceListSimple() {
   const resArray = new Array();
   for await (let item of client.loadBalancerNetworkInterfaces.list(
     resourceGroupName,
-    loadBalancerName
+    loadBalancerName,
   )) {
     resArray.push(item);
   }
@@ -40,7 +40,7 @@ async function loadBalancerNetworkInterfaceListSimple() {
  * This sample demonstrates how to Gets associated load balancer network interfaces.
  *
  * @summary Gets associated load balancer network interfaces.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/LoadBalancerNetworkInterfaceListVmss.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/LoadBalancerNetworkInterfaceListVmss.json
  */
 async function loadBalancerNetworkInterfaceListVmss() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -51,7 +51,7 @@ async function loadBalancerNetworkInterfaceListVmss() {
   const resArray = new Array();
   for await (let item of client.loadBalancerNetworkInterfaces.list(
     resourceGroupName,
-    loadBalancerName
+    loadBalancerName,
   )) {
     resArray.push(item);
   }

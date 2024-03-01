@@ -23,7 +23,7 @@ import {
   GlobalParametersCreateOrUpdateOptionalParams,
   GlobalParametersCreateOrUpdateResponse,
   GlobalParametersDeleteOptionalParams,
-  GlobalParametersListByFactoryNextResponse
+  GlobalParametersListByFactoryNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -48,12 +48,12 @@ export class GlobalParametersImpl implements GlobalParameters {
   public listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: GlobalParametersListByFactoryOptionalParams
+    options?: GlobalParametersListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<GlobalParameterResource> {
     const iter = this.listByFactoryPagingAll(
       resourceGroupName,
       factoryName,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class GlobalParametersImpl implements GlobalParameters {
           resourceGroupName,
           factoryName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -80,7 +80,7 @@ export class GlobalParametersImpl implements GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     options?: GlobalParametersListByFactoryOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<GlobalParameterResource[]> {
     let result: GlobalParametersListByFactoryResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +88,7 @@ export class GlobalParametersImpl implements GlobalParameters {
       result = await this._listByFactory(
         resourceGroupName,
         factoryName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -100,7 +100,7 @@ export class GlobalParametersImpl implements GlobalParameters {
         resourceGroupName,
         factoryName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,12 +112,12 @@ export class GlobalParametersImpl implements GlobalParameters {
   private async *listByFactoryPagingAll(
     resourceGroupName: string,
     factoryName: string,
-    options?: GlobalParametersListByFactoryOptionalParams
+    options?: GlobalParametersListByFactoryOptionalParams,
   ): AsyncIterableIterator<GlobalParameterResource> {
     for await (const page of this.listByFactoryPagingPage(
       resourceGroupName,
       factoryName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class GlobalParametersImpl implements GlobalParameters {
   private _listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: GlobalParametersListByFactoryOptionalParams
+    options?: GlobalParametersListByFactoryOptionalParams,
   ): Promise<GlobalParametersListByFactoryResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, options },
-      listByFactoryOperationSpec
+      listByFactoryOperationSpec,
     );
   }
 
@@ -151,11 +151,11 @@ export class GlobalParametersImpl implements GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     globalParameterName: string,
-    options?: GlobalParametersGetOptionalParams
+    options?: GlobalParametersGetOptionalParams,
   ): Promise<GlobalParametersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, globalParameterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,7 +172,7 @@ export class GlobalParametersImpl implements GlobalParameters {
     factoryName: string,
     globalParameterName: string,
     defaultParam: GlobalParameterResource,
-    options?: GlobalParametersCreateOrUpdateOptionalParams
+    options?: GlobalParametersCreateOrUpdateOptionalParams,
   ): Promise<GlobalParametersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -180,9 +180,9 @@ export class GlobalParametersImpl implements GlobalParameters {
         factoryName,
         globalParameterName,
         defaultParam,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class GlobalParametersImpl implements GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     globalParameterName: string,
-    options?: GlobalParametersDeleteOptionalParams
+    options?: GlobalParametersDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, globalParameterName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -216,11 +216,11 @@ export class GlobalParametersImpl implements GlobalParameters {
     resourceGroupName: string,
     factoryName: string,
     nextLink: string,
-    options?: GlobalParametersListByFactoryNextOptionalParams
+    options?: GlobalParametersListByFactoryNextOptionalParams,
   ): Promise<GlobalParametersListByFactoryNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, factoryName, nextLink, options },
-      listByFactoryNextOperationSpec
+      listByFactoryNextOperationSpec,
     );
   }
 }
@@ -228,38 +228,15 @@ export class GlobalParametersImpl implements GlobalParameters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByFactoryOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GlobalParameterListResponse
+      bodyMapper: Mappers.GlobalParameterListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.factoryName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.GlobalParameterResource
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -267,22 +244,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.globalParameterName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.GlobalParameterResource,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.factoryName,
+    Parameters.globalParameterName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.GlobalParameterResource
+      bodyMapper: Mappers.GlobalParameterResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.defaultParam,
   queryParameters: [Parameters.apiVersion],
@@ -291,22 +288,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.globalParameterName
+    Parameters.globalParameterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/globalParameters/{globalParameterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -314,29 +310,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.factoryName,
-    Parameters.globalParameterName
+    Parameters.globalParameterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByFactoryNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.GlobalParameterListResponse
+      bodyMapper: Mappers.GlobalParameterListResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.factoryName
+    Parameters.factoryName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
