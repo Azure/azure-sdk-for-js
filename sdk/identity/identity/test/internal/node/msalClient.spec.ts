@@ -11,8 +11,39 @@ import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
 import sinon from "sinon";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder } from "@azure-tools/test-recorder";
 
 describe("MsalClient", function () {
+  describe("recorded tests", function () {
+    let cleanup: MsalTestCleanup;
+    let recorder: Recorder;
+
+    afterEach(async function () {
+      await cleanup();
+    });
+
+    beforeEach(async function () {
+      ({ cleanup, recorder } = await msalNodeTestSetup(this.currentTest));
+    });
+
+    it("supports getTokenByClientSecret", async function () {
+      const scopes = ["https://vault.azure.net/.default"];
+      const clientSecret = process.env.AZURE_CLIENT_SECRET!;
+      const clientId = process.env.AZURE_CLIENT_ID!;
+      const tenantId = process.env.AZURE_TENANT_ID!;
+
+      const clientOptions = recorder.configureClientOptions({});
+      const client = msalClient.createMsalClient(clientId, tenantId, {
+        tokenCredentialOptions: { additionalPolicies: clientOptions.additionalPolicies },
+      });
+
+      const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
+      assert.isNotEmpty(accessToken.token);
+      assert.isNotNaN(accessToken.expiresOnTimestamp);
+    });
+  });
+
   describe("#createMsalClient", function () {
     it("can create an msal client with minimal configuration", function () {
       const clientId = "client-id";
@@ -85,9 +116,8 @@ describe("MsalClient", function () {
   describe("#getTokenByClientSecret", function () {
     let sandbox: sinon.SinonSandbox;
 
-    // TODO: helper to fetch env vars
-    const clientId = process.env.AZURE_CLIENT_ID!;
-    const tenantId = process.env.AZURE_TENANT_ID!;
+    const clientId = "client-id";
+    const tenantId = "tenant-id";
 
     afterEach(async function () {
       sandbox.restore();
@@ -95,24 +125,6 @@ describe("MsalClient", function () {
 
     beforeEach(async function () {
       sandbox = sinon.createSandbox();
-    });
-
-    it("is supported", async function () {
-      const scopes = ["https://vault.azure.net/.default"];
-      const clientSecret = process.env.AZURE_CLIENT_SECRET!;
-
-      const client = msalClient.createMsalClient(clientId, tenantId);
-
-      sandbox
-        .stub(ConfidentialClientApplication.prototype, "acquireTokenByClientCredential")
-        .resolves({
-          accessToken: "token",
-          expiresOn: new Date(Date.now() + 3600 * 1000),
-        } as AuthenticationResult);
-
-      const accessToken = await client.getTokenByClientSecret(scopes, clientSecret);
-      assert.isNotEmpty(accessToken.token);
-      assert.isAtLeast(accessToken.expiresOnTimestamp, Date.now());
     });
 
     describe("with silent authentication", function () {
@@ -205,7 +217,7 @@ describe("MsalClient", function () {
 
         sandbox
           .stub(ConfidentialClientApplication.prototype, "acquireTokenSilent")
-          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get rethrown
+          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
 
         const scopes = ["https://vault.azure.net/.default"];
         const clientSecret = process.env.AZURE_CLIENT_SECRET!;
