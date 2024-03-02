@@ -188,5 +188,5 @@ sdk/template/template-dpg/src/src
 .tshy-build-tmp
 
 # sshkey
-sdk/*/sshkey
+sdk/**/sshkey
 sdk/*/sshkey.pub
