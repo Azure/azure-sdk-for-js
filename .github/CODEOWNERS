@@ -111,6 +111,10 @@
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @jeremymeng @deyaaeldeen @HarshaNalluru
 
+# ServiceLabel: %Cognitive - Health Insights
+# PRLabel: %Cognitive - Health Insights
+/sdk/healthinsights/ @tomsft @koen-mertens
+
 # PRLabel: %Azure.Identity
 /sdk/identity/ @KarishmaGhiya @maorleger @witemple-msft @schaabs @Azure/azure-sdk-write-identity
 
