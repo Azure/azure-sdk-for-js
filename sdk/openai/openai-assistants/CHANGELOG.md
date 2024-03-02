@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.5 (2024-03-01)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fixed issue 28561 - OpenAI uses unix timestamps so all Date instances are broken
 
 ## 1.0.0-beta.4 (2024-02-27)
 

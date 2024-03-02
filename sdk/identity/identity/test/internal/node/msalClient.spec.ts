@@ -4,6 +4,8 @@
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
 import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
+import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
@@ -11,8 +13,6 @@ import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
 import sinon from "sinon";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder } from "@azure-tools/test-recorder";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -29,9 +29,9 @@ describe("MsalClient", function () {
 
     it("supports getTokenByClientSecret", async function () {
       const scopes = ["https://vault.azure.net/.default"];
-      const clientSecret = process.env.AZURE_CLIENT_SECRET!;
-      const clientId = process.env.AZURE_CLIENT_ID!;
-      const tenantId = process.env.AZURE_TENANT_ID!;
+      const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
+      const clientId = env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!;
+      const tenantId = env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!;
 
       const clientOptions = recorder.configureClientOptions({});
       const client = msalClient.createMsalClient(clientId, tenantId, {
