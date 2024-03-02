@@ -1,6 +1,5 @@
 src/**/*.js
 !assets/fake-cert.pem
 !assets/fake-cert-password.pem
-sshKey
-sshKey.pub
-
+integration/AzureFunctions/app.zip
+integration/AzureWebApps/.azure/
