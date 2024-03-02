@@ -875,6 +875,9 @@ dependencies:
   '@rush-temp/health-insights-clinicalmatching':
     specifier: file:./projects/health-insights-clinicalmatching.tgz
     version: file:projects/health-insights-clinicalmatching.tgz
+  '@rush-temp/health-insights-radiologyinsights':
+    specifier: file:./projects/health-insights-radiologyinsights.tgz
+    version: file:projects/health-insights-radiologyinsights.tgz
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
