@@ -189,4 +189,4 @@ sdk/template/template-dpg/src/src
 
 # sshkey
 sdk/**/sshkey
-sdk/*/sshkey.pub
+sdk/**/sshkey.pub
