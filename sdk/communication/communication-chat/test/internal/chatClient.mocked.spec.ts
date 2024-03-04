@@ -3,7 +3,12 @@
 
 import sinon from "sinon";
 import { assert, expect } from "chai";
-import { ChatClient, ChatClientOptions, CreateChatThreadRequest } from "../../src";
+import {
+  ChatClient,
+  ChatClientOptions,
+  CreateChatThreadOptions,
+  CreateChatThreadRequest,
+} from "../../src";
 import * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
@@ -17,6 +22,7 @@ import {
   mockCreateThreadResult,
   mockThread,
   mockThreadItem,
+  mockThreadItemWithRetentionPolicy,
 } from "./utils/mockClient";
 import { isNode } from "@azure/core-util";
 
@@ -77,6 +83,38 @@ describe("[Mocked] ChatClient", async function () {
       mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id,
     );
     assert.deepEqual(createThreadResult.chatThread?.metadata, mockThread.metadata);
+
+    const request = spy.getCall(0).args[0];
+
+    assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
+    assert.equal(request.method, "POST");
+    assert.deepEqual(JSON.parse(request.body as string), { ...sendRequest, ...sendOptions });
+    assert.isNotEmpty(request.headers.get("repeatability-request-id"));
+  });
+
+  it("makes successful create thread request with retention policy", async function () {
+    const mockHttpClient = generateHttpClient(201, {
+      chatThread: mockThreadItemWithRetentionPolicy,
+    });
+
+    chatClient = createChatClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const sendRequest: CreateChatThreadRequest = {
+      topic: mockThread.topic!,
+    };
+
+    const sendOptions: CreateChatThreadOptions = {
+      retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
+    };
+
+    const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
+
+    sinon.assert.calledOnce(spy);
+    assert.isDefined(createThreadResult.chatThread);
+    assert.equal(createThreadResult.chatThread?.id, mockThreadItemWithRetentionPolicy.id);
+    assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
+    assert.deepEqual(createThreadResult.chatThread?.retentionPolicy, sendOptions.retentionPolicy);
 
     const request = spy.getCall(0).args[0];
 

@@ -1,5 +1,22 @@
 # Release History
 
+## 1.6.0-beta.1 (TBA2024-04-11)
+
+### Features Added
+
+- Added Upload Image feature for TeamsInterops scenario
+  - New `uploadImage(...)` to upload an image.
+  - New `deleteImage(...)` to delete an image.
+  - Updated `SendMessageOptions` and `UpdateMessageOptions` to include `attachments`.
+- Added Data Retention feature for threads
+  - New `RetentionPolicy` property in `ChatThreadProperties`.
+  - Updated `CreateChatThreadOptions` to include `retentionPolicy` and `metadata`.
+  - New `updateProperties(...)` to update `ChatThreadProperties` including `retentionPolicy`.
+
+### Other Changes
+
+- Updated @azure/communication-common to 2.3.1
+
 ## 1.5.0-beta.1 (2023-12-06)
 
 ### Breaking Changes

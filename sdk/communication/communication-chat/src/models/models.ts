@@ -26,7 +26,20 @@ export interface ChatThreadProperties {
   deletedOn?: Date;
   /** metadata */
   metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
+
+/** Thread retention policy based on thread creation date. */
+export interface ThreadCreationDateRetentionPolicy {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "threadCreationDate";
+  /** Indicates how many days after the thread creation the thread will be deleted. */
+  deleteThreadAfterDays: number;
+}
+
+/** Data retention policy for auto deletion. */
+export declare type ChatRetentionPolicy = ThreadCreationDateRetentionPolicy;
 
 /** Chat message. */
 export interface ChatMessage {
@@ -124,6 +137,16 @@ export interface ListPageSettings {
    * enforces pagination.
    */
   continuationToken?: string;
+}
+
+/** Result payload for uploading an image. */
+export interface UploadChatImageResult {
+  /** Id of the image. */
+  id: string;
+  /** The type of attachment. */
+  attachmentType?: ChatAttachmentType;
+  /** The name including file extension type of the attachment. */
+  name?: string;
 }
 
 /** Type of Supported Attachments. */

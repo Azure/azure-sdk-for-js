@@ -53,6 +53,14 @@ export const mockCreateThreadResult: RestModel.CreateChatThreadResult = {
   invalidParticipants: undefined,
 };
 
+export const mockThreadItemWithRetentionPolicy: RestModel.ChatThreadProperties = {
+  id: "threadid",
+  topic: "topic",
+  createdByCommunicationIdentifier: mockCommunicationIdentifier,
+  createdOn: new Date("2020-06-26T18:06:06Z"),
+  retentionPolicy: { kind: "threadCreationDate", deleteThreadAfterDays: 90 },
+};
+
 export const mockThreadItem: RestModel.ChatThreadItem = {
   id: "threadid",
   topic: "topic",
@@ -67,6 +75,15 @@ export const mockMessage: RestModel.ChatMessage = {
   content: {
     message: "content",
     topic: "topic",
+    attachments: [
+      {
+        id: "id1",
+        attachmentType: "image",
+        name: "picture1.png",
+        url: "url1",
+        previewUrl: "previewUrl1",
+      },
+    ],
   },
   createdOn: new Date("2020-06-26T18:06:06Z"),
   senderDisplayName: "senderDisplayName",
@@ -142,6 +159,12 @@ export const mockMessageWithAttachment: RestModel.ChatMessage = {
   senderCommunicationIdentifier: mockCommunicationIdentifier,
   deletedOn: new Date("2020-06-26T18:06:06Z"),
   metadata: { tags: "tag" },
+};
+
+export const mockImageAttachment: RestModel.ChatAttachment = {
+  id: "id1",
+  attachmentType: "image",
+  name: "picture1.png",
 };
 
 export const mockChatMessageReadReceipt: RestModel.ChatMessageReadReceipt = {

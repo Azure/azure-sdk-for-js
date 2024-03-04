@@ -8,7 +8,7 @@ import {
   ChatThreadListChatParticipantsOptionalParams as RestListParticipantsOptions,
   ChatThreadListChatReadReceiptsOptionalParams as RestListReadReceiptsOptions,
 } from "../generated/src/models";
-import { ChatParticipant } from "./models";
+import { ChatAttachment, ChatParticipant, ChatRetentionPolicy } from "./models";
 
 export {
   RestListMessagesOptions,
@@ -40,6 +40,8 @@ export interface UpdateChatThreadPropertiesOptions extends OperationOptions {
   topic?: string;
   /** Thread metadata. */
   metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**
@@ -57,6 +59,8 @@ export interface SendMessageOptions extends OperationOptions {
   type?: ChatMessageType;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -67,6 +71,8 @@ export interface UpdateMessageOptions extends OperationOptions {
   content?: string;
   /** Message metadata. */
   metadata?: Record<string, string>;
+  /** Message attachments. */
+  attachments?: ChatAttachment[];
 }
 
 /**
@@ -84,6 +90,8 @@ export interface CreateChatThreadOptions extends OperationOptions {
   idempotencyToken?: string;
   /** metadata */
   metadata?: Record<string, string>;
+  /** Data retention policy for auto deletion. */
+  retentionPolicy?: ChatRetentionPolicy;
 }
 
 /**
@@ -138,3 +146,21 @@ export type SendReadReceiptOptions = OperationOptions;
  * Options to list read receipts.
  */
 export type ListReadReceiptsOptions = RestListReadReceiptsOptions;
+
+/**
+ * Options to upload a chat image.
+ */
+export interface UploadImageOptions extends OperationOptions {
+  /** Image blob size in bytes. */
+  imageBytesLength?: number;
+}
+
+/**
+ * Options to upload a chat image stream.
+ */
+export type UploadImageStreamOptions = OperationOptions;
+
+/**
+ * Options to delete a chat image.
+ */
+export type DeleteImageOptions = OperationOptions;
