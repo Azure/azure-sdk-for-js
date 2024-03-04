@@ -5,14 +5,8 @@
     "outDir": "./dist-esm",
     "declarationDir": "./types",
     "paths": {
-      "@azure-rest/ai-document-intelligence": [
-        "./src/index"
-      ]
+      "@azure-rest/ai-document-intelligence": ["./src/index"]
     }
   },
-  "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
