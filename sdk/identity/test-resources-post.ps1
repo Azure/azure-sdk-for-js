@@ -25,15 +25,15 @@ az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $Dep
 az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 
 # Azure Functions app deployment
-Write-Host "Building the code for functions app"
-Push-Location "$webappRoot/AzureFunctions/RunTest"
-npm install
-npm run build
-Pop-Location
-Write-Host "starting azure functions deployment"
-Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-Write-Host "Deployed function app"
+# Write-Host "Building the code for functions app"
+# Push-Location "$webappRoot/AzureFunctions/RunTest"
+# npm install
+# npm run build
+# Pop-Location
+# Write-Host "starting azure functions deployment"
+# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+# az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+# Write-Host "Deployed function app"
 # $image = "$loginServer/identity-functions-test-image"
 # docker build --no-cache -t $image "$workingFolder/AzureFunctions"
 # docker push $image
@@ -46,7 +46,9 @@ Write-Host "Deployed function app"
 # Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 
 Push-Location "$webappRoot/AzureWebApps"
-Write-Host "Deploying WebApp named $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] to $DeploymentOutputs['IDENTITY_WEBAPP_PLAN']"
+$webappName = $DeploymentOutputs['IDENTITY_WEBAPP_NAME']
+$webappPlan = $DeploymentOutputs['IDENTITY_WEBAPP_PLAN']
+Write-Host "Deploying WebApp $webappName to $webappPlan"
 az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
 Pop-Location
 Write-Host "Deployed webapp"
@@ -58,9 +60,9 @@ Write-Host "Deployed webapp"
 # $loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
 
 # Azure Kubernetes Service deployment
-$image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
-docker push $image
+# $image = "$loginServer/identity-aks-test-image"
+# docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
+# docker push $image
 
 
 # Attach the ACR to the AKS cluster
