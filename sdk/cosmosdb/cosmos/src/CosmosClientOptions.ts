@@ -8,6 +8,7 @@ import { PluginConfig } from "./plugins/Plugin";
 import { CosmosHeaders } from "./queryExecutionContext/CosmosHeaders";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { HttpClient } from "@azure/core-rest-pipeline";
+import { EncryptionKeyResolver } from "./encryption";
 
 // We expose our own Agent interface to avoid taking a dependency on and leaking node types. This interface should mirror the node Agent interface
 export interface Agent {
@@ -58,6 +59,8 @@ export interface CosmosClientOptions {
   /** A custom string to append to the default SDK user agent. */
   userAgentSuffix?: string;
   diagnosticLevel?: CosmosDbDiagnosticLevel;
+  enableEncryption?: boolean;
+  keyEncryptionKeyResolver?: EncryptionKeyResolver;
   /** @internal */
   plugins?: PluginConfig[];
 }

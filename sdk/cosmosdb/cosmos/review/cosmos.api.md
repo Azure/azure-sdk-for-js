@@ -30,6 +30,15 @@ export interface Agent {
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum" | "MakeSet" | "MakeList";
 
 // @public (undocumented)
+export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
+    constructor(credentials: TokenCredential, url: string);
+    // (undocumented)
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
+    // (undocumented)
+    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+}
+
+// @public (undocumented)
 export type BulkOperationResponse = OperationResponse[] & {
     diagnostics: CosmosDiagnostics;
 };
@@ -190,6 +199,10 @@ export class ClientContext {
     }): Promise<Response_2<any>>;
     // (undocumented)
     clearSessionToken(path: string): void;
+    // Warning: (ae-forgotten-export) The symbol "ClientEncryptionKeyPropertiesCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
     // (undocumented)
     create<T, U = T>({ body, path, resourceType, resourceId, diagnosticNode, options, partitionKey, }: {
         body: T;
@@ -212,6 +225,16 @@ export class ClientContext {
     }): Promise<Response_2<T & Resource>>;
     // (undocumented)
     diagnosticLevel: CosmosDbDiagnosticLevel;
+    // (undocumented)
+    enableEncyption: boolean;
+    // Warning: (ae-forgotten-export) The symbol "EncryptionKeyStoreProvider" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
+    // Warning: (ae-forgotten-export) The symbol "EncryptionSettingsCache" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    encryptionSettingsCache: EncryptionSettingsCache;
     // (undocumented)
     execute<T>({ sprocLink, params, options, partitionKey, diagnosticNode, }: {
         sprocLink: string;
@@ -299,6 +322,63 @@ export class ClientContext {
         partitionKey?: PartitionKey;
         diagnosticNode: DiagnosticNodeInternal;
     }): Promise<Response_2<T & U & Resource>>;
+}
+
+// @public (undocumented)
+export class ClientEncryptionIncludedPath {
+    constructor(path: string, clientEncryptionKeyId: string, encryptionType: EncryptionType, encryptionAlgortihm: EncryptionAlgorithm);
+    // (undocumented)
+    clientEncryptionKeyId: string;
+    // (undocumented)
+    encryptionAlgorithm: EncryptionAlgorithm;
+    // (undocumented)
+    encryptionType: EncryptionType;
+    // (undocumented)
+    path: string;
+}
+
+// @public (undocumented)
+export interface ClientEncryptionKeyDefinition {
+    id: string;
+}
+
+// @public (undocumented)
+export class ClientEncryptionKeyProperties {
+    constructor(id: string, encryptionAlgorithm: string, wrappedDataEncryptionKey: Buffer, encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata);
+    // (undocumented)
+    encryptionAlgorithm: string;
+    // (undocumented)
+    encryptionKeyWrapMetadata: EncryptionKeyWrapMetadata;
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    wrappedDataEncryptionKey: Buffer;
+}
+
+// @public (undocumented)
+export interface ClientEncryptionKeyRequest extends ClientEncryptionKeyDefinition {
+    // (undocumented)
+    encryptionAlgorithm: string;
+    // (undocumented)
+    keyWrapMetadata: EncryptionKeyWrapMetadata;
+    // (undocumented)
+    wrappedDataEncryptionKey: string;
+}
+
+// @public
+export class ClientEncryptionKeyResponse extends ResourceResponse<ClientEncryptionKeyDefinition & Resource> {
+    constructor(resource: ClientEncryptionKeyDefinition & Resource, headers: CosmosHeaders, statusCode: number, clientEncryptionKeyProperties: ClientEncryptionKeyProperties, diagnostics: CosmosDiagnostics);
+    // (undocumented)
+    readonly clientEncryptionKeyProperties: ClientEncryptionKeyProperties;
+}
+
+// @public (undocumented)
+export class ClientEncryptionPolicy {
+    constructor(includedPaths: ClientEncryptionIncludedPath[], policyFormatVersion?: number);
+    // (undocumented)
+    includedPaths: ClientEncryptionIncludedPath[];
+    // (undocumented)
+    policyFormatVersion: number;
 }
 
 // @public (undocumented)
@@ -614,6 +694,7 @@ export class Container {
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response_2<PartitionedQueryExecutionInfo>>;
     // (undocumented)
     readonly id: string;
+    initializeEncryption(): Promise<void>;
     item(id: string, partitionKeyValue?: PartitionKey): Item;
     get items(): Items;
     read(options?: RequestOptions): Promise<ContainerResponse>;
@@ -632,6 +713,7 @@ export class Container {
 export interface ContainerDefinition {
     changeFeedPolicy?: ChangeFeedPolicy;
     computedProperties?: ComputedProperty[];
+    clientEncryptionPolicy?: ClientEncryptionPolicy;
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
     geospatialConfig?: {
@@ -712,9 +794,13 @@ export interface CosmosClientOptions {
     defaultHeaders?: CosmosHeaders_2;
     // (undocumented)
     diagnosticLevel?: CosmosDbDiagnosticLevel;
+    // (undocumented)
+    enableEncryption?: boolean;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;
+    // (undocumented)
+    keyEncryptionKeyResolver?: EncryptionKeyResolver;
     permissionFeed?: PermissionDefinition[];
     resourceTokens?: {
         [resourcePath: string]: string;
@@ -778,10 +864,12 @@ export class Database {
     readonly client: CosmosClient;
     container(id: string): Container;
     readonly containers: Containers;
+    createClientEncryptionKey(id: string, encryptionAlgorithm: EncryptionAlgorithm, keyWrapMetadata: EncryptionKeyWrapMetadata): Promise<ClientEncryptionKeyResponse>;
     delete(options?: RequestOptions): Promise<DatabaseResponse>;
     // (undocumented)
     readonly id: string;
     read(options?: RequestOptions): Promise<DatabaseResponse>;
+    readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse>;
     // (undocumented)
     readInternal(diagnosticNode: DiagnosticNodeInternal, options?: RequestOptions): Promise<DatabaseResponse>;
     readOffer(options?: RequestOptions): Promise<OfferResponse>;
@@ -975,6 +1063,47 @@ export enum DiagnosticNodeType {
     QUERY_REPAIR_NODE = "QUERY_REPAIR_NODE",// Node representing background refresh.
     // (undocumented)
     REQUEST_ATTEMPTS = "REQUEST_ATTEMPTS"
+}
+
+// @public (undocumented)
+export enum EncryptionAlgorithm {
+    // (undocumented)
+    AEAD_AES_256_CBC_HMAC_SHA256 = "AEAD_AES_256_CBC_HMAC_SHA256"
+}
+
+// @public (undocumented)
+export interface EncryptionKeyResolver {
+    // (undocumented)
+    unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
+    // (undocumented)
+    wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer>;
+}
+
+// @public (undocumented)
+export enum EncryptionKeyResolverName {
+    // (undocumented)
+    AzureKeyVault = "AZURE_KEY_VAULT"
+}
+
+// @public (undocumented)
+export class EncryptionKeyWrapMetadata {
+    constructor(type: EncryptionKeyResolverName, name: string, value: string, algorithm: KeyEncryptionKeyAlgorithm);
+    // (undocumented)
+    algorithm: KeyEncryptionKeyAlgorithm;
+    // (undocumented)
+    name: string;
+    // (undocumented)
+    type: EncryptionKeyResolverName;
+    // (undocumented)
+    value: string;
+}
+
+// @public (undocumented)
+export enum EncryptionType {
+    // (undocumented)
+    DETERMINISTIC = "Deterministic",
+    // (undocumented)
+    RANDOMIZED = "Randomized"
 }
 
 // @public (undocumented)
@@ -1275,6 +1404,12 @@ export interface JSONObject {
 
 // @public (undocumented)
 export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
+
+// @public (undocumented)
+export enum KeyEncryptionKeyAlgorithm {
+    // (undocumented)
+    RSA_OAEP = "RSA-OAEP"
+}
 
 // @public
 export interface Location {
@@ -1947,6 +2082,8 @@ export class ResourceResponse<TResource> {
 
 // @public (undocumented)
 export enum ResourceType {
+    // (undocumented)
+    clientencryptionkey = "clientEncryptionKeys",
     // (undocumented)
     conflicts = "conflicts",
     // (undocumented)

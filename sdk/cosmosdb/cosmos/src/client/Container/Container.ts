@@ -13,7 +13,7 @@ import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
 import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
-import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import { ErrorResponse, PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
 import { Database } from "../Database";
 import { Item, Items } from "../Item";
@@ -32,6 +32,7 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
+import { EncryptionSettings } from "../../encryption";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -360,5 +361,28 @@ export class Container {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
+  }
+
+  /**
+   * @hidden
+   * Warms up encryption related caches for the container.
+   */
+  public async initializeEncryption(): Promise<void> {
+    if (!this.clientContext.enableEncyption) {
+      throw new ErrorResponse("Encryption is not enabled for the client.");
+    } else {
+      withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+        const readResponse = await this.readInternal(diagnosticNode);
+        const clientEncryptionPolicy = readResponse.resource.clientEncryptionPolicy;
+        const partitionKeyPaths = readResponse.resource.partitionKey.paths;
+        const key = this.database.id + "/" + this.id;
+        const enryptionSettings = EncryptionSettings.create(
+          key,
+          partitionKeyPaths,
+          clientEncryptionPolicy,
+        );
+        this.clientContext.encryptionSettingsCache.setEncryptionSettings(key, enryptionSettings);
+      }, this.clientContext);
+    }
   }
 }

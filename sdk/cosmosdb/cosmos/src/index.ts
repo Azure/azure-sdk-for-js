@@ -134,3 +134,12 @@ export { SasTokenPermissionKind } from "./common/constants";
 export { createAuthorizationSasToken } from "./utils/SasToken";
 export { RestError } from "@azure/core-rest-pipeline";
 export { AbortError } from "@azure/abort-controller";
+export * from "./encryption/enums";
+export * from "./encryption/ClientEncryptionKey";
+export * from "./encryption/EncryptionKeyResolver";
+export {
+  ClientEncryptionIncludedPath,
+  ClientEncryptionPolicy,
+  ClientEncryptionKeyProperties,
+  EncryptionKeyWrapMetadata,
+} from "./encryption";

@@ -22,7 +22,10 @@
     "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
     "./dist-esm/src/utils/digest.js": "./dist-esm/src/utils/digest.browser.js",
-    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js"
+    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
+    "./dist-esm/src/encryption/EncryptionKey/ProtectedDataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/ProtectedDataEncryptionKey.browser.js",
+    "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.js": "./dist-esm/src/encryption/EncryptionKey/DataEncryptionKey.browser.js",
+    "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.js": "./dist-esm/src/encryption/AeadAes256CbcHmacSha256Algorithm/AeadAes256CbcHmacSha256Algorithm.browser.js"
   },
   "files": [
     "changelog.md",
@@ -92,7 +95,10 @@
     "jsbi": "^4.3.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.1.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "universal-user-agent": "^6.0.0",
+    "uuid": "^8.3.0",
+    "@azure/keyvault-keys": "^4.8.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",

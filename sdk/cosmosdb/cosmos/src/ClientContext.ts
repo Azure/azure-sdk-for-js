@@ -47,7 +47,8 @@ import {
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { randomUUID } from "@azure/core-util";
-
+import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
+import { EncryptionSettingsCache, ClientEncryptionKeyPropertiesCache } from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -63,12 +64,17 @@ export class ClientContext {
   private diagnosticWriter: DiagnosticWriter;
   private diagnosticFormatter: DiagnosticFormatter;
   public partitionKeyDefinitionCache: { [containerUrl: string]: any }; // TODO: PartitionKeyDefinitionCache
+  public enableEncyption: boolean;
+  public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
+  public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
+  public encryptionSettingsCache: EncryptionSettingsCache; // cache to store encryption settings for containers. Key is databaseRid+containerRid
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
     public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
+    this.enableEncyption = cosmosClientOptions.enableEncryption;
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
     this.partitionKeyDefinitionCache = {};
@@ -91,6 +97,14 @@ export class ClientContext {
           },
         }),
       );
+    }
+    if (this.enableEncyption) {
+      this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
+        cosmosClientOptions.keyEncryptionKeyResolver,
+        "AzureKeyVault",
+      );
+      this.encryptionSettingsCache = new EncryptionSettingsCache();
+      this.clientEncryptionKeyPropertiesCache = new ClientEncryptionKeyPropertiesCache();
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }
@@ -225,9 +239,9 @@ export class ClientContext {
     this.applySessionToken(request);
     logger.info(
       "query " +
-        requestId +
-        " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
+      requestId +
+      " started" +
+      (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();

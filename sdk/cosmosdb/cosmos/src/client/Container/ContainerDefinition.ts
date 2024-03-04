@@ -7,6 +7,7 @@ import { GeospatialType } from "../../documents/GeospatialType";
 import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
 import { ComputedProperty } from "../../documents/ComputedProperty";
 import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
+import { ClientEncryptionPolicy } from "../../encryption";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -31,4 +32,6 @@ export interface ContainerDefinition {
   computedProperties?: ComputedProperty[];
   /** The vector embedding policy information for storing items in a container. */
   vectorEmbeddingPolicy?: VectorEmbeddingPolicy;
+  /** Encryption policy for the container, contains path that needs to be encrypted */
+  clientEncryptionPolicy?: ClientEncryptionPolicy;
 }
