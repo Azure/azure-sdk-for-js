@@ -46,6 +46,7 @@ Write-Host "Deployed function app"
 # Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 
 Push-Location "$webappRoot/AzureWebApps"
+Write-Host "Deploying WebApp named $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] to $DeploymentOutputs['IDENTITY_WEBAPP_PLAN']"
 az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
 Pop-Location
 Write-Host "Deployed webapp"
