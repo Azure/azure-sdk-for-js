@@ -2377,8 +2377,8 @@ packages:
       '@nevware21/ts-utils': 0.10.5
     dev: false
 
-  /@microsoft/applicationinsights-web-snippet@1.1.1:
-    resolution: {integrity: sha512-uITh+P/cfN+nkUfazVt9paML6rjc6H/VWdw0jb4PUj7JG1w4hamjxkYWFvDjMZfhZ75tC4kgepPgOeG2i610Qg==}
+  /@microsoft/applicationinsights-web-snippet@1.1.2:
+    resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
     dev: false
 
   /@microsoft/applicationinsights-web@3.1.0(tslib@2.6.2):
@@ -20304,14 +20304,14 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-TTQYLLh9NWzm6nc1QxD9HtndeNtfYnDhO7082zuFwhF1ZO5rd0L4R60SJGlDPe6+0B9+vs2eonoR8BrTkIyW8g==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-xUR2UhnBTigB7havXB/SsSRlv0SMSqaltO7AUJc7HSJz5rMut8UdHVFh51h85EEhJ9mFqI/pPqGzyzob/5egGA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@microsoft/applicationinsights-web': 3.1.0(tslib@2.6.2)
-      '@microsoft/applicationinsights-web-snippet': 1.1.1
+      '@microsoft/applicationinsights-web-snippet': 1.1.2
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.48.0
       '@opentelemetry/core': 1.21.0(@opentelemetry/api@1.7.0)
