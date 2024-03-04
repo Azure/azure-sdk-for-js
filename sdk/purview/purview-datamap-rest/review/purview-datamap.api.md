@@ -4,10 +4,14 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { createFile } from '@azure/core-rest-pipeline';
 import { createFileFromStream } from '@azure/core-rest-pipeline';
+import { CreateFileFromStreamOptions } from '@azure/core-rest-pipeline';
+import { CreateFileOptions } from '@azure/core-rest-pipeline';
 import { HttpResponse } from '@azure-rest/core-client';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
@@ -1006,6 +1010,16 @@ export interface BulkImportResultOutput {
 }
 
 // @public
+export interface BusinessMetadataOptions {
+    file: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
+}
+
+// @public
+export interface BusinessMetadataOptionsOutput {
+    file: Uint8Array;
+}
+
+// @public
 export interface ClassificationAssociateOptions {
     classification?: AtlasClassification;
     entityGuids?: string[];
@@ -1037,6 +1051,10 @@ export default createClient;
 export { createFile }
 
 export { createFileFromStream }
+
+export { CreateFileFromStreamOptions }
+
+export { CreateFileOptions }
 
 // @public
 export interface DateFormat {
@@ -1732,9 +1750,7 @@ export interface EntityImportBusinessMetadata200Response extends HttpResponse {
 // @public (undocumented)
 export interface EntityImportBusinessMetadataBodyParam {
     // (undocumented)
-    body?: {
-        file: Uint8Array | File;
-    };
+    body?: BusinessMetadataOptions;
 }
 
 // @public (undocumented)
