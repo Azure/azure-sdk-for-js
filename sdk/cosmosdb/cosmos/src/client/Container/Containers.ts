@@ -184,6 +184,10 @@ export class Containers {
       };
     }
 
+    if (this.clientContext.enableEncyption && body.clientEncryptionPolicy) {
+      //TODO: add checks for checking partition key paths
+    }
+
     const response = await this.clientContext.create<ContainerRequest, ContainerDefinition>({
       body,
       path,
