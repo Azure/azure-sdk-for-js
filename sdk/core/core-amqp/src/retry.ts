@@ -285,7 +285,8 @@ function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Err
   if (!errors.length) {
     throw new RangeError("Error array is empty");
   }
-  const str = errors.map(error => `Error ${i}: ${errors[i]}`).join("\n\n");
+  let i = 0;
+  const str = errors.map((error) => `Error ${i++}: ${error}`).join("\n\n");
   const lastError = errors[errors.length - 1];
   lastError.message = str;
   return lastError;
