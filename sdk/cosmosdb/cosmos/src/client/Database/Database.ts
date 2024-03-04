@@ -17,6 +17,15 @@ import {
   withMetadataDiagnostics,
 } from "../../utils/diagnostics";
 import { MetadataLookUpType } from "../../CosmosDiagnostics";
+import {
+  ClientEncryptionKeyResponse,
+  ClientEncryptionKeyRequest,
+  ClientEncryptionKeyProperties,
+  KeyEncryptionKey,
+  ProtectedDataEncryptionKey,
+  EncryptionAlgorithm,
+  EncryptionKeyWrapMetadata,
+} from "../../encryption";
 
 /**
  * Operations for reading or deleting an existing database.
@@ -179,6 +188,90 @@ export class Database {
         response.code,
         getEmptyCosmosDiagnostics(),
         offer,
+      );
+    }, this.clientContext);
+  }
+
+  /**
+   * Create Encryption key for database account
+   */
+  public async createClientEncryptionKey(
+    id: string,
+    encryptionAlgorithm: EncryptionAlgorithm,
+    keyWrapMetadata: EncryptionKeyWrapMetadata,
+  ): Promise<ClientEncryptionKeyResponse> {
+    const keyEncryptionKey: KeyEncryptionKey = KeyEncryptionKey.getOrCreate(
+      keyWrapMetadata.name,
+      keyWrapMetadata.value,
+      this.clientContext.encryptionKeyStoreProvider,
+    );
+
+    const protectedDataEncryptionKey = await ProtectedDataEncryptionKey.create(
+      id,
+      keyEncryptionKey,
+    );
+
+    const wrappedDataEncryptionKey = protectedDataEncryptionKey.encryptedValue;
+
+    await ProtectedDataEncryptionKey.getOrCreate(id, keyEncryptionKey, wrappedDataEncryptionKey);
+
+    let body: ClientEncryptionKeyRequest = {
+      id: id,
+      encryptionAlgorithm: encryptionAlgorithm,
+      keyWrapMetadata: keyWrapMetadata,
+      wrappedDataEncryptionKey: wrappedDataEncryptionKey.toString("base64"),
+    };
+
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
+      const id = getIdFromLink(this.url);
+      const response = await this.clientContext.create<ClientEncryptionKeyRequest>({
+        body,
+        path: path,
+        resourceType: ResourceType.clientencryptionkey,
+        resourceId: id,
+        diagnosticNode,
+      });
+      const ref = new ClientEncryptionKeyProperties(
+        response.result.id,
+        response.result.encryptionAlgorithm,
+        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        response.result.keyWrapMetadata,
+      );
+      return new ClientEncryptionKeyResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        getEmptyCosmosDiagnostics(),
+      );
+    }, this.clientContext);
+  }
+
+  /**
+   * Read Encryption key for database account
+   */
+  public async readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse> {
+    return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
+      const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
+      const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
+        path: path,
+        resourceType: ResourceType.clientencryptionkey,
+        resourceId: id,
+        diagnosticNode,
+      });
+      const ref = new ClientEncryptionKeyProperties(
+        response.result.id,
+        response.result.encryptionAlgorithm,
+        Buffer.from(response.result.wrappedDataEncryptionKey, "base64"),
+        response.result.keyWrapMetadata,
+      );
+      return new ClientEncryptionKeyResponse(
+        response.result,
+        response.headers,
+        response.code,
+        ref,
+        getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
   }
