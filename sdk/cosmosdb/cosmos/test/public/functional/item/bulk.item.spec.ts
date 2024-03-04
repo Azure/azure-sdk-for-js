@@ -296,7 +296,9 @@ describe("test bulk operations", async function () {
           id: readItemId,
           partitionKey: "B",
         };
+
         const readResponse: OperationResponse[] = await splitContainer.items.bulk([operation]);
+
         assert.strictEqual(readResponse[0].statusCode, 200);
         assert.strictEqual(
           readResponse[0].resourceBody.id,
@@ -346,8 +348,9 @@ describe("test bulk operations", async function () {
           key: 5,
           class: "2010",
         });
+
         const response = await splitContainer.items.bulk(operations);
-        console.log("response: ", response);
+
         // Create
         assert.equal(response[0].resourceBody.name, "sample");
         assert.equal(response[0].statusCode, 201);
@@ -363,12 +366,13 @@ describe("test bulk operations", async function () {
         // cleanup
         await splitContainer.database.delete();
       });
+
       async function getSplitContainer(): Promise<Container> {
         let responseIndex = 0;
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
-            plugin: async (context, diagNode, next) => {
+            plugin: async (context, _diagNode, next) => {
               if (context.operationType === "batch" && responseIndex < 1) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
@@ -1092,14 +1096,15 @@ describe("test bulk operations", async function () {
         assert.equal(createResponse[0].statusCode, 201);
       });
     });
-    describe("multi partitioned container with many items - handle partition split", async function () {
+    describe("multi partitioned container with many items handle partition split", async function () {
       let container: Container;
       before(async function () {
         let responseIndex = 0;
+        // On every 50th request, return a 410 error
         const plugins: PluginConfig[] = [
           {
             on: PluginOn.request,
-            plugin: async (context, diagNode, next) => {
+            plugin: async (context, _diagNode, next) => {
               if (context.operationType === "batch" && responseIndex % 50 === 0) {
                 const error = new ErrorResponse();
                 error.code = StatusCodes.Gone;
@@ -1113,7 +1118,6 @@ describe("test bulk operations", async function () {
             },
           },
         ];
-
         const client = new CosmosClient({
           key: masterKey,
           endpoint,
@@ -1145,7 +1149,9 @@ describe("test bulk operations", async function () {
             partitionKey: i,
           });
         }
+
         const response = await container.items.bulk(operations);
+
         response.forEach((res, index) => {
           assert.strictEqual(res.statusCode, 200, `Status should be 200 for operation ${index}`);
           assert.strictEqual(res.resourceBody.id, "item" + index, "Read Items id should match");

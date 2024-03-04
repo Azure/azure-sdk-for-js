@@ -492,7 +492,7 @@ export class Items {
 
       const orderedResponses: OperationResponse[] = [];
       const batchesQueue: Queue<Batch> = new Queue<Batch>();
-
+      // Enqueue the Batches
       batches
         .filter((batch: Batch) => batch.operations.length)
         .flatMap((batch: Batch) => splitBatchBasedOnBodySize(batch))
@@ -502,10 +502,11 @@ export class Items {
           }
           batchesQueue.enqueue(batch);
         });
-
+      // Dequeue the Batches and execute them one by one
       while (!batchesQueue.isEmpty()) {
         const batch = batchesQueue.dequeue();
         try {
+          // Execute the batch
           const response = await addDignosticChild(
             async (childNode: DiagnosticNodeInternal) =>
               this.clientContext.bulk({
@@ -527,12 +528,12 @@ export class Items {
           // In the case of 410 errors, we need to recompute the partition key ranges
           // and redo the batch request, however, 410 errors occur for unsupported
           // partition key types as well since we don't support them, so for now we throw
-
           if (err.code === StatusCodes.Gone) {
-            if (
+            const isPartitionSplit =
               err.subStatusCode === SubStatusCodes.PartitionKeyRangeGone ||
-              err.subStatusCode === SubStatusCodes.CompletingSplit
-            ) {
+              err.subStatusCode === SubStatusCodes.CompletingSplit;
+
+            if (isPartitionSplit) {
               const queryRange = new QueryRange(batch.min, batch.max, true, false);
               const overlappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
                 this.container.url,
@@ -542,9 +543,7 @@ export class Items {
               if (overlappingRanges.length < 1) {
                 throw new Error("Partition split/merge detected but no overlapping ranges found.");
               }
-              // This covers both cases of merge and split.
-              // resolvedRanges.length > 1 in case of split.
-              // resolvedRanges.length === 1 in case of merge.
+              // Handles both merge (overlappingRanges.length === 1) and split (overlappingRanges.length > 1) cases.
               if (overlappingRanges.length >= 1) {
                 const splitBatches: Batch[] = [];
                 const newBatches: Batch[] = this.createNewBatches(
@@ -561,12 +560,12 @@ export class Items {
                   batch.max === batchesQueue.peek().max
                 ) {
                   const nextBatch = batchesQueue.dequeue();
-                  const newBatches: Batch[] = this.createNewBatches(
+                  const remainingNewBatches: Batch[] = this.createNewBatches(
                     overlappingRanges,
                     nextBatch,
                     partitionKeyDefinition,
                   );
-                  splitBatches.push(...newBatches);
+                  splitBatches.push(...remainingNewBatches);
                 }
                 // Add the new split batches to the queue
                 splitBatches.forEach((splitBatch: Batch) => {
@@ -591,11 +590,19 @@ export class Items {
     }, this.clientContext);
   }
 
+  /**
+   * Function to create new batches based of partition key Ranges.
+   *
+   * @param overlappingRanges - Overlapping partition key ranges.
+   * @param batch - Batch to be split.
+   * @param partitionKeyDefinition - PartitionKey definition of container.
+   * @returns Array of new batches.
+   */
   private createNewBatches(
     overlappingRanges: PartitionKeyRange[],
     batch: Batch,
     partitionKeyDefinition: PartitionKeyDefinition,
-  ) {
+  ): Batch[] {
     const newBatches: Batch[] = overlappingRanges.map((keyRange: PartitionKeyRange) => {
       return {
         min: keyRange.minInclusive,
