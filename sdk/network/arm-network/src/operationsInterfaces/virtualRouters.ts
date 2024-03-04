@@ -16,7 +16,7 @@ import {
   VirtualRoutersGetOptionalParams,
   VirtualRoutersGetResponse,
   VirtualRoutersCreateOrUpdateOptionalParams,
-  VirtualRoutersCreateOrUpdateResponse
+  VirtualRoutersCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,14 +29,14 @@ export interface VirtualRouters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualRoutersListByResourceGroupOptionalParams
+    options?: VirtualRoutersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualRouter>;
   /**
    * Gets all the Virtual Routers in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: VirtualRoutersListOptionalParams
+    options?: VirtualRoutersListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualRouter>;
   /**
    * Deletes the specified Virtual Router.
@@ -47,7 +47,7 @@ export interface VirtualRouters {
   beginDelete(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRoutersDeleteOptionalParams
+    options?: VirtualRoutersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Virtual Router.
@@ -58,7 +58,7 @@ export interface VirtualRouters {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRoutersDeleteOptionalParams
+    options?: VirtualRoutersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Virtual Router.
@@ -69,7 +69,7 @@ export interface VirtualRouters {
   get(
     resourceGroupName: string,
     virtualRouterName: string,
-    options?: VirtualRoutersGetOptionalParams
+    options?: VirtualRoutersGetOptionalParams,
   ): Promise<VirtualRoutersGetResponse>;
   /**
    * Creates or updates the specified Virtual Router.
@@ -82,7 +82,7 @@ export interface VirtualRouters {
     resourceGroupName: string,
     virtualRouterName: string,
     parameters: VirtualRouter,
-    options?: VirtualRoutersCreateOrUpdateOptionalParams
+    options?: VirtualRoutersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualRoutersCreateOrUpdateResponse>,
@@ -100,6 +100,6 @@ export interface VirtualRouters {
     resourceGroupName: string,
     virtualRouterName: string,
     parameters: VirtualRouter,
-    options?: VirtualRoutersCreateOrUpdateOptionalParams
+    options?: VirtualRoutersCreateOrUpdateOptionalParams,
   ): Promise<VirtualRoutersCreateOrUpdateResponse>;
 }

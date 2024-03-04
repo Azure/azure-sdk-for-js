@@ -22,7 +22,7 @@ export default {
   ignorePatterns: ["**/generated/**"],
   overrides: [
     {
-      files: ["*.ts", "*.tsx", "*.json"],
+      files: ["*.ts", "*.cts", "*.mts", "*.tsx", "*.json"],
       parserOptions: {
         project: [
           "./tsconfig.json",

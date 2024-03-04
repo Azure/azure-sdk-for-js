@@ -11,7 +11,7 @@
 import {
   VpnGatewayPacketCaptureStartParameters,
   VpnGatewaysStartPacketCaptureOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnGatewayStartPacketCaptureFilterData.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnGatewayStartPacketCaptureFilterData.json
  */
 async function startPacketCaptureOnVpnGatewayWithFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function startPacketCaptureOnVpnGatewayWithFilter() {
   const gatewayName = "vpngw";
   const parameters: VpnGatewayPacketCaptureStartParameters = {
     filterData:
-      "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}"
+      "{'TracingFlags': 11,'MaxPacketBufferSize': 120,'MaxFileSize': 200,'Filters': [{'SourceSubnets': ['20.1.1.0/24'],'DestinationSubnets': ['10.1.1.0/24'],'SourcePort': [500],'DestinationPort': [4500],'Protocol': 6,'TcpFlags': 16,'CaptureSingleDirectionTrafficOnly': true}]}",
   };
   const options: VpnGatewaysStartPacketCaptureOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -38,7 +38,7 @@ async function startPacketCaptureOnVpnGatewayWithFilter() {
   const result = await client.vpnGateways.beginStartPacketCaptureAndWait(
     resourceGroupName,
     gatewayName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function startPacketCaptureOnVpnGatewayWithFilter() {
  * This sample demonstrates how to Starts packet capture on vpn gateway in the specified resource group.
  *
  * @summary Starts packet capture on vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnGatewayStartPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnGatewayStartPacketCapture.json
  */
 async function startPacketCaptureOnVpnGatewayWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -57,7 +57,7 @@ async function startPacketCaptureOnVpnGatewayWithoutFilter() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.vpnGateways.beginStartPacketCaptureAndWait(
     resourceGroupName,
-    gatewayName
+    gatewayName,
   );
   console.log(result);
 }

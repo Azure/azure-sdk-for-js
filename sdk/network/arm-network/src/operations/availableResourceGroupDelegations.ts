@@ -18,13 +18,14 @@ import {
   AvailableResourceGroupDelegationsListNextOptionalParams,
   AvailableResourceGroupDelegationsListOptionalParams,
   AvailableResourceGroupDelegationsListResponse,
-  AvailableResourceGroupDelegationsListNextResponse
+  AvailableResourceGroupDelegationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing AvailableResourceGroupDelegations operations. */
 export class AvailableResourceGroupDelegationsImpl
-  implements AvailableResourceGroupDelegations {
+  implements AvailableResourceGroupDelegations
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class AvailableResourceGroupDelegationsImpl
   public list(
     location: string,
     resourceGroupName: string,
-    options?: AvailableResourceGroupDelegationsListOptionalParams
+    options?: AvailableResourceGroupDelegationsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailableDelegation> {
     const iter = this.listPagingAll(location, resourceGroupName, options);
     return {
@@ -62,9 +63,9 @@ export class AvailableResourceGroupDelegationsImpl
           location,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -72,7 +73,7 @@ export class AvailableResourceGroupDelegationsImpl
     location: string,
     resourceGroupName: string,
     options?: AvailableResourceGroupDelegationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableDelegation[]> {
     let result: AvailableResourceGroupDelegationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class AvailableResourceGroupDelegationsImpl
         location,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -100,12 +101,12 @@ export class AvailableResourceGroupDelegationsImpl
   private async *listPagingAll(
     location: string,
     resourceGroupName: string,
-    options?: AvailableResourceGroupDelegationsListOptionalParams
+    options?: AvailableResourceGroupDelegationsListOptionalParams,
   ): AsyncIterableIterator<AvailableDelegation> {
     for await (const page of this.listPagingPage(
       location,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -120,11 +121,11 @@ export class AvailableResourceGroupDelegationsImpl
   private _list(
     location: string,
     resourceGroupName: string,
-    options?: AvailableResourceGroupDelegationsListOptionalParams
+    options?: AvailableResourceGroupDelegationsListOptionalParams,
   ): Promise<AvailableResourceGroupDelegationsListResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -139,11 +140,11 @@ export class AvailableResourceGroupDelegationsImpl
     location: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: AvailableResourceGroupDelegationsListNextOptionalParams
+    options?: AvailableResourceGroupDelegationsListNextOptionalParams,
   ): Promise<AvailableResourceGroupDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -151,45 +152,44 @@ export class AvailableResourceGroupDelegationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/locations/{location}/availableDelegations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.AvailableDelegationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.AvailableDelegationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

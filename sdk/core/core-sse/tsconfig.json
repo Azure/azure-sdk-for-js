@@ -9,5 +9,5 @@
     "lib": ["esnext", "dom"],
     "rootDir": "."
   },
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "samples-dev/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "samples-dev/**/*.ts"]
 }
