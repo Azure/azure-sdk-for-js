@@ -283,12 +283,9 @@ export async function retry<T>(config: RetryConfig<T>): Promise<T> {
 
 function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Error {
   if (!errors.length) {
-    throw new Error("Impossible to happen");
+    throw new RangeError("Error array is empty");
   }
-  let str = "";
-  for (let i = 0; i < errors.length; ++i) {
-    str += `Error ${i}: ${errors[i]}\n\n`;
-  }
+  const str = errors.map(error => `Error ${i}: ${errors[i]}`).join("\n\n");
   const lastError = errors[errors.length - 1];
   lastError.message = str;
   return lastError;
