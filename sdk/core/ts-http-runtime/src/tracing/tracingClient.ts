@@ -10,9 +10,9 @@ import {
   TracingContext,
   TracingSpan,
   TracingSpanOptions,
-} from "./interfaces";
-import { getInstrumenter } from "./instrumenter";
-import { knownContextKeys } from "./tracingContext";
+} from "./interfaces.js";
+import { getInstrumenter } from "./instrumenter.js";
+import { knownContextKeys } from "./tracingContext.js";
 
 /**
  * Creates a new tracing client.

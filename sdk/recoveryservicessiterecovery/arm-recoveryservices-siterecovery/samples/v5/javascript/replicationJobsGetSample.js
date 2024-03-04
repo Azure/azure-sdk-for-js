@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the details of an Azure Site Recovery job.
  *
  * @summary Get the details of an Azure Site Recovery job.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationJobs_Get.json
  */
 async function getsTheJobDetails() {
   const subscriptionId =

@@ -15,7 +15,7 @@ import {
   HubVirtualNetworkConnectionsCreateOrUpdateResponse,
   HubVirtualNetworkConnectionsDeleteOptionalParams,
   HubVirtualNetworkConnectionsGetOptionalParams,
-  HubVirtualNetworkConnectionsGetResponse
+  HubVirtualNetworkConnectionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface HubVirtualNetworkConnections {
   list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: HubVirtualNetworkConnectionsListOptionalParams
+    options?: HubVirtualNetworkConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<HubVirtualNetworkConnection>;
   /**
    * Creates a hub virtual network connection if it doesn't exist else updates the existing one.
@@ -46,7 +46,7 @@ export interface HubVirtualNetworkConnections {
     virtualHubName: string,
     connectionName: string,
     hubVirtualNetworkConnectionParameters: HubVirtualNetworkConnection,
-    options?: HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams
+    options?: HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<HubVirtualNetworkConnectionsCreateOrUpdateResponse>,
@@ -67,7 +67,7 @@ export interface HubVirtualNetworkConnections {
     virtualHubName: string,
     connectionName: string,
     hubVirtualNetworkConnectionParameters: HubVirtualNetworkConnection,
-    options?: HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams
+    options?: HubVirtualNetworkConnectionsCreateOrUpdateOptionalParams,
   ): Promise<HubVirtualNetworkConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a HubVirtualNetworkConnection.
@@ -80,7 +80,7 @@ export interface HubVirtualNetworkConnections {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: HubVirtualNetworkConnectionsDeleteOptionalParams
+    options?: HubVirtualNetworkConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a HubVirtualNetworkConnection.
@@ -93,7 +93,7 @@ export interface HubVirtualNetworkConnections {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: HubVirtualNetworkConnectionsDeleteOptionalParams
+    options?: HubVirtualNetworkConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves the details of a HubVirtualNetworkConnection.
@@ -106,6 +106,6 @@ export interface HubVirtualNetworkConnections {
     resourceGroupName: string,
     virtualHubName: string,
     connectionName: string,
-    options?: HubVirtualNetworkConnectionsGetOptionalParams
+    options?: HubVirtualNetworkConnectionsGetOptionalParams,
   ): Promise<HubVirtualNetworkConnectionsGetResponse>;
 }

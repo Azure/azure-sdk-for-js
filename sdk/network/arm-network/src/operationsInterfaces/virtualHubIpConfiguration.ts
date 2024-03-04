@@ -15,7 +15,7 @@ import {
   VirtualHubIpConfigurationGetResponse,
   VirtualHubIpConfigurationCreateOrUpdateOptionalParams,
   VirtualHubIpConfigurationCreateOrUpdateResponse,
-  VirtualHubIpConfigurationDeleteOptionalParams
+  VirtualHubIpConfigurationDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface VirtualHubIpConfiguration {
   list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubIpConfigurationListOptionalParams
+    options?: VirtualHubIpConfigurationListOptionalParams,
   ): PagedAsyncIterableIterator<HubIpConfiguration>;
   /**
    * Retrieves the details of a Virtual Hub Ip configuration.
@@ -43,7 +43,7 @@ export interface VirtualHubIpConfiguration {
     resourceGroupName: string,
     virtualHubName: string,
     ipConfigName: string,
-    options?: VirtualHubIpConfigurationGetOptionalParams
+    options?: VirtualHubIpConfigurationGetOptionalParams,
   ): Promise<VirtualHubIpConfigurationGetResponse>;
   /**
    * Creates a VirtualHubIpConfiguration resource if it doesn't exist else updates the existing
@@ -59,7 +59,7 @@ export interface VirtualHubIpConfiguration {
     virtualHubName: string,
     ipConfigName: string,
     parameters: HubIpConfiguration,
-    options?: VirtualHubIpConfigurationCreateOrUpdateOptionalParams
+    options?: VirtualHubIpConfigurationCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubIpConfigurationCreateOrUpdateResponse>,
@@ -80,7 +80,7 @@ export interface VirtualHubIpConfiguration {
     virtualHubName: string,
     ipConfigName: string,
     parameters: HubIpConfiguration,
-    options?: VirtualHubIpConfigurationCreateOrUpdateOptionalParams
+    options?: VirtualHubIpConfigurationCreateOrUpdateOptionalParams,
   ): Promise<VirtualHubIpConfigurationCreateOrUpdateResponse>;
   /**
    * Deletes a VirtualHubIpConfiguration.
@@ -93,7 +93,7 @@ export interface VirtualHubIpConfiguration {
     resourceGroupName: string,
     virtualHubName: string,
     ipConfigName: string,
-    options?: VirtualHubIpConfigurationDeleteOptionalParams
+    options?: VirtualHubIpConfigurationDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a VirtualHubIpConfiguration.
@@ -106,6 +106,6 @@ export interface VirtualHubIpConfiguration {
     resourceGroupName: string,
     virtualHubName: string,
     ipConfigName: string,
-    options?: VirtualHubIpConfigurationDeleteOptionalParams
+    options?: VirtualHubIpConfigurationDeleteOptionalParams,
   ): Promise<void>;
 }

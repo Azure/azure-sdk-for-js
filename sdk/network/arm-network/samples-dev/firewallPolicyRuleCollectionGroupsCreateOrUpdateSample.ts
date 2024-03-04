@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FirewallPolicyRuleCollectionGroup,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyNatRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -46,20 +46,21 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
             sourceAddresses: ["2.2.2.2"],
             sourceIpGroups: [],
             translatedFqdn: "internalhttp.server.net",
-            translatedPort: "8080"
-          }
-        ]
-      }
-    ]
+            translatedPort: "8080",
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
-    parameters
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -67,7 +68,7 @@ async function createFirewallPolicyNatRuleCollectionGroup() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyRuleCollectionGroupPut.json
  */
 async function createFirewallPolicyRuleCollectionGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -89,20 +90,21 @@ async function createFirewallPolicyRuleCollectionGroup() {
             destinationPorts: ["*"],
             ipProtocols: ["TCP"],
             ruleType: "NetworkRule",
-            sourceAddresses: ["10.1.25.0/24"]
-          }
-        ]
-      }
-    ]
+            sourceAddresses: ["10.1.25.0/24"],
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
-    parameters
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -110,7 +112,7 @@ async function createFirewallPolicyRuleCollectionGroup() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -128,27 +130,28 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
           {
             name: "network-1",
             destinationIpGroups: [
-              "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2"
+              "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2",
             ],
             destinationPorts: ["*"],
             ipProtocols: ["TCP"],
             ruleType: "NetworkRule",
             sourceIpGroups: [
-              "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1"
-            ]
-          }
-        ]
-      }
-    ]
+              "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1",
+            ],
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
-    parameters
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -156,7 +159,7 @@ async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
   const subscriptionId =
@@ -179,20 +182,21 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
             protocols: [{ port: 443, protocolType: "Https" }],
             ruleType: "ApplicationRule",
             sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
-            webCategories: ["Hacking"]
-          }
-        ]
-      }
-    ]
+            webCategories: ["Hacking"],
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
-    parameters
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+    );
   console.log(result);
 }
 
@@ -200,7 +204,7 @@ async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
  * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
  *
  * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/FirewallPolicyRuleCollectionGroupWithHttpHeadersToInsert.json
  */
 async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
   const subscriptionId =
@@ -224,25 +228,26 @@ async function createFirewallPolicyRuleCollectionGroupWithHttpHeaderToInsert() {
             httpHeadersToInsert: [
               {
                 headerName: "Restrict-Access-To-Tenants",
-                headerValue: "contoso.com,fabrikam.onmicrosoft.com"
-              }
+                headerValue: "contoso.com,fabrikam.onmicrosoft.com",
+              },
             ],
             protocols: [{ port: 80, protocolType: "Http" }],
             ruleType: "ApplicationRule",
-            sourceAddresses: ["216.58.216.164", "10.0.0.0/24"]
-          }
-        ]
-      }
-    ]
+            sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    firewallPolicyName,
-    ruleCollectionGroupName,
-    parameters
-  );
+  const result =
+    await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      firewallPolicyName,
+      ruleCollectionGroupName,
+      parameters,
+    );
   console.log(result);
 }
 

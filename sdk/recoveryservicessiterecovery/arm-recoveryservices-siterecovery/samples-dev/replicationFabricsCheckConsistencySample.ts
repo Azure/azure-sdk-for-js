@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to perform a consistency check on the fabric.
  *
  * @summary The operation to perform a consistency check on the fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_CheckConsistency.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_CheckConsistency.json
  */
 async function checksTheConsistencyOfTheAsrFabric() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function checksTheConsistencyOfTheAsrFabric() {
   const result = await client.replicationFabrics.beginCheckConsistencyAndWait(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   );
   console.log(result);
 }

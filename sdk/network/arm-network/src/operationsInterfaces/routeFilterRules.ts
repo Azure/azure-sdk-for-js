@@ -15,7 +15,7 @@ import {
   RouteFilterRulesGetOptionalParams,
   RouteFilterRulesGetResponse,
   RouteFilterRulesCreateOrUpdateOptionalParams,
-  RouteFilterRulesCreateOrUpdateResponse
+  RouteFilterRulesCreateOrUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface RouteFilterRules {
   listByRouteFilter(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFilterRulesListByRouteFilterOptionalParams
+    options?: RouteFilterRulesListByRouteFilterOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilterRule>;
   /**
    * Deletes the specified rule from a route filter.
@@ -43,7 +43,7 @@ export interface RouteFilterRules {
     resourceGroupName: string,
     routeFilterName: string,
     ruleName: string,
-    options?: RouteFilterRulesDeleteOptionalParams
+    options?: RouteFilterRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified rule from a route filter.
@@ -56,7 +56,7 @@ export interface RouteFilterRules {
     resourceGroupName: string,
     routeFilterName: string,
     ruleName: string,
-    options?: RouteFilterRulesDeleteOptionalParams
+    options?: RouteFilterRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified rule from a route filter.
@@ -69,7 +69,7 @@ export interface RouteFilterRules {
     resourceGroupName: string,
     routeFilterName: string,
     ruleName: string,
-    options?: RouteFilterRulesGetOptionalParams
+    options?: RouteFilterRulesGetOptionalParams,
   ): Promise<RouteFilterRulesGetResponse>;
   /**
    * Creates or updates a route in the specified route filter.
@@ -85,7 +85,7 @@ export interface RouteFilterRules {
     routeFilterName: string,
     ruleName: string,
     routeFilterRuleParameters: RouteFilterRule,
-    options?: RouteFilterRulesCreateOrUpdateOptionalParams
+    options?: RouteFilterRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RouteFilterRulesCreateOrUpdateResponse>,
@@ -106,6 +106,6 @@ export interface RouteFilterRules {
     routeFilterName: string,
     ruleName: string,
     routeFilterRuleParameters: RouteFilterRule,
-    options?: RouteFilterRulesCreateOrUpdateOptionalParams
+    options?: RouteFilterRulesCreateOrUpdateOptionalParams,
   ): Promise<RouteFilterRulesCreateOrUpdateResponse>;
 }

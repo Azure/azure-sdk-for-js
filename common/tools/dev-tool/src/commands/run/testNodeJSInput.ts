@@ -19,9 +19,9 @@ export const commandInfo = makeCommandInfo(
       description: "whether to run with test-proxy",
     },
     "use-esm-workaround": {
-      shortName: "esm",
+      shortName: "uew",
       kind: "boolean",
-      default: true,
+      default: false,
       description:
         "when true, uses the `esm` npm package for tests. Otherwise uses esm4mocha if needed",
     },

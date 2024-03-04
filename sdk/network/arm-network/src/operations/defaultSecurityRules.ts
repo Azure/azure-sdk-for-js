@@ -20,7 +20,7 @@ import {
   DefaultSecurityRulesListResponse,
   DefaultSecurityRulesGetOptionalParams,
   DefaultSecurityRulesGetResponse,
-  DefaultSecurityRulesListNextResponse
+  DefaultSecurityRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
   public list(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: DefaultSecurityRulesListOptionalParams
+    options?: DefaultSecurityRulesListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityRule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       networkSecurityGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
           resourceGroupName,
           networkSecurityGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     options?: DefaultSecurityRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityRule[]> {
     let result: DefaultSecurityRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
       result = await this._list(
         resourceGroupName,
         networkSecurityGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
         resourceGroupName,
         networkSecurityGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
   private async *listPagingAll(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: DefaultSecurityRulesListOptionalParams
+    options?: DefaultSecurityRulesListOptionalParams,
   ): AsyncIterableIterator<SecurityRule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       networkSecurityGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
   private _list(
     resourceGroupName: string,
     networkSecurityGroupName: string,
-    options?: DefaultSecurityRulesListOptionalParams
+    options?: DefaultSecurityRulesListOptionalParams,
   ): Promise<DefaultSecurityRulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkSecurityGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -148,16 +148,16 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     defaultSecurityRuleName: string,
-    options?: DefaultSecurityRulesGetOptionalParams
+    options?: DefaultSecurityRulesGetOptionalParams,
   ): Promise<DefaultSecurityRulesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         networkSecurityGroupName,
         defaultSecurityRuleName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
     resourceGroupName: string,
     networkSecurityGroupName: string,
     nextLink: string,
-    options?: DefaultSecurityRulesListNextOptionalParams
+    options?: DefaultSecurityRulesListNextOptionalParams,
   ): Promise<DefaultSecurityRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, networkSecurityGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -184,38 +184,15 @@ export class DefaultSecurityRulesImpl implements DefaultSecurityRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityRuleListResult
+      bodyMapper: Mappers.SecurityRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.networkSecurityGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecurityRule
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -223,29 +200,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.networkSecurityGroupName,
-    Parameters.defaultSecurityRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityGroups/{networkSecurityGroupName}/defaultSecurityRules/{defaultSecurityRuleName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SecurityRule,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.networkSecurityGroupName,
+    Parameters.defaultSecurityRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityRuleListResult
+      bodyMapper: Mappers.SecurityRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.networkSecurityGroupName
+    Parameters.networkSecurityGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

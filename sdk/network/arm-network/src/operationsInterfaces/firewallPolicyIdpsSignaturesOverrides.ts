@@ -15,7 +15,7 @@ import {
   FirewallPolicyIdpsSignaturesOverridesGetOptionalParams,
   FirewallPolicyIdpsSignaturesOverridesGetResponse,
   FirewallPolicyIdpsSignaturesOverridesListOptionalParams,
-  FirewallPolicyIdpsSignaturesOverridesListResponse
+  FirewallPolicyIdpsSignaturesOverridesListResponse,
 } from "../models";
 
 /** Interface representing a FirewallPolicyIdpsSignaturesOverrides. */
@@ -31,7 +31,7 @@ export interface FirewallPolicyIdpsSignaturesOverrides {
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignaturesOverrides,
-    options?: FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesPatchResponse>;
   /**
    * Will override/create a new signature overrides for the policy's IDPS
@@ -44,7 +44,7 @@ export interface FirewallPolicyIdpsSignaturesOverrides {
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignaturesOverrides,
-    options?: FirewallPolicyIdpsSignaturesOverridesPutOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesPutOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesPutResponse>;
   /**
    * Returns all signatures overrides for a specific policy.
@@ -55,7 +55,7 @@ export interface FirewallPolicyIdpsSignaturesOverrides {
   get(
     resourceGroupName: string,
     firewallPolicyName: string,
-    options?: FirewallPolicyIdpsSignaturesOverridesGetOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesGetOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesGetResponse>;
   /**
    * Returns all signatures overrides objects for a specific policy as a list containing a single value.
@@ -66,6 +66,6 @@ export interface FirewallPolicyIdpsSignaturesOverrides {
   list(
     resourceGroupName: string,
     firewallPolicyName: string,
-    options?: FirewallPolicyIdpsSignaturesOverridesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesListResponse>;
 }

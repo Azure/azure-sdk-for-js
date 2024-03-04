@@ -3,7 +3,7 @@
 
 import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-import { createDefaultPipeline } from "./clientHelpers";
+import { createDefaultPipeline } from "./clientHelpers.js";
 import {
   Client,
   ClientOptions,
@@ -11,9 +11,9 @@ import {
   HttpNodeStreamResponse,
   RequestParameters,
   StreamableMethod,
-} from "./common";
-import { sendRequest } from "./sendRequest";
-import { buildRequestUrl } from "./urlHelpers";
+} from "./common.js";
+import { sendRequest } from "./sendRequest.js";
+import { buildRequestUrl } from "./urlHelpers.js";
 
 /**
  * Creates a client with a default pipeline
