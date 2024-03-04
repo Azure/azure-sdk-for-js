@@ -2,12 +2,12 @@
 // Licensed under the MIT license.
 
 import { assert, describe, it } from "vitest";
-import { createHttpHeaders } from "../../src/httpHeaders";
-import type { BodyPart, MultipartRequestBody } from "../../src/interfaces";
-import { isBlob } from "../../src/util/typeGuards";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import type { MultipartRequestBody } from "../../src/interfaces.js";
+import { isBlob } from "../../src/util/typeGuards.js";
 import { Readable } from "stream";
-import { performRequest } from "../formDataPolicy.spec";
-import { createFile, createFileFromStream, getRawContent } from "../../src/util/file";
+import { performRequest } from "../formDataPolicy.spec.js";
+import { createFileFromStream, getRawContent } from "../../src/util/file.js";
 
 describe("formDataPolicy (node-only)", function () {
   it("can upload a Node ReadableStream", async function () {

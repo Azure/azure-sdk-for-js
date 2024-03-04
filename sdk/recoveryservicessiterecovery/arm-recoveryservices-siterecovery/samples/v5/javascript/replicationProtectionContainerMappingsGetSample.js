@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details of a protection container mapping.
  *
  * @summary Gets the details of a protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Get.json
  */
 async function getsAProtectionContainerMapping() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getsAProtectionContainerMapping() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    mappingName
+    mappingName,
   );
   console.log(result);
 }

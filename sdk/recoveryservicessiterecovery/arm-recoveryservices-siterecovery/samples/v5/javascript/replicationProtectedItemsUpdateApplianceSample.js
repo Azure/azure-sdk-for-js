@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update appliance of an ASR replication protected item.
  *
  * @summary The operation to update appliance of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_UpdateAppliance.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateAppliance.json
  */
 async function updatesApplianceForReplicationProtectedItem() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function updatesApplianceForReplicationProtectedItem() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    applianceUpdateInput
+    applianceUpdateInput,
   );
   console.log(result);
 }

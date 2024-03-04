@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a VirtualHubBgpConnection.
  *
  * @summary Deletes a VirtualHubBgpConnection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VirtualHubBgpConnectionDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VirtualHubBgpConnectionDelete.json
  */
 async function virtualHubRouteTableV2Delete() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function virtualHubRouteTableV2Delete() {
   const result = await client.virtualHubBgpConnection.beginDeleteAndWait(
     resourceGroupName,
     virtualHubName,
-    connectionName
+    connectionName,
   );
   console.log(result);
 }

@@ -11,7 +11,7 @@ import {
   ExpressRouteLink,
   ExpressRouteLinksListOptionalParams,
   ExpressRouteLinksGetOptionalParams,
-  ExpressRouteLinksGetResponse
+  ExpressRouteLinksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface ExpressRouteLinks {
   list(
     resourceGroupName: string,
     expressRoutePortName: string,
-    options?: ExpressRouteLinksListOptionalParams
+    options?: ExpressRouteLinksListOptionalParams,
   ): PagedAsyncIterableIterator<ExpressRouteLink>;
   /**
    * Retrieves the specified ExpressRouteLink resource.
@@ -39,6 +39,6 @@ export interface ExpressRouteLinks {
     resourceGroupName: string,
     expressRoutePortName: string,
     linkName: string,
-    options?: ExpressRouteLinksGetOptionalParams
+    options?: ExpressRouteLinksGetOptionalParams,
   ): Promise<ExpressRouteLinksGetResponse>;
 }

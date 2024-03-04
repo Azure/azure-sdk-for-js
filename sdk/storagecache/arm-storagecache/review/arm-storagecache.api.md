@@ -20,6 +20,7 @@ export interface AmlFilesystem extends TrackedResource {
     identity?: AmlFilesystemIdentity;
     maintenanceWindow?: AmlFilesystemPropertiesMaintenanceWindow;
     readonly provisioningState?: AmlFilesystemProvisioningStateType;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     sku?: SkuName;
     storageCapacityTiB?: number;
     readonly throughputProvisionedMBps?: number;
@@ -124,6 +125,15 @@ export interface AmlFilesystemPropertiesMaintenanceWindow {
 export type AmlFilesystemProvisioningStateType = string;
 
 // @public
+export interface AmlFilesystemRootSquashSettings {
+    mode?: AmlFilesystemSquashMode;
+    noSquashNidLists?: string;
+    squashGID?: number;
+    squashUID?: number;
+    readonly status?: string;
+}
+
+// @public
 export interface AmlFilesystems {
     archive(resourceGroupName: string, amlFilesystemName: string, options?: AmlFilesystemsArchiveOptionalParams): Promise<void>;
     beginCreateOrUpdate(resourceGroupName: string, amlFilesystemName: string, amlFilesystem: AmlFilesystem, options?: AmlFilesystemsCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AmlFilesystemsCreateOrUpdateResponse>, AmlFilesystemsCreateOrUpdateResponse>>;
@@ -215,6 +225,9 @@ export interface AmlFilesystemsListResult {
 }
 
 // @public
+export type AmlFilesystemSquashMode = string;
+
+// @public
 export interface AmlFilesystemSubnetInfo {
     filesystemSubnet?: string;
     location?: string;
@@ -241,6 +254,7 @@ export type AmlFilesystemsUpdateResponse = AmlFilesystem;
 export interface AmlFilesystemUpdate {
     encryptionSettings?: AmlFilesystemEncryptionSettings;
     maintenanceWindow?: AmlFilesystemUpdatePropertiesMaintenanceWindow;
+    rootSquashSettings?: AmlFilesystemRootSquashSettings;
     tags?: {
         [propertyName: string]: string;
     };
@@ -810,6 +824,13 @@ export enum KnownAmlFilesystemProvisioningStateType {
     Failed = "Failed",
     Succeeded = "Succeeded",
     Updating = "Updating"
+}
+
+// @public
+export enum KnownAmlFilesystemSquashMode {
+    All = "All",
+    None = "None",
+    RootOnly = "RootOnly"
 }
 
 // @public

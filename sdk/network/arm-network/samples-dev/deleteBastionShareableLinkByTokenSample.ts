@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   BastionShareableLinkTokenListRequest,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the Bastion Shareable Links for all the tokens specified in the request.
  *
  * @summary Deletes the Bastion Shareable Links for all the tokens specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionShareableLinkDeleteByToken.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionShareableLinkDeleteByToken.json
  */
 async function deleteBastionShareableLinksForTheRequestVMS() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,15 +30,15 @@ async function deleteBastionShareableLinksForTheRequestVMS() {
   const bslTokenRequest: BastionShareableLinkTokenListRequest = {
     tokens: [
       "abcd1234-efgh-hijk-5678-abcdefgh1234",
-      "dcba4321-hgfe-kjih-8765-hgfedcba4321"
-    ]
+      "dcba4321-hgfe-kjih-8765-hgfedcba4321",
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.beginDeleteBastionShareableLinkByTokenAndWait(
     resourceGroupName,
     bastionHostName,
-    bslTokenRequest
+    bslTokenRequest,
   );
   console.log(result);
 }

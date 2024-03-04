@@ -14,7 +14,7 @@ import {
   SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse,
   SubscriptionNetworkManagerConnectionsGetOptionalParams,
   SubscriptionNetworkManagerConnectionsGetResponse,
-  SubscriptionNetworkManagerConnectionsDeleteOptionalParams
+  SubscriptionNetworkManagerConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface SubscriptionNetworkManagerConnections {
    * @param options The options parameters.
    */
   list(
-    options?: SubscriptionNetworkManagerConnectionsListOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkManagerConnection>;
   /**
    * Create a network manager connection on this subscription.
@@ -36,7 +36,7 @@ export interface SubscriptionNetworkManagerConnections {
   createOrUpdate(
     networkManagerConnectionName: string,
     parameters: NetworkManagerConnection,
-    options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsCreateOrUpdateOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsCreateOrUpdateResponse>;
   /**
    * Get a specified connection created by this subscription.
@@ -45,7 +45,7 @@ export interface SubscriptionNetworkManagerConnections {
    */
   get(
     networkManagerConnectionName: string,
-    options?: SubscriptionNetworkManagerConnectionsGetOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsGetOptionalParams,
   ): Promise<SubscriptionNetworkManagerConnectionsGetResponse>;
   /**
    * Delete specified connection created by this subscription.
@@ -54,6 +54,6 @@ export interface SubscriptionNetworkManagerConnections {
    */
   delete(
     networkManagerConnectionName: string,
-    options?: SubscriptionNetworkManagerConnectionsDeleteOptionalParams
+    options?: SubscriptionNetworkManagerConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }
