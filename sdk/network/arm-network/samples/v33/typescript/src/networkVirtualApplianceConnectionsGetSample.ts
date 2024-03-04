@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves the details of specified NVA connection.
  *
  * @summary Retrieves the details of specified NVA connection.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceConnectionGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualApplianceConnectionGet.json
  */
 async function networkVirtualApplianceConnectionGet() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function networkVirtualApplianceConnectionGet() {
   const result = await client.networkVirtualApplianceConnections.get(
     resourceGroupName,
     networkVirtualApplianceName,
-    connectionName
+    connectionName,
   );
   console.log(result);
 }

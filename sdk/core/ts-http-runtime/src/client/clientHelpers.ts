@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpClient } from "../interfaces";
-import { Pipeline } from "../pipeline";
-import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy";
-import { createDefaultHttpClient } from "../defaultHttpClient";
-import { createPipelineFromOptions } from "../createPipelineFromOptions";
-import { TokenCredential, isTokenCredential } from "../auth/tokenCredential";
-import { KeyCredential } from "../auth/keyCredential";
-
-import { ClientOptions } from "./common";
-import { apiVersionPolicy } from "./apiVersionPolicy";
-import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy";
+import { HttpClient } from "../interfaces.js";
+import { Pipeline } from "../pipeline.js";
+import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
+import { createDefaultHttpClient } from "../defaultHttpClient.js";
+import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
+import { ClientOptions } from "./common.js";
+import { apiVersionPolicy } from "./apiVersionPolicy.js";
+import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
 
 let cachedHttpClient: HttpClient | undefined;
 
@@ -74,10 +73,6 @@ export function createDefaultPipeline(
 
   addCredentialPipelinePolicy(pipeline, baseUrl, { credential, clientOptions: options });
   return pipeline;
-}
-
-function isKeyCredential(credential: any): credential is KeyCredential {
-  return (credential as KeyCredential).key !== undefined;
 }
 
 export function getCachedDefaultHttpsClient(): HttpClient {

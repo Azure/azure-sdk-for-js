@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the details of an Azure Site recovery event.
  *
  * @summary The operation to get the details of an Azure Site recovery event.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationEvents_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationEvents_Get.json
  */
 async function getTheDetailsOfAnAzureSiteRecoveryEvent() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getTheDetailsOfAnAzureSiteRecoveryEvent() {
   const result = await client.replicationEvents.get(
     resourceName,
     resourceGroupName,
-    eventName
+    eventName,
   );
   console.log(result);
 }

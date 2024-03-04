@@ -40,7 +40,7 @@ import {
   ApplicationGatewaysListAvailableSslOptionsOptionalParams,
   ApplicationGatewaysListAvailableSslOptionsResponse,
   ApplicationGatewaysGetSslPredefinedPolicyOptionalParams,
-  ApplicationGatewaysGetSslPredefinedPolicyResponse
+  ApplicationGatewaysGetSslPredefinedPolicyResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,21 +53,21 @@ export interface ApplicationGateways {
    */
   list(
     resourceGroupName: string,
-    options?: ApplicationGatewaysListOptionalParams
+    options?: ApplicationGatewaysListOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGateway>;
   /**
    * Gets all the application gateways in a subscription.
    * @param options The options parameters.
    */
   listAll(
-    options?: ApplicationGatewaysListAllOptionalParams
+    options?: ApplicationGatewaysListAllOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGateway>;
   /**
    * Lists all SSL predefined policies for configuring Ssl policy.
    * @param options The options parameters.
    */
   listAvailableSslPredefinedPolicies(
-    options?: ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams
+    options?: ApplicationGatewaysListAvailableSslPredefinedPoliciesOptionalParams,
   ): PagedAsyncIterableIterator<ApplicationGatewaySslPredefinedPolicy>;
   /**
    * Deletes the specified application gateway.
@@ -78,7 +78,7 @@ export interface ApplicationGateways {
   beginDelete(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysDeleteOptionalParams
+    options?: ApplicationGatewaysDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application gateway.
@@ -89,7 +89,7 @@ export interface ApplicationGateways {
   beginDeleteAndWait(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysDeleteOptionalParams
+    options?: ApplicationGatewaysDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified application gateway.
@@ -100,7 +100,7 @@ export interface ApplicationGateways {
   get(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysGetOptionalParams
+    options?: ApplicationGatewaysGetOptionalParams,
   ): Promise<ApplicationGatewaysGetResponse>;
   /**
    * Creates or updates the specified application gateway.
@@ -113,7 +113,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     parameters: ApplicationGateway,
-    options?: ApplicationGatewaysCreateOrUpdateOptionalParams
+    options?: ApplicationGatewaysCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationGatewaysCreateOrUpdateResponse>,
@@ -131,7 +131,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     parameters: ApplicationGateway,
-    options?: ApplicationGatewaysCreateOrUpdateOptionalParams
+    options?: ApplicationGatewaysCreateOrUpdateOptionalParams,
   ): Promise<ApplicationGatewaysCreateOrUpdateResponse>;
   /**
    * Updates the specified application gateway tags.
@@ -144,7 +144,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     parameters: TagsObject,
-    options?: ApplicationGatewaysUpdateTagsOptionalParams
+    options?: ApplicationGatewaysUpdateTagsOptionalParams,
   ): Promise<ApplicationGatewaysUpdateTagsResponse>;
   /**
    * Starts the specified application gateway.
@@ -155,7 +155,7 @@ export interface ApplicationGateways {
   beginStart(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysStartOptionalParams
+    options?: ApplicationGatewaysStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts the specified application gateway.
@@ -166,7 +166,7 @@ export interface ApplicationGateways {
   beginStartAndWait(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysStartOptionalParams
+    options?: ApplicationGatewaysStartOptionalParams,
   ): Promise<void>;
   /**
    * Stops the specified application gateway in a resource group.
@@ -177,7 +177,7 @@ export interface ApplicationGateways {
   beginStop(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysStopOptionalParams
+    options?: ApplicationGatewaysStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops the specified application gateway in a resource group.
@@ -188,7 +188,7 @@ export interface ApplicationGateways {
   beginStopAndWait(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysStopOptionalParams
+    options?: ApplicationGatewaysStopOptionalParams,
   ): Promise<void>;
   /**
    * Gets the backend health of the specified application gateway in a resource group.
@@ -199,7 +199,7 @@ export interface ApplicationGateways {
   beginBackendHealth(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysBackendHealthOptionalParams
+    options?: ApplicationGatewaysBackendHealthOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationGatewaysBackendHealthResponse>,
@@ -215,7 +215,7 @@ export interface ApplicationGateways {
   beginBackendHealthAndWait(
     resourceGroupName: string,
     applicationGatewayName: string,
-    options?: ApplicationGatewaysBackendHealthOptionalParams
+    options?: ApplicationGatewaysBackendHealthOptionalParams,
   ): Promise<ApplicationGatewaysBackendHealthResponse>;
   /**
    * Gets the backend health for given combination of backend pool and http setting of the specified
@@ -229,7 +229,7 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     probeRequest: ApplicationGatewayOnDemandProbe,
-    options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams
+    options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationGatewaysBackendHealthOnDemandResponse>,
@@ -248,42 +248,42 @@ export interface ApplicationGateways {
     resourceGroupName: string,
     applicationGatewayName: string,
     probeRequest: ApplicationGatewayOnDemandProbe,
-    options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams
+    options?: ApplicationGatewaysBackendHealthOnDemandOptionalParams,
   ): Promise<ApplicationGatewaysBackendHealthOnDemandResponse>;
   /**
    * Lists all available server variables.
    * @param options The options parameters.
    */
   listAvailableServerVariables(
-    options?: ApplicationGatewaysListAvailableServerVariablesOptionalParams
+    options?: ApplicationGatewaysListAvailableServerVariablesOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableServerVariablesResponse>;
   /**
    * Lists all available request headers.
    * @param options The options parameters.
    */
   listAvailableRequestHeaders(
-    options?: ApplicationGatewaysListAvailableRequestHeadersOptionalParams
+    options?: ApplicationGatewaysListAvailableRequestHeadersOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableRequestHeadersResponse>;
   /**
    * Lists all available response headers.
    * @param options The options parameters.
    */
   listAvailableResponseHeaders(
-    options?: ApplicationGatewaysListAvailableResponseHeadersOptionalParams
+    options?: ApplicationGatewaysListAvailableResponseHeadersOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableResponseHeadersResponse>;
   /**
    * Lists all available web application firewall rule sets.
    * @param options The options parameters.
    */
   listAvailableWafRuleSets(
-    options?: ApplicationGatewaysListAvailableWafRuleSetsOptionalParams
+    options?: ApplicationGatewaysListAvailableWafRuleSetsOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableWafRuleSetsResponse>;
   /**
    * Lists available Ssl options for configuring Ssl policy.
    * @param options The options parameters.
    */
   listAvailableSslOptions(
-    options?: ApplicationGatewaysListAvailableSslOptionsOptionalParams
+    options?: ApplicationGatewaysListAvailableSslOptionsOptionalParams,
   ): Promise<ApplicationGatewaysListAvailableSslOptionsResponse>;
   /**
    * Gets Ssl predefined policy with the specified policy name.
@@ -292,6 +292,6 @@ export interface ApplicationGateways {
    */
   getSslPredefinedPolicy(
     predefinedPolicyName: string,
-    options?: ApplicationGatewaysGetSslPredefinedPolicyOptionalParams
+    options?: ApplicationGatewaysGetSslPredefinedPolicyOptionalParams,
   ): Promise<ApplicationGatewaysGetSslPredefinedPolicyResponse>;
 }

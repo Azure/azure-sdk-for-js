@@ -70,7 +70,7 @@ export interface MsalNodeOptions extends MsalFlowOptions {
  * The current persistence provider, undefined by default.
  * @internal
  */
-let persistenceProvider:
+export let persistenceProvider:
   | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
   | undefined = undefined;
 

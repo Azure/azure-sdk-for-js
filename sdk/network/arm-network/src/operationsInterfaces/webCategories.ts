@@ -11,7 +11,7 @@ import {
   AzureWebCategory,
   WebCategoriesListBySubscriptionOptionalParams,
   WebCategoriesGetOptionalParams,
-  WebCategoriesGetResponse
+  WebCategoriesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -22,7 +22,7 @@ export interface WebCategories {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WebCategoriesListBySubscriptionOptionalParams
+    options?: WebCategoriesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<AzureWebCategory>;
   /**
    * Gets the specified Azure Web Category.
@@ -31,6 +31,6 @@ export interface WebCategories {
    */
   get(
     name: string,
-    options?: WebCategoriesGetOptionalParams
+    options?: WebCategoriesGetOptionalParams,
   ): Promise<WebCategoriesGetResponse>;
 }

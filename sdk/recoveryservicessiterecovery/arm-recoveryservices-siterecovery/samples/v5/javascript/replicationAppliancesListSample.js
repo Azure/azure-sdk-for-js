@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the list of Azure Site Recovery appliances for the vault.
  *
  * @summary Gets the list of Azure Site Recovery appliances for the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationAppliances_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAppliances_List.json
  */
 async function getsTheListOfAppliances() {
   const subscriptionId =

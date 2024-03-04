@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseXML, stringifyXML } from "../src";
-import { assert } from "chai";
+import { parseXML, stringifyXML } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("XML serializer", function () {
   describe("parseXML(string)", function () {
@@ -15,8 +15,8 @@ describe("XML serializer", function () {
         assert.ok(err instanceof Error);
         const error = err as Error;
         assert.ok(
-          error.message.includes("Document is empty") || // NodeJS v8
-            error.message.includes("This page contains the following errors") || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
               error.message.includes("undefined")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
@@ -33,8 +33,8 @@ describe("XML serializer", function () {
         assert.ok(err instanceof Error);
         const error = err as Error;
         assert.ok(
-          error.message.includes("Document is empty") || // NodeJS v8
-            error.message.includes("This page contains the following errors") || // Chrome
+          error.message.indexOf("Start tag expected, '&lt;' not found") !== -1 || // Chrome
+            error.message.indexOf("Document is empty") !== -1 || // Legacy Chrome
             (error.message.startsWith("XML Parsing Error: syntax error") &&
               error.message.includes("null")), // Firefox
           `error.message ("${error.message}") should have contained "Document is empty" or "null"`,

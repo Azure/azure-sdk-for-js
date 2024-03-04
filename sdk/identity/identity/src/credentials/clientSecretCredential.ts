@@ -6,6 +6,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { MsalFlow } from "../msal/flows";
