@@ -11,7 +11,7 @@
 import {
   VpnConnectionPacketCaptureStopParameters,
   VpnConnectionsStopPacketCaptureOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Stops packet capture on Vpn connection in the specified resource group.
  *
  * @summary Stops packet capture on Vpn connection in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/VpnConnectionStopPacketCapture.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/VpnConnectionStopPacketCapture.json
  */
 async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
   const parameters: VpnConnectionPacketCaptureStopParameters = {
     linkConnectionNames: ["vpnSiteLink1", "vpnSiteLink2"],
     sasUrl:
-      "https://teststorage.blob.core.windows.net/?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-13T07:44:05Z&st=2019-09-06T23:44:05Z&spr=https&sig=V1h9D1riltvZMI69d6ihENnFo%2FrCvTqGgjO2lf%2FVBhE%3D"
+      "https://teststorage.blob.core.windows.net/?sv=2018-03-28&ss=bfqt&srt=sco&sp=rwdlacup&se=2019-09-13T07:44:05Z&st=2019-09-06T23:44:05Z&spr=https&sig=V1h9D1riltvZMI69d6ihENnFo%2FrCvTqGgjO2lf%2FVBhE%3D",
   };
   const options: VpnConnectionsStopPacketCaptureOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function startPacketCaptureOnVpnConnectionWithoutFilter() {
     resourceGroupName,
     gatewayName,
     vpnConnectionName,
-    options
+    options,
   );
   console.log(result);
 }

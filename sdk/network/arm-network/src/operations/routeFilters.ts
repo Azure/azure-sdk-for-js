@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -36,7 +36,7 @@ import {
   RouteFiltersUpdateTagsOptionalParams,
   RouteFiltersUpdateTagsResponse,
   RouteFiltersListByResourceGroupNextResponse,
-  RouteFiltersListNextResponse
+  RouteFiltersListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,7 +59,7 @@ export class RouteFiltersImpl implements RouteFilters {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: RouteFiltersListByResourceGroupOptionalParams
+    options?: RouteFiltersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilter> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -76,16 +76,16 @@ export class RouteFiltersImpl implements RouteFilters {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: RouteFiltersListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RouteFilter[]> {
     let result: RouteFiltersListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class RouteFiltersImpl implements RouteFilters {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,11 +111,11 @@ export class RouteFiltersImpl implements RouteFilters {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: RouteFiltersListByResourceGroupOptionalParams
+    options?: RouteFiltersListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<RouteFilter> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -126,7 +126,7 @@ export class RouteFiltersImpl implements RouteFilters {
    * @param options The options parameters.
    */
   public list(
-    options?: RouteFiltersListOptionalParams
+    options?: RouteFiltersListOptionalParams,
   ): PagedAsyncIterableIterator<RouteFilter> {
     const iter = this.listPagingAll(options);
     return {
@@ -141,13 +141,13 @@ export class RouteFiltersImpl implements RouteFilters {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: RouteFiltersListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RouteFilter[]> {
     let result: RouteFiltersListResponse;
     let continuationToken = settings?.continuationToken;
@@ -168,7 +168,7 @@ export class RouteFiltersImpl implements RouteFilters {
   }
 
   private async *listPagingAll(
-    options?: RouteFiltersListOptionalParams
+    options?: RouteFiltersListOptionalParams,
   ): AsyncIterableIterator<RouteFilter> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -184,25 +184,24 @@ export class RouteFiltersImpl implements RouteFilters {
   async beginDelete(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersDeleteOptionalParams
+    options?: RouteFiltersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -211,8 +210,8 @@ export class RouteFiltersImpl implements RouteFilters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -220,20 +219,20 @@ export class RouteFiltersImpl implements RouteFilters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, routeFilterName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,12 +247,12 @@ export class RouteFiltersImpl implements RouteFilters {
   async beginDeleteAndWait(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersDeleteOptionalParams
+    options?: RouteFiltersDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       routeFilterName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -267,11 +266,11 @@ export class RouteFiltersImpl implements RouteFilters {
   get(
     resourceGroupName: string,
     routeFilterName: string,
-    options?: RouteFiltersGetOptionalParams
+    options?: RouteFiltersGetOptionalParams,
   ): Promise<RouteFiltersGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routeFilterName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -286,7 +285,7 @@ export class RouteFiltersImpl implements RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     routeFilterParameters: RouteFilter,
-    options?: RouteFiltersCreateOrUpdateOptionalParams
+    options?: RouteFiltersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RouteFiltersCreateOrUpdateResponse>,
@@ -295,21 +294,20 @@ export class RouteFiltersImpl implements RouteFilters {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RouteFiltersCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -318,8 +316,8 @@ export class RouteFiltersImpl implements RouteFilters {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -327,8 +325,8 @@ export class RouteFiltersImpl implements RouteFilters {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -338,9 +336,9 @@ export class RouteFiltersImpl implements RouteFilters {
         resourceGroupName,
         routeFilterName,
         routeFilterParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       RouteFiltersCreateOrUpdateResponse,
@@ -348,7 +346,7 @@ export class RouteFiltersImpl implements RouteFilters {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -365,13 +363,13 @@ export class RouteFiltersImpl implements RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     routeFilterParameters: RouteFilter,
-    options?: RouteFiltersCreateOrUpdateOptionalParams
+    options?: RouteFiltersCreateOrUpdateOptionalParams,
   ): Promise<RouteFiltersCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       routeFilterName,
       routeFilterParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -387,11 +385,11 @@ export class RouteFiltersImpl implements RouteFilters {
     resourceGroupName: string,
     routeFilterName: string,
     parameters: TagsObject,
-    options?: RouteFiltersUpdateTagsOptionalParams
+    options?: RouteFiltersUpdateTagsOptionalParams,
   ): Promise<RouteFiltersUpdateTagsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, routeFilterName, parameters, options },
-      updateTagsOperationSpec
+      updateTagsOperationSpec,
     );
   }
 
@@ -402,11 +400,11 @@ export class RouteFiltersImpl implements RouteFilters {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: RouteFiltersListByResourceGroupOptionalParams
+    options?: RouteFiltersListByResourceGroupOptionalParams,
   ): Promise<RouteFiltersListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -415,7 +413,7 @@ export class RouteFiltersImpl implements RouteFilters {
    * @param options The options parameters.
    */
   private _list(
-    options?: RouteFiltersListOptionalParams
+    options?: RouteFiltersListOptionalParams,
   ): Promise<RouteFiltersListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -429,11 +427,11 @@ export class RouteFiltersImpl implements RouteFilters {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: RouteFiltersListByResourceGroupNextOptionalParams
+    options?: RouteFiltersListByResourceGroupNextOptionalParams,
   ): Promise<RouteFiltersListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -444,11 +442,11 @@ export class RouteFiltersImpl implements RouteFilters {
    */
   private _listNext(
     nextLink: string,
-    options?: RouteFiltersListNextOptionalParams
+    options?: RouteFiltersListNextOptionalParams,
   ): Promise<RouteFiltersListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -456,8 +454,7 @@ export class RouteFiltersImpl implements RouteFilters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -465,61 +462,59 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName
+    Parameters.routeFilterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName
+    Parameters.routeFilterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     201: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     202: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     204: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.routeFilterParameters,
   queryParameters: [Parameters.apiVersion],
@@ -527,23 +522,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName
+    Parameters.routeFilterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateTagsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilter
+      bodyMapper: Mappers.RouteFilter,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -551,86 +545,84 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.routeFilterName
+    Parameters.routeFilterName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterListResult
+      bodyMapper: Mappers.RouteFilterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/routeFilters",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterListResult
+      bodyMapper: Mappers.RouteFilterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterListResult
+      bodyMapper: Mappers.RouteFilterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteFilterListResult
+      bodyMapper: Mappers.RouteFilterListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

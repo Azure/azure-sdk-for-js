@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Virtual Appliance Site.
  *
  * @summary Gets the specified Virtual Appliance Site.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkVirtualApplianceSiteGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkVirtualApplianceSiteGet.json
  */
 async function getNetworkVirtualApplianceSite() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getNetworkVirtualApplianceSite() {
   const result = await client.virtualApplianceSites.get(
     resourceGroupName,
     networkVirtualApplianceName,
-    siteName
+    siteName,
   );
   console.log(result);
 }

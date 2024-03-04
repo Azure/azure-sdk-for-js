@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the specified storage classification.
  *
  * @summary Gets the details of the specified storage classification.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassifications_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassifications_Get.json
  */
 async function getsTheDetailsOfAStorageClassification() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function getsTheDetailsOfAStorageClassification() {
     resourceName,
     resourceGroupName,
     fabricName,
-    storageClassificationName
+    storageClassificationName,
   );
   console.log(result);
 }

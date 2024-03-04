@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to delete a network mapping.
  *
  * @summary The operation to delete a network mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationNetworkMappings_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationNetworkMappings_Delete.json
  */
 async function deleteNetworkMapping() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function deleteNetworkMapping() {
     resourceGroupName,
     fabricName,
     networkName,
-    networkMappingName
+    networkMappingName,
   );
   console.log(result);
 }

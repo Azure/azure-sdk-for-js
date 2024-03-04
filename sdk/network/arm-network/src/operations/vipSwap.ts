@@ -14,7 +14,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -23,7 +23,7 @@ import {
   SwapResource,
   VipSwapCreateOptionalParams,
   VipSwapListOptionalParams,
-  VipSwapListResponse
+  VipSwapListResponse,
 } from "../models";
 
 /** Class containing VipSwap operations. */
@@ -48,11 +48,11 @@ export class VipSwapImpl implements VipSwap {
   get(
     groupName: string,
     resourceName: string,
-    options?: VipSwapGetOptionalParams
+    options?: VipSwapGetOptionalParams,
   ): Promise<VipSwapGetResponse> {
     return this.client.sendOperationRequest(
       { groupName, resourceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -68,25 +68,24 @@ export class VipSwapImpl implements VipSwap {
     groupName: string,
     resourceName: string,
     parameters: SwapResource,
-    options?: VipSwapCreateOptionalParams
+    options?: VipSwapCreateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -95,8 +94,8 @@ export class VipSwapImpl implements VipSwap {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -104,19 +103,19 @@ export class VipSwapImpl implements VipSwap {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { groupName, resourceName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -134,13 +133,13 @@ export class VipSwapImpl implements VipSwap {
     groupName: string,
     resourceName: string,
     parameters: SwapResource,
-    options?: VipSwapCreateOptionalParams
+    options?: VipSwapCreateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCreate(
       groupName,
       resourceName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -155,11 +154,11 @@ export class VipSwapImpl implements VipSwap {
   list(
     groupName: string,
     resourceName: string,
-    options?: VipSwapListOptionalParams
+    options?: VipSwapListOptionalParams,
   ): Promise<VipSwapListResponse> {
     return this.client.sendOperationRequest(
       { groupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -167,16 +166,15 @@ export class VipSwapImpl implements VipSwap {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SwapResource
+      bodyMapper: Mappers.SwapResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -184,14 +182,13 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.resourceName,
-    Parameters.singletonResource
+    Parameters.singletonResource,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots/{singletonResource}",
   httpMethod: "PUT",
   responses: {
     200: {},
@@ -199,8 +196,8 @@ const createOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters11,
   queryParameters: [Parameters.apiVersion],
@@ -209,31 +206,30 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.groupName,
     Parameters.resourceName,
-    Parameters.singletonResource
+    Parameters.singletonResource,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Compute/cloudServices/{resourceName}/providers/Microsoft.Network/cloudServiceSlots",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SwapResourceListResult
+      bodyMapper: Mappers.SwapResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.groupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

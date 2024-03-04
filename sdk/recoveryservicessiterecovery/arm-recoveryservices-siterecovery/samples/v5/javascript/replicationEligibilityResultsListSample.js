@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Validates whether a given VM can be protected or not in which case returns list of errors.
  *
  * @summary Validates whether a given VM can be protected or not in which case returns list of errors.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationEligibilityResults_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationEligibilityResults_List.json
  */
 async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function getsTheValidationErrorsInCaseTheVMIsUnsuitableForProtection() {
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
   const result = await client.replicationEligibilityResultsOperations.list(
     resourceGroupName,
-    virtualMachineName
+    virtualMachineName,
   );
   console.log(result);
 }

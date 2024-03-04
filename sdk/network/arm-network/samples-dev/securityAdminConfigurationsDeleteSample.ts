@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   SecurityAdminConfigurationsDeleteOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a network manager security admin configuration.
  *
  * @summary Deletes a network manager security admin configuration.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerSecurityAdminConfigurationDelete.json
  */
 async function deleteNetworkManagerSecurityAdminConfiguration() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function deleteNetworkManagerSecurityAdminConfiguration() {
     resourceGroupName,
     networkManagerName,
     configurationName,
-    options
+    options,
   );
   console.log(result);
 }

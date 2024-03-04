@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all private end point connections for a specific private link service.
  *
  * @summary Gets all private end point connections for a specific private link service.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/PrivateLinkServiceListPrivateEndpointConnection.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/PrivateLinkServiceListPrivateEndpointConnection.json
  */
 async function listPrivateLinkServiceInResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";
@@ -29,7 +29,7 @@ async function listPrivateLinkServiceInResourceGroup() {
   const resArray = new Array();
   for await (let item of client.privateLinkServices.listPrivateEndpointConnections(
     resourceGroupName,
-    serviceName
+    serviceName,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the specified DDoS protection plan.
  *
  * @summary Gets information about the specified DDoS protection plan.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/DdosProtectionPlanGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/DdosProtectionPlanGet.json
  */
 async function getDDoSProtectionPlan() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
