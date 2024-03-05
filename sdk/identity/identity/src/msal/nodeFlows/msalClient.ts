@@ -140,23 +140,30 @@ export function createMsalClient(
     pluginConfiguration: generatePluginConfiguration(createMsalClientOptions),
   };
 
-  let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
+  const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
+  // let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
   async function getConfidentialApp(
-    _options: GetTokenOptions = {},
+    options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
-    // abort requests
+    const appKey = options.enableCae ? "CAE" : "default";
 
-    if (confidentialApp === undefined) {
-      // TODOs:
-      // CAE / non-CAE
-      confidentialApp = new msal.ConfidentialClientApplication({
-        ...state.msalConfig,
-        broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
-        cache: { cachePlugin: await state.pluginConfiguration.cache.cachePlugin },
-      });
-    }
+    if (confidentialApps.has(appKey)) return confidentialApps.get(appKey)!;
 
-    return confidentialApp;
+    const cachePlugin = options.enableCae
+      ? state.pluginConfiguration.cache.cachePluginCae
+      : state.pluginConfiguration.cache.cachePlugin;
+
+    state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
+
+    const app = new msal.ConfidentialClientApplication({
+      ...state.msalConfig,
+      broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+      cache: { cachePlugin: await cachePlugin },
+    });
+
+    confidentialApps.set(appKey, app);
+
+    return app;
   }
 
   async function getTokenSilent(
