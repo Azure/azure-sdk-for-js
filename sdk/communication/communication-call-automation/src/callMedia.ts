@@ -18,8 +18,6 @@ import {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
-  StartHoldMusicRequest,
-  StopHoldMusicRequest,
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
@@ -602,49 +600,7 @@ export class CallMedia {
     };
     return sendDtmfTonesResult;
   }
-
-  /**
-   * Put participant on hold while playing audio.
-   *
-   * @param targetParticipant - The targets to play to.
-   * @param playSource - A PlaySource representing the source to play.
-   * @param loop - To play the audio continously until stopped.
-   * @param operationContext - Operation Context.
-   */
-  public async startHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource,
-    loop: boolean = true,
-    operationContext: string | undefined = undefined,
-  ): Promise<void> {
-    const holdRequest: StartHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      playSourceInfo: this.createPlaySourceInternal(playSource),
-      loop: loop,
-      operationContext: operationContext,
-    };
-
-    return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
-  }
-
-  /**
-   * Remove participant from hold.
-   *
-   * @param targetParticipant - The targets to play to.
-   * @param operationContext - Operation Context.
-   */
-  public async stopHoldMusic(
-    targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined,
-  ): Promise<void> {
-    const unholdRequest: StopHoldMusicRequest = {
-      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
-    };
-
-    return this.callMedia.stopHoldMusic(this.callConnectionId, unholdRequest);
-  }
-
+  
   /**
    * Starts transcription in the call
    * @param options - Additional attributes for start transcription.

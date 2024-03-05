@@ -20,7 +20,6 @@ export const CALL_INCOMING_CALL_CONTEXT = "eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.R
 export const CALL_OPERATION_CONTEXT = "operationContext";
 export const RECORDING_ID = "recordingId";
 export const RECORDING_STATE = "active";
-export const MEDIA_SUBSCRIPTION_ID = "mediaSubscriptionId";
 export const MEDIA_UR_MP3 = "https://example.com/audio.mp3";
 export const MEDIA_URL_WAV = "https://example.com/audio/test.wav";
 

@@ -22,20 +22,19 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685",
+      "source": "calling/callConnections/881f6800-5dea-43ea-bbbf-fb1678f1141f",
       "type": "Microsoft.Communication.CallDisconnected",
       "data": {
-        "eventSource": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685",
         "operationContext": "operationContextRejectCall",
-        "version": "2023-10-03-preview",
-        "callConnectionId": "401f0700-7539-4784-b1ea-cd57a598c685",
+        "version": "2024-01-22-preview",
+        "callConnectionId": "881f6800-5dea-43ea-bbbf-fb1678f1141f",
         "correlationId": "sanitized",
         "publicEventType": "Microsoft.Communication.CallDisconnected"
       },
-      "time": "2024-01-04T13:54:12.2650422+00:00",
+      "time": "2024-03-05T08:11:35.3802831+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/401f0700-7539-4784-b1ea-cd57a598c685"
+      "subject": "calling/callConnections/881f6800-5dea-43ea-bbbf-fb1678f1141f"
     }
   ]
 ]

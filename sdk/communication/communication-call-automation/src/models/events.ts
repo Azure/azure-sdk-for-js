@@ -15,7 +15,6 @@ import {
   RestParticipantsUpdated,
   RestRecordingStateChanged,
   RestTeamsComplianceRecordingStateChanged,
-  RestTeamsRecordingStateChanged,
   RestPlayCompleted,
   RestPlayFailed,
   RestPlayCanceled,
@@ -52,7 +51,6 @@ export type CallAutomationEvent =
   | ParticipantsUpdated
   | RecordingStateChanged
   | TeamsComplianceRecordingStateChanged
-  | TeamsRecordingStateChanged
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -277,22 +275,6 @@ export interface TeamsComplianceRecordingStateChanged
   correlationId: string;
   /** kind of this event. */
   kind: "TeamsComplianceRecordingStateChanged";
-}
-
-/** Event when Teams Recording state has been changed. */
-export interface TeamsRecordingStateChanged
-  extends Omit<
-    RestTeamsRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsRecordingStateChanged";
 }
 
 /** Event when Media play was successfully completed. */

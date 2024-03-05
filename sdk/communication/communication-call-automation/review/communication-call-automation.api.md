@@ -72,9 +72,7 @@ export interface AnswerCallEventResult {
 // @public
 export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sourceCallIdNumber?: PhoneNumberIdentifier;
     transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
@@ -106,7 +104,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | TeamsRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | TeamsComplianceRecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -149,7 +147,6 @@ export interface CallConnectionProperties {
     callConnectionId?: string;
     callConnectionState?: CallConnectionStateModel;
     correlationId?: string;
-    mediaSubscriptionId?: string;
     serverCallId?: string;
     source?: CommunicationIdentifier;
     sourceCallerIdNumber?: PhoneNumberIdentifier;
@@ -203,13 +200,11 @@ export class CallMedia {
     playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<PlayResult>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startHoldMusic(targetParticipant: CommunicationIdentifier, playSource: FileSource | TextSource | SsmlSource, loop?: boolean, operationContext?: string | undefined): Promise<void>;
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<StartRecognizingResult>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<StartRecognizingResult>;
     startTranscription(options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    stopHoldMusic(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     updateTranscription(locale: string): Promise<void>;
 }
@@ -430,8 +425,6 @@ export interface CreateCallEventResult {
 // @public
 export interface CreateCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
-    customCallingContext?: CustomCallingContext;
-    mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
     sourceCallIdNumber?: PhoneNumberIdentifier;
     sourceDisplayName?: string;
@@ -514,43 +507,10 @@ export enum KnownCallRejectReason {
 }
 
 // @public
-export enum KnownMediaStreamingAudioChannelType {
-    Mixed = "mixed",
-    Unmixed = "unmixed"
-}
-
-// @public
-export enum KnownMediaStreamingContentType {
-    Audio = "audio"
-}
-
-// @public
-export enum KnownMediaStreamingTransportType {
-    Websocket = "websocket"
-}
-
-// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
 }
-
-// @public
-export type MediaStreamingAudioChannelType = string;
-
-// @public
-export interface MediaStreamingConfiguration {
-    audioChannelType: MediaStreamingAudioChannelType;
-    contentType: MediaStreamingContentType;
-    transportType: MediaStreamingTransportType;
-    transportUrl: string;
-}
-
-// @public
-export type MediaStreamingContentType = string;
-
-// @public
-export type MediaStreamingTransportType = string;
 
 // @public
 export interface MuteParticipantOption extends OperationOptions {
@@ -871,7 +831,6 @@ export interface StartRecordingOptions extends OperationOptions {
     audioChannelParticipantOrdering?: CommunicationIdentifier[];
     callLocator: CallLocator;
     channelAffinity?: ChannelAffinity[];
-    pauseOnStart?: boolean;
     recordingChannel?: RecordingChannel;
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
@@ -899,16 +858,6 @@ export interface TeamsComplianceRecordingStateChanged extends Omit<RestTeamsComp
     callConnectionId: string;
     correlationId: string;
     kind: "TeamsComplianceRecordingStateChanged";
-    serverCallId: string;
-}
-
-// Warning: (ae-forgotten-export) The symbol "RestTeamsRecordingStateChanged" needs to be exported by the entry point index.d.ts
-//
-// @public
-export interface TeamsRecordingStateChanged extends Omit<RestTeamsRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
-    callConnectionId: string;
-    correlationId: string;
-    kind: "TeamsRecordingStateChanged";
     serverCallId: string;
 }
 

@@ -4,7 +4,6 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingConfiguration,
   TranscriptionConfiguration,
   CallRejectReason,
   FileSource,
@@ -109,12 +108,8 @@ export interface CreateCallOptions extends OperationOptions {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** Configuration of live transcription. */
   transcriptionConfiguration?: TranscriptionConfiguration;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -123,16 +118,10 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
   /** Configuration of live transcription. */
   transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
-  /** The caller ID number which is a phone number that will be used when inviting a pstn target.
-   *  Required only when this is an incoming voip call and there will be a transfer call request to a PSTN target.
-   */
-  sourceCallIdNumber?: PhoneNumberIdentifier;
 }
 
 /**
@@ -249,8 +238,6 @@ export interface StartRecordingOptions extends OperationOptions {
   recordingChannel?: RecordingChannel;
   /** The format type of call recording. */
   recordingFormat?: RecordingFormat;
-  /** Pause on start call recording option. */
-  pauseOnStart?: boolean;
   /**
    * The sequential order in which audio channels are assigned to participants in the unmixed recording.
    * When 'recordingChannelType' is set to 'unmixed' and `audioChannelParticipantOrdering` is not specified,
