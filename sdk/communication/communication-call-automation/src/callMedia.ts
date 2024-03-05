@@ -600,7 +600,7 @@ export class CallMedia {
     };
     return sendDtmfTonesResult;
   }
-  
+
   /**
    * Starts transcription in the call
    * @param options - Additional attributes for start transcription.
