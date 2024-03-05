@@ -366,7 +366,7 @@ export class AppConfigurationClient {
               err.message = `Status 304: No updates for this page`;
               logger.info(
                 `[listConfigurationSettings] No updates for this page. The current etag for the page is ${etag}`,
-              );            
+              );
               return {
                 page: {
                   items: [],
@@ -375,8 +375,8 @@ export class AppConfigurationClient {
                 } as unknown as ListConfigurationSettingPage,
                 nextPageLink: continuationToken,
               };
-             }
-             
+            }
+
             throw err;
           }
         },
