@@ -2,7 +2,10 @@
 // Licensed under the MIT license.
 
 import { EncryptionSettings } from "../EncryptionSettings";
-/**@hidden */
+/**
+ * @hidden
+ * The cache used to store encryption settings for a container.
+ */
 export class EncryptionSettingsCache {
   //key is databaseId + '/' + containerId
   private encryptionSettingsCache: Map<string, EncryptionSettings>;
