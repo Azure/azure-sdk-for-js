@@ -121,7 +121,7 @@ async function execute(listOfModifiedProjects, check_script, fix_script) {
   return false;
 }
 
-console.log("Preparing the pre-push script....\n");
+console.log("Running the Pre Push Checks on your commits. You could skip these checks by setting SKIP_PREPUSH_CHECKS to true.\n");
 
 async function main() {
   const skipPrePushChecks = getEnvVariable('SKIP_PREPUSH_CHECKS');
