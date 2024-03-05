@@ -32,7 +32,7 @@ npm run build
 Pop-Location
 Write-Host "starting azure functions deployment"
 Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip" --debug
 Write-Host "Deployed function app"
 # $image = "$loginServer/identity-functions-test-image"
 # docker build --no-cache -t $image "$workingFolder/AzureFunctions"
@@ -42,7 +42,7 @@ Write-Host "Deployed function app"
 
 # Azure Web Apps app deployment
 Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
-az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true
+az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true --debug
 Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 
 # Push-Location "$webappRoot/AzureWebApps"
