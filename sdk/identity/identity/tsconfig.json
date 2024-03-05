@@ -2,25 +2,14 @@
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
     "target": "ES2020",
-    "lib": [
-      "DOM"
-    ],
+    "lib": ["DOM"],
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
-      "@azure/identity": [
-        "./src/index"
-      ]
+      "@azure/identity": ["./src/index"]
     }
   },
-  "include": [
-    "src/**/*",
-    "test/**/*",
-    "samples-dev/**/*.ts"
-  ],
-  "exclude": [
-    "test/manual*/**/*",
-    "node_modules"
-  ]
+  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
+  "exclude": ["test/manual*/**/*", "node_modules"]
 }
