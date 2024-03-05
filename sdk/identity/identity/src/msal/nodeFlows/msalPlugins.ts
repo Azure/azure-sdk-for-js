@@ -3,12 +3,9 @@
 
 import * as msalNode from "@azure/msal-node";
 
-import { nativeBrokerInfo, persistenceProvider } from "./msalNodeCommon";
-
 import { MsalClientOptions } from "./msalClient";
-
-// TODO: invert this relationship, instead of importing from msalNodeCommon and calling into it, we should _export_ the right things from here and import them in msalNodeCommon
-// Then, there's a single source for plugins across both msalClient and msalNodeCommon
+import { NativeBrokerPluginControl } from "../../plugins/provider";
+import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 
 /**
  * Configuration for the plugins used by the MSAL node client.
@@ -29,6 +26,50 @@ export interface PluginConfiguration {
     nativeBrokerPlugin?: msalNode.INativeBrokerPlugin;
   };
 }
+
+/**
+ * The current persistence provider, undefined by default.
+ * @internal
+ */
+export let persistenceProvider:
+  | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
+  | undefined = undefined;
+
+/**
+ * An object that allows setting the persistence provider.
+ * @internal
+ */
+export const msalNodeFlowCacheControl = {
+  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
+    persistenceProvider = pluginProvider;
+  },
+};
+
+/**
+ * The current native broker provider, undefined by default.
+ * @internal
+ */
+export let nativeBrokerInfo:
+  | {
+      broker: msalNode.INativeBrokerPlugin;
+    }
+  | undefined = undefined;
+
+export function hasNativeBroker(): boolean {
+  return nativeBrokerInfo !== undefined;
+}
+
+/**
+ * An object that allows setting the native broker provider.
+ * @internal
+ */
+export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
+  setNativeBroker(broker): void {
+    nativeBrokerInfo = {
+      broker,
+    };
+  },
+};
 
 /**
  * Configures plugins, validating that required plugins are available and enabled.
