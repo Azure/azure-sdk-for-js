@@ -8,11 +8,19 @@ function getEnvVariable(name) {
 
 function preparePrePushRemote() {
   try {
-    execSync("git remote add prepush https://github.com/Azure/azure-sdk-for-js.git");
+    execSync("git remote add prepush https://github.com/Azure/azure-sdk-for-js.git", {
+      encoding: "utf-8",
+      stdio: ["pipe", "pipe", "pipe"],
+    });
   } catch (e) {
     console.log("Remote 'prepush' already exists. No need to add it again. Continuing...");
-  }  
-  execSync("git fetch prepush");
+  }
+  console.log(`Fetching updates from the remote 'prepush' repository...`);
+  execSync("git fetch prepush", {
+    encoding: "utf-8",
+    stdio: ["pipe", "pipe", "pipe"],
+  });
+  console.log(`Fetched updates from the remote 'prepush' repository.`);
 }
 
 function getLocalCommitsNotMerged() {
@@ -58,6 +66,9 @@ function extractPathPrefix(inputString) {
   const match = inputString.match(regex);
 
   if (match && match[1]) {
+    if(match[1].endsWith("perf-tests")) {
+      return (match[1] + "/" + (inputString.replace(match[1], "").split("/")[1]));
+    }
     return match[1];
   } else {
     return null;
