@@ -1,5 +1,15 @@
 # Release History
 
+## 4.2.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 4.2.1 (2024-03-04)
 
 ### Other Changes
