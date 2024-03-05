@@ -46,7 +46,11 @@ import {
 import { DefaultDiagnosticFormatter, DiagnosticFormatter } from "./diagnostics/DiagnosticFormatter";
 import { CosmosDbDiagnosticLevel } from "./diagnostics/CosmosDbDiagnosticLevel";
 import { EncryptionKeyStoreProvider } from "./encryption/EncryptionKeyStoreProvider";
-import { EncryptionSettingsCache, ClientEncryptionKeyPropertiesCache } from "./encryption";
+import {
+  EncryptionSettingsCache,
+  ClientEncryptionKeyPropertiesCache,
+  ProtectedDataEncryptionKey,
+} from "./encryption";
 const logger: AzureLogger = createClientLogger("ClientContext");
 
 const QueryJsonContentType = "application/query+json";
@@ -66,6 +70,7 @@ export class ClientContext {
   public encryptionKeyStoreProvider: EncryptionKeyStoreProvider;
   public clientEncryptionKeyPropertiesCache: ClientEncryptionKeyPropertiesCache;
   public encryptionSettingsCache: EncryptionSettingsCache; // cache to store encryption settings for containers. Key is databaseRid+containerRid
+  private readonly encryptionKeyTimeToLiveInHours: number;
   public constructor(
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
@@ -100,9 +105,14 @@ export class ClientContext {
       this.encryptionKeyStoreProvider = new EncryptionKeyStoreProvider(
         cosmosClientOptions.keyEncryptionKeyResolver,
         "AzureKeyVault",
+        this.encryptionKeyTimeToLiveInHours,
       );
       this.encryptionSettingsCache = new EncryptionSettingsCache();
       this.clientEncryptionKeyPropertiesCache = new ClientEncryptionKeyPropertiesCache();
+      this.encryptionKeyTimeToLiveInHours = cosmosClientOptions.encryptionKeyTimeToLiveInHours
+        ? cosmosClientOptions.encryptionKeyTimeToLiveInHours
+        : 2;
+      ProtectedDataEncryptionKey.clearCacheOnTtlExpiry(this.encryptionKeyTimeToLiveInHours);
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
   }

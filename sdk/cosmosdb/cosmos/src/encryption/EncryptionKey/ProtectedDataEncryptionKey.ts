@@ -12,8 +12,9 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
 
   public name: string;
 
-  private static protectedDataEncryptionKeyCache: { [key: string]: ProtectedDataEncryptionKey } =
-    {};
+  private static protectedDataEncryptionKeyCache: {
+    [key: string]: [Date, ProtectedDataEncryptionKey];
+  } = {};
 
   private constructor(
     name: string,
@@ -50,16 +51,32 @@ export class ProtectedDataEncryptionKey extends DataEncryptionKey {
     name: string,
     keyEncryptionKey: KeyEncryptionKey,
     encryptedValue: Buffer,
+    forceRefresh?: boolean,
   ): Promise<ProtectedDataEncryptionKey> {
     const key = JSON.stringify([name, keyEncryptionKey, encryptedValue.toString("hex")]);
-    if (this.protectedDataEncryptionKeyCache[key] === undefined) {
+    if (this.protectedDataEncryptionKeyCache[key] === undefined || forceRefresh) {
       const protectedKey = await this.create(name, keyEncryptionKey, encryptedValue);
-      this.protectedDataEncryptionKeyCache[key] = protectedKey;
+      this.protectedDataEncryptionKeyCache[key] = [new Date(), protectedKey];
     }
-    return this.protectedDataEncryptionKeyCache[key];
+    return this.protectedDataEncryptionKeyCache[key][1];
   }
 
   private static generateColumnEncryptionKey(): Buffer {
     return randomBytes(32);
+  }
+
+  public static async clearCacheOnTtlExpiry(time: number): Promise<void> {
+    setInterval(() => {
+      const now = new Date();
+      for (const key in ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache) {
+        if (
+          now.getTime() -
+            ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache[key][0].getTime() >
+          time
+        ) {
+          delete ProtectedDataEncryptionKey.protectedDataEncryptionKeyCache[key];
+        }
+      }
+    }, 300000);
   }
 }
