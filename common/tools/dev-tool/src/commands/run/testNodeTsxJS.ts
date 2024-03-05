@@ -31,7 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `cross-env NODE_OPTIONS='--import tsx' c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `c8 mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 

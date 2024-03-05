@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { runTestsWithProxyTool } from "../../util/testUtils";
+
+import concurrently from "concurrently";
 import { createPrinter } from "../../util/printer";
+import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
   "test:node-tsx-ts",
@@ -30,7 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
-    command: `cross-env NODE_OPTIONS='--import tsx' mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
