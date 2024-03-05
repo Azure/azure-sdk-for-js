@@ -232,14 +232,14 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     }
 
     // At this point we should have a token, process it
-    ensureValidMsalToken(scopes, response ?? undefined, options);
+    ensureValidMsalToken(scopes, response, options);
     state.cachedAccount = response?.account ?? null;
 
     msalLogger.getToken.info(formatSuccess(scopes));
 
     return {
-      token: response!.accessToken,
-      expiresOnTimestamp: response!.expiresOn!.getTime(),
+      token: response.accessToken,
+      expiresOnTimestamp: response.expiresOn.getTime(),
     };
   }
 
