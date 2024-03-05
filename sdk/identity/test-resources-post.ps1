@@ -13,7 +13,7 @@ param (
 #   return
 # }
 
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
 
 $webappRoot = "$PSScriptRoot/identity/integration" | Resolve-Path
@@ -46,6 +46,7 @@ Write-Host "Deployed function app"
 Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
 az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true --debug
 az webapp log deployment show  --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME']
+Start-Sleep -s 3600
 Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 
 # Push-Location "$webappRoot/AzureWebApps"
