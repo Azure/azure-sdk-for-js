@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientEncryptionKeyProperties } from "../ClientEncryptionKey/ClientEncryptionKeyProperties";
+import { ClientEncryptionKeyProperties } from "../ClientEncryptionKey";
 
+/**
+ * The cache used to store the properties of the client encryption key
+ */
 export class ClientEncryptionKeyPropertiesCache {
   // key is database id + '/'+ clientEncryptionKeyId
   private clientEncryptionKeyPropertiesCache: Map<string, ClientEncryptionKeyProperties>;
