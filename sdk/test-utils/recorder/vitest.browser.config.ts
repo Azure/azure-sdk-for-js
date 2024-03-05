@@ -24,6 +24,11 @@ export default defineConfig({
       headless: true,
       name: "chromium",
       provider: "playwright",
+      providerOptions: {
+        launch: {
+          args: ["--disable-web-security"]
+        }
+      }
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
