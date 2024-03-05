@@ -21,6 +21,8 @@ import {
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
+  HoldRequest,
+  UnholdRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -599,6 +601,47 @@ export class CallMedia {
       },
     };
     return sendDtmfTonesResult;
+  }
+
+  /**
+   * Put participant on hold while playing audio.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param playSource - A PlaySource representing the source to play.
+   * @param operationContext - Operation Context.
+   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   */
+  public async hold(
+    targetParticipant: CommunicationIdentifier,
+    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
+    operationContext: string | undefined = undefined,
+    operationCallbackUri: string | undefined = undefined,
+  ): Promise<void> {
+    const holdRequest: HoldRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      playSourceInfo:
+        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
+      operationContext: operationContext,
+      operationCallbackUri: operationCallbackUri,
+    };
+    return this.callMedia.hold(this.callConnectionId, holdRequest);
+  }
+
+  /**
+   * Remove participant from hold.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param operationContext - Operation Context.
+   */
+  public async unhold(
+    targetParticipant: CommunicationIdentifier,
+    operationContext: string | undefined = undefined,
+  ): Promise<void> {
+    const unholdRequest: UnholdRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext: operationContext,
+    };
+    return this.callMedia.unhold(this.callConnectionId, unholdRequest);
   }
 
   /**
