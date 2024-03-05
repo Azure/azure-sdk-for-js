@@ -381,7 +381,23 @@ export class Container {
           partitionKeyPaths,
           clientEncryptionPolicy,
         );
+        // set the encryption settings in the cache
         this.clientContext.encryptionSettingsCache.setEncryptionSettings(key, enryptionSettings);
+        const clientEncryptionKeyIds = [
+          ...new Set(
+            clientEncryptionPolicy.includedPaths.map((item) => item.clientEncryptionKeyId),
+          ),
+        ];
+        // fetch and set clientEncryptionKeys in the cache
+        for (const clientEncryptionKeyId of clientEncryptionKeyIds) {
+          const res = await this.database.readClientEncryptionKey(clientEncryptionKeyId);
+          let encryptionKeyProperties = res.clientEncryptionKeyProperties;
+          const key = this.database.id + "/" + clientEncryptionKeyId;
+          this.clientContext.clientEncryptionKeyPropertiesCache.setClientEncryptionKeyProperties(
+            key,
+            encryptionKeyProperties,
+          );
+        }
       }, this.clientContext);
     }
   }
