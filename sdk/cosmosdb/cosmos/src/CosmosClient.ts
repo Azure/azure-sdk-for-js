@@ -74,6 +74,15 @@ export class CosmosClient {
       throw new Error("Invalid endpoint specified");
     }
 
+    if (
+      optionsOrConnectionString.enableEncryption &&
+      !optionsOrConnectionString.keyEncryptionKeyResolver
+    ) {
+      throw new Error(
+        "KeyEncryptionKeyResolver needs to be provided to enable client-side encryption.",
+      );
+    }
+
     const clientConfig: ClientConfigDiagnostic =
       this.initializeClientConfigDiagnostic(optionsOrConnectionString);
 

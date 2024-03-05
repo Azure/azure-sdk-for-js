@@ -4,6 +4,7 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
+import { ClientEncryptionPolicy } from "../../encryption";
 
 export interface ContainerDefinition {
   /** The id of the container. */
@@ -22,4 +23,6 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  /** Encryption policy for the container, contains path that needs to be encrypted */
+  clientEncryptionPolicy?: ClientEncryptionPolicy;
 }
