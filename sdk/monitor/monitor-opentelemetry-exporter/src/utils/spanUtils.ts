@@ -3,7 +3,7 @@
 
 import { URL } from "url";
 import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { addHrTimes, hrTime, hrTimeToMilliseconds } from "@opentelemetry/core";
+import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
 import { SemanticAttributes, DbSystemValues } from "@opentelemetry/semantic-conventions";
 
@@ -130,7 +130,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     success: span.status.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
-    duration: msToTimeSpan(hrTimeToMilliseconds(addHrTimes(span.duration, hrTime()))),
+    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
   };
   if (span.kind === SpanKind.PRODUCER) {
@@ -236,7 +236,7 @@ function createRequestData(span: ReadableSpan): RequestData {
     id: `${span.spanContext().spanId}`,
     success: span.status.code !== SpanStatusCode.ERROR,
     responseCode: "0",
-    duration: msToTimeSpan(hrTimeToMilliseconds(addHrTimes(span.duration, hrTime()))),
+    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
     version: 2,
     source: undefined,
   };
