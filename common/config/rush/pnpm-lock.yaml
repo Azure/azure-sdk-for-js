@@ -19441,7 +19441,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-f2gc1qyH66W0LB1k3KYcmkvj0t0zqjo23MqivtPzFpP6UuOY9skyg5nBIGoX2C56ueDGz+xFgWDVGe3lqm5ORQ==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-uS5xWc23GRNfezZbt3VE6dWroUrHD9xX0FsgHrinzW/IX3hcPmS72mHEr59wby9dDoN0b0aTf5CU4zY55OP6Pw==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -19485,11 +19485,10 @@ packages:
       stoppable: 1.1.0
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
+      tsx: 4.7.1
       typescript: 5.3.3
       util: 0.12.5
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - encoding
