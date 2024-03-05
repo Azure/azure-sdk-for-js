@@ -3,7 +3,9 @@
 
 import { KeyEncryptionKeyAlgorithm } from "./enums/KeyEncryptionKeyAlgorithm";
 import { EncryptionKeyStoreProvider } from "./EncryptionKeyStoreProvider";
-
+/**
+ * A wrapper class containing the info about the client encryption key and key store provider to wrap and unwrap the key.
+ */
 export class KeyEncryptionKey {
   private encryptionAlgorithm: KeyEncryptionKeyAlgorithm;
 
@@ -30,7 +32,7 @@ export class KeyEncryptionKey {
     if (!KeyEncryptionKey.keyEncryptionKeyCache) {
       KeyEncryptionKey.keyEncryptionKeyCache = {};
     }
-    const key = JSON.stringify([name, path, keyStoreProvider]);
+    const key = JSON.stringify([name, path]);
     if (!KeyEncryptionKey.keyEncryptionKeyCache[key]) {
       KeyEncryptionKey.keyEncryptionKeyCache[key] = new KeyEncryptionKey(
         name,

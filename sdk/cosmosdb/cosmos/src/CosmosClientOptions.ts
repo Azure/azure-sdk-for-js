@@ -61,6 +61,7 @@ export interface CosmosClientOptions {
   diagnosticLevel?: CosmosDbDiagnosticLevel;
   enableEncryption?: boolean;
   keyEncryptionKeyResolver?: EncryptionKeyResolver;
+  encryptionKeyTimeToLiveInHours?: number;
   /** @internal */
   plugins?: PluginConfig[];
   /** An optional parameter that represents the connection string. Your database connection string can be found in the Azure Portal. */
