@@ -29,7 +29,7 @@ async function firmwareListByWorkspaceMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.firmwareOperations.listByWorkspace(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }
@@ -53,7 +53,7 @@ async function firmwareListByWorkspaceMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.firmwareOperations.listByWorkspace(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   )) {
     resArray.push(item);
   }

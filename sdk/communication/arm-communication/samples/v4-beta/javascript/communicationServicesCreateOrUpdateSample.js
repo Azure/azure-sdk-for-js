@@ -32,7 +32,7 @@ async function createOrUpdateResource() {
   const result = await client.communicationServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -58,7 +58,7 @@ async function createOrUpdateResourceWithManagedIdentity() {
   const result = await client.communicationServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

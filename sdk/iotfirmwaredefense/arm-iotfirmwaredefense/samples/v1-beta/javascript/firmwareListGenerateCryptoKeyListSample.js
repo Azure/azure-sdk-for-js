@@ -31,7 +31,7 @@ async function firmwareListGenerateCryptoKeyListMaximumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateCryptoKeyList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
@@ -57,7 +57,7 @@ async function firmwareListGenerateCryptoKeyListMinimumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateCryptoKeyList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
