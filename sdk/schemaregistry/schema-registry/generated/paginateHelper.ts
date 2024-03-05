@@ -45,9 +45,13 @@ export interface PagingOptions<TResponse> {
  * where the page items are found. The default value is `value`.
  * This type will allow us to provide strongly typed Iterator based on the response we get as second parameter
  */
-export type PaginateReturn<TResult> = TResult extends {
-  body: { value?: infer TPage };
-}
+export type PaginateReturn<TResult> = TResult extends
+  | {
+      body: { value?: infer TPage };
+    }
+  | {
+      body: { Value?: infer TPage };
+    }
   ? GetArrayType<TPage>
   : Array<unknown>;
 
@@ -66,8 +70,10 @@ export function paginate<TResponse extends PathUncheckedResponse>(
   // Extract element type from initial response
   type TElement = PaginateReturn<TResponse>;
   let firstRun = true;
-  const itemName = "value";
-  const nextLinkName = "nextLink";
+  // We need to check the response for success before trying to inspect it looking for
+  // the properties to use for nextLink and itemName
+  checkPagingRequest(initialResponse);
+  const { itemName, nextLinkName } = getPaginationProperties(initialResponse);
   const { customGetPage } = options;
   const pagedResult: PagedResult<TElement[]> = {
     firstPageLink: "",
@@ -151,4 +157,48 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
       response,
     );
   }
+}
+
+/**
+ * Extracts the itemName and nextLinkName from the initial response to use them for pagination
+ */
+function getPaginationProperties(initialResponse: PathUncheckedResponse) {
+  // Build a set with the passed custom nextLinkNames
+  const nextLinkNames = new Set(["nextLink", "NextLink"]);
+
+  // Build a set with the passed custom set of itemNames
+  const itemNames = new Set(["value", "Value"]);
+
+  let nextLinkName: string | undefined;
+  let itemName: string | undefined;
+
+  for (const name of nextLinkNames) {
+    const nextLink = (initialResponse.body as Record<string, unknown>)[
+      name
+    ] as string;
+    if (nextLink) {
+      nextLinkName = name;
+      break;
+    }
+  }
+
+  for (const name of itemNames) {
+    const item = (initialResponse.body as Record<string, unknown>)[
+      name
+    ] as string;
+    if (item) {
+      itemName = name;
+      break;
+    }
+  }
+
+  if (!itemName) {
+    throw new Error(
+      `Couldn't paginate response\n Body doesn't contain an array property with name: ${[
+        ...itemNames,
+      ].join(" OR ")}`,
+    );
+  }
+
+  return { itemName, nextLinkName };
 }

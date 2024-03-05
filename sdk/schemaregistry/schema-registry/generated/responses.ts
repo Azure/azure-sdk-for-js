@@ -4,15 +4,15 @@
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import {
-  StringsListOutput,
-  Int32sListOutput,
+  SchemaGroupsOutput,
+  SchemaVersionsOutput,
   SchemaContentTypeValuesOutput,
 } from "./outputModels";
 
 /** The request has succeeded. */
 export interface ListSchemaGroups200Response extends HttpResponse {
   status: "200";
-  body: StringsListOutput;
+  body: SchemaGroupsOutput;
 }
 
 export interface ListSchemaGroupsDefaultHeaders {
@@ -29,7 +29,7 @@ export interface ListSchemaGroupsDefaultResponse extends HttpResponse {
 /** The request has succeeded. */
 export interface ListSchemaVersions200Response extends HttpResponse {
   status: "200";
-  body: Int32sListOutput;
+  body: SchemaVersionsOutput;
 }
 
 export interface ListSchemaVersionsDefaultHeaders {
@@ -60,7 +60,7 @@ export interface GetSchemaById200Headers {
   "content-type": SchemaContentTypeValuesOutput;
 }
 
-/** The schema, including its metadata and content. */
+/** The request has succeeded. */
 export interface GetSchemaById200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */
@@ -96,7 +96,7 @@ export interface GetSchemaByVersion200Headers {
   "content-type": SchemaContentTypeValuesOutput;
 }
 
-/** The schema, including its metadata and content. */
+/** The request has succeeded. */
 export interface GetSchemaByVersion200Response extends HttpResponse {
   status: "200";
   /** Value may contain any sequence of octets */

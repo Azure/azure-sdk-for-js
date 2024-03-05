@@ -11,7 +11,7 @@ export type GetSchemaByVersionParameters = RequestParameters;
 
 export interface GetSchemaPropertiesByContentBodyParam {
   /**
-   * String representation (UTF-8) of the registered schema.
+   * String representation (UTF-8) of the schema.
    *
    * Value may contain any sequence of octets
    */
