@@ -53,12 +53,12 @@
     "pack": "npm pack 2>&1",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input --use-esm-workaround=true -- --timeout 180000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:node": "dev-tool run test:node-tsx-js -- --timeout 180000 'dist-esm/test/**/*.spec.js'",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run test:node-tsx-ts -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "engines": {
@@ -105,10 +105,11 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
+    "c8": "^8.0.0",
     "chai": "^4.2.0",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
-    "esm": "^3.2.18",
     "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
@@ -120,13 +121,11 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nock": "^12.0.3",
-    "c8": "^8.0.0",
     "rimraf": "^3.0.0",
     "sinon": "^17.0.0",
-    "ts-node": "^10.0.0",
+    "tsx": "^4.7.1",
     "typescript": "~5.3.3",
-    "uglify-js": "^3.4.9",
-    "cross-env": "^7.0.2"
+    "uglify-js": "^3.4.9"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",

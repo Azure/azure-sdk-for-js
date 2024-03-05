@@ -6095,6 +6095,12 @@ packages:
       get-intrinsic: 1.2.4
     dev: false
 
+  /get-tsconfig@4.7.2:
+    resolution: {integrity: sha512-wuMsz4leaj5hbGgg4IvDU0bqJagpftG5l5cXIAvo8uZrqn0NJqwtfupTN00VnkQJPcIRrxYrm1Ue24btpCha2A==}
+    dependencies:
+      resolve-pkg-maps: 1.0.0
+    dev: false
+
   /get-uri@6.0.3:
     resolution: {integrity: sha512-BzUrJBS9EcUb4cFol8r4W3v1cPsSyajLSthNkz5BxbpDcHN5tIrM10E2eNvfnvBn3DaT3DUgx0OpsBKkaOpanw==}
     engines: {node: '>= 14'}
@@ -8743,6 +8749,10 @@ packages:
       walk-up-path: 3.0.1
     dev: false
 
+  /resolve-pkg-maps@1.0.0:
+    resolution: {integrity: sha512-seS2Tj26TBVOC2NIc2rOe2y2ZO7efxITtLZcGSOnHHNOQ7CkiUBfw0Iw2ck6xkIhPwLhKNLS8BO+hEpngQlqzw==}
+    dev: false
+
   /resolve@1.19.0:
     resolution: {integrity: sha512-rArEXAgsBG4UgRGcynxWIWKFvh/XZCcS8UJdHhwy91zwAvCZIbcs+vAbflgBnNjYMs/i/i+/Ux6IZhML1yPvxg==}
     dependencies:
@@ -9739,6 +9749,17 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 5.3.3
+    dev: false
+
+  /tsx@4.7.1:
+    resolution: {integrity: sha512-8d6VuibXHtlN5E3zFkgY8u4DX7Y3Z27zvvPKVmLon/D4AjuKzarkUBTLDBgj9iTQ0hg5xM7c/mYiRVM+HETf0g==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dependencies:
+      esbuild: 0.19.12
+      get-tsconfig: 4.7.2
+    optionalDependencies:
+      fsevents: 2.3.3
     dev: false
 
   /tunnel-agent@0.6.0:
@@ -11207,7 +11228,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-I5Dk5KGkZcareqejzIneRVjBdEPEwb41zVSXnvxEpvAiSoPs5guqYtPzFWWE+U5IDEvwnT9RATkNIbVaOWm1Lg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-A0i04nEnJqmlvlS9bZVXUGlpZUk4rHRThuuSb9FFIA7yxLI1l5on4dw/XhH6iLUzOyhULniRqOLjxiTAfUd2aQ==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -11239,11 +11260,10 @@ packages:
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
+      tsx: 4.7.1
       typescript: 5.3.3
       uglify-js: 3.17.4
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
@@ -19674,7 +19694,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-cMkAwyWjRbLVNS3lLDAyR/z+G+uckCncI0EfD4rp3mewNliQrBpfGoJn73KjrJErKHb648YKHN2S2DpXSuZDPg==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-/jZhBm9LkTtdOEMRNbIwXnRwTzcrGpE4q59YbWtmb3H+8GaGU/Q5gUDAN4AHmBBCK47vQPbHfvAW8rOemPGvlw==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -19708,10 +19728,9 @@ packages:
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
+      tsx: 4.7.1
       typescript: 5.3.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - encoding
@@ -20262,6 +20281,7 @@ packages:
       '@types/node': 18.19.18
       '@types/sinon': 17.0.3
       c8: 8.0.1
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       eslint-plugin-node: 11.1.0(eslint@8.57.0)
@@ -20272,6 +20292,7 @@ packages:
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
+      tsx: 4.7.1
       typescript: 5.3.3
     transitivePeerDependencies:
       - '@swc/core'

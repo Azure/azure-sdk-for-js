@@ -8,6 +8,8 @@ export const commandInfo = makeCommandInfo("run", "run scripts such as test:node
 export default subCommand(commandInfo, {
   "test:node-ts-input": () => import("./testNodeTSInput"),
   "test:node-js-input": () => import("./testNodeJSInput"),
+  "test:node-tsx-js": () => import("./testNodeTsxJS"),
+  "test:node-tsx-ts": () => import("./testNodeTsxTS"),
   "test:browser": () => import("./testBrowser"),
   "test:vitest": () => import("./testVitest"),
   "check-api": () => import("./check-api"),
