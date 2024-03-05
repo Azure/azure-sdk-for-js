@@ -15,7 +15,7 @@ import {
   NatRulesGetResponse,
   NatRulesCreateOrUpdateOptionalParams,
   NatRulesCreateOrUpdateResponse,
-  NatRulesDeleteOptionalParams
+  NatRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface NatRules {
   listByVpnGateway(
     resourceGroupName: string,
     gatewayName: string,
-    options?: NatRulesListByVpnGatewayOptionalParams
+    options?: NatRulesListByVpnGatewayOptionalParams,
   ): PagedAsyncIterableIterator<VpnGatewayNatRule>;
   /**
    * Retrieves the details of a nat ruleGet.
@@ -43,7 +43,7 @@ export interface NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesGetOptionalParams
+    options?: NatRulesGetOptionalParams,
   ): Promise<NatRulesGetResponse>;
   /**
    * Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat
@@ -59,7 +59,7 @@ export interface NatRules {
     gatewayName: string,
     natRuleName: string,
     natRuleParameters: VpnGatewayNatRule,
-    options?: NatRulesCreateOrUpdateOptionalParams
+    options?: NatRulesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<NatRulesCreateOrUpdateResponse>,
@@ -80,7 +80,7 @@ export interface NatRules {
     gatewayName: string,
     natRuleName: string,
     natRuleParameters: VpnGatewayNatRule,
-    options?: NatRulesCreateOrUpdateOptionalParams
+    options?: NatRulesCreateOrUpdateOptionalParams,
   ): Promise<NatRulesCreateOrUpdateResponse>;
   /**
    * Deletes a nat rule.
@@ -93,7 +93,7 @@ export interface NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesDeleteOptionalParams
+    options?: NatRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a nat rule.
@@ -106,6 +106,6 @@ export interface NatRules {
     resourceGroupName: string,
     gatewayName: string,
     natRuleName: string,
-    options?: NatRulesDeleteOptionalParams
+    options?: NatRulesDeleteOptionalParams,
   ): Promise<void>;
 }

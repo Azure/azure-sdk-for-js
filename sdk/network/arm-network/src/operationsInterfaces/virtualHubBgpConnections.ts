@@ -14,7 +14,7 @@ import {
   VirtualHubBgpConnectionsListLearnedRoutesOptionalParams,
   VirtualHubBgpConnectionsListLearnedRoutesResponse,
   VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams,
-  VirtualHubBgpConnectionsListAdvertisedRoutesResponse
+  VirtualHubBgpConnectionsListAdvertisedRoutesResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface VirtualHubBgpConnections {
   list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: VirtualHubBgpConnectionsListOptionalParams
+    options?: VirtualHubBgpConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<BgpConnection>;
   /**
    * Retrieves a list of routes the virtual hub bgp connection has learned.
@@ -42,7 +42,7 @@ export interface VirtualHubBgpConnections {
     resourceGroupName: string,
     hubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
+    options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubBgpConnectionsListLearnedRoutesResponse>,
@@ -60,7 +60,7 @@ export interface VirtualHubBgpConnections {
     resourceGroupName: string,
     hubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams
+    options?: VirtualHubBgpConnectionsListLearnedRoutesOptionalParams,
   ): Promise<VirtualHubBgpConnectionsListLearnedRoutesResponse>;
   /**
    * Retrieves a list of routes the virtual hub bgp connection is advertising to the specified peer.
@@ -73,7 +73,7 @@ export interface VirtualHubBgpConnections {
     resourceGroupName: string,
     hubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
+    options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>,
@@ -91,6 +91,6 @@ export interface VirtualHubBgpConnections {
     resourceGroupName: string,
     hubName: string,
     connectionName: string,
-    options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams
+    options?: VirtualHubBgpConnectionsListAdvertisedRoutesOptionalParams,
   ): Promise<VirtualHubBgpConnectionsListAdvertisedRoutesResponse>;
 }

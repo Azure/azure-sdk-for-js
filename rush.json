@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-scanning",
       "projectFolder": "sdk/purview/purview-scanning-rest",
       "versionPolicyName": "client"
@@ -510,7 +515,7 @@
       "projectFolder": "sdk/communication/communication-job-router-rest",
       "versionPolicyName": "client"
     },
-	{
+    {
       "packageName": "@azure-rest/communication-messages",
       "projectFolder": "sdk/communication/communication-messages-rest",
       "versionPolicyName": "client"
@@ -2176,6 +2181,11 @@
     {
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-astro",
+      "projectFolder": "sdk/astro/arm-astro",
       "versionPolicyName": "management"
     },
     {

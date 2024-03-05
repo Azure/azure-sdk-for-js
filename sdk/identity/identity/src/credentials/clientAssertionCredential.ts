@@ -6,6 +6,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { MsalClientAssertion } from "../msal/nodeFlows/msalClientAssertion";
 import { MsalFlow } from "../msal/flows";

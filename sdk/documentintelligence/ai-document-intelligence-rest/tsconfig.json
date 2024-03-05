@@ -1,9 +1,12 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
+    "target": "es2020",
     "outDir": "./dist-esm",
     "declarationDir": "./types",
-    "paths": { "@azure-rest/ai-document-intelligence": ["./src/index"] }
+    "paths": {
+      "@azure-rest/ai-document-intelligence": ["./src/index"]
+    }
   },
   "include": ["./src/**/*.ts", "./test/**/*.ts", "samples-dev/**/*.ts"]
 }
