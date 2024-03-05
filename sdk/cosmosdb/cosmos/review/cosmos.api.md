@@ -801,6 +801,8 @@ export interface CosmosClientOptions {
     diagnosticLevel?: CosmosDbDiagnosticLevel;
     // (undocumented)
     enableEncryption?: boolean;
+    // (undocumented)
+    encryptionKeyTimeToLiveInHours?: number;
     endpoint: string;
     httpClient?: HttpClient;
     key?: string;
