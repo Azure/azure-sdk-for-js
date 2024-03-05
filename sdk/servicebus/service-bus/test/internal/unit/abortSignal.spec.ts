@@ -265,7 +265,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
@@ -294,7 +294,7 @@ describe("AbortSignal", () => {
         await sender.createBatch({ abortSignal: taggedAbortSignal });
         assert.fail("Should have thrown an AbortError");
       } catch (err: any) {
-        assert.equal(err.message, StandardAbortMessage);
+        assert.match(err.message, abortMsgRegex);
         assert.equal(err.name, "AbortError");
       }
     });
