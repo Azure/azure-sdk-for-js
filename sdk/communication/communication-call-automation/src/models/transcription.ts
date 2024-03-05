@@ -28,9 +28,9 @@ export interface WordData {
   /** Text in the phrase.*/
   text: string;
   /** The word's position within the phrase.*/
-  offset: string;
+  offset: number;
   /** Duration in ticks. 1 tick = 100 nanoseconds.*/
-  duration: string;
+  duration: number;
 }
 
 /**
