@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Client } from "@azure-rest/core-client";
 import { RestError } from "@azure/core-rest-pipeline";
-import { isUnexpected } from "../isUnexpected";
+import { isUnexpected } from "./isUnexpected";
 import {
   GetSchemaOptions,
   GetSchemaPropertiesOptions,
@@ -11,19 +10,20 @@ import {
   Schema,
   SchemaDescription,
   SchemaProperties,
-} from "../models/models";
+} from "./models";
 import { buildContentType, convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
+import { SchemaRegistryClient } from "./clientDefinitions";
 
 export async function registerSchema(
-  context: Client,
+  context: SchemaRegistryClient,
   schema: SchemaDescription,
   options: RegisterSchemaOptions = {},
 ): Promise<SchemaProperties> {
   const { groupName, name: schemaName, definition: schemaContent, format } = schema;
   const response = await context
-    .path("/$schemaGroups/{groupName}/schemas/{name}", groupName, schemaName)
+    .path("/$schemaGroups/{groupName}/schemas/{schemaName}", groupName, schemaName)
     .put({
-      contentType: buildContentType(format),
+      contentType: buildContentType(format) as any,
       body: schemaContent,
       ...options,
     });
@@ -38,15 +38,15 @@ export async function registerSchema(
 }
 
 export async function getSchemaProperties(
-  context: Client,
+  context: SchemaRegistryClient,
   schema: SchemaDescription,
   options: GetSchemaPropertiesOptions = {},
 ): Promise<SchemaProperties> {
   const { groupName, name: schemaName, definition: schemaContent, format } = schema;
   const response = await context
-    .path("/$schemaGroups/{groupName}/schemas/{name}:get-id", groupName, schemaName)
+    .path("/$schemaGroups/{groupName}/schemas/{schemaName}:get-id", groupName, schemaName)
     .post({
-      contentType: buildContentType(format),
+      contentType: buildContentType(format) as any,
       body: schemaContent,
       ...options,
     });
@@ -61,7 +61,7 @@ export async function getSchemaProperties(
 }
 
 export async function getSchemaById(
-  context: Client,
+  context: SchemaRegistryClient,
   schemaId: string,
   options?: GetSchemaOptions,
 ): Promise<Schema> {
@@ -78,7 +78,7 @@ export async function getSchemaById(
 }
 
 export async function getSchemaByVersion(
-  context: Client,
+  context: SchemaRegistryClient,
   groupName: string,
   name: string,
   version: number,
@@ -86,7 +86,7 @@ export async function getSchemaByVersion(
 ): Promise<Schema> {
   const response = await context
     .path(
-      "/$schemaGroups/{groupName}/schemas/{name}/versions/{schemaVersion}",
+      "/$schemaGroups/{groupName}/schemas/{schemaName}/versions/{schemaVersion}",
       groupName,
       name,
       version,

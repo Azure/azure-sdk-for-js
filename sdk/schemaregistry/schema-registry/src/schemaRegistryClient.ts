@@ -10,17 +10,19 @@ import {
   SchemaProperties,
   SchemaRegistry,
   SchemaRegistryClientOptions,
-} from "./models/models";
+} from "./models";
 import { SchemaRegistryClient as SchemaRegistryContext } from "./clientDefinitions";
 import {
   registerSchema,
   getSchemaProperties,
   getSchemaById,
   getSchemaByVersion,
-} from "./api";
+} from "./operations";
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { TokenCredential } from "@azure/core-auth";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { DEFAULT_SCOPE } from "./constants";
 
 /**
  * Initialize a new instance of `SchemaRegistryClient`
@@ -50,7 +52,7 @@ export default function createClient(
     },
     credentials: {
       scopes: options.credentials?.scopes ?? [
-        "https://eventhubs.azure.net/.default",
+        DEFAULT_SCOPE,
       ],
     },
   };
@@ -87,10 +89,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {},
   ) {
-    // const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-    // this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
+    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
+    this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
     this.fullyQualifiedNamespace = fullyQualifiedNamespace;
-    this._client = createClient(fullyQualifiedNamespace, credential, { ...options });
   }
 
   /**

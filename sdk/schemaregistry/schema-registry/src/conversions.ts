@@ -6,8 +6,8 @@ import {
   GetSchemaByVersion200Response,
   GetSchemaPropertiesByContent204Response,
   RegisterSchema204Response,
-} from "../responses";
-import { SchemaProperties, Schema } from "../models/models";
+} from "./responses";
+import { SchemaProperties, Schema } from "./models";
 
 const textPlain = "text/plain";
 const charsetutf8 = "charset=utf-8";
@@ -21,6 +21,7 @@ type GeneratedSchemaIdResponse =
   | RegisterSchema204Response
   | GetSchemaPropertiesByContent204Response
   | GetSchemaByVersion200Response;
+  
 /**
  * Union of generated client's responses that return schema definition.
  */
