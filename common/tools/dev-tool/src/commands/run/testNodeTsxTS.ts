@@ -30,7 +30,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 1200000 --exclude "test/**/browser/*.spec.ts" "test/**/*.spec.ts"';
   const command = {
-    command: `cross-env NODE_OPTIONS='--import tsx' mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
