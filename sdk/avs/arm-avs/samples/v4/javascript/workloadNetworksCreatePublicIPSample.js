@@ -34,7 +34,7 @@ async function workloadNetworksCreatePublicIP() {
     resourceGroupName,
     privateCloudName,
     publicIPId,
-    workloadNetworkPublicIP
+    workloadNetworkPublicIP,
   );
   console.log(result);
 }

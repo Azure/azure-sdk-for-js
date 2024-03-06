@@ -29,7 +29,7 @@ async function globalReachConnectionsDelete() {
   const result = await client.globalReachConnections.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    globalReachConnectionName
+    globalReachConnectionName,
   );
   console.log(result);
 }

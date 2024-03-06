@@ -8,7 +8,7 @@ import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
 
 export const commandInfo = makeCommandInfo(
-  "test:node-ts-input",
+  "test:node-tsx-ts",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
     "no-test-proxy": {

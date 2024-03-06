@@ -37,7 +37,7 @@ async function workloadNetworksCreateDnsZone() {
     resourceGroupName,
     privateCloudName,
     dnsZoneId,
-    workloadNetworkDnsZone
+    workloadNetworkDnsZone,
   );
   console.log(result);
 }

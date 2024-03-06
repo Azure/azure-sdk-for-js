@@ -32,7 +32,7 @@ async function getAllSuppressionListAddressesResourcesForASuppressionListResourc
     resourceGroupName,
     emailServiceName,
     domainName,
-    suppressionListName
+    suppressionListName,
   )) {
     resArray.push(item);
   }

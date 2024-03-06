@@ -27,7 +27,7 @@ async function deleteResource() {
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.beginDeleteAndWait(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

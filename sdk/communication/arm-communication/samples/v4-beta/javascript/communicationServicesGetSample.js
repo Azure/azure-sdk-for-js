@@ -27,7 +27,7 @@ async function getResource() {
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.get(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

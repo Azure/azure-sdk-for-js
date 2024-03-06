@@ -29,7 +29,7 @@ async function updateEmailServiceResource() {
   const result = await client.emailServices.beginUpdateAndWait(
     resourceGroupName,
     emailServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
