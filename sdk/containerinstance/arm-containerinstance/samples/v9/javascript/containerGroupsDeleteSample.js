@@ -26,7 +26,7 @@ async function containerGroupsDelete() {
   const client = new ContainerInstanceManagementClient(credential, subscriptionId);
   const result = await client.containerGroups.beginDeleteAndWait(
     resourceGroupName,
-    containerGroupName
+    containerGroupName,
   );
   console.log(result);
 }

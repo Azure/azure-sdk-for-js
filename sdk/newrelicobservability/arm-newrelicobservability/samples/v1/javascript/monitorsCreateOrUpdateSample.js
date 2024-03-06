@@ -65,7 +65,7 @@ async function monitorsCreateOrUpdateMaximumSetGen() {
   const result = await client.monitors.beginCreateOrUpdateAndWait(
     resourceGroupName,
     monitorName,
-    resource
+    resource,
   );
   console.log(result);
 }

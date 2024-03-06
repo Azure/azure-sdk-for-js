@@ -29,7 +29,7 @@ async function workloadNetworksDeleteVMGroup() {
   const result = await client.workloadNetworks.beginDeleteVMGroupAndWait(
     resourceGroupName,
     vmGroupId,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }
