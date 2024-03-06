@@ -36,7 +36,7 @@ describe("Library/Config", () => {
       const env = <{ [id: string]: string }>{};
       const customConfigJSONPath = path.resolve(
         __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
+        "config.json",
       );
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
@@ -330,7 +330,7 @@ describe("OpenTelemetry Resource", () => {
     );
     assert.ok(
       String(config.resource.attributes[SemanticResourceAttributes.TELEMETRY_SDK_VERSION]).length >
-        0,
+      0,
       "Wrong TELEMETRY_SDK_VERSION",
     );
     assert.deepStrictEqual(
