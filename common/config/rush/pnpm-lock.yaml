@@ -9857,6 +9857,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.4.2:
+    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.37:
     resolution: {integrity: sha512-xV8kqRKM+jhMvcHWUKthV9fNebIzrNy//2O9ZwWcfiBFR5f25XVZPLlEajk/sf3Ra15V92isyQqnIEXRDaZWEA==}
     dev: false
@@ -11202,7 +11208,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-yZyfm0QIpoKMwugC6+voYJ2TP8UUxjOtNq5py972jphmyvf/WZmO/THA7+FLG1g+y2PoP2wF/uwSiWg5FVciNw==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-yZ5eoxFyedjpLHPzgkwFAv2HhPvIWNHm1yn/sa8fqSp+SLfb/D2gOciNlANeEiiUgy9xldH4WXfTONmn+Wsf4w==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -18776,7 +18782,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.3.3
+      '@_ts/max': /typescript@5.4.2
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.12.0)
@@ -19040,7 +19046,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-oVy52Pb4eRPIF9CE2gJoGuTRpeezwDXjmS6pzm+CPbKHzRpqN/PMR9HXrgJW+PdArY/V03iu5HIQeoSLYBaKiA==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-n4uul6UnWNvKSlQ++Zs0e5paVpd2DITzP1WZ7WigL+eUTvsSBsfeR35Dviw790NvjuuUiPVhZ/1SL5Ehn7ACPw==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -19068,16 +19074,15 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
+      tsx: 4.7.1
       typescript: 5.3.3
       uuid: 8.3.2
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - bufferutil
       - debug
       - supports-color
