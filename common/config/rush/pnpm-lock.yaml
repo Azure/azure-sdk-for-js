@@ -875,6 +875,9 @@ dependencies:
   '@rush-temp/health-insights-clinicalmatching':
     specifier: file:./projects/health-insights-clinicalmatching.tgz
     version: file:projects/health-insights-clinicalmatching.tgz
+  '@rush-temp/health-insights-radiologyinsights':
+    specifier: file:./projects/health-insights-radiologyinsights.tgz
+    version: file:projects/health-insights-radiologyinsights.tgz    
   '@rush-temp/identity':
     specifier: file:./projects/identity.tgz
     version: file:projects/identity.tgz
@@ -19279,6 +19282,50 @@ packages:
       rimraf: 3.0.2
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+    dev: false
+
+  file:projects/health-insights-radiologyinsights.tgz:
+    resolution: {integrity: sha512-YZUxq+zA38cuNkYUDIoF/PRJTqCl89BoTSHefdqKb4s8OVwTSsMQQNLRVl/hUMJQKWEamwyckQbm1WQAcUpbBA==, tarball: file:projects/health-insights-radiologyinsights.tgz}
+    name: '@rush-temp/health-insights-radiologyinsights'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.39.1(@types/node@18.19.17)
+      '@types/chai': 4.3.11
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.17
+      autorest: 3.7.1
+      c8: 8.0.1
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      eslint: 8.56.0
+      esm: 3.2.25
+      karma: 6.4.2(debug@4.3.4)
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.2
+      karma-junit-reporter: 2.0.1(karma@6.4.2)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.2)
+      karma-source-map-support: 1.4.0
+      karma-sourcemap-loader: 0.4.0
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      source-map-support: 0.5.21
+      ts-node: 10.9.2(@types/node@18.19.17)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
     transitivePeerDependencies:
