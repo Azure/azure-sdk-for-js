@@ -218,6 +218,8 @@ export interface PlayOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 /**

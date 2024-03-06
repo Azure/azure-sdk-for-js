@@ -620,6 +620,7 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
+    interruptCallMediaOperation?: boolean;
     loop?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;

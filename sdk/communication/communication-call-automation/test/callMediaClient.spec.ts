@@ -185,6 +185,32 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
+  it("makes successful PlayToAll barge in request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayOptions = {
+      interruptCallMediaOperation: true,
+    };
+
+    await callMedia.playToAll(playSource, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+  });
+
   it("makes successful StartRecognizing DTMF request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
