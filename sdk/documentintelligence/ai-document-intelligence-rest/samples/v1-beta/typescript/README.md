@@ -89,7 +89,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [getmodel]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/typescript/src/getModel.ts
 [listmodels]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/typescript/src/listModels.ts
 [readdocument]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/documentintelligence/ai-document-intelligence-rest/samples/v1-beta/typescript/src/readDocument.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-document-intelligence
+[apiref]: https://docs.microsoft.com/javascript/api/@azure-rest/ai-document-intelligence
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documentintelligence/ai-document-intelligence-rest/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
