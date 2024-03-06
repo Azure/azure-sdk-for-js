@@ -411,7 +411,7 @@ export function getWorkerRequest(guid: string): WorkerRequest {
         },
       ],
       labels: {},
-      maxConcurrentOffers: 1
+      maxConcurrentOffers: 1,
     },
   };
 }
