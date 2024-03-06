@@ -34,10 +34,7 @@ describe("Json Config", () => {
 
     it("Absolute file path", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
@@ -63,10 +60,7 @@ describe("Json Config", () => {
   describe("configuration values", () => {
     it("Should take configurations from JSON config file", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       process.env = env;
       const config = JsonConfig.getInstance();
@@ -99,10 +93,7 @@ describe("Json Config", () => {
 
     it("Should take configurations from JSON config file over environment variables if both are configured", () => {
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath;
       env["APPLICATIONINSIGHTS_CONNECTION_STRING"] = "TestConnectionString";
       process.env = env;
