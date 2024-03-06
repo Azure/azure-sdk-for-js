@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "start": "npm run dist/index.js",
-    "clean": "rimraf --glob dist dist-* .azure",
+    "clean": "rimraf --glob dist dist-*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
