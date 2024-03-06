@@ -392,7 +392,7 @@ export const CallConnectionPropertiesInternal: coreClient.CompositeMapper = {
         },
       },
       originalPstnTarget: {
-        serializedName: "originalPSTNTarget",
+        serializedName: "originalPstnTarget",
         type: {
           name: "Composite",
           className: "PhoneNumberIdentifierModel",
@@ -4007,6 +4007,94 @@ export const RestTranscriptionFailed: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "TranscriptionUpdate",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestAnswerFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestAnswerFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestCreateCallFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCreateCallFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
         },
       },
       callConnectionId: {

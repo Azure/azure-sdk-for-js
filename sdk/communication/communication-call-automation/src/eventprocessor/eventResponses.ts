@@ -19,6 +19,8 @@ import {
   CallTransferFailed,
   CancelAddParticipantSucceeded,
   CancelAddParticipantFailed,
+  CreateCallFailed,
+  AnswerFailed,
 } from "../models/events";
 
 /**
@@ -43,6 +45,8 @@ export interface AnswerCallEventResult {
   isSuccess: boolean;
   /** contains success event if the result was successful */
   successResult?: CallConnected;
+  /** contains failure event if the result was failure */
+  failureResult?: AnswerFailed;
 }
 
 /**
@@ -65,6 +69,8 @@ export interface CreateCallEventResult {
   isSuccess: boolean;
   /** contains success event if the result was successful */
   successResult?: CallConnected;
+  /** contains failure event if the result was failure */
+  failureResult?: CreateCallFailed;
 }
 
 /**
