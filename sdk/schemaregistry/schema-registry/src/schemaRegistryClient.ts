@@ -21,8 +21,8 @@ import {
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger";
 import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { DEFAULT_SCOPE } from "./constants";
+import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import { DEFAULT_SCOPE, SDK_VERSION } from "./constants";
 
 /**
  * Initialize a new instance of `SchemaRegistryClient`
@@ -76,6 +76,9 @@ export class SchemaRegistryClient implements SchemaRegistry {
   /** Underlying autorest generated client. */
   private readonly _client: SchemaRegistryContext;
 
+  /** The tracing client */
+  private readonly _tracing: TracingClient;
+
   /**
    * Creates a new client for Azure Schema Registry service.
    *
@@ -89,8 +92,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     credential: TokenCredential,
     options: SchemaRegistryClientOptions = {},
   ) {
-    const authPolicy = bearerTokenAuthenticationPolicy({ credential, scopes: DEFAULT_SCOPE });
-    this._client = createClient(fullyQualifiedNamespace, credential, { ...options, additionalPolicies: [{policy: authPolicy, position: "perCall"}]})
+    this._tracing = createTracingClient({
+      namespace: "Microsoft.EventHub",
+      packageName: "@azure/schema-registry",
+      packageVersion: SDK_VERSION,
+    });
+    this._client = createClient(fullyQualifiedNamespace, credential, { ...options });
     this.fullyQualifiedNamespace = fullyQualifiedNamespace;
   }
 
@@ -108,7 +115,11 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: RegisterSchemaOptions = {},
   ): Promise<SchemaProperties> {
-    return registerSchema(this._client, schema, options);
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.registerSchema",
+      options,
+      (updatedOptions) => registerSchema(this._client, schema, updatedOptions),
+    );
   }
 
   /**
@@ -122,7 +133,12 @@ export class SchemaRegistryClient implements SchemaRegistry {
     schema: SchemaDescription,
     options: GetSchemaPropertiesOptions = {},
   ): Promise<SchemaProperties> {
-    return getSchemaProperties(this._client, schema, options);
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchemaProperties",
+      options,
+      (updatedOptions) =>
+        getSchemaProperties(this._client, schema, updatedOptions),
+    );
   }
 
   /**
@@ -175,14 +191,22 @@ export class SchemaRegistryClient implements SchemaRegistry {
     options: GetSchemaOptions = {},
   ): Promise<Schema> {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
-      return getSchemaById(this._client, nameOrId, groupNameOrOptions);
+      return this._tracing.withSpan(
+        "SchemaRegistryClient.getSchema",
+          groupNameOrOptions ?? {},
+        (updatedOptions) => getSchemaById(this._client, nameOrId, updatedOptions),
+      )
     }
-    return getSchemaByVersion(
-      this._client,
-      groupNameOrOptions as string,
-      nameOrId,
-      version as number,
+    return this._tracing.withSpan(
+      "SchemaRegistryClient.getSchema",
       options,
-    );
+      (updatedOptions) => getSchemaByVersion(
+        this._client,
+        groupNameOrOptions as string,
+        nameOrId,
+        version as number,
+        updatedOptions,
+      ),
+    )
   }
 }
