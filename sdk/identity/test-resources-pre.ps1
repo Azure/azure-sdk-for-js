@@ -24,7 +24,11 @@ param (
 
     [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
     [ValidateNotNullOrEmpty()]
-    [string] $TenantId
+    [string] $TenantId,
+
+    [Parameter()]
+    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
+    
 )
 
 Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
@@ -37,9 +41,10 @@ $templateFileParameters['sshPubKey'] = $sshKey
 Write-Host "Sleeping for a bit to ensure service principal is ready."
 Start-Sleep -s 45
 
-# Install this specific version of the Azure CLI to avoid https://github.com/Azure/azure-cli/issues/28358.
-pip install azure-cli=="2.56.0"
-
+if ($CI) {
+  # Install this specific version of the Azure CLI to avoid https://github.com/Azure/azure-cli/issues/28358.
+  pip install azure-cli=="2.56.0"
+}
 $az_version = az version
 Write-Host "Azure CLI version: $az_version"
 
