@@ -3,12 +3,13 @@
 
 import * as msalNode from "@azure/msal-node";
 
-import { MsalNode, MsalNodeOptions, hasNativeBroker } from "./msalNodeCommon";
+import { MsalNode, MsalNodeOptions } from "./msalNodeCommon";
 
 import { AccessToken } from "@azure/core-auth";
 import { CredentialFlowGetTokenOptions } from "../credentials";
 import { credentialLogger } from "../../util/logging";
 import { handleMsalError } from "../utils";
+import { hasNativeBroker } from "./msalPlugins";
 import open from "open";
 
 /**

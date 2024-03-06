@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-import { getBodyLength } from "../../src/nodeHttpClient";
+import { describe, it, assert } from "vitest";
+import { getBodyLength } from "../../src/nodeHttpClient.js";
 
 describe("Get Body Length", function () {
   it("Gets the length of the ASCII string correctly", function () {

@@ -19,7 +19,7 @@ import {
   SecurityPartnerProvidersCreateOrUpdateResponse,
   TagsObject,
   SecurityPartnerProvidersUpdateTagsOptionalParams,
-  SecurityPartnerProvidersUpdateTagsResponse
+  SecurityPartnerProvidersUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface SecurityPartnerProviders {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams
+    options?: SecurityPartnerProvidersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPartnerProvider>;
   /**
    * Gets all the Security Partner Providers in a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: SecurityPartnerProvidersListOptionalParams
+    options?: SecurityPartnerProvidersListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityPartnerProvider>;
   /**
    * Deletes the specified Security Partner Provider.
@@ -50,7 +50,7 @@ export interface SecurityPartnerProviders {
   beginDelete(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersDeleteOptionalParams
+    options?: SecurityPartnerProvidersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified Security Partner Provider.
@@ -61,7 +61,7 @@ export interface SecurityPartnerProviders {
   beginDeleteAndWait(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersDeleteOptionalParams
+    options?: SecurityPartnerProvidersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified Security Partner Provider.
@@ -72,7 +72,7 @@ export interface SecurityPartnerProviders {
   get(
     resourceGroupName: string,
     securityPartnerProviderName: string,
-    options?: SecurityPartnerProvidersGetOptionalParams
+    options?: SecurityPartnerProvidersGetOptionalParams,
   ): Promise<SecurityPartnerProvidersGetResponse>;
   /**
    * Creates or updates the specified Security Partner Provider.
@@ -85,7 +85,7 @@ export interface SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: SecurityPartnerProvider,
-    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams
+    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SecurityPartnerProvidersCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: SecurityPartnerProvider,
-    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams
+    options?: SecurityPartnerProvidersCreateOrUpdateOptionalParams,
   ): Promise<SecurityPartnerProvidersCreateOrUpdateResponse>;
   /**
    * Updates tags of a Security Partner Provider resource.
@@ -116,6 +116,6 @@ export interface SecurityPartnerProviders {
     resourceGroupName: string,
     securityPartnerProviderName: string,
     parameters: TagsObject,
-    options?: SecurityPartnerProvidersUpdateTagsOptionalParams
+    options?: SecurityPartnerProvidersUpdateTagsOptionalParams,
   ): Promise<SecurityPartnerProvidersUpdateTagsResponse>;
 }

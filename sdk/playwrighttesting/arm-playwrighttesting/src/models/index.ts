@@ -129,6 +129,26 @@ export interface AccountListResult {
   nextLink?: string;
 }
 
+/** Account properties */
+export interface AccountProperties {
+  /**
+   * The Playwright testing dashboard URI for the account resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dashboardUri?: string;
+  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
+  regionalAffinity?: EnablementStatus;
+  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
+  scalableExecution?: EnablementStatus;
+  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
+  reporting?: EnablementStatus;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -177,6 +197,17 @@ export interface QuotaListResult {
   nextLink?: string;
 }
 
+/** Quota properties */
+export interface QuotaProperties {
+  /** The free-trial quota. */
+  freeTrial?: FreeTrialProperties;
+  /**
+   * The status of the last operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ProvisioningState;
+}
+
 /** The free-trial properties */
 export interface FreeTrialProperties {
   /**
@@ -220,6 +251,12 @@ export interface FreeTrialProperties {
 export interface AccountUpdate {
   /** Resource tags. */
   tags?: { [propertyName: string]: string };
+  /** The updatable properties of the Account. */
+  properties?: AccountUpdateProperties;
+}
+
+/** The updatable properties of the Account. */
+export interface AccountUpdateProperties {
   /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
   regionalAffinity?: EnablementStatus;
   /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
@@ -241,33 +278,14 @@ export interface ProxyResource extends Resource {}
 
 /** An account resource */
 export interface Account extends TrackedResource {
-  /**
-   * The Playwright testing dashboard URI for the account resource.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dashboardUri?: string;
-  /** This property sets the connection region for Playwright client workers to cloud-hosted browsers. If enabled, workers connect to browsers in the closest Azure region, ensuring lower latency. If disabled, workers connect to browsers in the Azure region in which the workspace was initially created. */
-  regionalAffinity?: EnablementStatus;
-  /** When enabled, Playwright client workers can connect to cloud-hosted browsers. This can increase the number of parallel workers for a test run, significantly minimizing test completion durations. */
-  scalableExecution?: EnablementStatus;
-  /** When enabled, this feature allows the workspace to upload and display test results, including artifacts like traces and screenshots, in the Playwright portal. This enables faster and more efficient troubleshooting. */
-  reporting?: EnablementStatus;
-  /**
-   * The status of the last operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** The resource-specific properties for this resource. */
+  properties?: AccountProperties;
 }
 
 /** A quota resource */
 export interface Quota extends ProxyResource {
-  /** The free-trial quota. */
-  freeTrial?: FreeTrialProperties;
-  /**
-   * The status of the last operation.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: ProvisioningState;
+  /** The resource-specific properties for this resource. */
+  properties?: QuotaProperties;
 }
 
 /** Defines headers for Accounts_createOrUpdate operation. */

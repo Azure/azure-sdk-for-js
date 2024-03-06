@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a Bastion Shareable Links for all the VMs specified in the request.
  *
  * @summary Creates a Bastion Shareable Links for all the VMs specified in the request.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/BastionShareableLinkCreate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/BastionShareableLinkCreate.json
  */
 async function createBastionShareableLinksForTheRequestVMS() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FlowLogStatusParameters,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Queries status of flow log and traffic analytics (optional) on a specified resource.
  *
  * @summary Queries status of flow log and traffic analytics (optional) on a specified resource.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkWatcherFlowLogStatusQuery.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkWatcherFlowLogStatusQuery.json
  */
 async function getFlowLogStatus() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -29,14 +29,14 @@ async function getFlowLogStatus() {
   const networkWatcherName = "nw1";
   const parameters: FlowLogStatusParameters = {
     targetResourceId:
-      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"
+      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
   };
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.networkWatchers.beginGetFlowLogStatusAndWait(
     resourceGroupName,
     networkWatcherName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

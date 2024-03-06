@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified custom IP prefix.
  *
  * @summary Deletes the specified custom IP prefix.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/CustomIpPrefixDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/CustomIpPrefixDelete.json
  */
 async function deleteCustomIPPrefix() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function deleteCustomIPPrefix() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.customIPPrefixes.beginDeleteAndWait(
     resourceGroupName,
-    customIpPrefixName
+    customIpPrefixName,
   );
   console.log(result);
 }

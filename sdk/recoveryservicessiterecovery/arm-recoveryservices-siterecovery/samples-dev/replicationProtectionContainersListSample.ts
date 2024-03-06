@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the protection containers in a vault.
  *
  * @summary Lists the protection containers in a vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_List.json
  */
 async function getsTheListOfAllProtectionContainersInAVault() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsTheListOfAllProtectionContainersInAVault() {
   const resArray = new Array();
   for await (let item of client.replicationProtectionContainers.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
