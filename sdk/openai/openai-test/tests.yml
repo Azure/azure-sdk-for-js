@@ -7,11 +7,10 @@ stages:
       InjectedPackages: git+https://github.com/openai/openai-node@main
       ServiceDirectory: openai-test
       EnvVars:
-        OPENAI_TEST_MODE: 'main'
         AZURE_CLIENT_ID: $(python-openai-client-id)
         AZURE_CLIENT_SECRET: $(python-openai-client-secret)
         AZURE_TENANT_ID: $(python-openai-tenant-id)
-        AZ_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
+        AZURE_OPENAI_ENDPOINT: $(AOAI-ENDPOINT)
         AZURE_OPENAI_KEY: $(AOAI-API-KEY)
         AZURE_OPENAI_NORTHCENTRALUS_ENDPOINT: $(AOAI-ENDPOINT-NORTHCENTRALUS)
         AZURE_OPENAI_NORTHCENTRALUS_KEY: $(AOAI-API-KEY-NORTHCENTRALUS)

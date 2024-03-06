@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { assert, matrix } from "@azure/test-utils";
+import { Context } from "mocha";
+import { createClient } from "../utils/createClient";
+import { AuthMethod } from "../utils/types";
+import OpenAI from "openai";
+
+describe("Embeddings", function () {
+
+  matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
+    describe(`[${authMethod}] Client`, () => {
+      let client: OpenAI;
+      let modelName: string;
+
+      beforeEach(async function (this: Context) {
+        client = createClient();
+        modelName = "text-embedding-ada-002";
+      });
+
+      describe("getEmbeddings", function () {
+        it("embeddings test", async function () {
+          const prompt = ["This is text to be embedded"];
+          const embeddings = await client.embeddings.create({model: modelName, input: prompt});
+          assert.isNotNull(embeddings.data);
+          assert.equal(embeddings.data.length > 0, true);
+          assert.isNotNull(embeddings.data[0].embedding);
+          assert.equal(embeddings.data[0].embedding.length > 0, true);
+          assert.isNotNull(embeddings.usage);
+        });
+      });
+    });
+  });
+});
