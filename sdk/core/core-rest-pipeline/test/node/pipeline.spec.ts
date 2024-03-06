@@ -8,7 +8,7 @@ import { HttpsProxyAgent } from "https-proxy-agent";
 import { assert, describe, it, afterEach, vi } from "vitest";
 import { createEmptyPipeline } from "../../src/pipeline.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { createNodeHttpClient } from "../../src/nodeHttpClient.js";
+import { createNodeHttpClient } from "../../src/clients/nodeHttpClient.js";
 import { createPipelineFromOptions } from "../../src/createPipelineFromOptions.js";
 
 vi.mock("https", async () => {

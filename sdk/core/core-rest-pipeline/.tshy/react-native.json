@@ -6,6 +6,8 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
+    ".././src/clients/nodeHttpClient-browser.mts",
+    ".././src/clients/xhrHttpClient-browser.mts",
     ".././src/defaultHttpClient-browser.mts",
     ".././src/policies/decompressResponsePolicy-browser.mts",
     ".././src/policies/proxyPolicy-browser.mts",

@@ -6,6 +6,7 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
+    ".././src/clients/nodeHttpClient-react-native.mts",
     ".././src/defaultHttpClient-react-native.mts",
     ".././src/util/userAgentPlatform-react-native.mts"
   ],

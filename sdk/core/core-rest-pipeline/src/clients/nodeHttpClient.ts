@@ -14,11 +14,11 @@ import type {
   RequestBodyType,
   TlsSettings,
   TransferProgressEvent,
-} from "./interfaces.js";
-import { createHttpHeaders } from "./httpHeaders.js";
-import { RestError } from "./restError.js";
+} from "../interfaces.js";
+import { createHttpHeaders } from "../httpHeaders.js";
+import { RestError } from "../restError.js";
 import type { IncomingMessage } from "node:http";
-import { logger } from "./log.js";
+import { logger } from "../log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
 
@@ -374,7 +374,6 @@ export function getBodyLength(body: RequestBodyType): number | null {
 
 /**
  * Create a new HttpClient instance for the NodeJS environment.
- * @internal
  */
 export function createNodeHttpClient(): HttpClient {
   return new NodeHttpClient();

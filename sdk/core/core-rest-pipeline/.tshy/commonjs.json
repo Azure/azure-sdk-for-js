@@ -7,12 +7,15 @@
   ],
   "exclude": [
     "../src/**/*.mts",
+    "../src/clients/nodeHttpClient-browser.mts",
+    "../src/clients/xhrHttpClient-browser.mts",
     "../src/defaultHttpClient-browser.mts",
     "../src/policies/decompressResponsePolicy-browser.mts",
     "../src/policies/proxyPolicy-browser.mts",
     "../src/util/concat-browser.mts",
     "../src/util/inspect-browser.mts",
     "../src/util/userAgentPlatform-browser.mts",
+    "../src/clients/nodeHttpClient-react-native.mts",
     "../src/defaultHttpClient-react-native.mts",
     "../src/util/userAgentPlatform-react-native.mts"
   ],

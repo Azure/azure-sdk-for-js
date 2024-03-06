@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
-import { createFetchHttpClient } from "../../src/fetchHttpClient.js";
+import { createFetchHttpClient } from "../../src/clients/fetchHttpClient.js";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { png } from "./mocks/encodedPng.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";

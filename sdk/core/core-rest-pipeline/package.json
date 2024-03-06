@@ -25,6 +25,24 @@
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
+    },
+    "./clients": {
+      "browser": {
+        "types": "./dist/browser/clients/index.d.ts",
+        "default": "./dist/browser/clients/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/clients/index.d.ts",
+        "default": "./dist/react-native/clients/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/clients/index.d.ts",
+        "default": "./dist/esm/clients/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/clients/index.d.ts",
+        "default": "./dist/commonjs/clients/index.js"
+      }
     }
   },
   "files": [
@@ -116,7 +134,8 @@
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./clients": "./src/clients/index.ts"
     },
     "dialects": [
       "esm",
