@@ -36,7 +36,7 @@ async function createOrUpdateSenderUsernamesResource() {
     emailServiceName,
     domainName,
     senderUsername,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the vCenter servers registered in a fabric.
  *
  * @summary Lists the vCenter servers registered in a fabric.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_ListByReplicationFabrics.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_ListByReplicationFabrics.json
  */
 async function getsTheListOfVCenterRegisteredUnderAFabric() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsTheListOfVCenterRegisteredUnderAFabric() {
   for await (let item of client.replicationvCenters.listByReplicationFabrics(
     resourceName,
     resourceGroupName,
-    fabricName
+    fabricName,
   )) {
     resArray.push(item);
   }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified tap configuration from the NetworkInterface.
  *
  * @summary Deletes the specified tap configuration from the NetworkInterface.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkInterfaceTapConfigurationDelete.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkInterfaceTapConfigurationDelete.json
  */
 async function deleteTapConfiguration() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -27,11 +27,12 @@ async function deleteTapConfiguration() {
   const tapConfigurationName = "test-tapconfiguration";
   const credential = new DefaultAzureCredential();
   const client = new NetworkManagementClient(credential, subscriptionId);
-  const result = await client.networkInterfaceTapConfigurations.beginDeleteAndWait(
-    resourceGroupName,
-    networkInterfaceName,
-    tapConfigurationName
-  );
+  const result =
+    await client.networkInterfaceTapConfigurations.beginDeleteAndWait(
+      resourceGroupName,
+      networkInterfaceName,
+      tapConfigurationName,
+    );
   console.log(result);
 }
 

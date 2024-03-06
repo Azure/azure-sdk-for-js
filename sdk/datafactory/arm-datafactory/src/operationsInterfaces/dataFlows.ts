@@ -14,7 +14,7 @@ import {
   DataFlowsCreateOrUpdateResponse,
   DataFlowsGetOptionalParams,
   DataFlowsGetResponse,
-  DataFlowsDeleteOptionalParams
+  DataFlowsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface DataFlows {
   listByFactory(
     resourceGroupName: string,
     factoryName: string,
-    options?: DataFlowsListByFactoryOptionalParams
+    options?: DataFlowsListByFactoryOptionalParams,
   ): PagedAsyncIterableIterator<DataFlowResource>;
   /**
    * Creates or updates a data flow.
@@ -44,7 +44,7 @@ export interface DataFlows {
     factoryName: string,
     dataFlowName: string,
     dataFlow: DataFlowResource,
-    options?: DataFlowsCreateOrUpdateOptionalParams
+    options?: DataFlowsCreateOrUpdateOptionalParams,
   ): Promise<DataFlowsCreateOrUpdateResponse>;
   /**
    * Gets a data flow.
@@ -57,7 +57,7 @@ export interface DataFlows {
     resourceGroupName: string,
     factoryName: string,
     dataFlowName: string,
-    options?: DataFlowsGetOptionalParams
+    options?: DataFlowsGetOptionalParams,
   ): Promise<DataFlowsGetResponse>;
   /**
    * Deletes a data flow.
@@ -70,6 +70,6 @@ export interface DataFlows {
     resourceGroupName: string,
     factoryName: string,
     dataFlowName: string,
-    options?: DataFlowsDeleteOptionalParams
+    options?: DataFlowsDeleteOptionalParams,
   ): Promise<void>;
 }

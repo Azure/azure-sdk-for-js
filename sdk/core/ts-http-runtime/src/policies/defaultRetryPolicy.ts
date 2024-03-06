@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineRetryOptions } from "../interfaces";
-import { PipelinePolicy } from "../pipeline";
-import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy";
-import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy";
-import { retryPolicy } from "./retryPolicy";
-import { DEFAULT_RETRY_POLICY_COUNT } from "../constants";
+import { PipelineRetryOptions } from "../interfaces.js";
+import { PipelinePolicy } from "../pipeline.js";
+import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
+import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
+import { retryPolicy } from "./retryPolicy.js";
+import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 
 /**
  * Name of the {@link defaultRetryPolicy}

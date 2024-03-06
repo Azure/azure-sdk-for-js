@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 15.6.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 15.6.0 (2023-12-25)
     
 **Features**

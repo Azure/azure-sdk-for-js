@@ -39,7 +39,7 @@ export interface AdmNativeNotification {
     image?: string;
     local_only?: boolean;
     notification_count?: number;
-    notification_priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_MIN" | "PRIORITY_LOW" | "PRIORITY_DEFAULT" | "PRIORITY_HIGH" | "PRIORITY_MAX";
+    notification_priority?: number;
     sound?: string;
     sticky?: boolean;
     tag?: string;
@@ -47,7 +47,7 @@ export interface AdmNativeNotification {
     title?: string;
     title_loc_args?: string[];
     title_loc_key?: string;
-    visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
+    visibility?: number;
 }
 
 // @public
@@ -565,7 +565,7 @@ export interface FirebaseV1AndroidConfig {
     direct_boot_ok?: boolean;
     fcm_options?: FirebaseV1AndroidFcmOptions;
     notification?: FirebaseV1AndroidNotification;
-    priority: "normal" | "high";
+    priority?: "normal" | "high";
     restricted_package_name?: string;
     ttl?: string;
 }
@@ -601,8 +601,7 @@ export interface FirebaseV1AndroidNotification {
     };
     local_only?: boolean;
     notification_count?: number;
-    // (undocumented)
-    notification_priority?: "PRIORITY_UNSPECIFIED" | "PRIORITY_MIN" | "PRIORITY_LOW" | "PRIORITY_DEFAULT" | "PRIORITY_HIGH" | "PRIORITY_MAX";
+    notification_priority?: number;
     sound?: string;
     sticky?: boolean;
     tag?: string;
@@ -611,7 +610,7 @@ export interface FirebaseV1AndroidNotification {
     title_loc_args?: string[];
     title_loc_key?: string;
     vibrate_timings?: string[];
-    visibility?: "VISIBILITY_UNSPECIFIED" | "PRIVATE" | "PUBLIC" | "SECRET";
+    visibility?: number;
 }
 
 // @public
@@ -623,13 +622,13 @@ export interface FirebaseV1ApnsConfig {
 
 // @public
 export interface FirebaseV1ApnsFcmOptions {
-    analytics_label: string;
-    image: string;
+    analytics_label?: string;
+    image?: string;
 }
 
 // @public (undocumented)
 export interface FirebaseV1FcmOptions {
-    analytics_label: string;
+    analytics_label?: string;
 }
 
 // @public
@@ -675,9 +674,9 @@ export interface FirebaseV1WebPushFcmOptions {
 // @public
 export interface FirebaseV1WebPushNotification {
     actions?: {
-        action: string;
-        title: string;
-        icon: string;
+        action?: string;
+        title?: string;
+        icon?: string;
     }[];
     badge?: string;
     body?: string;

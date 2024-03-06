@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isError } from "./util/error";
-import { PipelineRequest, PipelineResponse } from "./interfaces";
-import { custom } from "./util/inspect";
-import { Sanitizer } from "./util/sanitizer";
+import { isError } from "./util/error.js";
+import { PipelineRequest, PipelineResponse } from "./interfaces.js";
+import { custom } from "./util/inspect.js";
+import { Sanitizer } from "./util/sanitizer.js";
 
 const errorSanitizer = new Sanitizer();
 

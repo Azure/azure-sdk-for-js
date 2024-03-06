@@ -24,7 +24,7 @@ import {
   ReplicationNetworksGetOptionalParams,
   ReplicationNetworksGetResponse,
   ReplicationNetworksListByReplicationFabricsNextResponse,
-  ReplicationNetworksListNextResponse
+  ReplicationNetworksListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,13 +52,13 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<Network> {
     const iter = this.listByReplicationFabricsPagingAll(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     );
     return {
       next() {
@@ -76,9 +76,9 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
           resourceGroupName,
           fabricName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -87,7 +87,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceGroupName: string,
     fabricName: string,
     options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Network[]> {
     let result: ReplicationNetworksListByReplicationFabricsResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +96,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
         resourceName,
         resourceGroupName,
         fabricName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +109,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
         resourceGroupName,
         fabricName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -122,13 +122,13 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
   ): AsyncIterableIterator<Network> {
     for await (const page of this.listByReplicationFabricsPagingPage(
       resourceName,
       resourceGroupName,
       fabricName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -144,7 +144,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
   public list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworksListOptionalParams
+    options?: ReplicationNetworksListOptionalParams,
   ): PagedAsyncIterableIterator<Network> {
     const iter = this.listPagingAll(resourceName, resourceGroupName, options);
     return {
@@ -162,9 +162,9 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
           resourceName,
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -172,7 +172,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     options?: ReplicationNetworksListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Network[]> {
     let result: ReplicationNetworksListResponse;
     let continuationToken = settings?.continuationToken;
@@ -188,7 +188,7 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
         resourceName,
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -200,12 +200,12 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
   private async *listPagingAll(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworksListOptionalParams
+    options?: ReplicationNetworksListOptionalParams,
   ): AsyncIterableIterator<Network> {
     for await (const page of this.listPagingPage(
       resourceName,
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -223,11 +223,11 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationNetworksListByReplicationFabricsOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsOptionalParams,
   ): Promise<ReplicationNetworksListByReplicationFabricsResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, options },
-      listByReplicationFabricsOperationSpec
+      listByReplicationFabricsOperationSpec,
     );
   }
 
@@ -245,11 +245,11 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceGroupName: string,
     fabricName: string,
     networkName: string,
-    options?: ReplicationNetworksGetOptionalParams
+    options?: ReplicationNetworksGetOptionalParams,
   ): Promise<ReplicationNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, networkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -263,11 +263,11 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
   private _list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationNetworksListOptionalParams
+    options?: ReplicationNetworksListOptionalParams,
   ): Promise<ReplicationNetworksListResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -286,11 +286,11 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceGroupName: string,
     fabricName: string,
     nextLink: string,
-    options?: ReplicationNetworksListByReplicationFabricsNextOptionalParams
+    options?: ReplicationNetworksListByReplicationFabricsNextOptionalParams,
   ): Promise<ReplicationNetworksListByReplicationFabricsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, fabricName, nextLink, options },
-      listByReplicationFabricsNextOperationSpec
+      listByReplicationFabricsNextOperationSpec,
     );
   }
 
@@ -306,11 +306,11 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
     resourceName: string,
     resourceGroupName: string,
     nextLink: string,
-    options?: ReplicationNetworksListNextOptionalParams
+    options?: ReplicationNetworksListNextOptionalParams,
   ): Promise<ReplicationNetworksListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -318,33 +318,12 @@ export class ReplicationNetworksImpl implements ReplicationNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByReplicationFabricsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkCollection
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceGroupName,
-    Parameters.subscriptionId,
-    Parameters.resourceName,
-    Parameters.fabricName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Network
-    }
+      bodyMapper: Mappers.NetworkCollection,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -353,37 +332,55 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceName,
     Parameters.fabricName,
-    Parameters.networkName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkCollection
-    }
+      bodyMapper: Mappers.Network,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
+    Parameters.fabricName,
+    Parameters.networkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetworkCollection,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.resourceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkCollection
-    }
+      bodyMapper: Mappers.NetworkCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -391,26 +388,26 @@ const listByReplicationFabricsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.nextLink,
     Parameters.resourceName,
-    Parameters.fabricName
+    Parameters.fabricName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkCollection
-    }
+      bodyMapper: Mappers.NetworkCollection,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

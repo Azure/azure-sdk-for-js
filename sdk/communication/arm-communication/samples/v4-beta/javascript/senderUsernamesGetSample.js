@@ -31,7 +31,7 @@ async function getSenderUsernamesResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    senderUsername
+    senderUsername,
   );
   console.log(result);
 }

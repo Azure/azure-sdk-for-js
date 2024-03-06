@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to create a storage classification mapping.
  *
  * @summary The operation to create a storage classification mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationStorageClassificationMappings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationStorageClassificationMappings_Create.json
  */
 async function createStorageClassificationMapping() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function createStorageClassificationMapping() {
     fabricName,
     storageClassificationName,
     storageClassificationMappingName,
-    pairingInput
+    pairingInput,
   );
   console.log(result);
 }

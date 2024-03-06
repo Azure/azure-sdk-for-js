@@ -33,7 +33,7 @@ async function reservationSummariesDaily() {
   for await (let item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
     grain,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -56,7 +56,7 @@ async function reservationSummariesMonthly() {
   const resArray = new Array();
   for await (let item of client.reservationsSummaries.listByReservationOrder(
     reservationOrderId,
-    grain
+    grain,
   )) {
     resArray.push(item);
   }
