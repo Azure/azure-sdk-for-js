@@ -199,18 +199,22 @@ export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
 export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<CancelAllMediaOperationsResult>;
+    hold(targetParticipant: CommunicationIdentifier, playSource?: FileSource | TextSource | SsmlSource | undefined, operationContext?: string | undefined, operationCallbackUri?: string | undefined): Promise<void>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<PlayResult>;
     playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<PlayResult>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
-    startHoldMusic(targetParticipant: CommunicationIdentifier, playSource: FileSource | TextSource | SsmlSource, loop?: boolean, operationContext?: string | undefined): Promise<void>;
+    // @deprecated
+    startHoldMusic(targetParticipant: CommunicationIdentifier, playSource?: FileSource | TextSource | SsmlSource | undefined, operationContext?: string | undefined, operationCallbackUri?: string | undefined): Promise<void>;
     // @deprecated
     startRecognizing(targetParticipant: CommunicationIdentifier, maxTonesToCollect: number, options: CallMediaRecognizeDtmfOptions): Promise<StartRecognizingResult>;
     startRecognizing(targetParticipant: CommunicationIdentifier, options: CallMediaRecognizeDtmfOptions | CallMediaRecognizeChoiceOptions | CallMediaRecognizeSpeechOptions | CallMediaRecognizeSpeechOrDtmfOptions): Promise<StartRecognizingResult>;
     startTranscription(options?: StartTranscriptionOptions): Promise<void>;
     stopContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
+    // @deprecated
     stopHoldMusic(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
+    unhold(targetParticipant: CommunicationIdentifier, operationContext?: string | undefined): Promise<void>;
     updateTranscription(locale: string): Promise<void>;
 }
 
