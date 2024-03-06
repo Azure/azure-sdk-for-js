@@ -19,7 +19,7 @@ export default function createClient(
 ): AzureHealthInsightsClient {
   const baseUrl = options.baseUrl ?? `${endpoint}/health-insights`;
   options.apiVersion = options.apiVersion ?? "2023-09-01-preview";
-  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-health-insights-radiologyinsights-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
