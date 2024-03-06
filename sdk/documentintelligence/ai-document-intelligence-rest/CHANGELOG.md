@@ -2,7 +2,7 @@
 
 ## 1.0.0-beta.2 (2024-03-06)
 
-### New Features
+### Features Added
 
 - Support for "retry-after" header has been added for long-running operations, including `/documentModels/{modelId}:analyze`, `/documentModels:build`, and `/documentClassifiers:build`.
 - `BuildDocumentClassifierContent` now includes a new property, `baseClassifierId`.
