@@ -54,7 +54,6 @@ Write-Host "Deployed function app"
 Push-Location "$webappRoot/AzureWebApps"
 az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
 Pop-Location
-Start-Sleep -s 3600
 Write-Host "Deployed webapp"
 
 # Write-Host "Sleeping for a bit to ensure container registry is ready."
