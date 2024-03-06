@@ -32,7 +32,7 @@ async function deleteFluxConfiguration() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    fluxConfigurationName
+    fluxConfigurationName,
   );
   console.log(result);
 }

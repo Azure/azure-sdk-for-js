@@ -31,7 +31,7 @@ async function workspacesGenerateUploadUrlMaximumSetGen() {
   const result = await client.workspaces.generateUploadUrl(
     resourceGroupName,
     workspaceName,
-    generateUploadUrl
+    generateUploadUrl,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function workspacesGenerateUploadUrlMinimumSetGen() {
   const result = await client.workspaces.generateUploadUrl(
     resourceGroupName,
     workspaceName,
-    generateUploadUrl
+    generateUploadUrl,
   );
   console.log(result);
 }

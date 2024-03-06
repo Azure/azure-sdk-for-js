@@ -31,7 +31,7 @@ async function cancelVerification() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
