@@ -11,7 +11,7 @@ param (
   [hashtable] $DeploymentOutputs
 )
 
-# # If not Linux, skip this script.
+# If not Linux, skip this script.
 # if ($isLinux -ne "Linux") {
 #   Write-Host "Skipping post-deployment because not running on Linux."
 #   return
@@ -47,15 +47,14 @@ Write-Host "Deployed function app"
 # az functionapp config container set -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] -i $image -r $loginServer -p $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query "passwords[0].value" -o tsv) -u $(az acr credential show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query username -o tsv)
 
 # Azure Web Apps app deployment
-Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
-az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true --debug
-az webapp log deployment show  --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME']
-Start-Sleep -s 3600
-Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
+# Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
+# az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true --debug
+# Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
 
-# Push-Location "$webappRoot/AzureWebApps"
-# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-# Pop-Location
+Push-Location "$webappRoot/AzureWebApps"
+az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
+Pop-Location
+Start-Sleep -s 3600
 Write-Host "Deployed webapp"
 
 # Write-Host "Sleeping for a bit to ensure container registry is ready."
@@ -64,11 +63,10 @@ Write-Host "Deployed webapp"
 # az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 # $loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
 
-# Azure Kubernetes Service deployment
-$image = "$loginServer/identity-aks-test-image"
-docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
-docker push $image
-
+# # Azure Kubernetes Service deployment
+# $image = "$loginServer/identity-aks-test-image"
+# docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
+# docker push $image
 
 # Attach the ACR to the AKS cluster
 # Write-Host "Attaching ACR to AKS cluster"
