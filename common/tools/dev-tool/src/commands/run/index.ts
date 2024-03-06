@@ -6,6 +6,8 @@ import { subCommand, makeCommandInfo } from "../../framework/command";
 export const commandInfo = makeCommandInfo("run", "run scripts such as test:node");
 
 export default subCommand(commandInfo, {
+  "test:node-tsx-ts": () => import("./testNodeTsxTS"),
+  "test:node-tsx-js": () => import("./testNodeTsxJS"),
   "test:node-ts-input": () => import("./testNodeTSInput"),
   "test:node-js-input": () => import("./testNodeJSInput"),
   "test:browser": () => import("./testBrowser"),
