@@ -24,7 +24,7 @@ export default function createClient(
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
  * @param endpoint - Uri of your Communication resource
- * @param credentialOrOptions The key or token credential.
+* @param credentialOrOptions The key or token credential.
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
