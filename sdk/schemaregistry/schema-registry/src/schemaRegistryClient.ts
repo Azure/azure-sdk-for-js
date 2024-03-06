@@ -51,17 +51,11 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        DEFAULT_SCOPE,
-      ],
+      scopes: options.credentials?.scopes ?? [DEFAULT_SCOPE],
     },
   };
 
-  const client = getClient(
-    baseUrl,
-    credentials,
-    options,
-  ) as SchemaRegistryContext;
+  const client = getClient(baseUrl, credentials, options) as SchemaRegistryContext;
 
   return client;
 }
@@ -136,8 +130,7 @@ export class SchemaRegistryClient implements SchemaRegistry {
     return this._tracing.withSpan(
       "SchemaRegistryClient.getSchemaProperties",
       options,
-      (updatedOptions) =>
-        getSchemaProperties(this._client, schema, updatedOptions),
+      (updatedOptions) => getSchemaProperties(this._client, schema, updatedOptions),
     );
   }
 
@@ -193,20 +186,18 @@ export class SchemaRegistryClient implements SchemaRegistry {
     if (typeof groupNameOrOptions !== "string" && version === undefined) {
       return this._tracing.withSpan(
         "SchemaRegistryClient.getSchema",
-          groupNameOrOptions ?? {},
+        groupNameOrOptions ?? {},
         (updatedOptions) => getSchemaById(this._client, nameOrId, updatedOptions),
-      )
+      );
     }
-    return this._tracing.withSpan(
-      "SchemaRegistryClient.getSchema",
-      options,
-      (updatedOptions) => getSchemaByVersion(
+    return this._tracing.withSpan("SchemaRegistryClient.getSchema", options, (updatedOptions) =>
+      getSchemaByVersion(
         this._client,
         groupNameOrOptions as string,
         nameOrId,
         version as number,
         updatedOptions,
       ),
-    )
+    );
   }
 }

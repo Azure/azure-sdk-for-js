@@ -60,17 +60,17 @@ export interface SchemaRegistryClientOptions extends CommonClientOptions {
 /**
  * Options for SchemaRegistryClient.registerSchema.
  */
-export interface RegisterSchemaOptions extends OperationOptions { }
+export interface RegisterSchemaOptions extends OperationOptions {}
 
 /**
  * Options for SchemaRegistryClient.getSchemaProperties.
  */
-export interface GetSchemaPropertiesOptions extends OperationOptions { }
+export interface GetSchemaPropertiesOptions extends OperationOptions {}
 
 /**
  * Options to configure SchemaRegistryClient.getSchema.
  */
-export interface GetSchemaOptions extends OperationOptions { }
+export interface GetSchemaOptions extends OperationOptions {}
 
 /**
  * Represents a store of registered schemas.

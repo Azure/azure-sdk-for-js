@@ -21,7 +21,7 @@ type GeneratedSchemaIdResponse =
   | RegisterSchema204Response
   | GetSchemaPropertiesByContent204Response
   | GetSchemaByVersion200Response;
-  
+
 /**
  * Union of generated client's responses that return schema definition.
  */

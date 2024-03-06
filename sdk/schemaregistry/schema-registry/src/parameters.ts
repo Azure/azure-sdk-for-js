@@ -15,11 +15,7 @@ export interface GetSchemaPropertiesByContentBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface GetSchemaPropertiesByContentMediaTypesParam {
@@ -27,10 +23,9 @@ export interface GetSchemaPropertiesByContentMediaTypesParam {
   contentType: SchemaContentTypeValues;
 }
 
-export type GetSchemaPropertiesByContentParameters =
-  GetSchemaPropertiesByContentMediaTypesParam &
-    GetSchemaPropertiesByContentBodyParam &
-    RequestParameters;
+export type GetSchemaPropertiesByContentParameters = GetSchemaPropertiesByContentMediaTypesParam &
+  GetSchemaPropertiesByContentBodyParam &
+  RequestParameters;
 
 export interface RegisterSchemaBodyParam {
   /**
@@ -38,11 +33,7 @@ export interface RegisterSchemaBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
 }
 
 export interface RegisterSchemaMediaTypesParam {
