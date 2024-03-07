@@ -4,7 +4,7 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "tsc",
     "start": "npm run dist/index.js",
     "clean": "rimraf --glob dist dist-*",
     "test": "echo \"Error: no test specified\" && exit 1"
