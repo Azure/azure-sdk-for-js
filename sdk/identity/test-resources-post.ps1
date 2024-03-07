@@ -62,6 +62,8 @@ az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --na
 Pop-Location
 
 Write-Host "Deployed webapp"
+Write-Host "Sleeping for a bit to ensure logs is ready."
+Start-Sleep -Seconds 300
 
 # Write-Host "Sleeping for a bit to ensure container registry is ready."
 # Start-Sleep -Seconds 20
