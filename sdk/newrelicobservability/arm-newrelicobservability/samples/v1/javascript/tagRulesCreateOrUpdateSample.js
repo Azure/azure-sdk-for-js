@@ -54,7 +54,7 @@ async function tagRulesCreateOrUpdateMaximumSetGen() {
     resourceGroupName,
     monitorName,
     ruleSetName,
-    resource
+    resource,
   );
   console.log(result);
 }
@@ -77,7 +77,7 @@ async function tagRulesCreateOrUpdateMinimumSetGen() {
     resourceGroupName,
     monitorName,
     ruleSetName,
-    resource
+    resource,
   );
   console.log(result);
 }

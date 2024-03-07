@@ -31,7 +31,7 @@ async function initiateVerification() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

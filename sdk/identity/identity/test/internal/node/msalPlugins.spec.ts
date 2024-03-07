@@ -5,11 +5,9 @@ import { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
 import {
   PluginConfiguration,
   generatePluginConfiguration,
-} from "../../../src/msal/nodeFlows/msalPlugins";
-import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
-} from "../../../src/msal/nodeFlows/msalNodeCommon";
+} from "../../../src/msal/nodeFlows/msalPlugins";
 
 import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
 import { assert } from "@azure/test-utils";
