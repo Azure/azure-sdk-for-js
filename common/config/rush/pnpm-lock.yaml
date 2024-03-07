@@ -2285,8 +2285,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/applicationinsights-web-snippet@1.0.1:
-    resolution: {integrity: sha512-2IHAOaLauc8qaAitvWS+U931T+ze+7MNWrDHY47IENP5y2UA0vqJDu67kWZDdpCN1fFC77sfgfB+HV7SrKshnQ==}
+  /@microsoft/applicationinsights-web-snippet@1.1.2:
+    resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
     dev: false
 
   /@microsoft/tsdoc-config@0.16.2:
@@ -10643,7 +10643,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-tGoqT0y5k5vi+y2ame3r8vwDhAf7K3sEjWy3Fl1ZdaYEqDQfiCwitpK0rAkfQN0vHnIsaI/GUqZz1VhC0Ft8uw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-BzeiADIeoIIlJ8LRyX4rq6JouqAj7vz9S+/YE9KQXRP9URaP0ke8pY0Wzi4mOEW7dIrecN0ePd0TJqxrImmrdQ==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -12091,7 +12091,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-zrNAE3RSyAGLAAfq61x1nMKukyCKx0Xyinbzf6GJg/xSuLD4cs7H7JQCaENmiQ28GjsIDuPD7a8znkYdYoJlNw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-AYe2IRqlS5udUUwHLB+nBpfwEGN+g3f+4mU3aYzFq4VPJa0+sn4WyhR9uq1kH2ZM1N7mHyMOwqmbF16k95RXrA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -20275,13 +20275,13 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-sc28ib7qotd1/rGYwlwDlfVxgvIi1DsFJT1pUvM3kaPmfN0a2hzSpFZyUuqejK8op4BtMpTS6tfzesAo4oL0aQ==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-B+Y4YyqQmrXpBcOgUkHJukWCIcomj3Ykp8HwkXoMDxxi8jTxu0JyN988Qr1uyUikMHP0ppmKPvZZdqt5iLe5ag==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
-      '@microsoft/applicationinsights-web-snippet': 1.0.1
+      '@microsoft/applicationinsights-web-snippet': 1.1.2
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.48.0
       '@opentelemetry/core': 1.21.0(@opentelemetry/api@1.7.0)
