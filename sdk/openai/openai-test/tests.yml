@@ -4,7 +4,6 @@ stages:
   - template: /eng/pipelines/templates/stages/archetype-sdk-tests.yml
     parameters:
       JobName: openai_main
-      InjectedPackages: git+https://github.com/openai/openai-node@main
       ServiceDirectory: openai-test
       EnvVars:
         AZURE_CLIENT_ID: $(python-openai-client-id)
