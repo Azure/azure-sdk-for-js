@@ -1,4 +1,330 @@
 {
-  "Entries": [],
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.NetworkAnalytics/operations?api-version=2023-11-15",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "0b2a9f01-b75f-488c-9d1b-e3581f30b6fc"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "7767",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Thu, 07 Mar 2024 07:22:37 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "41226cfd-3470-4012-8077-525d076b8649",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "a58d597c-d103-41a1-b34f-71a06e24f5d6",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T072238Z:41226cfd-3470-4012-8077-525d076b8649",
+        "X-MSEdge-Ref": "Ref A: 7740C60D64984D96AF125E19A9A5EE64 Ref B: MAA201060516017 Ref C: 2024-03-07T07:22:37Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.NetworkAnalytics/Locations/OperationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "Locations/OperationStatuses",
+              "operation": "read_OperationStatuses",
+              "description": "read OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/Locations/OperationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "Locations/OperationStatuses",
+              "operation": "write_OperationStatuses",
+              "description": "write OperationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/Operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "Operations",
+              "operation": "read_Operations",
+              "description": "read Operations"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_ListBySubscription",
+              "description": "List DataLakeHouseResources resources by subscription ID"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_ListByResourceGroup",
+              "description": "List DataLakeHouseResources resources by resource group"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_Get",
+              "description": "Get a DataLakeHouseResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_CreateOrUpdate",
+              "description": "Create a DataLakeHouseResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_Delete",
+              "description": "Delete a DataLakeHouseResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataLakeHouses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataLakeHouses",
+              "operation": "Storage_Update",
+              "description": "Update a DataLakeHouseResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_ListBySubscription",
+              "description": "List DataConnectors resources by subscription ID"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_ListByResourceGroup",
+              "description": "List DataConnectors resources by resource group"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_Get",
+              "description": "Get a DataConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_CreateOrUpdate",
+              "description": "Create a DataConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_Delete",
+              "description": "Delete a DataConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/dataConnectors/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "dataConnectors",
+              "operation": "DataConnector_Update",
+              "description": "Update a DataConnectors"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_ListBySubscription",
+              "description": "List NetworkAnalyticsProducts resources by subscription ID"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_ListByResourceGroup",
+              "description": "List NetworkAnalyticsProducts resources by resource group"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_Get",
+              "description": "Get a NetworkAnalyticsProducts"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_CreateOrUpdate",
+              "description": "Create a NetworkAnalyticsProducts"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_Delete",
+              "description": "Delete a NetworkAnalyticsProducts"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/networkAnalyticsProducts/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "networkAnalyticsProducts",
+              "operation": "NetworkAnalyticsProduct_Update",
+              "description": "Update a NetworkAnalyticsProducts"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/metricsIngestionEndpoints/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "metricsIngestionEndpoints",
+              "operation": "MetricsIngestionEndpoints_List",
+              "description": "List MetricsIngestionEndpointResources resources by parent"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/metricsIngestionEndpoints/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "metricsIngestionEndpoints",
+              "operation": "MetricsIngestionEndpoints_Get",
+              "description": "Get a MetricsIngestionEndpointResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/metricsIngestionEndpoints/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "metricsIngestionEndpoints",
+              "operation": "MetricsIngestionEndpoints_CreateOrUpdate",
+              "description": "Create a MetricsIngestionEndpointResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/metricsIngestionEndpoints/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "metricsIngestionEndpoints",
+              "operation": "MetricsIngestionEndpoints_Delete",
+              "description": "Delete a MetricsIngestionEndpointResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/metricsIngestionEndpoints/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "metricsIngestionEndpoints",
+              "operation": "MetricsIngestionEndpoints_Update",
+              "description": "Update a MetricsIngestionEndpointResources"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/registeredSubscriptions/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "registeredSubscriptions",
+              "operation": "read_registeredSubscriptions",
+              "description": "read registeredSubscriptions"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "Microsoft.NetworkAnalytics",
+              "operation": "Register the Microsoft.NetworkAnalytics",
+              "description": "Register the subscription for Microsoft.NetworkAnalytics"
+            }
+          },
+          {
+            "name": "Microsoft.NetworkAnalytics/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.NetworkAnalytics",
+              "resource": "Microsoft.NetworkAnalytics",
+              "operation": "Unregister the Microsoft.NetworkAnalytics",
+              "description": "Unregister the subscription for Microsoft.NetworkAnalytics"
+            }
+          }
+        ]
+      }
+    }
+  ],
   "Variables": {}
 }

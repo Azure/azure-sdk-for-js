@@ -7,7 +7,7 @@
  */
 
 import {
-  // env,
+  env,
   Recorder,
   RecorderStartOptions,
   // delay,
@@ -17,6 +17,7 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { NetworkAnalyticsClient } from "../src/NetworkAnalyticsClient.js";
+import { delay } from "@azure/core-util";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",
@@ -35,22 +36,22 @@ export const testPollingOptions = {
 
 describe("NetworkAnalytics test", () => {
   let recorder: Recorder;
-  // let subscriptionId: string;
+  let subscriptionId: string;
   let client: NetworkAnalyticsClient;
-  // let location: string;
-  // let resourceGroup: string;
-  // let resourcename: string;
+  let location: string;
+  let resourceGroup: string;
+  let resourcename: string;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
     await recorder.start(recorderOptions);
-    // subscriptionId = env.SUBSCRIPTION_ID || '';
+    subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new NetworkAnalyticsClient(credential, recorder.configureClientOptions({}));
-    // location = "eastus2euap";
-    // resourceGroup = "myjstest";
-    // resourcename = "resourcetest";
+    client = new NetworkAnalyticsClient(credential, recorder.configureClientOptions({ credentials: { scopes: ["https://management.azure.com/.default"] } }));
+    location = "eastus2euap";
+    resourceGroup = "myjstest";
+    resourcename = "resourcetest";
 
   });
 
@@ -60,54 +61,89 @@ describe("NetworkAnalytics test", () => {
 
   it("operation list test", async function () {
     const resArray = new Array();
-    for await (let item of client.operations.list()) {
+    for await (let item of client.operations.list().byPage()) {
       resArray.push(item);
     }
     assert.notEqual(resArray.length, 0);
   });
 
-  // it.skip("dataProducts create test", async function () {
-  //   const res = await client.dataProducts.beginCreateAndWait(
-  //     resourceGroup,
-  //     resourcename,
-  //     {
-  //       location,
-  //       properties: {
-  //         majorVersion: "1",
-  //         product: "MCC",
-  //         publisher: "Microsoft"
-  //       }
-  //     },
-  //     testPollingOptions);
-  //   assert.equal(res.name, resourcename);
-  // }).timeout(14400000);
+  it("dataProducts create test", async function () {
+    const res = await client.dataProducts.create(
+      subscriptionId,
+      resourceGroup,
+      resourcename,
+      {
+        identity: {
+          type: "SystemAssigned"
+        },
+        location,
+        properties: {
+          majorVersion: "1",
+          product: "MCC",
+          publisher: "Microsoft"
+        },
+        id: "",
+        type: ""
+      });
+    const res1 = await client.dataProducts.create(
+      subscriptionId,
+      resourceGroup,
+      resourcename + "1",
+      {
+        identity: {
+          type: "SystemAssigned"
+        },
+        location,
+        properties: {
+          majorVersion: "1",
+          product: "MCC",
+          publisher: "Microsoft"
+        },
+        id: "",
+        type: ""
+      });
+    // assert.equal(res.name, resourcename)
+    await delay(600000);
 
-  // it("dataProducts get test", async function () {
-  //   const res = await client.dataProducts.get(
-  //     resourceGroup,
-  //     resourcename);
-  //   assert.equal(res.name, resourcename);
-  // });
+  }).timeout(14400000);;
 
-  // it("dataProducts list test", async function () {
-  //   const resArray = new Array();
-  //   for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 1);
-  // });
+  it("dataProducts update test", async function () {
+    const res = await client.dataProducts.update(
+      subscriptionId,
+      resourceGroup,
+      resourcename,
+      {
+        properties: {
+          purviewAccount: "1"
+        }
+      });
+    // assert.equal(res.name, resourcename);
+  }).timeout(14400000);;
 
-  // it("dataProducts delete test", async function () {
-  //   const resArray = new Array();
-  //   const res = await client.dataProducts.beginDeleteAndWait(
-  //     resourceGroup,
-  //     resourcename,
-  //     testPollingOptions,
-  //   );
-  //   for await (let item of client.dataProducts.listByResourceGroup(resourceGroup)) {
-  //     resArray.push(item);
-  //   }
-  //   assert.equal(resArray.length, 0);
-  // });
+  it("dataProducts list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 2);
+  });
+
+  it("dataProducts delete test", async function () {
+    const resArray = new Array();
+    const res = await client.dataProducts.deleteOperation(
+      subscriptionId,
+      resourceGroup,
+      resourcename,
+    );
+    const res1 = await client.dataProducts.deleteOperation(
+      subscriptionId,
+      resourceGroup,
+      resourcename + "1",
+    );
+    for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
+      resArray.push(item);
+    }
+    assert.equal(resArray.length, 0);
+  });
 
 })

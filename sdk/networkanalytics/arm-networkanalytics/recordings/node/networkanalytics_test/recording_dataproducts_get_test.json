@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest?api-version=2023-11-15",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "37",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22621)",
+        "x-ms-client-request-id": "d96d725c-3aef-44a6-87bb-01c330e5d3bf"
+      },
+      "RequestBody": {
+        "properties": {
+          "purviewAccount": "1"
+        }
+      },
+      "StatusCode": 409,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "272",
+        "Content-Type": "application/json",
+        "Date": "Thu, 07 Mar 2024 07:22:40 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "3f565162-b5ab-41d5-b711-f939b66101e2",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1198",
+        "x-ms-request-id": "f0ce3cab-35f4-43a7-b046-97ce678f2b1a",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T072240Z:3f565162-b5ab-41d5-b711-f939b66101e2",
+        "X-MSEdge-Ref": "Ref A: 6FEA533DA3744954AE5655EEF502DA4B Ref B: MAA201060516017 Ref C: 2024-03-07T07:22:38Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "InvalidResourceOperation",
+          "message": "The operation for resource \u0027/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest\u0027 is invalid as it is being provisioned with state: \u0027Accepted\u0027."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
