@@ -4,37 +4,31 @@
 import { CommunicationIdentifier } from "@azure/communication-common";
 
 import {
-  RestAddParticipantSucceeded,
-  RestAddParticipantFailed,
-  RestRemoveParticipantSucceeded,
-  RestRemoveParticipantFailed,
-  RestCallConnected,
-  RestCallDisconnected,
-  RestCallTransferAccepted,
-  RestCallTransferFailed,
-  RestParticipantsUpdated,
-  RestRecordingStateChanged,
-  RestTeamsComplianceRecordingStateChanged,
-  RestTeamsRecordingStateChanged,
-  RestPlayCompleted,
-  RestPlayFailed,
-  RestPlayCanceled,
-  RestRecognizeCompleted,
-  RestRecognizeFailed,
-  RestRecognizeCanceled,
-  RestResultInformation,
-  RestContinuousDtmfRecognitionToneReceived,
-  RestContinuousDtmfRecognitionToneFailed,
-  RestContinuousDtmfRecognitionStopped,
-  RestSendDtmfTonesCompleted,
-  RestSendDtmfTonesFailed,
+  AddParticipantSucceeded as RestAddParticipantSucceeded,
+  AddParticipantFailed as RestAddParticipantFailed,
+  RemoveParticipantSucceeded as RestRemoveParticipantSucceeded,
+  RemoveParticipantFailed as RestRemoveParticipantFailed,
+  CallConnected as RestCallConnected,
+  CallDisconnected as RestCallDisconnected,
+  CallTransferAccepted as RestCallTransferAccepted,
+  CallTransferFailed as RestCallTransferFailed,
+  ParticipantsUpdated as RestParticipantsUpdated,
+  RecordingStateChanged as RestRecordingStateChanged,
+  PlayCompleted as RestPlayCompleted,
+  PlayFailed as RestPlayFailed,
+  PlayCanceled as RestPlayCanceled,
+  RecognizeCompleted as RestRecognizeCompleted,
+  RecognizeFailed as RestRecognizeFailed,
+  RecognizeCanceled as RestRecognizeCanceled,
+  ResultInformation as RestResultInformation,
+  ContinuousDtmfRecognitionToneReceived as RestContinuousDtmfRecognitionToneReceived,
+  ContinuousDtmfRecognitionToneFailed as RestContinuousDtmfRecognitionToneFailed,
+  ContinuousDtmfRecognitionStopped as RestContinuousDtmfRecognitionStopped,
+  SendDtmfTonesCompleted as RestSendDtmfTonesCompleted,
+  SendDtmfTonesFailed as RestSendDtmfTonesFailed,
   Tone,
-  RestCancelAddParticipantSucceeded,
-  RestCancelAddParticipantFailed,
-  RestTranscriptionStarted,
-  RestTranscriptionStopped,
-  RestTranscriptionUpdated,
-  RestTranscriptionFailed,
+  CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
+  CancelAddParticipantFailed as RestCancelAddParticipantFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -51,8 +45,6 @@ export type CallAutomationEvent =
   | CallTransferFailed
   | ParticipantsUpdated
   | RecordingStateChanged
-  | TeamsComplianceRecordingStateChanged
-  | TeamsRecordingStateChanged
   | PlayCompleted
   | PlayFailed
   | PlayCanceled
@@ -65,11 +57,34 @@ export type CallAutomationEvent =
   | SendDtmfTonesCompleted
   | SendDtmfTonesFailed
   | CancelAddParticipantSucceeded
-  | CancelAddParticipantFailed
-  | TranscriptionStarted
-  | TranscriptionStopped
-  | TranscriptionUpdated
-  | TranscriptionFailed;
+  | CancelAddParticipantFailed;
+
+export {
+  RestAddParticipantSucceeded,
+  RestAddParticipantFailed,
+  RestRemoveParticipantSucceeded,
+  RestRemoveParticipantFailed,
+  RestCallConnected,
+  RestCallDisconnected,
+  RestCallTransferAccepted,
+  RestCallTransferFailed,
+  RestRecordingStateChanged,
+  RestParticipantsUpdated,
+  RestPlayCompleted,
+  RestPlayFailed,
+  RestPlayCanceled,
+  RestRecognizeCompleted,
+  RestRecognizeFailed,
+  RestRecognizeCanceled,
+  RestResultInformation,
+  RestContinuousDtmfRecognitionToneReceived,
+  RestContinuousDtmfRecognitionToneFailed,
+  RestContinuousDtmfRecognitionStopped,
+  RestSendDtmfTonesCompleted,
+  RestSendDtmfTonesFailed,
+  RestCancelAddParticipantSucceeded,
+  RestCancelAddParticipantFailed,
+};
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -261,38 +276,6 @@ export interface RecordingStateChanged
   correlationId: string;
   /** kind of this event. */
   kind: "RecordingStateChanged";
-}
-
-/** Event when Teams Compliance Recording state has been changed. */
-export interface TeamsComplianceRecordingStateChanged
-  extends Omit<
-    RestTeamsComplianceRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsComplianceRecordingStateChanged";
-}
-
-/** Event when Teams Recording state has been changed. */
-export interface TeamsRecordingStateChanged
-  extends Omit<
-    RestTeamsRecordingStateChanged,
-    "callConnectionId" | "serverCallId" | "correlationId"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** kind of this event. */
-  kind: "TeamsRecordingStateChanged";
 }
 
 /** Event when Media play was successfully completed. */
@@ -528,72 +511,4 @@ export interface CancelAddParticipantFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CancelAddParticipantFailed";
-}
-
-export interface TranscriptionStarted
-  extends Omit<
-    RestTranscriptionStarted,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionStarted";
-}
-
-export interface TranscriptionStopped
-  extends Omit<
-    RestTranscriptionStopped,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionStopped";
-}
-
-export interface TranscriptionUpdated
-  extends Omit<
-    RestTranscriptionUpdated,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionUpdated";
-}
-
-export interface TranscriptionFailed
-  extends Omit<
-    RestTranscriptionFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionFailed";
 }

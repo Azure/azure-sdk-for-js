@@ -4,8 +4,6 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingConfiguration,
-  TranscriptionConfiguration,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -109,10 +107,6 @@ export interface CreateCallOptions extends OperationOptions {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
   /** The Custom Context. */
   customCallingContext?: CustomCallingContext;
 }
@@ -123,10 +117,6 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Configuration of live transcription. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
   /** The operation context. */
   operationContext?: string;
   /** The caller ID number which is a phone number that will be used when inviting a pstn target.
