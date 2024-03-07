@@ -270,7 +270,7 @@ describe("OpenTelemetryInstrumenter", () => {
 
       // Function syntax
       instrumenter.withContext(context.active(), function (this: any) {
-        assert.notExists(this);
+        assert.isDefined(this);
       });
       instrumenter.withContext(
         context.active(),
