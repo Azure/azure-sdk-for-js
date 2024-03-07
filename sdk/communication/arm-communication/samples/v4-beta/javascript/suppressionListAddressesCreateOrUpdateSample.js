@@ -38,7 +38,7 @@ async function createOrUpdateSuppressionListAddressResource() {
     domainName,
     suppressionListName,
     addressId,
-    parameters
+    parameters,
   );
   console.log(result);
 }

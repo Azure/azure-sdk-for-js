@@ -28,7 +28,7 @@ async function monitorsDeleteMaximumSetGen() {
   const result = await client.monitors.beginDeleteAndWait(
     resourceGroupName,
     userEmail,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function monitorsDeleteMinimumSetGen() {
   const result = await client.monitors.beginDeleteAndWait(
     resourceGroupName,
     userEmail,
-    monitorName
+    monitorName,
   );
   console.log(result);
 }

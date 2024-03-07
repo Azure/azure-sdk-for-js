@@ -32,7 +32,7 @@ async function referenceDataSetsUpdate() {
     resourceGroupName,
     environmentName,
     referenceDataSetName,
-    referenceDataSetUpdateParameters
+    referenceDataSetUpdateParameters,
   );
   console.log(result);
 }

@@ -75,7 +75,7 @@ node dist/elasticSansCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ELASTICSANS_SUBSCRIPTION_ID="<elasticsans subscription id>" ELASTICSANS_RESOURCE_GROUP="<elasticsans resource group>" ELASTICSANS_SUBSCRIPTION_ID="<elasticsans subscription id>" ELASTICSANS_RESOURCE_GROUP="<elasticsans resource group>" node dist/elasticSansCreateSample.js
+npx cross-env ELASTICSANS_SUBSCRIPTION_ID="<elasticsans subscription id>" ELASTICSANS_RESOURCE_GROUP="<elasticsans resource group>" node dist/elasticSansCreateSample.js
 ```
 
 ## Next Steps

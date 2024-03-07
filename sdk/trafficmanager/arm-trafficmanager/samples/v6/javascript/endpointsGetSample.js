@@ -31,7 +31,7 @@ async function endpointGetExternalWithGeoMapping() {
     resourceGroupName,
     profileName,
     endpointType,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function endpointGetExternalWithLocation() {
     resourceGroupName,
     profileName,
     endpointType,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }
@@ -79,7 +79,7 @@ async function endpointGetExternalWithSubnetMapping() {
     resourceGroupName,
     profileName,
     endpointType,
-    endpointName
+    endpointName,
   );
   console.log(result);
 }
