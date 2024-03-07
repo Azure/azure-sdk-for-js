@@ -671,6 +671,9 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-storageactions':
+    specifier: file:./projects/arm-storageactions.tgz
+    version: file:projects/arm-storageactions.tgz
   '@rush-temp/arm-storagecache':
     specifier: file:./projects/arm-storagecache.tgz
     version: file:projects/arm-storagecache.tgz
@@ -10643,7 +10646,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-tGoqT0y5k5vi+y2ame3r8vwDhAf7K3sEjWy3Fl1ZdaYEqDQfiCwitpK0rAkfQN0vHnIsaI/GUqZz1VhC0Ft8uw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-BzeiADIeoIIlJ8LRyX4rq6JouqAj7vz9S+/YE9KQXRP9URaP0ke8pY0Wzi4mOEW7dIrecN0ePd0TJqxrImmrdQ==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -12091,7 +12094,7 @@ packages:
     dev: false
 
   file:projects/arm-chaos.tgz:
-    resolution: {integrity: sha512-zrNAE3RSyAGLAAfq61x1nMKukyCKx0Xyinbzf6GJg/xSuLD4cs7H7JQCaENmiQ28GjsIDuPD7a8znkYdYoJlNw==, tarball: file:projects/arm-chaos.tgz}
+    resolution: {integrity: sha512-AYe2IRqlS5udUUwHLB+nBpfwEGN+g3f+4mU3aYzFq4VPJa0+sn4WyhR9uq1kH2ZM1N7mHyMOwqmbF16k95RXrA==, tarball: file:projects/arm-chaos.tgz}
     name: '@rush-temp/arm-chaos'
     version: 0.0.0
     dependencies:
@@ -16790,6 +16793,34 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 3.0.2
+      ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-storageactions.tgz:
+    resolution: {integrity: sha512-cb+CLfW2LY79o+VK93D8Ty9ZZzcsvt4wZyn6vW0/2V3N+yOLphrIcF+JKrqZWdxsH0MXw+JUgl5nlUh6EhQliw==, tarball: file:projects/arm-storageactions.tgz}
+    name: '@rush-temp/arm-storageactions'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
+      '@types/chai': 4.3.12
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.18
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3

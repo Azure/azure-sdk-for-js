@@ -784,6 +784,9 @@
 /sdk/storage/arm-storage/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/storageactions/arm-storageactions/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/storage/arm-storage-profile-2020-09-01-hybrid/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
