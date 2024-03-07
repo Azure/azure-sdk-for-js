@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-scanning",
       "projectFolder": "sdk/purview/purview-scanning-rest",
       "versionPolicyName": "client"
@@ -1469,6 +1474,11 @@
     {
       "packageName": "@azure-rest/health-insights-clinicalmatching",
       "projectFolder": "sdk/healthinsights/health-insights-clinicalmatching-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
       "versionPolicyName": "client"
     },
     {

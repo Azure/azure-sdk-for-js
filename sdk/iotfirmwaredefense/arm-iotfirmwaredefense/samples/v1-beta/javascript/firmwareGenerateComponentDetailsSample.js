@@ -30,7 +30,7 @@ async function firmwareGenerateComponentDetailsMaximumSetGen() {
   const result = await client.firmwareOperations.generateComponentDetails(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateComponentDetailsMinimumSetGen() {
   const result = await client.firmwareOperations.generateComponentDetails(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }

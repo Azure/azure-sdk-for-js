@@ -28,7 +28,7 @@ async function workloadNetworksListPortMirroring() {
   const resArray = new Array();
   for await (let item of client.workloadNetworks.listPortMirroring(
     resourceGroupName,
-    privateCloudName
+    privateCloudName,
   )) {
     resArray.push(item);
   }

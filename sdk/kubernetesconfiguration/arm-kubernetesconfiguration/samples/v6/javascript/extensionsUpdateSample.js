@@ -42,7 +42,7 @@ async function updateExtension() {
     clusterResourceName,
     clusterName,
     extensionName,
-    patchExtension
+    patchExtension,
   );
   console.log(result);
 }

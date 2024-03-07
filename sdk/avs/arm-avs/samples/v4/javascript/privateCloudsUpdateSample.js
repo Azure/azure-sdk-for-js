@@ -40,7 +40,7 @@ async function privateCloudsUpdate() {
   const result = await client.privateClouds.beginUpdateAndWait(
     resourceGroupName,
     privateCloudName,
-    privateCloudUpdate
+    privateCloudUpdate,
   );
   console.log(result);
 }
@@ -64,7 +64,7 @@ async function privateCloudsUpdateStretched() {
   const result = await client.privateClouds.beginUpdateAndWait(
     resourceGroupName,
     privateCloudName,
-    privateCloudUpdate
+    privateCloudUpdate,
   );
   console.log(result);
 }

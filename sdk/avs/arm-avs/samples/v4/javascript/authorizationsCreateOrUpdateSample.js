@@ -31,7 +31,7 @@ async function authorizationsCreateOrUpdate() {
     resourceGroupName,
     privateCloudName,
     authorizationName,
-    authorization
+    authorization,
   );
   console.log(result);
 }

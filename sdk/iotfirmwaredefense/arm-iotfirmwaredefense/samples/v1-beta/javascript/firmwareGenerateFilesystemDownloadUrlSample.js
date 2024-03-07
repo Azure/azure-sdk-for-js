@@ -30,7 +30,7 @@ async function firmwareGenerateFilesystemDownloadUrlMaximumSetGen() {
   const result = await client.firmwareOperations.generateFilesystemDownloadUrl(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateFilesystemDownloadUrlMinimumSetGen() {
   const result = await client.firmwareOperations.generateFilesystemDownloadUrl(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
