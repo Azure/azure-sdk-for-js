@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi, afterEach } from "vitest";
-
+import * as process from "node:process";
+import { describe, it, assert, vi, afterEach } from "vitest";
 import {
   type ProxySettings,
   type SendRequest,
   createPipelineRequest,
   getDefaultProxySettings,
   proxyPolicy,
-} from "../../src";
-import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy";
+} from "../../src/index.js";
+import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
 
 describe("proxyPolicy (node)", function () {
   it("Sets proxy settings on the request", function () {

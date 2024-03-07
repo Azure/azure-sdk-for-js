@@ -30,7 +30,7 @@ async function getAllSuppressionListsResources() {
   for await (let item of client.suppressionLists.listByDomain(
     resourceGroupName,
     emailServiceName,
-    domainName
+    domainName,
   )) {
     resArray.push(item);
   }

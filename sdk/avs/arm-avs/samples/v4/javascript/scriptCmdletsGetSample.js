@@ -31,7 +31,7 @@ async function scriptCmdletsGet() {
     resourceGroupName,
     privateCloudName,
     scriptPackageName,
-    scriptCmdletName
+    scriptCmdletName,
   );
   console.log(result);
 }

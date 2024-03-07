@@ -53,7 +53,7 @@ async function tagRulesUpdateMaximumSetGen() {
     resourceGroupName,
     monitorName,
     ruleSetName,
-    properties
+    properties,
   );
   console.log(result);
 }
@@ -76,7 +76,7 @@ async function tagRulesUpdateMinimumSetGen() {
     resourceGroupName,
     monitorName,
     ruleSetName,
-    properties
+    properties,
   );
   console.log(result);
 }

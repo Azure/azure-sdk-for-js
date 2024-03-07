@@ -11,7 +11,7 @@
 import {
   MigrateLoadBalancerToIpBasedRequest,
   LoadBalancersMigrateToIpBasedOptionalParams,
-  NetworkManagementClient
+  NetworkManagementClient,
 } from "@azure/arm-network";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,14 +22,14 @@ dotenv.config();
  * This sample demonstrates how to Migrate load balancer to IP Based
  *
  * @summary Migrate load balancer to IP Based
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/MigrateLoadBalancerToIPBased.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/MigrateLoadBalancerToIPBased.json
  */
 async function migrateLoadBalancerToIPBased() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
   const groupName = "rg1";
   const loadBalancerName = "lb1";
   const parameters: MigrateLoadBalancerToIpBasedRequest = {
-    pools: ["pool1", "pool2"]
+    pools: ["pool1", "pool2"],
   };
   const options: LoadBalancersMigrateToIpBasedOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -37,7 +37,7 @@ async function migrateLoadBalancerToIPBased() {
   const result = await client.loadBalancers.migrateToIpBased(
     groupName,
     loadBalancerName,
-    options
+    options,
   );
   console.log(result);
 }

@@ -31,7 +31,7 @@ async function firmwareListGenerateComponentListMaximumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateComponentList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
@@ -57,7 +57,7 @@ async function firmwareListGenerateComponentListMinimumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateComponentList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }

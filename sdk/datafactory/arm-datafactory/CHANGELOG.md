@@ -1,15 +1,45 @@
 # Release History
+    
+## 14.0.0 (2024-02-04)
+    
+**Features**
 
-## 13.0.1 (Unreleased)
+  - Added Interface SnowflakeV2Dataset
+  - Added Interface SnowflakeV2LinkedService
+  - Added Interface SnowflakeV2Sink
+  - Added Interface SnowflakeV2Source
+  - Added Interface WarehouseLinkedService
+  - Added Interface WarehouseSink
+  - Added Interface WarehouseSource
+  - Added Interface WarehouseTableDataset
+  - Added Type Alias SnowflakeAuthenticationType
+  - Interface SalesforceServiceCloudV2LinkedService has a new optional parameter authenticationType
+  - Interface SalesforceServiceCloudV2Source has a new optional parameter includeDeletedObjects
+  - Interface SalesforceV2LinkedService has a new optional parameter authenticationType
+  - Interface SalesforceV2Source has a new optional parameter includeDeletedObjects
+  - Type of parameter type of interface CopySink has two new values  "WarehouseSink" | "SnowflakeV2Sink"
+  - Type of parameter type of interface CopySource has two new values "WarehouseSource" | "SnowflakeV2Source"
+  - Type of parameter type of interface Dataset has two new values "SnowflakeV2Table" | "WarehouseTable"
+  - Type of parameter type of interface LinkedService has two new values "SnowflakeV2" | "Warehouse"
+  - Type of parameter type of interface TabularSource has a new value "WarehouseSource"
+  - Added Enum KnownSnowflakeAuthenticationType
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface SalesforceServiceCloudV2Source no longer has parameter readBehavior
+  - Interface SalesforceV2Source no longer has parameter readBehavior
+  - Type of parameter headers of interface AzureFunctionActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Type of parameter headers of interface WebHookActivity is changed from any to {
+        [propertyName: string]: string;
+    }
+  - Removed Enum KnownSalesforceV2SourceReadBehavior
+    
+    
 ## 13.0.0 (2023-12-28)
     
 **Features**

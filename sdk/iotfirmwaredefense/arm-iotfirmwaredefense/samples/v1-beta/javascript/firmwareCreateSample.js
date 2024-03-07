@@ -41,7 +41,7 @@ async function firmwareCreateMaximumSetGen() {
     resourceGroupName,
     workspaceName,
     firmwareId,
-    firmware
+    firmware,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function firmwareCreateMinimumSetGen() {
     resourceGroupName,
     workspaceName,
     firmwareId,
-    firmware
+    firmware,
   );
   console.log(result);
 }

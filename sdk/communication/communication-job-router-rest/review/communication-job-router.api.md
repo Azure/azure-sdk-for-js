@@ -485,10 +485,10 @@ export interface DirectMapRouterRuleOutput extends RouterRuleOutputParent {
 }
 
 // @public
-export type DistributionMode = BestWorkerMode | LongestIdleMode | RoundRobinMode;
+export type DistributionMode = DistributionModeParent | BestWorkerMode | LongestIdleMode | RoundRobinMode;
 
 // @public
-export type DistributionModeOutput = BestWorkerModeOutput | LongestIdleModeOutput | RoundRobinModeOutput;
+export type DistributionModeOutput = DistributionModeOutputParent | BestWorkerModeOutput | LongestIdleModeOutput | RoundRobinModeOutput;
 
 // @public
 export interface DistributionModeOutputParent {
@@ -528,10 +528,10 @@ export interface DistributionPolicyOutput {
 export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy>;
 
 // @public
-export type ExceptionAction = CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
+export type ExceptionAction = ExceptionActionParent | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
-export type ExceptionActionOutput = CancelExceptionActionOutput | ManualReclassifyExceptionActionOutput | ReclassifyExceptionActionOutput;
+export type ExceptionActionOutput = ExceptionActionOutputParent | CancelExceptionActionOutput | ManualReclassifyExceptionActionOutput | ReclassifyExceptionActionOutput;
 
 // @public
 export interface ExceptionActionOutputParent {
@@ -579,10 +579,10 @@ export interface ExceptionRuleOutput {
 }
 
 // @public
-export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
+export type ExceptionTrigger = ExceptionTriggerParent | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 
 // @public
-export type ExceptionTriggerOutput = QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
+export type ExceptionTriggerOutput = ExceptionTriggerOutputParent | QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
 
 // @public
 export interface ExceptionTriggerOutputParent {
@@ -1013,10 +1013,10 @@ export function isUnexpected(response: DeleteWorker204Response | DeleteWorkerDef
 export function isUnexpected(response: ListWorkers200Response | ListWorkersDefaultResponse): response is ListWorkersDefaultResponse;
 
 // @public
-export type JobMatchingMode = ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
+export type JobMatchingMode = JobMatchingModeParent | ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
 
 // @public
-export type JobMatchingModeOutput = ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
+export type JobMatchingModeOutput = JobMatchingModeOutputParent | ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
 
 // @public
 export interface JobMatchingModeOutputParent {
@@ -1416,10 +1416,10 @@ export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutpu
 }
 
 // @public
-export type QueueSelectorAttachment = ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
+export type QueueSelectorAttachment = QueueSelectorAttachmentParent | ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
 
 // @public
-export type QueueSelectorAttachmentOutput = ConditionalQueueSelectorAttachmentOutput | PassThroughQueueSelectorAttachmentOutput | RuleEngineQueueSelectorAttachmentOutput | StaticQueueSelectorAttachmentOutput | WeightedAllocationQueueSelectorAttachmentOutput;
+export type QueueSelectorAttachmentOutput = QueueSelectorAttachmentOutputParent | ConditionalQueueSelectorAttachmentOutput | PassThroughQueueSelectorAttachmentOutput | RuleEngineQueueSelectorAttachmentOutput | StaticQueueSelectorAttachmentOutput | WeightedAllocationQueueSelectorAttachmentOutput;
 
 // @public
 export interface QueueSelectorAttachmentOutputParent {
@@ -1670,10 +1670,10 @@ export interface RouterQueueStatisticsOutput {
 }
 
 // @public
-export type RouterRule = DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule | WebhookRouterRule;
+export type RouterRule = RouterRuleParent | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule | WebhookRouterRule;
 
 // @public
-export type RouterRuleOutput = DirectMapRouterRuleOutput | ExpressionRouterRuleOutput | FunctionRouterRuleOutput | StaticRouterRuleOutput | WebhookRouterRuleOutput;
+export type RouterRuleOutput = RouterRuleOutputParent | DirectMapRouterRuleOutput | ExpressionRouterRuleOutput | FunctionRouterRuleOutput | StaticRouterRuleOutput | WebhookRouterRuleOutput;
 
 // @public
 export interface RouterRuleOutputParent {
@@ -1693,6 +1693,7 @@ export interface RouterWorker {
     capacity?: number;
     channels?: Array<RouterChannel>;
     labels?: Record<string, unknown>;
+    maxConcurrentOffers?: number;
     queues?: string[];
     tags?: Record<string, unknown>;
 }
@@ -1723,6 +1724,7 @@ export interface RouterWorkerOutput {
     readonly id: string;
     labels?: Record<string, any>;
     readonly loadRatio?: number;
+    maxConcurrentOffers?: number;
     readonly offers?: Array<RouterJobOfferOutput>;
     queues?: string[];
     readonly state?: string;
@@ -2449,10 +2451,10 @@ export interface WeightedAllocationWorkerSelectorAttachmentOutput extends Worker
 }
 
 // @public
-export type WorkerSelectorAttachment = ConditionalWorkerSelectorAttachment | PassThroughWorkerSelectorAttachment | RuleEngineWorkerSelectorAttachment | StaticWorkerSelectorAttachment | WeightedAllocationWorkerSelectorAttachment;
+export type WorkerSelectorAttachment = WorkerSelectorAttachmentParent | ConditionalWorkerSelectorAttachment | PassThroughWorkerSelectorAttachment | RuleEngineWorkerSelectorAttachment | StaticWorkerSelectorAttachment | WeightedAllocationWorkerSelectorAttachment;
 
 // @public
-export type WorkerSelectorAttachmentOutput = ConditionalWorkerSelectorAttachmentOutput | PassThroughWorkerSelectorAttachmentOutput | RuleEngineWorkerSelectorAttachmentOutput | StaticWorkerSelectorAttachmentOutput | WeightedAllocationWorkerSelectorAttachmentOutput;
+export type WorkerSelectorAttachmentOutput = WorkerSelectorAttachmentOutputParent | ConditionalWorkerSelectorAttachmentOutput | PassThroughWorkerSelectorAttachmentOutput | RuleEngineWorkerSelectorAttachmentOutput | StaticWorkerSelectorAttachmentOutput | WeightedAllocationWorkerSelectorAttachmentOutput;
 
 // @public
 export interface WorkerSelectorAttachmentOutputParent {

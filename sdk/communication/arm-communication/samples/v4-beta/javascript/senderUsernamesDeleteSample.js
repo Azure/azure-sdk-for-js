@@ -31,7 +31,7 @@ async function deleteSenderUsernamesResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    senderUsername
+    senderUsername,
   );
   console.log(result);
 }

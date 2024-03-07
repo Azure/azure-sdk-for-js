@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the details of the specified email notification(alert) configuration.
  *
  * @summary Gets the details of the specified email notification(alert) configuration.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationAlertSettings_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationAlertSettings_Get.json
  */
 async function getsAnEmailNotificationAlertConfiguration() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getsAnEmailNotificationAlertConfiguration() {
   const result = await client.replicationAlertSettings.get(
     resourceName,
     resourceGroupName,
-    alertSettingName
+    alertSettingName,
   );
   console.log(result);
 }
