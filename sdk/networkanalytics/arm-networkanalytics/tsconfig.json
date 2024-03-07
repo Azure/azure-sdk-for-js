@@ -1,27 +1,33 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "NodeNext",
-    "lib": ["esnext", "dom"],
-    "declaration": true,
-    "declarationMap": true,
-    "inlineSources": true,
-    "sourceMap": true,
-    "importHelpers": true,
+    "module": "es6",
+    "moduleResolution": "node",
     "strict": true,
-    "alwaysStrict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "moduleResolution": "NodeNext",
-    "allowSyntheticDefaultImports": true,
+    "target": "es6",
+    "sourceMap": true,
+    "declarationMap": true,
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "declaration": true,
     "outDir": "./dist-esm",
-    "declarationDir": "./types",
-    "rootDir": "."
+    "importHelpers": true,
+    "paths": {
+      "@azure/arm-networkanalytics": [
+        "./src/index"
+      ]
+    }
   },
-  "ts-node": { "esm": true },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": [
+    "./src/**/*.ts",
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
