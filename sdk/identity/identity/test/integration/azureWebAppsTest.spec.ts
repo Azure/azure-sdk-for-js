@@ -31,5 +31,5 @@ function baseUrl(): string{
        console.log("IDENTITY_WEBAPP_NAME is not set");
        throw new Error("IDENTITY_WEBAPP_NAME is not set");
     }
-    return `https://${webAppName}.azurewebsites.net/api/`
+    return `https://${webAppName}.azurewebsites.net/sync/`
 }
