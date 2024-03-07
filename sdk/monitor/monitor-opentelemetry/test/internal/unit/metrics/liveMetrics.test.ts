@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { SpanKind } from "@opentelemetry/api";
-import { Histogram } from "@opentelemetry/sdk-metrics";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
@@ -108,60 +107,38 @@ describe("#LiveMetrics", () => {
       QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
     );
     assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
+
     assert.strictEqual(
-      (metrics[0].dataPoints[0].value as Histogram).count,
-      6,
-      "REQUEST_DURATION dataPoint count",
+      metrics[0].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
     );
+    assert.strictEqual(metrics[0].dataPoints.length, 1, "dataPoints count");
+    // ( (98765432 * 2) + (100000 * 4)/6)
     assert.strictEqual(
-      (metrics[0].dataPoints[0].value as Histogram).min,
-      100000,
-      "REQUEST_DURATION dataPoint min",
+      metrics[0].dataPoints[0].value.toFixed(2),
+      "32988477.33",
+      "REQUEST_DURATION value",
     );
-    assert.strictEqual(
-      (metrics[0].dataPoints[0].value as Histogram).max,
-      98765432,
-      "REQUEST_DURATION dataPoint max",
-    );
-    assert.strictEqual(
-      (metrics[0].dataPoints[0].value as Histogram).sum,
-      197930864,
-      "REQUEST_DURATION dataPoint sum",
-    );
-    assert.strictEqual(
-      metrics[1].descriptor.name,
-      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
-    );
+    assert.strictEqual(metrics[1].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
     assert.strictEqual(metrics[1].dataPoints.length, 1, "dataPoints count");
+    assert.ok(metrics[1].dataPoints[0].value > 0, "REQUEST_RATE value");
     assert.strictEqual(
-      (metrics[1].dataPoints[0].value as Histogram).count,
-      4,
-      "DEPENDENCY_DURATION dataPoint count",
-    );
-    assert.strictEqual(
-      (metrics[1].dataPoints[0].value as Histogram).min,
-      900000,
-      "DEPENDENCY_DURATION dataPoint min",
-    );
-    assert.strictEqual(
-      (metrics[1].dataPoints[0].value as Histogram).max,
-      12345678,
-      "DEPENDENCY_DURATION dataPoint max",
-    );
-    assert.strictEqual(
-      (metrics[1].dataPoints[0].value as Histogram).sum,
-      15045678,
-      "DEPENDENCY_DURATION dataPoint sum",
-    );
-    assert.strictEqual(metrics[2].descriptor.name, QuickPulseOpenTelemetryMetricNames.REQUEST_RATE);
-    assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[2].dataPoints[0].value > 0, "REQUEST_RATE value");
-    assert.strictEqual(
-      metrics[3].descriptor.name,
+      metrics[2].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
     );
+    assert.strictEqual(metrics[2].dataPoints.length, 1, "dataPoints count");
+    assert.ok(metrics[2].dataPoints[0].value > 0, "REQUEST_FAILURE_RATE value");
+    assert.strictEqual(
+      metrics[3].descriptor.name,
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
+    );
     assert.strictEqual(metrics[3].dataPoints.length, 1, "dataPoints count");
-    assert.ok(metrics[3].dataPoints[0].value > 0, "REQUEST_FAILURE_RATE value");
+    // (12345678 + (900000 * 3)/4)
+    assert.strictEqual(
+      metrics[3].dataPoints[0].value.toFixed(2),
+      "3761419.50",
+      "DEPENDENCY_DURATION value",
+    );
     assert.strictEqual(
       metrics[4].descriptor.name,
       QuickPulseOpenTelemetryMetricNames.DEPENDENCY_RATE,

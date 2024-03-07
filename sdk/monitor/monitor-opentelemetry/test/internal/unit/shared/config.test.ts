@@ -34,10 +34,7 @@ describe("Library/Config", () => {
     it("merge JSON config", () => {
       (JsonConfig["_instance"] as any) = undefined;
       const env = <{ [id: string]: string }>{};
-      const customConfigJSONPath = path.resolve(
-        __dirname,
-        "../../../../../test/internal/unit/shared/config.json",
-      );
+      const customConfigJSONPath = path.resolve(__dirname, "config.json");
       env["APPLICATIONINSIGHTS_CONFIGURATION_FILE"] = customConfigJSONPath; // Load JSON config
       process.env = env;
       const config = new InternalConfig();
