@@ -151,6 +151,10 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
     return { body };
   }
 
+  if ((!contentType || contentType.includes("serialization")) && typeof body === "string") {
+    return { body };
+  }
+
   const firstType = contentType.split(";")[0];
 
   if (firstType === "application/json") {
