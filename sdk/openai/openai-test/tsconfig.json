@@ -10,5 +10,5 @@
     "rootDir": "."
   },
   "ts-node": { "esm": true },
-  "include": [ "src/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }

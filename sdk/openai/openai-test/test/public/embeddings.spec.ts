@@ -8,7 +8,6 @@ import { AuthMethod } from "../utils/types";
 import OpenAI from "openai";
 
 describe("Embeddings", function () {
-
   matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI;
@@ -22,7 +21,7 @@ describe("Embeddings", function () {
       describe("getEmbeddings", function () {
         it("embeddings test", async function () {
           const prompt = ["This is text to be embedded"];
-          const embeddings = await client.embeddings.create({model: modelName, input: prompt});
+          const embeddings = await client.embeddings.create({ model: modelName, input: prompt });
           assert.isNotNull(embeddings.data);
           assert.equal(embeddings.data.length > 0, true);
           assert.isNotNull(embeddings.data[0].embedding);
