@@ -14,6 +14,7 @@ import {
   ObservableGauge,
   ObservableResult,
   SpanKind,
+  SpanStatusCode,
   ValueType,
   context,
 } from "@opentelemetry/api";
@@ -351,8 +352,7 @@ export class LiveMetrics {
       let document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
-      const statusCode = String(span.attributes["http.status_code"]);
-      let success = statusCode === "200" ? true : false;
+      let success = span.status.code !== SpanStatusCode.ERROR;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         if (success) {

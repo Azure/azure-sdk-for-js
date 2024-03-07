@@ -49,14 +49,13 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       const httpUrl = span.attributes[SemanticAttributes.HTTP_URL];
       tags[KnownContextTagKeys.AiOperationName] = span.name; // Default
       if (httpRoute) {
-        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${
-          httpRoute as string
-        }`;
+        tags[KnownContextTagKeys.AiOperationName] = `${httpMethod as string} ${httpRoute as string
+          }`;
       } else if (httpUrl) {
         try {
           const url = new URL(String(httpUrl));
           tags[KnownContextTagKeys.AiOperationName] = `${httpMethod} ${url.pathname}`;
-        } catch (ex: any) {}
+        } catch (ex: any) { }
       }
       if (httpClientIp) {
         tags[KnownContextTagKeys.AiLocationIp] = String(httpClientIp);
@@ -127,7 +126,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
-    success: span.status.code !== SpanStatusCode.ERROR,
+    success: span.status?.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(addHrTimes(span.duration, hrTime()))),
@@ -150,7 +149,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
       try {
         const dependencyUrl = new URL(String(httpUrl));
         remoteDependencyData.name = `${httpMethod} ${dependencyUrl.pathname}`;
-      } catch (ex: any) {}
+      } catch (ex: any) { }
     }
     remoteDependencyData.type = DependencyTypes.Http;
     remoteDependencyData.data = getUrl(span.attributes);
@@ -175,7 +174,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
             target = res[1] + res[2] + res[4];
           }
         }
-      } catch (ex: any) {}
+      } catch (ex: any) { }
       remoteDependencyData.target = `${target}`;
     }
   }
