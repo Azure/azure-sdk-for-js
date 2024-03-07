@@ -50,13 +50,14 @@ Write-Host "Deployed function app"
 Compress-Archive -Path "$workingFolder/AzureWebApps/*" -DestinationPath "$workingFolder/AzureWebApps/app.zip" -Force
 az webapp deploy --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --src-path "$workingFolder/AzureWebApps/app.zip" --async true
 Remove-Item -Force "$workingFolder/AzureWebApps/app.zip"
-Start-Sleep -Seconds 600
 
 # Push-Location "$webappRoot/AzureWebApps"
 # az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
 # Pop-Location
 
 Write-Host "Deployed webapp"
+Write-Host "Sleeping for a bit to enable debugging the logs."
+Start-Sleep -Seconds 600
 
 # Write-Host "Sleeping for a bit to ensure container registry is ready."
 # Start-Sleep -Seconds 20
