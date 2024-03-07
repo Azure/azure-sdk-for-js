@@ -82,7 +82,7 @@ export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
  * @param options - options for creating the MSAL client
  * @returns plugin configuration
  */
-export function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
+function generatePluginConfiguration(options: MsalClientOptions): PluginConfiguration {
   const config: PluginConfiguration = {
     cache: {},
     broker: {
@@ -130,3 +130,10 @@ export function generatePluginConfiguration(options: MsalClientOptions): PluginC
 
   return config;
 }
+
+/**
+ * Wraps generatePluginConfiguration as a writeable property for test stubbing purposes.
+ */
+export const msalPlugins = {
+  generatePluginConfiguration,
+};

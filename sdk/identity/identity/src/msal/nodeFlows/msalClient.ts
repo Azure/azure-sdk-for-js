@@ -4,7 +4,7 @@
 import * as msal from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { PluginConfiguration, generatePluginConfiguration } from "./msalPlugins";
+import { PluginConfiguration, msalPlugins } from "./msalPlugins";
 import { credentialLogger, formatSuccess } from "../../util/logging";
 import {
   defaultLoggerCallback,
@@ -141,7 +141,7 @@ export function createMsalClient(
     cachedAccount: createMsalClientOptions.authenticationRecord
       ? publicToMsal(createMsalClientOptions.authenticationRecord)
       : null,
-    pluginConfiguration: generatePluginConfiguration(createMsalClientOptions),
+    pluginConfiguration: msalPlugins.generatePluginConfiguration(createMsalClientOptions),
   };
 
   const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
