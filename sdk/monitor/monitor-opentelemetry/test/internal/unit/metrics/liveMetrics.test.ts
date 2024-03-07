@@ -4,7 +4,6 @@
 import * as assert from "assert";
 import * as sinon from "sinon";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { Histogram } from "@opentelemetry/sdk-metrics";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
 import { LiveMetrics } from "../../../../src/metrics/quickpulse/liveMetrics";
