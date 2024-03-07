@@ -30,7 +30,7 @@ async function listAllSecurityAutomationsOfASpecifiedResourceGroup() {
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.automations.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

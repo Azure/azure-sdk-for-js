@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   Application,
-  SecurityConnectorApplicationsListOptionalParams
+  SecurityConnectorApplicationsListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,6 +25,6 @@ export interface SecurityConnectorApplications {
   list(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorApplicationsListOptionalParams
+    options?: SecurityConnectorApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
 }

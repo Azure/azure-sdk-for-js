@@ -14,7 +14,7 @@ import {
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
-  SecurityContactsDeleteOptionalParams
+  SecurityContactsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   list(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityContact>;
   /**
    * Get Default Security contact configurations for the subscription
@@ -34,7 +34,7 @@ export interface SecurityContacts {
    */
   get(
     securityContactName: string,
-    options?: SecurityContactsGetOptionalParams
+    options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse>;
   /**
    * Create security contact configurations for the subscription
@@ -45,7 +45,7 @@ export interface SecurityContacts {
   create(
     securityContactName: string,
     securityContact: SecurityContact,
-    options?: SecurityContactsCreateOptionalParams
+    options?: SecurityContactsCreateOptionalParams,
   ): Promise<SecurityContactsCreateResponse>;
   /**
    * Delete security contact configurations for the subscription
@@ -54,6 +54,6 @@ export interface SecurityContacts {
    */
   delete(
     securityContactName: string,
-    options?: SecurityContactsDeleteOptionalParams
+    options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void>;
 }

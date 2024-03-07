@@ -35,8 +35,8 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
         actionType: "LogicApp",
         logicAppResourceId:
           "/subscriptions/e54a4a18-5b94-4f90-9471-bd3decad8a2e/resourceGroups/sample/providers/Microsoft.Logic/workflows/MyTest1",
-        uri: "https://exampleTriggerUri1.com"
-      }
+        uri: "https://exampleTriggerUri1.com",
+      },
     ],
     isEnabled: true,
     location: "Central US",
@@ -45,8 +45,8 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
         description:
           "A description that helps to identify this scope - for example: security assessments that relate to the resource group myResourceGroup within the subscription a5caac9c-5c04-49af-b3d0-e204f40345d5",
         scopePath:
-          "/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/myResourceGroup"
-      }
+          "/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/myResourceGroup",
+      },
     ],
     sources: [
       {
@@ -58,21 +58,21 @@ async function validateTheSecurityAutomationModelBeforeCreateOrUpdate() {
                 expectedValue: "customAssessment",
                 operator: "Equals",
                 propertyJPath: "$.Entity.AssessmentType",
-                propertyType: "String"
-              }
-            ]
-          }
-        ]
-      }
+                propertyType: "String",
+              },
+            ],
+          },
+        ],
+      },
     ],
-    tags: {}
+    tags: {},
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.automations.validate(
     resourceGroupName,
     automationName,
-    automation
+    automation,
   );
   console.log(result);
 }

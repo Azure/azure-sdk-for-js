@@ -10643,7 +10643,7 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-tGoqT0y5k5vi+y2ame3r8vwDhAf7K3sEjWy3Fl1ZdaYEqDQfiCwitpK0rAkfQN0vHnIsaI/GUqZz1VhC0Ft8uw==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-BzeiADIeoIIlJ8LRyX4rq6JouqAj7vz9S+/YE9KQXRP9URaP0ke8pY0Wzi4mOEW7dIrecN0ePd0TJqxrImmrdQ==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
@@ -16271,7 +16271,7 @@ packages:
     dev: false
 
   file:projects/arm-security.tgz:
-    resolution: {integrity: sha512-TuJy2eTRlhYYHoo+F0TDqQ62kAe4sR7UTJqqc9PYnXhgvXfEzdE1epHylbJz02EqktsQnlHGCzKkzzQ6Xk49bA==, tarball: file:projects/arm-security.tgz}
+    resolution: {integrity: sha512-uQ7XupjgWn/CH8M+F7Yj7k014XFypMh1FZqR+wg5hF5gKTQQUt++k0tHoPfRqcsLRBBjAZJFqPuQtWuqZ8gfbg==, tarball: file:projects/arm-security.tgz}
     name: '@rush-temp/arm-security'
     version: 0.0.0
     dependencies:
@@ -16284,9 +16284,10 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
-      rimraf: 3.0.2
+      rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
