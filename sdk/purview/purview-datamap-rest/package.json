@@ -2,7 +2,7 @@
   "name": "@azure-rest/purview-datamap",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Purview DataMap Service\"",
   "keywords": [
     "node",
