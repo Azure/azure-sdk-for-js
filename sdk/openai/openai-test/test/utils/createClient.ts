@@ -11,7 +11,8 @@ export function createClient(
   clientOptions?: ClientOptions,
 ): OpenAI {  
   return new OpenAI({
-    apiKey: clientOptions?.apiKey ?? assertEnvironmentVariable(EnvironmentVariableNames.OPENAI_API_KEY),
+    apiKey: clientOptions?.apiKey ?? assertEnvironmentVariable(EnvironmentVariableNames.OPENAI_KEY),
+    dangerouslyAllowBrowser: true,
     ...clientOptions
   });
 }
