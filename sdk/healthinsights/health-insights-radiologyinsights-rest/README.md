@@ -13,7 +13,7 @@ Key links:
 - [Source code]
 - [Package (NPM)]
 - [API reference documentation]
-- [Product Information](https://docs.microsoft.com/rest/api/maps/route)
+- [Product Information]
 - [Samples]
 
 ## Getting started
@@ -267,7 +267,11 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 <!-- LINKS -->
 [health_insights]: https://learn.microsoft.com/azure/azure-health-insights/overview
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
-
+[Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
+[Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
+[Product Information]:https://learn.microsoft.com/en-us/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2023-03-01-preview
+[API reference documentation]: https://docs.microsoft.com/javascript/api/@azure-rest/health-insights-radiologyinsights
+[Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [identity]: https://www.npmjs.com/package/@azure/identity
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
