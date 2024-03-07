@@ -145,29 +145,32 @@ export function createMsalClient(
   };
 
   const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
-  // let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
   async function getConfidentialApp(
     options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
-    if (confidentialApps.has(appKey)) return confidentialApps.get(appKey)!;
+    let confidentialClientApp = confidentialApps.get(appKey);
+    if (confidentialClientApp) {
+      return confidentialClientApp;
+    }
 
+    // Initialize a new app and cache it
     const cachePlugin = options.enableCae
       ? state.pluginConfiguration.cache.cachePluginCae
       : state.pluginConfiguration.cache.cachePlugin;
 
     state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
 
-    const app = new msal.ConfidentialClientApplication({
+    confidentialClientApp = new msal.ConfidentialClientApplication({
       ...state.msalConfig,
       broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
       cache: { cachePlugin: await cachePlugin },
     });
 
-    confidentialApps.set(appKey, app);
+    confidentialApps.set(appKey, confidentialClientApp);
 
-    return app;
+    return confidentialClientApp;
   }
 
   async function getTokenSilent(
@@ -200,7 +203,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       state.cachedClaims = options.claims;
     }
 
-    // TODO: broker
+    // TODO: port over changes for broker
+    // https://github.com/Azure/azure-sdk-for-js/blob/727a7208251961b5036d8e1d86edaa944c42e3d6/sdk/identity/identity/src/msal/nodeFlows/msalNodeCommon.ts#L383-L395
     msalLogger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent({
       account: state.cachedAccount,
