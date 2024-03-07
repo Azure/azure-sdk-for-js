@@ -28,16 +28,15 @@ async function updateAWorkspaceSettingDataForSubscription() {
   const workspaceSetting: WorkspaceSetting = {
     name: "default",
     type: "Microsoft.Security/workspaceSettings",
-    id:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
+    id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
     workspaceId:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace"
+      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace",
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.workspaceSettings.update(
     workspaceSettingName,
-    workspaceSetting
+    workspaceSetting,
   );
   console.log(result);
 }

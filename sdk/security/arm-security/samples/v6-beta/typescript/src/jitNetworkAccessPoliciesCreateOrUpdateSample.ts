@@ -30,8 +30,7 @@ async function createJitNetworkAccessPolicy() {
   const body: JitNetworkAccessPolicy = {
     name: "default",
     type: "Microsoft.Security/locations/jitNetworkAccessPolicies",
-    id:
-      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/jitNetworkAccessPolicies/default",
+    id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/locations/westeurope/jitNetworkAccessPolicies/default",
     kind: "Basic",
     location: "westeurope",
     provisioningState: "Succeeded",
@@ -41,41 +40,39 @@ async function createJitNetworkAccessPolicy() {
         startTimeUtc: new Date("2018-05-17T08:06:45.5691611Z"),
         virtualMachines: [
           {
-            id:
-              "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+            id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
             ports: [
               {
                 allowedSourceAddressPrefix: "192.127.0.2",
                 endTimeUtc: new Date("2018-05-17T09:06:45.5691611Z"),
                 number: 3389,
                 status: "Initiated",
-                statusReason: "UserRequested"
-              }
-            ]
-          }
-        ]
-      }
+                statusReason: "UserRequested",
+              },
+            ],
+          },
+        ],
+      },
     ],
     virtualMachines: [
       {
-        id:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
+        id: "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Compute/virtualMachines/vm1",
         ports: [
           {
             allowedSourceAddressPrefix: "*",
             maxRequestAccessDuration: "PT3H",
             number: 22,
-            protocol: "*"
+            protocol: "*",
           },
           {
             allowedSourceAddressPrefix: "*",
             maxRequestAccessDuration: "PT3H",
             number: 3389,
-            protocol: "*"
-          }
-        ]
-      }
-    ]
+            protocol: "*",
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
@@ -83,7 +80,7 @@ async function createJitNetworkAccessPolicy() {
     resourceGroupName,
     ascLocation,
     jitNetworkAccessPolicyName,
-    body
+    body,
   );
   console.log(result);
 }

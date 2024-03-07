@@ -28,7 +28,7 @@ async function deleteSuppressionRuleDataForASubscription() {
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alertsSuppressionRules.delete(
-    alertsSuppressionRuleName
+    alertsSuppressionRuleName,
   );
   console.log(result);
 }

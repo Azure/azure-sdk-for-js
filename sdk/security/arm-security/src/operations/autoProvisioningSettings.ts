@@ -22,7 +22,7 @@ import {
   AutoProvisioningSettingsGetResponse,
   AutoProvisioningSettingsCreateOptionalParams,
   AutoProvisioningSettingsCreateResponse,
-  AutoProvisioningSettingsListNextResponse
+  AutoProvisioningSettingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
    * @param options The options parameters.
    */
   public list(
-    options?: AutoProvisioningSettingsListOptionalParams
+    options?: AutoProvisioningSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<AutoProvisioningSetting> {
     const iter = this.listPagingAll(options);
     return {
@@ -58,13 +58,13 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AutoProvisioningSettingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AutoProvisioningSetting[]> {
     let result: AutoProvisioningSettingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
   }
 
   private async *listPagingAll(
-    options?: AutoProvisioningSettingsListOptionalParams
+    options?: AutoProvisioningSettingsListOptionalParams,
   ): AsyncIterableIterator<AutoProvisioningSetting> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -97,7 +97,7 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
    * @param options The options parameters.
    */
   private _list(
-    options?: AutoProvisioningSettingsListOptionalParams
+    options?: AutoProvisioningSettingsListOptionalParams,
   ): Promise<AutoProvisioningSettingsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -109,11 +109,11 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
    */
   get(
     settingName: string,
-    options?: AutoProvisioningSettingsGetOptionalParams
+    options?: AutoProvisioningSettingsGetOptionalParams,
   ): Promise<AutoProvisioningSettingsGetResponse> {
     return this.client.sendOperationRequest(
       { settingName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -126,11 +126,11 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
   create(
     settingName: string,
     setting: AutoProvisioningSetting,
-    options?: AutoProvisioningSettingsCreateOptionalParams
+    options?: AutoProvisioningSettingsCreateOptionalParams,
   ): Promise<AutoProvisioningSettingsCreateResponse> {
     return this.client.sendOperationRequest(
       { settingName, setting, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -141,11 +141,11 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
    */
   private _listNext(
     nextLink: string,
-    options?: AutoProvisioningSettingsListNextOptionalParams
+    options?: AutoProvisioningSettingsListNextOptionalParams,
   ): Promise<AutoProvisioningSettingsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -153,82 +153,79 @@ export class AutoProvisioningSettingsImpl implements AutoProvisioningSettings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoProvisioningSettingList
+      bodyMapper: Mappers.AutoProvisioningSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoProvisioningSetting
+      bodyMapper: Mappers.AutoProvisioningSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.settingName1
+    Parameters.settingName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/autoProvisioningSettings/{settingName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoProvisioningSetting
+      bodyMapper: Mappers.AutoProvisioningSetting,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.setting,
-  queryParameters: [Parameters.apiVersion7],
+  queryParameters: [Parameters.apiVersion1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.settingName1
+    Parameters.settingName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AutoProvisioningSettingList
+      bodyMapper: Mappers.AutoProvisioningSettingList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -30,7 +30,7 @@ async function getsAConfiguredApplicationControlVMOrServerGroup() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.adaptiveApplicationControls.get(
     ascLocation,
-    groupName
+    groupName,
   );
   console.log(result);
 }

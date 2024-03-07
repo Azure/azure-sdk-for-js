@@ -27,7 +27,7 @@ import {
   AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
   AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   AlertSimulatorRequestBody,
-  AlertsSimulateOptionalParams
+  AlertsSimulateOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,7 +46,7 @@ export interface Alerts {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: AlertsListByResourceGroupOptionalParams
+    options?: AlertsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * List all the alerts that are associated with the subscription that are stored in a specific location
@@ -56,7 +56,7 @@ export interface Alerts {
    */
   listSubscriptionLevelByRegion(
     ascLocation: string,
-    options?: AlertsListSubscriptionLevelByRegionOptionalParams
+    options?: AlertsListSubscriptionLevelByRegionOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * List all the alerts that are associated with the resource group that are stored in a specific
@@ -70,7 +70,7 @@ export interface Alerts {
   listResourceGroupLevelByRegion(
     ascLocation: string,
     resourceGroupName: string,
-    options?: AlertsListResourceGroupLevelByRegionOptionalParams
+    options?: AlertsListResourceGroupLevelByRegionOptionalParams,
   ): PagedAsyncIterableIterator<Alert>;
   /**
    * Get an alert that is associated with a subscription
@@ -82,7 +82,7 @@ export interface Alerts {
   getSubscriptionLevel(
     ascLocation: string,
     alertName: string,
-    options?: AlertsGetSubscriptionLevelOptionalParams
+    options?: AlertsGetSubscriptionLevelOptionalParams,
   ): Promise<AlertsGetSubscriptionLevelResponse>;
   /**
    * Get an alert that is associated a resource group or a resource in a resource group
@@ -97,7 +97,7 @@ export interface Alerts {
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    options?: AlertsGetResourceGroupLevelOptionalParams
+    options?: AlertsGetResourceGroupLevelOptionalParams,
   ): Promise<AlertsGetResourceGroupLevelResponse>;
   /**
    * Update the alert's state
@@ -109,7 +109,7 @@ export interface Alerts {
   updateSubscriptionLevelStateToDismiss(
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams
+    options?: AlertsUpdateSubscriptionLevelStateToDismissOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -121,7 +121,7 @@ export interface Alerts {
   updateSubscriptionLevelStateToResolve(
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams
+    options?: AlertsUpdateSubscriptionLevelStateToResolveOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -133,7 +133,7 @@ export interface Alerts {
   updateSubscriptionLevelStateToActivate(
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams
+    options?: AlertsUpdateSubscriptionLevelStateToActivateOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -145,7 +145,7 @@ export interface Alerts {
   updateSubscriptionLevelStateToInProgress(
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams
+    options?: AlertsUpdateSubscriptionLevelStateToInProgressOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -160,7 +160,7 @@ export interface Alerts {
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams
+    options?: AlertsUpdateResourceGroupLevelStateToResolveOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -175,7 +175,7 @@ export interface Alerts {
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams
+    options?: AlertsUpdateResourceGroupLevelStateToDismissOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -190,7 +190,7 @@ export interface Alerts {
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams
+    options?: AlertsUpdateResourceGroupLevelStateToActivateOptionalParams,
   ): Promise<void>;
   /**
    * Update the alert's state
@@ -205,7 +205,7 @@ export interface Alerts {
     resourceGroupName: string,
     ascLocation: string,
     alertName: string,
-    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams
+    options?: AlertsUpdateResourceGroupLevelStateToInProgressOptionalParams,
   ): Promise<void>;
   /**
    * Simulate security alerts
@@ -217,7 +217,7 @@ export interface Alerts {
   beginSimulate(
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
-    options?: AlertsSimulateOptionalParams
+    options?: AlertsSimulateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Simulate security alerts
@@ -229,6 +229,6 @@ export interface Alerts {
   beginSimulateAndWait(
     ascLocation: string,
     alertSimulatorRequestBody: AlertSimulatorRequestBody,
-    options?: AlertsSimulateOptionalParams
+    options?: AlertsSimulateOptionalParams,
   ): Promise<void>;
 }

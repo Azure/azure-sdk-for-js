@@ -32,7 +32,7 @@ async function getTheListOfAggregatedSecurityAnalyticsRecommendationsOfYoursIoTS
   const resArray = new Array();
   for await (let item of client.iotSecuritySolutionsAnalyticsRecommendation.list(
     resourceGroupName,
-    solutionName
+    solutionName,
   )) {
     resArray.push(item);
   }

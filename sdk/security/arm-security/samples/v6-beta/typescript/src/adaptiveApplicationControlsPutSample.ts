@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AdaptiveApplicationControlGroup,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,8 +34,7 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
     pathRecommendations: [
       {
         type: "PublisherSignature",
-        path:
-          "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US\\*\\*\\0.0.0.0",
+        path: "[Exe] O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US\\*\\*\\0.0.0.0",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -45,12 +44,12 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
           productName: "*",
           publisherName:
             "O=MICROSOFT CORPORATION, L=REDMOND, S=WASHINGTON, C=US",
-          version: "0.0.0.0"
+          version: "0.0.0.0",
         },
         userSids: ["S-1-1-0"],
         usernames: [
-          { recommendationAction: "Recommended", username: "Everyone" }
-        ]
+          { recommendationAction: "Recommended", username: "Everyone" },
+        ],
       },
       {
         type: "ProductSignature",
@@ -63,20 +62,19 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
           binaryName: "*",
           productName: "MICROSOFT® COREXT",
           publisherName: "CN=MICROSOFT AZURE DEPENDENCY CODE SIGN",
-          version: "0.0.0.0"
+          version: "0.0.0.0",
         },
         userSids: ["S-1-1-0"],
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITY\\SYSTEM"
-          }
-        ]
+            username: "NT AUTHORITY\\SYSTEM",
+          },
+        ],
       },
       {
         type: "PublisherSignature",
-        path:
-          "%OSDRIVE%\\WINDOWSAZURE\\PACKAGES_201973_7415\\COLLECTGUESTLOGS.EXE",
+        path: "%OSDRIVE%\\WINDOWSAZURE\\PACKAGES_201973_7415\\COLLECTGUESTLOGS.EXE",
         action: "Recommended",
         common: true,
         configurationStatus: "Configured",
@@ -85,22 +83,22 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
           binaryName: "*",
           productName: "*",
           publisherName: "CN=MICROSOFT AZURE DEPENDENCY CODE SIGN",
-          version: "0.0.0.0"
+          version: "0.0.0.0",
         },
         userSids: ["S-1-1-0"],
         usernames: [
           {
             recommendationAction: "Recommended",
-            username: "NT AUTHORITY\\SYSTEM"
-          }
-        ]
+            username: "NT AUTHORITY\\SYSTEM",
+          },
+        ],
       },
       {
         type: "File",
         path: "C:\\directory\\file.exe",
         action: "Add",
-        common: true
-      }
+        common: true,
+      },
     ],
     protectionMode: { exe: "Audit", msi: "None", script: "None" },
     vmRecommendations: [
@@ -109,23 +107,23 @@ async function updateAnApplicationControlMachineGroupByAddingANewApplication() {
         enforcementSupport: "Supported",
         recommendationAction: "Recommended",
         resourceId:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090"
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/erelh-stable/providers/microsoft.compute/virtualmachines/erelh-16090",
       },
       {
         configurationStatus: "Configured",
         enforcementSupport: "Supported",
         recommendationAction: "Recommended",
         resourceId:
-          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19"
-      }
-    ]
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourcegroups/matanvs/providers/microsoft.compute/virtualmachines/matanvs19",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.adaptiveApplicationControls.put(
     ascLocation,
     groupName,
-    body
+    body,
   );
   console.log(result);
 }

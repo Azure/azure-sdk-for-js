@@ -30,7 +30,7 @@ async function deleteASecurityAutomation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.automations.delete(
     resourceGroupName,
-    automationName
+    automationName,
   );
   console.log(result);
 }

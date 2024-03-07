@@ -33,7 +33,7 @@ async function getSecurityApplicationsBySpecificApplicationId() {
   const result = await client.securityConnectorApplication.get(
     resourceGroupName,
     securityConnectorName,
-    applicationId
+    applicationId,
   );
   console.log(result);
 }

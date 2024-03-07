@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   IotSecuritySolutionListBySubscriptionOptionalParams,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -30,13 +30,13 @@ async function listIoTSecuritySolutionsByIoTHub() {
   const filter =
     'properties.iotHubs/any(i eq "/subscriptions/075423e9-7d33-4166-8bdf-3920b04e3735/resourceGroups/myRg/providers/Microsoft.Devices/IotHubs/FirstIotHub")';
   const options: IotSecuritySolutionListBySubscriptionOptionalParams = {
-    filter
+    filter,
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.iotSecuritySolution.listBySubscription(
-    options
+    options,
   )) {
     resArray.push(item);
   }

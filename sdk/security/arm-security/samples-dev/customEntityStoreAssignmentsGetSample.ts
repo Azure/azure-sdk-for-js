@@ -32,7 +32,7 @@ async function getACustomEntityStoreAssignment() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customEntityStoreAssignments.get(
     resourceGroupName,
-    customEntityStoreAssignmentName
+    customEntityStoreAssignmentName,
   );
   console.log(result);
 }

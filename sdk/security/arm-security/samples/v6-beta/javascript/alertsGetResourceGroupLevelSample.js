@@ -29,7 +29,7 @@ async function getSecurityAlertOnAResourceGroupFromASecurityDataLocation() {
   const result = await client.alerts.getResourceGroupLevel(
     resourceGroupName,
     ascLocation,
-    alertName
+    alertName,
   );
   console.log(result);
 }

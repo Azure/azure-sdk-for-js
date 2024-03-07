@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CustomEntityStoreAssignmentRequest,
-  SecurityCenter
+  SecurityCenter,
 } from "@azure/arm-security";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,16 +31,17 @@ async function createACustomEntityStoreAssignment() {
     process.env["SECURITY_RESOURCE_GROUP"] || "TestResourceGroup";
   const customEntityStoreAssignmentName =
     "33e7cc6e-a139-4723-a0e5-76993aee0771";
-  const customEntityStoreAssignmentRequestBody: CustomEntityStoreAssignmentRequest = {
-    principal:
-      "aaduser=f3923a3e-ad57-4752-b1a9-fbf3c8e5e082;72f988bf-86f1-41af-91ab-2d7cd011db47"
-  };
+  const customEntityStoreAssignmentRequestBody: CustomEntityStoreAssignmentRequest =
+    {
+      principal:
+        "aaduser=f3923a3e-ad57-4752-b1a9-fbf3c8e5e082;72f988bf-86f1-41af-91ab-2d7cd011db47",
+    };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.customEntityStoreAssignments.create(
     resourceGroupName,
     customEntityStoreAssignmentName,
-    customEntityStoreAssignmentRequestBody
+    customEntityStoreAssignmentRequestBody,
   );
   console.log(result);
 }

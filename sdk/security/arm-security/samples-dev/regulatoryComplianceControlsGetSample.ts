@@ -30,7 +30,7 @@ async function getSelectedRegulatoryComplianceControlDetailsAndState() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.regulatoryComplianceControls.get(
     regulatoryComplianceStandardName,
-    regulatoryComplianceControlName
+    regulatoryComplianceControlName,
   );
   console.log(result);
 }

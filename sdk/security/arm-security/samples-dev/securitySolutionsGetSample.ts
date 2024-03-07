@@ -32,7 +32,7 @@ async function getASecuritySolutionFromASecurityDataLocation() {
   const result = await client.securitySolutions.get(
     resourceGroupName,
     ascLocation,
-    securitySolutionName
+    securitySolutionName,
   );
   console.log(result);
 }

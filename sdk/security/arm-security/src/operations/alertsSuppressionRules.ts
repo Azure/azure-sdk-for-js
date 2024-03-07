@@ -23,7 +23,7 @@ import {
   AlertsSuppressionRulesUpdateOptionalParams,
   AlertsSuppressionRulesUpdateResponse,
   AlertsSuppressionRulesDeleteOptionalParams,
-  AlertsSuppressionRulesListNextResponse
+  AlertsSuppressionRulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
    * @param options The options parameters.
    */
   public list(
-    options?: AlertsSuppressionRulesListOptionalParams
+    options?: AlertsSuppressionRulesListOptionalParams,
   ): PagedAsyncIterableIterator<AlertsSuppressionRule> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: AlertsSuppressionRulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AlertsSuppressionRule[]> {
     let result: AlertsSuppressionRulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
   }
 
   private async *listPagingAll(
-    options?: AlertsSuppressionRulesListOptionalParams
+    options?: AlertsSuppressionRulesListOptionalParams,
   ): AsyncIterableIterator<AlertsSuppressionRule> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -98,7 +98,7 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
    * @param options The options parameters.
    */
   private _list(
-    options?: AlertsSuppressionRulesListOptionalParams
+    options?: AlertsSuppressionRulesListOptionalParams,
   ): Promise<AlertsSuppressionRulesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -110,11 +110,11 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
    */
   get(
     alertsSuppressionRuleName: string,
-    options?: AlertsSuppressionRulesGetOptionalParams
+    options?: AlertsSuppressionRulesGetOptionalParams,
   ): Promise<AlertsSuppressionRulesGetResponse> {
     return this.client.sendOperationRequest(
       { alertsSuppressionRuleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -127,11 +127,11 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
   update(
     alertsSuppressionRuleName: string,
     alertsSuppressionRule: AlertsSuppressionRule,
-    options?: AlertsSuppressionRulesUpdateOptionalParams
+    options?: AlertsSuppressionRulesUpdateOptionalParams,
   ): Promise<AlertsSuppressionRulesUpdateResponse> {
     return this.client.sendOperationRequest(
       { alertsSuppressionRuleName, alertsSuppressionRule, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
    */
   delete(
     alertsSuppressionRuleName: string,
-    options?: AlertsSuppressionRulesDeleteOptionalParams
+    options?: AlertsSuppressionRulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { alertsSuppressionRuleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
    */
   private _listNext(
     nextLink: string,
-    options?: AlertsSuppressionRulesListNextOptionalParams
+    options?: AlertsSuppressionRulesListNextOptionalParams,
   ): Promise<AlertsSuppressionRulesListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -169,101 +169,97 @@ export class AlertsSuppressionRulesImpl implements AlertsSuppressionRules {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertsSuppressionRulesList
+      bodyMapper: Mappers.AlertsSuppressionRulesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9, Parameters.alertType],
+  queryParameters: [Parameters.apiVersion2, Parameters.alertType],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertsSuppressionRule
+      bodyMapper: Mappers.AlertsSuppressionRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
+    Parameters.alertsSuppressionRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertsSuppressionRule
+      bodyMapper: Mappers.AlertsSuppressionRule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.alertsSuppressionRule,
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
+    Parameters.alertsSuppressionRuleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/alertsSuppressionRules/{alertsSuppressionRuleName}",
   httpMethod: "DELETE",
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.alertsSuppressionRuleName
+    Parameters.alertsSuppressionRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AlertsSuppressionRulesList
+      bodyMapper: Mappers.AlertsSuppressionRulesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

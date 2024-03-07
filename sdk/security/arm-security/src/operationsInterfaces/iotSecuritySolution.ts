@@ -18,7 +18,7 @@ import {
   UpdateIotSecuritySolutionData,
   IotSecuritySolutionUpdateOptionalParams,
   IotSecuritySolutionUpdateResponse,
-  IotSecuritySolutionDeleteOptionalParams
+  IotSecuritySolutionDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface IotSecuritySolution {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: IotSecuritySolutionListBySubscriptionOptionalParams
+    options?: IotSecuritySolutionListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecuritySolutionModel>;
   /**
    * Use this method to get the list IoT Security solutions organized by resource group.
@@ -39,7 +39,7 @@ export interface IotSecuritySolution {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: IotSecuritySolutionListByResourceGroupOptionalParams
+    options?: IotSecuritySolutionListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<IoTSecuritySolutionModel>;
   /**
    * User this method to get details of a specific IoT Security solution based on solution name
@@ -51,7 +51,7 @@ export interface IotSecuritySolution {
   get(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionGetOptionalParams
+    options?: IotSecuritySolutionGetOptionalParams,
   ): Promise<IotSecuritySolutionGetResponse>;
   /**
    * Use this method to create or update yours IoT Security solution
@@ -65,7 +65,7 @@ export interface IotSecuritySolution {
     resourceGroupName: string,
     solutionName: string,
     iotSecuritySolutionData: IoTSecuritySolutionModel,
-    options?: IotSecuritySolutionCreateOrUpdateOptionalParams
+    options?: IotSecuritySolutionCreateOrUpdateOptionalParams,
   ): Promise<IotSecuritySolutionCreateOrUpdateResponse>;
   /**
    * Use this method to update existing IoT Security solution tags or user defined resources. To update
@@ -80,7 +80,7 @@ export interface IotSecuritySolution {
     resourceGroupName: string,
     solutionName: string,
     updateIotSecuritySolutionData: UpdateIotSecuritySolutionData,
-    options?: IotSecuritySolutionUpdateOptionalParams
+    options?: IotSecuritySolutionUpdateOptionalParams,
   ): Promise<IotSecuritySolutionUpdateResponse>;
   /**
    * Use this method to delete yours IoT Security solution
@@ -92,6 +92,6 @@ export interface IotSecuritySolution {
   delete(
     resourceGroupName: string,
     solutionName: string,
-    options?: IotSecuritySolutionDeleteOptionalParams
+    options?: IotSecuritySolutionDeleteOptionalParams,
   ): Promise<void>;
 }

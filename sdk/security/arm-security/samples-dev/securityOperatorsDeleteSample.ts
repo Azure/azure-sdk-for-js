@@ -30,7 +30,7 @@ async function deleteSecurityOperatorOnSubscription() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityOperators.delete(
     pricingName,
-    securityOperatorName
+    securityOperatorName,
   );
   console.log(result);
 }

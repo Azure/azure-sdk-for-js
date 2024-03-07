@@ -12,7 +12,7 @@ import {
   DiscoveredSecuritySolutionsListOptionalParams,
   DiscoveredSecuritySolutionsListByHomeRegionOptionalParams,
   DiscoveredSecuritySolutionsGetOptionalParams,
-  DiscoveredSecuritySolutionsGetResponse
+  DiscoveredSecuritySolutionsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,7 +23,7 @@ export interface DiscoveredSecuritySolutions {
    * @param options The options parameters.
    */
   list(
-    options?: DiscoveredSecuritySolutionsListOptionalParams
+    options?: DiscoveredSecuritySolutionsListOptionalParams,
   ): PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
   /**
    * Gets a list of discovered Security Solutions for the subscription and location.
@@ -33,7 +33,7 @@ export interface DiscoveredSecuritySolutions {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams
+    options?: DiscoveredSecuritySolutionsListByHomeRegionOptionalParams,
   ): PagedAsyncIterableIterator<DiscoveredSecuritySolution>;
   /**
    * Gets a specific discovered Security Solution.
@@ -48,6 +48,6 @@ export interface DiscoveredSecuritySolutions {
     resourceGroupName: string,
     ascLocation: string,
     discoveredSecuritySolutionName: string,
-    options?: DiscoveredSecuritySolutionsGetOptionalParams
+    options?: DiscoveredSecuritySolutionsGetOptionalParams,
   ): Promise<DiscoveredSecuritySolutionsGetResponse>;
 }

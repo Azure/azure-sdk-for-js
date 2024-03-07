@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieves details of a specific security connector
  *
  * @summary Retrieves details of a specific security connector
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-03-01-preview/examples/SecurityConnectors/GetSecurityConnectorSingleResource_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-10-01-preview/examples/SecurityConnectors/GetSecurityConnectorSingleResource_example.json
  */
 async function retrieveASecurityConnector() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function retrieveASecurityConnector() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.securityConnectors.get(
     resourceGroupName,
-    securityConnectorName
+    securityConnectorName,
   );
   console.log(result);
 }

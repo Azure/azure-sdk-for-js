@@ -24,7 +24,7 @@ import {
   SubAssessmentsGetOptionalParams,
   SubAssessmentsGetResponse,
   SubAssessmentsListAllNextResponse,
-  SubAssessmentsListNextResponse
+  SubAssessmentsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -49,7 +49,7 @@ export class SubAssessmentsImpl implements SubAssessments {
    */
   public listAll(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams
+    options?: SubAssessmentsListAllOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySubAssessment> {
     const iter = this.listAllPagingAll(scope, options);
     return {
@@ -64,14 +64,14 @@ export class SubAssessmentsImpl implements SubAssessments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(scope, options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     scope: string,
     options?: SubAssessmentsListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
     let result: SubAssessmentsListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class SubAssessmentsImpl implements SubAssessments {
 
   private async *listAllPagingAll(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams
+    options?: SubAssessmentsListAllOptionalParams,
   ): AsyncIterableIterator<SecuritySubAssessment> {
     for await (const page of this.listAllPagingPage(scope, options)) {
       yield* page;
@@ -111,7 +111,7 @@ export class SubAssessmentsImpl implements SubAssessments {
   public list(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams
+    options?: SubAssessmentsListOptionalParams,
   ): PagedAsyncIterableIterator<SecuritySubAssessment> {
     const iter = this.listPagingAll(scope, assessmentName, options);
     return {
@@ -126,7 +126,7 @@ export class SubAssessmentsImpl implements SubAssessments {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(scope, assessmentName, options, settings);
-      }
+      },
     };
   }
 
@@ -134,7 +134,7 @@ export class SubAssessmentsImpl implements SubAssessments {
     scope: string,
     assessmentName: string,
     options?: SubAssessmentsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecuritySubAssessment[]> {
     let result: SubAssessmentsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -150,7 +150,7 @@ export class SubAssessmentsImpl implements SubAssessments {
         scope,
         assessmentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -162,12 +162,12 @@ export class SubAssessmentsImpl implements SubAssessments {
   private async *listPagingAll(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams
+    options?: SubAssessmentsListOptionalParams,
   ): AsyncIterableIterator<SecuritySubAssessment> {
     for await (const page of this.listPagingPage(
       scope,
       assessmentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -182,11 +182,11 @@ export class SubAssessmentsImpl implements SubAssessments {
    */
   private _listAll(
     scope: string,
-    options?: SubAssessmentsListAllOptionalParams
+    options?: SubAssessmentsListAllOptionalParams,
   ): Promise<SubAssessmentsListAllResponse> {
     return this.client.sendOperationRequest(
       { scope, options },
-      listAllOperationSpec
+      listAllOperationSpec,
     );
   }
 
@@ -201,11 +201,11 @@ export class SubAssessmentsImpl implements SubAssessments {
   private _list(
     scope: string,
     assessmentName: string,
-    options?: SubAssessmentsListOptionalParams
+    options?: SubAssessmentsListOptionalParams,
   ): Promise<SubAssessmentsListResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -222,11 +222,11 @@ export class SubAssessmentsImpl implements SubAssessments {
     scope: string,
     assessmentName: string,
     subAssessmentName: string,
-    options?: SubAssessmentsGetOptionalParams
+    options?: SubAssessmentsGetOptionalParams,
   ): Promise<SubAssessmentsGetResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, subAssessmentName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -241,11 +241,11 @@ export class SubAssessmentsImpl implements SubAssessments {
   private _listAllNext(
     scope: string,
     nextLink: string,
-    options?: SubAssessmentsListAllNextOptionalParams
+    options?: SubAssessmentsListAllNextOptionalParams,
   ): Promise<SubAssessmentsListAllNextResponse> {
     return this.client.sendOperationRequest(
       { scope, nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
     );
   }
 
@@ -262,11 +262,11 @@ export class SubAssessmentsImpl implements SubAssessments {
     scope: string,
     assessmentName: string,
     nextLink: string,
-    options?: SubAssessmentsListNextOptionalParams
+    options?: SubAssessmentsListNextOptionalParams,
   ): Promise<SubAssessmentsListNextResponse> {
     return this.client.sendOperationRequest(
       { scope, assessmentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -278,92 +278,90 @@ const listAllOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySubAssessmentList
+      bodyMapper: Mappers.SecuritySubAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [Parameters.$host, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments",
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySubAssessmentList
+      bodyMapper: Mappers.SecuritySubAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion9],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.scope,
-    Parameters.assessmentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments/{subAssessmentName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SecuritySubAssessment
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
-  queryParameters: [Parameters.apiVersion9],
+  queryParameters: [Parameters.apiVersion2],
   urlParameters: [
     Parameters.$host,
     Parameters.scope,
     Parameters.assessmentName,
-    Parameters.subAssessmentName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{scope}/providers/Microsoft.Security/assessments/{assessmentName}/subAssessments/{subAssessmentName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SecuritySubAssessment,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion2],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.scope,
+    Parameters.assessmentName,
+    Parameters.subAssessmentName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySubAssessmentList
+      bodyMapper: Mappers.SecuritySubAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink, Parameters.scope],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecuritySubAssessmentList
+      bodyMapper: Mappers.SecuritySubAssessmentList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.scope,
-    Parameters.assessmentName
+    Parameters.assessmentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

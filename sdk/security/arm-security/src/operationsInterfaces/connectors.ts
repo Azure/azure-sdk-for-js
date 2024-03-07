@@ -14,7 +14,7 @@ import {
   ConnectorsGetResponse,
   ConnectorsCreateOrUpdateOptionalParams,
   ConnectorsCreateOrUpdateResponse,
-  ConnectorsDeleteOptionalParams
+  ConnectorsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,7 +25,7 @@ export interface Connectors {
    * @param options The options parameters.
    */
   list(
-    options?: ConnectorsListOptionalParams
+    options?: ConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<ConnectorSetting>;
   /**
    * Details of a specific cloud account connector
@@ -34,7 +34,7 @@ export interface Connectors {
    */
   get(
     connectorName: string,
-    options?: ConnectorsGetOptionalParams
+    options?: ConnectorsGetOptionalParams,
   ): Promise<ConnectorsGetResponse>;
   /**
    * Create a cloud account connector or update an existing one. Connect to your cloud account. For AWS,
@@ -47,7 +47,7 @@ export interface Connectors {
   createOrUpdate(
     connectorName: string,
     connectorSetting: ConnectorSetting,
-    options?: ConnectorsCreateOrUpdateOptionalParams
+    options?: ConnectorsCreateOrUpdateOptionalParams,
   ): Promise<ConnectorsCreateOrUpdateResponse>;
   /**
    * Delete a cloud account connector from a subscription
@@ -56,6 +56,6 @@ export interface Connectors {
    */
   delete(
     connectorName: string,
-    options?: ConnectorsDeleteOptionalParams
+    options?: ConnectorsDeleteOptionalParams,
   ): Promise<void>;
 }

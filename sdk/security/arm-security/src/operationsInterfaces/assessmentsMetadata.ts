@@ -17,7 +17,7 @@ import {
   AssessmentsMetadataGetInSubscriptionResponse,
   AssessmentsMetadataCreateInSubscriptionOptionalParams,
   AssessmentsMetadataCreateInSubscriptionResponse,
-  AssessmentsMetadataDeleteInSubscriptionOptionalParams
+  AssessmentsMetadataDeleteInSubscriptionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,14 +28,14 @@ export interface AssessmentsMetadata {
    * @param options The options parameters.
    */
   list(
-    options?: AssessmentsMetadataListOptionalParams
+    options?: AssessmentsMetadataListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse>;
   /**
    * Get metadata information on all assessment types in a specific subscription
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: AssessmentsMetadataListBySubscriptionOptionalParams
+    options?: AssessmentsMetadataListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentMetadataResponse>;
   /**
    * Get metadata information on an assessment type
@@ -44,7 +44,7 @@ export interface AssessmentsMetadata {
    */
   get(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataGetOptionalParams
+    options?: AssessmentsMetadataGetOptionalParams,
   ): Promise<AssessmentsMetadataGetResponse>;
   /**
    * Get metadata information on an assessment type in a specific subscription
@@ -53,7 +53,7 @@ export interface AssessmentsMetadata {
    */
   getInSubscription(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataGetInSubscriptionOptionalParams
+    options?: AssessmentsMetadataGetInSubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataGetInSubscriptionResponse>;
   /**
    * Create metadata information on an assessment type in a specific subscription
@@ -64,7 +64,7 @@ export interface AssessmentsMetadata {
   createInSubscription(
     assessmentMetadataName: string,
     assessmentMetadata: SecurityAssessmentMetadataResponse,
-    options?: AssessmentsMetadataCreateInSubscriptionOptionalParams
+    options?: AssessmentsMetadataCreateInSubscriptionOptionalParams,
   ): Promise<AssessmentsMetadataCreateInSubscriptionResponse>;
   /**
    * Delete metadata information on an assessment type in a specific subscription, will cause the
@@ -74,6 +74,6 @@ export interface AssessmentsMetadata {
    */
   deleteInSubscription(
     assessmentMetadataName: string,
-    options?: AssessmentsMetadataDeleteInSubscriptionOptionalParams
+    options?: AssessmentsMetadataDeleteInSubscriptionOptionalParams,
   ): Promise<void>;
 }

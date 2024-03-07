@@ -29,7 +29,7 @@ async function awsAssumeRoleCreateACloudAccountConnectorForASubscription() {
     authenticationDetails: {
       authenticationType: "awsAssumeRole",
       awsAssumeRoleArn: "arn:aws:iam::81231569658:role/AscConnector",
-      awsExternalId: "20ff7fc3-e762-44dd-bd96-b71116dcdc23"
+      awsExternalId: "20ff7fc3-e762-44dd-bd96-b71116dcdc23",
     },
     hybridComputeSettings: {
       autoProvision: "On",
@@ -38,15 +38,15 @@ async function awsAssumeRoleCreateACloudAccountConnectorForASubscription() {
       resourceGroupName: "AwsConnectorRG",
       servicePrincipal: {
         applicationId: "ad9bcd79-be9c-45ab-abd8-80ca1654a7d1",
-        secret: "<secret>"
-      }
-    }
+        secret: "<secret>",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.connectors.createOrUpdate(
     connectorName,
-    connectorSetting
+    connectorSetting,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function awsCredCreateACloudAccountConnectorForASubscription() {
     authenticationDetails: {
       authenticationType: "awsCreds",
       awsAccessKeyId: "AKIARPZCNODDNAEQFSOE",
-      awsSecretAccessKey: "<awsSecretAccessKey>"
+      awsSecretAccessKey: "<awsSecretAccessKey>",
     },
     hybridComputeSettings: {
       autoProvision: "On",
@@ -75,15 +75,15 @@ async function awsCredCreateACloudAccountConnectorForASubscription() {
       resourceGroupName: "AwsConnectorRG",
       servicePrincipal: {
         applicationId: "ad9bcd79-be9c-45ab-abd8-80ca1654a7d1",
-        secret: "<secret>"
-      }
-    }
+        secret: "<secret>",
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.connectors.createOrUpdate(
     connectorName,
-    connectorSetting
+    connectorSetting,
   );
   console.log(result);
 }
@@ -113,15 +113,15 @@ async function gcpCredentialsCreateACloudAccountConnectorForASubscription() {
       privateKey: "******",
       privateKeyId: "6efg587hra2568as34d22326b044cc20dc2af",
       projectId: "asc-project-1234",
-      tokenUri: "https://oauth2.googleapis.com/token"
+      tokenUri: "https://oauth2.googleapis.com/token",
     },
-    hybridComputeSettings: { autoProvision: "Off" }
+    hybridComputeSettings: { autoProvision: "Off" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.connectors.createOrUpdate(
     connectorName,
-    connectorSetting
+    connectorSetting,
   );
   console.log(result);
 }

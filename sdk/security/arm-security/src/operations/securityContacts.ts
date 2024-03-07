@@ -23,7 +23,7 @@ import {
   SecurityContactsCreateOptionalParams,
   SecurityContactsCreateResponse,
   SecurityContactsDeleteOptionalParams,
-  SecurityContactsListNextResponse
+  SecurityContactsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   public list(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityContact> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class SecurityContactsImpl implements SecurityContacts {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: SecurityContactsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SecurityContact[]> {
     let result: SecurityContactsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class SecurityContactsImpl implements SecurityContacts {
   }
 
   private async *listPagingAll(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
   ): AsyncIterableIterator<SecurityContact> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -98,7 +98,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   private _list(
-    options?: SecurityContactsListOptionalParams
+    options?: SecurityContactsListOptionalParams,
   ): Promise<SecurityContactsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -110,11 +110,11 @@ export class SecurityContactsImpl implements SecurityContacts {
    */
   get(
     securityContactName: string,
-    options?: SecurityContactsGetOptionalParams
+    options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse> {
     return this.client.sendOperationRequest(
       { securityContactName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -127,11 +127,11 @@ export class SecurityContactsImpl implements SecurityContacts {
   create(
     securityContactName: string,
     securityContact: SecurityContact,
-    options?: SecurityContactsCreateOptionalParams
+    options?: SecurityContactsCreateOptionalParams,
   ): Promise<SecurityContactsCreateResponse> {
     return this.client.sendOperationRequest(
       { securityContactName, securityContact, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -142,11 +142,11 @@ export class SecurityContactsImpl implements SecurityContacts {
    */
   delete(
     securityContactName: string,
-    options?: SecurityContactsDeleteOptionalParams
+    options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { securityContactName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class SecurityContactsImpl implements SecurityContacts {
    */
   private _listNext(
     nextLink: string,
-    options?: SecurityContactsListNextOptionalParams
+    options?: SecurityContactsListNextOptionalParams,
   ): Promise<SecurityContactsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -169,105 +169,101 @@ export class SecurityContactsImpl implements SecurityContacts {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityContactList
+      bodyMapper: Mappers.SecurityContactList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityContact
+      bodyMapper: Mappers.SecurityContact,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.securityContactName
+    Parameters.securityContactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityContact
+      bodyMapper: Mappers.SecurityContact,
     },
     201: {
-      bodyMapper: Mappers.SecurityContact
+      bodyMapper: Mappers.SecurityContact,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.securityContact,
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.securityContactName
+    Parameters.securityContactName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Security/securityContacts/{securityContactName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
-  queryParameters: [Parameters.apiVersion8],
+  queryParameters: [Parameters.apiVersion3],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.securityContactName
+    Parameters.securityContactName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SecurityContactList
+      bodyMapper: Mappers.SecurityContactList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

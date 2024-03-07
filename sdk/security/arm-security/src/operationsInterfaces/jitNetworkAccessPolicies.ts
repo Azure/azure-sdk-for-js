@@ -20,7 +20,7 @@ import {
   JitNetworkAccessPoliciesDeleteOptionalParams,
   JitNetworkAccessPolicyInitiateRequest,
   JitNetworkAccessPoliciesInitiateOptionalParams,
-  JitNetworkAccessPoliciesInitiateResponse
+  JitNetworkAccessPoliciesInitiateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface JitNetworkAccessPolicies {
    * @param options The options parameters.
    */
   list(
-    options?: JitNetworkAccessPoliciesListOptionalParams
+    options?: JitNetworkAccessPoliciesListOptionalParams,
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
@@ -41,7 +41,7 @@ export interface JitNetworkAccessPolicies {
    */
   listByRegion(
     ascLocation: string,
-    options?: JitNetworkAccessPoliciesListByRegionOptionalParams
+    options?: JitNetworkAccessPoliciesListByRegionOptionalParams,
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
@@ -51,7 +51,7 @@ export interface JitNetworkAccessPolicies {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams
+    options?: JitNetworkAccessPoliciesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
@@ -64,7 +64,7 @@ export interface JitNetworkAccessPolicies {
   listByResourceGroupAndRegion(
     resourceGroupName: string,
     ascLocation: string,
-    options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams
+    options?: JitNetworkAccessPoliciesListByResourceGroupAndRegionOptionalParams,
   ): PagedAsyncIterableIterator<JitNetworkAccessPolicy>;
   /**
    * Policies for protecting resources using Just-in-Time access control for the subscription, location
@@ -79,7 +79,7 @@ export interface JitNetworkAccessPolicies {
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
-    options?: JitNetworkAccessPoliciesGetOptionalParams
+    options?: JitNetworkAccessPoliciesGetOptionalParams,
   ): Promise<JitNetworkAccessPoliciesGetResponse>;
   /**
    * Create a policy for protecting resources using Just-in-Time access control
@@ -96,7 +96,7 @@ export interface JitNetworkAccessPolicies {
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicy,
-    options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams
+    options?: JitNetworkAccessPoliciesCreateOrUpdateOptionalParams,
   ): Promise<JitNetworkAccessPoliciesCreateOrUpdateResponse>;
   /**
    * Delete a Just-in-Time access control policy.
@@ -111,7 +111,7 @@ export interface JitNetworkAccessPolicies {
     resourceGroupName: string,
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
-    options?: JitNetworkAccessPoliciesDeleteOptionalParams
+    options?: JitNetworkAccessPoliciesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Initiate a JIT access from a specific Just-in-Time policy configuration.
@@ -128,6 +128,6 @@ export interface JitNetworkAccessPolicies {
     ascLocation: string,
     jitNetworkAccessPolicyName: string,
     body: JitNetworkAccessPolicyInitiateRequest,
-    options?: JitNetworkAccessPoliciesInitiateOptionalParams
+    options?: JitNetworkAccessPoliciesInitiateOptionalParams,
   ): Promise<JitNetworkAccessPoliciesInitiateResponse>;
 }

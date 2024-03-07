@@ -53,7 +53,7 @@ async function createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSev
   const result = await client.automations.createOrUpdate(
     resourceGroupName,
     automationName,
-    automation
+    automation,
   );
   console.log(result);
 }
@@ -115,7 +115,7 @@ async function createOrUpdateASecurityAutomationForAllHighSeverityAssessments() 
   const result = await client.automations.createOrUpdate(
     resourceGroupName,
     automationName,
-    automation
+    automation,
   );
   console.log(result);
 }
@@ -177,7 +177,7 @@ async function disableOrEnableASecurityAutomation() {
   const result = await client.automations.createOrUpdate(
     resourceGroupName,
     automationName,
-    automation
+    automation,
   );
   console.log(result);
 }

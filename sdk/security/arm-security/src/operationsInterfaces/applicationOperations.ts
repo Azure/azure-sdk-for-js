@@ -12,7 +12,7 @@ import {
   Application,
   ApplicationCreateOrUpdateOptionalParams,
   ApplicationCreateOrUpdateResponse,
-  ApplicationDeleteOptionalParams
+  ApplicationDeleteOptionalParams,
 } from "../models";
 
 /** Interface representing a ApplicationOperations. */
@@ -24,7 +24,7 @@ export interface ApplicationOperations {
    */
   get(
     applicationId: string,
-    options?: ApplicationGetOptionalParams
+    options?: ApplicationGetOptionalParams,
   ): Promise<ApplicationGetResponse>;
   /**
    * Creates or update a security application on the given subscription.
@@ -35,7 +35,7 @@ export interface ApplicationOperations {
   createOrUpdate(
     applicationId: string,
     application: Application,
-    options?: ApplicationCreateOrUpdateOptionalParams
+    options?: ApplicationCreateOrUpdateOptionalParams,
   ): Promise<ApplicationCreateOrUpdateResponse>;
   /**
    * Delete an Application over a given scope
@@ -44,6 +44,6 @@ export interface ApplicationOperations {
    */
   delete(
     applicationId: string,
-    options?: ApplicationDeleteOptionalParams
+    options?: ApplicationDeleteOptionalParams,
   ): Promise<void>;
 }

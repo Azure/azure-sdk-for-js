@@ -10,7 +10,7 @@ import {
   SecuritySolutionsReferenceDataListOptionalParams,
   SecuritySolutionsReferenceDataListResponse,
   SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
-  SecuritySolutionsReferenceDataListByHomeRegionResponse
+  SecuritySolutionsReferenceDataListByHomeRegionResponse,
 } from "../models";
 
 /** Interface representing a SecuritySolutionsReferenceDataOperations. */
@@ -20,7 +20,7 @@ export interface SecuritySolutionsReferenceDataOperations {
    * @param options The options parameters.
    */
   list(
-    options?: SecuritySolutionsReferenceDataListOptionalParams
+    options?: SecuritySolutionsReferenceDataListOptionalParams,
   ): Promise<SecuritySolutionsReferenceDataListResponse>;
   /**
    * Gets list of all supported Security Solutions for subscription and location.
@@ -30,6 +30,6 @@ export interface SecuritySolutionsReferenceDataOperations {
    */
   listByHomeRegion(
     ascLocation: string,
-    options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams
+    options?: SecuritySolutionsReferenceDataListByHomeRegionOptionalParams,
   ): Promise<SecuritySolutionsReferenceDataListByHomeRegionResponse>;
 }

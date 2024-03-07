@@ -15,7 +15,7 @@ import {
   SecurityAssessment,
   AssessmentsCreateOrUpdateOptionalParams,
   AssessmentsCreateOrUpdateResponse,
-  AssessmentsDeleteOptionalParams
+  AssessmentsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Assessments {
    */
   list(
     scope: string,
-    options?: AssessmentsListOptionalParams
+    options?: AssessmentsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityAssessmentResponse>;
   /**
    * Get a security assessment on your scanned resource
@@ -41,7 +41,7 @@ export interface Assessments {
   get(
     resourceId: string,
     assessmentName: string,
-    options?: AssessmentsGetOptionalParams
+    options?: AssessmentsGetOptionalParams,
   ): Promise<AssessmentsGetResponse>;
   /**
    * Create a security assessment on your resource. An assessment metadata that describes this assessment
@@ -55,7 +55,7 @@ export interface Assessments {
     resourceId: string,
     assessmentName: string,
     assessment: SecurityAssessment,
-    options?: AssessmentsCreateOrUpdateOptionalParams
+    options?: AssessmentsCreateOrUpdateOptionalParams,
   ): Promise<AssessmentsCreateOrUpdateResponse>;
   /**
    * Delete a security assessment on your resource. An assessment metadata that describes this assessment
@@ -67,6 +67,6 @@ export interface Assessments {
   delete(
     resourceId: string,
     assessmentName: string,
-    options?: AssessmentsDeleteOptionalParams
+    options?: AssessmentsDeleteOptionalParams,
   ): Promise<void>;
 }

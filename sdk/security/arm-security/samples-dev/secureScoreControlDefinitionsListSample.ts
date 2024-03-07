@@ -21,11 +21,8 @@ dotenv.config();
  * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/secureScoreControlDefinitions/ListSecureScoreControlDefinitions_example.json
  */
 async function listSecurityControlsDefinition() {
-  const subscriptionId =
-    process.env["SECURITY_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new SecurityCenter(credential, subscriptionId);
+  const client = new SecurityCenter(credential);
   const resArray = new Array();
   for await (let item of client.secureScoreControlDefinitions.list()) {
     resArray.push(item);

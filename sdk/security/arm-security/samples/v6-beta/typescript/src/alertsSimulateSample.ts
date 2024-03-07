@@ -36,16 +36,16 @@ async function simulateSecurityAlertsOnASubscription() {
         "SqlServers",
         "StorageAccounts",
         "VirtualMachines",
-        "CosmosDbs"
+        "CosmosDbs",
       ],
-      kind: "Bundles"
-    }
+      kind: "Bundles",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alerts.beginSimulateAndWait(
     ascLocation,
-    alertSimulatorRequestBody
+    alertSimulatorRequestBody,
   );
   console.log(result);
 }

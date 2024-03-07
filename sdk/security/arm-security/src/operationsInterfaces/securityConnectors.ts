@@ -17,7 +17,7 @@ import {
   SecurityConnectorsCreateOrUpdateResponse,
   SecurityConnectorsUpdateOptionalParams,
   SecurityConnectorsUpdateResponse,
-  SecurityConnectorsDeleteOptionalParams
+  SecurityConnectorsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface SecurityConnectors {
    * @param options The options parameters.
    */
   list(
-    options?: SecurityConnectorsListOptionalParams
+    options?: SecurityConnectorsListOptionalParams,
   ): PagedAsyncIterableIterator<SecurityConnector>;
   /**
    * Lists all the security connectors in the specified resource group. Use the 'nextLink' property in
@@ -40,7 +40,7 @@ export interface SecurityConnectors {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SecurityConnectorsListByResourceGroupOptionalParams
+    options?: SecurityConnectorsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<SecurityConnector>;
   /**
    * Retrieves details of a specific security connector
@@ -52,7 +52,7 @@ export interface SecurityConnectors {
   get(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorsGetOptionalParams
+    options?: SecurityConnectorsGetOptionalParams,
   ): Promise<SecurityConnectorsGetResponse>;
   /**
    * Creates or updates a security connector. If a security connector is already created and a subsequent
@@ -67,7 +67,7 @@ export interface SecurityConnectors {
     resourceGroupName: string,
     securityConnectorName: string,
     securityConnector: SecurityConnector,
-    options?: SecurityConnectorsCreateOrUpdateOptionalParams
+    options?: SecurityConnectorsCreateOrUpdateOptionalParams,
   ): Promise<SecurityConnectorsCreateOrUpdateResponse>;
   /**
    * Updates a security connector
@@ -81,7 +81,7 @@ export interface SecurityConnectors {
     resourceGroupName: string,
     securityConnectorName: string,
     securityConnector: SecurityConnector,
-    options?: SecurityConnectorsUpdateOptionalParams
+    options?: SecurityConnectorsUpdateOptionalParams,
   ): Promise<SecurityConnectorsUpdateResponse>;
   /**
    * Deletes a security connector.
@@ -93,6 +93,6 @@ export interface SecurityConnectors {
   delete(
     resourceGroupName: string,
     securityConnectorName: string,
-    options?: SecurityConnectorsDeleteOptionalParams
+    options?: SecurityConnectorsDeleteOptionalParams,
   ): Promise<void>;
 }

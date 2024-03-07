@@ -41,7 +41,7 @@ async function initiateAnActionOnAJitNetworkAccessPolicy() {
     resourceGroupName,
     ascLocation,
     jitNetworkAccessPolicyName,
-    body
+    body,
   );
   console.log(result);
 }

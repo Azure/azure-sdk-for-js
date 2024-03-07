@@ -11,7 +11,7 @@ import {
   ComplianceResult,
   ComplianceResultsListOptionalParams,
   ComplianceResultsGetOptionalParams,
-  ComplianceResultsGetResponse
+  ComplianceResultsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface ComplianceResults {
    */
   list(
     scope: string,
-    options?: ComplianceResultsListOptionalParams
+    options?: ComplianceResultsListOptionalParams,
   ): PagedAsyncIterableIterator<ComplianceResult>;
   /**
    * Security Compliance Result
@@ -37,6 +37,6 @@ export interface ComplianceResults {
   get(
     resourceId: string,
     complianceResultName: string,
-    options?: ComplianceResultsGetOptionalParams
+    options?: ComplianceResultsGetOptionalParams,
   ): Promise<ComplianceResultsGetResponse>;
 }

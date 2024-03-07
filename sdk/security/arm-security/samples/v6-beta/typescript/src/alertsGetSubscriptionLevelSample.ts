@@ -30,7 +30,7 @@ async function getSecurityAlertOnASubscriptionFromASecurityDataLocation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.alerts.getSubscriptionLevel(
     ascLocation,
-    alertName
+    alertName,
   );
   console.log(result);
 }

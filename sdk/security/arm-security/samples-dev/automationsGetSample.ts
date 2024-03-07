@@ -31,7 +31,7 @@ async function retrieveASecurityAutomation() {
   const client = new SecurityCenter(credential, subscriptionId);
   const result = await client.automations.get(
     resourceGroupName,
-    automationName
+    automationName,
   );
   console.log(result);
 }
