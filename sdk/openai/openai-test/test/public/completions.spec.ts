@@ -7,7 +7,7 @@ import { createClient } from "../utils/createClient";
 import { AuthMethod } from "../utils/types";
 import OpenAI from "openai";
 
-describe("Embeddings", function () {
+describe("Completions", function () {
   matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI;
