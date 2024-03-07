@@ -17,7 +17,6 @@ import {
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
-  CustomCallingContextInternal,
 } from "./generated/src";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
@@ -28,7 +27,7 @@ import {
   RejectCallOptions,
 } from "./models/options";
 import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
+import { CallConnectionProperties, CallInvite } from "./models/models";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -242,11 +241,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      mediaStreamingConfiguration: options.mediaStreamingConfiguration,
-      transcriptionConfiguration: options.transcriptionConfiguration,
-      customCallingContext: this.createCustomCallingContextInternal(
-        targetParticipant.customCallingContext!,
-      ),
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber,
       ),
@@ -273,7 +267,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      transcriptionConfiguration: options.transcriptionConfiguration,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -294,21 +287,16 @@ export class CallAutomationClient {
   ): Promise<AnswerCallResult> {
     const {
       callIntelligenceOptions,
-      mediaStreamingConfiguration,
-      transcriptionConfiguration,
       operationContext,
       sourceCallIdNumber,
       ...operationOptions
     } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      mediaStreamingConfiguration: mediaStreamingConfiguration,
-      transcriptionConfiguration: transcriptionConfiguration,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,
       answeredBy: this.sourceIdentity,
-      sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(sourceCallIdNumber),
     };
     const optionsInternal = {
       ...operationOptions,
@@ -379,9 +367,6 @@ export class CallAutomationClient {
     const request: RedirectCallRequest = {
       incomingCallContext: incomingCallContext,
       target: communicationIdentifierModelConverter(targetParticipant.targetParticipant),
-      customCallingContext: this.createCustomCallingContextInternal(
-        targetParticipant.customCallingContext!,
-      ),
     };
     const optionsInternal = {
       ...options,
@@ -413,24 +398,5 @@ export class CallAutomationClient {
     };
 
     return this.callAutomationApiClient.rejectCall(request, optionsInternal);
-  }
-
-  private createCustomCallingContextInternal(
-    customCallingContext: CustomCallingContext,
-  ): CustomCallingContextInternal {
-    const sipHeaders: { [key: string]: string } = {};
-    const voipHeaders: { [key: string]: string } = {};
-    if (customCallingContext) {
-      for (const header of customCallingContext) {
-        if (header.kind === "sipuui") {
-          sipHeaders[`User-To-User`] = header.value;
-        } else if (header.kind === "sipx") {
-          sipHeaders[`X-MS-Custom-${header.key}`] = header.value;
-        } else if (header.kind === "voip") {
-          voipHeaders[`${header.key}`] = header.value;
-        }
-      }
-    }
-    return { sipHeaders: sipHeaders, voipHeaders: voipHeaders };
   }
 }
