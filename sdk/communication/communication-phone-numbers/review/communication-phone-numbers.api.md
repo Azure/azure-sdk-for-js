@@ -113,7 +113,6 @@ export type PhoneNumberAssignmentType = "person" | "application";
 export interface PhoneNumberCapabilities {
     calling: PhoneNumberCapabilityType;
     sms: PhoneNumberCapabilityType;
-    tenDLCCampaignBriefId?: string;
 }
 
 // @public
@@ -213,7 +212,7 @@ export type PhoneNumberType = "geographic" | "tollFree";
 // @public
 export interface PurchasedPhoneNumber {
     assignmentType: PhoneNumberAssignmentType;
-    capabilities: PhoneNumberCapabilities;
+    capabilities: PurchasedPhoneNumberCapabilities;
     cost: PhoneNumberCost;
     countryCode: string;
     id: string;
@@ -222,6 +221,13 @@ export interface PurchasedPhoneNumber {
     phoneNumber: string;
     phoneNumberType: PhoneNumberType;
     purchaseDate: Date;
+}
+
+// @public
+export interface PurchasedPhoneNumberCapabilities {
+    calling: PhoneNumberCapabilityType;
+    sms: PhoneNumberCapabilityType;
+    tenDLCCampaignBriefId?: string;
 }
 
 // @public
