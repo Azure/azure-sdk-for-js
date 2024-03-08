@@ -147,9 +147,10 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
-        })}
+        });
+      },
     );
-  };
+  }
 
   /**
    * Iterates the purchased phone numbers.
