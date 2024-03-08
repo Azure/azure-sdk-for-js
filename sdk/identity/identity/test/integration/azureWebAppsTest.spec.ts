@@ -9,7 +9,7 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 
 
 describe.only("AzureWebApps Integration test", function() {
-    it("test the Azure Web Apps endpoint where the '/sync' MI credential is used.", async function(this: Context) {
+    it("test the Azure Web Apps endpoint where the '/' MI credential is used.", async function(this: Context) {
         if(!isLiveMode){
             this.skip();
         }
@@ -24,7 +24,7 @@ describe.only("AzureWebApps Integration test", function() {
         assert.equal(response.status,200,`Expected status 200. Received ${response.status}`);
     })
 
-    it("test the Azure Web Apps endpoint where the '/api' MI credential is used.", async function(this: Context) {
+    it("test the Azure Web Apps endpoint where the '/api/sync' MI credential is used.", async function(this: Context) {
         if(!isLiveMode){
             this.skip();
         }
@@ -46,7 +46,7 @@ function baseUrlSync(): string{
        console.log("IDENTITY_WEBAPP_NAME is not set");
        throw new Error("IDENTITY_WEBAPP_NAME is not set");
     }
-    return `https://${webAppName}.azurewebsites.net/sync/`
+    return `https://${webAppName}.azurewebsites.net/`
 }
 
 function baseUrl(): string{
@@ -55,5 +55,5 @@ function baseUrl(): string{
        console.log("IDENTITY_WEBAPP_NAME is not set");
        throw new Error("IDENTITY_WEBAPP_NAME is not set");
     }
-    return `https://${webAppName}.azurewebsites.net/api/`
+    return `https://${webAppName}.azurewebsites.net/api/sync`
 }
