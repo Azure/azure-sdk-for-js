@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available Network Rest API operations.
  *
  * @summary Lists all of the available Network Rest API operations.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/OperationList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/OperationList.json
  */
 async function getAListOfOperationsForAResourceProvider() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Experiment resource.
  *
  * @summary Create or update a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/CreateUpdateExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateExperiment.json
  */
 async function createOrUpdateAExperimentInAResourceGroup() {
   const subscriptionId =
@@ -36,11 +36,10 @@ async function createOrUpdateAExperimentInAResourceGroup() {
         targets: [
           {
             type: "ChaosTarget",
-            id:
-              "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/exampleVM/providers/Microsoft.Chaos/targets/Microsoft-VirtualMachine"
-          }
-        ]
-      }
+            id: "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/exampleVM/providers/Microsoft.Chaos/targets/Microsoft-VirtualMachine",
+          },
+        ],
+      },
     ],
     steps: [
       {
@@ -54,20 +53,20 @@ async function createOrUpdateAExperimentInAResourceGroup() {
                 type: "continuous",
                 duration: "PT10M",
                 parameters: [{ key: "abruptShutdown", value: "false" }],
-                selectorId: "selector1"
-              }
-            ]
-          }
-        ]
-      }
-    ]
+                selectorId: "selector1",
+              },
+            ],
+          },
+        ],
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ChaosManagementClient(credential, subscriptionId);
   const result = await client.experiments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     experimentName,
-    experiment
+    experiment,
   );
   console.log(result);
 }

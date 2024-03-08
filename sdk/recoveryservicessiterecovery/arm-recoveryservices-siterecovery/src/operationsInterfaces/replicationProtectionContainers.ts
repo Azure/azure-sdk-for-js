@@ -23,7 +23,7 @@ import {
   ReplicationProtectionContainersDeleteOptionalParams,
   SwitchProtectionInput,
   ReplicationProtectionContainersSwitchProtectionOptionalParams,
-  ReplicationProtectionContainersSwitchProtectionResponse
+  ReplicationProtectionContainersSwitchProtectionResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export interface ReplicationProtectionContainers {
     resourceName: string,
     resourceGroupName: string,
     fabricName: string,
-    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams
+    options?: ReplicationProtectionContainersListByReplicationFabricsOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainer>;
   /**
    * Lists the protection containers in a vault.
@@ -53,7 +53,7 @@ export interface ReplicationProtectionContainers {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionContainersListOptionalParams
+    options?: ReplicationProtectionContainersListOptionalParams,
   ): PagedAsyncIterableIterator<ProtectionContainer>;
   /**
    * Gets the details of a protection container.
@@ -69,7 +69,7 @@ export interface ReplicationProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersGetOptionalParams
+    options?: ReplicationProtectionContainersGetOptionalParams,
   ): Promise<ReplicationProtectionContainersGetResponse>;
   /**
    * Operation to create a protection container.
@@ -87,7 +87,7 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
-    options?: ReplicationProtectionContainersCreateOptionalParams
+    options?: ReplicationProtectionContainersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectionContainersCreateResponse>,
@@ -110,7 +110,7 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     creationInput: CreateProtectionContainerInput,
-    options?: ReplicationProtectionContainersCreateOptionalParams
+    options?: ReplicationProtectionContainersCreateOptionalParams,
   ): Promise<ReplicationProtectionContainersCreateResponse>;
   /**
    * The operation to a add a protectable item to a protection container(Add physical server).
@@ -128,12 +128,10 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
-    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
+    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ): Promise<
     SimplePollerLike<
-      OperationState<
-        ReplicationProtectionContainersDiscoverProtectableItemResponse
-      >,
+      OperationState<ReplicationProtectionContainersDiscoverProtectableItemResponse>,
       ReplicationProtectionContainersDiscoverProtectableItemResponse
     >
   >;
@@ -153,7 +151,7 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     discoverProtectableItemRequest: DiscoverProtectableItemRequest,
-    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams
+    options?: ReplicationProtectionContainersDiscoverProtectableItemOptionalParams,
   ): Promise<ReplicationProtectionContainersDiscoverProtectableItemResponse>;
   /**
    * Operation to remove a protection container.
@@ -169,7 +167,7 @@ export interface ReplicationProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersDeleteOptionalParams
+    options?: ReplicationProtectionContainersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to remove a protection container.
@@ -185,7 +183,7 @@ export interface ReplicationProtectionContainers {
     resourceGroupName: string,
     fabricName: string,
     protectionContainerName: string,
-    options?: ReplicationProtectionContainersDeleteOptionalParams
+    options?: ReplicationProtectionContainersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to switch protection from one container to another or one replication provider to another.
@@ -203,7 +201,7 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
-    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
+    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationProtectionContainersSwitchProtectionResponse>,
@@ -226,6 +224,6 @@ export interface ReplicationProtectionContainers {
     fabricName: string,
     protectionContainerName: string,
     switchInput: SwitchProtectionInput,
-    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams
+    options?: ReplicationProtectionContainersSwitchProtectionOptionalParams,
   ): Promise<ReplicationProtectionContainersSwitchProtectionResponse>;
 }

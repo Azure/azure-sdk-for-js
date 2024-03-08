@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   BgpServiceCommunity,
-  BgpServiceCommunitiesListOptionalParams
+  BgpServiceCommunitiesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,6 +20,6 @@ export interface BgpServiceCommunities {
    * @param options The options parameters.
    */
   list(
-    options?: BgpServiceCommunitiesListOptionalParams
+    options?: BgpServiceCommunitiesListOptionalParams,
   ): PagedAsyncIterableIterator<BgpServiceCommunity>;
 }

@@ -29,7 +29,7 @@ async function createCommitmentPlan() {
   const result = await client.commitmentPlans.beginUpdatePlanAndWait(
     resourceGroupName,
     commitmentPlanName,
-    commitmentPlan
+    commitmentPlan,
   );
   console.log(result);
 }

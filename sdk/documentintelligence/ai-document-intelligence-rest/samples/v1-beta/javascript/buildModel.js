@@ -21,7 +21,7 @@ require("dotenv").config();
 async function main() {
   const client = DocumentIntelligence(
     process.env["DOCUMENT_INTELLIGENCE_ENDPOINT"] || "<cognitive services endpoint>",
-    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" }
+    { key: process.env["DOCUMENT_INTELLIGENCE_API_KEY"] || "<api key>" },
   );
   const random = Date.now().toString();
   const modelId =
@@ -57,7 +57,7 @@ async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    model.docTypes || {}
+    model.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

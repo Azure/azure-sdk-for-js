@@ -8,7 +8,7 @@ import { runTestsWithProxyTool } from "../../util/testUtils";
 import { createPrinter } from "../../util/printer";
 
 export const commandInfo = makeCommandInfo(
-  "test:node-ts-input",
+  "test:node-tsx-ts",
   "runs the node tests using mocha with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
     "no-test-proxy": {
@@ -25,7 +25,7 @@ export default leafCommand(commandInfo, async (options) => {
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
   const defaultMochaArgs = `${
-    isModuleProj ? "--loader=ts-node/esm " : "-r esm "
+    isModuleProj ? "--loader=ts-node/esm " : ""
   }-r ts-node/register ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateReplicationProtectedItemInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update the recovery settings of an ASR replication protected item.
  *
  * @summary The operation to update the recovery settings of an ASR replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Update.json
  */
 async function updatesTheReplicationProtectedItemSettings() {
   const subscriptionId =
@@ -49,15 +49,15 @@ async function updatesTheReplicationProtectedItemSettings() {
               ipConfigName: "ipconfig1",
               isPrimary: true,
               recoveryStaticIPAddress: "10.0.2.46",
-              recoverySubnetName: "subnet1"
-            }
+              recoverySubnetName: "subnet1",
+            },
           ],
           nicId:
             "TWljcm9zb2Z0OkY4NDkxRTRGLTgxN0EtNDBERC1BOTBDLUFGNzczOTc4Qzc1Qlw3NjAwMzMxRS03NDk4LTQ0QTQtQjdDNy0xQjY1NkJDREQ1MkQ=",
-          selectionType: "SelectedByUser"
-        }
-      ]
-    }
+          selectionType: "SelectedByUser",
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -67,7 +67,7 @@ async function updatesTheReplicationProtectedItemSettings() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    updateProtectionInput
+    updateProtectionInput,
   );
   console.log(result);
 }

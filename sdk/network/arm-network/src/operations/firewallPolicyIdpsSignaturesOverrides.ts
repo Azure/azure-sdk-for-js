@@ -20,12 +20,13 @@ import {
   FirewallPolicyIdpsSignaturesOverridesGetOptionalParams,
   FirewallPolicyIdpsSignaturesOverridesGetResponse,
   FirewallPolicyIdpsSignaturesOverridesListOptionalParams,
-  FirewallPolicyIdpsSignaturesOverridesListResponse
+  FirewallPolicyIdpsSignaturesOverridesListResponse,
 } from "../models";
 
 /** Class containing FirewallPolicyIdpsSignaturesOverrides operations. */
 export class FirewallPolicyIdpsSignaturesOverridesImpl
-  implements FirewallPolicyIdpsSignaturesOverrides {
+  implements FirewallPolicyIdpsSignaturesOverrides
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -47,11 +48,11 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignaturesOverrides,
-    options?: FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesPatchOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesPatchResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, parameters, options },
-      patchOperationSpec
+      patchOperationSpec,
     );
   }
 
@@ -66,11 +67,11 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
     resourceGroupName: string,
     firewallPolicyName: string,
     parameters: SignaturesOverrides,
-    options?: FirewallPolicyIdpsSignaturesOverridesPutOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesPutOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesPutResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, parameters, options },
-      putOperationSpec
+      putOperationSpec,
     );
   }
 
@@ -83,11 +84,11 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
   get(
     resourceGroupName: string,
     firewallPolicyName: string,
-    options?: FirewallPolicyIdpsSignaturesOverridesGetOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesGetOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -100,11 +101,11 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
   list(
     resourceGroupName: string,
     firewallPolicyName: string,
-    options?: FirewallPolicyIdpsSignaturesOverridesListOptionalParams
+    options?: FirewallPolicyIdpsSignaturesOverridesListOptionalParams,
   ): Promise<FirewallPolicyIdpsSignaturesOverridesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, firewallPolicyName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -112,16 +113,15 @@ export class FirewallPolicyIdpsSignaturesOverridesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.SignaturesOverrides
+      bodyMapper: Mappers.SignaturesOverrides,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
@@ -129,23 +129,22 @@ const patchOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const putOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SignaturesOverrides
+      bodyMapper: Mappers.SignaturesOverrides,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters22,
   queryParameters: [Parameters.apiVersion],
@@ -153,53 +152,51 @@ const putOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignaturesOverrides
+      bodyMapper: Mappers.SignaturesOverrides,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/signatureOverrides",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SignaturesOverridesList
+      bodyMapper: Mappers.SignaturesOverridesList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.firewallPolicyName
+    Parameters.firewallPolicyName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

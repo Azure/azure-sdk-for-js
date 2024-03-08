@@ -206,7 +206,7 @@ class OverrideSet {
   }
 }
 
-function getSources(dir: string = "src"): string[] {
+function getSources(dir = "src"): string[] {
   const sources: string[] = [];
   const entries = readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
