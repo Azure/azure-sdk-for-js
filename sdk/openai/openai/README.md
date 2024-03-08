@@ -24,7 +24,6 @@ Checkout the following examples:
 - [Generate Images](#generate-images-with-dall-e-image-generation-models)
 - [Analyze Business Data](#analyze-business-data)
 - [Transcribe and Translate audio files](#transcribe-and-translate-audio-files)
-- [Chat with images using gpt-4-vision-preview](#chat-with-images-using-gpt-4-vision-preview)
 
 Key links:
 
@@ -460,32 +459,6 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-```
-
-### Chat with images using gpt-4-vision-preview
-
-The `gpt-4-vision-preview` model allows you to use images as input components into chat completions.
-
-To do this, provide distinct content items on the user message(s) for the chat completions request:
-
-```js
-const url = "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg",
-const deploymentName = "gpt-4-1106-preview";
-const messages: ChatRequestMessage[] = [{role: "user", content: [{
-  type: "image_url",
-  imageUrl: {
-    url,
-    detail: "auto"
-  }
-}]}];
-```
-
-Chat Completions will then proceed as usual, though the model may report the more informative `finish_details` in lieu
-of `finish_reason`:
-
-```js
-const result = await client.getChatCompletions(deploymentName, messages);
-console.log(`Chatbot: ${result.choices[0].message?.content}`);
 ```
 
 ## Troubleshooting

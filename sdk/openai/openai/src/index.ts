@@ -101,7 +101,6 @@ export {
   ChatCompletionsNamedFunctionToolSelection,
   ChatMessageTextContentItem,
   ChatCompletionsFunctionToolDefinition,
-  ChatMessageImageContentItem,
   ChatCompletionsToolSelectionPreset,
   OnYourDataApiKeyAuthenticationOptions,
   OnYourDataConnectionStringAuthenticationOptions,

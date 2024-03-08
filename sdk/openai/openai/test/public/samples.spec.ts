@@ -182,29 +182,5 @@ describe("README samples", () => {
         assert.isString(image.url);
       }
     });
-
-    // FIXME: The model currently responds with: Invalid content type. image_url is only supported by certain models
-    it.skip("Chat with images", async function () {
-      const url =
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg";
-      const deploymentName = "gpt-4-1106-preview";
-      const messages: ChatRequestMessage[] = [
-        {
-          role: "user",
-          content: [
-            {
-              type: "image_url",
-              imageUrl: {
-                url,
-                detail: "auto",
-              },
-            },
-          ],
-        },
-      ];
-
-      const result = await client.getChatCompletions(deploymentName, messages);
-      assert.isString(result.choices[0].message?.content);
-    });
   });
 });
