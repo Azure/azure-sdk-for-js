@@ -18,10 +18,7 @@ import {
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
-  PhoneNumberOffering,
-  PhoneNumberSearchResult,
-  PhoneNumbersOperatorInformationSearchOptionalParams,
-  PurchasedPhoneNumber,
+  PhoneNumbersOperatorInformationSearchOptionalParams
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
@@ -31,6 +28,9 @@ import {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
+  PhoneNumberSearchResult,
+  PhoneNumberOffering,
+  PurchasedPhoneNumber,
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
