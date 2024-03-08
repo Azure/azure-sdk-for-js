@@ -25,8 +25,8 @@ stages:
                 condition: ne(variables['Skip.TagRepository'], 'true')
                 environment: github
                 pool:
-                  name: azsdk-pool-mms-ubuntu-2004-1es-pt
-                  vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+                  name: azsdk-pool-mms-ubuntu-2004-general
+                  image: azsdk-pool-mms-ubuntu-2004-1espt
                   os: linux
                 strategy:
                   runOnce:
@@ -67,8 +67,8 @@ stages:
                     environment: npm
                     dependsOn: TagRepository
                     pool:
-                      name: azsdk-pool-mms-ubuntu-2004-1es-pt
-                      vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
                       os: linux
                     strategy:
                       runOnce:
@@ -119,8 +119,8 @@ stages:
                     environment: githubio
                     dependsOn: PublishPackage
                     pool:
-                      name: azsdk-pool-mms-ubuntu-2004-1es-pt
-                      vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
                       os: linux
                     strategy:
                       runOnce:
@@ -154,8 +154,8 @@ stages:
                     environment: githubio
                     dependsOn: PublishPackage
                     pool:
-                      name: azsdk-pool-mms-win-2022-1es-pt
-                      vmImage: azsdk-pool-mms-win-2022-1espt
+                      name: azsdk-pool-mms-win-2022-general
+                      image: azsdk-pool-mms-win-2022-1espt
                       os: windows
                     strategy:
                       runOnce:
@@ -181,8 +181,8 @@ stages:
                     environment: github
                     dependsOn: PublishPackage
                     pool:
-                      name: azsdk-pool-mms-ubuntu-2004-1es-pt
-                      vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+                      name: azsdk-pool-mms-ubuntu-2004-general
+                      image: azsdk-pool-mms-ubuntu-2004-1espt
                       os: linux
                     strategy:
                       runOnce:
@@ -216,8 +216,8 @@ stages:
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal')))
         displayName: Publish package to daily feed
         pool:
-          name: azsdk-pool-mms-ubuntu-2004-1es-pt
-          vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+          name: azsdk-pool-mms-ubuntu-2004-general
+          image: azsdk-pool-mms-ubuntu-2004-1espt
           os: linux
         steps:
           - checkout: self
@@ -264,7 +264,7 @@ stages:
         condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
         dependsOn: PublishPackages
         pool:
-          name: azsdk-pool-mms-ubuntu-2004-1es-pt
+          name: azsdk-pool-mms-ubuntu-2004-general
           vmImage: azsdk-pool-mms-ubuntu-2004-1espt
           os: linux
         steps:

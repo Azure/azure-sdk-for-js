@@ -30,8 +30,8 @@ jobs:
   - job: "Build"
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-1es-pt
-      vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
       os: linux
 
     steps:
@@ -52,8 +52,8 @@ jobs:
   - job: "Analyze"
 
     pool:
-      name: azsdk-pool-mms-ubuntu-2004-1es-pt
-      vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+      name: $(LINUXPOOL)
+      image: $(LINUXVMIMAGE)
       os: linux
 
     steps:
@@ -66,11 +66,11 @@ jobs:
           TestPipeline: ${{ parameters.TestPipeline }}
 
   - ${{ if ne(parameters.RunUnitTests, false) }}:
-      - template: /eng/common/pipelines/templates/jobs/archetype-sdk-tests-generate.yml
+      - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
         parameters:
           JobTemplatePath: /eng/pipelines/templates/jobs/ci.tests.yml
           OsVmImage: azsdk-pool-mms-ubuntu-2004-1espt
-          Pool: azsdk-pool-mms-ubuntu-2004-1es-pt
+          Pool: azsdk-pool-mms-ubuntu-2004-general
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
