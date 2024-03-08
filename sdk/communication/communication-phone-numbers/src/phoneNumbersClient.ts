@@ -46,7 +46,6 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
-import { Helpers } from './utils/helpers';
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -148,11 +147,9 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
-        }).then((result) => {
-          return Helpers.getPurchasePhoneNumber(result);
-      },
+        })}
     );
-  })};
+  };
 
   /**
    * Iterates the purchased phone numbers.
