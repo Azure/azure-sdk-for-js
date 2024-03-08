@@ -2285,8 +2285,8 @@ packages:
       - '@types/node'
     dev: false
 
-  /@microsoft/applicationinsights-web-snippet@1.0.1:
-    resolution: {integrity: sha512-2IHAOaLauc8qaAitvWS+U931T+ze+7MNWrDHY47IENP5y2UA0vqJDu67kWZDdpCN1fFC77sfgfB+HV7SrKshnQ==}
+  /@microsoft/applicationinsights-web-snippet@1.1.2:
+    resolution: {integrity: sha512-qPoOk3MmEx3gS6hTc1/x8JWQG5g4BvRdH7iqZMENBsKCL927b7D7Mvl19bh3sW9Ucrg1fVrF+4hqShwQNdqLxQ==}
     dev: false
 
   /@microsoft/tsdoc-config@0.16.2:
@@ -20275,13 +20275,13 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-WBujV1y7D6UTSec+Bsha86JZGhqO1YFlgQmKWJNPDuAAkDaaOf/Nm0fpOgmYIGpPNQVPa9P4g+EqBC+UTinWHg==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-gUTzwr2Lub0zol8dlkc7cs9/BL+gE8AYwZWZFn2zJjFJq9umRFaDjx+rHejVS4bQAqHY+3F6xujKLVd0CQaG4A==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
       '@azure/functions': 3.5.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
-      '@microsoft/applicationinsights-web-snippet': 1.0.1
+      '@microsoft/applicationinsights-web-snippet': 1.1.2
       '@opentelemetry/api': 1.7.0
       '@opentelemetry/api-logs': 0.48.0
       '@opentelemetry/core': 1.21.0(@opentelemetry/api@1.7.0)
