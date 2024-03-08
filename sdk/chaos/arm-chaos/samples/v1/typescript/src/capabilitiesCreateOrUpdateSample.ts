@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a Capability resource that extends a Target resource.
  *
  * @summary Create or update a Capability resource that extends a Target resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/CreateUpdateCapability.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateCapability.json
  */
 async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function createOrUpdateACapabilityThatExtendsAVirtualMachineTargetResource
     parentResourceName,
     targetName,
     capabilityName,
-    capability
+    capability,
   );
   console.log(result);
 }

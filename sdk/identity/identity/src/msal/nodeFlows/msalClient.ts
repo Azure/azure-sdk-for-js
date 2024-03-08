@@ -12,6 +12,7 @@ import {
   getAuthority,
   getKnownAuthorities,
   getMSALLogLevel,
+  handleMsalError,
   publicToMsal,
 } from "../utils";
 
@@ -115,6 +116,9 @@ interface MsalClientState {
 
   /** Configured plugins */
   pluginConfiguration: PluginConfiguration;
+
+  /** Claims received from challenges, cached for the next request */
+  cachedClaims?: string;
 }
 
 /**
@@ -140,29 +144,39 @@ export function createMsalClient(
     pluginConfiguration: generatePluginConfiguration(createMsalClientOptions),
   };
 
-  let confidentialApp: msal.ConfidentialClientApplication | undefined = undefined;
+  const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
-    _options: GetTokenOptions = {},
+    options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
-    // abort requests
+    const appKey = options.enableCae ? "CAE" : "default";
 
-    if (confidentialApp === undefined) {
-      // TODOs:
-      // CAE / non-CAE
-      confidentialApp = new msal.ConfidentialClientApplication({
-        ...state.msalConfig,
-        broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
-        cache: { cachePlugin: await state.pluginConfiguration.cache.cachePlugin },
-      });
+    let confidentialClientApp = confidentialApps.get(appKey);
+    if (confidentialClientApp) {
+      return confidentialClientApp;
     }
 
-    return confidentialApp;
+    // Initialize a new app and cache it
+    const cachePlugin = options.enableCae
+      ? state.pluginConfiguration.cache.cachePluginCae
+      : state.pluginConfiguration.cache.cachePlugin;
+
+    state.msalConfig.auth.clientCapabilities = options.enableCae ? ["cp1"] : undefined;
+
+    confidentialClientApp = new msal.ConfidentialClientApplication({
+      ...state.msalConfig,
+      broker: { nativeBrokerPlugin: state.pluginConfiguration.broker.nativeBrokerPlugin },
+      cache: { cachePlugin: await cachePlugin },
+    });
+
+    confidentialApps.set(appKey, confidentialClientApp);
+
+    return confidentialClientApp;
   }
 
   async function getTokenSilent(
     app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: string[],
-    options?: GetTokenOptions,
+    options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
       const cache = app.getTokenCache();
@@ -184,12 +198,18 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       state.cachedAccount = accounts[0];
     }
 
-    // TODO: broker
+    // Keep track and reuse the claims we received across challenges
+    if (options.claims) {
+      state.cachedClaims = options.claims;
+    }
+
+    // TODO: port over changes for broker
+    // https://github.com/Azure/azure-sdk-for-js/blob/727a7208251961b5036d8e1d86edaa944c42e3d6/sdk/identity/identity/src/msal/nodeFlows/msalNodeCommon.ts#L383-L395
     msalLogger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent({
       account: state.cachedAccount,
       scopes,
-      claims: options?.claims,
+      claims: state.cachedClaims,
     });
   }
 
@@ -228,7 +248,11 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
 
     // Silent authentication failed
     if (response === null) {
-      response = await onAuthenticationRequired();
+      try {
+        response = await onAuthenticationRequired();
+      } catch (err: any) {
+        throw handleMsalError(scopes, err, options);
+      }
     }
 
     // At this point we should have a token, process it
