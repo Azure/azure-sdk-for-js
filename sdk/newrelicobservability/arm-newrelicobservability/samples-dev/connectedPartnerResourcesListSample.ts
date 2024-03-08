@@ -15,21 +15,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List NewRelicMonitorResource resources by resource group
+ * This sample demonstrates how to List of all active deployments that are associated with the marketplace subscription linked to the given monitor.
  *
- * @summary List NewRelicMonitorResource resources by resource group
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary List of all active deployments that are associated with the marketplace subscription linked to the given monitor.
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/ConnectedPartnerResources_List.json
  */
-async function monitorsListByResourceGroupMaximumSetGen() {
+async function connectedPartnerResourcesList() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
+    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listByResourceGroup(
-    resourceGroupName
+  for await (let item of client.connectedPartnerResources.list(
+    resourceGroupName,
+    monitorName,
   )) {
     resArray.push(item);
   }
@@ -37,7 +40,7 @@ async function monitorsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  monitorsListByResourceGroupMaximumSetGen();
+  connectedPartnerResourcesList();
 }
 
 main().catch(console.error);

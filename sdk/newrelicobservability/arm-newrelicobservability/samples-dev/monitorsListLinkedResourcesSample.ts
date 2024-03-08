@@ -15,22 +15,24 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List NewRelicMonitorResource resources by resource group
+ * This sample demonstrates how to List all Azure resources associated to the same NewRelic organization and account as the target resource.
  *
- * @summary List NewRelicMonitorResource resources by resource group
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary List all Azure resources associated to the same NewRelic organization and account as the target resource.
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/LinkedResources_List.json
  */
-async function monitorsListByResourceGroupMaximumSetGen() {
+async function monitorsListLinkedResources() {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
+    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.monitors.listByResourceGroup(
+  for await (let item of client.monitors.listLinkedResources(
     resourceGroupName,
+    monitorName,
   )) {
     resArray.push(item);
   }
@@ -38,7 +40,7 @@ async function monitorsListByResourceGroupMaximumSetGen() {
 }
 
 async function main() {
-  monitorsListByResourceGroupMaximumSetGen();
+  monitorsListLinkedResources();
 }
 
 main().catch(console.error);

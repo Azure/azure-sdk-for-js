@@ -15,30 +15,31 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List NewRelicMonitorResource resources by resource group
+ * This sample demonstrates how to Updates the subscriptions that are being monitored by the NewRelic monitor resource
  *
- * @summary List NewRelicMonitorResource resources by resource group
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Monitors_ListByResourceGroup_MaximumSet_Gen.json
+ * @summary Updates the subscriptions that are being monitored by the NewRelic monitor resource
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/MonitoredSubscriptions_Delete.json
  */
-async function monitorsListByResourceGroupMaximumSetGen() {
+async function monitorsDeleteMonitoredSubscriptions() {
   const subscriptionId =
     process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
     "00000000-0000-0000-0000-000000000000";
   const resourceGroupName =
-    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
+    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "myMonitor";
+  const configurationName = "default";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.monitors.listByResourceGroup(
+  const result = await client.monitoredSubscriptions.beginDeleteAndWait(
     resourceGroupName,
-  )) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+    monitorName,
+    configurationName,
+  );
+  console.log(result);
 }
 
 async function main() {
-  monitorsListByResourceGroupMaximumSetGen();
+  monitorsDeleteMonitoredSubscriptions();
 }
 
 main().catch(console.error);

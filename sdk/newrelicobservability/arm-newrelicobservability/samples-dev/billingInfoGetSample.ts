@@ -15,25 +15,26 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to List NewRelicMonitorResource resources by subscription ID
+ * This sample demonstrates how to Get marketplace info mapped to the given monitor.
  *
- * @summary List NewRelicMonitorResource resources by subscription ID
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Monitors_ListBySubscription_MaximumSet_Gen.json
+ * @summary Get marketplace info mapped to the given monitor.
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/BillingInfo_Get.json
  */
-async function monitorsListBySubscriptionMaximumSetGen() {
+async function billingInfoGet() {
   const subscriptionId =
-    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] ||
+    "00000000-0000-0000-0000-000000000000";
+  const resourceGroupName =
+    process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "myResourceGroup";
+  const monitorName = "myMonitor";
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.monitors.listBySubscription()) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.billingInfo.get(resourceGroupName, monitorName);
+  console.log(result);
 }
 
 async function main() {
-  monitorsListBySubscriptionMaximumSetGen();
+  billingInfoGet();
 }
 
 main().catch(console.error);
