@@ -29,17 +29,17 @@ az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $Dep
 az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 
 # Azure Functions app deployment
-Write-Host "Building the code for functions app"
-Push-Location "$webappRoot/AzureFunctions/RunTest"
-npm install
-npm run build
-Pop-Location
-Write-Host "starting azure functions deployment"
-Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+# Write-Host "Building the code for functions app"
+# Push-Location "$webappRoot/AzureFunctions/RunTest"
+# npm install
+# npm run build
+# Pop-Location
+# Write-Host "starting azure functions deployment"
+# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+# az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
 
-Write-Host "Deployed function app"
+# Write-Host "Deployed function app"
 # $image = "$loginServer/identity-functions-test-image"
 # docker build --no-cache -t $image "$workingFolder/AzureFunctions"
 # docker push $image

@@ -9,26 +9,26 @@ param location string = resourceGroup().location
 @description('The client OID to grant access to test resources.')
 param testApplicationOid string
 
-@minLength(5)
-@maxLength(50)
-@description('Provide a globally unique name of the Azure Container Registry')
-param acrName string = 'acr${uniqueString(resourceGroup().id)}'
+// @minLength(5)
+// @maxLength(50)
+// @description('Provide a globally unique name of the Azure Container Registry')
+// param acrName string = 'acr${uniqueString(resourceGroup().id)}'
 
-@description('The latest AKS version available in the region.')
-param latestAksVersion string
+// @description('The latest AKS version available in the region.')
+// param latestAksVersion string
 
-@description('The SSH public key to use for the Linux VMs.')
-param sshPubKey string
+// @description('The SSH public key to use for the Linux VMs.')
+// param sshPubKey string
 
-@description('The admin user name for the Linux VMs.')
-param adminUserName string = 'azureuser'
+// @description('The admin user name for the Linux VMs.')
+// param adminUserName string = 'azureuser'
 
 // See https://learn.microsoft.com/en-us/azure/role-based-access-control/built-in-roles
 var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
 
 // Cluster parameters
-var kubernetesVersion = latestAksVersion
+// var kubernetesVersion = latestAksVersion
 
 resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@2018-11-30' = {
   name: baseName
@@ -259,63 +259,63 @@ resource publishPolicyFunction 'Microsoft.Web/sites/basicPublishingCredentialsPo
   }
 }
 
-resource acrResource 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
-  name: acrName
-  location: location
-  sku: {
-    name: 'Basic'
-  }
-  properties: {
-    adminUserEnabled: true
-  }
-}
+// resource acrResource 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
+//   name: acrName
+//   location: location
+//   sku: {
+//     name: 'Basic'
+//   }
+//   properties: {
+//     adminUserEnabled: true
+//   }
+// }
 
-resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-01' = {
-  name: baseName
-  location: location
-  identity: {
-    type: 'SystemAssigned'
-  }
-  properties: {
-    kubernetesVersion: kubernetesVersion
-    enableRBAC: true
-    dnsPrefix: 'identitytest'
-    agentPoolProfiles: [
-      {
-        name: 'agentpool'
-        count: 1
-        vmSize: 'Standard_D2s_v3'
-        osDiskSizeGB: 128
-        osDiskType: 'Managed'
-        kubeletDiskType: 'OS'
-        type: 'VirtualMachineScaleSets'
-        enableAutoScaling: false
-        orchestratorVersion: kubernetesVersion
-        mode: 'System'
-        osType: 'Linux'
-        osSKU: 'Ubuntu'
-      }
-    ]
-    linuxProfile: {
-      adminUsername: adminUserName
-      ssh: {
-        publicKeys: [
-          {
-            keyData: sshPubKey
-          }
-        ]
-      }
-    }
-    oidcIssuerProfile: {
-      enabled: true
-    }
-    securityProfile: {
-      workloadIdentity: {
-        enabled: true
-      }
-    }
-  }
-}
+// resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-01' = {
+//   name: baseName
+//   location: location
+//   identity: {
+//     type: 'SystemAssigned'
+//   }
+//   properties: {
+//     kubernetesVersion: kubernetesVersion
+//     enableRBAC: true
+//     dnsPrefix: 'identitytest'
+//     agentPoolProfiles: [
+//       {
+//         name: 'agentpool'
+//         count: 1
+//         vmSize: 'Standard_D2s_v3'
+//         osDiskSizeGB: 128
+//         osDiskType: 'Managed'
+//         kubeletDiskType: 'OS'
+//         type: 'VirtualMachineScaleSets'
+//         enableAutoScaling: false
+//         orchestratorVersion: kubernetesVersion
+//         mode: 'System'
+//         osType: 'Linux'
+//         osSKU: 'Ubuntu'
+//       }
+//     ]
+//     linuxProfile: {
+//       adminUsername: adminUserName
+//       ssh: {
+//         publicKeys: [
+//           {
+//             keyData: sshPubKey
+//           }
+//         ]
+//       }
+//     }
+//     oidcIssuerProfile: {
+//       enabled: true
+//     }
+//     securityProfile: {
+//       workloadIdentity: {
+//         enabled: true
+//       }
+//     }
+//   }
+// }
 
 output IDENTITY_WEBAPP_NAME string = web.name
 output IDENTITY_WEBAPP_PLAN string = farm.name
@@ -325,7 +325,7 @@ output IDENTITY_USER_DEFINED_IDENTITY_NAME string = userAssignedIdentity.name
 output IDENTITY_STORAGE_NAME_1 string = storageAccount.name
 output IDENTITY_STORAGE_NAME_2 string = storageAccount2.name
 output IDENTITY_FUNCTION_NAME string = azureFunction.name
-output IDENTITY_AKS_CLUSTER_NAME string = kubernetesCluster.name
+// output IDENTITY_AKS_CLUSTER_NAME string = kubernetesCluster.name
 output IDENTITY_AKS_POD_NAME string = 'javascript-test-app'
-output IDENTITY_ACR_NAME string = acrResource.name
-output IDENTITY_ACR_LOGIN_SERVER string = acrResource.properties.loginServer
+// output IDENTITY_ACR_NAME string = acrResource.name
+// output IDENTITY_ACR_LOGIN_SERVER string = acrResource.properties.loginServer
