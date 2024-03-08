@@ -267,6 +267,7 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
 [Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
+[Product Information]:https://learn.microsoft.com/en-us/azure/azure-health-insights/radiology-insights/
 [Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [identity]: https://www.npmjs.com/package/@azure/identity
