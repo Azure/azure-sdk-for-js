@@ -37,7 +37,7 @@ async function putPrivateEndpointConnection() {
     resourceGroupName,
     accountName,
     privateEndpointConnectionName,
-    properties
+    properties,
   );
   console.log(result);
 }

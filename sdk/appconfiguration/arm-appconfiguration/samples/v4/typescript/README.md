@@ -75,7 +75,7 @@ node dist/configurationStoresCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env APPCONFIGURATION_SUBSCRIPTION_ID="<appconfiguration subscription id>" APPCONFIGURATION_RESOURCE_GROUP="<appconfiguration resource group>" APPCONFIGURATION_SUBSCRIPTION_ID="<appconfiguration subscription id>" APPCONFIGURATION_RESOURCE_GROUP="<appconfiguration resource group>" APPCONFIGURATION_SUBSCRIPTION_ID="<appconfiguration subscription id>" APPCONFIGURATION_RESOURCE_GROUP="<appconfiguration resource group>" node dist/configurationStoresCreateSample.js
+npx cross-env APPCONFIGURATION_SUBSCRIPTION_ID="<appconfiguration subscription id>" APPCONFIGURATION_RESOURCE_GROUP="<appconfiguration resource group>" node dist/configurationStoresCreateSample.js
 ```
 
 ## Next Steps

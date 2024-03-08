@@ -9,7 +9,6 @@ import {
 } from "@opentelemetry/sdk-metrics";
 import { InternalConfig } from "../../shared/config";
 import {
-  Histogram,
   Meter,
   ObservableGauge,
   ObservableResult,
@@ -61,8 +60,8 @@ export class LiveMetrics {
   private meterProvider: MeterProvider | undefined;
   private metricReader: PeriodicExportingMetricReader | undefined;
   private meter: Meter | undefined;
-  private requestDurationHistogram: Histogram | undefined;
-  private dependencyDurationHistogram: Histogram | undefined;
+  private requestDurationGauge: ObservableGauge | undefined;
+  private dependencyDurationGauge: ObservableGauge | undefined;
   private requestRateGauge: ObservableGauge | undefined;
   private requestFailedRateGauge: ObservableGauge | undefined;
   private dependencyRateGauge: ObservableGauge | undefined;
@@ -86,8 +85,20 @@ export class LiveMetrics {
   private totalDependencyCount = 0;
   private totalFailedDependencyCount = 0;
   private totalExceptionCount = 0;
+  private requestDuration = 0;
+  private dependencyDuration = 0;
+  private lastRequestDuration: { count: number; duration: number; time: number } = {
+    count: 0,
+    duration: 0,
+    time: 0,
+  };
   private lastRequestRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastFailedRequestRate: { count: number; time: number } = { count: 0, time: 0 };
+  private lastDependencyDuration: { count: number; duration: number; time: number } = {
+    count: 0,
+    duration: 0,
+    time: 0,
+  };
   private lastDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
@@ -219,37 +230,33 @@ export class LiveMetrics {
     this.totalFailedDependencyCount = 0;
     this.totalFailedRequestCount = 0;
     this.totalRequestCount = 0;
+    this.requestDuration = 0;
+    this.dependencyDuration = 0;
+    this.lastRequestDuration = { count: 0, duration: 0, time: 0 };
     this.lastRequestRate = { count: 0, time: 0 };
     this.lastFailedRequestRate = { count: 0, time: 0 };
+    this.lastDependencyDuration = { count: 0, duration: 0, time: 0 };
     this.lastDependencyRate = { count: 0, time: 0 };
     this.lastFailedDependencyRate = { count: 0, time: 0 };
     this.lastExceptionRate = { count: 0, time: 0 };
 
-    const meterProviderConfig: MeterProviderOptions = {
-      resource: this.config.resource,
-    };
-    this.meterProvider = new MeterProvider(meterProviderConfig);
     const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this.quickpulseExporter,
       exportIntervalMillis: options?.collectionInterval,
     };
     this.metricReader = new PeriodicExportingMetricReader(metricReaderOptions);
-    this.meterProvider.addMetricReader(this.metricReader);
+    const meterProviderConfig: MeterProviderOptions = {
+      resource: this.config.resource,
+      readers: [this.metricReader],
+    };
+    this.meterProvider = new MeterProvider(meterProviderConfig);
     this.meter = this.meterProvider.getMeter("AzureMonitorLiveMetricsMeter");
-
-    this.requestDurationHistogram = this.meter.createHistogram(
+    this.requestDurationGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION,
       {
         valueType: ValueType.DOUBLE,
       },
     );
-    this.dependencyDurationHistogram = this.meter.createHistogram(
-      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
-      {
-        valueType: ValueType.DOUBLE,
-      },
-    );
-
     this.requestRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.REQUEST_RATE,
       {
@@ -258,6 +265,12 @@ export class LiveMetrics {
     );
     this.requestFailedRateGauge = this.meter.createObservableGauge(
       QuickPulseOpenTelemetryMetricNames.REQUEST_FAILURE_RATE,
+      {
+        valueType: ValueType.DOUBLE,
+      },
+    );
+    this.dependencyDurationGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION,
       {
         valueType: ValueType.DOUBLE,
       },
@@ -295,8 +308,10 @@ export class LiveMetrics {
       },
     );
 
+    this.requestDurationGauge.addCallback(this.getRequestDuration.bind(this));
     this.requestRateGauge.addCallback(this.getRequestRate.bind(this));
     this.requestFailedRateGauge.addCallback(this.getRequestFailedRate.bind(this));
+    this.dependencyDurationGauge.addCallback(this.getDependencyDuration.bind(this));
     this.dependencyRateGauge.addCallback(this.getDependencyRate.bind(this));
     this.dependencyFailedRateGauge.addCallback(this.getDependencyFailedRate.bind(this));
     this.exceptionsRateGauge.addCallback(this.getExceptionRate.bind(this));
@@ -355,19 +370,17 @@ export class LiveMetrics {
       let success = statusCode === "200" ? true : false;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
-        if (success) {
-          this.totalRequestCount++;
-        } else {
+        this.totalRequestCount++;
+        this.requestDuration += durationMs;
+        if (!success) {
           this.totalFailedRequestCount++;
         }
-        this.requestDurationHistogram?.record(durationMs);
       } else {
-        if (success) {
-          this.totalDependencyCount++;
-        } else {
+        this.totalDependencyCount++;
+        this.dependencyDuration += durationMs;
+        if (!success) {
           this.totalFailedDependencyCount++;
         }
-        this.dependencyDurationHistogram?.record(durationMs);
       }
       if (span.events) {
         span.events.forEach((event: TimedEvent) => {
@@ -392,6 +405,22 @@ export class LiveMetrics {
         this.totalExceptionCount++;
       }
     }
+  }
+
+  private getRequestDuration(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const requestInterval = this.totalRequestCount - this.lastRequestDuration.count || 0;
+    const durationInterval = this.requestDuration - this.lastRequestDuration.duration || 0;
+    const elapsedMs = currentTime - this.lastRequestDuration.time;
+    if (elapsedMs > 0) {
+      const averageExecutionTime = durationInterval / requestInterval || 0; // default to 0 in case no requests in this interval
+      observableResult.observe(averageExecutionTime);
+    }
+    this.lastRequestDuration = {
+      count: this.totalRequestCount,
+      duration: this.requestDuration,
+      time: currentTime,
+    };
   }
 
   private getRequestRate(observableResult: ObservableResult) {
@@ -420,6 +449,22 @@ export class LiveMetrics {
     }
     this.lastFailedRequestRate = {
       count: this.totalFailedRequestCount,
+      time: currentTime,
+    };
+  }
+
+  private getDependencyDuration(observableResult: ObservableResult) {
+    const currentTime = +new Date();
+    const dependencyInterval = this.totalDependencyCount - this.lastDependencyDuration.count || 0;
+    const durationInterval = this.dependencyDuration - this.lastDependencyDuration.duration || 0;
+    const elapsedMs = currentTime - this.lastDependencyDuration.time;
+    if (elapsedMs > 0) {
+      const averageExecutionTime = durationInterval / dependencyInterval || 0; // default to 0 in case no dependencies in this interval
+      observableResult.observe(averageExecutionTime);
+    }
+    this.lastDependencyDuration = {
+      count: this.totalDependencyCount,
+      duration: this.requestDuration,
       time: currentTime,
     };
   }

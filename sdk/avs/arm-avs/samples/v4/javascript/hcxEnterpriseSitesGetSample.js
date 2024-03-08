@@ -29,7 +29,7 @@ async function hcxEnterpriseSitesGet() {
   const result = await client.hcxEnterpriseSites.get(
     resourceGroupName,
     privateCloudName,
-    hcxEnterpriseSiteName
+    hcxEnterpriseSiteName,
   );
   console.log(result);
 }
