@@ -9,29 +9,29 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "1d7bb984-e0d7-49e1-8cc2-b260c8e85f90"
+        "x-ms-client-request-id": "bd33aaa6-75ea-411e-a71d-dd564215dbc1"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "831",
+        "Content-Length": "1654",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Mar 2024 07:36:37 GMT",
+        "Date": "Thu, 07 Mar 2024 09:51:32 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "88fd74a7-2eca-49c9-a024-8e58c90b4cdf",
+        "x-ms-correlation-request-id": "b8038e14-db6e-4b74-8466-1c37e333c91b",
         "x-ms-original-request-ids": [
-          "0f7d3f90-538b-454a-bae1-0c3147ad1a62",
-          "50affb17-b03f-4295-a814-5339ae378ed3"
+          "236bdd30-1193-4db7-aa65-2e6a1c50bcf2",
+          "35166a94-64e3-4665-a52f-f9645388bfd2"
         ],
-        "x-ms-ratelimit-remaining-subscription-reads": "11998",
-        "x-ms-request-id": "88fd74a7-2eca-49c9-a024-8e58c90b4cdf",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T073638Z:88fd74a7-2eca-49c9-a024-8e58c90b4cdf",
-        "X-MSEdge-Ref": "Ref A: E3E004A8EC8148A9BC2DB50D4E9A81A5 Ref B: MAA201060516049 Ref C: 2024-03-07T07:36:36Z"
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "b8038e14-db6e-4b74-8466-1c37e333c91b",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T095132Z:b8038e14-db6e-4b74-8466-1c37e333c91b",
+        "X-MSEdge-Ref": "Ref A: 3173310AC20A4786A02C358102600AAE Ref B: MAA201060516053 Ref C: 2024-03-07T09:51:31Z"
       },
       "ResponseBody": {
         "value": [
@@ -43,13 +43,13 @@
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2024-03-07T07:31:17.9131304Z",
+              "createdAt": "2024-03-07T09:41:13.9074937Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2024-03-07T07:31:17.9131304Z"
+              "lastModifiedAt": "2024-03-07T09:41:13.9074937Z"
             },
             "identity": {
-              "principalId": "61d5d44a-447c-4863-97e4-032f5805e1c8",
+              "principalId": "7968308e-a92e-4f34-8c1a-64e5d48af9c3",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },
@@ -59,7 +59,36 @@
               "majorVersion": "1",
               "managedResourceGroupConfiguration": {
                 "location": "eastus2euap",
-                "name": "resourcetest-HostedResources-79B83FB9"
+                "name": "resourcetest-HostedResources-6E594FE6"
+              },
+              "provisioningState": "Accepted"
+            }
+          },
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest1",
+            "name": "resourcetest1",
+            "type": "microsoft.networkanalytics/dataproducts",
+            "location": "eastus2euap",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2024-03-07T09:41:21.6294118Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2024-03-07T09:41:21.6294118Z"
+            },
+            "identity": {
+              "principalId": "f1d2ca20-0334-4535-b131-f31060c143fa",
+              "tenantId": "88888888-8888-8888-8888-888888888888",
+              "type": "SystemAssigned"
+            },
+            "properties": {
+              "publisher": "Microsoft",
+              "product": "MCC",
+              "majorVersion": "1",
+              "managedResourceGroupConfiguration": {
+                "location": "eastus2euap",
+                "name": "resourcetest1-HostedResources-486EBC43"
               },
               "provisioningState": "Accepted"
             }

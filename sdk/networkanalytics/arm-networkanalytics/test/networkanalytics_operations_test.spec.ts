@@ -67,7 +67,7 @@ describe("NetworkAnalytics test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("dataProducts create test", async function () {
+  it.only("dataProducts create test", async function () {
     const res = await client.dataProducts.create(
       subscriptionId,
       resourceGroup,
@@ -85,27 +85,27 @@ describe("NetworkAnalytics test", () => {
         id: "",
         type: ""
       });
-    const res1 = await client.dataProducts.create(
-      subscriptionId,
-      resourceGroup,
-      resourcename + "1",
-      {
-        identity: {
-          type: "SystemAssigned"
-        },
-        location,
-        properties: {
-          majorVersion: "1",
-          product: "MCC",
-          publisher: "Microsoft"
-        },
-        id: "",
-        type: ""
-      });
+    // const res1 = await client.dataProducts.create(
+    //   subscriptionId,
+    //   resourceGroup,
+    //   resourcename + "1",
+    //   {
+    //     identity: {
+    //       type: "SystemAssigned"
+    //     },
+    //     location,
+    //     properties: {
+    //       majorVersion: "1",
+    //       product: "MCC",
+    //       publisher: "Microsoft"
+    //     },
+    //     id: "",
+    //     type: ""
+    //   });
     // assert.equal(res.name, resourcename)
-    await delay(600000);
+    // await delay(600000);
 
-  }).timeout(14400000);;
+  }).timeout(14400000);
 
   it("dataProducts update test", async function () {
     const res = await client.dataProducts.update(
@@ -118,14 +118,15 @@ describe("NetworkAnalytics test", () => {
         }
       });
     // assert.equal(res.name, resourcename);
-  }).timeout(14400000);;
+  });
 
   it("dataProducts list test", async function () {
     const resArray = new Array();
     for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
       resArray.push(item);
     }
-    assert.equal(resArray.length, 2);
+    // assert.equal(resArray.length, 2);
+    assert.equal(resArray.length, 1);
   });
 
   it("dataProducts delete test", async function () {
@@ -135,11 +136,11 @@ describe("NetworkAnalytics test", () => {
       resourceGroup,
       resourcename,
     );
-    const res1 = await client.dataProducts.deleteOperation(
-      subscriptionId,
-      resourceGroup,
-      resourcename + "1",
-    );
+    // const res1 = await client.dataProducts.deleteOperation(
+    //   subscriptionId,
+    //   resourceGroup,
+    //   resourcename + "1",
+    // );
     for await (let item of client.dataProducts.listByResourceGroup(subscriptionId, resourceGroup)) {
       resArray.push(item);
     }

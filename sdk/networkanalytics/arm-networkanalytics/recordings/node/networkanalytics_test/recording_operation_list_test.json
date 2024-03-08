@@ -9,7 +9,7 @@
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
         "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "0b2a9f01-b75f-488c-9d1b-e3581f30b6fc"
+        "x-ms-client-request-id": "ea6b8dd5-854e-4b26-aaf8-3c41df064457"
       },
       "RequestBody": null,
       "StatusCode": 200,
@@ -17,18 +17,18 @@
         "Cache-Control": "no-cache",
         "Content-Length": "7767",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Mar 2024 07:22:37 GMT",
+        "Date": "Thu, 07 Mar 2024 09:41:11 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "41226cfd-3470-4012-8077-525d076b8649",
+        "x-ms-correlation-request-id": "6cb74ee3-edbb-4290-8e4d-53d0a002a593",
         "x-ms-providerhub-traffic": "True",
         "x-ms-ratelimit-remaining-tenant-reads": "11999",
-        "x-ms-request-id": "a58d597c-d103-41a1-b34f-71a06e24f5d6",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T072238Z:41226cfd-3470-4012-8077-525d076b8649",
-        "X-MSEdge-Ref": "Ref A: 7740C60D64984D96AF125E19A9A5EE64 Ref B: MAA201060516017 Ref C: 2024-03-07T07:22:37Z"
+        "x-ms-request-id": "8078d158-df60-4bde-9f0f-1abcdb33420e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T094112Z:6cb74ee3-edbb-4290-8e4d-53d0a002a593",
+        "X-MSEdge-Ref": "Ref A: EA6964D7F011461893AA4E769A72FC28 Ref B: MAA201060515037 Ref C: 2024-03-07T09:41:11Z"
       },
       "ResponseBody": {
         "value": [
