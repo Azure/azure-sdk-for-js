@@ -10,6 +10,7 @@ import {
 } from "../../../src/msal/nodeFlows/msalPlugins";
 
 import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
+import Sinon from "sinon";
 import { assert } from "@azure/test-utils";
 
 describe("#generatePluginConfiguration", function () {
@@ -46,14 +47,10 @@ describe("#generatePluginConfiguration", function () {
 
     it("configures the cache plugin correctly", async function () {
       options.tokenCachePersistenceOptions = { enabled: true };
-      // TODO: use stub
-      const cachePlugin: ICachePlugin = {
-        afterCacheAccess: async () => {
-          // no-op
-        },
-        beforeCacheAccess: async () => {
-          // no-op
-        },
+
+      const cachePlugin = {
+        afterCacheAccess: Sinon.stub(),
+        beforeCacheAccess: Sinon.stub(),
       };
       const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePlugin);
       msalNodeFlowCacheControl.setPersistence(pluginProvider);
@@ -61,6 +58,21 @@ describe("#generatePluginConfiguration", function () {
       assert.exists(result.cache.cachePlugin);
       const plugin = await result.cache.cachePlugin;
       assert.strictEqual(plugin, cachePlugin);
+    });
+
+    it("configures the CAE cache plugin correctly", async function () {
+      options.tokenCachePersistenceOptions = { enabled: true };
+
+      const cachePluginCae = {
+        afterCacheAccess: Sinon.stub(),
+        beforeCacheAccess: Sinon.stub(),
+      };
+      const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePluginCae);
+      msalNodeFlowCacheControl.setPersistence(pluginProvider);
+      const result = generatePluginConfiguration(options);
+      assert.exists(result.cache.cachePluginCae);
+      const plugin = await result.cache.cachePluginCae;
+      assert.strictEqual(plugin, cachePluginCae);
     });
   });
 
