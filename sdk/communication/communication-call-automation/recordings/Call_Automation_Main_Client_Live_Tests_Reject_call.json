@@ -22,24 +22,24 @@
   [
     {
       "id": "sanitized",
-      "source": "calling/callConnections/421f0b00-beb8-4623-919f-6b40efa12b09",
+      "source": "calling/callConnections/411f0b00-c0f2-4c93-abb2-aa974347027f",
       "type": "Microsoft.Communication.CreateCallFailed",
       "data": {
-        "eventSource": "calling/callConnections/421f0b00-beb8-4623-919f-6b40efa12b09",
+        "eventSource": "calling/callConnections/411f0b00-c0f2-4c93-abb2-aa974347027f",
         "resultInformation": {
           "code": 603,
           "subCode": 0,
           "message": "Decline. DiagCode: 603#0.@"
         },
         "version": "2023-10-03-preview",
-        "callConnectionId": "421f0b00-beb8-4623-919f-6b40efa12b09",
+        "callConnectionId": "411f0b00-c0f2-4c93-abb2-aa974347027f",
         "correlationId": "sanitized",
         "publicEventType": "Microsoft.Communication.CreateCallFailed"
       },
-      "time": "2024-03-08T06:56:00.4125059+00:00",
+      "time": "2024-03-08T21:31:47.4039737+00:00",
       "specversion": "1.0",
       "datacontenttype": "application/json",
-      "subject": "calling/callConnections/421f0b00-beb8-4623-919f-6b40efa12b09"
+      "subject": "calling/callConnections/411f0b00-c0f2-4c93-abb2-aa974347027f"
     }
   ]
 ]
