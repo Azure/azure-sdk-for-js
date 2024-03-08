@@ -18,10 +18,7 @@ import {
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
-  PhoneNumberOffering,
-  PhoneNumberSearchResult,
   PhoneNumbersOperatorInformationSearchOptionalParams,
-  PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
@@ -31,7 +28,10 @@ import {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
+  PhoneNumberOffering,
+  PhoneNumberSearchResult,
   PurchasePhoneNumbersResult,
+  PurchasedPhoneNumber,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
@@ -46,6 +46,7 @@ import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
 import { CommonClientOptions } from "@azure/core-client";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
+import { Helpers } from './utils/helpers';
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.
@@ -147,10 +148,11 @@ export class PhoneNumbersClient {
       (updatedOptions) => {
         return this.client.phoneNumbers.getByNumber(phoneNumber, {
           ...updatedOptions,
-        });
+        }).then((result) => {
+          return Helpers.getPurchasePhoneNumber(result);
       },
     );
-  }
+  })};
 
   /**
    * Iterates the purchased phone numbers.
@@ -173,21 +175,21 @@ export class PhoneNumbersClient {
       options,
     );
 
-    try {
-      return this.client.phoneNumbers.listPhoneNumbers({
-        ...updatedOptions,
-      });
-    } catch (e: any) {
-      span.setStatus({
-        status: "error",
-        error: e,
-      });
+      try {
+        return this.client.phoneNumbers.listPhoneNumbers({
+          ...updatedOptions,
+        })
+      } catch (e: any) {
+        span.setStatus({
+          status: "error",
+          error: e,
+        });
 
-      throw e;
-    } finally {
-      span.end();
+        throw e;
+      } finally {
+        span.end();
+      }
     }
-  }
 
   /**
    * Starts the release of a purchased phone number.
