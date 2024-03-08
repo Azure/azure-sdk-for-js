@@ -18,7 +18,10 @@ import {
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
+  PhoneNumberOffering,
+  PhoneNumberSearchResult,
   PhoneNumbersOperatorInformationSearchOptionalParams,
+  PurchasedPhoneNumber,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
@@ -28,10 +31,7 @@ import {
   ListOfferingsOptions,
   ListPurchasedPhoneNumbersOptions,
   ListTollFreeAreaCodesOptions,
-  PhoneNumberOffering,
-  PhoneNumberSearchResult,
   PurchasePhoneNumbersResult,
-  PurchasedPhoneNumber,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
@@ -172,21 +172,21 @@ export class PhoneNumbersClient {
       options,
     );
 
-      try {
-        return this.client.phoneNumbers.listPhoneNumbers({
-          ...updatedOptions,
-        })
-      } catch (e: any) {
-        span.setStatus({
-          status: "error",
-          error: e,
-        });
+    try {
+      return this.client.phoneNumbers.listPhoneNumbers({
+        ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
 
-        throw e;
-      } finally {
-        span.end();
-      }
+      throw e;
+    } finally {
+      span.end();
     }
+  }
 
   /**
    * Starts the release of a purchased phone number.

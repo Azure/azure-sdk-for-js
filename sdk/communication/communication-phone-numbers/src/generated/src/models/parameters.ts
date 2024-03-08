@@ -271,7 +271,7 @@ export const top: OperationQueryParameter = {
 
 export const phoneNumbers: OperationParameter = {
   parameterPath: ["options", "phoneNumbers"],
-  mapper: OperatorInformationRequestMapper,
+  mapper: OperatorInformationRequestMapper
 };
 
 export const nextLink: OperationURLParameter = {
