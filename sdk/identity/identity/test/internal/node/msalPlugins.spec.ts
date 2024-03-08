@@ -4,9 +4,9 @@
 import { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
 import {
   PluginConfiguration,
-  generatePluginConfiguration,
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
+  msalPlugins,
 } from "../../../src/msal/nodeFlows/msalPlugins";
 
 import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
@@ -21,7 +21,7 @@ describe("#generatePluginConfiguration", function () {
   });
 
   it("returns a PluginConfiguration with default values", function () {
-    const result = generatePluginConfiguration(options);
+    const result = msalPlugins.generatePluginConfiguration(options);
     const expected: PluginConfiguration = {
       cache: {},
       broker: {
@@ -40,7 +40,7 @@ describe("#generatePluginConfiguration", function () {
     it("should throw an error if persistence provider is not configured", () => {
       options.tokenCachePersistenceOptions = { enabled: true };
       assert.throws(
-        () => generatePluginConfiguration(options),
+        () => msalPlugins.generatePluginConfiguration(options),
         /Persistent token caching was requested/,
       );
     });
@@ -54,7 +54,7 @@ describe("#generatePluginConfiguration", function () {
       };
       const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePlugin);
       msalNodeFlowCacheControl.setPersistence(pluginProvider);
-      const result = generatePluginConfiguration(options);
+      const result = msalPlugins.generatePluginConfiguration(options);
       assert.exists(result.cache.cachePlugin);
       const plugin = await result.cache.cachePlugin;
       assert.strictEqual(plugin, cachePlugin);
@@ -69,7 +69,7 @@ describe("#generatePluginConfiguration", function () {
       };
       const pluginProvider: () => Promise<ICachePlugin> = () => Promise.resolve(cachePluginCae);
       msalNodeFlowCacheControl.setPersistence(pluginProvider);
-      const result = generatePluginConfiguration(options);
+      const result = msalPlugins.generatePluginConfiguration(options);
       assert.exists(result.cache.cachePluginCae);
       const plugin = await result.cache.cachePluginCae;
       assert.strictEqual(plugin, cachePluginCae);
@@ -86,7 +86,7 @@ describe("#generatePluginConfiguration", function () {
     it("throws an error if native broker is not configured", () => {
       options.brokerOptions = { enabled: true, parentWindowHandle };
       assert.throws(
-        () => generatePluginConfiguration(options),
+        () => msalPlugins.generatePluginConfiguration(options),
         /Broker for WAM was requested to be enabled/,
       );
     });
@@ -100,7 +100,7 @@ describe("#generatePluginConfiguration", function () {
       const nativeBrokerPlugin: INativeBrokerPlugin = {} as INativeBrokerPlugin;
       msalNodeFlowNativeBrokerControl.setNativeBroker(nativeBrokerPlugin);
 
-      const result = generatePluginConfiguration(options);
+      const result = msalPlugins.generatePluginConfiguration(options);
       assert.strictEqual(result.broker.nativeBrokerPlugin, nativeBrokerPlugin);
       assert.strictEqual(result.broker.enableMsaPassthrough, true);
       assert.strictEqual(result.broker.parentWindowHandle, parentWindowHandle);
