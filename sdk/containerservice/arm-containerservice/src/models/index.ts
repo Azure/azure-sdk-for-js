@@ -233,6 +233,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -1251,6 +1253,14 @@ export interface ManagedClusterNodeProvisioningProfile {
   mode?: NodeProvisioningMode;
 }
 
+/** The bootstrap profile. */
+export interface ManagedClusterBootstrapProfile {
+  /** The source where the artifacts are downloaded from. */
+  artifactSource?: ArtifactSource;
+  /** The resource Id of Azure Container Registry. The registry must have private network access, premium SKU and zone redundancy. */
+  containerRegistryId?: string;
+}
+
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
   /**
@@ -2130,6 +2140,8 @@ export interface AgentPool extends SubResource {
   vnetSubnetID?: string;
   /** If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more details). This is of the form: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName} */
   podSubnetID?: string;
+  /** The IP allocation mode for pods in the agent pool. Must be used with podSubnetId. The default is 'DynamicIndividual'. */
+  podIPAllocationMode?: PodIPAllocationMode;
   /** The maximum number of pods that can run on a node. */
   maxPods?: number;
   /** The operating system type. The default is Linux. */
@@ -2365,6 +2377,8 @@ export interface ManagedCluster extends TrackedResource {
   aiToolchainOperatorProfile?: ManagedClusterAIToolchainOperatorProfile;
   /** Node provisioning settings that apply to the whole cluster. */
   nodeProvisioningProfile?: ManagedClusterNodeProvisioningProfile;
+  /** Profile of the cluster bootstrap configuration. */
+  bootstrapProfile?: ManagedClusterBootstrapProfile;
 }
 
 /** Managed cluster Access Profile. */
@@ -2673,6 +2687,24 @@ export enum KnownWorkloadRuntime {
  * **KataMshvVmIsolation**: Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series.
  */
 export type WorkloadRuntime = string;
+
+/** Known values of {@link PodIPAllocationMode} that the service accepts. */
+export enum KnownPodIPAllocationMode {
+  /** Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode */
+  DynamicIndividual = "DynamicIndividual",
+  /** Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger */
+  StaticBlock = "StaticBlock",
+}
+
+/**
+ * Defines values for PodIPAllocationMode. \
+ * {@link KnownPodIPAllocationMode} can be used interchangeably with PodIPAllocationMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DynamicIndividual**: Each pod gets a single IP address assigned. This is better for maximizing a small to medium subnet of size \/16 or smaller. The Azure CNI cluster with dynamic IP allocation defaults to this mode if the customer does not explicitly specify a podIPAllocationMode \
+ * **StaticBlock**: Each node is statically allocated CIDR block(s) of size \/28 = 16 IPs per block to satisfy the maxPods per node. Number of CIDR blocks >= (maxPods \/ 16). The block, rather than a single IP, counts against the Azure Vnet Private IP limit of 65K. Therefore block mode is suitable for running larger workloads with more than the current limit of 65K pods in a cluster. This mode is better suited to scale with larger subnets of \/15 or bigger
+ */
+export type PodIPAllocationMode = string;
 
 /** Known values of {@link OSType} that the service accepts. */
 export enum KnownOSType {
@@ -3363,6 +3395,24 @@ export enum KnownNodeProvisioningMode {
  * **Auto**: Nodes are provisioned automatically by AKS using Karpenter. Fixed size Node Pools can still be created, but autoscaling Node Pools cannot be. (See aka.ms\/aks\/nap for more details).
  */
 export type NodeProvisioningMode = string;
+
+/** Known values of {@link ArtifactSource} that the service accepts. */
+export enum KnownArtifactSource {
+  /** pull images from Azure Container Registry with cache */
+  Cache = "Cache",
+  /** pull images from Microsoft Artifact Registry */
+  Direct = "Direct",
+}
+
+/**
+ * Defines values for ArtifactSource. \
+ * {@link KnownArtifactSource} can be used interchangeably with ArtifactSource,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Cache**: pull images from Azure Container Registry with cache \
+ * **Direct**: pull images from Microsoft Artifact Registry
+ */
+export type ArtifactSource = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
