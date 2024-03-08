@@ -11,8 +11,6 @@ import {
   CallDialogStartDialogOptionalParams,
   CallDialogStartDialogResponse,
   CallDialogStopDialogOptionalParams,
-  UpdateDialogRequest,
-  CallDialogUpdateDialogOptionalParams,
 } from "../models";
 
 /** Interface representing a CallDialog. */
@@ -40,18 +38,5 @@ export interface CallDialog {
     callConnectionId: string,
     dialogId: string,
     options?: CallDialogStopDialogOptionalParams,
-  ): Promise<void>;
-  /**
-   * Update a dialog.
-   * @param callConnectionId The call connection id
-   * @param dialogId The dialog id
-   * @param updateDialogRequest The update dialog request
-   * @param options The options parameters.
-   */
-  updateDialog(
-    callConnectionId: string,
-    dialogId: string,
-    updateDialogRequest: UpdateDialogRequest,
-    options?: CallDialogUpdateDialogOptionalParams,
   ): Promise<void>;
 }

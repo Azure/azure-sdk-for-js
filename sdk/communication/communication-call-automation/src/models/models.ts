@@ -13,13 +13,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
   TranscriptionConfiguration,
   TranscriptionTransportType,
   RecognitionType,
@@ -51,8 +44,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** SubscriptionId for media streaming */
-  mediaSubscriptionId?: string;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */

@@ -16,7 +16,6 @@ import {
   ParticipantsUpdated,
   RecordingStateChanged,
   TeamsComplianceRecordingStateChanged,
-  TeamsRecordingStateChanged,
   PlayCompleted,
   PlayFailed,
   PlayCanceled,
@@ -99,9 +98,6 @@ export function parseCallAutomationEvent(
       callbackEvent = {
         kind: "TeamsComplianceRecordingStateChanged",
       } as TeamsComplianceRecordingStateChanged;
-      break;
-    case "Microsoft.Communication.TeamsRecordingStateChanged":
-      callbackEvent = { kind: "TeamsRecordingStateChanged" } as TeamsRecordingStateChanged;
       break;
     case "Microsoft.Communication.PlayCompleted":
       callbackEvent = { kind: "PlayCompleted" } as PlayCompleted;

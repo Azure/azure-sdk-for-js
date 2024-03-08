@@ -60,7 +60,6 @@ export class CallRecording {
     startCallRecordingRequest.recordingContentType = options.recordingContent;
     startCallRecordingRequest.recordingFormatType = options.recordingFormat;
     startCallRecordingRequest.recordingStateCallbackUri = options.recordingStateCallbackEndpointUrl;
-    startCallRecordingRequest.pauseOnStart = options.pauseOnStart;
 
     if (options.channelAffinity) {
       startCallRecordingRequest.channelAffinity = [];
