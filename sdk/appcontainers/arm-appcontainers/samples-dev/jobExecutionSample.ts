@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get details of a single job execution
  *
  * @summary Get details of a single job execution
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Execution_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Execution_Get.json
  */
 async function getASingleJobExecution() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getASingleJobExecution() {
   const result = await client.jobExecution(
     resourceGroupName,
     jobName,
-    jobExecutionName
+    jobExecutionName,
   );
   console.log(result);
 }

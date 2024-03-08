@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a Container App.
  *
  * @summary Get the properties of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_Get.json
  */
 async function getContainerApp() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getContainerApp() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.get(
     resourceGroupName,
-    containerAppName
+    containerAppName,
   );
   console.log(result);
 }

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Stop a container app
  *
  * @summary Stop a container app
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_Stop.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_Stop.json
  */
 async function stopContainerApp() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function stopContainerApp() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.beginStopAndWait(
     resourceGroupName,
-    containerAppName
+    containerAppName,
   );
   console.log(result);
 }

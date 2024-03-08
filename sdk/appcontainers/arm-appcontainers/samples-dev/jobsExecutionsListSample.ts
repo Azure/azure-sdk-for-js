@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Container Apps Job's executions
  *
  * @summary Get a Container Apps Job's executions
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Executions_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Executions_Get.json
  */
 async function getAContainerAppsJobExecutions() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getAContainerAppsJobExecutions() {
   const resArray = new Array();
   for await (let item of client.jobsExecutions.list(
     resourceGroupName,
-    jobName
+    jobName,
   )) {
     resArray.push(item);
   }

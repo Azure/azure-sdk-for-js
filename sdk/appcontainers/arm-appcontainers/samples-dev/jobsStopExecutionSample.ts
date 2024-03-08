@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Terminates execution of a running container apps job
  *
  * @summary Terminates execution of a running container apps job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Stop_Execution.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Stop_Execution.json
  */
 async function terminateAContainerAppsJob() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function terminateAContainerAppsJob() {
   const result = await client.jobs.beginStopExecutionAndWait(
     resourceGroupName,
     jobName,
-    jobExecutionName
+    jobExecutionName,
   );
   console.log(result);
 }

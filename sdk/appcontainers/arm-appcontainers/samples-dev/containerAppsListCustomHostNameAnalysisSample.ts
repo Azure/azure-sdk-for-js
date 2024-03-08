@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ContainerAppsListCustomHostNameAnalysisOptionalParams,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Analyzes a custom hostname for a Container App
  *
  * @summary Analyzes a custom hostname for a Container App
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_ListCustomHostNameAnalysis.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_ListCustomHostNameAnalysis.json
  */
 async function analyzeCustomHostname() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function analyzeCustomHostname() {
   const containerAppName = "testcontainerApp0";
   const customHostname = "my.name.corp";
   const options: ContainerAppsListCustomHostNameAnalysisOptionalParams = {
-    customHostname
+    customHostname,
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.listCustomHostNameAnalysis(
     resourceGroupName,
     containerAppName,
-    options
+    options,
   );
   console.log(result);
 }

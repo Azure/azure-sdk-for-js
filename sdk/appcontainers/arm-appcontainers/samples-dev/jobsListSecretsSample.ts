@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List secrets for a container apps job
  *
  * @summary List secrets for a container apps job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_ListSecrets.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_ListSecrets.json
  */
 async function listContainerAppsJobSecrets() {
   const subscriptionId =

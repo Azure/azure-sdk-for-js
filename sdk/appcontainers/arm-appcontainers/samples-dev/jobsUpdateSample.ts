@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   JobPatchProperties,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches a Container Apps Job using JSON Merge Patch
  *
  * @summary Patches a Container Apps Job using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Patch.json
  */
 async function patchContainerAppsJob() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function patchContainerAppsJob() {
         manualTriggerConfig: { parallelism: 4, replicaCompletionCount: 1 },
         replicaRetryLimit: 10,
         replicaTimeout: 10,
-        triggerType: "Manual"
+        triggerType: "Manual",
       },
       template: {
         containers: [
@@ -48,13 +48,13 @@ async function patchContainerAppsJob() {
                 httpGet: {
                   path: "/health",
                   httpHeaders: [{ name: "Custom-Header", value: "Awesome" }],
-                  port: 8080
+                  port: 8080,
                 },
                 initialDelaySeconds: 3,
-                periodSeconds: 3
-              }
-            ]
-          }
+                periodSeconds: 3,
+              },
+            ],
+          },
         ],
         initContainers: [
           {
@@ -62,18 +62,18 @@ async function patchContainerAppsJob() {
             args: ["-c", "while true; do echo hello; sleep 10;done"],
             command: ["/bin/sh"],
             image: "repo/testcontainerAppsJob0:v4",
-            resources: { cpu: 0.2, memory: "100Mi" }
-          }
-        ]
-      }
-    }
+            resources: { cpu: 0.2, memory: "100Mi" },
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.jobs.beginUpdateAndWait(
     resourceGroupName,
     jobName,
-    jobEnvelope
+    jobEnvelope,
   );
   console.log(result);
 }

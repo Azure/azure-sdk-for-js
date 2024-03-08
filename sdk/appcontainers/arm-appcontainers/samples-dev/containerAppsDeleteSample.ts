@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a Container App.
  *
  * @summary Delete a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/ContainerApps_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_Delete.json
  */
 async function deleteContainerApp() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function deleteContainerApp() {
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerApps.beginDeleteAndWait(
     resourceGroupName,
-    containerAppName
+    containerAppName,
   );
   console.log(result);
 }

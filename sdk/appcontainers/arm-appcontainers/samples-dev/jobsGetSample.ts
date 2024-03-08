@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the properties of a Container Apps Job.
  *
  * @summary Get the properties of a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Get.json
  */
 async function getContainerAppsJob() {
   const subscriptionId =

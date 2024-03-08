@@ -11,7 +11,7 @@
 import {
   JobExecutionTemplate,
   JobsStartOptionalParams,
-  ContainerAppsAPIClient
+  ContainerAppsAPIClient,
 } from "@azure/arm-appcontainers";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Start a Container Apps Job
  *
  * @summary Start a Container Apps Job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2023-05-01/examples/Job_Start.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Start.json
  */
 async function runAContainerAppsJob() {
   const subscriptionId =
@@ -35,8 +35,8 @@ async function runAContainerAppsJob() {
       {
         name: "testcontainerAppsJob0",
         image: "repo/testcontainerAppsJob0:v4",
-        resources: { cpu: 0.2, memory: "100Mi" }
-      }
+        resources: { cpu: 0.2, memory: "100Mi" },
+      },
     ],
     initContainers: [
       {
@@ -44,9 +44,9 @@ async function runAContainerAppsJob() {
         args: ["-c", "while true; do echo hello; sleep 10;done"],
         command: ["/bin/sh"],
         image: "repo/testcontainerAppsJob0:v4",
-        resources: { cpu: 0.2, memory: "100Mi" }
-      }
-    ]
+        resources: { cpu: 0.2, memory: "100Mi" },
+      },
+    ],
   };
   const options: JobsStartOptionalParams = { template };
   const credential = new DefaultAzureCredential();
@@ -54,7 +54,7 @@ async function runAContainerAppsJob() {
   const result = await client.jobs.beginStartAndWait(
     resourceGroupName,
     jobName,
-    options
+    options,
   );
   console.log(result);
 }
