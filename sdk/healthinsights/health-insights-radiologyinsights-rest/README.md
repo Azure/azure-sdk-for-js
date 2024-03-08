@@ -8,8 +8,6 @@
 
 Key links:
 
-Key links:
-
 - [Source code]
 - [Package (NPM)]
 - [API reference documentation]
