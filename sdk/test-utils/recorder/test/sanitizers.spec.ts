@@ -179,8 +179,9 @@ import { env } from "../src/index.js";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -339,8 +340,9 @@ import { env } from "../src/index.js";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
-          }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${
+          isPlaybackMode() ? fakeSecretValue : secretValue
+        }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
