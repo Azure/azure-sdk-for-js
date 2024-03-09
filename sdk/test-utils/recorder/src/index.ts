@@ -19,7 +19,7 @@ export {
   ConnectionStringSanitizer,
   RemoveHeaderSanitizer,
 } from "./utils/utils.js";
-export { env } from "./utils/env.js";
 export { delay } from "./utils/delay.js";
+export { env } from "./utils/env.js";
 export { CustomMatcherOptions } from "./matcher.js";
 export { TestInfo, MochaTest, VitestTestContext } from "./testInfo.js";

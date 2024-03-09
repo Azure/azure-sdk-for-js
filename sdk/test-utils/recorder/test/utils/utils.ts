@@ -3,9 +3,9 @@
 
 import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
 import { expect } from "chai";
-import { env } from "../../src/index.js";
 import { isLiveMode, TestMode } from "../../src/utils/utils.js";
 import { ServiceClient } from "@azure/core-client";
+import { env } from "../../src/utils/env.js";
 
 export const setTestMode = (mode: TestMode): TestMode => {
   env.TEST_MODE = mode;

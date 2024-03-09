@@ -1,5 +1,15 @@
 # Release History
 
+## 3.2.0 (Unreleased)
+
+// TODO: make this 4.0.0 instead to avoid any breaking changes w.r.t environment variables.
+
+### Features Added
+
+- Adds support for vitest
+
+### Breaking Changes
+
 ## 3.1.0 (Unreleased)
 
 ### Features Added

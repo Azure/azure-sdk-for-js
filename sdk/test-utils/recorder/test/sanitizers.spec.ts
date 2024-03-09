@@ -2,11 +2,12 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { env, isPlaybackMode, Recorder } from "../src/index.js";
+import { isPlaybackMode, Recorder } from "../src/index.js";
 import { TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
 import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
+import { env } from "../src/index.js";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -178,9 +179,8 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {
@@ -339,9 +339,8 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
             ],
           },
         });
-        const reqBody = `non_secret=i'm_no_secret&SECRET=${
-          isPlaybackMode() ? fakeSecretValue : secretValue
-        }&random=random`;
+        const reqBody = `non_secret=i'm_no_secret&SECRET=${isPlaybackMode() ? fakeSecretValue : secretValue
+          }&random=random`;
         await makeRequestAndVerifyResponse(
           client,
           {

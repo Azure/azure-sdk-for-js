@@ -6,9 +6,7 @@
     "../src/**/*.tsx"
   ],
   "exclude": [
-    ".././src/utils/encoding-browser.mts",
-    ".././src/utils/env-browser.mts",
-    ".././src/utils/relativePathCalculator-browser.mts"
+    ".././src/utils/encoding-browser.mts"
   ],
   "compilerOptions": {
     "outDir": "../.tshy-build/react-native"

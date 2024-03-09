@@ -4,13 +4,13 @@
 import { HttpClient } from "@azure/core-rest-pipeline";
 import { logger } from "../log.js";
 import { addSanitizers } from "../sanitizer.js";
-import { env } from "./env.js";
 import {
   isPlaybackMode,
   isRecordMode,
   setEnvironmentVariables,
   FindReplaceSanitizer,
 } from "./utils.js";
+import { env } from "./env.js";
 
 /**
  * Supposed to be used in record and playback modes.

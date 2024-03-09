@@ -9,6 +9,7 @@ import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js"
 import { isLiveMode, TestMode } from "../src/utils/utils.js";
 import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
+import { env } from "../src/index.js";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -32,6 +33,8 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
     });
 
     it("sample_response", async () => {
+      console.log(env.AZURE_APP_TITLE)
+      console.log("vite.. ", env.VITE_APP_TITLE)
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
@@ -283,9 +286,8 @@ import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${
-                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-              }`,
+              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+                }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
