@@ -23,7 +23,7 @@ export default function createClient(
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
- * @param endpoint - The endpoint of your Communication Services resource.
+ * @param endpoint - Uri of your Communication resource
  * @param credentialOrOptions The key or token credential.
  * @param options - the parameter for all optional parameters
  */
@@ -57,9 +57,8 @@ export default function createClient(
   // Rest of the function remains the same, using connectionStringOrUrl or endpoint as needed
   const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
   const baseUrl = options?.baseUrl ?? `${url}`;
-  options.apiVersion = options?.apiVersion ?? "2023-11-01";
-
-  const userAgentInfo = "azsdk-js-communication-job-router-rest/1.0.1";
+  options.apiVersion = options.apiVersion ?? "2024-01-18-preview";
+  const userAgentInfo = `azsdk-js-communication-job-router-rest/1.1.0-beta.1`;
   const userAgentPrefix =
     options?.userAgentOptions && options?.userAgentOptions.userAgentPrefix
       ? `${options?.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

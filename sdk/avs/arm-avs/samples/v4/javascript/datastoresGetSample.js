@@ -31,7 +31,7 @@ async function datastoresGet() {
     resourceGroupName,
     privateCloudName,
     clusterName,
-    datastoreName
+    datastoreName,
   );
   console.log(result);
 }

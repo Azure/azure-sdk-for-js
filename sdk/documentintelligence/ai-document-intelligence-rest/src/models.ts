@@ -22,7 +22,7 @@ export interface ClassifierDocumentTypeDetails {
   /**
    * Type of training data source.
    *
-   * Possible values: url, base64, azureBlob, azureBlobFileList
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
   sourceKind?: string;
   /**
@@ -59,7 +59,7 @@ export interface BuildDocumentModelRequest {
   /**
    * Custom document model build mode.
    *
-   * Possible values: template, neural
+   * Possible values: "template", "neural"
    */
   buildMode: string;
   /**
@@ -132,6 +132,8 @@ export interface BuildDocumentClassifierRequest {
   classifierId: string;
   /** Document classifier description. */
   description?: string;
+  /** Base classifierId on top of which to train the classifier. */
+  baseClassifierId?: string;
   /** List of document types to classify against. */
   docTypes: Record<string, ClassifierDocumentTypeDetails>;
 }
