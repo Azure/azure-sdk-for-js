@@ -26,7 +26,7 @@
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-tsx-ts --no-test-proxy=true -- --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
-    "unit-test:node:debug": "dev-tool run test:node-tsx-js --no-test-proxy=true -- --inspect-brk --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
+    "unit-test:node:debug": "dev-tool run test:node-js-input --no-test-proxy=true -- --inspect-brk --timeout 1200000 \"test/internal/unit/**/*.test.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-ts-input --no-test-proxy=true -- \"test/internal/functional/**/*.test.ts\"",
