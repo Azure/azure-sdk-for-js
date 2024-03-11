@@ -51,7 +51,7 @@ export type UpdateAssistantParameters = UpdateAssistantBodyParam &
 export type DeleteAssistantParameters = RequestParameters;
 
 export interface CreateAssistantFileBodyParam {
-  body?: { file_id: file_id };
+  body?: { file_id: string };
 }
 
 export type CreateAssistantFileParameters = CreateAssistantFileBodyParam &
@@ -247,7 +247,16 @@ export interface ListFilesQueryParam {
 export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
 export interface UploadFileBodyParam {
-  body?: { file: string; purpose: string; filename?: string };
+  body?: {
+    file:
+      | string
+      | Uint8Array
+      | ReadableStream<Uint8Array>
+      | NodeJS.ReadableStream
+      | File;
+    purpose: string;
+    filename?: string;
+  };
 }
 
 export interface UploadFileMediaTypesParam {

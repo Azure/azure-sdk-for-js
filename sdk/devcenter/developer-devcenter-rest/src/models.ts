@@ -23,7 +23,7 @@ export interface DevBox {
   /**
    * Indicates whether the owner of the Dev Box is a local administrator.
    *
-   * Possible values: Enabled, Disabled
+   * Possible values: "Enabled", "Disabled"
    */
   localAdministrator?: string;
 }

@@ -1,38 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  TokenCredential,
-  isTokenCredential,
-  KeyCredential,
-  isKeyCredential,
-} from "@azure/core-auth";
-import { ClientOptions } from "@azure-rest/core-client";
-import { parseClientArguments, createCommunicationAuthPolicy } from "@azure/communication-common";
-import { MessagesServiceClient } from "./generated/src/clientDefinitions";
-import GeneratedAzureCommunicationMessageServiceClient from "./generated/src/messagesServiceClient";
-
-/**
- * Initialize a new instance of `MessagesServiceClient`
- * @param connectionString - The connectionString or url of your Communication Services resource.
- * @param options - the parameter for all optional parameters
- */
-export default function createClient(
-  connectionString: string,
-  options?: ClientOptions,
-): MessagesServiceClient;
-
-/**
- * Initialize a new instance of `MessagesServiceClient`
- * @param endpoint - The endpoint of your Communication Services resource.
- * @param credential - The key or token credential.
- * @param options - the parameter for all optional parameters
- */
-export default function createClient(
-  endpoint: string,
-  credential: KeyCredential | TokenCredential,
-  options?: ClientOptions,
-): MessagesServiceClient;
+import { getClient, ClientOptions } from "@azure-rest/core-client";
+import { logger } from "./logger";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { MessagesServiceClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of `MessagesServiceClient`
@@ -41,24 +13,39 @@ export default function createClient(
  * @param options - the parameter for all optional parameters
  */
 export default function createClient(
-  endpointOrConnectionString: string,
-  credentialOrOptions?: ClientOptions | (TokenCredential | KeyCredential),
-  options?: ClientOptions,
+  endpoint: string,
+  credentials: TokenCredential | KeyCredential,
+  options: ClientOptions = {},
 ): MessagesServiceClient {
-  if (!(isTokenCredential(credentialOrOptions) || isKeyCredential(credentialOrOptions))) {
-    options = credentialOrOptions as ClientOptions;
-  }
+  const baseUrl = options.baseUrl ?? `${endpoint}`;
+  options.apiVersion = options.apiVersion ?? "2024-02-01";
+  const userAgentInfo = `azsdk-js-communication-messages-rest/1.0.0-beta.2`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
+    ...options,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? [
+        "https://communication.azure.com/.default",
+      ],
+      apiKeyHeaderName:
+        options.credentials?.apiKeyHeaderName ?? "Authorization",
+    },
+  };
 
-  if (options === undefined) {
-    options = {};
-  }
-
-  const { url, credential } = parseClientArguments(endpointOrConnectionString, credentialOrOptions);
-  const baseUrl = options.baseUrl ?? `${url}`;
-
-  const client = GeneratedAzureCommunicationMessageServiceClient(baseUrl, credential, options);
-  const authPolicy = createCommunicationAuthPolicy(credential);
-  client.pipeline.addPolicy(authPolicy);
+  const client = getClient(
+    baseUrl,
+    credentials,
+    options,
+  ) as MessagesServiceClient;
 
   return client;
 }

@@ -12,7 +12,9 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Gets the status and details of the Radiology Insights job. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
 }
 
 export interface CreateJob {
