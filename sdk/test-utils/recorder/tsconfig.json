@@ -10,7 +10,6 @@
     "./src/**/*.ts",
     "./test/**/*.ts",
     "src/utils/encoding-browser.mts",
-    "src/utils/relativePathCalculator-browser.mts",
-    "src/utils/env-browser.mts"
+    "src/utils/relativePathCalculator-browser.mts"
   ]
 }
