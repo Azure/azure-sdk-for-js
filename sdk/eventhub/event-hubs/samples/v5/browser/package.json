@@ -7,7 +7,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "clean": "rimraf dist/",
+    "clean": "rimraf --glob dist/",
     "build-dev": "webpack --mode development",
     "build": "webpack --mode production",
     "start": "http-server ./"
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "http-server": "^0.12.1",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "webpack": "^5.85.0",
     "webpack-cli": "^5.1.1"
   }

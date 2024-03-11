@@ -632,19 +632,16 @@ export class CallMedia {
    *
    * @param targetParticipant - The targets to play to.
    * @param playSource - A PlaySource representing the source to play.
-   * @param loop - To play the audio continously until stopped.
    * @param operationContext - Operation Context.
    */
   public async startHoldMusic(
     targetParticipant: CommunicationIdentifier,
     playSource: FileSource | TextSource | SsmlSource,
-    loop: boolean = true,
     operationContext: string | undefined = undefined,
   ): Promise<void> {
     const holdRequest: StartHoldMusicRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       playSourceInfo: this.createPlaySourceInternal(playSource),
-      loop: loop,
       operationContext: operationContext,
     };
 
