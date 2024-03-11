@@ -226,32 +226,24 @@ stages:
             timeoutInMinutes: 5
           - ${{ each artifact in parameters.Artifacts }}:
               - ${{if ne(artifact.skipPublishDevFeed, 'true')}}:
-                  - pwsh: >
+                  - pwsh: |
                       $detectedPackageName=Get-ChildItem $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz
-
                       Write-Host "Detected package name: $($detectedPackageName)"
-
                       if ($detectedPackageName -notmatch "-alpha")
-
                       {
                         Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
                         exit 1
                       }
-
                       echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
-
                       if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                         $npmToken="$(azure-sdk-npm-token)"
                         $registry=${{parameters.Registry}}"
                       }
-
                       else {
                         $npmToken="$(azure-sdk-devops-npm-token)"
                         $registry=${{parameters.PrivateRegistry}}"
                       }
-
                       echo "##vso[task.setvariable variable=NpmToken]$npmToken"
-
                       echo "##vso[task.setvariable variable=Registry]$registry"
                     displayName: Detecting package archive_${{artifact.name}}
                   - task: PowerShell@2
