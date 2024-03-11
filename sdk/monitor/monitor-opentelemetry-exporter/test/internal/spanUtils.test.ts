@@ -307,6 +307,7 @@ describe("spanUtils.ts", () => {
         });
         span.setStatus({
           code: SpanStatusCode.OK,
+          message: "SERVER_SPAN",
         });
         span.end();
         const expectedTime = hrTimeToDate(span.startTime);
@@ -322,7 +323,9 @@ describe("spanUtils.ts", () => {
           name: `parent span`,
           version: 2,
           source: undefined,
-          properties: {}, // Should not add sampleRate
+          properties: {
+            "span.status.message": "SERVER_SPAN",
+          }, // Should not add sampleRate
           measurements: {},
         };
 
@@ -403,6 +406,7 @@ describe("spanUtils.ts", () => {
         });
         span.setStatus({
           code: SpanStatusCode.OK,
+          message: "CLIENT_SPAN",
         });
         span.end();
         const expectedTags: Tags = {
@@ -411,6 +415,7 @@ describe("spanUtils.ts", () => {
         };
         const expectedProperties = {
           "extra.attribute": "foo",
+          "span.status.message": "CLIENT_SPAN",
         };
 
         const expectedBaseData: Partial<RemoteDependencyData> = {
@@ -458,6 +463,7 @@ describe("spanUtils.ts", () => {
         });
         span.setStatus({
           code: SpanStatusCode.OK,
+          message: "SERVER_SPAN",
         });
         span.end();
         const expectedTags: Tags = {};
@@ -467,6 +473,7 @@ describe("spanUtils.ts", () => {
         const expectedProperties = {
           "extra.attribute": "foo",
           "_MS.links": JSON.stringify([{ operation_Id: "traceid", id: "spanId" }]),
+          "span.status.message": "SERVER_SPAN",
         };
 
         const expectedBaseData: Partial<RequestData> = {
