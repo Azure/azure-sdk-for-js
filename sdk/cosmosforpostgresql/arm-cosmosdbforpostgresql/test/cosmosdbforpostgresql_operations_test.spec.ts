@@ -63,7 +63,7 @@ describe("CosmosDBForPostgreSQL test", () => {
       resourceGroup,
       resourcename,
       {
-        administratorLoginPassword: "Password01!",//need replace password value to ******** after testing.
+        administratorLoginPassword: "********",//need replace password value to ******** after testing.
         citusVersion: "11.1",
         coordinatorEnablePublicIpAccess: true,
         coordinatorServerEdition: "GeneralPurpose",
