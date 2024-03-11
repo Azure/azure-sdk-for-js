@@ -20,7 +20,7 @@ export function buildRequestUrl(
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
   }
-  endpoint = buildendpoint(endpoint, options);
+  endpoint = buildBaseUrl(endpoint, options);
   routePath = buildRoutePath(routePath, pathParameters, options);
   const requestUrl = appendQueryParams(`${endpoint}/${routePath}`, options);
   const url = new URL(requestUrl);
