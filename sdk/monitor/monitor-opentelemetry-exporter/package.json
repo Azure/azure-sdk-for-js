@@ -25,7 +25,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "dev-tool run test:node-tsx-ts --timeout 1200000 \"test/internal/**/*.test.ts\"",
+    "unit-test:node": "dev-tool run test:node-tsx-ts -- --timeout 1200000 \"test/internal/**/*.test.ts\"",
     "unit-test:node:debug": "dev-tool run test:node-tsx-ts -- --timeout 1200000 \"test/internal/**/*.test.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "integration-test:browser": "echo skipped",
