@@ -40,6 +40,13 @@ describe("Submit a user request", () => {
               },
             },
           },
+          {
+            "type": "DeleteTerm",
+            "payload": {
+              "termGuid": "11bca96d-4565-4a49-96ab-dd418ba83f7c",
+              "forceDeleteChild": true
+            }
+          }
         ],
       },
     };
