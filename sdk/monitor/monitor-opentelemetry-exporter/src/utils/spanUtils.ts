@@ -145,7 +145,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
     if(remoteDependencyData.properties === undefined) {
       remoteDependencyData.properties = {};
     }
-    remoteDependencyData.properties['message'] = span.status.message;
+    remoteDependencyData.properties['span.status.message'] = span.status.message;
   }
 
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
@@ -256,7 +256,7 @@ function createRequestData(span: ReadableSpan): RequestData {
     if(requestData.properties === undefined) {
       requestData.properties = {};
     }
-    requestData.properties['message'] = span.status.message;
+    requestData.properties['span.status.message'] = span.status.message;
   }
 
   if (httpMethod) {
