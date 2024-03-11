@@ -79,6 +79,7 @@ stages:
         - stage: ${{ cloud.key }}
           dependsOn: []
           variables:
+            - template: /eng/pipelines/templates/variables/globals.yml
             - template: /eng/pipelines/templates/variables/image.yml
           jobs:
           - template: /eng/common/pipelines/templates/jobs/generate-job-matrix.yml
