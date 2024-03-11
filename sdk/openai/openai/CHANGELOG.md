@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.0-beta.12 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.0.0-beta.12 (2024-02-27)
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix a bug to ensure that the errors thrown are of the type `RestError`.
 
 ## 1.0.0-beta.11 (2024-01-25)
 

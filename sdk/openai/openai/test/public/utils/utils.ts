@@ -38,6 +38,15 @@ function toString(error: any): string {
   return error instanceof Error ? error.toString() + "\n" + error.stack : JSON.stringify(error);
 }
 
+function matchesAnyRegex(input: string, regexList: RegExp[]): boolean {
+  for (const regex of regexList) {
+    if (regex.test(input)) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export async function withDeployments<T>(
   deployments: string[],
   run: (model: string) => Promise<T>,
@@ -56,14 +65,33 @@ export async function withDeployments<T>(
       }
       succeeded.push(deployment);
     } catch (e) {
+      const regExpList: RegExp[] = [
+        /^RestError: Invalid model .*\. The model argument should be left blank./g,
+        /^RestError: Unrecognized request arguments? supplied: .*/g,
+        /^RestError: You are not allowed to sample from this model.*/g,
+        /^RestError: This is not a chat model and thus not supported */g,
+        /^RestError: Invalid parameter: '.*' of type '.*' is not supported with this model.*/g,
+        /^RestError: This is a chat model and not supported in the .* endpoint. Did you mean to use .*/g,
+        /^RestError: [\s\S]*?extra fields not permitted \(type=value_error\.extra\).*/g,
+        /^RestError: This model is not supported in the v1\/completions endpoint.*/g,
+        /^RestError: Invalid URL \(POST \/v1\/completions\)/g,
+        /RestError: Invalid URL \(POST \/v1\/chat\/completions\)/g,
+        /value is not a valid (dict|list) \(type=type_error\.(dict|list)\)/g,
+      ];
       const error = e as any;
       if (!e) continue;
       const errorStr = toString(error);
       if (
-        ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
-          error.code,
-        ) ||
-        error.type === "invalid_request_error"
+        [
+          "DeploymentNotFound",
+          "OperationNotSupported",
+          "model_not_found",
+          "rate_limit_exceeded",
+          "429",
+          400,
+        ].includes(error.code) ||
+        error.type === "invalid_request_error" ||
+        matchesAnyRegex(errorStr, regExpList)
       ) {
         console.log(`Handled error: ${errorStr}`);
         continue;

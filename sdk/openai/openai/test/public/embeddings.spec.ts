@@ -52,7 +52,6 @@ describe("OpenAI", function () {
           // TODO: Update the error message expectations
           await assertOpenAiError(client.getEmbeddings(modelName, true as any), {
             messagePattern: /'\$\.input' is invalid/,
-            type: `invalid_request_error`,
             errorCode: null,
           });
         });

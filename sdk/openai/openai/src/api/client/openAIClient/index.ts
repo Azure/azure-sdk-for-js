@@ -9,7 +9,11 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { StreamableMethod, operationOptionsToRequestParameters } from "@azure-rest/core-client";
+import {
+  StreamableMethod,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
 import { uint8ArrayToString } from "@azure/core-util";
 import {
@@ -112,7 +116,7 @@ export async function _getAudioTranscriptionAsPlainTextDeserialize(
     | GetAudioTranscriptionAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result.body.error.message, result);
   }
 
   return result.body;
@@ -169,7 +173,7 @@ export async function _getAudioTranscriptionAsResponseObjectDeserialize(
     | GetAudioTranscriptionAsResponseObjectDefaultResponse,
 ): Promise<AudioTranscription> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result.body.error.message, result);
   }
 
   return {
@@ -244,7 +248,7 @@ export async function _getAudioTranslationAsPlainTextDeserialize(
   result: GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result.body.error.message, result);
   }
 
   return result.body;
@@ -297,7 +301,7 @@ export async function _getAudioTranslationAsResponseObjectDeserialize(
     | GetAudioTranslationAsResponseObjectDefaultResponse,
 ): Promise<AudioTranslation> {
   if (isUnexpected(result)) {
-    throw result.body;
+    throw createRestError(result.body.error.message, result);
   }
 
   return {
@@ -396,7 +400,7 @@ export async function _getCompletionsDeserialize(
   result: GetCompletions200Response | GetCompletionsDefaultResponse,
 ): Promise<Completions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createRestError(result.body.error.message, result);
   }
   return getCompletionsResult(result.body);
 }
@@ -405,7 +409,7 @@ export async function _getChatCompletionsDeserialize(
   result: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): Promise<ChatCompletions> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createRestError(result.body.error.message, result);
   }
   return getChatCompletionsResult(result.body);
 }
@@ -435,7 +439,7 @@ export async function _getImageGenerationsDeserialize(
   result: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): Promise<ImageGenerations> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createRestError(result.body.error.message, result);
   }
 
   return {
@@ -475,7 +479,7 @@ export async function _getEmbeddingsDeserialize(
   result: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): Promise<Embeddings> {
   if (isUnexpected(result)) {
-    throw result.body.error;
+    throw createRestError(result.body.error.message, result);
   }
 
   return {
@@ -688,7 +692,7 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
       },
     });
   if (status !== "200") {
-    throw body.error;
+    throw createRestError(body.error.message, body);
   }
 
   return response_format !== "verbose_json"
