@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to remove a protection container.
  *
  * @summary Operation to remove a protection container.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainers_Delete.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainers_Delete.json
  */
 async function removesAProtectionContainer() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function removesAProtectionContainer() {
     resourceName,
     resourceGroupName,
     fabricName,
-    protectionContainerName
+    protectionContainerName,
   );
   console.log(result);
 }

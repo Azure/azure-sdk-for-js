@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update protection container mapping.
  *
  * @summary The operation to update protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_Update.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Update.json
  */
 async function updateProtectionContainerMapping() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function updateProtectionContainerMapping() {
     fabricName,
     protectionContainerName,
     mappingName,
-    updateInput
+    updateInput,
   );
   console.log(result);
 }

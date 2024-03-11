@@ -9,5 +9,5 @@
     "rootDir": "."
   },
   "exclude": ["./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./src/**/*.mts", "./samples-dev/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./samples-dev/**/*.ts"]
 }

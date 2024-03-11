@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Resets the primary of the p2s vpn gateway in the specified resource group.
  *
  * @summary Resets the primary of the p2s vpn gateway in the specified resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/P2SVpnGatewayReset.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/P2SVpnGatewayReset.json
  */
 async function resetP2SVpnGateway() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function resetP2SVpnGateway() {
   const client = new NetworkManagementClient(credential, subscriptionId);
   const result = await client.p2SVpnGateways.beginResetAndWait(
     resourceGroupName,
-    gatewayName
+    gatewayName,
   );
   console.log(result);
 }

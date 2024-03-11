@@ -53,7 +53,7 @@ export interface ExpressionRouterRule extends RouterRuleParent {
   /**
    * The expression language to compile to and execute.
    *
-   * Possible values: powerFx
+   * Possible values: "powerFx"
    */
   language?: string;
   /** An expression to evaluate. Should contain return statement with calculated values. */
@@ -117,7 +117,7 @@ export interface RouterQueueSelector {
   /**
    * Describes how the value of the label is compared to the value defined on the label selector.
    *
-   * Possible values: equal, notEqual, lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual
+   * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
   labelOperator: string;
   /** The value to compare against the actual label value with the given operator. Values must be primitive values - number, string, boolean. */
@@ -131,7 +131,7 @@ export interface PassThroughQueueSelectorAttachment extends QueueSelectorAttachm
   /**
    * Describes how the value of the label is compared to the value pass through.
    *
-   * Possible values: equal, notEqual, lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual
+   * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
   labelOperator: string;
   /** The type discriminator describing the type of queue selector attachment. */
@@ -192,7 +192,7 @@ export interface RouterWorkerSelector {
   /**
    * Describes how the value of the label is compared to the value defined on the worker selector.
    *
-   * Possible values: equal, notEqual, lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual
+   * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
   labelOperator: string;
   /** The value to compare against the actual label value with the given operator. Values must be primitive values - number, string, boolean. */
@@ -210,7 +210,7 @@ export interface PassThroughWorkerSelectorAttachment extends WorkerSelectorAttac
   /**
    * Describes how the value of the label is compared to the value pass through.
    *
-   * Possible values: equal, notEqual, lessThan, lessThanOrEqual, greaterThan, greaterThanOrEqual
+   * Possible values: "equal", "notEqual", "lessThan", "lessThanOrEqual", "greaterThan", "greaterThanOrEqual"
    */
   labelOperator: string;
   /** Describes how long the attached label selector is valid in seconds. */
@@ -525,6 +525,8 @@ export interface RouterWorker {
   channels?: Array<RouterChannel>;
   /** A flag indicating this worker is open to receive offers or not. */
   availableForOffers?: boolean;
+  /** If this is set, the worker will only receive up to this many new offers at a time. */
+  maxConcurrentOffers?: number;
 }
 
 /** Represents the capacity a job in this channel will consume from a worker. */
@@ -563,6 +565,7 @@ export interface RouterWorkerAssignment {
 
 /** An attachment of queue selectors to resolve a queue to a job from a classification policy. */
 export type QueueSelectorAttachment =
+  | QueueSelectorAttachmentParent
   | ConditionalQueueSelectorAttachment
   | PassThroughQueueSelectorAttachment
   | RuleEngineQueueSelectorAttachment
@@ -577,6 +580,7 @@ export type QueueSelectorAttachment =
  * WebhookRule: A rule providing a binding to a webserver following OAuth2.0 authentication protocol.
  */
 export type RouterRule =
+  | RouterRuleParent
   | DirectMapRouterRule
   | ExpressionRouterRule
   | FunctionRouterRule
@@ -584,17 +588,26 @@ export type RouterRule =
   | WebhookRouterRule;
 /** An attachment which attaches worker selectors to a job. */
 export type WorkerSelectorAttachment =
+  | WorkerSelectorAttachmentParent
   | ConditionalWorkerSelectorAttachment
   | PassThroughWorkerSelectorAttachment
   | RuleEngineWorkerSelectorAttachment
   | StaticWorkerSelectorAttachment
   | WeightedAllocationWorkerSelectorAttachment;
 /** Abstract base class for defining a distribution mode. */
-export type DistributionMode = BestWorkerMode | LongestIdleMode | RoundRobinMode;
+export type DistributionMode =
+  | DistributionModeParent
+  | BestWorkerMode
+  | LongestIdleMode
+  | RoundRobinMode;
 /** Abstract base class for defining a trigger for exception rules. */
-export type ExceptionTrigger = QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
+export type ExceptionTrigger =
+  | ExceptionTriggerParent
+  | QueueLengthExceptionTrigger
+  | WaitTimeExceptionTrigger;
 /** The action to take when the exception is triggered. */
 export type ExceptionAction =
+  | ExceptionActionParent
   | CancelExceptionAction
   | ManualReclassifyExceptionAction
   | ReclassifyExceptionAction;
@@ -604,4 +617,8 @@ export type ExceptionAction =
  * ScheduleAndSuspendMode: Used for scheduling jobs to be queued at a future time. At specified time, matching of a worker to the job will not start automatically.
  * SuspendMode: Used when matching workers to a job needs to be suspended.
  */
-export type JobMatchingMode = ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
+export type JobMatchingMode =
+  | JobMatchingModeParent
+  | ScheduleAndSuspendMode
+  | QueueAndMatchMode
+  | SuspendMode;

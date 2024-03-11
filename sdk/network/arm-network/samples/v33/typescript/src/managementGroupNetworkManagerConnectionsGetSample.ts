@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a specified connection created by this management group.
  *
  * @summary Get a specified connection created by this management group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/NetworkManagerConnectionManagementGroupGet.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/NetworkManagerConnectionManagementGroupGet.json
  */
 async function getManagementGroupNetworkManagerConnection() {
   const managementGroupId = "managementGroupA";
@@ -27,7 +27,7 @@ async function getManagementGroupNetworkManagerConnection() {
   const client = new NetworkManagementClient(credential);
   const result = await client.managementGroupNetworkManagerConnections.get(
     managementGroupId,
-    networkManagerConnectionName
+    networkManagerConnectionName,
   );
   console.log(result);
 }

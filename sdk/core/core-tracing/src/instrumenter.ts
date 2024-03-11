@@ -7,7 +7,9 @@ import {
   TracingContext,
   TracingSpan,
 } from "./interfaces.js";
+
 import { createTracingContext } from "./tracingContext.js";
+import { state } from "./state.js";
 
 export function createDefaultTracingSpan(): TracingSpan {
   return {
@@ -57,16 +59,13 @@ export function createDefaultInstrumenter(): Instrumenter {
   };
 }
 
-/** @internal */
-let instrumenterImplementation: Instrumenter | undefined;
-
 /**
  * Extends the Azure SDK with support for a given instrumenter implementation.
  *
  * @param instrumenter - The instrumenter implementation to use.
  */
 export function useInstrumenter(instrumenter: Instrumenter): void {
-  instrumenterImplementation = instrumenter;
+  state.instrumenterImplementation = instrumenter;
 }
 
 /**
@@ -75,8 +74,8 @@ export function useInstrumenter(instrumenter: Instrumenter): void {
  * @returns The currently set instrumenter
  */
 export function getInstrumenter(): Instrumenter {
-  if (!instrumenterImplementation) {
-    instrumenterImplementation = createDefaultInstrumenter();
+  if (!state.instrumenterImplementation) {
+    state.instrumenterImplementation = createDefaultInstrumenter();
   }
-  return instrumenterImplementation;
+  return state.instrumenterImplementation;
 }

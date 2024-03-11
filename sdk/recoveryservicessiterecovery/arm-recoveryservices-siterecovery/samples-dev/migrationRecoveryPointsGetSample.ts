@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a recovery point for a migration item.
  *
  * @summary Gets a recovery point for a migration item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/MigrationRecoveryPoints_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/MigrationRecoveryPoints_Get.json
  */
 async function getsARecoveryPointForAMigrationItem() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function getsARecoveryPointForAMigrationItem() {
     fabricName,
     protectionContainerName,
     migrationItemName,
-    migrationRecoveryPointName
+    migrationRecoveryPointName,
   );
   console.log(result);
 }

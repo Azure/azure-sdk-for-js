@@ -9,7 +9,7 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   ConfigureAlertRequest as ConfigureAlertRequestMapper,
@@ -62,7 +62,7 @@ import {
   RecoveryPlanTestFailoverInput as RecoveryPlanTestFailoverInputMapper,
   RecoveryPlanTestFailoverCleanupInput as RecoveryPlanTestFailoverCleanupInputMapper,
   RecoveryPlanUnplannedFailoverInput as RecoveryPlanUnplannedFailoverInputMapper,
-  VaultSettingCreationInput as VaultSettingCreationInputMapper
+  VaultSettingCreationInput as VaultSettingCreationInputMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -72,9 +72,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -83,22 +83,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-06-01",
+    defaultValue: "2023-08-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -107,9 +107,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -118,9 +118,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -129,10 +129,10 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceName: OperationURLParameter = {
@@ -141,9 +141,9 @@ export const resourceName: OperationURLParameter = {
     serializedName: "resourceName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const alertSettingName: OperationURLParameter = {
@@ -152,9 +152,9 @@ export const alertSettingName: OperationURLParameter = {
     serializedName: "alertSettingName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -164,14 +164,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const request: OperationParameter = {
   parameterPath: "request",
-  mapper: ConfigureAlertRequestMapper
+  mapper: ConfigureAlertRequestMapper,
 };
 
 export const filter: OperationQueryParameter = {
@@ -179,9 +179,9 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "$filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const virtualMachineName: OperationURLParameter = {
@@ -190,9 +190,9 @@ export const virtualMachineName: OperationURLParameter = {
     serializedName: "virtualMachineName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const eventName: OperationURLParameter = {
@@ -201,9 +201,9 @@ export const eventName: OperationURLParameter = {
     serializedName: "eventName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const fabricName: OperationURLParameter = {
@@ -212,24 +212,52 @@ export const fabricName: OperationURLParameter = {
     serializedName: "fabricName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input: OperationParameter = {
   parameterPath: "input",
-  mapper: FabricCreationInputMapper
+  mapper: FabricCreationInputMapper,
 };
 
 export const failoverProcessServerRequest: OperationParameter = {
   parameterPath: "failoverProcessServerRequest",
-  mapper: FailoverProcessServerRequestMapper
+  mapper: FailoverProcessServerRequestMapper,
 };
 
 export const renewCertificate: OperationParameter = {
   parameterPath: "renewCertificate",
-  mapper: RenewCertificateInputMapper
+  mapper: RenewCertificateInputMapper,
+};
+
+export const resourceName1: OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
+    serializedName: "resourceName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const fabricName1: OperationURLParameter = {
+  parameterPath: "fabricName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9]$"),
+    },
+    serializedName: "fabricName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const logicalNetworkName: OperationURLParameter = {
@@ -238,9 +266,9 @@ export const logicalNetworkName: OperationURLParameter = {
     serializedName: "logicalNetworkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const networkName: OperationURLParameter = {
@@ -249,9 +277,9 @@ export const networkName: OperationURLParameter = {
     serializedName: "networkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const networkMappingName: OperationURLParameter = {
@@ -260,19 +288,19 @@ export const networkMappingName: OperationURLParameter = {
     serializedName: "networkMappingName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input1: OperationParameter = {
   parameterPath: "input",
-  mapper: CreateNetworkMappingInputMapper
+  mapper: CreateNetworkMappingInputMapper,
 };
 
 export const input2: OperationParameter = {
   parameterPath: "input",
-  mapper: UpdateNetworkMappingInputMapper
+  mapper: UpdateNetworkMappingInputMapper,
 };
 
 export const protectionContainerName: OperationURLParameter = {
@@ -281,24 +309,24 @@ export const protectionContainerName: OperationURLParameter = {
     serializedName: "protectionContainerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const creationInput: OperationParameter = {
   parameterPath: "creationInput",
-  mapper: CreateProtectionContainerInputMapper
+  mapper: CreateProtectionContainerInputMapper,
 };
 
 export const discoverProtectableItemRequest: OperationParameter = {
   parameterPath: "discoverProtectableItemRequest",
-  mapper: DiscoverProtectableItemRequestMapper
+  mapper: DiscoverProtectableItemRequestMapper,
 };
 
 export const switchInput: OperationParameter = {
   parameterPath: "switchInput",
-  mapper: SwitchProtectionInputMapper
+  mapper: SwitchProtectionInputMapper,
 };
 
 export const skipToken: OperationQueryParameter = {
@@ -306,9 +334,9 @@ export const skipToken: OperationQueryParameter = {
   mapper: {
     serializedName: "skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const takeToken: OperationQueryParameter = {
@@ -316,9 +344,9 @@ export const takeToken: OperationQueryParameter = {
   mapper: {
     serializedName: "takeToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const migrationItemName: OperationURLParameter = {
@@ -327,14 +355,14 @@ export const migrationItemName: OperationURLParameter = {
     serializedName: "migrationItemName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input3: OperationParameter = {
   parameterPath: "input",
-  mapper: EnableMigrationInputMapper
+  mapper: EnableMigrationInputMapper,
 };
 
 export const deleteOption: OperationQueryParameter = {
@@ -342,44 +370,44 @@ export const deleteOption: OperationQueryParameter = {
   mapper: {
     serializedName: "deleteOption",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input4: OperationParameter = {
   parameterPath: "input",
-  mapper: UpdateMigrationItemInputMapper
+  mapper: UpdateMigrationItemInputMapper,
 };
 
 export const migrateInput: OperationParameter = {
   parameterPath: "migrateInput",
-  mapper: MigrateInputMapper
+  mapper: MigrateInputMapper,
 };
 
 export const pauseReplicationInput: OperationParameter = {
   parameterPath: "pauseReplicationInput",
-  mapper: PauseReplicationInputMapper
+  mapper: PauseReplicationInputMapper,
 };
 
 export const resumeReplicationInput: OperationParameter = {
   parameterPath: "resumeReplicationInput",
-  mapper: ResumeReplicationInputMapper
+  mapper: ResumeReplicationInputMapper,
 };
 
 export const input5: OperationParameter = {
   parameterPath: "input",
-  mapper: ResyncInputMapper
+  mapper: ResyncInputMapper,
 };
 
 export const testMigrateInput: OperationParameter = {
   parameterPath: "testMigrateInput",
-  mapper: TestMigrateInputMapper
+  mapper: TestMigrateInputMapper,
 };
 
 export const testMigrateCleanupInput: OperationParameter = {
   parameterPath: "testMigrateCleanupInput",
-  mapper: TestMigrateCleanupInputMapper
+  mapper: TestMigrateCleanupInputMapper,
 };
 
 export const migrationRecoveryPointName: OperationURLParameter = {
@@ -388,9 +416,9 @@ export const migrationRecoveryPointName: OperationURLParameter = {
     serializedName: "migrationRecoveryPointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const take: OperationQueryParameter = {
@@ -398,9 +426,9 @@ export const take: OperationQueryParameter = {
   mapper: {
     serializedName: "$take",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skipToken1: OperationQueryParameter = {
@@ -408,9 +436,9 @@ export const skipToken1: OperationQueryParameter = {
   mapper: {
     serializedName: "$skipToken",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const protectableItemName: OperationURLParameter = {
@@ -419,9 +447,9 @@ export const protectableItemName: OperationURLParameter = {
     serializedName: "protectableItemName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const replicatedProtectedItemName: OperationURLParameter = {
@@ -430,84 +458,84 @@ export const replicatedProtectedItemName: OperationURLParameter = {
     serializedName: "replicatedProtectedItemName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input6: OperationParameter = {
   parameterPath: "input",
-  mapper: EnableProtectionInputMapper
+  mapper: EnableProtectionInputMapper,
 };
 
 export const updateProtectionInput: OperationParameter = {
   parameterPath: "updateProtectionInput",
-  mapper: UpdateReplicationProtectedItemInputMapper
+  mapper: UpdateReplicationProtectedItemInputMapper,
 };
 
 export const addDisksInput: OperationParameter = {
   parameterPath: "addDisksInput",
-  mapper: AddDisksInputMapper
+  mapper: AddDisksInputMapper,
 };
 
 export const applyRecoveryPointInput: OperationParameter = {
   parameterPath: "applyRecoveryPointInput",
-  mapper: ApplyRecoveryPointInputMapper
+  mapper: ApplyRecoveryPointInputMapper,
 };
 
 export const failoverInput: OperationParameter = {
   parameterPath: "failoverInput",
-  mapper: PlannedFailoverInputMapper
+  mapper: PlannedFailoverInputMapper,
 };
 
 export const disableProtectionInput: OperationParameter = {
   parameterPath: "disableProtectionInput",
-  mapper: DisableProtectionInputMapper
+  mapper: DisableProtectionInputMapper,
 };
 
 export const removeDisksInput: OperationParameter = {
   parameterPath: "removeDisksInput",
-  mapper: RemoveDisksInputMapper
+  mapper: RemoveDisksInputMapper,
 };
 
 export const reprotectInput: OperationParameter = {
   parameterPath: "reprotectInput",
-  mapper: ReverseReplicationInputMapper
+  mapper: ReverseReplicationInputMapper,
 };
 
 export const resolveHealthInput: OperationParameter = {
   parameterPath: "resolveHealthInput",
-  mapper: ResolveHealthInputMapper
+  mapper: ResolveHealthInputMapper,
 };
 
 export const switchProviderInput: OperationParameter = {
   parameterPath: "switchProviderInput",
-  mapper: SwitchProviderInputMapper
+  mapper: SwitchProviderInputMapper,
 };
 
 export const testfailoverInput: OperationParameter = {
   parameterPath: "testfailoverInput",
-  mapper: TestFailoverInputMapper
+  mapper: TestFailoverInputMapper,
 };
 
 export const cleanupInput: OperationParameter = {
   parameterPath: "cleanupInput",
-  mapper: TestFailoverCleanupInputMapper
+  mapper: TestFailoverCleanupInputMapper,
 };
 
 export const failoverInput1: OperationParameter = {
   parameterPath: "failoverInput",
-  mapper: UnplannedFailoverInputMapper
+  mapper: UnplannedFailoverInputMapper,
 };
 
 export const applianceUpdateInput: OperationParameter = {
   parameterPath: "applianceUpdateInput",
-  mapper: UpdateApplianceForReplicationProtectedItemInputMapper
+  mapper: UpdateApplianceForReplicationProtectedItemInputMapper,
 };
 
 export const updateMobilityServiceRequest: OperationParameter = {
   parameterPath: "updateMobilityServiceRequest",
-  mapper: UpdateMobilityServiceRequestMapper
+  mapper: UpdateMobilityServiceRequestMapper,
 };
 
 export const recoveryPointName: OperationURLParameter = {
@@ -516,9 +544,9 @@ export const recoveryPointName: OperationURLParameter = {
     serializedName: "recoveryPointName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const mappingName: OperationURLParameter = {
@@ -527,24 +555,24 @@ export const mappingName: OperationURLParameter = {
     serializedName: "mappingName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const creationInput1: OperationParameter = {
   parameterPath: "creationInput",
-  mapper: CreateProtectionContainerMappingInputMapper
+  mapper: CreateProtectionContainerMappingInputMapper,
 };
 
 export const updateInput: OperationParameter = {
   parameterPath: "updateInput",
-  mapper: UpdateProtectionContainerMappingInputMapper
+  mapper: UpdateProtectionContainerMappingInputMapper,
 };
 
 export const removalInput: OperationParameter = {
   parameterPath: "removalInput",
-  mapper: RemoveProtectionContainerMappingInputMapper
+  mapper: RemoveProtectionContainerMappingInputMapper,
 };
 
 export const providerName: OperationURLParameter = {
@@ -553,14 +581,14 @@ export const providerName: OperationURLParameter = {
     serializedName: "providerName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const addProviderInput: OperationParameter = {
   parameterPath: "addProviderInput",
-  mapper: AddRecoveryServicesProviderInputMapper
+  mapper: AddRecoveryServicesProviderInputMapper,
 };
 
 export const storageClassificationName: OperationURLParameter = {
@@ -569,9 +597,9 @@ export const storageClassificationName: OperationURLParameter = {
     serializedName: "storageClassificationName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const storageClassificationMappingName: OperationURLParameter = {
@@ -580,14 +608,14 @@ export const storageClassificationMappingName: OperationURLParameter = {
     serializedName: "storageClassificationMappingName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const pairingInput: OperationParameter = {
   parameterPath: "pairingInput",
-  mapper: StorageClassificationMappingInputMapper
+  mapper: StorageClassificationMappingInputMapper,
 };
 
 export const vcenterName: OperationURLParameter = {
@@ -596,19 +624,19 @@ export const vcenterName: OperationURLParameter = {
     serializedName: "vcenterName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const addVCenterRequest: OperationParameter = {
   parameterPath: "addVCenterRequest",
-  mapper: AddVCenterRequestMapper
+  mapper: AddVCenterRequestMapper,
 };
 
 export const updateVCenterRequest: OperationParameter = {
   parameterPath: "updateVCenterRequest",
-  mapper: UpdateVCenterRequestMapper
+  mapper: UpdateVCenterRequestMapper,
 };
 
 export const jobName: OperationURLParameter = {
@@ -617,19 +645,19 @@ export const jobName: OperationURLParameter = {
     serializedName: "jobName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const resumeJobParams: OperationParameter = {
   parameterPath: "resumeJobParams",
-  mapper: ResumeJobParamsMapper
+  mapper: ResumeJobParamsMapper,
 };
 
 export const jobQueryParameter: OperationParameter = {
   parameterPath: "jobQueryParameter",
-  mapper: JobQueryParameterMapper
+  mapper: JobQueryParameterMapper,
 };
 
 export const policyName: OperationURLParameter = {
@@ -638,19 +666,19 @@ export const policyName: OperationURLParameter = {
     serializedName: "policyName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input7: OperationParameter = {
   parameterPath: "input",
-  mapper: CreatePolicyInputMapper
+  mapper: CreatePolicyInputMapper,
 };
 
 export const input8: OperationParameter = {
   parameterPath: "input",
-  mapper: UpdatePolicyInputMapper
+  mapper: UpdatePolicyInputMapper,
 };
 
 export const intentObjectName: OperationURLParameter = {
@@ -659,14 +687,14 @@ export const intentObjectName: OperationURLParameter = {
     serializedName: "intentObjectName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input9: OperationParameter = {
   parameterPath: "input",
-  mapper: CreateProtectionIntentInputMapper
+  mapper: CreateProtectionIntentInputMapper,
 };
 
 export const recoveryPlanName: OperationURLParameter = {
@@ -675,39 +703,39 @@ export const recoveryPlanName: OperationURLParameter = {
     serializedName: "recoveryPlanName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input10: OperationParameter = {
   parameterPath: "input",
-  mapper: CreateRecoveryPlanInputMapper
+  mapper: CreateRecoveryPlanInputMapper,
 };
 
 export const input11: OperationParameter = {
   parameterPath: "input",
-  mapper: UpdateRecoveryPlanInputMapper
+  mapper: UpdateRecoveryPlanInputMapper,
 };
 
 export const input12: OperationParameter = {
   parameterPath: "input",
-  mapper: RecoveryPlanPlannedFailoverInputMapper
+  mapper: RecoveryPlanPlannedFailoverInputMapper,
 };
 
 export const input13: OperationParameter = {
   parameterPath: "input",
-  mapper: RecoveryPlanTestFailoverInputMapper
+  mapper: RecoveryPlanTestFailoverInputMapper,
 };
 
 export const input14: OperationParameter = {
   parameterPath: "input",
-  mapper: RecoveryPlanTestFailoverCleanupInputMapper
+  mapper: RecoveryPlanTestFailoverCleanupInputMapper,
 };
 
 export const input15: OperationParameter = {
   parameterPath: "input",
-  mapper: RecoveryPlanUnplannedFailoverInputMapper
+  mapper: RecoveryPlanUnplannedFailoverInputMapper,
 };
 
 export const instanceType: OperationQueryParameter = {
@@ -715,9 +743,9 @@ export const instanceType: OperationQueryParameter = {
   mapper: {
     serializedName: "instanceType",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const vaultSettingName: OperationURLParameter = {
@@ -726,12 +754,12 @@ export const vaultSettingName: OperationURLParameter = {
     serializedName: "vaultSettingName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const input16: OperationParameter = {
   parameterPath: "input",
-  mapper: VaultSettingCreationInputMapper
+  mapper: VaultSettingCreationInputMapper,
 };
