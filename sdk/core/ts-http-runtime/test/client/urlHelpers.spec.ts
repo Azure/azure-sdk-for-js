@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { describe, it, assert } from "vitest";
-import { buildendpoint, buildRequestUrl } from "../../src/client/urlHelpers.js";
+import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
 
 describe("urlHelpers", () => {
   const mockBaseUrl = "https://example.org";
@@ -151,7 +151,7 @@ describe("urlHelpers", () => {
   });
 
   it("should build base url when enable path parameter encoding", () => {
-    const result = buildendpoint("https://{accountName}.org", {
+    const result = buildBaseUrl("https://{accountName}.org", {
       pathParameters: {
         accountName: "foo bar",
       },
@@ -160,7 +160,7 @@ describe("urlHelpers", () => {
   });
 
   it("should build base url when skip path parameter encoding", () => {
-    const result = buildendpoint("https://{accountName}.org", {
+    const result = buildBaseUrl("https://{accountName}.org", {
       pathParameters: {
         accountName: "foo%bar",
       },

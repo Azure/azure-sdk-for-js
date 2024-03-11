@@ -71,7 +71,7 @@ function skipQueryParameterEncoding(url: URL): URL {
   return url;
 }
 
-export function buildendpoint(endpoint: string, options: RequestParameters): string {
+export function buildBaseUrl(endpoint: string, options: RequestParameters): string {
   if (!options.pathParameters) {
     return endpoint;
   }
