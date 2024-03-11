@@ -17,8 +17,8 @@ export default function createClient(
   credentials: TokenCredential | KeyCredential,
   options: ClientOptions = {},
 ): AssistantsContext {
-  const baseUrl = options.baseUrl ?? `${endpoint}/openai`;
-options.apiVersion = options.apiVersion ?? "2023-11-06-beta";
+  const baseUrl = options.baseUrl ?? `${endpoint}`;
+
   const userAgentInfo = `azsdk-js-openai-assistants-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix

@@ -6,14 +6,22 @@ export interface AudioTranscriptionOptions {
   /**
    * The audio data to transcribe. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
+   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /**
    * The requested format of the transcription response data, which will influence the content and detail of the result.
    *
-   * Possible values: json, verbose_json, text, srt, vtt
+   * Possible values: "json", "verbose_json", "text", "srt", "vtt"
    */
   response_format?: string;
   /**
@@ -42,14 +50,22 @@ export interface AudioTranslationOptions {
   /**
    * The audio data to translate. This must be the binary content of a file in one of the supported media formats:
    *  flac, mp3, mp4, mpeg, mpga, m4a, ogg, wav, webm.
+   *
+   * NOTE: The following type 'File' is part of WebAPI and available since Node 20. If your Node version is lower than Node 20.
+   * You could leverage our helpers 'createFile' or 'createFileFromStream' to create a File object. They could help you specify filename, type, and others.
    */
-  file: string;
+  file:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream
+    | File;
   /** The optional filename or descriptive identifier to associate with with the audio data. */
   filename?: string;
   /**
    * The requested format of the translation response data, which will influence the content and detail of the result.
    *
-   * Possible values: json, verbose_json, text, srt, vtt
+   * Possible values: "json", "verbose_json", "text", "srt", "vtt"
    */
   response_format?: string;
   /**
@@ -260,7 +276,7 @@ export interface ChatCompletionsOptions {
   /**
    * An object specifying the format that the model must output. Used to enable JSON mode.
    *
-   * Possible values: text, json_object
+   * Possible values: "text", "json_object"
    */
   response_format?: string;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
@@ -322,7 +338,7 @@ export interface ChatMessageImageContentItem
    * The evaluation quality setting to use, which controls relative prioritization of speed, token consumption, and
    * accuracy.
    *
-   * Possible values: auto, low, high
+   * Possible values: "auto", "low", "high"
    */
   detail?: string;
 }
@@ -483,7 +499,7 @@ export interface AzureCognitiveSearchChatExtensionParameters {
   /**
    * The query type to use with Azure Cognitive Search.
    *
-   * Possible values: simple, semantic, vector, vectorSimpleHybrid, vectorSemanticHybrid
+   * Possible values: "simple", "semantic", "vector", "vectorSimpleHybrid", "vectorSemanticHybrid"
    */
   queryType?: string;
   /** The additional semantic configuration for the query. */
@@ -748,7 +764,7 @@ export interface ElasticsearchChatExtensionParameters {
   /**
    * The query type of Elasticsearch®.
    *
-   * Possible values: simple, vector
+   * Possible values: "simple", "vector"
    */
   queryType?: string;
   /** The embedding dependency for vector search. */
@@ -900,27 +916,27 @@ export interface ImageGenerationOptions {
    * Dall-e-2 models support 256x256, 512x512, or 1024x1024.
    * Dall-e-3 models support 1024x1024, 1792x1024, or 1024x1792.
    *
-   * Possible values: 256x256, 512x512, 1024x1024, 1792x1024, 1024x1792
+   * Possible values: "256x256", "512x512", "1024x1024", "1792x1024", "1024x1792"
    */
   size?: string;
   /**
    * The format in which image generation response items should be presented.
    *
-   * Possible values: url, b64_json
+   * Possible values: "url", "b64_json"
    */
   response_format?: string;
   /**
    * The desired image generation quality level to use.
    * Only configurable with dall-e-3 models.
    *
-   * Possible values: standard, hd
+   * Possible values: "standard", "hd"
    */
   quality?: string;
   /**
    * The desired image generation style to use.
    * Only configurable with dall-e-3 models.
    *
-   * Possible values: natural, vivid
+   * Possible values: "natural", "vivid"
    */
   style?: string;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
@@ -956,6 +972,7 @@ export interface EmbeddingsOptions {
 
 /** An abstract representation of a chat message as provided in a request. */
 export type ChatRequestMessage =
+  | ChatRequestMessageParent
   | ChatRequestSystemMessage
   | ChatRequestUserMessage
   | ChatRequestAssistantMessage
@@ -963,19 +980,23 @@ export type ChatRequestMessage =
   | ChatRequestFunctionMessage;
 /** An abstract representation of a structured content item within a chat message. */
 export type ChatMessageContentItem =
+  | ChatMessageContentItemParent
   | ChatMessageTextContentItem
   | ChatMessageImageContentItem;
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.
  */
-export type ChatCompletionsToolCall = ChatCompletionsFunctionToolCall;
+export type ChatCompletionsToolCall =
+  | ChatCompletionsToolCallParent
+  | ChatCompletionsFunctionToolCall;
 /**
  *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
  *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
  *   The use of this configuration is compatible only with Azure OpenAI.
  */
 export type AzureChatExtensionConfiguration =
+  | AzureChatExtensionConfigurationParent
   | AzureCognitiveSearchChatExtensionConfiguration
   | AzureMachineLearningIndexChatExtensionConfiguration
   | AzureCosmosDBChatExtensionConfiguration
@@ -983,6 +1004,7 @@ export type AzureChatExtensionConfiguration =
   | PineconeChatExtensionConfiguration;
 /** The authentication options for Azure OpenAI On Your Data. */
 export type OnYourDataAuthenticationOptions =
+  | OnYourDataAuthenticationOptionsParent
   | OnYourDataApiKeyAuthenticationOptions
   | OnYourDataConnectionStringAuthenticationOptions
   | OnYourDataKeyAndKeyIdAuthenticationOptions
@@ -990,12 +1012,15 @@ export type OnYourDataAuthenticationOptions =
   | OnYourDataUserAssignedManagedIdentityAuthenticationOptions;
 /** An abstract representation of a vectorization source for Azure OpenAI On Your Data with vector search. */
 export type OnYourDataVectorizationSource =
+  | OnYourDataVectorizationSourceParent
   | OnYourDataEndpointVectorizationSource
   | OnYourDataDeploymentNameVectorizationSource
   | OnYourDataModelIdVectorizationSource;
 /** An abstract representation of a tool that can be used by the model to improve a chat completions response. */
 export type ChatCompletionsToolDefinition =
-  ChatCompletionsFunctionToolDefinition;
+  | ChatCompletionsToolDefinitionParent
+  | ChatCompletionsFunctionToolDefinition;
 /** An abstract representation of an explicit, named tool selection to use for a chat completions request. */
 export type ChatCompletionsNamedToolSelection =
-  ChatCompletionsNamedFunctionToolSelection;
+  | ChatCompletionsNamedToolSelectionParent
+  | ChatCompletionsNamedFunctionToolSelection;

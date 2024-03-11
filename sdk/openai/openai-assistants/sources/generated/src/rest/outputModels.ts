@@ -63,6 +63,18 @@ export interface AssistantOutput {
   metadata: TypeSpecRecordOutput | null;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<AssistantOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** The status of an assistant deletion operation. */
 export interface AssistantDeletionStatusOutput {
   /** The ID of the resource specified for deletion. */
@@ -81,6 +93,18 @@ export interface AssistantFileOutput {
   created_at: number;
   /** The assistant ID that the file is attached to. */
   assistant_id: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<AssistantFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** The status of an assistant file deletion operation. */
@@ -230,6 +254,18 @@ export interface MessageImageFileIdDetailsOutput {
   file_id: string;
 }
 
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<ThreadMessageOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
+}
+
 /** Information about a file attached to an assistant thread message. */
 export interface MessageFileOutput {
   /** The identifier, which can be referenced in API endpoints. */
@@ -238,6 +274,18 @@ export interface MessageFileOutput {
   created_at: number;
   /** The ID of the message that this file is attached to. */
   message_id: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<MessageFileOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** Data representing a single evaluation run of an assistant thread. */
@@ -315,7 +363,7 @@ export interface RequiredFunctionToolCallOutput
   /** The object type of the required tool call. Always 'function' for function tools. */
   type: "function";
   /** Detailed information about the function to be executed by the tool that includes name and arguments. */
-  function: FunctionToolCallDetailsOutput;
+  function: FunctionDefinitionOutput;
 }
 
 /** The details of an error as encountered by an assistant thread run. */
@@ -324,6 +372,18 @@ export interface RunErrorOutput {
   code: string;
   /** The human-readable text associated with the error. */
   message: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<ThreadRunOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** Detailed information about a single step of an assistant thread run. */
@@ -492,6 +552,18 @@ export interface RunStepErrorOutput {
   code: string;
   /** The human-readable text associated with this error. */
   message: string;
+}
+
+/** The response data for a requested list of items. */
+export interface OpenAIPageableListOfOutput {
+  /** The requested list of items. */
+  data: Array<RunStepOutput>;
+  /** The first ID represented in this list. */
+  first_id: string;
+  /** The last ID represented in this list. */
+  last_id: string;
+  /** A value indicating whether there are additional values available not captured in this list. */
+  has_more: boolean;
 }
 
 /** The response data from a file list operation. */

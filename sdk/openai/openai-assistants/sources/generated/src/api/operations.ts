@@ -9,8 +9,8 @@ import {
   AssistantDeletionStatus,
   AssistantFile,
   AssistantFileDeletionStatus,
-  AssistantThreadCreationOptions,
   MessageRole,
+  AssistantThreadCreationOptions,
   AssistantThread,
   ThreadDeletionStatus,
   ThreadMessage,
@@ -25,6 +25,11 @@ import {
   InputFile,
   FileDeletionStatus,
 } from "../models/models.js";
+import {
+  deserializeMessageContentUnion,
+  deserializeRequiredActionUnion,
+  deserializeRunStepDetailsUnion,
+} from "../utils/deserializeUtil.js";
 import {
   AssistantsContext as Client,
   CancelRun200Response,
@@ -521,14 +526,15 @@ export function _createThreadSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: !body["messages"]
-          ? body["messages"]
-          : body["messages"].map((p) => ({
-              role: p["role"],
-              content: p["content"],
-              file_ids: p["fileIds"],
-              metadata: p["metadata"],
-            })),
+        messages:
+          body["messages"] === undefined
+            ? body["messages"]
+            : body["messages"].map((p) => ({
+                role: p["role"],
+                content: p["content"],
+                file_ids: p["fileIds"],
+                metadata: p["metadata"],
+              })),
         metadata: body["metadata"],
       },
     });
@@ -695,7 +701,9 @@ export async function _createMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -752,7 +760,7 @@ export async function _listMessagesDeserialize(
       createdAt: new Date(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
-      content: p["content"],
+      content: p["content"].map((p) => deserializeMessageContentUnion(p)),
       assistantId: p["assistant_id"],
       runId: p["run_id"],
       fileIds: p["file_ids"],
@@ -797,7 +805,9 @@ export async function _getMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -842,7 +852,9 @@ export async function _updateMessageDeserialize(
     createdAt: new Date(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
-    content: result.body["content"],
+    content: result.body["content"].map((p) =>
+      deserializeMessageContentUnion(p),
+    ),
     assistantId: result.body["assistant_id"],
     runId: result.body["run_id"],
     fileIds: result.body["file_ids"],
@@ -1002,12 +1014,9 @@ export async function _createRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1091,12 +1100,9 @@ export async function _listRunsDeserialize(
       threadId: p["thread_id"],
       assistantId: p["assistant_id"],
       status: p["status"],
-      requiredAction:
-        p.required_action === null
-          ? null
-          : !p.required_action
-            ? undefined
-            : { type: p.required_action?.["type"] },
+      requiredAction: !p.required_action
+        ? p.required_action
+        : deserializeRequiredActionUnion(p.required_action),
       lastError:
         p.last_error === null
           ? null
@@ -1154,12 +1160,9 @@ export async function _getRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1233,12 +1236,9 @@ export async function _updateRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1322,12 +1322,9 @@ export async function _submitToolOutputsToRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1405,12 +1402,9 @@ export async function _cancelRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1472,14 +1466,15 @@ export function _createThreadAndRunSend(
         thread: !body.thread
           ? undefined
           : {
-              messages: !body.thread?.["messages"]
-                ? body.thread?.["messages"]
-                : body.thread?.["messages"].map((p) => ({
-                    role: p["role"],
-                    content: p["content"],
-                    file_ids: p["fileIds"],
-                    metadata: p["metadata"],
-                  })),
+              messages:
+                body.thread?.["messages"] === undefined
+                  ? body.thread?.["messages"]
+                  : body.thread?.["messages"].map((p) => ({
+                      role: p["role"],
+                      content: p["content"],
+                      file_ids: p["fileIds"],
+                      metadata: p["metadata"],
+                    })),
               metadata: body.thread?.["metadata"],
             },
         model: body["model"],
@@ -1502,12 +1497,9 @@ export async function _createThreadAndRunDeserialize(
     threadId: result.body["thread_id"],
     assistantId: result.body["assistant_id"],
     status: result.body["status"],
-    requiredAction:
-      result.body.required_action === null
-        ? null
-        : !result.body.required_action
-          ? undefined
-          : { type: result.body.required_action?.["type"] },
+    requiredAction: !result.body.required_action
+      ? result.body.required_action
+      : deserializeRequiredActionUnion(result.body.required_action),
     lastError:
       result.body.last_error === null
         ? null
@@ -1585,7 +1577,7 @@ export async function _getRunStepDeserialize(
     threadId: result.body["thread_id"],
     runId: result.body["run_id"],
     status: result.body["status"],
-    stepDetails: { type: result.body.step_details["type"] },
+    stepDetails: deserializeRunStepDetailsUnion(result.body.step_details),
     lastError:
       result.body.last_error === null
         ? null
@@ -1666,7 +1658,7 @@ export async function _listRunStepsDeserialize(
       threadId: p["thread_id"],
       runId: p["run_id"],
       status: p["status"],
-      stepDetails: { type: p.step_details["type"] },
+      stepDetails: deserializeRunStepDetailsUnion(p.step_details),
       lastError:
         p.last_error === null
           ? null

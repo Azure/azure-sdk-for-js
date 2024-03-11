@@ -6,7 +6,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/health-insights-radiologyinsights-rest.d.ts"
+    "publicTrimmedFilePath": "./types/health-insights-radiologyinsights.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": { "default": { "logLevel": "none" } },

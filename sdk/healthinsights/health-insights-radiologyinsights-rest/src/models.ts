@@ -41,7 +41,7 @@ export interface Extension extends Element {
 export interface Quantity extends Element {
   /** Numerical value (with implicit precision) */
   value?: number;
-  /** \< | \<= | \>= | \> - how to understand the value */
+  /** < | <= | >= | > - how to understand the value */
   comparator?: string;
   /** Unit representation */
   unit?: string;
@@ -712,4 +712,8 @@ export interface FindingOptions {
  * A resource with narrative, extensions, and contained resources
  * Based on [FHIR DomainResource](https://www.hl7.org/fhir/domainresource.html)
  */
-export type DomainResource = DomainResourceParent | Observation | Condition | ResearchStudy;
+export type DomainResource =
+  | DomainResourceParent
+  | Observation
+  | Condition
+  | ResearchStudy;

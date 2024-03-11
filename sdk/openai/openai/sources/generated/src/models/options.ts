@@ -3,35 +3,31 @@
 
 import { OperationOptions } from "@azure-rest/core-client";
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsPlainTextOptions
+export interface GetAudioTranscriptionAsPlainTextOptions
   extends OperationOptions {}
 
-export interface ClientOpenAIClientGetAudioTranscriptionAsResponseObjectOptions
+export interface GetAudioTranscriptionAsResponseObjectOptions
   extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface ClientOpenAIClientGetAudioTranslationAsPlainTextOptions
+export interface GetAudioTranslationAsPlainTextOptions
   extends OperationOptions {}
 
-export interface ClientOpenAIClientGetAudioTranslationAsResponseObjectOptions
+export interface GetAudioTranslationAsResponseObjectOptions
   extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface ClientOpenAIClientGetCompletionsOptions
+export interface GetCompletionsOptions extends OperationOptions {}
+
+export interface GetChatCompletionsOptions extends OperationOptions {}
+
+export interface GetChatCompletionsWithAzureExtensionsOptions
   extends OperationOptions {}
 
-export interface ClientOpenAIClientGetChatCompletionsOptions
-  extends OperationOptions {}
+export interface GetImageGenerationsOptions extends OperationOptions {}
 
-export interface ClientOpenAIClientGetChatCompletionsWithAzureExtensionsOptions
-  extends OperationOptions {}
-
-export interface ClientOpenAIClientGetImageGenerationsOptions
-  extends OperationOptions {}
-
-export interface ClientOpenAIClientGetEmbeddingsOptions
-  extends OperationOptions {}
+export interface GetEmbeddingsOptions extends OperationOptions {}

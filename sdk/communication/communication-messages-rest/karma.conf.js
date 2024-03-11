@@ -53,12 +53,11 @@ module.exports = function (config) {
 
     envPreprocessor: [
       "TEST_MODE",
+      "ENDPOINT",
       "AZURE_CLIENT_SECRET",
       "AZURE_CLIENT_ID",
       "AZURE_TENANT_ID",
-      "CHANNEL_ID",
-      "RECIPIENT_PHONE_NUMBER",
-      "COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING",
+      "SUBSCRIPTION_ID",
       "RECORDINGS_RELATIVE_PATH",
     ],
 
