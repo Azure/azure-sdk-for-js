@@ -141,10 +141,10 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   }
   if (span.status.message) {
     // If the span status has a message, add it to the properties of the remoteDependencyData.
-    if(remoteDependencyData.properties === undefined) {
+    if (remoteDependencyData.properties === undefined) {
       remoteDependencyData.properties = {};
     }
-    remoteDependencyData.properties['span.status.message'] = span.status.message;
+    remoteDependencyData.properties["span.status.message"] = span.status.message;
   }
   const httpMethod = span.attributes[SemanticAttributes.HTTP_METHOD];
   const dbSystem = span.attributes[SemanticAttributes.DB_SYSTEM];
@@ -250,10 +250,10 @@ function createRequestData(span: ReadableSpan): RequestData {
   const grpcStatusCode = span.attributes[SemanticAttributes.RPC_GRPC_STATUS_CODE];
   if (span.status.message) {
     // If the span status has a message, add it to the properties of the requestData.
-    if(requestData.properties === undefined) {
+    if (requestData.properties === undefined) {
       requestData.properties = {};
     }
-    requestData.properties['span.status.message'] = span.status.message;
+    requestData.properties["span.status.message"] = span.status.message;
   }
   if (httpMethod) {
     requestData.url = getUrl(span.attributes);
