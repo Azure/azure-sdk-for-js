@@ -18643,12 +18643,12 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-QvMe4hvJqxGu27gFk9gSt5x0vTeAtrKAv2YfWx1f/lkIeVBhzS4PeFaw9+Gb3cfDLIqB1l9KUkOgoZzWbjgLAQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-ldx3e2y63ewLjhcINXUIe8I9jBveXqBI3DdiutCOfG9f5umC6c6IkP+BwNGxCzHCZTOUqXctnmYb9p6NAhElQA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/identity': 4.0.1
+      '@azure/identity': 3.4.2
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@sinonjs/fake-timers': 11.2.2
       '@types/chai': 4.3.12
