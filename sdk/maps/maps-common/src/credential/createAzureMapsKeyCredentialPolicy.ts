@@ -21,7 +21,7 @@ const azureMapsKeyCredentialPolicyName = "mapsAzureKeyCredentialPolicy";
  * using an `AzureKeyCredential` for Azure Maps
  */
 export function createAzureMapsKeyCredentialPolicy(
-  azureKeyCredential: KeyCredential
+  azureKeyCredential: KeyCredential,
 ): PipelinePolicy {
   return {
     name: azureMapsKeyCredentialPolicyName,

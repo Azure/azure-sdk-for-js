@@ -28,7 +28,7 @@ describe("ResourceLink Trimming of leading and trailing slashes", function (this
       "validate correct execution of query",
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create(doc);
@@ -61,7 +61,7 @@ describe("Test Query Metrics", function (this: Suite) {
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions
+      collectionOptions,
     );
     const createdContainer = database.container(createdCollectionDef.id);
 
@@ -107,7 +107,7 @@ describe("Partition key in FeedOptions", function (this: Suite) {
     const container = await getTestContainer(
       "validate correct execution of query",
       undefined,
-      containerDefinition
+      containerDefinition,
     );
 
     await container.items.create({ id: "foo" });
@@ -127,7 +127,7 @@ describe("aggregate query over null value", function (this: Suite) {
   const aggregateQueryOverNullValue = async function (
     testName: string,
     containerName: string,
-    containerThroughput: number
+    containerThroughput: number,
   ): Promise<void> {
     const containerDefinition = {
       id: containerName,
@@ -141,7 +141,7 @@ describe("aggregate query over null value", function (this: Suite) {
       testName,
       undefined,
       containerDefinition,
-      containerOptions
+      containerOptions,
     );
 
     await container.items.create({
@@ -195,12 +195,12 @@ describe("Test Index metrics", function (this: Suite) {
     const createdContainerSinglePartition = await setupContainer(
       "index metrics test db",
       collectionId,
-      4000
+      4000,
     );
     const createdContainerMultiPartition = await setupContainer(
       "index metrics test db multipartioned",
       collectionId,
-      12000
+      12000,
     );
 
     await validateIndexMetrics(createdContainerSinglePartition, collectionId);
@@ -245,7 +245,7 @@ describe("Test Index metrics", function (this: Suite) {
 
     const { resource: createdCollectionDef } = await database.containers.create(
       collectionDefinition,
-      collectionOptions
+      collectionOptions,
     );
     const createdContainer = database.container(createdCollectionDef.id);
     return createdContainer;

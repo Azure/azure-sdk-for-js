@@ -1,22 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
-import { Pipeline, createEmptyPipeline } from "./pipeline";
-import { PipelineRetryOptions, TlsSettings } from "./interfaces";
-import { RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy";
-import { UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy";
-
-import { ProxySettings } from ".";
-import { decompressResponsePolicy } from "./policies/decompressResponsePolicy";
-import { defaultRetryPolicy } from "./policies/defaultRetryPolicy";
-import { formDataPolicy } from "./policies/formDataPolicy";
+import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
+import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
+import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
+import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
+import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
+import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
+import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
+import { formDataPolicy } from "./policies/formDataPolicy.js";
 import { isNode } from "@azure/core-util";
-import { proxyPolicy } from "./policies/proxyPolicy";
-import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy";
-import { tlsPolicy } from "./policies/tlsPolicy";
-import { tracingPolicy } from "./policies/tracingPolicy";
-import { multipartPolicy } from "./policies/multipartPolicy";
+import { proxyPolicy } from "./policies/proxyPolicy.js";
+import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
+import { tlsPolicy } from "./policies/tlsPolicy.js";
+import { tracingPolicy } from "./policies/tracingPolicy.js";
 
 /**
  * Defines options that are used to configure the HTTP pipeline for
@@ -88,7 +86,7 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
     pipeline.addPolicy(decompressResponsePolicy());
   }
 
-  pipeline.addPolicy(formDataPolicy());
+  pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
   pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
   pipeline.addPolicy(setClientRequestIdPolicy(options.telemetryOptions?.clientRequestIdHeaderName));
   // The multipart policy is added after policies with no phase, so that

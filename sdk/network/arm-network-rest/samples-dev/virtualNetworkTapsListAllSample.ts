@@ -28,7 +28,7 @@ async function listAllVirtualNetworkTaps() {
   const initialResponse = await client
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Network/virtualNetworkTaps",
-      subscriptionId
+      subscriptionId,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

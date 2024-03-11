@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the status of a specific operation in the specified managed cluster.
  *
  * @summary Get the status of a specific operation in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/OperationStatusResultGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/OperationStatusResultGet.json
  */
 async function getOperationStatusResult() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getOperationStatusResult() {
   const result = await client.operationStatusResultOperations.get(
     resourceGroupName,
     resourceName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

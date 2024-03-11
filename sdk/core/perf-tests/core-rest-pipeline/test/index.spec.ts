@@ -1,16 +1,16 @@
 import { createPerfProgram } from "@azure/test-utils-perf";
-import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChallengeAuthenticationPolicy/wwwChallenge.spec";
-import { CoreRestPipelineTest } from "./core-rest-pipeline.spec";
-import { FetchTest } from "./fetch.spec";
-import { HttpRequestTest } from "./http-request.spec";
-import { UndiciRequestTest } from "./undici-request.spec";
+import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChallengeAuthenticationPolicy/wwwChallenge.spec.js";
+import { CoreRestPipelineTest } from "./core-rest-pipeline.spec.js";
+import { FetchTest } from "./fetch.spec.js";
+import { HttpRequestTest } from "./http-request.spec.js";
+import { UndiciRequestTest } from "./undici-request.spec.js";
 
 const perfProgram = createPerfProgram(
   BearerTokenAuthenticationPolicyChallengeTest,
   CoreRestPipelineTest,
   FetchTest,
   HttpRequestTest,
-  UndiciRequestTest
+  UndiciRequestTest,
 );
 
 perfProgram.run();

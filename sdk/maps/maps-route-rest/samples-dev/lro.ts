@@ -84,13 +84,13 @@ function logBatchResponse(result: RouteGetRouteDirectionsBatch200Response) {
       console.log(`Request ${index} success!`);
       item.response.routes.forEach(({ summary, legs }) => {
         console.log(
-          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`
+          `The total distance is ${summary.lengthInMeters} meters, and it takes ${summary.travelTimeInSeconds} seconds.`,
         );
         legs.forEach(({ summary, points }, idx) => {
           console.log(
             `The ${idx + 1}th leg's length is ${summary.lengthInMeters} meters, and it takes ${
               summary.travelTimeInSeconds
-            } seconds. Followings are the first 10 points: `
+            } seconds. Followings are the first 10 points: `,
           );
           console.table(points.slice(0, 10));
         });

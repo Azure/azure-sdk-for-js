@@ -64,8 +64,8 @@ export function doubleToByteArrayJSBI(double: number): Buffer {
     output[i] = JSBI.toNumber(
       JSBI.bitwiseAnd(
         JSBI.signedRightShift(lng, JSBI.multiply(JSBI.BigInt(i), JSBI.BigInt(8))),
-        JSBI.BigInt(0xff)
-      )
+        JSBI.BigInt(0xff),
+      ),
     );
   }
   return output;

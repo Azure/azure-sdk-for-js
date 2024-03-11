@@ -32,7 +32,7 @@ describe("Authentication", () => {
     const client = new AppConfigurationClient(
       credsAndEndpoint.endpoint,
       credsAndEndpoint.credential,
-      recorder.configureClientOptions({})
+      recorder.configureClientOptions({}),
     );
 
     // it doesn't matter if any data comes in so long as we were
@@ -48,14 +48,14 @@ describe("AppConfigurationClient constructor error cases", () => {
   it("invalid connection string gives a decent error message", () => {
     assert.throws(
       () => new AppConfigurationClient("an invalid connection string"),
-      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/
+      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/,
     );
   });
 
   it("undefined connection string gives a decent error message", () => {
     assert.throws(
       () => new AppConfigurationClient(undefined as any),
-      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/
+      /Invalid connection string\. Valid connection strings should match the regex 'Endpoint=\(\.\*\);Id=\(\.\*\);Secret=\(\.\*\)'/,
     );
   });
 });

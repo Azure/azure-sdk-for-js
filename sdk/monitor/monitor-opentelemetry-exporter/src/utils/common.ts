@@ -11,7 +11,12 @@ import { Tags } from "../types";
 import { getInstance } from "../platform";
 import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
 import { Resource } from "@opentelemetry/resources";
-import { Attributes } from "@opentelemetry/api";
+import { Attributes, HrTime } from "@opentelemetry/api";
+import { hrTimeToNanoseconds } from "@opentelemetry/core";
+
+export function hrTimeToDate(hrTime: HrTime): Date {
+  return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
+}
 
 export function createTagsFromResource(resource: Resource): Tags {
   const context = getInstance();
@@ -171,7 +176,7 @@ export function getDependencyTarget(attributes: Attributes): string {
 
 export function createResourceMetricEnvelope(
   resource: Resource,
-  instrumentationKey: string
+  instrumentationKey: string,
 ): Envelope | undefined {
   if (resource && resource.attributes) {
     const tags = createTagsFromResource(resource);

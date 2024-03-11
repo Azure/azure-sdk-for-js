@@ -41,7 +41,7 @@ async function logAnalyticsGetLogAnalyticsMetrics() {
     granularity,
     customDomains,
     protocols,
-    options
+    options,
   );
   console.log(result);
 }

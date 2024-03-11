@@ -41,7 +41,7 @@ import { getImageDimensionsFromResponse } from "./images.js";
 function ifDefined(
   val: any,
   validate: (x: any) => void,
-  { defined }: { defined?: boolean } = {}
+  { defined }: { defined?: boolean } = {},
 ): void {
   if (val !== undefined && val !== null) {
     validate(val);
@@ -58,9 +58,16 @@ function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   }
 }
 
+function assertArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isArray(val);
+  for (const x of val) {
+    validate(x);
+  }
+}
+
 async function assertAsyncIterable<T>(
   val: AsyncIterable<T>,
-  validate: (x: T) => void
+  validate: (x: T) => void,
 ): Promise<number> {
   const items: T[] = [];
   for await (const item of val) {
@@ -72,7 +79,7 @@ async function assertAsyncIterable<T>(
           e.message
         }.\n\nPrevious items:\n\n${items
           .map((x) => JSON.stringify(x, undefined, 2))
-          .join("\n")}\n\n Stack trace: ${e.stack}`
+          .join("\n")}\n\n Stack trace: ${e.stack}`,
       );
     }
     items.push(item);
@@ -121,9 +128,11 @@ function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetai
     ifDefined(cfr.selfHarm, assertContentFilterResult);
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.customBlocklists, assertContentFilterBlocklistIdResult);
+    ifDefined(cfr.customBlocklists, (arr) =>
+      assertArray(arr, assertContentFilterBlocklistIdResult),
+    );
   }
 }
 
@@ -159,7 +168,7 @@ function assertChoice(choice: Choice): void {
 
 function assertFunctionCall(
   functionCall: FunctionCall,
-  { stream }: ChatCompletionTestOptions
+  { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, functionCall.arguments, assert.isString);
   assertIf(!stream, functionCall.name, assert.isString);
@@ -167,7 +176,7 @@ function assertFunctionCall(
 
 function assertToolCall(
   functionCall: ChatCompletionsToolCall,
-  { stream }: ChatCompletionTestOptions
+  { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, functionCall.type, assert.isString);
   assertIf(!stream, functionCall.id, assert.isString);
@@ -188,7 +197,7 @@ function assertIf(condition: boolean, val: any, check: (x: any) => void): void {
 
 function assertMessage(
   message: ChatResponseMessage | undefined,
-  { functions, stream }: ChatCompletionTestOptions = {}
+  { functions, stream }: ChatCompletionTestOptions = {},
 ): void {
   assert.isDefined(message);
   const msg = message as ChatResponseMessage;
@@ -215,7 +224,7 @@ function assertChatFinishDetails(val: ChatFinishDetails): void {
 }
 
 function assertAzureGroundingEnhancementCoordinatePoint(
-  val: AzureGroundingEnhancementCoordinatePoint
+  val: AzureGroundingEnhancementCoordinatePoint,
 ): void {
   assert.isNumber(val.x);
   assert.isNumber(val.y);
@@ -273,7 +282,7 @@ function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPrompt[
 
 function assertCompletionsNoUsage(
   completions: Omit<Completions, "usage">,
-  { allowEmptyChoices }: CompletionTestOptions = {}
+  { allowEmptyChoices }: CompletionTestOptions = {},
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, assertChoice);
@@ -285,7 +294,7 @@ function assertCompletionsNoUsage(
 
 function assertChatCompletionsNoUsage(
   completions: ChatCompletions,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions
+  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChatChoice(choice, opts));
@@ -303,7 +312,7 @@ export function assertCompletions(completions: Completions): void {
 
 export function assertChatCompletions(
   completions: ChatCompletions,
-  options: ChatCompletionTestOptions = {}
+  options: ChatCompletionTestOptions = {},
 ): void {
   assertChatCompletionsNoUsage(completions, options);
   ifDefined(completions.usage, assertUsage);
@@ -311,23 +320,23 @@ export function assertChatCompletions(
 
 export async function assertCompletionsStream(
   stream: AsyncIterable<Omit<Completions, "usage">>,
-  options: CompletionTestOptions = {}
+  options: CompletionTestOptions = {},
 ): Promise<number> {
   return assertAsyncIterable(stream, (item) => assertCompletionsNoUsage(item, options));
 }
 
 export async function assertChatCompletionsStream(
   stream: AsyncIterable<ChatCompletions>,
-  options: ChatCompletionTestOptions = {}
+  options: ChatCompletionTestOptions = {},
 ): Promise<number> {
   return assertAsyncIterable(stream, (item) =>
-    assertChatCompletionsNoUsage(item, { ...options, stream: true })
+    assertChatCompletionsNoUsage(item, { ...options, stream: true }),
   );
 }
 
 export function assertChatCompletionsList(
   list: Array<ChatCompletions>,
-  options: ChatCompletionTestOptions = {}
+  options: ChatCompletionTestOptions = {},
 ): void {
   assert.isNotEmpty(list);
   list.map((item) => assertChatCompletionsNoUsage(item, { ...options, stream: true }));
@@ -370,7 +379,7 @@ function assertVerboseJson(result: AudioResultVerboseJson): void {
 
 export function assertAudioResult<Format extends AudioResultFormat>(
   responseFormat: AudioResultFormat,
-  result: AudioResult<Format>
+  result: AudioResult<Format>,
 ): void {
   switch (responseFormat) {
     case "json":
@@ -392,7 +401,7 @@ export function assertImageGenerationsWithURLs(
   result: ImageGenerations,
   recorder: Recorder,
   height: number,
-  width: number
+  width: number,
 ): void {
   assert.instanceOf(result.created, Date);
   assert.isNotEmpty(result.data);
@@ -412,7 +421,7 @@ export function assertImageGenerationsWithURLs(
 export function assertImageGenerationsWithString(
   result: ImageGenerations,
   height: number,
-  width: number
+  width: number,
 ): void {
   assert.instanceOf(result.created, Date);
   assert.isNotEmpty(result.data);
@@ -427,5 +436,35 @@ export function assertImageGenerationsWithString(
       const actualHeight = new DataView(arr.subarray(20, 4).buffer).getUint32(0);
       assert.equal(actualHeight, height, "Height does not match");
     });
+  }
+}
+
+export async function assertOpenAiError<T>(
+  promise: Promise<T>,
+  expectations: {
+    messagePattern?: RegExp;
+    type?: string;
+    errorCode?: string | null;
+  },
+): Promise<void> {
+  try {
+    await promise;
+  } catch (e: any) {
+    const { messagePattern, type, errorCode } = expectations;
+    if (messagePattern) {
+      assert.match(e.message, messagePattern);
+    } else {
+      assert.isUndefined(e.message);
+    }
+    if (type) {
+      assert.equal(e.type, type);
+    } else {
+      assert.isUndefined(e.type);
+    }
+    if (errorCode !== undefined) {
+      assert.equal(e.code, errorCode);
+    } else {
+      assert.isUndefined(e.code);
+    }
   }
 }

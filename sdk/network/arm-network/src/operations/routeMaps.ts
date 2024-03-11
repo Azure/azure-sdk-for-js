@@ -16,7 +16,7 @@ import { NetworkManagementClient } from "../networkManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   RouteMapsCreateOrUpdateOptionalParams,
   RouteMapsCreateOrUpdateResponse,
   RouteMapsDeleteOptionalParams,
-  RouteMapsListNextResponse
+  RouteMapsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +54,7 @@ export class RouteMapsImpl implements RouteMaps {
   public list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RouteMapsListOptionalParams
+    options?: RouteMapsListOptionalParams,
   ): PagedAsyncIterableIterator<RouteMap> {
     const iter = this.listPagingAll(resourceGroupName, virtualHubName, options);
     return {
@@ -72,9 +72,9 @@ export class RouteMapsImpl implements RouteMaps {
           resourceGroupName,
           virtualHubName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class RouteMapsImpl implements RouteMaps {
     resourceGroupName: string,
     virtualHubName: string,
     options?: RouteMapsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RouteMap[]> {
     let result: RouteMapsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +98,7 @@ export class RouteMapsImpl implements RouteMaps {
         resourceGroupName,
         virtualHubName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +110,12 @@ export class RouteMapsImpl implements RouteMaps {
   private async *listPagingAll(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RouteMapsListOptionalParams
+    options?: RouteMapsListOptionalParams,
   ): AsyncIterableIterator<RouteMap> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       virtualHubName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -132,11 +132,11 @@ export class RouteMapsImpl implements RouteMaps {
     resourceGroupName: string,
     virtualHubName: string,
     routeMapName: string,
-    options?: RouteMapsGetOptionalParams
+    options?: RouteMapsGetOptionalParams,
   ): Promise<RouteMapsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, routeMapName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -153,7 +153,7 @@ export class RouteMapsImpl implements RouteMaps {
     virtualHubName: string,
     routeMapName: string,
     routeMapParameters: RouteMap,
-    options?: RouteMapsCreateOrUpdateOptionalParams
+    options?: RouteMapsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<RouteMapsCreateOrUpdateResponse>,
@@ -162,21 +162,20 @@ export class RouteMapsImpl implements RouteMaps {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RouteMapsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -185,8 +184,8 @@ export class RouteMapsImpl implements RouteMaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -194,8 +193,8 @@ export class RouteMapsImpl implements RouteMaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -206,9 +205,9 @@ export class RouteMapsImpl implements RouteMaps {
         virtualHubName,
         routeMapName,
         routeMapParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       RouteMapsCreateOrUpdateResponse,
@@ -216,7 +215,7 @@ export class RouteMapsImpl implements RouteMaps {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -235,14 +234,14 @@ export class RouteMapsImpl implements RouteMaps {
     virtualHubName: string,
     routeMapName: string,
     routeMapParameters: RouteMap,
-    options?: RouteMapsCreateOrUpdateOptionalParams
+    options?: RouteMapsCreateOrUpdateOptionalParams,
   ): Promise<RouteMapsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       virtualHubName,
       routeMapName,
       routeMapParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -258,25 +257,24 @@ export class RouteMapsImpl implements RouteMaps {
     resourceGroupName: string,
     virtualHubName: string,
     routeMapName: string,
-    options?: RouteMapsDeleteOptionalParams
+    options?: RouteMapsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -285,8 +283,8 @@ export class RouteMapsImpl implements RouteMaps {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -294,20 +292,20 @@ export class RouteMapsImpl implements RouteMaps {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, virtualHubName, routeMapName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -324,13 +322,13 @@ export class RouteMapsImpl implements RouteMaps {
     resourceGroupName: string,
     virtualHubName: string,
     routeMapName: string,
-    options?: RouteMapsDeleteOptionalParams
+    options?: RouteMapsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       virtualHubName,
       routeMapName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -344,11 +342,11 @@ export class RouteMapsImpl implements RouteMaps {
   private _list(
     resourceGroupName: string,
     virtualHubName: string,
-    options?: RouteMapsListOptionalParams
+    options?: RouteMapsListOptionalParams,
   ): Promise<RouteMapsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -363,11 +361,11 @@ export class RouteMapsImpl implements RouteMaps {
     resourceGroupName: string,
     virtualHubName: string,
     nextLink: string,
-    options?: RouteMapsListNextOptionalParams
+    options?: RouteMapsListNextOptionalParams,
   ): Promise<RouteMapsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualHubName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -375,16 +373,15 @@ export class RouteMapsImpl implements RouteMaps {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteMap
+      bodyMapper: Mappers.RouteMap,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -392,31 +389,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routeMapName
+    Parameters.routeMapName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.RouteMap
+      bodyMapper: Mappers.RouteMap,
     },
     201: {
-      bodyMapper: Mappers.RouteMap
+      bodyMapper: Mappers.RouteMap,
     },
     202: {
-      bodyMapper: Mappers.RouteMap
+      bodyMapper: Mappers.RouteMap,
     },
     204: {
-      bodyMapper: Mappers.RouteMap
+      bodyMapper: Mappers.RouteMap,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.routeMapParameters,
   queryParameters: [Parameters.apiVersion],
@@ -425,15 +421,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routeMapName
+    Parameters.routeMapName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps/{routeMapName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -441,8 +436,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -450,51 +445,50 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.virtualHubName,
-    Parameters.routeMapName
+    Parameters.routeMapName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routeMaps",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListRouteMapsResult
+      bodyMapper: Mappers.ListRouteMapsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.virtualHubName
+    Parameters.virtualHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListRouteMapsResult
+      bodyMapper: Mappers.ListRouteMapsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.virtualHubName
+    Parameters.virtualHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

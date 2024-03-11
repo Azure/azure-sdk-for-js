@@ -42,7 +42,7 @@ async function createSecurityPartnerProvider() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/securityPartnerProviders/{securityPartnerProviderName}",
       subscriptionId,
       resourceGroupName,
-      securityPartnerProviderName
+      securityPartnerProviderName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

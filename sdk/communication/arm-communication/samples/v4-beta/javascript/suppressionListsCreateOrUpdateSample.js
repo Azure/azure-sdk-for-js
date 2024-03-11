@@ -33,7 +33,7 @@ async function createOrUpdateSuppressionListsResource() {
     emailServiceName,
     domainName,
     suppressionListName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

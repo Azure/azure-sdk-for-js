@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Contains list of Guardrails version along with its support info and whether it is a default version.
  *
  * @summary Contains list of Guardrails version along with its support info and whether it is a default version.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/ListGuardrailsVersions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ListGuardrailsVersions.json
  */
 async function listGuardrailsVersions() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function listGuardrailsVersions() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.managedClusters.listGuardrailsVersions(
-    location
+    location,
   )) {
     resArray.push(item);
   }

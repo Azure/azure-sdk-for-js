@@ -12,7 +12,7 @@ export abstract class TablesTest<TOptions = Record<string, unknown>> extends Per
     this.client = TableClient.fromConnectionString(
       connectionString,
       tableName,
-      this.configureClientOptions({})
+      this.configureClientOptions({}),
     );
   }
 

@@ -66,7 +66,7 @@ export class ClientContext {
     private cosmosClientOptions: CosmosClientOptions,
     private globalEndpointManager: GlobalEndpointManager,
     private clientConfig: ClientConfigDiagnostic,
-    public diagnosticLevel: CosmosDbDiagnosticLevel
+    public diagnosticLevel: CosmosDbDiagnosticLevel,
   ) {
     this.connectionPolicy = cosmosClientOptions.connectionPolicy;
     this.sessionContainer = new SessionContainer();
@@ -88,7 +88,7 @@ export class ClientContext {
               request.headers.set("Authorization", authorizationToken);
             },
           },
-        })
+        }),
       );
     }
     this.initializeDiagnosticSettings(diagnosticLevel);
@@ -132,13 +132,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Read, response.headers);
       return response;
@@ -160,6 +160,7 @@ export class ClientContext {
     partitionKey,
     startEpk,
     endEpk,
+    correlatedActivityId,
   }: {
     path: string;
     resourceType: ResourceType;
@@ -172,6 +173,7 @@ export class ClientContext {
     partitionKey?: PartitionKey;
     startEpk?: string | undefined;
     endEpk?: string | undefined;
+    correlatedActivityId?: string;
   }): Promise<Response<T & Resource>> {
     // Query operations will use ReadEndpoint even though it uses
     // GET(for queryFeed) and POST(for regular query operations)
@@ -199,7 +201,7 @@ export class ClientContext {
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
       request.resourceType,
-      request.operationType
+      request.operationType,
     );
     request.headers = await this.buildHeaders(request);
 
@@ -210,6 +212,9 @@ export class ClientContext {
     }
 
     if (query !== undefined) {
+      if (correlatedActivityId !== undefined) {
+        request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+      }
       request.headers[HttpHeaders.IsQuery] = "true";
       request.headers[HttpHeaders.ContentType] = QueryJsonContentType;
       if (typeof query === "string") {
@@ -221,7 +226,7 @@ export class ClientContext {
       "query " +
         requestId +
         " started" +
-        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : "")
+        (request.partitionKeyRangeId ? " pkrid: " + request.partitionKeyRangeId : ""),
     );
     logger.verbose(request);
     const start = Date.now();
@@ -237,7 +242,8 @@ export class ClientContext {
     resourceId: string,
     query: SqlQuerySpec | string,
     options: FeedOptions = {},
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
+    correlatedActivityId?: string,
   ): Promise<Response<PartitionedQueryExecutionInfo>> {
     const request: RequestContext = {
       ...this.getContextDerivedPropsForRequestCreation(),
@@ -256,9 +262,12 @@ export class ClientContext {
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
       request.resourceType,
-      request.operationType
+      request.operationType,
     );
     request.headers = await this.buildHeaders(request);
+    if (correlatedActivityId !== undefined) {
+      request.headers[HttpHeaders.CorrelatedActivityId] = correlatedActivityId;
+    }
     request.headers[HttpHeaders.IsQueryPlan] = "True";
     request.headers[HttpHeaders.QueryVersion] = "1.4";
     request.headers[HttpHeaders.SupportedQueryFeatures] =
@@ -277,7 +286,7 @@ export class ClientContext {
   public queryPartitionKeyRanges(
     collectionLink: string,
     query?: string | SqlQuerySpec,
-    options?: FeedOptions
+    options?: FeedOptions,
   ): QueryIterator<PartitionKeyRange> {
     const path = getPathFromLink(collectionLink, ResourceType.pkranges);
     const id = getIdFromLink(collectionLink);
@@ -334,13 +343,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       if (parseLink(path).type !== "colls") {
         this.captureSessionToken(undefined, path, OperationType.Delete, response.headers);
@@ -394,13 +403,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Patch, response.headers);
       return response;
@@ -450,13 +459,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Create, response.headers);
       return response;
@@ -469,7 +478,7 @@ export class ClientContext {
   private processQueryFeedResponse(
     res: Response<any>,
     isQuery: boolean,
-    resultFn: (result: { [key: string]: any }) => any[]
+    resultFn: (result: { [key: string]: any }) => any[],
   ): Response<any> {
     if (isQuery) {
       return {
@@ -553,13 +562,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Replace, response.headers);
       return response;
@@ -610,13 +619,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Upsert, response.headers);
       return response;
@@ -667,13 +676,13 @@ export class ClientContext {
     request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
       diagnosticNode,
       request.resourceType,
-      request.operationType
+      request.operationType,
     );
     const response = await executePlugins(
       diagnosticNode,
       request,
       RequestHandler.request,
-      PluginOn.operation
+      PluginOn.operation,
     );
     return response;
   }
@@ -685,7 +694,7 @@ export class ClientContext {
    */
   public async getDatabaseAccount(
     diagnosticNode: DiagnosticNodeInternal,
-    options: RequestOptions = {}
+    options: RequestOptions = {},
   ): Promise<Response<DatabaseAccount>> {
     const endpoint = options.urlConnection || this.cosmosClientOptions.endpoint;
     const request: RequestContext = {
@@ -707,7 +716,7 @@ export class ClientContext {
       diagnosticNode,
       request,
       RequestHandler.request,
-      PluginOn.operation
+      PluginOn.operation,
     );
 
     const databaseAccount = new DatabaseAccount(result, headers);
@@ -776,13 +785,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       response.diagnostics = diagnosticNode.toDiagnostic(this.getClientConfig());
@@ -836,13 +845,13 @@ export class ClientContext {
       request.endpoint = await this.globalEndpointManager.resolveServiceEndpoint(
         diagnosticNode,
         request.resourceType,
-        request.operationType
+        request.operationType,
       );
       const response = await executePlugins(
         diagnosticNode,
         request,
         RequestHandler.request,
-        PluginOn.operation
+        PluginOn.operation,
       );
       this.captureSessionToken(undefined, path, OperationType.Batch, response.headers);
       return response;
@@ -856,7 +865,7 @@ export class ClientContext {
     err: ErrorResponse,
     path: string,
     operationType: OperationType,
-    resHeaders: CosmosHeaders
+    resHeaders: CosmosHeaders,
   ): void {
     const request = this.getSessionParams(path);
     request.operationType = operationType;

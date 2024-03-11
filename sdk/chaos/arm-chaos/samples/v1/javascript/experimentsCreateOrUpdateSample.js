@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a Experiment resource.
  *
  * @summary Create or update a Experiment resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/CreateUpdateExperiment.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/CreateUpdateExperiment.json
  */
 async function createOrUpdateAExperimentInAResourceGroup() {
   const subscriptionId =
@@ -63,7 +63,7 @@ async function createOrUpdateAExperimentInAResourceGroup() {
   const result = await client.experiments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     experimentName,
-    experiment
+    experiment,
   );
   console.log(result);
 }

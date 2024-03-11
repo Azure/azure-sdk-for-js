@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   TrustedAccessRoleBinding,
-  ContainerServiceClient
+  ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a trusted access role binding
  *
  * @summary Create or update a trusted access role binding
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/TrustedAccessRoleBindings_CreateOrUpdate.json
  */
 async function createOrUpdateATrustedAccessRoleBinding() {
   const subscriptionId =
@@ -34,19 +34,20 @@ async function createOrUpdateATrustedAccessRoleBinding() {
   const trustedAccessRoleBinding: TrustedAccessRoleBinding = {
     roles: [
       "Microsoft.MachineLearningServices/workspaces/reader",
-      "Microsoft.MachineLearningServices/workspaces/writer"
+      "Microsoft.MachineLearningServices/workspaces/writer",
     ],
     sourceResourceId:
-      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/b/providers/Microsoft.MachineLearningServices/workspaces/c"
+      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/b/providers/Microsoft.MachineLearningServices/workspaces/c",
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.trustedAccessRoleBindings.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    resourceName,
-    trustedAccessRoleBindingName,
-    trustedAccessRoleBinding
-  );
+  const result =
+    await client.trustedAccessRoleBindings.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      resourceName,
+      trustedAccessRoleBindingName,
+      trustedAccessRoleBinding,
+    );
   console.log(result);
 }
 

@@ -54,7 +54,7 @@ export async function main() {
 
 async function getDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectionConfigId: string
+  detectionConfigId: string,
 ) {
   console.log("Retrieving an existing detection configuration...");
   const result = await adminClient.getDetectionConfig(detectionConfigId);
@@ -65,7 +65,7 @@ async function getDetectionConfig(
 // create a new detection configuration
 async function createDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
+  metricId: string,
 ) {
   const wholeSeriesDetectionCondition: MetricDetectionCondition = {
     conditionOperator: "AND",
@@ -130,7 +130,7 @@ async function createDetectionConfig(
 // updating an detection configuration
 async function updateDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  configId: string
+  configId: string,
 ) {
   const patch: Omit<AnomalyDetectionConfiguration, "id" | "metricId"> = {
     name: "new Name",
@@ -183,7 +183,7 @@ async function updateDetectionConfig(
 
 async function deleteDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  detectionConfigId: string
+  detectionConfigId: string,
 ) {
   console.log(`Deleting detection configuration '${detectionConfigId}'`);
   await adminClient.deleteDetectionConfig(detectionConfigId);
@@ -191,7 +191,7 @@ async function deleteDetectionConfig(
 
 async function listDetectionConfig(
   adminClient: MetricsAdvisorAdministrationClient,
-  metricId: string
+  metricId: string,
 ) {
   console.log(`Listing detection configurations for metric '${metricId}'...`);
   let i = 1;

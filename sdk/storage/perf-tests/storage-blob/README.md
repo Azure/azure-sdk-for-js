@@ -15,11 +15,7 @@
      - `npm run perf-test:node -- StorageBlobListTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - download using sas with storage-blob
      - `npm run perf-test:node -- StorageBlobDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with node-fetch
-     - `npm run perf-test:node -- NodeFetchDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
-   - download using sas with core-http
-     - `npm run perf-test:node -- CoreHTTPDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - download using sas with core-rest-pipeline
      - `npm run perf-test:node -- CoreHTTPSDownloadWithSASTest --warmup 2 --duration 7 --iterations 2 --parallel 2`
    - download test with profiling
-     - `npm run perf-test:node -- StorageBlobDownloadTest --duration 10 --profile --parallel 64` 
+     - `npm run perf-test:node -- StorageBlobDownloadTest --duration 10 --profile --parallel 64`

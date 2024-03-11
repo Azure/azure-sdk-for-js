@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RequestParameters } from "./common";
+import { RequestParameters } from "./common.js";
 
 /**
  * Builds the request url, filling in query and path parameters
@@ -15,7 +15,7 @@ export function buildRequestUrl(
   baseUrl: string,
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}
+  options: RequestParameters = {},
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
     return routePath;
@@ -33,7 +33,7 @@ export function buildRequestUrl(
   );
 }
 
-function appendQueryParams(url: string, options: RequestParameters = {}) {
+function appendQueryParams(url: string, options: RequestParameters = {}): string {
   if (!options.queryParameters) {
     return url;
   }
@@ -57,7 +57,7 @@ function appendQueryParams(url: string, options: RequestParameters = {}) {
   return parsedUrl.toString();
 }
 
-function skipQueryParameterEncoding(url: URL) {
+function skipQueryParameterEncoding(url: URL): URL {
   if (!url) {
     return url;
   }
@@ -95,8 +95,8 @@ export function buildBaseUrl(baseUrl: string, options: RequestParameters): strin
 function buildRoutePath(
   routePath: string,
   pathParameters: string[],
-  options: RequestParameters = {}
-) {
+  options: RequestParameters = {},
+): string {
   for (const pathParam of pathParameters) {
     let value = pathParam;
     if (!options.skipUrlEncoding) {
@@ -118,7 +118,7 @@ function buildRoutePath(
 export function replaceAll(
   value: string | undefined,
   searchValue: string,
-  replaceValue: string
+  replaceValue: string,
 ): string | undefined {
   return !value || !searchValue ? value : value.split(searchValue).join(replaceValue || "");
 }

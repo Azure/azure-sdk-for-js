@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a snapshot.
  *
  * @summary Creates or updates a snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/SnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/SnapshotsCreate.json
  */
 async function createOrUpdateSnapshot() {
   const subscriptionId =
@@ -30,17 +30,17 @@ async function createOrUpdateSnapshot() {
   const parameters: Snapshot = {
     creationData: {
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster1/agentPools/pool0"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster1/agentPools/pool0",
     },
     location: "westus",
-    tags: { key1: "val1", key2: "val2" }
+    tags: { key1: "val1", key2: "val2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.snapshots.createOrUpdate(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

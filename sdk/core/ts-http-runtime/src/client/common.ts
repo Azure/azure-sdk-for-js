@@ -9,12 +9,12 @@ import {
   RequestBodyType,
   TransferProgressEvent,
   RawHttpHeadersInput,
-} from "../interfaces";
-import { Pipeline, PipelinePolicy } from "../pipeline";
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike";
-import { OperationTracingOptions } from "../tracing/interfaces";
-import { PipelineOptions } from "../createPipelineFromOptions";
-import { LogPolicyOptions } from "../policies/logPolicy";
+} from "../interfaces.js";
+import { Pipeline, PipelinePolicy } from "../pipeline.js";
+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import { OperationTracingOptions } from "../tracing/interfaces.js";
+import { PipelineOptions } from "../createPipelineFromOptions.js";
+import { LogPolicyOptions } from "../policies/logPolicy.js";
 
 /**
  * Shape of the default request parameters, this may be overriden by the specific
@@ -368,7 +368,7 @@ export type HttpResponse = {
  * text surrounded by \{\} will be considered a path parameter
  */
 export type PathParameters<
-  TRoute extends string
+  TRoute extends string,
   // This is trying to match the string in TRoute with a template where HEAD/{PARAM}/TAIL
   // for example in the followint path: /foo/{fooId}/bar/{barId}/baz the template will infer
   // HEAD: /foo

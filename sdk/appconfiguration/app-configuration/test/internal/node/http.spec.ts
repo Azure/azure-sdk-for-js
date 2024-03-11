@@ -32,7 +32,7 @@ describe("http request related tests", function () {
         for (const invalidToken of ["invalid token", "missing=sequencenumber", "key=value;"]) {
           assert.throws(
             () => parseSyncToken(invalidToken),
-            new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`)
+            new RegExp(`Failed to parse sync token '${invalidToken}' with regex .+$`),
           );
         }
       });
@@ -64,7 +64,7 @@ describe("http request related tests", function () {
         syncTokens.addSyncTokenFromHeaderValue("b=value2.2;sn=100,c=value3;sn=1");
         assert.equal(
           "a=value,b=value2.2,c=value3",
-          splitAndSort(syncTokens.getSyncTokenHeaderValue())
+          splitAndSort(syncTokens.getSyncTokenHeaderValue()),
         );
 
         // and if we get back undefined (ie, the header wasn't there) then it
@@ -168,7 +168,7 @@ describe("http request related tests", function () {
           client.getConfigurationSetting({
             key: "doesntmatter",
           }),
-        418
+        418,
       );
 
       assert.ok(policyScope.isDone());
@@ -245,7 +245,7 @@ describe("http request related tests", function () {
         {
           key: "doesntmatter",
         },
-        true
+        true,
       );
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "setReadOnly=value");
@@ -256,7 +256,7 @@ describe("http request related tests", function () {
         {
           key: "doesntmatter",
         },
-        false
+        false,
       );
 
       assert.equal(syncTokens.getSyncTokenHeaderValue(), "clearReadOnly=value");
@@ -269,28 +269,28 @@ describe("http request related tests", function () {
       syncTokens.addSyncTokenFromHeaderValue("a=value;sn=0");
       const client = new AppConfigurationClient(
         "Endpoint=https://endpoint.azconfig.io;Id=abc;Secret=123",
-        { syncTokens } as InternalAppConfigurationClientOptions
+        { syncTokens } as InternalAppConfigurationClientOptions,
       );
       assert.equal(
         syncTokens["_currentSyncTokens"].size,
         1,
-        "Unexpected number of syncTokens before the `update` call"
+        "Unexpected number of syncTokens before the `update` call",
       );
       client.updateSyncToken("b=value;sn=3");
       assert.equal(
         syncTokens["_currentSyncTokens"].size,
         2,
-        "Unexpected number of syncTokens after the `update` call"
+        "Unexpected number of syncTokens after the `update` call",
       );
       assert.deepEqual(
         syncTokens["_currentSyncTokens"].get("a"),
         { id: "a", value: "value", sequenceNumber: 0 },
-        "Unexpected object present for key `a`"
+        "Unexpected object present for key `a`",
       );
       assert.deepEqual(
         syncTokens["_currentSyncTokens"].get("b"),
         { id: "b", value: "value", sequenceNumber: 3 },
-        "Unexpected object present for key `b`"
+        "Unexpected object present for key `b`",
       );
     });
   });

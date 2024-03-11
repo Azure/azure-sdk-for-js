@@ -6,6 +6,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { MsalClientSecret } from "../msal/nodeFlows/msalClientSecret";
 import { MsalFlow } from "../msal/flows";
@@ -42,17 +43,17 @@ export class ClientSecretCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     clientSecret: string,
-    options: ClientSecretCredentialOptions = {}
+    options: ClientSecretCredentialOptions = {},
   ) {
     if (!tenantId || !clientId || !clientSecret) {
       throw new Error(
-        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot."
+        "ClientSecretCredential: tenantId, clientId, and clientSecret are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/serviceprincipalauthentication/troubleshoot.",
       );
     }
 
     this.tenantId = tenantId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
 
     this.msalFlow = new MsalClientSecret({
@@ -82,12 +83,12 @@ export class ClientSecretCredential implements TokenCredential {
           this.tenantId,
           newOptions,
           this.additionallyAllowedTenantIds,
-          logger
+          logger,
         );
 
         const arrayScopes = ensureScopes(scopes);
         return this.msalFlow.getToken(arrayScopes, newOptions);
-      }
+      },
     );
   }
 }

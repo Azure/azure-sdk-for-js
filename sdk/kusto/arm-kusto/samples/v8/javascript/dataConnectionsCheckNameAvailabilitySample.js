@@ -34,7 +34,7 @@ async function kustoDataConnectionsCheckNameAvailability() {
     resourceGroupName,
     clusterName,
     databaseName,
-    dataConnectionName
+    dataConnectionName,
   );
   console.log(result);
 }

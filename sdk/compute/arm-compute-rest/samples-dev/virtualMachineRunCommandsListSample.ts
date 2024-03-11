@@ -30,7 +30,7 @@ async function virtualMachineRunCommandList() {
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/runCommands",
       subscriptionId,
-      location
+      location,
     )
     .get(options);
   const pageData = paginate(client, initialResponse);

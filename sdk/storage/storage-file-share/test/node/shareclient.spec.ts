@@ -60,15 +60,15 @@ describe("ShareClient Node.js only", () => {
     assert.equal(getAccessPolicyResponse.signedIdentifiers[0].id, identifiers[0].id);
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.expiresOn.getTime(),
-      identifiers[0].accessPolicy.expiresOn.getTime()
+      identifiers[0].accessPolicy.expiresOn.getTime(),
     );
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.startsOn.getTime(),
-      identifiers[0].accessPolicy.startsOn.getTime()
+      identifiers[0].accessPolicy.startsOn.getTime(),
     );
     assert.equal(
       getAccessPolicyResponse.signedIdentifiers[0].accessPolicy.permissions,
-      identifiers[0].accessPolicy.permissions
+      identifiers[0].accessPolicy.permissions,
     );
   });
 

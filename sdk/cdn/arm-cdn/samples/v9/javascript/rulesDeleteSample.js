@@ -30,7 +30,7 @@ async function rulesDelete() {
     resourceGroupName,
     profileName,
     ruleSetName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

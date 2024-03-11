@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
  *
  * @summary See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/ManagedClustersRotateClusterCertificates.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ManagedClustersRotateClusterCertificates.json
  */
 async function rotateClusterCertificates() {
   const subscriptionId =
@@ -29,10 +29,11 @@ async function rotateClusterCertificates() {
   const resourceName = "clustername1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
-  const result = await client.managedClusters.beginRotateClusterCertificatesAndWait(
-    resourceGroupName,
-    resourceName
-  );
+  const result =
+    await client.managedClusters.beginRotateClusterCertificatesAndWait(
+      resourceGroupName,
+      resourceName,
+    );
   console.log(result);
 }
 

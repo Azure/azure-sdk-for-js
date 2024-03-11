@@ -31,7 +31,7 @@ async function getPublicIPAddress() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}",
       subscriptionId,
       resourceGroupName,
-      publicIpAddressName
+      publicIpAddressName,
     )
     .get(options);
   console.log(result);

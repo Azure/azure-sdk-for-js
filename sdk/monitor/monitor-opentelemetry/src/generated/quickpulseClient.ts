@@ -14,7 +14,7 @@ import {
   PingOptionalParams,
   PingResponse,
   PostOptionalParams,
-  PostResponse
+  PostResponse,
 } from "./models";
 
 export class QuickpulseClient extends coreClient.ServiceClient {
@@ -30,7 +30,7 @@ export class QuickpulseClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: QuickpulseClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-monitor-opentelemetry/1.0.0-beta.0`;
@@ -43,9 +43,9 @@ export class QuickpulseClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{Host}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{Host}",
     };
     super(optionsWithDefaults);
 
@@ -82,26 +82,26 @@ const pingOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CollectionConfigurationInfo,
-      headersMapper: Mappers.QuickpulseClientPingHeaders
+      headersMapper: Mappers.QuickpulseClientPingHeaders,
     },
     400: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     401: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     403: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     404: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     500: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     503: {
-      bodyMapper: Mappers.ServiceError
-    }
+      bodyMapper: Mappers.ServiceError,
+    },
   },
   requestBody: Parameters.monitoringDataPoint,
   queryParameters: [Parameters.ikey, Parameters.apikey],
@@ -115,10 +115,10 @@ const pingOperationSpec: coreClient.OperationSpec = {
     Parameters.xMsQpsStreamId,
     Parameters.xMsQpsRoleName,
     Parameters.xMsQpsInvariantVersion,
-    Parameters.xMsQpsConfigurationEtag
+    Parameters.xMsQpsConfigurationEtag,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const postOperationSpec: coreClient.OperationSpec = {
   path: "/QuickPulseService.svc/post",
@@ -126,26 +126,26 @@ const postOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.CollectionConfigurationInfo,
-      headersMapper: Mappers.QuickpulseClientPostHeaders
+      headersMapper: Mappers.QuickpulseClientPostHeaders,
     },
     400: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     401: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     403: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     404: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     500: {
-      bodyMapper: Mappers.ServiceError
+      bodyMapper: Mappers.ServiceError,
     },
     503: {
-      bodyMapper: Mappers.ServiceError
-    }
+      bodyMapper: Mappers.ServiceError,
+    },
   },
   requestBody: Parameters.monitoringDataPoints,
   queryParameters: [Parameters.ikey, Parameters.apikey],
@@ -154,8 +154,8 @@ const postOperationSpec: coreClient.OperationSpec = {
     Parameters.contentType,
     Parameters.accept,
     Parameters.xMsQpsTransmissionTime,
-    Parameters.xMsQpsConfigurationEtag
+    Parameters.xMsQpsConfigurationEtag,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };

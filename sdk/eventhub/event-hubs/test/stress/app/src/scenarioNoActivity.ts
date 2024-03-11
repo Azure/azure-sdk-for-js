@@ -77,7 +77,7 @@ export async function scenarioNoActivity() {
         maxBatchSize,
         maxWaitTimeInSeconds: 0.1,
         startPosition: { enqueuedOn: Date.now(), isInclusive: true },
-      }
+      },
     );
   }
   await producer.sendBatch([{ body: "abcd" }, { body: "abcd2" }]);

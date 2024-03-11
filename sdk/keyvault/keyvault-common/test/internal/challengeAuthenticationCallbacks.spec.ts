@@ -104,7 +104,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "Missing challenge"
+        "Missing challenge",
       );
     });
 
@@ -143,7 +143,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        `The challenge contains invalid scope 'invalid_scope/.default'`
+        `The challenge contains invalid scope 'invalid_scope/.default'`,
       );
     });
 
@@ -161,7 +161,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.",
       );
     });
 
@@ -179,7 +179,7 @@ describe("Challenge based authentication tests", function () {
           },
           scopes: [],
         }),
-        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information."
+        "The challenge resource 'vault.azure.net' does not match the requested domain. Set disableChallengeResourceVerification to true in your client options to disable. See https://aka.ms/azsdk/blog/vault-uri for more information.",
       );
     });
 

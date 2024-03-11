@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/MaintenanceConfigurationsList.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/MaintenanceConfigurationsList.json
  */
 async function listMaintenanceConfigurationsByManagedCluster() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function listMaintenanceConfigurationsByManagedCluster() {
  * This sample demonstrates how to Gets a list of maintenance configurations in the specified managed cluster.
  *
  * @summary Gets a list of maintenance configurations in the specified managed cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/MaintenanceConfigurationsList_MaintenanceWindow.json
  */
 async function listMaintenanceConfigurationsConfiguredWithMaintenanceWindowByManagedCluster() {
   const subscriptionId =

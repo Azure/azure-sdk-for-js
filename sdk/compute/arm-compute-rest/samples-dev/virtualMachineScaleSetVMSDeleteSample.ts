@@ -34,7 +34,7 @@ async function forceDeleteAVirtualMachineFromAVMScaleSet() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      instanceId
+      instanceId,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

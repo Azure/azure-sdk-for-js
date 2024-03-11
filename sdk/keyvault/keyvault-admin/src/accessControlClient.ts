@@ -66,7 +66,7 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
-    options: AccessControlClientOptions = {}
+    options: AccessControlClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
 
@@ -93,7 +93,7 @@ export class KeyVaultAccessControlClient {
         // returned by the challenge, so pass an empty array as a placeholder.
         scopes: [],
         challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      })
+      }),
     );
   }
 
@@ -119,7 +119,7 @@ export class KeyVaultAccessControlClient {
     name: string,
     roleDefinitionId: string,
     principalId: string,
-    options: CreateRoleAssignmentOptions = {}
+    options: CreateRoleAssignmentOptions = {},
   ): Promise<KeyVaultRoleAssignment> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.createRoleAssignment",
@@ -135,10 +135,10 @@ export class KeyVaultAccessControlClient {
               principalId,
             },
           },
-          updatedOptions
+          updatedOptions,
         );
         return mappings.roleAssignment.generatedToPublic(response);
-      }
+      },
     );
   }
 
@@ -159,14 +159,14 @@ export class KeyVaultAccessControlClient {
   public deleteRoleAssignment(
     roleScope: KeyVaultRoleScope,
     name: string,
-    options: DeleteRoleAssignmentOptions = {}
+    options: DeleteRoleAssignmentOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.deleteRoleAssignment",
       options,
       async (updatedOptions) => {
         await this.client.roleAssignments.delete(this.vaultUrl, roleScope, name, updatedOptions);
-      }
+      },
     );
   }
 
@@ -188,7 +188,7 @@ export class KeyVaultAccessControlClient {
   public getRoleAssignment(
     roleScope: KeyVaultRoleScope,
     name: string,
-    options: GetRoleAssignmentOptions = {}
+    options: GetRoleAssignmentOptions = {},
   ): Promise<KeyVaultRoleAssignment> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.getRoleAssignment",
@@ -198,10 +198,10 @@ export class KeyVaultAccessControlClient {
           this.vaultUrl,
           roleScope,
           name,
-          updatedOptions
+          updatedOptions,
         );
         return mappings.roleAssignment.generatedToPublic(response);
-      }
+      },
     );
   }
 
@@ -214,7 +214,7 @@ export class KeyVaultAccessControlClient {
   private async *listRoleAssignmentsPage(
     roleScope: KeyVaultRoleScope,
     continuationState: ListRoleAssignmentsPageSettings,
-    options?: ListRoleAssignmentsOptions
+    options?: ListRoleAssignmentsOptions,
   ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
@@ -223,7 +223,7 @@ export class KeyVaultAccessControlClient {
         optionsComplete,
         async (updatedOptions) => {
           return this.client.roleAssignments.listForScope(this.vaultUrl, roleScope, updatedOptions);
-        }
+        },
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -239,9 +239,9 @@ export class KeyVaultAccessControlClient {
             this.vaultUrl,
             roleScope,
             continuationState.continuationToken!,
-            updatedOptions
+            updatedOptions,
           );
-        }
+        },
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -259,7 +259,7 @@ export class KeyVaultAccessControlClient {
    */
   private async *listRoleAssignmentsAll(
     roleScope: KeyVaultRoleScope,
-    options?: ListRoleAssignmentsOptions
+    options?: ListRoleAssignmentsOptions,
   ): AsyncIterableIterator<KeyVaultRoleAssignment> {
     for await (const page of this.listRoleAssignmentsPage(roleScope, {}, options)) {
       yield* page;
@@ -282,7 +282,7 @@ export class KeyVaultAccessControlClient {
    */
   public listRoleAssignments(
     roleScope: KeyVaultRoleScope,
-    options: ListRoleAssignmentsOptions = {}
+    options: ListRoleAssignmentsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
     const iter = this.listRoleAssignmentsAll(roleScope, options);
 
@@ -307,7 +307,7 @@ export class KeyVaultAccessControlClient {
   private async *listRoleDefinitionsPage(
     roleScope: KeyVaultRoleScope,
     continuationState: ListRoleDefinitionsPageSettings,
-    options: ListRoleDefinitionsOptions = {}
+    options: ListRoleDefinitionsOptions = {},
   ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
     if (!continuationState.continuationToken) {
       const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
@@ -315,7 +315,7 @@ export class KeyVaultAccessControlClient {
         "KeyVaultAccessControlClient.listRoleDefinitionsPage",
         optionsComplete,
         (updatedOptions) =>
-          this.client.roleDefinitions.list(this.vaultUrl, roleScope, updatedOptions)
+          this.client.roleDefinitions.list(this.vaultUrl, roleScope, updatedOptions),
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -331,8 +331,8 @@ export class KeyVaultAccessControlClient {
             this.vaultUrl,
             roleScope,
             continuationState.continuationToken!,
-            updatedOptions
-          )
+            updatedOptions,
+          ),
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
@@ -350,7 +350,7 @@ export class KeyVaultAccessControlClient {
    */
   private async *listRoleDefinitionsAll(
     roleScope: KeyVaultRoleScope,
-    options?: ListRoleDefinitionsOptions
+    options?: ListRoleDefinitionsOptions,
   ): AsyncIterableIterator<KeyVaultRoleDefinition> {
     for await (const page of this.listRoleDefinitionsPage(roleScope, {}, options)) {
       yield* page;
@@ -373,7 +373,7 @@ export class KeyVaultAccessControlClient {
    */
   public listRoleDefinitions(
     roleScope: KeyVaultRoleScope,
-    options: ListRoleDefinitionsOptions = {}
+    options: ListRoleDefinitionsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
     const iter = this.listRoleDefinitionsAll(roleScope, options);
 
@@ -405,7 +405,7 @@ export class KeyVaultAccessControlClient {
   public getRoleDefinition(
     roleScope: KeyVaultRoleScope,
     name: string,
-    options: GetRoleDefinitionOptions = {}
+    options: GetRoleDefinitionOptions = {},
   ): Promise<KeyVaultRoleDefinition> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.getRoleDefinition",
@@ -415,10 +415,10 @@ export class KeyVaultAccessControlClient {
           this.vaultUrl,
           roleScope,
           name,
-          updatedOptions
+          updatedOptions,
         );
         return mappings.roleDefinition.generatedToPublic(response);
-      }
+      },
     );
   }
 
@@ -438,7 +438,7 @@ export class KeyVaultAccessControlClient {
    */
   public setRoleDefinition(
     roleScope: KeyVaultRoleScope,
-    options: SetRoleDefinitionOptions = {}
+    options: SetRoleDefinitionOptions = {},
   ): Promise<KeyVaultRoleDefinition> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.setRoleDefinition",
@@ -457,10 +457,10 @@ export class KeyVaultAccessControlClient {
               roleType: "CustomRole",
             },
           },
-          updatedOptions
+          updatedOptions,
         );
         return mappings.roleDefinition.generatedToPublic(response);
-      }
+      },
     );
   }
 
@@ -480,14 +480,14 @@ export class KeyVaultAccessControlClient {
   public deleteRoleDefinition(
     roleScope: KeyVaultRoleScope,
     name: string,
-    options: DeleteRoleDefinitionOptions = {}
+    options: DeleteRoleDefinitionOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.deleteRoleDefinition",
       options,
       async (updatedOptions) => {
         await this.client.roleDefinitions.delete(this.vaultUrl, roleScope, name, updatedOptions);
-      }
+      },
     );
   }
 }

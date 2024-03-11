@@ -476,6 +476,10 @@ export interface PortRange {
 export interface AgentPoolSecurityProfile {
   /** SSH access method of an agent pool. */
   sshAccess?: AgentPoolSSHAccess;
+  /** vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
+  enableVtpm?: boolean;
+  /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false. */
+  enableSecureBoot?: boolean;
 }
 
 export interface AgentPoolGPUProfile {
@@ -1147,18 +1151,18 @@ export interface ManagedClusterAzureMonitorProfileAppMonitoring {
   enabled?: boolean;
 }
 
-/** The Guardrails profile. */
-export interface GuardrailsProfile {
+/** The Safeguards profile. */
+export interface SafeguardsProfile {
   /**
-   * List of namespaces specified by AKS to be excluded from Guardrails
+   * List of namespaces specified by AKS to be excluded from Safeguards
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly systemExcludedNamespaces?: string[];
   /** The version of constraints to use */
   version?: string;
-  /** The guardrails level to be used. By default, Guardrails is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces */
+  /** The Safeguards level to be used. By default, Safeguards is enabled for all namespaces except those that AKS excludes via systemExcludedNamespaces */
   level: Level;
-  /** List of namespaces excluded from guardrails checks */
+  /** List of namespaces excluded from Safeguards checks */
   excludedNamespaces?: string[];
 }
 
@@ -1977,6 +1981,28 @@ export interface GuardrailsAvailableVersionsList {
   readonly nextLink?: string;
 }
 
+/** Whether the version is default or not and support info. */
+export interface SafeguardsAvailableVersionsProperties {
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly isDefaultVersion?: boolean;
+  /**
+   * Whether the version is preview or stable.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly support?: SafeguardsSupport;
+}
+
+/** Hold values properties, which is array of SafeguardsVersions */
+export interface SafeguardsAvailableVersionsList {
+  /** Array of AKS supported Safeguards versions. */
+  value?: SafeguardsAvailableVersion[];
+  /**
+   * The URL to get the next Safeguards available version.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Holds an array of MeshRevisionsProfiles */
 export interface MeshRevisionProfileList {
   /** Array of service mesh add-on revision profiles for all supported mesh modes. */
@@ -2058,6 +2084,12 @@ export interface TrustedAccessRoleBinding extends Resource {
 export interface GuardrailsAvailableVersion extends Resource {
   /** Whether the version is default or not and support info. */
   properties: GuardrailsAvailableVersionsProperties;
+}
+
+/** Available Safeguards Version */
+export interface SafeguardsAvailableVersion extends Resource {
+  /** Whether the version is default or not and support info. */
+  properties: SafeguardsAvailableVersionsProperties;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -2318,8 +2350,8 @@ export interface ManagedCluster extends TrackedResource {
   workloadAutoScalerProfile?: ManagedClusterWorkloadAutoScalerProfile;
   /** Prometheus addon profile for the container service cluster */
   azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
-  /** The guardrails profile holds all the guardrails information for a given cluster */
-  guardrailsProfile?: GuardrailsProfile;
+  /** The Safeguards profile holds all the safeguards information for a given cluster */
+  safeguardsProfile?: SafeguardsProfile;
   /** Service mesh profile for a managed cluster. */
   serviceMeshProfile?: ServiceMeshProfile;
   /**
@@ -2503,7 +2535,7 @@ export enum KnownKubernetesSupportPlan {
   /** Support for the version is the same as for the open source Kubernetes offering. Official Kubernetes open source community support versions for 1 year after release. */
   KubernetesOfficial = "KubernetesOfficial",
   /** Support for the version extended past the KubernetesOfficial support of 1 year. AKS continues to patch CVEs for another 1 year, for a total of 2 years of support. */
-  AKSLongTermSupport = "AKSLongTermSupport"
+  AKSLongTermSupport = "AKSLongTermSupport",
 }
 
 /**
@@ -2519,7 +2551,7 @@ export type KubernetesSupportPlan = string;
 /** Known values of {@link ManagedClusterSKUName} that the service accepts. */
 export enum KnownManagedClusterSKUName {
   /** Base option for the AKS control plane. */
-  Base = "Base"
+  Base = "Base",
 }
 
 /**
@@ -2538,7 +2570,7 @@ export enum KnownManagedClusterSKUTier {
   /** Recommended for mission-critical and production workloads. Includes Kubernetes control plane autoscaling, workload-intensive testing, and up to 5,000 nodes per cluster. Guarantees 99.95% availability of the Kubernetes API server endpoint for clusters that use Availability Zones and 99.9% of availability for clusters that don't use Availability Zones. */
   Standard = "Standard",
   /** The cluster management is free, but charged for VM, storage, and networking usage. Best for experimenting, learning, simple testing, or workloads with fewer than 10 nodes. Not recommended for production use cases. */
-  Free = "Free"
+  Free = "Free",
 }
 
 /**
@@ -2555,7 +2587,7 @@ export type ManagedClusterSKUTier = string;
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {
   /** EdgeZone */
-  EdgeZone = "EdgeZone"
+  EdgeZone = "EdgeZone",
 }
 
 /**
@@ -2572,7 +2604,7 @@ export enum KnownCode {
   /** The cluster is running. */
   Running = "Running",
   /** The cluster is stopped. */
-  Stopped = "Stopped"
+  Stopped = "Stopped",
 }
 
 /**
@@ -2590,7 +2622,7 @@ export enum KnownOSDiskType {
   /** Azure replicates the operating system disk for a virtual machine to Azure storage to avoid data loss should the VM need to be relocated to another host. Since containers aren't designed to have local state persisted, this behavior offers limited value while providing some drawbacks, including slower node provisioning and higher read\/write latency. */
   Managed = "Managed",
   /** Ephemeral OS disks are stored only on the host machine, just like a temporary disk. This provides lower read\/write latency, along with faster node scaling and cluster upgrades. */
-  Ephemeral = "Ephemeral"
+  Ephemeral = "Ephemeral",
 }
 
 /**
@@ -2608,7 +2640,7 @@ export enum KnownKubeletDiskType {
   /** Kubelet will use the OS disk for its data. */
   OS = "OS",
   /** Kubelet will use the temporary disk for its data. */
-  Temporary = "Temporary"
+  Temporary = "Temporary",
 }
 
 /**
@@ -2628,7 +2660,7 @@ export enum KnownWorkloadRuntime {
   /** Nodes will use Krustlet to run WASM workloads using the WASI provider (Preview). */
   WasmWasi = "WasmWasi",
   /** Nodes can use (Kata + Cloud Hypervisor + Hyper-V) to enable Nested VM-based pods (Preview). Due to the use Hyper-V, AKS node OS itself is a nested VM (the root OS) of Hyper-V. Thus it can only be used with VM series that support Nested Virtualization such as Dv3 series. */
-  KataMshvVmIsolation = "KataMshvVmIsolation"
+  KataMshvVmIsolation = "KataMshvVmIsolation",
 }
 
 /**
@@ -2647,7 +2679,7 @@ export enum KnownOSType {
   /** Use Linux. */
   Linux = "Linux",
   /** Use Windows. */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -2675,7 +2707,7 @@ export enum KnownOssku {
   /** Use Windows2022 as the OS for node images. Unsupported for system node pools. Windows2022 only supports Windows2022 containers; it cannot run Windows2019 containers and vice versa. */
   Windows2022 = "Windows2022",
   /** Use Windows Annual Channel version as the OS for node images. Unsupported for system node pools. Details about supported container images and kubernetes versions under different AKS Annual Channel versions could be seen in https:\//aka.ms\/aks\/windows-annual-channel-details. */
-  WindowsAnnual = "WindowsAnnual"
+  WindowsAnnual = "WindowsAnnual",
 }
 
 /**
@@ -2698,7 +2730,7 @@ export enum KnownScaleDownMode {
   /** Create new instances during scale up and remove instances during scale down. */
   Delete = "Delete",
   /** Attempt to start deallocated instances (if they exist) during scale up and deallocate instances during scale down. */
-  Deallocate = "Deallocate"
+  Deallocate = "Deallocate",
 }
 
 /**
@@ -2718,7 +2750,7 @@ export enum KnownAgentPoolType {
   /** Use of this is strongly discouraged. */
   AvailabilitySet = "AvailabilitySet",
   /** Create an Agent Pool backed by a Single Instance VM orchestration mode. */
-  VirtualMachines = "VirtualMachines"
+  VirtualMachines = "VirtualMachines",
 }
 
 /**
@@ -2737,7 +2769,7 @@ export enum KnownAgentPoolMode {
   /** System agent pools are primarily for hosting critical system pods such as CoreDNS and metrics-server. System agent pools osType must be Linux. System agent pools VM SKU must have at least 2vCPUs and 4GB of memory. */
   System = "System",
   /** User agent pools are primarily for hosting your application pods. */
-  User = "User"
+  User = "User",
 }
 
 /**
@@ -2755,7 +2787,7 @@ export enum KnownScaleSetPriority {
   /** Spot priority VMs will be used. There is no SLA for spot nodes. See [spot on AKS](https:\//docs.microsoft.com\/azure\/aks\/spot-node-pool) for more information. */
   Spot = "Spot",
   /** Regular VMs will be used. */
-  Regular = "Regular"
+  Regular = "Regular",
 }
 
 /**
@@ -2773,7 +2805,7 @@ export enum KnownScaleSetEvictionPolicy {
   /** Nodes in the underlying Scale Set of the node pool are deleted when they're evicted. */
   Delete = "Delete",
   /** Nodes in the underlying Scale Set of the node pool are set to the stopped-deallocated state upon eviction. Nodes in the stopped-deallocated state count against your compute quota and can cause issues with cluster scaling or upgrading. */
-  Deallocate = "Deallocate"
+  Deallocate = "Deallocate",
 }
 
 /**
@@ -2797,7 +2829,7 @@ export enum KnownGPUInstanceProfile {
   /** MIG4G */
   MIG4G = "MIG4g",
   /** MIG7G */
-  MIG7G = "MIG7g"
+  MIG7G = "MIG7g",
 }
 
 /**
@@ -2818,7 +2850,7 @@ export enum KnownProtocol {
   /** TCP protocol. */
   TCP = "TCP",
   /** UDP protocol. */
-  UDP = "UDP"
+  UDP = "UDP",
 }
 
 /**
@@ -2836,7 +2868,7 @@ export enum KnownAgentPoolSSHAccess {
   /** Can SSH onto the node as a local user using private key. */
   LocalUser = "LocalUser",
   /** SSH service will be turned off on the node. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -2854,7 +2886,7 @@ export enum KnownLicenseType {
   /** No additional licensing is applied. */
   None = "None",
   /** Enables Azure Hybrid User Benefits for Windows VMs. */
-  WindowsServer = "Windows_Server"
+  WindowsServer = "Windows_Server",
 }
 
 /**
@@ -2880,7 +2912,7 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -2902,7 +2934,7 @@ export enum KnownRestrictionLevel {
   /** All RBAC permissions are allowed on the managed node resource group */
   Unrestricted = "Unrestricted",
   /** Only *\/read RBAC permissions allowed on the managed node resource group */
-  ReadOnly = "ReadOnly"
+  ReadOnly = "ReadOnly",
 }
 
 /**
@@ -2922,7 +2954,7 @@ export enum KnownNetworkPlugin {
   /** Use the Kubenet network plugin. See [Kubenet (basic) networking](https:\//docs.microsoft.com\/azure\/aks\/concepts-network#kubenet-basic-networking) for more information. */
   Kubenet = "kubenet",
   /** Do not use a network plugin. A custom CNI will need to be installed after cluster creation for networking functionality. */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -2939,7 +2971,7 @@ export type NetworkPlugin = string;
 /** Known values of {@link NetworkPluginMode} that the service accepts. */
 export enum KnownNetworkPluginMode {
   /** Pods are given IPs from the PodCIDR address space but use Azure Routing Domains rather than Kubenet reference plugins host-local and bridge. */
-  Overlay = "overlay"
+  Overlay = "overlay",
 }
 
 /**
@@ -2960,7 +2992,7 @@ export enum KnownNetworkPolicy {
   /** Use Azure network policies. See [differences between Azure and Calico policies](https:\//docs.microsoft.com\/azure\/aks\/use-network-policies#differences-between-azure-and-calico-policies-and-their-capabilities) for more information. */
   Azure = "azure",
   /** Use Cilium to enforce network policies. This requires networkDataplane to be 'cilium'. */
-  Cilium = "cilium"
+  Cilium = "cilium",
 }
 
 /**
@@ -2980,7 +3012,7 @@ export enum KnownNetworkMode {
   /** No bridge is created. Intra-VM Pod to Pod communication is through IP routes created by Azure CNI. See [Transparent Mode](https:\//docs.microsoft.com\/azure\/aks\/faq#transparent-mode) for more information. */
   Transparent = "transparent",
   /** This is no longer supported */
-  Bridge = "bridge"
+  Bridge = "bridge",
 }
 
 /**
@@ -2998,7 +3030,7 @@ export enum KnownNetworkDataplane {
   /** Use Azure network dataplane. */
   Azure = "azure",
   /** Use Cilium network dataplane. See [Azure CNI Powered by Cilium](https:\//learn.microsoft.com\/azure\/aks\/azure-cni-powered-by-cilium) for more information. */
-  Cilium = "cilium"
+  Cilium = "cilium",
 }
 
 /**
@@ -3020,7 +3052,7 @@ export enum KnownOutboundType {
   /** The AKS-managed NAT gateway is used for egress. */
   ManagedNATGateway = "managedNATGateway",
   /** The user-assigned NAT gateway associated to the cluster subnet is used for egress. This is an advanced scenario and requires proper network configuration. */
-  UserAssignedNATGateway = "userAssignedNATGateway"
+  UserAssignedNATGateway = "userAssignedNATGateway",
 }
 
 /**
@@ -3040,7 +3072,7 @@ export enum KnownLoadBalancerSku {
   /** Use a a standard Load Balancer. This is the recommended Load Balancer SKU. For more information about on working with the load balancer in the managed cluster, see the [standard Load Balancer](https:\//docs.microsoft.com\/azure\/aks\/load-balancer-standard) article. */
   Standard = "standard",
   /** Use a basic Load Balancer with limited functionality. */
-  Basic = "basic"
+  Basic = "basic",
 }
 
 /**
@@ -3058,7 +3090,7 @@ export enum KnownBackendPoolType {
   /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
   NodeIPConfiguration = "NodeIPConfiguration",
   /** The type of the managed inbound Load Balancer BackendPool. https:\//cloud-provider-azure.sigs.k8s.io\/topics\/loadbalancer\/#configure-load-balancer-backend. */
-  NodeIP = "NodeIP"
+  NodeIP = "NodeIP",
 }
 
 /**
@@ -3076,7 +3108,7 @@ export enum KnownIpFamily {
   /** IPv4 family */
   IPv4 = "IPv4",
   /** IPv6 family */
-  IPv6 = "IPv6"
+  IPv6 = "IPv6",
 }
 
 /**
@@ -3094,7 +3126,7 @@ export enum KnownMode {
   /** IPTables proxy mode */
   Iptables = "IPTABLES",
   /** IPVS proxy mode. Must be using Kubernetes version >= 1.22. */
-  Ipvs = "IPVS"
+  Ipvs = "IPVS",
 }
 
 /**
@@ -3112,7 +3144,7 @@ export enum KnownIpvsScheduler {
   /** Round Robin */
   RoundRobin = "RoundRobin",
   /** Least Connection */
-  LeastConnection = "LeastConnection"
+  LeastConnection = "LeastConnection",
 }
 
 /**
@@ -3136,7 +3168,7 @@ export enum KnownUpgradeChannel {
   /** Automatically upgrade the node image to the latest version available. Consider using nodeOSUpgradeChannel instead as that allows you to configure node OS patching separate from Kubernetes version patching */
   NodeImage = "node-image",
   /** Disables auto-upgrades and keeps the cluster at its current version of Kubernetes. */
-  None = "none"
+  None = "none",
 }
 
 /**
@@ -3161,7 +3193,7 @@ export enum KnownNodeOSUpgradeChannel {
   /** AKS will update the nodes VHD with patches from the image maintainer labelled "security only" on a regular basis. Where possible, patches will also be applied without reimaging to existing nodes. Some patches, such as kernel patches, cannot be applied to existing nodes without disruption. For such patches, the VHD will be updated, and machines will be rolling reimaged to that VHD following maintenance windows and surge settings. This option incurs the extra cost of hosting the VHDs in your node resource group. */
   SecurityPatch = "SecurityPatch",
   /** AKS will update the nodes with a newly patched VHD containing security fixes and bugfixes on a weekly cadence. With the VHD update machines will be rolling reimaged to that VHD following maintenance windows and surge settings. No extra VHD cost is incurred when choosing this option as AKS hosts the images. */
-  NodeImage = "NodeImage"
+  NodeImage = "NodeImage",
 }
 
 /**
@@ -3185,7 +3217,7 @@ export enum KnownExpander {
   /** Selects the node group that has the highest priority assigned by the user. It's configuration is described in more details [here](https:\//github.com\/kubernetes\/autoscaler\/blob\/master\/cluster-autoscaler\/expander\/priority\/readme.md). */
   Priority = "priority",
   /** Used when you don't have a particular need for the node groups to scale differently. */
-  Random = "random"
+  Random = "random",
 }
 
 /**
@@ -3205,7 +3237,7 @@ export enum KnownKeyVaultNetworkAccessTypes {
   /** Public */
   Public = "Public",
   /** Private */
-  Private = "Private"
+  Private = "Private",
 }
 
 /**
@@ -3225,7 +3257,7 @@ export enum KnownPublicNetworkAccess {
   /** Inbound traffic to managedCluster is disabled, traffic from managedCluster is allowed. */
   Disabled = "Disabled",
   /** Inbound\/Outbound traffic is managed by Microsoft.Network\/NetworkSecurityPerimeters. */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -3244,7 +3276,7 @@ export enum KnownAddonAutoscaling {
   /** Feature to autoscale AKS-managed add-ons is enabled. The default VPA update mode is Initial mode. */
   Enabled = "Enabled",
   /** Feature to autoscale AKS-managed add-ons is disabled. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3264,7 +3296,7 @@ export enum KnownLevel {
   /** Warning */
   Warning = "Warning",
   /** Enforcement */
-  Enforcement = "Enforcement"
+  Enforcement = "Enforcement",
 }
 
 /**
@@ -3283,7 +3315,7 @@ export enum KnownServiceMeshMode {
   /** Istio deployed as an AKS addon. */
   Istio = "Istio",
   /** Mesh is disabled. */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3301,7 +3333,7 @@ export enum KnownIstioIngressGatewayMode {
   /** The ingress gateway is assigned a public IP address and is publicly accessible. */
   External = "External",
   /** The ingress gateway is assigned an internal IP address and cannot is accessed publicly. */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -3319,7 +3351,7 @@ export enum KnownNodeProvisioningMode {
   /** Nodes are provisioned manually by the user */
   Manual = "Manual",
   /** Nodes are provisioned automatically by AKS using Karpenter. Fixed size Node Pools can still be created, but autoscaling Node Pools cannot be. (See aka.ms\/aks\/nap for more details). */
-  Auto = "Auto"
+  Auto = "Auto",
 }
 
 /**
@@ -3341,7 +3373,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3361,7 +3393,7 @@ export enum KnownFormat {
   /** Return azure auth-provider kubeconfig. This format is deprecated in v1.22 and will be fully removed in v1.26. See: https:\//aka.ms\/k8s\/changes-1-26. */
   Azure = "azure",
   /** Return exec format kubeconfig. This format requires kubelogin binary in the path. */
-  Exec = "exec"
+  Exec = "exec",
 }
 
 /**
@@ -3389,7 +3421,7 @@ export enum KnownWeekDay {
   /** Friday */
   Friday = "Friday",
   /** Saturday */
-  Saturday = "Saturday"
+  Saturday = "Saturday",
 }
 
 /**
@@ -3418,7 +3450,7 @@ export enum KnownType {
   /** Fourth. */
   Fourth = "Fourth",
   /** Last. */
-  Last = "Last"
+  Last = "Last",
 }
 
 /**
@@ -3445,7 +3477,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Succeeded */
-  Succeeded = "Succeeded"
+  Succeeded = "Succeeded",
 }
 
 /**
@@ -3470,7 +3502,7 @@ export enum KnownConnectionStatus {
   /** Rejected */
   Rejected = "Rejected",
   /** Disconnected */
-  Disconnected = "Disconnected"
+  Disconnected = "Disconnected",
 }
 
 /**
@@ -3490,7 +3522,7 @@ export enum KnownSnapshotType {
   /** The snapshot is a snapshot of a node pool. */
   NodePool = "NodePool",
   /** The snapshot is a snapshot of a managed cluster. */
-  ManagedCluster = "ManagedCluster"
+  ManagedCluster = "ManagedCluster",
 }
 
 /**
@@ -3514,7 +3546,7 @@ export enum KnownTrustedAccessRoleBindingProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Updating */
-  Updating = "Updating"
+  Updating = "Updating",
 }
 
 /**
@@ -3535,7 +3567,7 @@ export enum KnownGuardrailsSupport {
   /** The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. */
   Preview = "Preview",
   /** The version is stable and can be used on critical production clusters. */
-  Stable = "Stable"
+  Stable = "Stable",
 }
 
 /**
@@ -3547,6 +3579,24 @@ export enum KnownGuardrailsSupport {
  * **Stable**: The version is stable and can be used on critical production clusters.
  */
 export type GuardrailsSupport = string;
+
+/** Known values of {@link SafeguardsSupport} that the service accepts. */
+export enum KnownSafeguardsSupport {
+  /** The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. */
+  Preview = "Preview",
+  /** The version is stable and can be used on critical production clusters. */
+  Stable = "Stable",
+}
+
+/**
+ * Defines values for SafeguardsSupport. \
+ * {@link KnownSafeguardsSupport} can be used interchangeably with SafeguardsSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Preview**: The version is preview. It is not recommended to use preview versions on critical production clusters. The preview version may not support all use-cases. \
+ * **Stable**: The version is stable and can be used on critical production clusters.
+ */
+export type SafeguardsSupport = string;
 /** Defines values for ResourceIdentityType. */
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
@@ -3572,7 +3622,8 @@ export interface ManagedClustersListKubernetesVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listKubernetesVersions operation. */
-export type ManagedClustersListKubernetesVersionsResponse = KubernetesVersionListResult;
+export type ManagedClustersListKubernetesVersionsResponse =
+  KubernetesVersionListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOptionalParams
@@ -3586,21 +3637,24 @@ export interface ManagedClustersListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ManagedClustersListByResourceGroupResponse = ManagedClusterListResult;
+export type ManagedClustersListByResourceGroupResponse =
+  ManagedClusterListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersGetUpgradeProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getUpgradeProfile operation. */
-export type ManagedClustersGetUpgradeProfileResponse = ManagedClusterUpgradeProfile;
+export type ManagedClustersGetUpgradeProfileResponse =
+  ManagedClusterUpgradeProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersGetAccessProfileOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAccessProfile operation. */
-export type ManagedClustersGetAccessProfileResponse = ManagedClusterAccessProfile;
+export type ManagedClustersGetAccessProfileResponse =
+  ManagedClusterAccessProfile;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterAdminCredentialsOptionalParams
@@ -3610,7 +3664,8 @@ export interface ManagedClustersListClusterAdminCredentialsOptionalParams
 }
 
 /** Contains response data for the listClusterAdminCredentials operation. */
-export type ManagedClustersListClusterAdminCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterAdminCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterUserCredentialsOptionalParams
@@ -3622,7 +3677,8 @@ export interface ManagedClustersListClusterUserCredentialsOptionalParams
 }
 
 /** Contains response data for the listClusterUserCredentials operation. */
-export type ManagedClustersListClusterUserCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterUserCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ManagedClustersListClusterMonitoringUserCredentialsOptionalParams
@@ -3632,7 +3688,8 @@ export interface ManagedClustersListClusterMonitoringUserCredentialsOptionalPara
 }
 
 /** Contains response data for the listClusterMonitoringUserCredentials operation. */
-export type ManagedClustersListClusterMonitoringUserCredentialsResponse = CredentialResults;
+export type ManagedClustersListClusterMonitoringUserCredentialsResponse =
+  CredentialResults;
 
 /** Optional parameters. */
 export interface ManagedClustersGetOptionalParams
@@ -3707,7 +3764,8 @@ export interface ManagedClustersAbortLatestOperationOptionalParams
 }
 
 /** Contains response data for the abortLatestOperation operation. */
-export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLatestOperationHeaders;
+export type ManagedClustersAbortLatestOperationResponse =
+  ManagedClustersAbortLatestOperationHeaders;
 
 /** Optional parameters. */
 export interface ManagedClustersRotateClusterCertificatesOptionalParams
@@ -3719,7 +3777,8 @@ export interface ManagedClustersRotateClusterCertificatesOptionalParams
 }
 
 /** Contains response data for the rotateClusterCertificates operation. */
-export type ManagedClustersRotateClusterCertificatesResponse = ManagedClustersRotateClusterCertificatesHeaders;
+export type ManagedClustersRotateClusterCertificatesResponse =
+  ManagedClustersRotateClusterCertificatesHeaders;
 
 /** Optional parameters. */
 export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
@@ -3731,7 +3790,8 @@ export interface ManagedClustersRotateServiceAccountSigningKeysOptionalParams
 }
 
 /** Contains response data for the rotateServiceAccountSigningKeys operation. */
-export type ManagedClustersRotateServiceAccountSigningKeysResponse = ManagedClustersRotateServiceAccountSigningKeysHeaders;
+export type ManagedClustersRotateServiceAccountSigningKeysResponse =
+  ManagedClustersRotateServiceAccountSigningKeysHeaders;
 
 /** Optional parameters. */
 export interface ManagedClustersStopOptionalParams
@@ -3781,28 +3841,48 @@ export interface ManagedClustersListOutboundNetworkDependenciesEndpointsOptional
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpoints operation. */
-export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = OutboundEnvironmentEndpointCollection;
+export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface ManagedClustersGetGuardrailsVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getGuardrailsVersions operation. */
-export type ManagedClustersGetGuardrailsVersionsResponse = GuardrailsAvailableVersion;
+export type ManagedClustersGetGuardrailsVersionsResponse =
+  GuardrailsAvailableVersion;
 
 /** Optional parameters. */
 export interface ManagedClustersListGuardrailsVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGuardrailsVersions operation. */
-export type ManagedClustersListGuardrailsVersionsResponse = GuardrailsAvailableVersionsList;
+export type ManagedClustersListGuardrailsVersionsResponse =
+  GuardrailsAvailableVersionsList;
+
+/** Optional parameters. */
+export interface ManagedClustersGetSafeguardsVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getSafeguardsVersions operation. */
+export type ManagedClustersGetSafeguardsVersionsResponse =
+  SafeguardsAvailableVersion;
+
+/** Optional parameters. */
+export interface ManagedClustersListSafeguardsVersionsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSafeguardsVersions operation. */
+export type ManagedClustersListSafeguardsVersionsResponse =
+  SafeguardsAvailableVersionsList;
 
 /** Optional parameters. */
 export interface ManagedClustersListMeshRevisionProfilesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshRevisionProfiles operation. */
-export type ManagedClustersListMeshRevisionProfilesResponse = MeshRevisionProfileList;
+export type ManagedClustersListMeshRevisionProfilesResponse =
+  MeshRevisionProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersGetMeshRevisionProfileOptionalParams
@@ -3816,7 +3896,8 @@ export interface ManagedClustersListMeshUpgradeProfilesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshUpgradeProfiles operation. */
-export type ManagedClustersListMeshUpgradeProfilesResponse = MeshUpgradeProfileList;
+export type ManagedClustersListMeshUpgradeProfilesResponse =
+  MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersGetMeshUpgradeProfileOptionalParams
@@ -3837,42 +3918,56 @@ export interface ManagedClustersListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedClustersListByResourceGroupNextResponse = ManagedClusterListResult;
+export type ManagedClustersListByResourceGroupNextResponse =
+  ManagedClusterListResult;
 
 /** Optional parameters. */
 export interface ManagedClustersListOutboundNetworkDependenciesEndpointsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listOutboundNetworkDependenciesEndpointsNext operation. */
-export type ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse = OutboundEnvironmentEndpointCollection;
+export type ManagedClustersListOutboundNetworkDependenciesEndpointsNextResponse =
+  OutboundEnvironmentEndpointCollection;
 
 /** Optional parameters. */
 export interface ManagedClustersListGuardrailsVersionsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGuardrailsVersionsNext operation. */
-export type ManagedClustersListGuardrailsVersionsNextResponse = GuardrailsAvailableVersionsList;
+export type ManagedClustersListGuardrailsVersionsNextResponse =
+  GuardrailsAvailableVersionsList;
+
+/** Optional parameters. */
+export interface ManagedClustersListSafeguardsVersionsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listSafeguardsVersionsNext operation. */
+export type ManagedClustersListSafeguardsVersionsNextResponse =
+  SafeguardsAvailableVersionsList;
 
 /** Optional parameters. */
 export interface ManagedClustersListMeshRevisionProfilesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshRevisionProfilesNext operation. */
-export type ManagedClustersListMeshRevisionProfilesNextResponse = MeshRevisionProfileList;
+export type ManagedClustersListMeshRevisionProfilesNextResponse =
+  MeshRevisionProfileList;
 
 /** Optional parameters. */
 export interface ManagedClustersListMeshUpgradeProfilesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listMeshUpgradeProfilesNext operation. */
-export type ManagedClustersListMeshUpgradeProfilesNextResponse = MeshUpgradeProfileList;
+export type ManagedClustersListMeshUpgradeProfilesNextResponse =
+  MeshUpgradeProfileList;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsListByManagedClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagedCluster operation. */
-export type MaintenanceConfigurationsListByManagedClusterResponse = MaintenanceConfigurationListResult;
+export type MaintenanceConfigurationsListByManagedClusterResponse =
+  MaintenanceConfigurationListResult;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsGetOptionalParams
@@ -3886,7 +3981,8 @@ export interface MaintenanceConfigurationsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type MaintenanceConfigurationsCreateOrUpdateResponse = MaintenanceConfiguration;
+export type MaintenanceConfigurationsCreateOrUpdateResponse =
+  MaintenanceConfiguration;
 
 /** Optional parameters. */
 export interface MaintenanceConfigurationsDeleteOptionalParams
@@ -3897,7 +3993,8 @@ export interface MaintenanceConfigurationsListByManagedClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByManagedClusterNext operation. */
-export type MaintenanceConfigurationsListByManagedClusterNextResponse = MaintenanceConfigurationListResult;
+export type MaintenanceConfigurationsListByManagedClusterNextResponse =
+  MaintenanceConfigurationListResult;
 
 /** Optional parameters. */
 export interface AgentPoolsAbortLatestOperationOptionalParams
@@ -3909,7 +4006,8 @@ export interface AgentPoolsAbortLatestOperationOptionalParams
 }
 
 /** Contains response data for the abortLatestOperation operation. */
-export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperationHeaders;
+export type AgentPoolsAbortLatestOperationResponse =
+  AgentPoolsAbortLatestOperationHeaders;
 
 /** Optional parameters. */
 export interface AgentPoolsListOptionalParams
@@ -3975,7 +4073,8 @@ export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAvailableAgentPoolVersions operation. */
-export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailableVersions;
+export type AgentPoolsGetAvailableAgentPoolVersionsResponse =
+  AgentPoolAvailableVersions;
 
 /** Optional parameters. */
 export interface AgentPoolsUpgradeNodeImageVersionOptionalParams
@@ -4019,7 +4118,8 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -4033,7 +4133,8 @@ export interface PrivateEndpointConnectionsUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the update operation. */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -4144,14 +4245,16 @@ export interface ManagedClusterSnapshotsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ManagedClusterSnapshotsListResponse = ManagedClusterSnapshotListResult;
+export type ManagedClusterSnapshotsListResponse =
+  ManagedClusterSnapshotListResult;
 
 /** Optional parameters. */
 export interface ManagedClusterSnapshotsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ManagedClusterSnapshotsListByResourceGroupResponse = ManagedClusterSnapshotListResult;
+export type ManagedClusterSnapshotsListByResourceGroupResponse =
+  ManagedClusterSnapshotListResult;
 
 /** Optional parameters. */
 export interface ManagedClusterSnapshotsGetOptionalParams
@@ -4165,7 +4268,8 @@ export interface ManagedClusterSnapshotsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ManagedClusterSnapshotsCreateOrUpdateResponse = ManagedClusterSnapshot;
+export type ManagedClusterSnapshotsCreateOrUpdateResponse =
+  ManagedClusterSnapshot;
 
 /** Optional parameters. */
 export interface ManagedClusterSnapshotsUpdateTagsOptionalParams
@@ -4183,14 +4287,16 @@ export interface ManagedClusterSnapshotsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ManagedClusterSnapshotsListNextResponse = ManagedClusterSnapshotListResult;
+export type ManagedClusterSnapshotsListNextResponse =
+  ManagedClusterSnapshotListResult;
 
 /** Optional parameters. */
 export interface ManagedClusterSnapshotsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ManagedClusterSnapshotsListByResourceGroupNextResponse = ManagedClusterSnapshotListResult;
+export type ManagedClusterSnapshotsListByResourceGroupNextResponse =
+  ManagedClusterSnapshotListResult;
 
 /** Optional parameters. */
 export interface TrustedAccessRolesListOptionalParams
@@ -4211,7 +4317,8 @@ export interface TrustedAccessRoleBindingsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type TrustedAccessRoleBindingsListResponse = TrustedAccessRoleBindingListResult;
+export type TrustedAccessRoleBindingsListResponse =
+  TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsGetOptionalParams
@@ -4230,7 +4337,8 @@ export interface TrustedAccessRoleBindingsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type TrustedAccessRoleBindingsCreateOrUpdateResponse = TrustedAccessRoleBinding;
+export type TrustedAccessRoleBindingsCreateOrUpdateResponse =
+  TrustedAccessRoleBinding;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsDeleteOptionalParams
@@ -4242,14 +4350,16 @@ export interface TrustedAccessRoleBindingsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type TrustedAccessRoleBindingsDeleteResponse = TrustedAccessRoleBindingsDeleteHeaders;
+export type TrustedAccessRoleBindingsDeleteResponse =
+  TrustedAccessRoleBindingsDeleteHeaders;
 
 /** Optional parameters. */
 export interface TrustedAccessRoleBindingsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type TrustedAccessRoleBindingsListNextResponse = TrustedAccessRoleBindingListResult;
+export type TrustedAccessRoleBindingsListNextResponse =
+  TrustedAccessRoleBindingListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

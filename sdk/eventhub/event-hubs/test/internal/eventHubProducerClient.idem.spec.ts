@@ -44,11 +44,11 @@ testWithServiceTypes((serviceVersion, onVersions) => {
       before("validate environment", function (): void {
         should.exist(
           env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-          "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+          "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
         );
         should.exist(
           env[EnvVarKeys.EVENTHUB_NAME],
-          "define EVENTHUB_NAME in your environment before running integration tests."
+          "define EVENTHUB_NAME in your environment before running integration tests.",
         );
       });
 
@@ -66,17 +66,17 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           for (const partitionId of partitionIds) {
             const props = await (producerClient as any).getPartitionPublishingProperties(
-              partitionId
+              partitionId,
             );
             should.equal(
               props.isIdempotentPublishingEnabled,
               false,
-              "Unexpected value for isIdempotentPublishingEnabled"
+              "Unexpected value for isIdempotentPublishingEnabled",
             );
             should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
             should.not.exist(
               props.lastPublishedSequenceNumber,
-              "Expected lastPublishedSequenceNumber to not exist"
+              "Expected lastPublishedSequenceNumber to not exist",
             );
             should.not.exist(props.ownerLevel, "Expected ownerLevel to not exist");
             should.not.exist(props.producerGroupId, "Expected producerGroupId to not exist");
@@ -91,17 +91,17 @@ testWithServiceTypes((serviceVersion, onVersions) => {
 
           for (const partitionId of partitionIds) {
             const props = await (producerClient as any).getPartitionPublishingProperties(
-              partitionId
+              partitionId,
             );
             should.equal(
               props.isIdempotentPublishingEnabled,
               true,
-              "Unexpected value for isIdempotentPublishingEnabled"
+              "Unexpected value for isIdempotentPublishingEnabled",
             );
             should.equal(props.partitionId, partitionId, "Unexpected value for partitionId");
             should.exist(
               props.lastPublishedSequenceNumber,
-              "Expected lastPublishedSequenceNumber to exist"
+              "Expected lastPublishedSequenceNumber to exist",
             );
             should.exist(props.ownerLevel, "Expected ownerLevel to exist");
             should.exist(props.producerGroupId, "Expected producerGroupId to exist");
@@ -118,7 +118,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             should.equal(err.name, "TypeError");
             should.equal(
               err.message,
-              `getPartitionPublishingProperties called without required argument "partitionId"`
+              `getPartitionPublishingProperties called without required argument "partitionId"`,
             );
           }
         });
@@ -136,7 +136,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
               );
             }
           });
@@ -151,7 +151,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
               );
             }
           });
@@ -189,7 +189,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
               );
             }
           });
@@ -205,7 +205,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`
+                `The "partitionId" must be supplied and "partitionKey" must not be provided when the EventHubProducerClient has "enableIdempotentRetries" set to true.`,
               );
             }
           });
@@ -230,7 +230,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`
+                `There can only be 1 "sendBatch" call in-flight per partition while "enableIdempotentRetries" is set to true.`,
               );
             }
 
@@ -265,7 +265,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           it("can use state from previous producerClient", async function () {
             const producerClient1 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient1 as any)._enableIdempotentRetries = true;
 
@@ -278,7 +278,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             // Create the 2nd producer
             const producerClient2 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
@@ -297,17 +297,17 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             should.equal(
               partitionPublishingProps2.producerGroupId,
               partitionPublishingProps1.producerGroupId,
-              "ProducerGroupId should match."
+              "ProducerGroupId should match.",
             );
             should.equal(
               partitionPublishingProps2.ownerLevel! > partitionPublishingProps1.ownerLevel!,
               true,
-              "producer2 ownerLevel should be higher than producer1 ownerLevel."
+              "producer2 ownerLevel should be higher than producer1 ownerLevel.",
             );
             should.equal(
               partitionPublishingProps2.lastPublishedSequenceNumber,
               partitionPublishingProps1.lastPublishedSequenceNumber! + 1,
-              "producer2 lastPublishedSequenceNumber should be 1 higher than producer1 lastPublishedSequenceNumber."
+              "producer2 lastPublishedSequenceNumber should be 1 higher than producer1 lastPublishedSequenceNumber.",
             );
 
             return Promise.all([producerClient1.close(), producerClient2.close()]);
@@ -330,18 +330,18 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             should.equal(
               partitionPublishingProps.ownerLevel,
               1,
-              "ownerLevel should match what the EventHubProducerClient was configured with."
+              "ownerLevel should match what the EventHubProducerClient was configured with.",
             );
             should.exist(
               partitionPublishingProps.lastPublishedSequenceNumber,
-              "lastPublishedSequenceNumber should exist."
+              "lastPublishedSequenceNumber should exist.",
             );
           });
 
           it("can use ownerLevel to kick off other producers", async function () {
             const producerClient1 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient1 as any)._enableIdempotentRetries = true;
 
@@ -354,7 +354,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             // Create the 2nd producer
             const producerClient2 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
@@ -403,7 +403,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           it("fails with invalid sequence number", async function () {
             const producerClient1 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient1 as any)._enableIdempotentRetries = true;
 
@@ -418,7 +418,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               ],
               {
                 partitionId: "0",
-              }
+              },
             );
             const partitionPublishingProps1 = await (
               producerClient1 as any
@@ -429,7 +429,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             // Create the 2nd producer
             const producerClient2 = new EventHubProducerClient(
               service.connectionString,
-              service.path
+              service.path,
             );
             (producerClient2 as any)._enableIdempotentRetries = true;
             (producerClient2 as any)._partitionOptions = {
@@ -487,17 +487,17 @@ testWithServiceTypes((serviceVersion, onVersions) => {
           should.equal(
             afterPublishingProps.ownerLevel,
             beforePublishingProps.ownerLevel,
-            "ownerLevel should match."
+            "ownerLevel should match.",
           );
           should.equal(
             afterPublishingProps.producerGroupId,
             beforePublishingProps.producerGroupId,
-            "producerGroupId should match."
+            "producerGroupId should match.",
           );
           should.equal(
             afterPublishingProps.lastPublishedSequenceNumber,
             beforePublishingProps.lastPublishedSequenceNumber! + 1,
-            "afterPublishingProps.lastPublishedSequenceNumber should be 1 higher than beforePublishingProps"
+            "afterPublishingProps.lastPublishedSequenceNumber should be 1 higher than beforePublishingProps",
           );
         });
 
@@ -511,18 +511,18 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             batch.tryAdd({ body: 2 });
             should.not.exist(
               (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
-              "startingPublishedSequenceNumber should not exist before batch is successfully sent."
+              "startingPublishedSequenceNumber should not exist before batch is successfully sent.",
             );
 
             const publishingProps = await (producerClient as any).getPartitionPublishingProperties(
-              "0"
+              "0",
             );
 
             await producerClient.sendBatch(batch);
             should.equal(
               (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
               publishingProps.lastPublishedSequenceNumber! + 1,
-              "startingPublishedSequenceNumber should be 1 higher than the lastPublishedSequenceNumber."
+              "startingPublishedSequenceNumber should be 1 higher than the lastPublishedSequenceNumber.",
             );
           });
 
@@ -541,7 +541,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             });
             should.not.exist(
               (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
-              "startingPublishedSequenceNumber should not exist before batch is successfully sent."
+              "startingPublishedSequenceNumber should not exist before batch is successfully sent.",
             );
 
             const abortController = new AbortController();
@@ -557,7 +557,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               should.not.equal(err.message, TEST_FAILURE);
               should.not.exist(
                 (batch as EventDataBatchImpl).startingPublishedSequenceNumber,
-                "startingPublishedSequenceNumber should not exist if batch failed to send."
+                "startingPublishedSequenceNumber should not exist if batch failed to send.",
               );
             }
           });
@@ -570,12 +570,12 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             for (const event of events) {
               should.not.exist(
                 (event as EventDataInternal)._publishedSequenceNumber,
-                "publishedSequenceNumber should not exist before event is successfully sent."
+                "publishedSequenceNumber should not exist before event is successfully sent.",
               );
             }
 
             const publishingProps = await (producerClient as any).getPartitionPublishingProperties(
-              "0"
+              "0",
             );
 
             await producerClient.sendBatch(events, { partitionId: "0" });
@@ -584,12 +584,12 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               const event = events[i];
               should.exist(
                 (event as EventDataInternal)._publishedSequenceNumber,
-                "publishedSequenceNumber should exist after event is successfully sent."
+                "publishedSequenceNumber should exist after event is successfully sent.",
               );
               should.equal(
                 (event as EventDataInternal)._publishedSequenceNumber,
                 publishingProps.lastPublishedSequenceNumber! + (i + 1),
-                "publishedSequenceNumber was not the expected result."
+                "publishedSequenceNumber was not the expected result.",
               );
             }
           });
@@ -609,7 +609,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             for (const event of events) {
               should.not.exist(
                 (event as EventDataInternal)._publishedSequenceNumber,
-                "publishedSequenceNumber should not exist before event is successfully sent."
+                "publishedSequenceNumber should not exist before event is successfully sent.",
               );
             }
 
@@ -630,7 +630,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
               for (const event of events) {
                 should.not.exist(
                   (event as EventDataInternal)._publishedSequenceNumber,
-                  "publishedSequenceNumber should not exist before event is successfully sent."
+                  "publishedSequenceNumber should not exist before event is successfully sent.",
                 );
               }
             }
@@ -654,7 +654,7 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
+                "1 or more of these events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again.",
               );
             }
           });
@@ -675,12 +675,12 @@ testWithServiceTypes((serviceVersion, onVersions) => {
             } catch (err: any) {
               should.equal(
                 err.message,
-                "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again."
+                "These events have already been successfully published. When idempotent publishing is enabled, events that were acknowledged by the Event Hubs service may not be published again.",
               );
             }
           });
         });
       });
-    }
+    },
   );
 });

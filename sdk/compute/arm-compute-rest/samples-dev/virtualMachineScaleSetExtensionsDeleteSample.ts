@@ -34,7 +34,7 @@ async function virtualMachineScaleSetExtensionsDeleteMaximumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -65,7 +65,7 @@ async function virtualMachineScaleSetExtensionsDeleteMinimumSetGen() {
       subscriptionId,
       resourceGroupName,
       vmScaleSetName,
-      vmssExtensionName
+      vmssExtensionName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

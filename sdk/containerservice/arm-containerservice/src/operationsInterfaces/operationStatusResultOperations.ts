@@ -13,7 +13,7 @@ import {
   OperationStatusResultGetOptionalParams,
   OperationStatusResultGetResponse,
   OperationStatusResultGetByAgentPoolOptionalParams,
-  OperationStatusResultGetByAgentPoolResponse
+  OperationStatusResultGetByAgentPoolResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface OperationStatusResultOperations {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: OperationStatusResultListOptionalParams
+    options?: OperationStatusResultListOptionalParams,
   ): PagedAsyncIterableIterator<OperationStatusResult>;
   /**
    * Get the status of a specific operation in the specified managed cluster.
@@ -41,7 +41,7 @@ export interface OperationStatusResultOperations {
     resourceGroupName: string,
     resourceName: string,
     operationId: string,
-    options?: OperationStatusResultGetOptionalParams
+    options?: OperationStatusResultGetOptionalParams,
   ): Promise<OperationStatusResultGetResponse>;
   /**
    * Get the status of a specific operation in the specified agent pool.
@@ -56,6 +56,6 @@ export interface OperationStatusResultOperations {
     resourceName: string,
     agentPoolName: string,
     operationId: string,
-    options?: OperationStatusResultGetByAgentPoolOptionalParams
+    options?: OperationStatusResultGetByAgentPoolOptionalParams,
   ): Promise<OperationStatusResultGetByAgentPoolResponse>;
 }

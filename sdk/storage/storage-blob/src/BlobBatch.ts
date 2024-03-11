@@ -87,7 +87,7 @@ export class BlobBatch {
 
   private async addSubRequestInternal(
     subRequest: BatchSubRequest,
-    assembleSubRequestFunc: () => Promise<void>
+    assembleSubRequestFunc: () => Promise<void>,
   ): Promise<void> {
     await Mutex.lock(this.batch);
 
@@ -106,7 +106,7 @@ export class BlobBatch {
     }
     if (this.batchType !== batchType) {
       throw new RangeError(
-        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`
+        `BlobBatch only supports one operation type per batch and it already is being used for ${this.batchType} operations.`,
       );
     }
   }
@@ -128,7 +128,7 @@ export class BlobBatch {
   public async deleteBlob(
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
-    options?: BlobDeleteOptions
+    options?: BlobDeleteOptions,
   ): Promise<void>;
 
   /**
@@ -154,7 +154,7 @@ export class BlobBatch {
       | TokenCredential
       | BlobDeleteOptions
       | undefined,
-    options?: BlobDeleteOptions
+    options?: BlobDeleteOptions,
   ): Promise<void> {
     let url: string;
     let credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
@@ -175,7 +175,7 @@ export class BlobBatch {
       options = credentialOrOptions as BlobDeleteOptions;
     } else {
       throw new RangeError(
-        "Invalid arguments. Either url and credential, or BlobClient need be provided."
+        "Invalid arguments. Either url and credential, or BlobClient need be provided.",
       );
     }
 
@@ -195,11 +195,11 @@ export class BlobBatch {
           },
           async () => {
             await new BlobClient(url, this.batchRequest.createPipeline(credential)).delete(
-              updatedOptions
+              updatedOptions,
             );
-          }
+          },
         );
-      }
+      },
     );
   }
 
@@ -224,7 +224,7 @@ export class BlobBatch {
     url: string,
     credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
     tier: AccessTier,
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<void>;
 
   /**
@@ -246,7 +246,7 @@ export class BlobBatch {
   public async setBlobAccessTier(
     blobClient: BlobClient,
     tier: AccessTier,
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<void>;
 
   public async setBlobAccessTier(
@@ -257,7 +257,7 @@ export class BlobBatch {
       | TokenCredential
       | AccessTier,
     tierOrOptions?: AccessTier | BlobSetTierOptions,
-    options?: BlobSetTierOptions
+    options?: BlobSetTierOptions,
   ): Promise<void> {
     let url: string;
     let credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential;
@@ -284,7 +284,7 @@ export class BlobBatch {
       options = tierOrOptions as BlobSetTierOptions;
     } else {
       throw new RangeError(
-        "Invalid arguments. Either url and credential, or BlobClient need be provided."
+        "Invalid arguments. Either url and credential, or BlobClient need be provided.",
       );
     }
 
@@ -305,11 +305,11 @@ export class BlobBatch {
           async () => {
             await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
               tier,
-              updatedOptions
+              updatedOptions,
             );
-          }
+          },
         );
-      }
+      },
     );
   }
 }
@@ -355,7 +355,7 @@ class InnerBatchRequest {
    * @param credential -  Such as AnonymousCredential, StorageSharedKeyCredential or any credential from the `@azure/identity` package to authenticate requests to the service. You can also provide an object that implements the TokenCredential interface. If not specified, AnonymousCredential is used.
    */
   public createPipeline(
-    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential
+    credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   ): Pipeline {
     const corePipeline = createEmptyPipeline();
     corePipeline.addPolicy(
@@ -367,7 +367,7 @@ class InnerBatchRequest {
           },
         },
       }),
-      { phase: "Serialize" }
+      { phase: "Serialize" },
     );
     // Use batch header filter policy to exclude unnecessary headers
     corePipeline.addPolicy(batchHeaderFilterPolicy());
@@ -380,7 +380,7 @@ class InnerBatchRequest {
           scopes: StorageOAuthScopes,
           challengeCallbacks: { authorizeRequestOnChallenge: authorizeRequestOnTenantChallenge },
         }),
-        { phase: "Sign" }
+        { phase: "Sign" },
       );
     } else if (credential instanceof StorageSharedKeyCredential) {
       corePipeline.addPolicy(
@@ -388,7 +388,7 @@ class InnerBatchRequest {
           accountName: credential.accountName,
           accountKey: (credential as any).accountKey,
         }),
-        { phase: "Sign" }
+        { phase: "Sign" },
       );
     }
     const pipeline = new Pipeline([]);
@@ -406,7 +406,7 @@ class InnerBatchRequest {
       `${HeaderConstants.CONTENT_ID}: ${this.operationCount}`, // sub request's content ID
       "", // empty line after sub request's content ID
       `${request.method.toString()} ${getURLPathAndQuery(
-        request.url
+        request.url,
       )} ${HTTP_VERSION_1_1}${HTTP_LINE_ENDING}`, // sub request start line with method
     ].join(HTTP_LINE_ENDING);
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a managed cluster snapshot.
  *
  * @summary Gets a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/ManagedClusterSnapshotsGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ManagedClusterSnapshotsGet.json
  */
 async function getManagedClusterSnapshot() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getManagedClusterSnapshot() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusterSnapshots.get(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

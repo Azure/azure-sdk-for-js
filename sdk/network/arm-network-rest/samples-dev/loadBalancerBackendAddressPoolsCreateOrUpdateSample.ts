@@ -58,7 +58,7 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
       subscriptionId,
       resourceGroupName,
       loadBalancerName,
-      backendAddressPoolName
+      backendAddressPoolName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -67,5 +67,5 @@ async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtua
 }
 
 updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress().catch(
-  console.error
+  console.error,
 );

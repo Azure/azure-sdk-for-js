@@ -52,7 +52,7 @@ export class ChangeFeed {
     currentSegment: Segment,
     lastConsumable: Date,
     startTime?: Date,
-    endTime?: Date
+    endTime?: Date,
   );
 
   constructor(
@@ -63,7 +63,7 @@ export class ChangeFeed {
     currentSegment?: Segment,
     lastConsumable?: Date,
     startTime?: Date,
-    endTime?: Date
+    endTime?: Date,
   ) {
     this.containerClient = containerClient;
     this.segmentFactory = segmentFactory;
@@ -101,7 +101,7 @@ export class ChangeFeed {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
         }
         // If segments is empty, refill it
@@ -115,7 +115,7 @@ export class ChangeFeed {
             {
               abortSignal: options.abortSignal,
               tracingOptions: updatedOptions.tracingOptions,
-            }
+            },
           );
 
           if (this.segments.length > 0) {
@@ -126,13 +126,13 @@ export class ChangeFeed {
               {
                 abortSignal: options.abortSignal,
                 tracingOptions: updatedOptions.tracingOptions,
-              }
+              },
             );
           } else {
             this.currentSegment = undefined;
           }
         }
-      }
+      },
     );
   }
 
@@ -150,7 +150,7 @@ export class ChangeFeed {
   }
 
   public async getChange(
-    options: ChangeFeedGetChangeOptions = {}
+    options: ChangeFeedGetChangeOptions = {},
   ): Promise<BlobChangeFeedEvent | undefined> {
     return tracingClient.withSpan("ChangeFeed-getChange", options, async (updatedOptions) => {
       let event: BlobChangeFeedEvent | undefined = undefined;

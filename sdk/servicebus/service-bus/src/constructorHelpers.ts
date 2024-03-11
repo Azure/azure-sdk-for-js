@@ -108,7 +108,7 @@ function setCustomEndpointAddress(config: ConnectionConfig, customEndpointAddres
 export function createConnectionContext(
   connectionString: string,
   credential: SasTokenProvider | TokenCredential,
-  options: ServiceBusClientOptions
+  options: ServiceBusClientOptions,
 ): ConnectionContext {
   const config = ConnectionConfig.create(connectionString);
 
@@ -128,7 +128,7 @@ export function createConnectionContext(
  */
 export function createConnectionContextForConnectionString(
   connectionString: string,
-  options: ServiceBusClientOptions = {}
+  options: ServiceBusClientOptions = {},
 ): ConnectionContext {
   const parsed = parseServiceBusConnectionString(connectionString) as Required<
     | Pick<ServiceBusConnectionStringProperties, "sharedAccessKey" | "sharedAccessKeyName">
@@ -145,7 +145,7 @@ export function createConnectionContextForConnectionString(
 export function createConnectionContextForCredential(
   credential: TokenCredential | NamedKeyCredential | SASCredential,
   host: string,
-  options: ServiceBusClientOptions = {}
+  options: ServiceBusClientOptions = {},
 ): ConnectionContext {
   if (typeof host !== "string") {
     throw new TypeError("`host` parameter is not a string");

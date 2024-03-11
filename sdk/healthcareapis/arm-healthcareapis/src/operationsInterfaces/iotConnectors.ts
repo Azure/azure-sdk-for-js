@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   IotConnector,
   IotConnectorsListByWorkspaceOptionalParams,
@@ -63,8 +63,8 @@ export interface IotConnectors {
     iotConnector: IotConnector,
     options?: IotConnectorsCreateOrUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsCreateOrUpdateResponse>,
       IotConnectorsCreateOrUpdateResponse
     >
   >;
@@ -98,8 +98,8 @@ export interface IotConnectors {
     iotConnectorPatchResource: IotConnectorPatchResource,
     options?: IotConnectorsUpdateOptionalParams
   ): Promise<
-    PollerLike<
-      PollOperationState<IotConnectorsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<IotConnectorsUpdateResponse>,
       IotConnectorsUpdateResponse
     >
   >;
@@ -130,7 +130,7 @@ export interface IotConnectors {
     iotConnectorName: string,
     workspaceName: string,
     options?: IotConnectorsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an IoT Connector.
    * @param resourceGroupName The name of the resource group that contains the service instance.

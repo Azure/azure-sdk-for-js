@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedClusterSnapshot,
-  ContainerServiceClient
+  ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a managed cluster snapshot.
  *
  * @summary Creates or updates a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/ManagedClusterSnapshotsCreate.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ManagedClusterSnapshotsCreate.json
  */
 async function createOrUpdateManagedClusterSnapshot() {
   const subscriptionId =
@@ -33,17 +33,17 @@ async function createOrUpdateManagedClusterSnapshot() {
   const parameters: ManagedClusterSnapshot = {
     creationData: {
       sourceResourceId:
-        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster1"
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/rg1/providers/Microsoft.ContainerService/managedClusters/cluster1",
     },
     location: "westus",
-    tags: { key1: "val1", key2: "val2" }
+    tags: { key1: "val1", key2: "val2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusterSnapshots.createOrUpdate(
     resourceGroupName,
     resourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -12,7 +12,7 @@ import * as fr from "../../../src";
  * Extract key information from invoices.
  */
 export const PrebuiltInvoiceModel = fr.createModelFromSchema(
-  modelInfo()
+  modelInfo(),
 ) as fr.DocumentModel<PrebuiltInvoiceResult>;
 
 export interface PrebuiltInvoiceResult extends fr.AnalyzeResultCommon {

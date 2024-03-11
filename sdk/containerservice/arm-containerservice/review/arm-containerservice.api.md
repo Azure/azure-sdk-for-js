@@ -198,6 +198,8 @@ export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
 
 // @public
 export interface AgentPoolSecurityProfile {
+    enableSecureBoot?: boolean;
+    enableVtpm?: boolean;
     sshAccess?: AgentPoolSSHAccess;
 }
 
@@ -527,14 +529,6 @@ export interface GuardrailsAvailableVersionsList {
 export interface GuardrailsAvailableVersionsProperties {
     readonly isDefaultVersion?: boolean;
     readonly support?: GuardrailsSupport;
-}
-
-// @public
-export interface GuardrailsProfile {
-    excludedNamespaces?: string[];
-    level: Level;
-    readonly systemExcludedNamespaces?: string[];
-    version?: string;
 }
 
 // @public
@@ -875,6 +869,12 @@ export enum KnownRestrictionLevel {
 }
 
 // @public
+export enum KnownSafeguardsSupport {
+    Preview = "Preview",
+    Stable = "Stable"
+}
+
+// @public
 export enum KnownScaleDownMode {
     Deallocate = "Deallocate",
     Delete = "Delete"
@@ -1156,7 +1156,6 @@ export interface ManagedCluster extends TrackedResource {
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
-    guardrailsProfile?: GuardrailsProfile;
     httpProxyConfig?: ManagedClusterHttpProxyConfig;
     identity?: ManagedClusterIdentity;
     identityProfile?: {
@@ -1179,6 +1178,7 @@ export interface ManagedCluster extends TrackedResource {
     readonly provisioningState?: string;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly resourceUID?: string;
+    safeguardsProfile?: SafeguardsProfile;
     securityProfile?: ManagedClusterSecurityProfile;
     serviceMeshProfile?: ServiceMeshProfile;
     servicePrincipalProfile?: ManagedClusterServicePrincipalProfile;
@@ -1584,6 +1584,7 @@ export interface ManagedClusters {
     getMeshRevisionProfile(location: string, mode: string, options?: ManagedClustersGetMeshRevisionProfileOptionalParams): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
     getMeshUpgradeProfile(resourceGroupName: string, resourceName: string, mode: string, options?: ManagedClustersGetMeshUpgradeProfileOptionalParams): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
     getOSOptions(location: string, options?: ManagedClustersGetOSOptionsOptionalParams): Promise<ManagedClustersGetOSOptionsResponse>;
+    getSafeguardsVersions(location: string, version: string, options?: ManagedClustersGetSafeguardsVersionsOptionalParams): Promise<ManagedClustersGetSafeguardsVersionsResponse>;
     getUpgradeProfile(resourceGroupName: string, resourceName: string, options?: ManagedClustersGetUpgradeProfileOptionalParams): Promise<ManagedClustersGetUpgradeProfileResponse>;
     list(options?: ManagedClustersListOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
     listByResourceGroup(resourceGroupName: string, options?: ManagedClustersListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ManagedCluster>;
@@ -1595,6 +1596,7 @@ export interface ManagedClusters {
     listMeshRevisionProfiles(location: string, options?: ManagedClustersListMeshRevisionProfilesOptionalParams): PagedAsyncIterableIterator<MeshRevisionProfile>;
     listMeshUpgradeProfiles(resourceGroupName: string, resourceName: string, options?: ManagedClustersListMeshUpgradeProfilesOptionalParams): PagedAsyncIterableIterator<MeshUpgradeProfile>;
     listOutboundNetworkDependenciesEndpoints(resourceGroupName: string, resourceName: string, options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
+    listSafeguardsVersions(location: string, options?: ManagedClustersListSafeguardsVersionsOptionalParams): PagedAsyncIterableIterator<SafeguardsAvailableVersion>;
 }
 
 // @public
@@ -1741,6 +1743,13 @@ export type ManagedClustersGetOSOptionsResponse = OSOptionProfile;
 export type ManagedClustersGetResponse = ManagedCluster;
 
 // @public
+export interface ManagedClustersGetSafeguardsVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersGetSafeguardsVersionsResponse = SafeguardsAvailableVersion;
+
+// @public
 export interface ManagedClustersGetUpgradeProfileOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1874,6 +1883,20 @@ export type ManagedClustersListOutboundNetworkDependenciesEndpointsResponse = Ou
 
 // @public
 export type ManagedClustersListResponse = ManagedClusterListResult;
+
+// @public
+export interface ManagedClustersListSafeguardsVersionsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListSafeguardsVersionsNextResponse = SafeguardsAvailableVersionsList;
+
+// @public
+export interface ManagedClustersListSafeguardsVersionsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ManagedClustersListSafeguardsVersionsResponse = SafeguardsAvailableVersionsList;
 
 // @public
 export interface ManagedClusterSnapshot extends TrackedResource {
@@ -2494,6 +2517,34 @@ export interface RunCommandResult {
     readonly reason?: string;
     readonly startedAt?: Date;
 }
+
+// @public
+export interface SafeguardsAvailableVersion extends Resource {
+    properties: SafeguardsAvailableVersionsProperties;
+}
+
+// @public
+export interface SafeguardsAvailableVersionsList {
+    readonly nextLink?: string;
+    value?: SafeguardsAvailableVersion[];
+}
+
+// @public
+export interface SafeguardsAvailableVersionsProperties {
+    readonly isDefaultVersion?: boolean;
+    readonly support?: SafeguardsSupport;
+}
+
+// @public
+export interface SafeguardsProfile {
+    excludedNamespaces?: string[];
+    level: Level;
+    readonly systemExcludedNamespaces?: string[];
+    version?: string;
+}
+
+// @public
+export type SafeguardsSupport = string;
 
 // @public
 export type ScaleDownMode = string;

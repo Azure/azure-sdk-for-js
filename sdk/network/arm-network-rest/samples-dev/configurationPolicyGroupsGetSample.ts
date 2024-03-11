@@ -33,7 +33,7 @@ async function configurationPolicyGroupGet() {
       subscriptionId,
       resourceGroupName,
       vpnServerConfigurationName,
-      configurationPolicyGroupName
+      configurationPolicyGroupName,
     )
     .get(options);
   console.log(result);

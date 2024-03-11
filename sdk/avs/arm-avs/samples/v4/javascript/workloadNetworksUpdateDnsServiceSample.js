@@ -38,7 +38,7 @@ async function workloadNetworksUpdateDnsService() {
     resourceGroupName,
     privateCloudName,
     dnsServiceId,
-    workloadNetworkDnsService
+    workloadNetworkDnsService,
   );
   console.log(result);
 }

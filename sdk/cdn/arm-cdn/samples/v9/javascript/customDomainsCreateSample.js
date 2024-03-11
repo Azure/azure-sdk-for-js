@@ -34,7 +34,7 @@ async function customDomainsCreate() {
     profileName,
     endpointName,
     customDomainName,
-    customDomainProperties
+    customDomainProperties,
   );
   console.log(result);
 }

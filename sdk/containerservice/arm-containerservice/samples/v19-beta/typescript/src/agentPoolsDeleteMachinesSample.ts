@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AgentPoolDeleteMachinesParameter,
-  ContainerServiceClient
+  ContainerServiceClient,
 } from "@azure/arm-containerservice";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes specific machines in an agent pool.
  *
  * @summary Deletes specific machines in an agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/AgentPoolsDeleteMachines.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/AgentPoolsDeleteMachines.json
  */
 async function deleteSpecificMachinesInAnAgentPool() {
   const subscriptionId =
@@ -34,8 +34,8 @@ async function deleteSpecificMachinesInAnAgentPool() {
   const machines: AgentPoolDeleteMachinesParameter = {
     machineNames: [
       "aks-nodepool1-42263519-vmss00000a",
-      "aks-nodepool1-42263519-vmss00000b"
-    ]
+      "aks-nodepool1-42263519-vmss00000b",
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerServiceClient(credential, subscriptionId);
@@ -43,7 +43,7 @@ async function deleteSpecificMachinesInAnAgentPool() {
     resourceGroupName,
     resourceName,
     agentPoolName,
-    machines
+    machines,
   );
   console.log(result);
 }

@@ -61,18 +61,18 @@ describe("OpenAI", function () {
                 deployments,
                 models,
                 imageGenerationDeployments,
-                imageGenerationModels
+                imageGenerationModels,
               ),
               (deploymentName) =>
                 client.getImages(deploymentName, prompt, {
                   n: numberOfImages,
                   size,
                 }),
-              (item) => assertImageGenerationsWithURLs(item, recorder, height, width)
+              (item) => assertImageGenerationsWithURLs(item, recorder, height, width),
             ),
             imageGenerationDeployments,
             imageGenerationModels,
-            authMethod
+            authMethod,
           );
         });
 
@@ -84,7 +84,7 @@ describe("OpenAI", function () {
                 deployments,
                 models,
                 imageGenerationDeployments,
-                imageGenerationModels
+                imageGenerationModels,
               ),
               (deploymentName) =>
                 client.getImages(deploymentName, prompt, {
@@ -92,11 +92,11 @@ describe("OpenAI", function () {
                   size,
                   responseFormat: "b64_json",
                 }),
-              (item) => assertImageGenerationsWithString(item, height, width)
+              (item) => assertImageGenerationsWithString(item, height, width),
             ),
             imageGenerationDeployments,
             imageGenerationModels,
-            authMethod
+            authMethod,
           );
         });
       });

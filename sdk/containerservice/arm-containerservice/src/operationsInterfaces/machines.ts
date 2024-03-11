@@ -11,7 +11,7 @@ import {
   Machine,
   MachinesListOptionalParams,
   MachinesGetOptionalParams,
-  MachinesGetResponse
+  MachinesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -28,7 +28,7 @@ export interface Machines {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: MachinesListOptionalParams
+    options?: MachinesListOptionalParams,
   ): PagedAsyncIterableIterator<Machine>;
   /**
    * Get a specific machine in the specified agent pool.
@@ -43,6 +43,6 @@ export interface Machines {
     resourceName: string,
     agentPoolName: string,
     machineName: string,
-    options?: MachinesGetOptionalParams
+    options?: MachinesGetOptionalParams,
   ): Promise<MachinesGetResponse>;
 }

@@ -63,7 +63,7 @@ describe("etags", () => {
     // nothing has changed) will result in a 412 (precondition failed)
     await assertThrowsRestError(
       () => client.setConfigurationSetting(badEtagSetting, { onlyIfUnchanged: true }),
-      412
+      412,
     );
   });
 
@@ -87,7 +87,7 @@ describe("etags", () => {
           onlyIfUnchanged: true,
         }),
       412,
-      "Old etag will result in a failed update and error"
+      "Old etag will result in a failed update and error",
     );
   });
 
@@ -122,7 +122,7 @@ describe("etags", () => {
     assert.notEqual(
       originalSetting.etag,
       updatedSetting.etag,
-      "New content, new update, etags shouldn't match"
+      "New content, new update, etags shouldn't match",
     );
 
     assert.equal(200, updatedSetting.statusCode);
@@ -151,7 +151,7 @@ describe("etags", () => {
         client.setReadOnly(badEtagSetting, true, {
           onlyIfUnchanged: true,
         }),
-      412
+      412,
     );
 
     let actualSetting = await client.getConfigurationSetting(badEtagSetting);
@@ -170,7 +170,7 @@ describe("etags", () => {
         client.setReadOnly(badEtagSetting, false, {
           onlyIfUnchanged: true,
         }),
-      412
+      412,
     );
 
     // ...still readOnly
@@ -197,7 +197,7 @@ describe("etags", () => {
 
     await assertThrowsRestError(
       () => client.deleteConfigurationSetting(badEtagSetting, { onlyIfUnchanged: true }),
-      412
+      412,
     );
 
     // obviously the setting is still there (or else this would throw)
@@ -219,13 +219,13 @@ describe("etags", () => {
     const newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
     await assertThrowsRestError(
       () => client.archiveSnapshot(newSnapshot.name, { etag: "badEtag" }),
-      412
+      412,
     );
     await client.archiveSnapshot(newSnapshot.name, { etag: newSnapshot.etag });
 
     await assertThrowsRestError(
       () => client.recoverSnapshot(newSnapshot.name, { etag: "badEtag" }),
-      412
+      412,
     );
   });
 });

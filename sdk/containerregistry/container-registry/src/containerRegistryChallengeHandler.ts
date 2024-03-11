@@ -40,7 +40,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
 
   constructor(
     private credential: ContainerRegistryRefreshTokenCredential,
-    private options: GetTokenOptions = {}
+    private options: GetTokenOptions = {},
   ) {
     this.cycler = createTokenCycler(credential, {
       refreshWindowInMs: fiveMinutesInMs,
@@ -96,7 +96,7 @@ export class ChallengeHandler implements ChallengeCallbacks {
         service,
         scope,
         grantType,
-        this.options
+        this.options,
       );
 
     // Step 5 - Authorize Request.  At this point we're done with AAD and using an ACR access token.

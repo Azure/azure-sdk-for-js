@@ -42,7 +42,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -51,7 +51,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
 }
 
 updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueSucceeded().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -83,7 +83,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -92,7 +92,7 @@ async function updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetT
 }
 
 updateADiskEncryptionSetWithRotationToLatestKeyVersionEnabledSetToTrueUpdating().catch(
-  console.error
+  console.error,
 );
 /**
  * This sample demonstrates how to Updates (patches) a disk encryption set.
@@ -126,7 +126,7 @@ async function updateADiskEncryptionSet() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
       subscriptionId,
       resourceGroupName,
-      diskEncryptionSetName
+      diskEncryptionSetName,
     )
     .patch(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -40,6 +40,7 @@ We have a variety of new features in the `@azure/notification-hubs` library such
 - Support for additional Push Notification Providers such as
   - Amazon Device Message (ADM)
   - Baidu Cloud Push
+  - Firebase Cloud Messaging (FCM) V1
   - Xiaomi Message Service
   - Web Push
 - Scheduled Notifications for Standard SKU and higher.

@@ -29,7 +29,7 @@ async function migrationsGet() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function migrationsGetMigrationWithSuccessfulValidationAndMigration() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }
@@ -73,7 +73,7 @@ async function migrationsGetMigrationWithSuccessfulValidationButMigrationFailure
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }
@@ -95,7 +95,7 @@ async function migrationsGetMigrationWithSuccessfulValidationOnly() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }
@@ -117,7 +117,7 @@ async function migrationsGetMigrationWithValidationFailures() {
     subscriptionId,
     resourceGroupName,
     targetDbServerName,
-    migrationName
+    migrationName,
   );
   console.log(result);
 }

@@ -33,7 +33,7 @@ async function afdEndpointsUpdate() {
     resourceGroupName,
     profileName,
     endpointName,
-    endpointUpdateProperties
+    endpointUpdateProperties,
   );
   console.log(result);
 }

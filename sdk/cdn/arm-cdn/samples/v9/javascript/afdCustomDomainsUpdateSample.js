@@ -36,7 +36,7 @@ async function afdCustomDomainsUpdate() {
     resourceGroupName,
     profileName,
     customDomainName,
-    customDomainUpdateProperties
+    customDomainUpdateProperties,
   );
   console.log(result);
 }

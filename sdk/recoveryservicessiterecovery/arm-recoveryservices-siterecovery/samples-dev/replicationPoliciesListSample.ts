@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the replication policies for a vault.
  *
  * @summary Lists the replication policies for a vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationPolicies_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationPolicies_List.json
  */
 async function getsTheListOfReplicationPolicies() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getsTheListOfReplicationPolicies() {
   const resArray = new Array();
   for await (let item of client.replicationPolicies.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

@@ -35,7 +35,7 @@ async function kustoReadOnlyDatabaseUpdate() {
     resourceGroupName,
     clusterName,
     databaseName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function kustoReadWriteDatabaseCreateOrUpdate() {
     clusterName,
     databaseName,
     parameters,
-    options
+    options,
   );
   console.log(result);
 }

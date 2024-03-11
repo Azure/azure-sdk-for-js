@@ -8,9 +8,9 @@ export interface OperationDetailsOutputParent {
   /** Operation ID */
   operationId: string;
   /**
-   * Operation status.
+   * Operation status.  notStarted, running, completed, or failed
    *
-   * Possible values: notStarted, running, failed, succeeded, canceled
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
    */
   status: string;
   /** Operation progress (0-100). */
@@ -79,7 +79,7 @@ export interface DocumentModelDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: template, neural
+   * Possible values: "template", "neural"
    */
   buildMode?: string;
   /**
@@ -94,6 +94,8 @@ export interface DocumentModelDetailsOutput {
   azureBlobFileListSource?: AzureBlobFileListContentSourceOutput;
   /** Supported document types. */
   docTypes?: Record<string, DocumentTypeDetailsOutput>;
+  /** List of warnings encountered while building the model. */
+  warnings?: Array<WarningOutput>;
 }
 
 /** Azure Blob Storage content. */
@@ -119,7 +121,7 @@ export interface DocumentTypeDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: template, neural
+   * Possible values: "template", "neural"
    */
   buildMode?: string;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
@@ -133,7 +135,7 @@ export interface DocumentFieldSchemaOutput {
   /**
    * Semantic data type of the field value.
    *
-   * Possible values: string, date, time, phoneNumber, number, integer, selectionMark, countryRegion, signature, array, object, currency, address, boolean
+   * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
    */
   type: string;
   /** Field description. */
@@ -144,6 +146,16 @@ export interface DocumentFieldSchemaOutput {
   items?: DocumentFieldSchemaOutput;
   /** Named sub-fields of the object field. */
   properties?: Record<string, DocumentFieldSchemaOutput>;
+}
+
+/** The error object. */
+export interface WarningOutput {
+  /** One of a server-defined set of warning codes. */
+  code: string;
+  /** A human-readable representation of the warning. */
+  message: string;
+  /** The target of the error. */
+  target?: string;
 }
 
 /** Get Operation response object. */
@@ -183,8 +195,12 @@ export interface DocumentClassifierDetailsOutput {
   expirationDateTime?: string;
   /** API version used to create this document classifier. */
   apiVersion: string;
+  /** Base classifierId on top of which the classifier was trained. */
+  baseClassifierId?: string;
   /** List of document types to classify against. */
   docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
+  /** List of warnings encountered while building the classifier. */
+  warnings?: Array<WarningOutput>;
 }
 
 /** Classifier document type info. */
@@ -192,7 +208,7 @@ export interface ClassifierDocumentTypeDetailsOutput {
   /**
    * Type of training data source.
    *
-   * Possible values: url, base64, azureBlob, azureBlobFileList
+   * Possible values: "url", "base64", "azureBlob", "azureBlobFileList"
    */
   sourceKind?: string;
   /**
@@ -214,6 +230,9 @@ export interface ErrorResponseOutput {
   /** Error info. */
   error: ErrorModelOutput;
 }
+
+/** Provides the 'x-ms-client-request-id' header to enable request correlation in requests and responses. */
+export interface ClientRequestIdHeaderOutput {}
 
 /** General information regarding the current resource. */
 export interface ResourceDetailsOutput {
@@ -244,9 +263,9 @@ export interface QuotaDetailsOutput {
 /** Status and result of the analyze operation. */
 export interface AnalyzeResultOperationOutput {
   /**
-   * Operation status.
+   * Operation status.  notStarted, running, succeeded, or failed
    *
-   * Possible values: notStarted, running, failed, succeeded, canceled
+   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
    */
   status: string;
   /** Date and time (UTC) when the analyze operation was submitted. */
@@ -268,13 +287,13 @@ export interface AnalyzeResultOutput {
   /**
    * Method used to compute string offset and length.
    *
-   * Possible values: textElements, unicodeCodePoint, utf16CodeUnit
+   * Possible values: "textElements", "unicodeCodePoint", "utf16CodeUnit"
    */
   stringIndexType: string;
   /**
    * Format of the analyze result top-level content.
    *
-   * Possible values: text, markdown
+   * Possible values: "text", "markdown"
    */
   contentFormat?: string;
   /**
@@ -321,7 +340,7 @@ export interface DocumentPageOutput {
    * The unit used by the width, height, and polygon properties. For images, the
    * unit is "pixel". For PDF, the unit is "inch".
    *
-   * Possible values: pixel, inch
+   * Possible values: "pixel", "inch"
    */
   unit?: string;
   /** Location of the page in the reading order concatenated content. */
@@ -381,7 +400,7 @@ export interface DocumentSelectionMarkOutput {
   /**
    * State of the selection mark.
    *
-   * Possible values: selected, unselected
+   * Possible values: "selected", "unselected"
    */
   state: string;
   /**
@@ -420,7 +439,7 @@ export interface DocumentBarcodeOutput {
   /**
    * Barcode kind.
    *
-   * Possible values: QRCode, PDF417, UPCA, UPCE, Code39, Code128, EAN8, EAN13, DataBar, Code93, Codabar, DataBarExpanded, ITF, MicroQRCode, Aztec, DataMatrix, MaxiCode
+   * Possible values: "QRCode", "PDF417", "UPCA", "UPCE", "Code39", "Code128", "EAN8", "EAN13", "DataBar", "Code93", "Codabar", "DataBarExpanded", "ITF", "MicroQRCode", "Aztec", "DataMatrix", "MaxiCode"
    */
   kind: string;
   /** Barcode value. */
@@ -443,7 +462,7 @@ export interface DocumentFormulaOutput {
   /**
    * Formula kind.
    *
-   * Possible values: inline, display
+   * Possible values: "inline", "display"
    */
   kind: string;
   /** LaTex expression describing the formula. */
@@ -469,7 +488,7 @@ export interface DocumentParagraphOutput {
   /**
    * Semantic role of the paragraph.
    *
-   * Possible values: pageHeader, pageFooter, pageNumber, title, sectionHeading, footnote, formulaBlock
+   * Possible values: "pageHeader", "pageFooter", "pageNumber", "title", "sectionHeading", "footnote", "formulaBlock"
    */
   role?: string;
   /** Concatenated content of the paragraph in reading order. */
@@ -516,7 +535,7 @@ export interface DocumentTableCellOutput {
   /**
    * Table cell kind.
    *
-   * Possible values: content, rowHeader, columnHeader, stubHead, description
+   * Possible values: "content", "rowHeader", "columnHeader", "stubHead", "description"
    */
   kind?: string;
   /** Row index of the cell. */
@@ -640,13 +659,13 @@ export interface DocumentStyleOutput {
   /**
    * Font style.
    *
-   * Possible values: normal, italic
+   * Possible values: "normal", "italic"
    */
   fontStyle?: string;
   /**
    * Font weight.
    *
-   * Possible values: normal, bold
+   * Possible values: "normal", "bold"
    */
   fontWeight?: string;
   /** Foreground color in #rrggbb hexadecimal format. */
@@ -694,7 +713,7 @@ export interface DocumentFieldOutput {
   /**
    * Data type of the field value.
    *
-   * Possible values: string, date, time, phoneNumber, number, integer, selectionMark, countryRegion, signature, array, object, currency, address, boolean
+   * Possible values: "string", "date", "time", "phoneNumber", "number", "integer", "selectionMark", "countryRegion", "signature", "array", "object", "currency", "address", "boolean", "selectionGroup"
    */
   type: string;
   /** String value. */
@@ -712,13 +731,13 @@ export interface DocumentFieldOutput {
   /**
    * Selection mark value.
    *
-   * Possible values: selected, unselected
+   * Possible values: "selected", "unselected"
    */
   valueSelectionMark?: string;
   /**
    * Presence of signature.
    *
-   * Possible values: signed, unsigned
+   * Possible values: "signed", "unsigned"
    */
   valueSignature?: string;
   /** 3-letter country code value (ISO 3166-1 alpha-3). */
@@ -733,6 +752,8 @@ export interface DocumentFieldOutput {
   valueAddress?: AddressValueOutput;
   /** Boolean value. */
   valueBoolean?: boolean;
+  /** Selection group value. */
+  valueSelectionGroup?: string[];
   /** Field content. */
   content?: string;
   /** Bounding regions covering the field. */
@@ -812,6 +833,7 @@ export interface CopyAuthorizationOutput {
 
 /** Operation info. */
 export type OperationDetailsOutput =
+  | OperationDetailsOutputParent
   | DocumentModelBuildOperationDetailsOutput
   | DocumentModelComposeOperationDetailsOutput
   | DocumentModelCopyToOperationDetailsOutput

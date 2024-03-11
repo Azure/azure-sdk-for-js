@@ -1,6 +1,6 @@
 # Release History
 
-## 1.13.1 (Unreleased)
+## 1.14.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,24 @@
 
 ### Bugs Fixed
 
+- Fix issue where files created using `createFileFromStream` were not properly supported in the browser.
+
 ### Other Changes
+
+- In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+
+## 1.14.0 (2024-02-01)
+
+### Bugs Fixed
+
+- Fix support for `multipart/form-data` request bodies in browser where server does not support `HTTP/2`.
+- Guard against unrecognized value types in the form data policy.
+- Form file uploads now have content type `application/octet-stream` if no other content type was specified.
+- Fix `multipart/form-data` requests failing in versions of Node 18 below 18.13 and versions of Node 20 below 20.6.
+
+### Other Changes
+
+- Upgrade dependency `@azure/abort-controller` version to `^2.0.0`.
 
 ## 1.13.0 (2023-12-07)
 

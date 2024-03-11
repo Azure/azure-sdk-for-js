@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/RunCommandResultFailed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/RunCommandResultFailed.json
  */
 async function commandFailedResult() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function commandFailedResult() {
   const result = await client.managedClusters.getCommandResult(
     resourceGroupName,
     resourceName,
-    commandId
+    commandId,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function commandFailedResult() {
  * This sample demonstrates how to Gets the results of a command which has been run on the Managed Cluster.
  *
  * @summary Gets the results of a command which has been run on the Managed Cluster.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/RunCommandResultSucceed.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/RunCommandResultSucceed.json
  */
 async function commandSucceedResult() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function commandSucceedResult() {
   const result = await client.managedClusters.getCommandResult(
     resourceGroupName,
     resourceName,
-    commandId
+    commandId,
   );
   console.log(result);
 }

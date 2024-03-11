@@ -49,6 +49,9 @@ export interface GetTokenOptions {
 }
 
 // @public
+export function isKeyCredential(credential: unknown): credential is KeyCredential;
+
+// @public
 export function isNamedKeyCredential(credential: unknown): credential is NamedKeyCredential;
 
 // @public

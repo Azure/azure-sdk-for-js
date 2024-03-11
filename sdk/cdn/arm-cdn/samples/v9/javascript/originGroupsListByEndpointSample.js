@@ -29,7 +29,7 @@ async function originsGroupsListByEndpoint() {
   for await (let item of client.originGroups.listByEndpoint(
     resourceGroupName,
     profileName,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

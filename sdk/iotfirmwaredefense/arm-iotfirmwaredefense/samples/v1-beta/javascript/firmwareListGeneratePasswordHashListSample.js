@@ -31,7 +31,7 @@ async function firmwareListGeneratePasswordHashListMaximumSetGen() {
   for await (let item of client.firmwareOperations.listGeneratePasswordHashList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
@@ -57,7 +57,7 @@ async function firmwareListGeneratePasswordHashListMinimumSetGen() {
   for await (let item of client.firmwareOperations.listGeneratePasswordHashList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }

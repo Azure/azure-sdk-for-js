@@ -37,7 +37,7 @@ async function afdProfilesUpgrade() {
   const result = await client.afdProfiles.beginUpgradeAndWait(
     resourceGroupName,
     profileName,
-    profileUpgradeParameters
+    profileUpgradeParameters,
   );
   console.log(result);
 }

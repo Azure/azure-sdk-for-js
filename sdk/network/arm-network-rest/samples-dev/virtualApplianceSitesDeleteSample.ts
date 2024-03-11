@@ -34,7 +34,7 @@ async function deleteNetworkVirtualApplianceSite() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      siteName
+      siteName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

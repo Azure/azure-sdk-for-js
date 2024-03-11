@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a specific machine in the specified agent pool.
  *
  * @summary Get a specific machine in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/MachineGet.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/MachineGet.json
  */
 async function getAMachineInAnAgentPoolsByManagedCluster() {
   const subscriptionId =

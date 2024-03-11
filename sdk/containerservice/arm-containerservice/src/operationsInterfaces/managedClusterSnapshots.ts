@@ -18,7 +18,7 @@ import {
   TagsObject,
   ManagedClusterSnapshotsUpdateTagsOptionalParams,
   ManagedClusterSnapshotsUpdateTagsResponse,
-  ManagedClusterSnapshotsDeleteOptionalParams
+  ManagedClusterSnapshotsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ManagedClusterSnapshots {
    * @param options The options parameters.
    */
   list(
-    options?: ManagedClusterSnapshotsListOptionalParams
+    options?: ManagedClusterSnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedClusterSnapshot>;
   /**
    * Lists managed cluster snapshots in the specified subscription and resource group.
@@ -38,7 +38,7 @@ export interface ManagedClusterSnapshots {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams
+    options?: ManagedClusterSnapshotsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedClusterSnapshot>;
   /**
    * Gets a managed cluster snapshot.
@@ -49,7 +49,7 @@ export interface ManagedClusterSnapshots {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClusterSnapshotsGetOptionalParams
+    options?: ManagedClusterSnapshotsGetOptionalParams,
   ): Promise<ManagedClusterSnapshotsGetResponse>;
   /**
    * Creates or updates a managed cluster snapshot.
@@ -62,7 +62,7 @@ export interface ManagedClusterSnapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedClusterSnapshot,
-    options?: ManagedClusterSnapshotsCreateOrUpdateOptionalParams
+    options?: ManagedClusterSnapshotsCreateOrUpdateOptionalParams,
   ): Promise<ManagedClusterSnapshotsCreateOrUpdateResponse>;
   /**
    * Updates tags on a managed cluster snapshot.
@@ -75,7 +75,7 @@ export interface ManagedClusterSnapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: ManagedClusterSnapshotsUpdateTagsOptionalParams
+    options?: ManagedClusterSnapshotsUpdateTagsOptionalParams,
   ): Promise<ManagedClusterSnapshotsUpdateTagsResponse>;
   /**
    * Deletes a managed cluster snapshot.
@@ -86,6 +86,6 @@ export interface ManagedClusterSnapshots {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClusterSnapshotsDeleteOptionalParams
+    options?: ManagedClusterSnapshotsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -63,7 +63,7 @@ async function createConnectionMonitorV1() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);
@@ -134,7 +134,7 @@ async function createConnectionMonitorV2() {
       subscriptionId,
       resourceGroupName,
       networkWatcherName,
-      connectionMonitorName
+      connectionMonitorName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

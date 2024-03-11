@@ -31,7 +31,7 @@ async function vpnSiteGet() {
       subscriptionId,
       resourceGroupName,
       vpnSiteName,
-      vpnSiteLinkName
+      vpnSiteLinkName,
     )
     .get(options);
   console.log(result);

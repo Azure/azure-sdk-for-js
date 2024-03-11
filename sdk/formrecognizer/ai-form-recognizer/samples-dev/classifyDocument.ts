@@ -36,7 +36,7 @@ async function main() {
 
   for (const document of result.documents) {
     console.log(
-      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`
+      `Extracted a document with type '${document.docType}' on page ${document.boundingRegions?.[0].pageNumber} (confidence: ${document.confidence})`,
     );
   }
 }

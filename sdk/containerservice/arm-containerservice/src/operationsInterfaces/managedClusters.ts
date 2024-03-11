@@ -16,6 +16,8 @@ import {
   ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   GuardrailsAvailableVersion,
   ManagedClustersListGuardrailsVersionsOptionalParams,
+  SafeguardsAvailableVersion,
+  ManagedClustersListSafeguardsVersionsOptionalParams,
   MeshRevisionProfile,
   ManagedClustersListMeshRevisionProfilesOptionalParams,
   MeshUpgradeProfile,
@@ -64,10 +66,12 @@ import {
   ManagedClustersGetCommandResultResponse,
   ManagedClustersGetGuardrailsVersionsOptionalParams,
   ManagedClustersGetGuardrailsVersionsResponse,
+  ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ManagedClustersGetSafeguardsVersionsResponse,
   ManagedClustersGetMeshRevisionProfileOptionalParams,
   ManagedClustersGetMeshRevisionProfileResponse,
   ManagedClustersGetMeshUpgradeProfileOptionalParams,
-  ManagedClustersGetMeshUpgradeProfileResponse
+  ManagedClustersGetMeshUpgradeProfileResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -78,7 +82,7 @@ export interface ManagedClusters {
    * @param options The options parameters.
    */
   list(
-    options?: ManagedClustersListOptionalParams
+    options?: ManagedClustersListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCluster>;
   /**
    * Lists managed clusters in the specified subscription and resource group.
@@ -87,7 +91,7 @@ export interface ManagedClusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedClustersListByResourceGroupOptionalParams
+    options?: ManagedClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedCluster>;
   /**
    * Gets a list of egress endpoints (network endpoints of all outbound dependencies) in the specified
@@ -99,7 +103,7 @@ export interface ManagedClusters {
   listOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ManagedClustersListOutboundNetworkDependenciesEndpointsOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEnvironmentEndpoint>;
   /**
    * Contains list of Guardrails version along with its support info and whether it is a default version.
@@ -108,8 +112,17 @@ export interface ManagedClusters {
    */
   listGuardrailsVersions(
     location: string,
-    options?: ManagedClustersListGuardrailsVersionsOptionalParams
+    options?: ManagedClustersListGuardrailsVersionsOptionalParams,
   ): PagedAsyncIterableIterator<GuardrailsAvailableVersion>;
+  /**
+   * Contains list of Safeguards version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param options The options parameters.
+   */
+  listSafeguardsVersions(
+    location: string,
+    options?: ManagedClustersListSafeguardsVersionsOptionalParams,
+  ): PagedAsyncIterableIterator<SafeguardsAvailableVersion>;
   /**
    * Contains extra metadata on each revision, including supported revisions, cluster compatibility and
    * available upgrades
@@ -118,7 +131,7 @@ export interface ManagedClusters {
    */
   listMeshRevisionProfiles(
     location: string,
-    options?: ManagedClustersListMeshRevisionProfilesOptionalParams
+    options?: ManagedClustersListMeshRevisionProfilesOptionalParams,
   ): PagedAsyncIterableIterator<MeshRevisionProfile>;
   /**
    * Lists available upgrades for all service meshes in a specific cluster.
@@ -129,7 +142,7 @@ export interface ManagedClusters {
   listMeshUpgradeProfiles(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams
+    options?: ManagedClustersListMeshUpgradeProfilesOptionalParams,
   ): PagedAsyncIterableIterator<MeshUpgradeProfile>;
   /**
    * Gets supported OS options in the specified subscription.
@@ -138,7 +151,7 @@ export interface ManagedClusters {
    */
   getOSOptions(
     location: string,
-    options?: ManagedClustersGetOSOptionsOptionalParams
+    options?: ManagedClustersGetOSOptionsOptionalParams,
   ): Promise<ManagedClustersGetOSOptionsResponse>;
   /**
    * Contains extra metadata on the version, including supported patch versions, capabilities, available
@@ -148,7 +161,7 @@ export interface ManagedClusters {
    */
   listKubernetesVersions(
     location: string,
-    options?: ManagedClustersListKubernetesVersionsOptionalParams
+    options?: ManagedClustersListKubernetesVersionsOptionalParams,
   ): Promise<ManagedClustersListKubernetesVersionsResponse>;
   /**
    * Gets the upgrade profile of a managed cluster.
@@ -159,7 +172,7 @@ export interface ManagedClusters {
   getUpgradeProfile(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersGetUpgradeProfileOptionalParams
+    options?: ManagedClustersGetUpgradeProfileOptionalParams,
   ): Promise<ManagedClustersGetUpgradeProfileResponse>;
   /**
    * **WARNING**: This API will be deprecated. Instead use
@@ -176,7 +189,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     roleName: string,
-    options?: ManagedClustersGetAccessProfileOptionalParams
+    options?: ManagedClustersGetAccessProfileOptionalParams,
   ): Promise<ManagedClustersGetAccessProfileResponse>;
   /**
    * Lists the admin credentials of a managed cluster.
@@ -187,7 +200,7 @@ export interface ManagedClusters {
   listClusterAdminCredentials(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListClusterAdminCredentialsOptionalParams
+    options?: ManagedClustersListClusterAdminCredentialsOptionalParams,
   ): Promise<ManagedClustersListClusterAdminCredentialsResponse>;
   /**
    * Lists the user credentials of a managed cluster.
@@ -198,7 +211,7 @@ export interface ManagedClusters {
   listClusterUserCredentials(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListClusterUserCredentialsOptionalParams
+    options?: ManagedClustersListClusterUserCredentialsOptionalParams,
   ): Promise<ManagedClustersListClusterUserCredentialsResponse>;
   /**
    * Lists the cluster monitoring user credentials of a managed cluster.
@@ -209,7 +222,7 @@ export interface ManagedClusters {
   listClusterMonitoringUserCredentials(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams
+    options?: ManagedClustersListClusterMonitoringUserCredentialsOptionalParams,
   ): Promise<ManagedClustersListClusterMonitoringUserCredentialsResponse>;
   /**
    * Gets a managed cluster.
@@ -220,7 +233,7 @@ export interface ManagedClusters {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersGetOptionalParams
+    options?: ManagedClustersGetOptionalParams,
   ): Promise<ManagedClustersGetResponse>;
   /**
    * Creates or updates a managed cluster.
@@ -233,7 +246,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedCluster,
-    options?: ManagedClustersCreateOrUpdateOptionalParams
+    options?: ManagedClustersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersCreateOrUpdateResponse>,
@@ -251,7 +264,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedCluster,
-    options?: ManagedClustersCreateOrUpdateOptionalParams
+    options?: ManagedClustersCreateOrUpdateOptionalParams,
   ): Promise<ManagedClustersCreateOrUpdateResponse>;
   /**
    * Updates tags on a managed cluster.
@@ -264,7 +277,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: ManagedClustersUpdateTagsOptionalParams
+    options?: ManagedClustersUpdateTagsOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersUpdateTagsResponse>,
@@ -282,7 +295,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: ManagedClustersUpdateTagsOptionalParams
+    options?: ManagedClustersUpdateTagsOptionalParams,
   ): Promise<ManagedClustersUpdateTagsResponse>;
   /**
    * Deletes a managed cluster.
@@ -293,7 +306,7 @@ export interface ManagedClusters {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersDeleteOptionalParams
+    options?: ManagedClustersDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersDeleteResponse>,
@@ -309,7 +322,7 @@ export interface ManagedClusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersDeleteOptionalParams
+    options?: ManagedClustersDeleteOptionalParams,
   ): Promise<ManagedClustersDeleteResponse>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
@@ -322,7 +335,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedClusterServicePrincipalProfile,
-    options?: ManagedClustersResetServicePrincipalProfileOptionalParams
+    options?: ManagedClustersResetServicePrincipalProfileOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * This action cannot be performed on a cluster that is not using a service principal
@@ -335,7 +348,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedClusterServicePrincipalProfile,
-    options?: ManagedClustersResetServicePrincipalProfileOptionalParams
+    options?: ManagedClustersResetServicePrincipalProfileOptionalParams,
   ): Promise<void>;
   /**
    * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
@@ -349,7 +362,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedClusterAADProfile,
-    options?: ManagedClustersResetAADProfileOptionalParams
+    options?: ManagedClustersResetAADProfileOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * **WARNING**: This API will be deprecated. Please see [AKS-managed Azure Active Directory
@@ -363,7 +376,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     parameters: ManagedClusterAADProfile,
-    options?: ManagedClustersResetAADProfileOptionalParams
+    options?: ManagedClustersResetAADProfileOptionalParams,
   ): Promise<void>;
   /**
    * Aborts the currently running operation on the managed cluster. The Managed Cluster will be moved to
@@ -376,7 +389,7 @@ export interface ManagedClusters {
   beginAbortLatestOperation(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersAbortLatestOperationResponse>,
@@ -394,7 +407,7 @@ export interface ManagedClusters {
   beginAbortLatestOperationAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersAbortLatestOperationOptionalParams
+    options?: ManagedClustersAbortLatestOperationOptionalParams,
   ): Promise<ManagedClustersAbortLatestOperationResponse>;
   /**
    * See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more
@@ -406,7 +419,7 @@ export interface ManagedClusters {
   beginRotateClusterCertificates(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersRotateClusterCertificatesOptionalParams
+    options?: ManagedClustersRotateClusterCertificatesOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersRotateClusterCertificatesResponse>,
@@ -423,7 +436,7 @@ export interface ManagedClusters {
   beginRotateClusterCertificatesAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersRotateClusterCertificatesOptionalParams
+    options?: ManagedClustersRotateClusterCertificatesOptionalParams,
   ): Promise<ManagedClustersRotateClusterCertificatesResponse>;
   /**
    * Rotates the service account signing keys of a managed cluster.
@@ -434,7 +447,7 @@ export interface ManagedClusters {
   beginRotateServiceAccountSigningKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersRotateServiceAccountSigningKeysResponse>,
@@ -450,7 +463,7 @@ export interface ManagedClusters {
   beginRotateServiceAccountSigningKeysAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams
+    options?: ManagedClustersRotateServiceAccountSigningKeysOptionalParams,
   ): Promise<ManagedClustersRotateServiceAccountSigningKeysResponse>;
   /**
    * This can only be performed on Azure Virtual Machine Scale set backed clusters. Stopping a cluster
@@ -465,7 +478,7 @@ export interface ManagedClusters {
   beginStop(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersStopOptionalParams
+    options?: ManagedClustersStopOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersStopResponse>,
@@ -485,7 +498,7 @@ export interface ManagedClusters {
   beginStopAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersStopOptionalParams
+    options?: ManagedClustersStopOptionalParams,
   ): Promise<ManagedClustersStopResponse>;
   /**
    * See [starting a cluster](https://docs.microsoft.com/azure/aks/start-stop-cluster) for more details
@@ -497,7 +510,7 @@ export interface ManagedClusters {
   beginStart(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersStartOptionalParams
+    options?: ManagedClustersStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersStartResponse>,
@@ -514,7 +527,7 @@ export interface ManagedClusters {
   beginStartAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: ManagedClustersStartOptionalParams
+    options?: ManagedClustersStartOptionalParams,
   ): Promise<ManagedClustersStartResponse>;
   /**
    * AKS will create a pod to run the command. This is primarily useful for private clusters. For more
@@ -529,7 +542,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     requestPayload: RunCommandRequest,
-    options?: ManagedClustersRunCommandOptionalParams
+    options?: ManagedClustersRunCommandOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedClustersRunCommandResponse>,
@@ -549,7 +562,7 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     requestPayload: RunCommandRequest,
-    options?: ManagedClustersRunCommandOptionalParams
+    options?: ManagedClustersRunCommandOptionalParams,
   ): Promise<ManagedClustersRunCommandResponse>;
   /**
    * Gets the results of a command which has been run on the Managed Cluster.
@@ -562,19 +575,30 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     commandId: string,
-    options?: ManagedClustersGetCommandResultOptionalParams
+    options?: ManagedClustersGetCommandResultOptionalParams,
   ): Promise<ManagedClustersGetCommandResultResponse>;
   /**
    * Contains Guardrails version along with its support info and whether it is a default version.
    * @param location The name of the Azure region.
-   * @param version Guardrails version
+   * @param version Safeguards version
    * @param options The options parameters.
    */
   getGuardrailsVersions(
     location: string,
     version: string,
-    options?: ManagedClustersGetGuardrailsVersionsOptionalParams
+    options?: ManagedClustersGetGuardrailsVersionsOptionalParams,
   ): Promise<ManagedClustersGetGuardrailsVersionsResponse>;
+  /**
+   * Contains Safeguards version along with its support info and whether it is a default version.
+   * @param location The name of the Azure region.
+   * @param version Safeguards version
+   * @param options The options parameters.
+   */
+  getSafeguardsVersions(
+    location: string,
+    version: string,
+    options?: ManagedClustersGetSafeguardsVersionsOptionalParams,
+  ): Promise<ManagedClustersGetSafeguardsVersionsResponse>;
   /**
    * Contains extra metadata on the revision, including supported revisions, cluster compatibility and
    * available upgrades
@@ -585,7 +609,7 @@ export interface ManagedClusters {
   getMeshRevisionProfile(
     location: string,
     mode: string,
-    options?: ManagedClustersGetMeshRevisionProfileOptionalParams
+    options?: ManagedClustersGetMeshRevisionProfileOptionalParams,
   ): Promise<ManagedClustersGetMeshRevisionProfileResponse>;
   /**
    * Gets available upgrades for a service mesh in a cluster.
@@ -598,6 +622,6 @@ export interface ManagedClusters {
     resourceGroupName: string,
     resourceName: string,
     mode: string,
-    options?: ManagedClustersGetMeshUpgradeProfileOptionalParams
+    options?: ManagedClustersGetMeshUpgradeProfileOptionalParams,
   ): Promise<ManagedClustersGetMeshUpgradeProfileResponse>;
 }

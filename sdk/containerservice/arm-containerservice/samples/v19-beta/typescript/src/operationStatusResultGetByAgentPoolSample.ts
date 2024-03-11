@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the status of a specific operation in the specified agent pool.
  *
  * @summary Get the status of a specific operation in the specified agent pool.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/OperationStatusResultGetByAgentPool.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/OperationStatusResultGetByAgentPool.json
  */
 async function getOperationStatusResult() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function getOperationStatusResult() {
     resourceGroupName,
     resourceName,
     agentPoolName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

@@ -77,7 +77,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+          "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.",
         );
       });
       it("throws error when event position is passed with both offset and sequence number set", () => {
@@ -86,7 +86,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
       it("throws error when event position is passed with both offset and enqueuedOn set", () => {
@@ -95,7 +95,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
       it("throws error when event position is passed with both sequence number and enqueuedOn set", () => {
@@ -104,7 +104,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
       it("throws error when empty object is passed in event position map", () => {
@@ -113,7 +113,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set."
+          "Invalid value for EventPosition found. Pass an object with either of offset, sequenceNumber or enqueuedOn properties set.",
         );
       });
       it("throws error when event position map is passed with both offset and sequence number set", () => {
@@ -125,7 +125,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
       it("throws error when event position map is passed with both offset and enqueuedOn set", () => {
@@ -134,7 +134,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
       it("throws error when event position map is passed with both sequence number and enqueuedOn set", () => {
@@ -146,7 +146,7 @@ testWithServiceTypes(() => {
         };
         test.should.throw(
           TypeError,
-          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties."
+          "Invalid value for EventPosition found. Set only one of offset, sequenceNumber or enqueuedOn properties.",
         );
       });
     });

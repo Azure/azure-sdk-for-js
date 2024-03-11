@@ -435,7 +435,7 @@ testWithServiceTypes(() => {
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const { body: decoded, bodyType: decodedType } = transformer.decode(
           jsonStringBufferBody,
-          false
+          false,
         );
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, jsonBody);
@@ -449,7 +449,7 @@ testWithServiceTypes(() => {
         const jsonStringBufferBody = Buffer.from(JSON.stringify(jsonBody), "utf8");
         const { body: decoded, bodyType: decodedType } = transformer.decode(
           jsonStringBufferBody,
-          true
+          true,
         );
         should.equal(decodedType, "data");
         assert.deepStrictEqual(decoded, jsonStringBufferBody);

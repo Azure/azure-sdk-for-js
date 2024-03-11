@@ -28,7 +28,7 @@ async function getKustoClusterOutboundNetworkDependencies() {
   const resArray = new Array();
   for await (let item of client.clusters.listOutboundNetworkDependenciesEndpoints(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

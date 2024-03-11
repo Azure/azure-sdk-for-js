@@ -45,7 +45,7 @@ async function createNetworkVirtualApplianceInboundSecurityRules() {
       subscriptionId,
       resourceGroupName,
       networkVirtualApplianceName,
-      ruleCollectionName
+      ruleCollectionName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

@@ -20,7 +20,7 @@ import {
   MachinesListResponse,
   MachinesGetOptionalParams,
   MachinesGetResponse,
-  MachinesListNextResponse
+  MachinesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,13 +47,13 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: MachinesListOptionalParams
+    options?: MachinesListOptionalParams,
   ): PagedAsyncIterableIterator<Machine> {
     const iter = this.listPagingAll(
       resourceGroupName,
       resourceName,
       agentPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -71,9 +71,9 @@ export class MachinesImpl implements Machines {
           resourceName,
           agentPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +82,7 @@ export class MachinesImpl implements Machines {
     resourceName: string,
     agentPoolName: string,
     options?: MachinesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Machine[]> {
     let result: MachinesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -91,7 +91,7 @@ export class MachinesImpl implements Machines {
         resourceGroupName,
         resourceName,
         agentPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class MachinesImpl implements Machines {
         resourceName,
         agentPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -117,13 +117,13 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: MachinesListOptionalParams
+    options?: MachinesListOptionalParams,
   ): AsyncIterableIterator<Machine> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
       agentPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +140,11 @@ export class MachinesImpl implements Machines {
     resourceGroupName: string,
     resourceName: string,
     agentPoolName: string,
-    options?: MachinesListOptionalParams
+    options?: MachinesListOptionalParams,
   ): Promise<MachinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, agentPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -161,11 +161,11 @@ export class MachinesImpl implements Machines {
     resourceName: string,
     agentPoolName: string,
     machineName: string,
-    options?: MachinesGetOptionalParams
+    options?: MachinesGetOptionalParams,
   ): Promise<MachinesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, agentPoolName, machineName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -182,11 +182,11 @@ export class MachinesImpl implements Machines {
     resourceName: string,
     agentPoolName: string,
     nextLink: string,
-    options?: MachinesListNextOptionalParams
+    options?: MachinesListNextOptionalParams,
   ): Promise<MachinesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, agentPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -194,39 +194,15 @@ export class MachinesImpl implements Machines {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName,
-    Parameters.agentPoolName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Machine
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -235,21 +211,43 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.agentPoolName,
-    Parameters.machineName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Machine,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.agentPoolName,
+    Parameters.machineName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MachineListResult
+      bodyMapper: Mappers.MachineListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -257,8 +255,8 @@ const listNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.nextLink,
-    Parameters.agentPoolName
+    Parameters.agentPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

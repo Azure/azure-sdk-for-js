@@ -23,7 +23,7 @@
    * Specify one of: "pnpmVersion", "npmVersion", or "yarnVersion".  See the Rush documentation
    * for details about these alternatives.
    */
-  "pnpmVersion": "8.11.0",
+  "pnpmVersion": "8.15.3",
   // "npmVersion": "4.5.0",
   // "yarnVersion": "1.9.4",
   /**
@@ -326,6 +326,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/purview-datamap",
+      "projectFolder": "sdk/purview/purview-datamap-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure-rest/purview-scanning",
       "projectFolder": "sdk/purview/purview-scanning-rest",
       "versionPolicyName": "client"
@@ -396,8 +401,18 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/openai-assistants",
+      "projectFolder": "sdk/openai/openai-assistants",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/openai",
       "projectFolder": "sdk/openai/openai",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/openai",
+      "projectFolder": "sdk/openai/openai-rest",
       "versionPolicyName": "client"
     },
     {
@@ -498,6 +513,11 @@
     {
       "packageName": "@azure-rest/communication-job-router",
       "projectFolder": "sdk/communication/communication-job-router-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure-rest/communication-messages",
+      "projectFolder": "sdk/communication/communication-messages-rest",
       "versionPolicyName": "client"
     },
     {
@@ -623,7 +643,9 @@
     {
       "packageName": "@azure/identity",
       "projectFolder": "sdk/identity/identity",
-      "decoupledLocalDependencies": ["@azure/keyvault-keys"],
+      "decoupledLocalDependencies": [
+        "@azure/keyvault-keys"
+      ],
       "versionPolicyName": "client"
     },
     {
@@ -1452,6 +1474,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure-rest/health-insights-radiologyinsights",
+      "projectFolder": "sdk/healthinsights/health-insights-radiologyinsights-rest",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/arm-deploymentmanager",
       "projectFolder": "sdk/deploymentmanager/arm-deploymentmanager",
       "versionPolicyName": "management"
@@ -2147,8 +2174,33 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure-rest/ai-vision-image-analysis",
+      "projectFolder": "sdk/vision/ai-vision-image-analysis-rest",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/arm-hybridnetwork",
+      "projectFolder": "sdk/hybridnetwork/arm-hybridnetwork",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-networkanalytics",
       "projectFolder": "sdk/networkanalytics/arm-networkanalytics",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-astro",
+      "projectFolder": "sdk/astro/arm-astro",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-largeinstance",
+      "projectFolder": "sdk/largeinstance/arm-largeinstance",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-springappdiscovery",
+      "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
       "versionPolicyName": "management"
     }
   ]

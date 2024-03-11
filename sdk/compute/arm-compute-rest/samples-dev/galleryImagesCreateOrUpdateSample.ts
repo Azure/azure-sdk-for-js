@@ -47,7 +47,7 @@ async function createOrUpdateASimpleGalleryImage() {
       subscriptionId,
       resourceGroupName,
       galleryName,
-      galleryImageName
+      galleryImageName,
     )
     .put(options);
   const poller = getLongRunningPoller(client, initialResponse);

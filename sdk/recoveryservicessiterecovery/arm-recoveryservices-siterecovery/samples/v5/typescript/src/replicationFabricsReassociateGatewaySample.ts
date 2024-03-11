@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   FailoverProcessServerRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to move replications from a process server to another process server.
  *
  * @summary The operation to move replications from a process server to another process server.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationFabrics_ReassociateGateway.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationFabrics_ReassociateGateway.json
  */
 async function performFailoverOfTheProcessServer() {
   const subscriptionId =
@@ -37,8 +37,8 @@ async function performFailoverOfTheProcessServer() {
       sourceProcessServerId: "AFA0EC54-1894-4E44-9CAB02DB8854B117",
       targetProcessServerId: "5D3ED340-85AE-C646-B338641E015DA405",
       updateType: "ServerLevel",
-      vmsToMigrate: ["Vm1", "Vm2"]
-    }
+      vmsToMigrate: ["Vm1", "Vm2"],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -46,7 +46,7 @@ async function performFailoverOfTheProcessServer() {
     resourceName,
     resourceGroupName,
     fabricName,
-    failoverProcessServerRequest
+    failoverProcessServerRequest,
   );
   console.log(result);
 }

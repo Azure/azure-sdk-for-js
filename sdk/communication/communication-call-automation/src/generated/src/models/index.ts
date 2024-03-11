@@ -12,6 +12,7 @@ export type BaseDialogUnion =
   | BaseDialog
   | AzureOpenAIDialog
   | PowerVirtualAgentsDialog;
+export type DialogUpdateBaseUnion = DialogUpdateBase | AzureOpenAIDialogUpdate;
 
 /** The request payload for creating the call. */
 export interface CreateCallRequest {
@@ -142,6 +143,8 @@ export interface CallConnectionPropertiesInternal {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredBy?: CommunicationUserIdentifierModel;
+  /** The original PSTN target of the incoming Call. */
+  originalPstnTarget?: PhoneNumberIdentifierModel;
 }
 
 /** The Communication Services error. */
@@ -189,6 +192,11 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /**
+   * The source caller Id, a phone number, that's will be used when inviting a pstn target.
+   * Required only when transferring call to PSTN, if this is an incoming voip call.
+   */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -298,6 +306,8 @@ export interface SsmlSourceInternal {
 export interface PlayOptionsInternal {
   /** The option to play the provided audio source in loop when set to true */
   loop: boolean;
+  /** If set play can barge into other existing queued-up/currently-processing requests. */
+  interruptCallMediaOperation?: boolean;
 }
 
 export interface StartTranscriptionRequest {
@@ -458,6 +468,25 @@ export interface DialogStateResponse {
   dialog?: BaseDialogUnion;
   /** The value to identify context of the operation. */
   operationContext?: string;
+}
+
+export interface UpdateDialogRequest {
+  /** Dialog context. */
+  dialog: DialogUpdateBaseUnion;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+export interface DialogUpdateBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AzureOpenAI";
+  /** Dialog context. */
+  context?: { [propertyName: string]: Record<string, unknown> };
 }
 
 /** The response payload for getting participants of the call. */
@@ -1021,6 +1050,46 @@ export interface DialogSensitivityUpdate {
   readonly correlationId?: string;
 }
 
+export interface DialogUpdated {
+  /**
+   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
+  /**
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Ivr Context
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ivrContext?: Record<string, unknown>;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 export interface TranscriptionUpdate {
   transcriptionStatus?: TranscriptionStatus;
   transcriptionStatusDetails?: TranscriptionStatusDetails;
@@ -1279,6 +1348,66 @@ export interface RestCallTransferFailed {
 }
 
 export interface RestRecordingStateChanged {
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+  recordingType?: RecordingType;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTeamsRecordingStateChanged {
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  state?: RecordingState;
+  /**
+   * The time of the recording started
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startDateTime?: Date;
+  recordingType?: RecordingType;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestTeamsComplianceRecordingStateChanged {
   /**
    * The call recording id
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1860,39 +1989,6 @@ export interface RestTranscriptionFailed {
   readonly correlationId?: string;
 }
 
-export interface RestTranscriptionResumed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 /** Azure Open AI Dialog */
 export interface AzureOpenAIDialog extends BaseDialog {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1909,6 +2005,12 @@ export interface PowerVirtualAgentsDialog extends BaseDialog {
   language?: string;
 }
 
+/** Azure Open AI Dialog for UpdateDialog API Call */
+export interface AzureOpenAIDialogUpdate extends DialogUpdateBase {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "AzureOpenAI";
+}
+
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -1918,7 +2020,7 @@ export enum KnownCommunicationIdentifierModelKind {
   /** PhoneNumber */
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
-  MicrosoftTeamsUser = "microsoftTeamsUser"
+  MicrosoftTeamsUser = "microsoftTeamsUser",
 }
 
 /**
@@ -1940,7 +2042,7 @@ export enum KnownCommunicationCloudEnvironmentModel {
   /** Dod */
   Dod = "dod",
   /** Gcch */
-  Gcch = "gcch"
+  Gcch = "gcch",
 }
 
 /**
@@ -1957,7 +2059,7 @@ export type CommunicationCloudEnvironmentModel = string;
 /** Known values of {@link MediaStreamingTransportType} that the service accepts. */
 export enum KnownMediaStreamingTransportType {
   /** Websocket */
-  Websocket = "websocket"
+  Websocket = "websocket",
 }
 
 /**
@@ -1972,7 +2074,7 @@ export type MediaStreamingTransportType = string;
 /** Known values of {@link MediaStreamingContentType} that the service accepts. */
 export enum KnownMediaStreamingContentType {
   /** Audio */
-  Audio = "audio"
+  Audio = "audio",
 }
 
 /**
@@ -1989,7 +2091,7 @@ export enum KnownMediaStreamingAudioChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed"
+  Unmixed = "unmixed",
 }
 
 /**
@@ -2005,7 +2107,7 @@ export type MediaStreamingAudioChannelType = string;
 /** Known values of {@link TranscriptionTransportType} that the service accepts. */
 export enum KnownTranscriptionTransportType {
   /** Websocket */
-  Websocket = "websocket"
+  Websocket = "websocket",
 }
 
 /**
@@ -2032,7 +2134,7 @@ export enum KnownCallConnectionStateModel {
   /** Disconnecting */
   Disconnecting = "disconnecting",
   /** Disconnected */
-  Disconnected = "disconnected"
+  Disconnected = "disconnected",
 }
 
 /**
@@ -2057,7 +2159,7 @@ export enum KnownCallRejectReason {
   /** Busy */
   Busy = "busy",
   /** Forbidden */
-  Forbidden = "forbidden"
+  Forbidden = "forbidden",
 }
 
 /**
@@ -2078,7 +2180,7 @@ export enum KnownPlaySourceType {
   /** Text */
   Text = "text",
   /** Ssml */
-  Ssml = "ssml"
+  Ssml = "ssml",
 }
 
 /**
@@ -2097,7 +2199,7 @@ export enum KnownVoiceKind {
   /** Male */
   Male = "male",
   /** Female */
-  Female = "female"
+  Female = "female",
 }
 
 /**
@@ -2119,7 +2221,7 @@ export enum KnownRecognizeInputType {
   /** SpeechOrDtmf */
   SpeechOrDtmf = "speechOrDtmf",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -2167,7 +2269,7 @@ export enum KnownTone {
   /** Pound */
   Pound = "pound",
   /** Asterisk */
-  Asterisk = "asterisk"
+  Asterisk = "asterisk",
 }
 
 /**
@@ -2199,7 +2301,7 @@ export enum KnownDialogInputType {
   /** PowerVirtualAgents */
   PowerVirtualAgents = "powerVirtualAgents",
   /** AzureOpenAI */
-  AzureOpenAI = "azureOpenAI"
+  AzureOpenAI = "azureOpenAI",
 }
 
 /**
@@ -2217,7 +2319,7 @@ export enum KnownCallLocatorKind {
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator"
+  ServerCallLocator = "serverCallLocator",
 }
 
 /**
@@ -2235,7 +2337,7 @@ export enum KnownRecordingContentType {
   /** Audio */
   Audio = "audio",
   /** AudioVideo */
-  AudioVideo = "audioVideo"
+  AudioVideo = "audioVideo",
 }
 
 /**
@@ -2253,7 +2355,7 @@ export enum KnownRecordingChannelType {
   /** Mixed */
   Mixed = "mixed",
   /** Unmixed */
-  Unmixed = "unmixed"
+  Unmixed = "unmixed",
 }
 
 /**
@@ -2273,7 +2375,7 @@ export enum KnownRecordingFormatType {
   /** Mp3 */
   Mp3 = "mp3",
   /** Mp4 */
-  Mp4 = "mp4"
+  Mp4 = "mp4",
 }
 
 /**
@@ -2292,7 +2394,7 @@ export enum KnownRecordingStorageType {
   /** Acs */
   Acs = "acs",
   /** BlobStorage */
-  BlobStorage = "blobStorage"
+  BlobStorage = "blobStorage",
 }
 
 /**
@@ -2310,7 +2412,7 @@ export enum KnownRecordingState {
   /** Active */
   Active = "active",
   /** Inactive */
-  Inactive = "inactive"
+  Inactive = "inactive",
 }
 
 /**
@@ -2328,7 +2430,9 @@ export enum KnownRecordingType {
   /** Acs */
   Acs = "acs",
   /** Teams */
-  Teams = "teams"
+  Teams = "teams",
+  /** TeamsCompliance */
+  TeamsCompliance = "teamsCompliance",
 }
 
 /**
@@ -2337,7 +2441,8 @@ export enum KnownRecordingType {
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **acs** \
- * **teams**
+ * **teams** \
+ * **teamsCompliance**
  */
 export type RecordingType = string;
 
@@ -2347,14 +2452,12 @@ export enum KnownTranscriptionStatus {
   TranscriptionStarted = "transcriptionStarted",
   /** TranscriptionFailed */
   TranscriptionFailed = "transcriptionFailed",
-  /** TranscriptionResumed */
-  TranscriptionResumed = "transcriptionResumed",
   /** TranscriptionUpdated */
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
   TranscriptionStopped = "transcriptionStopped",
   /** UnspecifiedError */
-  UnspecifiedError = "unspecifiedError"
+  UnspecifiedError = "unspecifiedError",
 }
 
 /**
@@ -2364,7 +2467,6 @@ export enum KnownTranscriptionStatus {
  * ### Known values supported by the service
  * **transcriptionStarted** \
  * **transcriptionFailed** \
- * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
  * **unspecifiedError**
@@ -2402,7 +2504,7 @@ export enum KnownTranscriptionStatusDetails {
   /** ServiceTimeout */
   ServiceTimeout = "serviceTimeout",
   /** TranscriptionLocaleUpdated */
-  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated"
+  TranscriptionLocaleUpdated = "transcriptionLocaleUpdated",
 }
 
 /**
@@ -2435,7 +2537,7 @@ export enum KnownRecognitionType {
   /** Speech */
   Speech = "speech",
   /** Choices */
-  Choices = "choices"
+  Choices = "choices",
 }
 
 /**
@@ -2585,7 +2687,8 @@ export interface CallConnectionCancelAddParticipantOptionalParams
 }
 
 /** Contains response data for the cancelAddParticipant operation. */
-export type CallConnectionCancelAddParticipantResponse = CancelAddParticipantResponse;
+export type CallConnectionCancelAddParticipantResponse =
+  CancelAddParticipantResponse;
 
 /** Optional parameters. */
 export interface CallConnectionGetParticipantOptionalParams
@@ -2668,6 +2771,10 @@ export interface CallDialogStopDialogOptionalParams
 }
 
 /** Optional parameters. */
+export interface CallDialogUpdateDialogOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface CallRecordingStartRecordingOptionalParams
   extends coreClient.OperationOptions {
   /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
@@ -2684,7 +2791,8 @@ export interface CallRecordingGetRecordingPropertiesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getRecordingProperties operation. */
-export type CallRecordingGetRecordingPropertiesResponse = RecordingStateResponse;
+export type CallRecordingGetRecordingPropertiesResponse =
+  RecordingStateResponse;
 
 /** Optional parameters. */
 export interface CallRecordingStopRecordingOptionalParams

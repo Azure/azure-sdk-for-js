@@ -57,7 +57,7 @@ async function connectivityConfigurationsPut() {
       subscriptionId,
       resourceGroupName,
       networkManagerName,
-      configurationName
+      configurationName,
     )
     .put(options);
   console.log(result);

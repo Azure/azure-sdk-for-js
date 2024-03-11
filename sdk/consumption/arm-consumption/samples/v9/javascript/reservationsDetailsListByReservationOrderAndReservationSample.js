@@ -30,7 +30,7 @@ async function reservationDetailsWithReservationId() {
   for await (let item of client.reservationsDetails.listByReservationOrderAndReservation(
     reservationOrderId,
     reservationId,
-    filter
+    filter,
   )) {
     resArray.push(item);
   }

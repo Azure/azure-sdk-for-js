@@ -1,10 +1,38 @@
 # Release History
 
-## 1.0.0-beta.19 ()
+## 1.0.0-beta.21 (2024-03-08)
+
+### Bugs Fixed
+
+- Fix issue with duration calculation for Spans.
+
+## 1.0.0-beta.20 (2024-02-13)
+
+### Bugs Fixed
+
+- Added exception handling for reading files to avoid concurrency errors.
+- Fixed issues with formatting for the duration field.
+
+### Other Changes
+
+- Changed the environment variable used to pass the sdk prefix.
+- Errors are no longer thrown upon failed statsbeat export.
+- Added exception handling for file creation and lookup used for telemetry caching.
+- Update OpenTelemetry depdendencies.
+- Change time precision to nanoseconds.
+
+## 1.0.0-beta.19 (2024-01-23)
+
+### Features Added
+
+- Capture WCF as an RPC dependency type.
 
 ### Other Changes
 
 - Statsbeat will stop being exported when user iKey is invalid.
+- Statsbeat attach type name updated to follow spec.
+- Update OpenTelemetry dependencies.
+- Update generated files.
 
 ## 1.0.0-beta.18 (2023-11-09)
 

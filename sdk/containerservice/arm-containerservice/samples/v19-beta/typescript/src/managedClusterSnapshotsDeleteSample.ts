@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a managed cluster snapshot.
  *
  * @summary Deletes a managed cluster snapshot.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-10-02-preview/examples/ManagedClusterSnapshotsDelete.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ManagedClusterSnapshotsDelete.json
  */
 async function deleteManagedClusterSnapshot() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteManagedClusterSnapshot() {
   const client = new ContainerServiceClient(credential, subscriptionId);
   const result = await client.managedClusterSnapshots.delete(
     resourceGroupName,
-    resourceName
+    resourceName,
   );
   console.log(result);
 }

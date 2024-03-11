@@ -11,8 +11,8 @@ const testTarget = getEnvVarValue("TEST_TARGET") || "live";
 export function testWithServiceTypes(
   handler: (
     serviceVersion: SupportedTargets,
-    onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper
-  ) => void
+    onVersions: (supported: SupportedTargets[]) => TestFunctionWrapper,
+  ) => void,
 ): void {
   // Wrap within an empty `describe` so that nested functions get the mocha
   // context object for the current suite being ran.
@@ -36,7 +36,7 @@ export function testWithServiceTypes(
           }
 
           handler(serviceVersion as SupportedTargets, ...rest);
-        }
+        },
       );
     });
   });

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the device update account.
  *
  * @summary Deletes the specified private endpoint connection associated with the device update account.
- * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_Delete.json
+ * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2023-07-01/examples/PrivateEndpointConnections/PrivateEndpointConnection_Delete.json
  */
 async function privateEndpointConnectionDelete() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function privateEndpointConnectionDelete() {
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     accountName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

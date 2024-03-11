@@ -37,7 +37,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     private resourceLink: string,
     private url: string,
     private changeFeedOptions: InternalChangeFeedIteratorOptions,
-    private epkRange: QueryRange
+    private epkRange: QueryRange,
   ) {
     this.queue = new FeedRangeQueue<ChangeFeedRange>();
     this.continuationToken = changeFeedOptions.continuationToken
@@ -80,19 +80,19 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       const overLappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
         this.url,
         this.epkRange,
-        diagnosticNode
+        diagnosticNode,
       );
       for (const overLappingRange of overLappingRanges) {
         const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
           this.epkRange,
-          overLappingRange
+          overLappingRange,
         );
         const feedRange: ChangeFeedRange = new ChangeFeedRange(
           overLappingRange.minInclusive,
           overLappingRange.maxExclusive,
           "",
           epkMinHeader,
-          epkMaxHeader
+          epkMaxHeader,
         );
         this.queue.enqueue(feedRange);
       }
@@ -104,7 +104,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
    * Fill the queue with feed ranges from continuation token
    */
   private async fetchContinuationTokenFeedRanges(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<void> {
     const contToken = this.continuationToken;
     if (!this.continuationTokenRidMatchContainerRid()) {
@@ -116,7 +116,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
           const overLappingRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
             this.url,
             queryRange,
-            diagnosticNode
+            diagnosticNode,
           );
           for (const overLappingRange of overLappingRanges) {
             // check if the epk range present in continuation token entirely covers the overlapping range.
@@ -125,14 +125,14 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
             // This will be used when we make a call to fetch change feed.
             const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
               queryRange,
-              overLappingRange
+              overLappingRange,
             );
             const feedRange: ChangeFeedRange = new ChangeFeedRange(
               overLappingRange.minInclusive,
               overLappingRange.maxExclusive,
               cToken.continuationToken,
               epkMinHeader,
-              epkMaxHeader
+              epkMaxHeader,
             );
             this.queue.enqueue(feedRange);
           }
@@ -212,7 +212,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
    * Read feed and retrieves the next page of results in Azure Cosmos DB.
    */
   private async fetchNext(
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<[[string, string], ChangeFeedIteratorResponse<Array<T & Resource>>]> {
     const feedRange = this.queue.peek();
     if (feedRange) {
@@ -224,7 +224,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       const shouldRetry: boolean = await this.shouldRetryOnFailure(
         feedRange,
         result,
-        diagnosticNode
+        diagnosticNode,
       );
 
       if (shouldRetry) {
@@ -262,7 +262,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
   private async shouldRetryOnFailure(
     feedRange: ChangeFeedRange,
     response: ChangeFeedIteratorResponse<Array<T & Resource>>,
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<boolean> {
     if (response.statusCode === StatusCodes.Ok || response.statusCode === StatusCodes.NotModified) {
       return false;
@@ -278,13 +278,13 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         feedRange.minInclusive,
         feedRange.maxExclusive,
         true,
-        false
+        false,
       );
       const resolvedRanges = await this.partitionKeyRangeCache.getOverlappingRanges(
         this.url,
         queryRange,
         diagnosticNode,
-        true
+        true,
       );
       if (resolvedRanges.length < 1) {
         throw new ErrorResponse("Partition split/merge detected but no overlapping ranges found.");
@@ -306,7 +306,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     shiftLeft: boolean,
     resolvedRanges: any,
     oldFeedRange: QueryRange,
-    continuationToken: string
+    continuationToken: string,
   ): Promise<void> {
     let flag = 0;
     if (shiftLeft) {
@@ -315,14 +315,14 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       // Modifies the first element with the first overlapping range.
       const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
         oldFeedRange,
-        resolvedRanges[0]
+        resolvedRanges[0],
       );
       const newFeedRange = new ChangeFeedRange(
         resolvedRanges[0].minInclusive,
         resolvedRanges[0].maxExclusive,
         continuationToken,
         epkMinHeader,
-        epkMaxHeader
+        epkMaxHeader,
       );
 
       this.queue.modifyFirstElement(newFeedRange);
@@ -332,7 +332,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
     for (let i = flag; i < resolvedRanges.length; i++) {
       const [epkMinHeader, epkMaxHeader] = await extractOverlappingRanges(
         oldFeedRange,
-        resolvedRanges[i]
+        resolvedRanges[i],
       );
 
       const newFeedRange = new ChangeFeedRange(
@@ -340,7 +340,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         resolvedRanges[i].maxExclusive,
         continuationToken,
         epkMinHeader,
-        epkMaxHeader
+        epkMaxHeader,
       );
       this.queue.enqueue(newFeedRange);
     }
@@ -353,7 +353,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
    */
   private async getPartitionRangeId(
     feedRange: ChangeFeedRange,
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<string> {
     const min = feedRange.epkMinHeader ? feedRange.epkMinHeader : feedRange.minInclusive;
     const max = feedRange.epkMaxHeader ? feedRange.epkMaxHeader : feedRange.maxExclusive;
@@ -362,7 +362,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
       this.url,
       queryRange,
       diagnosticNode,
-      false
+      false,
     );
     if (resolvedRanges.length < 1) {
       throw new ErrorResponse("No overlapping ranges found.");
@@ -376,7 +376,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
 
   private async getFeedResponse(
     feedRange: ChangeFeedRange,
-    diagnosticNode: DiagnosticNodeInternal
+    diagnosticNode: DiagnosticNodeInternal,
   ): Promise<ChangeFeedIteratorResponse<Array<T & Resource>>> {
     const feedOptions: FeedOptions = { initialHeaders: {}, useIncrementalFeed: true };
 
@@ -420,7 +420,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         response.result ? response.result.length : 0,
         response.code,
         response.headers,
-        getEmptyCosmosDiagnostics()
+        getEmptyCosmosDiagnostics(),
       );
     } catch (err) {
       // If any errors are encountered, eg. partition split or gone, handle it based on error code and not break the flow.
@@ -430,7 +430,7 @@ export class ChangeFeedForEpkRange<T> implements ChangeFeedPullModelIterator<T> 
         err.code,
         err.headers,
         getEmptyCosmosDiagnostics(),
-        err.substatus
+        err.substatus,
       );
     }
   }

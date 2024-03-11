@@ -63,12 +63,12 @@ export async function main() {
             onProgress: ({ status }) => {
               console.log(`training model "${kind}": ${status}`);
             },
-          }
+          },
         );
 
         return poller.pollUntilDone();
       })
-      .map(async (model) => (await model).modelId)
+      .map(async (model) => (await model).modelId),
   );
 
   // Finally, create the composed model.
@@ -93,7 +93,7 @@ export async function main() {
 
   console.log("Document Types:");
   for (const [docType, { description, fieldSchema: schema }] of Object.entries(
-    composedModel.docTypes || {}
+    composedModel.docTypes || {},
   )) {
     console.log(`- Name: "${docType}"`);
     console.log(`  Description: "${description}"`);

@@ -22,13 +22,14 @@ import {
   OperationStatusResultGetResponse,
   OperationStatusResultGetByAgentPoolOptionalParams,
   OperationStatusResultGetByAgentPoolResponse,
-  OperationStatusResultListNextResponse
+  OperationStatusResultListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing OperationStatusResultOperations operations. */
 export class OperationStatusResultOperationsImpl
-  implements OperationStatusResultOperations {
+  implements OperationStatusResultOperations
+{
   private readonly client: ContainerServiceClient;
 
   /**
@@ -48,7 +49,7 @@ export class OperationStatusResultOperationsImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: OperationStatusResultListOptionalParams
+    options?: OperationStatusResultListOptionalParams,
   ): PagedAsyncIterableIterator<OperationStatusResult> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -66,9 +67,9 @@ export class OperationStatusResultOperationsImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -76,7 +77,7 @@ export class OperationStatusResultOperationsImpl
     resourceGroupName: string,
     resourceName: string,
     options?: OperationStatusResultListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationStatusResult[]> {
     let result: OperationStatusResultListResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +93,7 @@ export class OperationStatusResultOperationsImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,12 +105,12 @@ export class OperationStatusResultOperationsImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: OperationStatusResultListOptionalParams
+    options?: OperationStatusResultListOptionalParams,
   ): AsyncIterableIterator<OperationStatusResult> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -124,11 +125,11 @@ export class OperationStatusResultOperationsImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: OperationStatusResultListOptionalParams
+    options?: OperationStatusResultListOptionalParams,
   ): Promise<OperationStatusResultListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -143,11 +144,11 @@ export class OperationStatusResultOperationsImpl
     resourceGroupName: string,
     resourceName: string,
     operationId: string,
-    options?: OperationStatusResultGetOptionalParams
+    options?: OperationStatusResultGetOptionalParams,
   ): Promise<OperationStatusResultGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, operationId, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -164,11 +165,11 @@ export class OperationStatusResultOperationsImpl
     resourceName: string,
     agentPoolName: string,
     operationId: string,
-    options?: OperationStatusResultGetByAgentPoolOptionalParams
+    options?: OperationStatusResultGetByAgentPoolOptionalParams,
   ): Promise<OperationStatusResultGetByAgentPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, agentPoolName, operationId, options },
-      getByAgentPoolOperationSpec
+      getByAgentPoolOperationSpec,
     );
   }
 
@@ -183,11 +184,11 @@ export class OperationStatusResultOperationsImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: OperationStatusResultListNextOptionalParams
+    options?: OperationStatusResultListNextOptionalParams,
   ): Promise<OperationStatusResultListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -195,38 +196,15 @@ export class OperationStatusResultOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResultList
+      bodyMapper: Mappers.OperationStatusResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations/{operationId}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -234,22 +212,42 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.operationId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const getByAgentPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/operations/{operationId}",
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/operations/{operationId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResult
+      bodyMapper: Mappers.OperationStatusResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.operationId,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getByAgentPoolOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/operations/{operationId}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -258,29 +256,29 @@ const getByAgentPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
     Parameters.agentPoolName,
-    Parameters.operationId
+    Parameters.operationId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationStatusResultList
+      bodyMapper: Mappers.OperationStatusResultList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

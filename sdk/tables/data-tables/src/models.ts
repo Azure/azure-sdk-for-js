@@ -202,12 +202,12 @@ export interface Edm<T extends EdmTypes> {
   value: T extends "Binary"
     ? string
     : T extends "Boolean"
-    ? boolean
-    : T extends "Double"
-    ? number
-    : T extends "Int32"
-    ? number
-    : string;
+      ? boolean
+      : T extends "Double"
+        ? number
+        : T extends "Int32"
+          ? number
+          : string;
   /**
    * The type of the entity property
    */

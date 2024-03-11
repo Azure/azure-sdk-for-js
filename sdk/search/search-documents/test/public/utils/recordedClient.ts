@@ -62,7 +62,7 @@ const recorderOptions: RecorderStartOptions = {
 export async function createClients<IndexModel extends object>(
   serviceVersion: string,
   recorder: Recorder,
-  indexName: string
+  indexName: string,
 ): Promise<Clients<IndexModel>> {
   await recorder.start(recorderOptions);
 
@@ -77,26 +77,26 @@ export async function createClients<IndexModel extends object>(
     credential,
     recorder.configureClientOptions({
       serviceVersion,
-    })
+    }),
   );
   const indexClient = new SearchIndexClient(
     endPoint,
     credential,
     recorder.configureClientOptions({
       serviceVersion,
-    })
+    }),
   );
   const indexerClient = new SearchIndexerClient(
     endPoint,
     credential,
     recorder.configureClientOptions({
       serviceVersion,
-    })
+    }),
   );
   const openAIClient = new OpenAIClient(
     openAIEndpoint,
     openAIKey,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
 
   return {

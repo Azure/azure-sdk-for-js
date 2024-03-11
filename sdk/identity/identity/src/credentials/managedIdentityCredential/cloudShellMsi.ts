@@ -20,7 +20,7 @@ export const logger = credentialLogger(msiName);
 function prepareRequestOptions(
   scopes: string | string[],
   clientId?: string,
-  resourceId?: string
+  resourceId?: string,
 ): PipelineRequestOptions {
   const resource = mapScopesToResource(scopes);
   if (!resource) {
@@ -76,24 +76,24 @@ export const cloudShellMsi: MSI = {
   },
   async getToken(
     configuration: MSIConfiguration,
-    getTokenOptions: GetTokenOptions = {}
+    getTokenOptions: GetTokenOptions = {},
   ): Promise<MSIToken | null> {
     const { identityClient, scopes, clientId, resourceId } = configuration;
 
     if (clientId) {
       logger.warning(
-        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`
+        `${msiName}: user-assigned identities not supported. The argument clientId might be ignored by the service.`,
       );
     }
 
     if (resourceId) {
       logger.warning(
-        `${msiName}: user defined managed Identity by resource Id not supported. The argument resourceId might be ignored by the service.`
+        `${msiName}: user defined managed Identity by resource Id not supported. The argument resourceId might be ignored by the service.`,
       );
     }
 
     logger.info(
-      `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`
+      `${msiName}: Using the endpoint coming form the environment variable MSI_ENDPOINT = ${process.env.MSI_ENDPOINT}.`,
     );
 
     const request = createPipelineRequest({

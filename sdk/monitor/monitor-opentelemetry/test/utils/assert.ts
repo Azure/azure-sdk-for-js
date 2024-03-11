@@ -22,7 +22,7 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
     assert.deepStrictEqual(
       actual.baseData[serializedKey],
       value,
-      `baseData.${serializedKey} should be equal\nActual: ${actual.baseData[serializedKey]}\nExpected: ${value}`
+      `baseData.${serializedKey} should be equal\nActual: ${actual.baseData[serializedKey]}\nExpected: ${value}`,
     );
   }
 };
@@ -68,7 +68,7 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
     assert.strictEqual(
       childEnvelopes.length,
       1,
-      `Envelope ${(envelope[0].data!.baseData as RequestData).name} found ${childEnvelopes.length}`
+      `Envelope ${(envelope[0].data!.baseData as RequestData).name} found ${childEnvelopes.length}`,
     );
   }
 };
@@ -104,7 +104,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
         false,
         `assertExpectation: could not find exported envelope: ${
           (expectation.data?.baseData as MonitorDomain).name
-        }`
+        }`,
       );
     }
 
@@ -128,7 +128,7 @@ export const assertTraceExpectation = (actual: Envelope[], expectations: Expecta
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
-            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`,
           );
       }
     }
@@ -155,7 +155,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
         false,
         `assertExpectation: Envelope ${
           (expectation.data?.baseData as MetricsData).metrics[0].name
-        } found ${envelope.length} times.`
+        } found ${envelope.length} times.`,
       );
     }
 
@@ -176,7 +176,7 @@ export const assertMetricExpectation = (actual: Envelope[], expectations: Expect
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
-            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`,
           );
       }
     }
@@ -200,7 +200,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
         false,
         `assertExpectation: could not find exported envelope: ${
           (expectation.data?.baseData as any).name
-        }`
+        }`,
       );
     }
 
@@ -221,7 +221,7 @@ export const assertLogExpectation = (actual: Envelope[], expectations: Expectati
           assert.strictEqual(
             envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
-            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`,
           );
       }
     }

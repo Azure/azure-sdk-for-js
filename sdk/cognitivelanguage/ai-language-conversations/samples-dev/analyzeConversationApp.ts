@@ -25,7 +25,7 @@ const deploymentName = process.env.AZURE_CONVERSATIONS_DEPLOYMENT_NAME || "<depl
 
 const service: ConversationAnalysisClient = new ConversationAnalysisClient(
   cluEndpoint,
-  new AzureKeyCredential(cluKey)
+  new AzureKeyCredential(cluKey),
 );
 
 const body: ConversationalTask = {

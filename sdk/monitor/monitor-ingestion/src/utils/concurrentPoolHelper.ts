@@ -7,7 +7,7 @@ export async function concurrentRun<T>(
   maxConcurrency: number,
   inputData: Array<T>,
   callback: (args: T) => Promise<void>,
-  abortSignal?: AbortSignalLike
+  abortSignal?: AbortSignalLike,
 ): Promise<void> {
   const dataQueue = [...inputData].reverse();
   const promises: Array<Promise<void>> = [];

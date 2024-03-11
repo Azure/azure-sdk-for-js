@@ -37,7 +37,7 @@ async function afdOriginsUpdate() {
     profileName,
     originGroupName,
     originName,
-    originUpdateProperties
+    originUpdateProperties,
   );
   console.log(result);
 }

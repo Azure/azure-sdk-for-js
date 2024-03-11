@@ -32,7 +32,7 @@ async function deleteCloudService() {
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}",
       subscriptionId,
       resourceGroupName,
-      cloudServiceName
+      cloudServiceName,
     )
     .delete(options);
   const poller = getLongRunningPoller(client, initialResponse);

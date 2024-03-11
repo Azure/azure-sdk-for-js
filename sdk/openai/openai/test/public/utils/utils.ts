@@ -41,7 +41,7 @@ function toString(error: any): string {
 export async function withDeployments<T>(
   deployments: string[],
   run: (model: string) => Promise<T>,
-  validate: (result: T) => void
+  validate: (result: T) => void,
 ): Promise<string[]> {
   const errors = [];
   const succeeded = [];
@@ -61,7 +61,7 @@ export async function withDeployments<T>(
       const errorStr = toString(error);
       if (
         ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
-          error.code
+          error.code,
         ) ||
         error.type === "invalid_request_error"
       ) {
@@ -82,7 +82,7 @@ export async function withDeployments<T>(
 
 export async function sendRequestWithRecorder(
   request: PipelineRequest,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<PipelineResponse> {
   const client = createDefaultHttpClient();
   const pipeline = createEmptyPipeline();
@@ -120,13 +120,13 @@ async function listDeployments(
   subId: string,
   rgName: string,
   accountName: string,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<string[]> {
   const deployments: string[] = [];
   const mgmtClient = new CognitiveServicesManagementClient(
     createTestCredential(),
     subId,
-    recorder.configureClientOptions({})
+    recorder.configureClientOptions({}),
   );
   for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
     const deploymentName = deployment.name;
@@ -142,7 +142,7 @@ export function updateWithSucceeded(
   succeeded: string[],
   deployments: string[],
   models: string[],
-  authMethod: AuthMethod
+  authMethod: AuthMethod,
 ): void {
   if (authMethod === "OpenAIKey") {
     if (models.length === 0) {
@@ -160,7 +160,7 @@ export function getSucceeded(
   deployments: string[],
   models: string[],
   succeededDeployments: string[],
-  succeededModels: string[]
+  succeededModels: string[],
 ): string[] {
   if (authMethod === "OpenAIKey") {
     if (succeededModels.length > 0) {
@@ -179,7 +179,7 @@ function getAccountNameFromResourceType(deploymentType: DeploymentType): string 
   switch (deploymentType) {
     case "completions":
       return assertEnvironmentVariable(
-        EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS
+        EnvironmentVariableNamesForCompletions.ACCOUNT_NAME_COMPLETIONS,
       );
     case "dalle":
       return assertEnvironmentVariable(EnvironmentVariableNamesForDalle.ACCOUNT_NAME_DALLE);
@@ -190,22 +190,22 @@ function getAccountNameFromResourceType(deploymentType: DeploymentType): string 
 
 export async function getDeployments(
   deploymentType: DeploymentType,
-  recorder: Recorder
+  recorder: Recorder,
 ): Promise<string[]> {
   return listDeployments(
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.SUBSCRIPTION_ID),
     assertEnvironmentVariable(EnvironmentVariableNamesAzureCommon.RESOURCE_GROUP),
     getAccountNameFromResourceType(deploymentType),
-    recorder
+    recorder,
   );
 }
 
 export async function getModels(recorder: Recorder): Promise<string[]> {
   return listOpenAIModels(
     new OpenAIKeyCredential(
-      assertEnvironmentVariable(EnvironmentVariableNamesOpenAI.OPENAI_API_KEY)
+      assertEnvironmentVariable(EnvironmentVariableNamesOpenAI.OPENAI_API_KEY),
     ),
-    recorder
+    recorder,
   );
 }
 

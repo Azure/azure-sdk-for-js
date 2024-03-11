@@ -39,11 +39,11 @@ testWithServiceTypes((serviceVersion) => {
     before(() => {
       should.exist(
         env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
-        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests."
+        "define EVENTHUB_CONNECTION_STRING in your environment before running integration tests.",
       );
       should.exist(
         env[EnvVarKeys.EVENTHUB_NAME],
-        "define EVENTHUB_NAME in your environment before running integration tests."
+        "define EVENTHUB_NAME in your environment before running integration tests.",
       );
     });
 
@@ -73,7 +73,7 @@ testWithServiceTypes((serviceVersion) => {
           connectionContext: ConnectionContext,
           subscriptionEventHandlers: SubscriptionEventHandlers,
           checkpointStore: CheckpointStore,
-          options: FullEventProcessorOptions
+          options: FullEventProcessorOptions,
         ): SinonStubbedInstance<EventProcessor> => {
           subscriptionEventHandlers.should.equal(subscriptionHandlers);
           should.exist(connectionContext.managementSession);
@@ -90,7 +90,7 @@ testWithServiceTypes((serviceVersion) => {
           client = new EventHubConsumerClient(
             EventHubConsumerClient.defaultConsumerGroupName,
             service.connectionString!,
-            service.path
+            service.path,
           );
 
           clientWithCheckpointStore = new EventHubConsumerClient(
@@ -98,7 +98,7 @@ testWithServiceTypes((serviceVersion) => {
             service.connectionString!,
             service.path,
             // it doesn't actually matter _what_ checkpoint store gets passed in
-            new InMemoryCheckpointStore()
+            new InMemoryCheckpointStore(),
           );
 
           subscriptionHandlers = {
@@ -124,14 +124,14 @@ testWithServiceTypes((serviceVersion) => {
           // invalid - we're already subscribed to a conflicting partition
           should.throw(
             () => client.subscribe("0", subscriptionHandlers),
-            /Partition already has a subscriber/
+            /Partition already has a subscriber/,
           );
 
           clientWithCheckpointStore.subscribe("0", subscriptionHandlers);
           // invalid - we're already subscribed to a conflicting partition
           should.throw(
             () => clientWithCheckpointStore.subscribe(subscriptionHandlers),
-            /Partition already has a subscriber/
+            /Partition already has a subscriber/,
           );
         });
 
@@ -150,7 +150,7 @@ testWithServiceTypes((serviceVersion) => {
             // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
             // immediately so we use the UnbalancedLoadBalancingStrategy.
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
 
             options.loopIntervalInMs.should.equal(10000);
@@ -178,7 +178,7 @@ testWithServiceTypes((serviceVersion) => {
             // and if you don't specify a CheckpointStore we also assume you just want to read all partitions
             // immediately so we use the UnbalancedLoadBalancingStrategy.
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
 
             options.loopIntervalInMs.should.equal(20);
@@ -195,7 +195,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
 
@@ -218,7 +218,7 @@ testWithServiceTypes((serviceVersion) => {
 
             options.processingTarget!.should.equal("0");
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
             options.loopIntervalInMs.should.equal(10000);
           };
@@ -239,7 +239,7 @@ testWithServiceTypes((serviceVersion) => {
 
             options.processingTarget!.should.equal("0");
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
             options.loopIntervalInMs.should.equal(20);
           };
@@ -256,7 +256,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (clientWithCheckpointStore as any)["_createEventProcessor"] =
             fakeEventProcessorConstructor;
@@ -273,7 +273,7 @@ testWithServiceTypes((serviceVersion) => {
             //   - loopIntervalInMs: 10000
             should.not.exist(options.ownerLevel);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
             options.loopIntervalInMs.should.equal(10000);
           };
@@ -289,7 +289,7 @@ testWithServiceTypes((serviceVersion) => {
             //   - UnbalancedLoadBalancingStrategy
             should.not.exist(options.ownerLevel);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "UnbalancedLoadBalancingStrategy"
+              "UnbalancedLoadBalancingStrategy",
             );
             options.loopIntervalInMs.should.equal(20);
           };
@@ -304,7 +304,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100, // ignored
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (client as any)["_createEventProcessor"] = fakeEventProcessorConstructor;
 
@@ -322,7 +322,7 @@ testWithServiceTypes((serviceVersion) => {
             options.ownerLevel!.should.equal(0);
             should.not.exist(options.processingTarget);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "BalancedLoadBalancingStrategy"
+              "BalancedLoadBalancingStrategy",
             );
             (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
               "_partitionOwnershipExpirationIntervalInMs"
@@ -340,7 +340,7 @@ testWithServiceTypes((serviceVersion) => {
             options.ownerLevel!.should.equal(0);
             should.not.exist(options.processingTarget);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "GreedyLoadBalancingStrategy"
+              "GreedyLoadBalancingStrategy",
             );
             (options.loadBalancingStrategy as GreedyLoadBalancingStrategy)[
               "_partitionOwnershipExpirationIntervalInMs"
@@ -360,7 +360,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100,
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (clientWithCheckpointStore as any)["_createEventProcessor"] =
             fakeEventProcessorConstructor;
@@ -375,7 +375,7 @@ testWithServiceTypes((serviceVersion) => {
             options.ownerLevel!.should.equal(0);
             should.not.exist(options.processingTarget);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "BalancedLoadBalancingStrategy"
+              "BalancedLoadBalancingStrategy",
             );
             (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
               "_partitionOwnershipExpirationIntervalInMs"
@@ -395,7 +395,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100,
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (clientWithCheckpointStore as any)["_createEventProcessor"] =
             fakeEventProcessorConstructor;
@@ -410,7 +410,7 @@ testWithServiceTypes((serviceVersion) => {
             options.ownerLevel!.should.equal(0);
             should.not.exist(options.processingTarget);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "BalancedLoadBalancingStrategy"
+              "BalancedLoadBalancingStrategy",
             );
             (options.loadBalancingStrategy as BalancedLoadBalancingStrategy)[
               "_partitionOwnershipExpirationIntervalInMs"
@@ -430,7 +430,7 @@ testWithServiceTypes((serviceVersion) => {
                 partitionOwnershipExpirationIntervalInMs: 100,
                 updateIntervalInMs: 20,
               },
-            }
+            },
           );
           (clientWithCheckpointStore as any)["_createEventProcessor"] =
             fakeEventProcessorConstructor;
@@ -445,7 +445,7 @@ testWithServiceTypes((serviceVersion) => {
             options.ownerLevel!.should.equal(0);
             should.not.exist(options.processingTarget);
             options.loadBalancingStrategy.constructor.name.should.equal(
-              "GreedyLoadBalancingStrategy"
+              "GreedyLoadBalancingStrategy",
             );
             (options.loadBalancingStrategy as GreedyLoadBalancingStrategy)[
               "_partitionOwnershipExpirationIntervalInMs"
@@ -464,7 +464,7 @@ testWithServiceTypes((serviceVersion) => {
                 strategy: "greedy",
                 // defaults are used for the rest of the parameters.
               },
-            }
+            },
           );
           (clientWithCheckpointStore as any)["_createEventProcessor"] =
             fakeEventProcessorConstructor;
