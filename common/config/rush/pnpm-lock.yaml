@@ -12641,7 +12641,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdbforpostgresql.tgz:
-    resolution: {integrity: sha512-1kFWZx86s/1MB7d50kKIqEXOd20/HYaa76Vr6znMZ1oi7VhNM82bwcFXhqr/Ha8QJp7+tp95dRGyOkZPX4Q6OQ==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
+    resolution: {integrity: sha512-MabHKWwbfn4tzfVSSs2Tb6wN1OeWsoPWoASSTWGSIo7ezsV2vMpFfQ0v8OcrVoUqdGyo4kuObB1b5MOsB1dDKA==, tarball: file:projects/arm-cosmosdbforpostgresql.tgz}
     name: '@rush-temp/arm-cosmosdbforpostgresql'
     version: 0.0.0
     dependencies:
@@ -12654,6 +12654,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
@@ -20275,7 +20276,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-gUTzwr2Lub0zol8dlkc7cs9/BL+gE8AYwZWZFn2zJjFJq9umRFaDjx+rHejVS4bQAqHY+3F6xujKLVd0CQaG4A==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-mPQ3N9PLroSgOHHQjefCNhlo+nVnfgjex2ps/jsuxpc5Dg62qJMZ7xsnqkEwxwCr8G2/VHWWbWHagiCNcQeIWw==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20324,7 +20325,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-wb9Nut4sCw1VEKskWOOmbAhQGDv2BH31e5tFALkZrJ6x9G9193wklgNWE01AKWcNWP0ZJB+yK1kFPHQQ8BQTOA==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-NI1z0QC76eky1tu64KKFdbb+qGm2COvj/RNg+aXCtF7+6YEtk6cwViwIE+MivSFOspSb8iK30VxaacwAzOj1fA==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:

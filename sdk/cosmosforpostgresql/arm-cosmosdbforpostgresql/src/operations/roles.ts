@@ -15,7 +15,7 @@ import { CosmosDBForPostgreSQL } from "../cosmosDBForPostgreSQL";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -27,7 +27,7 @@ import {
   RolesCreateOptionalParams,
   RolesCreateResponse,
   RolesDeleteOptionalParams,
-  RolesDeleteResponse
+  RolesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class RolesImpl implements Roles {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: RolesListByClusterOptionalParams
+    options?: RolesListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Role> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class RolesImpl implements Roles {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class RolesImpl implements Roles {
     resourceGroupName: string,
     clusterName: string,
     options?: RolesListByClusterOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Role[]> {
     let result: RolesListByClusterResponse;
     result = await this._listByCluster(resourceGroupName, clusterName, options);
@@ -94,12 +94,12 @@ export class RolesImpl implements Roles {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: RolesListByClusterOptionalParams
+    options?: RolesListByClusterOptionalParams,
   ): AsyncIterableIterator<Role> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -116,11 +116,11 @@ export class RolesImpl implements Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesGetOptionalParams
+    options?: RolesGetOptionalParams,
   ): Promise<RolesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, roleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -137,27 +137,26 @@ export class RolesImpl implements Roles {
     clusterName: string,
     roleName: string,
     parameters: Role,
-    options?: RolesCreateOptionalParams
+    options?: RolesCreateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RolesCreateResponse>, RolesCreateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RolesCreateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -166,8 +165,8 @@ export class RolesImpl implements Roles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -175,15 +174,15 @@ export class RolesImpl implements Roles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, roleName, parameters, options },
-      spec: createOperationSpec
+      spec: createOperationSpec,
     });
     const poller = await createHttpPoller<
       RolesCreateResponse,
@@ -191,7 +190,7 @@ export class RolesImpl implements Roles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -210,14 +209,14 @@ export class RolesImpl implements Roles {
     clusterName: string,
     roleName: string,
     parameters: Role,
-    options?: RolesCreateOptionalParams
+    options?: RolesCreateOptionalParams,
   ): Promise<RolesCreateResponse> {
     const poller = await this.beginCreate(
       resourceGroupName,
       clusterName,
       roleName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -233,27 +232,26 @@ export class RolesImpl implements Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<RolesDeleteResponse>, RolesDeleteResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<RolesDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -262,8 +260,8 @@ export class RolesImpl implements Roles {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -271,15 +269,15 @@ export class RolesImpl implements Roles {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, clusterName, roleName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<
       RolesDeleteResponse,
@@ -287,7 +285,7 @@ export class RolesImpl implements Roles {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -304,13 +302,13 @@ export class RolesImpl implements Roles {
     resourceGroupName: string,
     clusterName: string,
     roleName: string,
-    options?: RolesDeleteOptionalParams
+    options?: RolesDeleteOptionalParams,
   ): Promise<RolesDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       roleName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -324,11 +322,11 @@ export class RolesImpl implements Roles {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: RolesListByClusterOptionalParams
+    options?: RolesListByClusterOptionalParams,
   ): Promise<RolesListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 }
@@ -336,16 +334,15 @@ export class RolesImpl implements Roles {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -353,31 +350,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.roleName
+    Parameters.roleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     201: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     202: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     204: {
-      bodyMapper: Mappers.Role
+      bodyMapper: Mappers.Role,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -386,32 +382,31 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.roleName
+    Parameters.roleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles/{roleName}",
   httpMethod: "DELETE",
   responses: {
     200: {
-      headersMapper: Mappers.RolesDeleteHeaders
+      headersMapper: Mappers.RolesDeleteHeaders,
     },
     201: {
-      headersMapper: Mappers.RolesDeleteHeaders
+      headersMapper: Mappers.RolesDeleteHeaders,
     },
     202: {
-      headersMapper: Mappers.RolesDeleteHeaders
+      headersMapper: Mappers.RolesDeleteHeaders,
     },
     204: {
-      headersMapper: Mappers.RolesDeleteHeaders
+      headersMapper: Mappers.RolesDeleteHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -419,30 +414,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.roleName
+    Parameters.roleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/serverGroupsv2/{clusterName}/roles",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RoleListResult
+      bodyMapper: Mappers.RoleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
