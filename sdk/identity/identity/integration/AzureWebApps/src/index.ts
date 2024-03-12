@@ -19,7 +19,14 @@ app.get("/sync", async (req: express.Request, res: express.Response) => {
     const account1 = process.env.IDENTITY_STORAGE_NAME_1;
     const credentialSystemAssigned = new ManagedIdentityCredential();
     const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credentialSystemAssigned);
-    const iter = await client1.getProperties();
+    let iter = client1.listContainers();
+    let i = 0;
+    console.log("Client with system assigned identity");
+    let containerItem = await iter.next();
+    while (!containerItem.done) {
+      console.log(`Container ${i++}: ${containerItem.value.name}`);
+      containerItem = await iter.next();
+    }
     console.log("Client with system assigned identity");
     console.log("Properties of the 1st client =", iter);
     systemSuccessMessage = "Successfully acquired token with system-assigned ManagedIdentityCredential"
@@ -32,9 +39,14 @@ app.get("/sync", async (req: express.Request, res: express.Response) => {
     const account2 = process.env.IDENTITY_STORAGE_NAME_2;
     const credentialUserAssigned = new ManagedIdentityCredential({ clientId: process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID })
     const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credentialUserAssigned);
+    let iter = client2.listContainers();
+    let i = 0;
     console.log("Client with user assigned identity")
-    const properties = await client2.getProperties();
-    console.log("Properties of the 2nd client =", properties)
+    let containerItem = await iter.next();
+    while (!containerItem.done) {
+      console.log(`Container ${i++}: ${containerItem.value.name}`);
+      containerItem = await iter.next();
+    }
     res.status(200).send("Successfully acquired tokens with async ManagedIdentityCredential")
   }
   catch (e) {

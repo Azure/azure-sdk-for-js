@@ -14,6 +14,7 @@ export async function authenticateStorage(request: HttpRequest, context: Invocat
       body: "Successfully authenticated with storage",
     };
   } catch (error: any) {
+    context.log(error);
     return {
       status: 400,
       body: error,
@@ -38,8 +39,23 @@ async function authToStorageHelper(context: InvocationContext): Promise<void> {
   const credential2 = new ManagedIdentityCredential({ "clientId": clientId });
   const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credential1);
   const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credential2);
-  context.log("Getting properties for storage account client: system managed identity")
-  await client1.getProperties();
+  context.log("Getting containers for storage account client: system managed identity")
+  let iter = client1.listContainers();
+  let i = 1;
+  context.log("Client with system assigned identity");
+  let containerItem = await iter.next();
+  while (!containerItem.done) {
+    context.log(`Container ${i++}: ${containerItem.value.name}`);
+    containerItem = await iter.next();
+  }
+
   context.log("Getting properties for storage account client: user assigned managed identity")
-  await client2.getProperties();
+  iter = client2.listContainers();
+  context.log("Client with user assigned identity");
+  containerItem = await iter.next();
+  while (!containerItem.done) {
+    context.log(`Container ${i++}: ${containerItem.value.name}`);
+    containerItem = await iter.next();
+  }
+
 }
