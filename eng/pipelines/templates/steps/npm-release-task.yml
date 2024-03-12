@@ -13,6 +13,7 @@ steps:
           pwsh: true
         condition: succeeded()
       - ${{ each package in split(variables.NpmPublishList, ',') }}:
+          - pwsh: write-host ${{package}}; write-host ${{variables.NpmPublishList}}
           - task: EsrpRelease@6
             inputs:
               displayName: 'Publish ${{package}} to ESRP'
