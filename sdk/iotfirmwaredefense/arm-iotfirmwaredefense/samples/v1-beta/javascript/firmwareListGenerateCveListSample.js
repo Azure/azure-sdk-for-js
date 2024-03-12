@@ -31,7 +31,7 @@ async function firmwareListGenerateCveListMaximumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateCveList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
@@ -57,7 +57,7 @@ async function firmwareListGenerateCveListMinimumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateCveList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }

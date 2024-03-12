@@ -31,7 +31,7 @@ async function getASuppressionListResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    suppressionListName
+    suppressionListName,
   );
   console.log(result);
 }

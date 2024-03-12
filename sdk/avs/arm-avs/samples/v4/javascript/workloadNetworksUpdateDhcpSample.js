@@ -38,7 +38,7 @@ async function workloadNetworksUpdateDhcp() {
     resourceGroupName,
     privateCloudName,
     dhcpId,
-    workloadNetworkDhcp
+    workloadNetworkDhcp,
   );
   console.log(result);
 }

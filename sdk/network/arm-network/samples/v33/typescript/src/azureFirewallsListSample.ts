@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Azure Firewalls in a resource group.
  *
  * @summary Lists all Azure Firewalls in a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AzureFirewallListByResourceGroup.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/AzureFirewallListByResourceGroup.json
  */
 async function listAllAzureFirewallsForAGivenResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";

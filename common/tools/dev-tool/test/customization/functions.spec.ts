@@ -1,6 +1,9 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { describe, it, assert, beforeEach } from "vitest";
 import { Project, SourceFile, FunctionDeclaration } from "ts-morph";
 import { augmentFunction } from "../../src/util/customization/functions";
-import { expect } from "chai";
 
 describe("Functions", () => {
   let project: Project;
@@ -23,7 +26,7 @@ describe("Functions", () => {
   it("should add custom functions to the original file", () => {
     augmentFunction(customFunction, originalFunction, originalFile);
 
-    expect(originalFile.getFunction("myFunction")).not.to.be.undefined;
+    assert.isDefined(originalFile.getFunction("myFunction"));
   });
 
   it("should replace existing functions with custom functions", () => {
@@ -34,9 +37,10 @@ describe("Functions", () => {
 
     augmentFunction(customFunction, originalFunction, originalFile);
 
-    expect(
+    assert.equal(
       originalFile.getFunction("myFunction")?.getParameter("param")?.getType().getText(),
-    ).to.equal("string");
+      "string",
+    );
   });
 
   it("should convert existing functions to private functions", () => {
@@ -49,8 +53,8 @@ describe("Functions", () => {
 
     augmentFunction(customFunction, originalFunction, originalFile);
 
-    expect(originalFile.getFunction("myFunction")).to.not.be.undefined;
-    expect(originalFile.getFunction("_myFunction")).to.not.be.undefined;
-    expect(originalFile.getFunction("myFunction")?.getText()).to.include("_myFunction");
+    assert.isDefined(originalFile.getFunction("myFunction"));
+    assert.isDefined(originalFile.getFunction("_myFunction"));
+    assert.include(originalFile.getFunction("myFunction")?.getText(), "_myFunction");
   });
 });

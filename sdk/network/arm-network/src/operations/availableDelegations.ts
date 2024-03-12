@@ -18,7 +18,7 @@ import {
   AvailableDelegationsListNextOptionalParams,
   AvailableDelegationsListOptionalParams,
   AvailableDelegationsListResponse,
-  AvailableDelegationsListNextResponse
+  AvailableDelegationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
    */
   public list(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
+    options?: AvailableDelegationsListOptionalParams,
   ): PagedAsyncIterableIterator<AvailableDelegation> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -56,14 +56,14 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: AvailableDelegationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AvailableDelegation[]> {
     let result: AvailableDelegationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
 
   private async *listPagingAll(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
+    options?: AvailableDelegationsListOptionalParams,
   ): AsyncIterableIterator<AvailableDelegation> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
    */
   private _list(
     location: string,
-    options?: AvailableDelegationsListOptionalParams
+    options?: AvailableDelegationsListOptionalParams,
   ): Promise<AvailableDelegationsListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
   private _listNext(
     location: string,
     nextLink: string,
-    options?: AvailableDelegationsListNextOptionalParams
+    options?: AvailableDelegationsListNextOptionalParams,
   ): Promise<AvailableDelegationsListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class AvailableDelegationsImpl implements AvailableDelegations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/availableDelegations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.AvailableDelegationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableDelegationsResult
+      bodyMapper: Mappers.AvailableDelegationsResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
