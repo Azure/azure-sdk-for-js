@@ -17,15 +17,21 @@ app.get("/sync", async (req: express.Request, res: express.Response) => {
   let systemSuccessMessage = "";
   try {
     const account1 = process.env.IDENTITY_STORAGE_NAME_1;
-    const account2 = process.env.IDENTITY_STORAGE_NAME_2;
     const credentialSystemAssigned = new ManagedIdentityCredential();
-    const credentialUserAssigned = new ManagedIdentityCredential({ clientId: process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID })
     const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credentialSystemAssigned);
-    const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credentialUserAssigned);
-    const iter = client1.getProperties();
+    const iter = await client1.getProperties();
     console.log("Client with system assigned identity");
     console.log("Properties of the 1st client =", iter);
     systemSuccessMessage = "Successfully acquired token with system-assigned ManagedIdentityCredential"
+    console.log(systemSuccessMessage);
+  }
+  catch (e) {
+    console.error(e);
+  }
+  try {
+    const account2 = process.env.IDENTITY_STORAGE_NAME_2;
+    const credentialUserAssigned = new ManagedIdentityCredential({ clientId: process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID })
+    const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credentialUserAssigned);
     console.log("Client with user assigned identity")
     const properties = await client2.getProperties();
     console.log("Properties of the 2nd client =", properties)

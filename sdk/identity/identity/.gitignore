@@ -1,5 +1,5 @@
 src/**/*.js
-!assets/fake-cert.pem
-!assets/fake-cert-password.pem
 integration/AzureFunctions/app.zip
 integration/AzureWebApps/.azure/
+!assets/fake-cert.pem
+!assets/fake-cert-password.pem

@@ -8,52 +8,52 @@ import { Context } from "mocha";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 
-describe.only("AzureWebApps Integration test", function() {
-    it("test the Azure Web Apps endpoint where the '/' MI credential is used.", async function(this: Context) {
-        if(!isLiveMode){
-            this.skip();
-        }
-        const baseUri = baseUrlSync()
-        const client = new ServiceClient({baseUri: baseUri})
-        const pipelineRequest = createPipelineRequest({
-            url: baseUri,
-            method: "GET"
+describe.only("AzureWebApps Integration test", function () {
+  it("test the Azure Web Apps endpoint where the '/' MI credential is used.", async function (this: Context) {
+    if (!isLiveMode) {
+      this.skip();
+    }
+    const baseUri = baseUrlSync()
+    const client = new ServiceClient({ baseUri: baseUri })
+    const pipelineRequest = createPipelineRequest({
+      url: baseUri,
+      method: "GET"
 
-        })
-        const response = await client.sendRequest(pipelineRequest);
-        assert.equal(response.status,200,`Expected status 200. Received ${response.status}`);
     })
+    const response = await client.sendRequest(pipelineRequest);
+    assert.equal(response.status, 200, `Expected status 200. Received ${response.status}`);
+  })
 
-    it("test the Azure Web Apps endpoint where the '/api/sync' MI credential is used.", async function(this: Context) {
-        if(!isLiveMode){
-            this.skip();
-        }
-        const baseUri = baseUrl()
-        const client = new ServiceClient({baseUri: baseUri})
-        const pipelineRequest = createPipelineRequest({
-            url: baseUri,
-            method: "GET"
+  it("test the Azure Web Apps endpoint where the '/sync' MI credential is used.", async function (this: Context) {
+    if (!isLiveMode) {
+      this.skip();
+    }
+    const baseUri = baseUrl()
+    const client = new ServiceClient({ baseUri: baseUri })
+    const pipelineRequest = createPipelineRequest({
+      url: baseUri,
+      method: "GET"
 
-        })
-        const response = await client.sendRequest(pipelineRequest);
-        assert.equal(response.status,200,`Expected status 200. Received ${response.status}`);
     })
+    const response = await client.sendRequest(pipelineRequest);
+    assert.equal(response.status, 200, `Expected status 200. Received ${response.status}`);
+  })
 });
 
-function baseUrlSync(): string{
-    const webAppName = process.env.IDENTITY_WEBAPP_NAME;
-    if(!webAppName){
-       console.log("IDENTITY_WEBAPP_NAME is not set");
-       throw new Error("IDENTITY_WEBAPP_NAME is not set");
-    }
-    return `https://${webAppName}.azurewebsites.net/`
+function baseUrlSync(): string {
+  const webAppName = process.env.IDENTITY_WEBAPP_NAME;
+  if (!webAppName) {
+    console.log("IDENTITY_WEBAPP_NAME is not set");
+    throw new Error("IDENTITY_WEBAPP_NAME is not set");
+  }
+  return `https://${webAppName}.azurewebsites.net/`
 }
 
-function baseUrl(): string{
-    const webAppName = process.env.IDENTITY_WEBAPP_NAME;
-    if(!webAppName){
-       console.log("IDENTITY_WEBAPP_NAME is not set");
-       throw new Error("IDENTITY_WEBAPP_NAME is not set");
-    }
-    return `https://${webAppName}.azurewebsites.net/api/sync`
+function baseUrl(): string {
+  const webAppName = process.env.IDENTITY_WEBAPP_NAME;
+  if (!webAppName) {
+    console.log("IDENTITY_WEBAPP_NAME is not set");
+    throw new Error("IDENTITY_WEBAPP_NAME is not set");
+  }
+  return `https://${webAppName}.azurewebsites.net/sync`
 }

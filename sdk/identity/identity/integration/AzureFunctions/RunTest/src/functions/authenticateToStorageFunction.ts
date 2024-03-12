@@ -8,7 +8,7 @@ export async function authenticateStorage(request: HttpRequest, context: Invocat
     context.log('Http function was triggered.');
     //parse the request body
     await authToStorageHelper(context);
-   
+
     return {
       // status: 200, /* Defaults to 200 */
       body: "Successfully authenticated with storage",
@@ -22,9 +22,9 @@ export async function authenticateStorage(request: HttpRequest, context: Invocat
 };
 
 app.http('authenticateStorage', {
-    methods: ['GET', 'POST'],
-    authLevel: "anonymous",
-    handler: authenticateStorage
+  methods: ['GET', 'POST'],
+  authLevel: "anonymous",
+  handler: authenticateStorage
 });
 
 async function authToStorageHelper(context: InvocationContext): Promise<void> {
@@ -35,11 +35,11 @@ async function authToStorageHelper(context: InvocationContext): Promise<void> {
   const account1 = process.env.IDENTITY_STORAGE_NAME_1;
   const account2 = process.env.IDENTITY_STORAGE_NAME_2;
 
-  const credential2 = new ManagedIdentityCredential({"clientId": clientId });
+  const credential2 = new ManagedIdentityCredential({ "clientId": clientId });
   const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credential1);
   const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credential2);
-  context.log("Listing containers for storage account: system managed identity")
-  await client1.listContainers();
-  context.log("Listing containers for storage account: user assigned managed identity")
-  await client2.listContainers();
+  context.log("Getting properties for storage account client: system managed identity")
+  await client1.getProperties();
+  context.log("Getting properties for storage account client: user assigned managed identity")
+  await client2.getProperties();
 }
