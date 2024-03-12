@@ -73,9 +73,6 @@ describe("NetworkAnalytics test", () => {
       resourceGroup,
       resourcename,
       {
-        identity: {
-          type: "SystemAssigned"
-        },
         location,
         properties: {
           majorVersion: "1",
