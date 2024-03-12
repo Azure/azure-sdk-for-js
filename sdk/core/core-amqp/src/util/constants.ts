@@ -106,7 +106,7 @@ export const Constants = {
     renewLock: "com.microsoft:renew-lock",
     peekMessage: "com.microsoft:peek-message",
     receiveBySequenceNumber: "com.microsoft:receive-by-sequence-number",
-    batchDeleteMessages: "com.microsoft:batch-delete-messages",
+    deleteMessages: "com.microsoft:batch-delete-messages",
     updateDisposition: "com.microsoft:update-disposition",
     renewSessionLock: "com.microsoft:renew-session-lock",
     setSessionState: "com.microsoft:set-session-state",

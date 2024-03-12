@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how batchDeleteMessages() method can be used to delete messages in batch.
+ * This sample demonstrates how deleteMessages() method can be used to delete messages in batch.
  *
  * @summary Demonstrates how to delete messages in batch mode
  * @azsdk-weight 80
@@ -43,7 +43,7 @@ export async function main() {
     let peekedMessages = await queueReceiver.peekMessages(10);
     console.log(`Peeked messages: ${peekedMessages.length}.`);
 
-    let deletedCount = await queueReceiver.batchDeleteMessages(10);
+    let deletedCount = await queueReceiver.deleteMessages({ maxMessageCount: 10 });
 
     console.log(`${deletedCount} messages has been deleted.`);
 
@@ -53,7 +53,8 @@ export async function main() {
     console.log(`Peeked messages (2): ${peekedMessages.length}.`);
 
     // This time specifying a filter on messages to batch-delete
-    deletedCount = await queueReceiver.batchDeleteMessages(10, {
+    deletedCount = await queueReceiver.deleteMessages({
+      maxMessageCount: 10,
       enqueuedTimeUtcOlderThan: new Date(1970, 1, 1),
     });
     console.log(`${deletedCount} messages has been deleted this time.`); // Should be 0
@@ -65,6 +66,6 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.log("batchDeleteMessages Sample - Error occurred: ", err);
+  console.log("deleteMessages Sample - Error occurred: ", err);
   process.exit(1);
 });

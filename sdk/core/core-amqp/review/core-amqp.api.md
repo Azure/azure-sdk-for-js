@@ -333,7 +333,7 @@ export const Constants: {
         readonly renewLock: "com.microsoft:renew-lock";
         readonly peekMessage: "com.microsoft:peek-message";
         readonly receiveBySequenceNumber: "com.microsoft:receive-by-sequence-number";
-        readonly batchDeleteMessages: "com.microsoft:batch-delete-messages";
+        readonly deleteMessages: "com.microsoft:batch-delete-messages";
         readonly updateDisposition: "com.microsoft:update-disposition";
         readonly renewSessionLock: "com.microsoft:renew-session-lock";
         readonly setSessionState: "com.microsoft:set-session-state";

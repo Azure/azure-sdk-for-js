@@ -20,7 +20,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [receiveMessagesStreaming.ts][receivemessagesstreaming]                                   | Demonstrates how to receive Service Bus messages in a stream                                                                                                   |
 | [usingAadAuth.ts][usingaadauth]                                                           | This sample how to create a namespace using AAD token credentials                                                                                              |
 | [usingNamedKeyCredential.ts][usingnamedkeycredential]                                     | This sample demonstrates how to authenticate using AzureNamedKeyCredential                                                                                     |
-| [batchDeleteMessages.ts][batchdeletemessages]                                             | Demonstrates how to delete messages in batch mode                                                                                                              |
 | [browseMessages.ts][browsemessages]                                                       | Demonstrates how to browse a Service Bus message                                                                                                               |
 | [session.ts][session]                                                                     | Demonstrates how to send/receive messages to/from session enabled queues/subscriptions in Service Bus                                                          |
 | [scheduledMessages.ts][scheduledmessages]                                                 | Demonstrates how to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                            |
@@ -93,7 +92,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [receivemessagesstreaming]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/receiveMessagesStreaming.ts
 [usingaadauth]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/usingAadAuth.ts
 [usingnamedkeycredential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/usingNamedKeyCredential.ts
-[batchdeletemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/batchDeleteMessages.ts
 [browsemessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/browseMessages.ts
 [session]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/session.ts
 [scheduledmessages]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/servicebus/service-bus/samples/v7/typescript/src/scheduledMessages.ts

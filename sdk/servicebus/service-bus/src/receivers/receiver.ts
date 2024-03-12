@@ -7,7 +7,7 @@ import {
   MessageHandlers,
   ReceiveMessagesOptions,
   SubscribeOptions,
-  BatchDeleteMessagesOptions,
+  DeleteMessagesOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
@@ -142,13 +142,12 @@ export interface ServiceBusReceiver {
   ): Promise<ServiceBusReceivedMessage[]>;
 
   /**
-   * Delete messages in a batch
-   * @param messageCount - Number of messages to delete.
-   * @param options - Options that allow to specify messages older than a time,
-   *                        or an abortSignal to abort the operation.
+   * Delete messages. If no option is specified, all messages will be deleted.
+   *
+   * @param options - Options to configure the operation.
    * @returns number of messages that have been deleted.
    */
-  batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<number>;
+  deleteMessages(options?: DeleteMessagesOptions): Promise<number>;
 
   /**
    * Path of the entity for which the receiver has been created.
@@ -465,24 +464,21 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async batchDeleteMessages(
-    messageCount: number,
-    options?: BatchDeleteMessagesOptions,
-  ): Promise<number> {
+  async deleteMessages(options?: DeleteMessagesOptions): Promise<number> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const batchDeleteMessagesOperationPromise = (): Promise<number> => {
+    const deleteMessagesOperationPromise = (): Promise<number> => {
       return this._context
         .getManagementClient(this.entityPath)
-        .batchDeleteMessages(messageCount, options?.enqueuedTimeUtcOlderThan, undefined, {
+        .deleteMessages(options?.maxMessageCount, options?.enqueuedTimeUtcOlderThan, undefined, {
           ...options,
           associatedLinkName: this._getAssociatedReceiverName(),
-          requestName: "batchDeleteMessages",
+          requestName: "deleteMessages",
           timeoutInMs: this._retryOptions.timeoutInMs,
         });
     };
     const config: RetryConfig<number> = {
-      operation: batchDeleteMessagesOperationPromise,
+      operation: deleteMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,

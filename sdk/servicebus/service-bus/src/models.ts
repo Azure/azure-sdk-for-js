@@ -327,9 +327,16 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
   omitMessageBody?: boolean;
 }
 
-export interface BatchDeleteMessagesOptions extends OperationOptionsBase {
+/**
+ * Options to configure messages deletion.
+ */
+export interface DeleteMessagesOptions extends OperationOptionsBase {
   /**
    * If specified, only messages enqueued before this time are deleted.
    */
   enqueuedTimeUtcOlderThan?: Date;
+  /**
+   * If specified, up to `maxMessageCount` messages will be deleted.
+   */
+  maxMessageCount?: number;
 }

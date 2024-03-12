@@ -7,7 +7,7 @@ import {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   SubscribeOptions,
-  BatchDeleteMessagesOptions,
+  DeleteMessagesOptions,
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
@@ -409,24 +409,26 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     return retry<ServiceBusReceivedMessage[]>(config);
   }
 
-  async batchDeleteMessages(
-    messageCount: number,
-    options?: BatchDeleteMessagesOptions,
-  ): Promise<number> {
+  async deleteMessages(options?: DeleteMessagesOptions): Promise<number> {
     this._throwIfReceiverOrConnectionClosed();
 
-    const batchDeleteMessagesOperationPromise = (): Promise<number> => {
+    const deleteMessagesOperationPromise = (): Promise<number> => {
       return this._context
         .getManagementClient(this.entityPath)
-        .batchDeleteMessages(messageCount, options?.enqueuedTimeUtcOlderThan, this.sessionId, {
-          ...options,
-          associatedLinkName: this._messageSession.name,
-          requestName: "batchDeleteMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs,
-        });
+        .deleteMessages(
+          options?.maxMessageCount,
+          options?.enqueuedTimeUtcOlderThan,
+          this.sessionId,
+          {
+            ...options,
+            associatedLinkName: this._messageSession.name,
+            requestName: "deleteMessages",
+            timeoutInMs: this._retryOptions.timeoutInMs,
+          },
+        );
     };
     const config: RetryConfig<number> = {
-      operation: batchDeleteMessagesOperationPromise,
+      operation: deleteMessagesOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,

@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Add support for the `deleteMessages` operation in @azure/service-bus.
+
 ## 4.2.1 (2024-03-04)
 
 ### Other Changes
