@@ -213,7 +213,7 @@ export class CallMedia {
     constructor(callConnectionId: string, endpoint: string, credential: KeyCredential | TokenCredential, eventProcessor: CallAutomationEventProcessor, options?: CallAutomationApiClientOptionalParams);
     cancelAllOperations(): Promise<CancelAllMediaOperationsResult>;
     play(playSources: (FileSource | TextSource | SsmlSource)[], playTo: CommunicationIdentifier[], options?: PlayOptions): Promise<PlayResult>;
-    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions): Promise<PlayResult>;
+    playToAll(playSources: (FileSource | TextSource | SsmlSource)[], options?: PlayOptions, interruptCallMediaOperation?: boolean): Promise<PlayResult>;
     sendDtmfTones(tones: Tone[] | DtmfTone[], targetParticipant: CommunicationIdentifier, options?: SendDtmfTonesOptions): Promise<SendDtmfTonesResult>;
     startContinuousDtmfRecognition(targetParticipant: CommunicationIdentifier, options?: ContinuousDtmfRecognitionOptions): Promise<void>;
     startHoldMusic(targetParticipant: CommunicationIdentifier, playSource: FileSource | TextSource | SsmlSource, operationContext?: string | undefined): Promise<void>;
@@ -645,7 +645,6 @@ export interface PlayFailed extends Omit<RestPlayFailed, "callConnectionId" | "s
 
 // @public
 export interface PlayOptions extends OperationOptions {
-    interruptCallMediaOperation?: boolean;
     loop?: boolean;
     operationCallbackUrl?: string;
     operationContext?: string;

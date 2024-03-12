@@ -199,16 +199,50 @@ describe("CallMedia Unit Tests", async function () {
     ];
 
     const options: PlayOptions = {
-      interruptCallMediaOperation: true,
+      operationContext: "interruptMediaContext",
     };
-
-    await callMedia.playToAll(playSource, options);
+    const interruptCallMedia = true;
+    await callMedia.playToAll(playSource, options, interruptCallMedia);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playSources[0].kind, "file");
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.playOptions.interruptCallMediaOperation, interruptCallMedia);
+  });
+
+  it("makes successful Play request with interruptCallMediaOperation always false", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayOptions = {
+      loop: true,
+      operationContext: "interruptMediaContext",
+    };
+
+    const playTo: CommunicationIdentifier[] = [];
+    const interruptCallMedia = false;
+    await callMedia.play(playSource, playTo, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.playOptions.loop, options.loop);
+    assert.equal(data.playOptions.interruptCallMediaOperation, interruptCallMedia);
   });
 
   it("makes successful StartRecognizing DTMF request", async function () {

@@ -23,6 +23,7 @@ import {
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
+  PlayOptionsInternal,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -131,6 +132,17 @@ export class CallMedia {
     throw new Error("Invalid play source");
   }
 
+  private createPlayOptionInternal(
+    loop?: boolean,
+    interruptCallMedia?: boolean,
+  ): PlayOptionsInternal {
+    const playOptionInternal: PlayOptionsInternal = {
+      loop: loop !== undefined ? loop : false,
+      interruptCallMediaOperation: interruptCallMedia !== undefined ? interruptCallMedia : false,
+    };
+    return playOptionInternal;
+  }
+
   /**
    * Play audio to a specific participant.
    *
@@ -141,7 +153,7 @@ export class CallMedia {
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    options: PlayOptions = { loop: false, interruptCallMediaOperation: false },
+    options: PlayOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -154,21 +166,8 @@ export class CallMedia {
       operationCallbackUri: options.operationCallbackUrl,
     };
 
-    if (options.loop !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-        interruptCallMediaOperation: false,
-      }; // Ensure playOptions is defined
-      playRequest.playOptions.loop = options.loop;
-    }
+    playRequest.playOptions = this.createPlayOptionInternal(options.loop);
 
-    if (options.interruptCallMediaOperation !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-        interruptCallMediaOperation: false,
-      }; // Ensure playOptions is defined
-      playRequest.playOptions.interruptCallMediaOperation = options.interruptCallMediaOperation;
-    }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
     const playResult: PlayResult = {
@@ -212,10 +211,12 @@ export class CallMedia {
    *
    * @param playSources - A PlaySource representing the sources to play. Currently only single play source per request is supported.
    * @param options - Additional attributes for play.
+   * @param interruptCallMediaOperation - If set play can barge into other existing queued-up/currently-processing requests.
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false, interruptCallMediaOperation: false },
+    options: PlayOptions = { loop: false },
+    interruptCallMediaOperation?: boolean,
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -228,21 +229,11 @@ export class CallMedia {
       operationCallbackUri: options.operationCallbackUrl,
     };
 
-    if (options.loop !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-        interruptCallMediaOperation: false,
-      }; // Ensure playOptions is defined
-      playRequest.playOptions.loop = options.loop;
-    }
+    playRequest.playOptions = this.createPlayOptionInternal(
+      options.loop,
+      interruptCallMediaOperation,
+    );
 
-    if (options.interruptCallMediaOperation !== undefined) {
-      playRequest.playOptions = playRequest.playOptions || {
-        loop: false,
-        interruptCallMediaOperation: false,
-      }; // Ensure playOptions is defined
-      playRequest.playOptions.interruptCallMediaOperation = options.interruptCallMediaOperation;
-    }
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
     const playResult: PlayResult = {
