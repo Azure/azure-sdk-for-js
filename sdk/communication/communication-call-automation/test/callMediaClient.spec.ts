@@ -36,6 +36,7 @@ import {
   PlayOptions,
   StartTranscriptionOptions,
   StopTranscriptionOptions,
+  HoldOptions,
 } from "../src";
 
 // Current directory imports
@@ -339,8 +340,12 @@ describe("CallMedia Unit Tests", async function () {
     };
 
     const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.hold(participantToHold, playSource, "withPlaySource", "https://localhost");
+    const options: HoldOptions = {
+      playSource: playSource,
+      operationContext: "withPlaySource",
+      operationCallbackUri: "https://localhost",
+    };
+    await callMedia.hold(participantToHold, options);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
