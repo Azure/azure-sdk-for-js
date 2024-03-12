@@ -18,7 +18,7 @@ import {
   TagsObject,
   SnapshotsUpdateTagsOptionalParams,
   SnapshotsUpdateTagsResponse,
-  SnapshotsDeleteOptionalParams
+  SnapshotsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface Snapshots {
    * @param options The options parameters.
    */
   list(
-    options?: SnapshotsListOptionalParams
+    options?: SnapshotsListOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Lists snapshots in the specified subscription and resource group.
@@ -38,7 +38,7 @@ export interface Snapshots {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: SnapshotsListByResourceGroupOptionalParams
+    options?: SnapshotsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Snapshot>;
   /**
    * Gets a snapshot.
@@ -49,7 +49,7 @@ export interface Snapshots {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsGetOptionalParams
+    options?: SnapshotsGetOptionalParams,
   ): Promise<SnapshotsGetResponse>;
   /**
    * Creates or updates a snapshot.
@@ -62,7 +62,7 @@ export interface Snapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: Snapshot,
-    options?: SnapshotsCreateOrUpdateOptionalParams
+    options?: SnapshotsCreateOrUpdateOptionalParams,
   ): Promise<SnapshotsCreateOrUpdateResponse>;
   /**
    * Updates tags on a snapshot.
@@ -75,7 +75,7 @@ export interface Snapshots {
     resourceGroupName: string,
     resourceName: string,
     parameters: TagsObject,
-    options?: SnapshotsUpdateTagsOptionalParams
+    options?: SnapshotsUpdateTagsOptionalParams,
   ): Promise<SnapshotsUpdateTagsResponse>;
   /**
    * Deletes a snapshot.
@@ -86,6 +86,6 @@ export interface Snapshots {
   delete(
     resourceGroupName: string,
     resourceName: string,
-    options?: SnapshotsDeleteOptionalParams
+    options?: SnapshotsDeleteOptionalParams,
   ): Promise<void>;
 }

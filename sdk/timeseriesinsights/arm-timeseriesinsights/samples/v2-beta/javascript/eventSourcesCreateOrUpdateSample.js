@@ -45,7 +45,7 @@ async function createEventHubEventSource() {
     resourceGroupName,
     environmentName,
     eventSourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -80,7 +80,7 @@ async function eventSourcesCreateEventHubWithCustomEnquedTime() {
     resourceGroupName,
     environmentName,
     eventSourceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

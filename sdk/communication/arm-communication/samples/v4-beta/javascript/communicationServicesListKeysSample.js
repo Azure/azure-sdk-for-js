@@ -27,7 +27,7 @@ async function listKeys() {
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.listKeys(
     resourceGroupName,
-    communicationServiceName
+    communicationServiceName,
   );
   console.log(result);
 }

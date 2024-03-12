@@ -29,7 +29,7 @@ async function workloadNetworksGetDnsService() {
   const result = await client.workloadNetworks.getDnsService(
     resourceGroupName,
     privateCloudName,
-    dnsServiceId
+    dnsServiceId,
   );
   console.log(result);
 }

@@ -14,7 +14,7 @@ import {
   ReplicationProtectionIntentsGetResponse,
   CreateProtectionIntentInput,
   ReplicationProtectionIntentsCreateOptionalParams,
-  ReplicationProtectionIntentsCreateResponse
+  ReplicationProtectionIntentsCreateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ReplicationProtectionIntents {
   list(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationProtectionIntentsListOptionalParams
+    options?: ReplicationProtectionIntentsListOptionalParams,
   ): PagedAsyncIterableIterator<ReplicationProtectionIntent>;
   /**
    * Gets the details of an ASR replication protection intent.
@@ -44,7 +44,7 @@ export interface ReplicationProtectionIntents {
     resourceName: string,
     resourceGroupName: string,
     intentObjectName: string,
-    options?: ReplicationProtectionIntentsGetOptionalParams
+    options?: ReplicationProtectionIntentsGetOptionalParams,
   ): Promise<ReplicationProtectionIntentsGetResponse>;
   /**
    * The operation to create an ASR replication protection intent item.
@@ -60,6 +60,6 @@ export interface ReplicationProtectionIntents {
     resourceGroupName: string,
     intentObjectName: string,
     input: CreateProtectionIntentInput,
-    options?: ReplicationProtectionIntentsCreateOptionalParams
+    options?: ReplicationProtectionIntentsCreateOptionalParams,
   ): Promise<ReplicationProtectionIntentsCreateResponse>;
 }

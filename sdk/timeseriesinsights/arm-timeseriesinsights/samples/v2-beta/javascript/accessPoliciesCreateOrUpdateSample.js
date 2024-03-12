@@ -34,7 +34,7 @@ async function accessPoliciesCreate() {
     resourceGroupName,
     environmentName,
     accessPolicyName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

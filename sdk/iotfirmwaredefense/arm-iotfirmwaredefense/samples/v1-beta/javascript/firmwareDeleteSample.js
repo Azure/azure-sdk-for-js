@@ -30,7 +30,7 @@ async function firmwareDeleteMaximumSetGen() {
   const result = await client.firmwareOperations.delete(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareDeleteMinimumSetGen() {
   const result = await client.firmwareOperations.delete(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }

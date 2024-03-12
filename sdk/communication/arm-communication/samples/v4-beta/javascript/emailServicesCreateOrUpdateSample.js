@@ -32,7 +32,7 @@ async function createOrUpdateEmailServiceResource() {
   const result = await client.emailServices.beginCreateOrUpdateAndWait(
     resourceGroupName,
     emailServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

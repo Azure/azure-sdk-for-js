@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CreateProtectionContainerMappingInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to create a protection container mapping.
  *
  * @summary The operation to create a protection container mapping.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectionContainerMappings_Create.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectionContainerMappings_Create.json
  */
 async function createProtectionContainerMapping() {
   const subscriptionId =
@@ -41,19 +41,20 @@ async function createProtectionContainerMapping() {
       providerSpecificInput: {
         instanceType: "VMwareCbt"
       },
-      targetProtectionContainerId: "Microsoft Azure"
-    }
+      targetProtectionContainerId: "Microsoft Azure",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectionContainerMappings.beginCreateAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    mappingName,
-    creationInput
-  );
+  const result =
+    await client.replicationProtectionContainerMappings.beginCreateAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      mappingName,
+      creationInput,
+    );
   console.log(result);
 }
 

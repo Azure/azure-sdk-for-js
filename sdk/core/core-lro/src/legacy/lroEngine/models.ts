@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { LroResourceLocationConfig, RawResponse } from "../../http/models";
+import { LroResourceLocationConfig, RawResponse } from "../../http/models.js";
 
 /**
  * Options for the LRO poller.

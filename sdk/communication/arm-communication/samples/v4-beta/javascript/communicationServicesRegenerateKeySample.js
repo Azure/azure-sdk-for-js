@@ -29,7 +29,7 @@ async function regenerateKey() {
   const result = await client.communicationServices.regenerateKey(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

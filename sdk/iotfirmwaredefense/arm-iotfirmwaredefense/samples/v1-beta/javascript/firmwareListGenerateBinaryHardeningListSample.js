@@ -31,7 +31,7 @@ async function firmwareListGenerateBinaryHardeningListMaximumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateBinaryHardeningList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
@@ -57,7 +57,7 @@ async function firmwareListGenerateBinaryHardeningListMinimumSetGen() {
   for await (let item of client.firmwareOperations.listGenerateBinaryHardeningList(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   )) {
     resArray.push(item);
   }
