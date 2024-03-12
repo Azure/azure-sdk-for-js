@@ -24,7 +24,8 @@ steps:
             ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
             MainPublisher: 'ESRPRELPACMANTEST'
             DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
-            ProductState: $(Tag)
+            ProductStateField: $(Tag)
+
           - pwsh: >
               $regAuth=$registry.replace("https:","")
               $filterPackageList= $filterArg -split "," | % { return $_.trim() }
