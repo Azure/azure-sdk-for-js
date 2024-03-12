@@ -130,6 +130,32 @@ export interface DataProductProperties {
 }
 
 // @public (undocumented)
+export interface DataProducts {
+    // (undocumented)
+    addUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentCommonProperties, options?: DataProductsAddUserRoleOptions) => Promise<RoleAssignmentDetail>;
+    // (undocumented)
+    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, resource: DataProduct, options?: DataProductsCreateOptions) => Promise<DataProduct>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    generateStorageAccountSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: AccountSas, options?: DataProductsGenerateStorageAccountSasTokenOptions) => Promise<AccountSasToken>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsGetOptions) => Promise<DataProduct>;
+    // (undocumented)
+    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsListByResourceGroupOptions) => PagedAsyncIterableIterator<DataProduct>;
+    // (undocumented)
+    listBySubscription: (subscriptionId: string, options?: DataProductsListBySubscriptionOptions) => PagedAsyncIterableIterator<DataProduct>;
+    // (undocumented)
+    listRolesAssignments: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: Record<string, any>, options?: DataProductsListRolesAssignmentsOptions) => Promise<ListRoleAssignments>;
+    // (undocumented)
+    removeUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentDetail, options?: DataProductsRemoveUserRoleOptions) => Promise<void>;
+    // (undocumented)
+    rotateKey: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: KeyVaultInfo, options?: DataProductsRotateKeyOptions) => Promise<void>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, properties: DataProductUpdate, options?: DataProductsUpdateOptions) => PollerLike<OperationState<DataProduct>, DataProduct>;
+}
+
+// @public (undocumented)
 export interface DataProductsAddUserRoleOptions extends OperationOptions {
 }
 
@@ -151,6 +177,16 @@ export interface DataProductsCatalogProperties {
 }
 
 // @public (undocumented)
+export interface DataProductsCatalogs {
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsGetOptions) => Promise<DataProductsCatalog>;
+    // (undocumented)
+    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsListByResourceGroupOptions) => PagedAsyncIterableIterator<DataProductsCatalog>;
+    // (undocumented)
+    listBySubscription: (subscriptionId: string, options?: DataProductsCatalogsListBySubscriptionOptions) => PagedAsyncIterableIterator<DataProductsCatalog>;
+}
+
+// @public (undocumented)
 export interface DataProductsCatalogsGetOptions extends OperationOptions {
 }
 
@@ -160,16 +196,6 @@ export interface DataProductsCatalogsListByResourceGroupOptions extends Operatio
 
 // @public (undocumented)
 export interface DataProductsCatalogsListBySubscriptionOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface DataProductsCatalogsOperations {
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsGetOptions) => Promise<DataProductsCatalog>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsCatalogsListByResourceGroupOptions) => PagedAsyncIterableIterator<DataProductsCatalog>;
-    // (undocumented)
-    listBySubscription: (subscriptionId: string, options?: DataProductsCatalogsListBySubscriptionOptions) => PagedAsyncIterableIterator<DataProductsCatalog>;
 }
 
 // @public (undocumented)
@@ -199,32 +225,6 @@ export interface DataProductsListBySubscriptionOptions extends OperationOptions 
 
 // @public (undocumented)
 export interface DataProductsListRolesAssignmentsOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface DataProductsOperations {
-    // (undocumented)
-    addUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentCommonProperties, options?: DataProductsAddUserRoleOptions) => Promise<RoleAssignmentDetail>;
-    // (undocumented)
-    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, resource: DataProduct, options?: DataProductsCreateOptions) => Promise<DataProduct>;
-    // (undocumented)
-    deleteOperation: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    generateStorageAccountSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: AccountSas, options?: DataProductsGenerateStorageAccountSasTokenOptions) => Promise<AccountSasToken>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataProductsGetOptions) => Promise<DataProduct>;
-    // (undocumented)
-    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: DataProductsListByResourceGroupOptions) => PagedAsyncIterableIterator<DataProduct>;
-    // (undocumented)
-    listBySubscription: (subscriptionId: string, options?: DataProductsListBySubscriptionOptions) => PagedAsyncIterableIterator<DataProduct>;
-    // (undocumented)
-    listRolesAssignments: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: Record<string, any>, options?: DataProductsListRolesAssignmentsOptions) => Promise<ListRoleAssignments>;
-    // (undocumented)
-    removeUserRole: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: RoleAssignmentDetail, options?: DataProductsRemoveUserRoleOptions) => Promise<void>;
-    // (undocumented)
-    rotateKey: (subscriptionId: string, resourceGroupName: string, dataProductName: string, body: KeyVaultInfo, options?: DataProductsRotateKeyOptions) => Promise<void>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, properties: DataProductUpdate, options?: DataProductsUpdateOptions) => PollerLike<OperationState<DataProduct>, DataProduct>;
 }
 
 // @public (undocumented)
@@ -288,6 +288,24 @@ export interface DataTypeProperties {
 }
 
 // @public (undocumented)
+export interface DataTypes {
+    // (undocumented)
+    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, resource: DataType, options?: DataTypesCreateOptions) => Promise<DataType>;
+    // (undocumented)
+    deleteData: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: Record<string, any>, options?: DataTypesDeleteDataOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    generateStorageContainerSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: ContainerSaS, options?: DataTypesGenerateStorageContainerSasTokenOptions) => Promise<ContainerSasToken>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesGetOptions) => Promise<DataType>;
+    // (undocumented)
+    listByDataProduct: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataTypesListByDataProductOptions) => PagedAsyncIterableIterator<DataType>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, properties: DataTypeUpdate, options?: DataTypesUpdateOptions) => PollerLike<OperationState<DataType>, DataType>;
+}
+
+// @public (undocumented)
 export interface DataTypesCreateOptions extends OperationOptions {
 }
 
@@ -311,24 +329,6 @@ export interface DataTypesGetOptions extends OperationOptions {
 
 // @public (undocumented)
 export interface DataTypesListByDataProductOptions extends OperationOptions {
-}
-
-// @public (undocumented)
-export interface DataTypesOperations {
-    // (undocumented)
-    create: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, resource: DataType, options?: DataTypesCreateOptions) => Promise<DataType>;
-    // (undocumented)
-    deleteData: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: Record<string, any>, options?: DataTypesDeleteDataOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    deleteOperation: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
-    // (undocumented)
-    generateStorageContainerSasToken: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, body: ContainerSaS, options?: DataTypesGenerateStorageContainerSasTokenOptions) => Promise<ContainerSasToken>;
-    // (undocumented)
-    get: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, options?: DataTypesGetOptions) => Promise<DataType>;
-    // (undocumented)
-    listByDataProduct: (subscriptionId: string, resourceGroupName: string, dataProductName: string, options?: DataTypesListByDataProductOptions) => PagedAsyncIterableIterator<DataType>;
-    // (undocumented)
-    update: (subscriptionId: string, resourceGroupName: string, dataProductName: string, dataTypeName: string, properties: DataTypeUpdate, options?: DataTypesUpdateOptions) => PollerLike<OperationState<DataType>, DataType>;
 }
 
 // @public
@@ -415,10 +415,10 @@ export interface ManagedResourceGroupConfiguration {
 // @public (undocumented)
 export class NetworkAnalyticsClient {
     constructor(credential: TokenCredential, options?: NetworkAnalyticsClientOptions);
-    readonly dataProducts: DataProductsOperations;
-    readonly dataProductsCatalogs: DataProductsCatalogsOperations;
-    readonly dataTypes: DataTypesOperations;
-    readonly operations: OperationsOperations;
+    readonly dataProducts: DataProducts;
+    readonly dataProductsCatalogs: DataProductsCatalogs;
+    readonly dataTypes: DataTypes;
+    readonly operations: Operations;
     readonly pipeline: Pipeline;
 }
 
@@ -444,13 +444,13 @@ export interface OperationDisplay {
 }
 
 // @public (undocumented)
-export interface OperationsListOptions extends OperationOptions {
+export interface Operations {
+    // (undocumented)
+    list: (options?: OperationsListOptions) => PagedAsyncIterableIterator<Operation>;
 }
 
 // @public (undocumented)
-export interface OperationsOperations {
-    // (undocumented)
-    list: (options?: OperationsListOptions) => PagedAsyncIterableIterator<Operation>;
+export interface OperationsListOptions extends OperationOptions {
 }
 
 // @public

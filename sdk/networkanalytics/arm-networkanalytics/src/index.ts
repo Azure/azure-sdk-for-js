@@ -86,8 +86,8 @@ export {
   PagedAsyncIterableIterator,
 } from "./models/index.js";
 export {
-  DataProductsOperations,
-  DataProductsCatalogsOperations,
-  DataTypesOperations,
-  OperationsOperations,
+  DataProducts,
+  DataProductsCatalogs,
+  DataTypes,
+  Operations,
 } from "./classic/index.js";

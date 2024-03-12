@@ -17,7 +17,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
 import { NetworkAnalyticsClient } from "../src/NetworkAnalyticsClient.js";
-import { delay } from "@azure/core-util";
 
 const replaceableVariables: Record<string, string> = {
   AZURE_CLIENT_ID: "azure_client_id",

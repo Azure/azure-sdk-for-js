@@ -4,20 +4,20 @@
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
-  getOperationsOperations,
-  OperationsOperations,
+  getOperations,
+  Operations,
 } from "./classic/operations/index.js";
 import {
-  getDataProductsCatalogsOperations,
-  DataProductsCatalogsOperations,
+  getDataProductsCatalogs,
+  DataProductsCatalogs,
 } from "./classic/dataProductsCatalogs/index.js";
 import {
-  getDataTypesOperations,
-  DataTypesOperations,
+  getDataTypes,
+  DataTypes,
 } from "./classic/dataTypes/index.js";
 import {
-  getDataProductsOperations,
-  DataProductsOperations,
+  getDataProducts,
+  DataProducts,
 } from "./classic/dataProducts/index.js";
 import {
   createNetworkAnalytics,
@@ -38,18 +38,18 @@ export class NetworkAnalyticsClient {
   ) {
     this._client = createNetworkAnalytics(credential, options);
     this.pipeline = this._client.pipeline;
-    this.operations = getOperationsOperations(this._client);
-    this.dataProductsCatalogs = getDataProductsCatalogsOperations(this._client);
-    this.dataTypes = getDataTypesOperations(this._client);
-    this.dataProducts = getDataProductsOperations(this._client);
+    this.operations = getOperations(this._client);
+    this.dataProductsCatalogs = getDataProductsCatalogs(this._client);
+    this.dataTypes = getDataTypes(this._client);
+    this.dataProducts = getDataProducts(this._client);
   }
 
   /** The operation groups for Operations */
-  public readonly operations: OperationsOperations;
+  public readonly operations: Operations;
   /** The operation groups for DataProductsCatalogs */
-  public readonly dataProductsCatalogs: DataProductsCatalogsOperations;
+  public readonly dataProductsCatalogs: DataProductsCatalogs;
   /** The operation groups for DataTypes */
-  public readonly dataTypes: DataTypesOperations;
+  public readonly dataTypes: DataTypes;
   /** The operation groups for DataProducts */
-  public readonly dataProducts: DataProductsOperations;
+  public readonly dataProducts: DataProducts;
 }

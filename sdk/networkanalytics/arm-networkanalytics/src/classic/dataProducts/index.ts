@@ -41,7 +41,7 @@ import {
   DataProductsListBySubscriptionOptions,
 } from "../../models/options.js";
 
-export interface DataProductsOperations {
+export interface DataProducts {
   create: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -267,7 +267,7 @@ export function getDataProducts(context: NetworkAnalyticsContext) {
 
 export function getDataProductsOperations(
   context: NetworkAnalyticsContext,
-): DataProductsOperations {
+): DataProducts {
   return {
     ...getDataProducts(context),
   };

@@ -29,7 +29,7 @@ import {
   DataTypesListByDataProductOptions,
 } from "../../models/options.js";
 
-export interface DataTypesOperations {
+export interface DataTypes {
   create: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -202,7 +202,7 @@ export function getDataTypes(context: NetworkAnalyticsContext) {
 
 export function getDataTypesOperations(
   context: NetworkAnalyticsContext,
-): DataTypesOperations {
+): DataTypes {
   return {
     ...getDataTypes(context),
   };
