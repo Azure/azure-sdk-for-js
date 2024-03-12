@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Capability resource that extends a Target resource.
  *
  * @summary Get a Capability resource that extends a Target resource.
- * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2023-11-01/examples/GetCapability.json
+ * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/stable/2024-01-01/examples/GetCapability.json
  */
 async function getACapabilityThatExtendsAVirtualMachineTargetResource() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getACapabilityThatExtendsAVirtualMachineTargetResource() {
     parentResourceType,
     parentResourceName,
     targetName,
-    capabilityName
+    capabilityName,
   );
   console.log(result);
 }

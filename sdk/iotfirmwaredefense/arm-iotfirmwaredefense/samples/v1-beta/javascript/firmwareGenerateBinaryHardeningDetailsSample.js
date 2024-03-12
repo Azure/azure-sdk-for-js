@@ -30,7 +30,7 @@ async function firmwareGenerateBinaryHardeningDetailsMaximumSetGen() {
   const result = await client.firmwareOperations.generateBinaryHardeningDetails(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateBinaryHardeningDetailsMinimumSetGen() {
   const result = await client.firmwareOperations.generateBinaryHardeningDetails(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }

@@ -19,6 +19,7 @@ import {
   publicToMsal,
   randomUUID,
 } from "../utils";
+import { hasNativeBroker, nativeBrokerInfo, persistenceProvider } from "./msalPlugins";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
@@ -32,7 +33,6 @@ import { CredentialFlowGetTokenOptions } from "../credentials";
 import { IdentityClient } from "../../client/identityClient";
 import { LogPolicyOptions } from "@azure/core-rest-pipeline";
 import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
-import { NativeBrokerPluginControl } from "../../plugins/provider";
 import { RegionalAuthority } from "../../regionalAuthority";
 import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { getLogLevel } from "@azure/logger";
@@ -65,50 +65,6 @@ export interface MsalNodeOptions extends MsalFlowOptions {
     enableUnsafeSupportLogging?: boolean;
   };
 }
-
-/**
- * The current persistence provider, undefined by default.
- * @internal
- */
-export let persistenceProvider:
-  | ((options?: TokenCachePersistenceOptions) => Promise<msalNode.ICachePlugin>)
-  | undefined = undefined;
-
-/**
- * An object that allows setting the persistence provider.
- * @internal
- */
-export const msalNodeFlowCacheControl = {
-  setPersistence(pluginProvider: Exclude<typeof persistenceProvider, undefined>): void {
-    persistenceProvider = pluginProvider;
-  },
-};
-
-/**
- * The current native broker provider, undefined by default.
- * @internal
- */
-export let nativeBrokerInfo:
-  | {
-      broker: msalNode.INativeBrokerPlugin;
-    }
-  | undefined = undefined;
-
-export function hasNativeBroker(): boolean {
-  return nativeBrokerInfo !== undefined;
-}
-
-/**
- * An object that allows setting the native broker provider.
- * @internal
- */
-export const msalNodeFlowNativeBrokerControl: NativeBrokerPluginControl = {
-  setNativeBroker(broker): void {
-    nativeBrokerInfo = {
-      broker,
-    };
-  },
-};
 
 /**
  * MSAL partial base client for Node.js.
@@ -489,7 +445,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         this.cachedClaims = optionsClaims;
       }
       if (this.cachedClaims && !optionsClaims) {
-        (options as any).claims = this.cachedClaims;
+        options.claims = this.cachedClaims;
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);

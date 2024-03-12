@@ -346,7 +346,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(data.playSourceInfo.kind, "text");
     assert.equal(data.playSourceInfo.text.text, playSource.text);
-    assert.equal(data.loop, true);
     assert.equal(request.method, "POST");
   });
 

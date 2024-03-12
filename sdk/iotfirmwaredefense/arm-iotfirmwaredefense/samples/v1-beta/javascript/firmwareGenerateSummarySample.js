@@ -30,7 +30,7 @@ async function firmwareGenerateSummaryMaximumSetGen() {
   const result = await client.firmwareOperations.generateSummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateSummaryMinimumSetGen() {
   const result = await client.firmwareOperations.generateSummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
