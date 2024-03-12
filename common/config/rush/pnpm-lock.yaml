@@ -16212,7 +16212,7 @@ packages:
     dev: false
 
   file:projects/arm-search.tgz:
-    resolution: {integrity: sha512-Na4arZcPzswhzF8Fi0O0+dX7HyhCx21d/zu8uDFsqF4t7vhArbxewOFnYfMWGBubDvkRslDDUKWbZOsMI/57Yw==, tarball: file:projects/arm-search.tgz}
+    resolution: {integrity: sha512-6ntm18pb+N3L70Pe4PWXlBLBrcPDCAVA07DPcRQZo4LbuRUbJW6+XWia/+C6smVm47xLFDt/nJF3Qj3KaXhVgA==, tarball: file:projects/arm-search.tgz}
     name: '@rush-temp/arm-search'
     version: 0.0.0
     dependencies:
@@ -16225,7 +16225,8 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
-      mkdirp: 1.0.4
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
