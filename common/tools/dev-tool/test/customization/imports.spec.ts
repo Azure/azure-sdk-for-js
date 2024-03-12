@@ -78,7 +78,7 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 2);
+    assert.lengthOf(augmentedImports, 2);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
     assert.equal(rewrittenImportSpecifier, "./anotherFile.js");
     const rewrittenImportSpecifier2 = augmentedImports[1].getModuleSpecifierValue();
@@ -109,7 +109,7 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 2);
+    assert.lengthOf(augmentedImports, 2);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
     assert.equal(rewrittenImportSpecifier, "./anotherFile.js");
     const rewrittenImportSpecifier2 = augmentedImports[1].getModuleSpecifierValue();
@@ -136,7 +136,7 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 1);
+    assert.lengthOf(augmentedImports, 1);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
     assert.equal(rewrittenImportSpecifier, "../anotherFile.js");
   });
@@ -161,7 +161,7 @@ describe("Imports", () => {
     resetCustomizationState();
 
     const augmentedImports = originalFile.getImportDeclarations();
-    assert.equal(augmentedImports.length, 1);
+    assert.lengthOf(augmentedImports, 1);
     const rewrittenImportSpecifier = augmentedImports[0].getModuleSpecifierValue();
     assert.equal(rewrittenImportSpecifier, "../anotherFile.js");
   });

@@ -29,7 +29,7 @@ describe("Exports", () => {
     assert.equal(exportDeclaration.getModuleSpecifier()?.getLiteralValue(), "./module");
 
     const namedExports = exportDeclaration.getNamedExports();
-    assert.equal(namedExports.length, 1);
+    assert.lengthOf(namedExports, 1);
     assert.equal(namedExports[0].getName(), "Foo");
   });
 
