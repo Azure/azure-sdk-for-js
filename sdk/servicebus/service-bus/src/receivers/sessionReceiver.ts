@@ -415,17 +415,12 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
     const deleteMessagesOperationPromise = (): Promise<number> => {
       return this._context
         .getManagementClient(this.entityPath)
-        .deleteMessages(
-          options?.maxMessageCount,
-          options?.enqueuedTimeUtcOlderThan,
-          this.sessionId,
-          {
-            ...options,
-            associatedLinkName: this._messageSession.name,
-            requestName: "deleteMessages",
-            timeoutInMs: this._retryOptions.timeoutInMs,
-          },
-        );
+        .deleteMessages(options?.maxMessageCount, options?.beforeEnqueueTimeUtc, this.sessionId, {
+          ...options,
+          associatedLinkName: this._messageSession.name,
+          requestName: "deleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
     };
     const config: RetryConfig<number> = {
       operation: deleteMessagesOperationPromise,
