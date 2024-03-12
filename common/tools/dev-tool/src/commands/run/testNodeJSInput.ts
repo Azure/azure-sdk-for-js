@@ -2,9 +2,9 @@
 // Licensed under the MIT license
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
+
 import concurrently from "concurrently";
 import { createPrinter } from "../../util/printer";
-import { isModuleProject } from "../../util/resolveProject";
 import { runTestsWithProxyTool } from "../../util/testUtils";
 
 export const commandInfo = makeCommandInfo(
@@ -17,31 +17,13 @@ export const commandInfo = makeCommandInfo(
       default: false,
       description: "whether to run with test-proxy",
     },
-    "use-esm-workaround": {
-      shortName: "uew",
-      kind: "boolean",
-      default: false,
-      description:
-        "when true, uses the `esm` npm package for tests. Otherwise uses esm4mocha if needed",
-    },
   },
 );
 
 export default leafCommand(commandInfo, async (options) => {
-  const isModule = await isModuleProject();
-  let esmLoaderArgs = "";
-
-  if (isModule === false) {
-    if (options["use-esm-workaround"] === false) {
-      esmLoaderArgs = "--loader=../../../common/tools/esm4mocha.mjs";
-    } else {
-      esmLoaderArgs = "-r ../../../common/tools/esm-workaround -r esm";
-    }
-  }
-
   const reporterArgs =
     "--reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml";
-  const defaultMochaArgs = `${esmLoaderArgs} -r source-map-support/register.js ${reporterArgs} --full-trace`;
+  const defaultMochaArgs = `-r source-map-support/register.js ${reporterArgs} --full-trace`;
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
@@ -49,7 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
     ? updatedArgs.join(" ")
     : '--timeout 5000000 "dist-esm/test/{,!(browser)/**/}/*.spec.js"';
   const command = {
-    command: `c8 mocha ${defaultMochaArgs} ${mochaArgs}`,
+    command: `c8 mocha --require tsx ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 
