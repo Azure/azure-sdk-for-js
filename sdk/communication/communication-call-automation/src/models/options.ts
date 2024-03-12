@@ -355,3 +355,15 @@ export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
 }
+
+/**
+ * Options to hold participant.
+ */
+export interface HoldOptions extends OperationOptions {
+  /** A PlaySource representing the source to play. */
+  playSource?: FileSource | TextSource | SsmlSource;
+  /** Operation Context. */
+  operationContext?: string;
+  /** Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation. */
+  operationCallbackUri?: string;
+}

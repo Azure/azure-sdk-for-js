@@ -45,6 +45,7 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
   StartTranscriptionOptions,
   StopTranscriptionOptions,
+  HoldOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -615,16 +616,18 @@ export class CallMedia {
    */
   public async hold(
     targetParticipant: CommunicationIdentifier,
-    playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
-    operationContext: string | undefined = undefined,
-    operationCallbackUri: string | undefined = undefined,
+    options: HoldOptions = {},
   ): Promise<void> {
     const holdRequest: HoldRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
       playSourceInfo:
-        playSource !== undefined ? this.createPlaySourceInternal(playSource) : undefined,
-      operationContext: operationContext,
-      operationCallbackUri: operationCallbackUri,
+        options.playSource !== undefined
+          ? this.createPlaySourceInternal(options.playSource)
+          : undefined,
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+      operationCallbackUri:
+        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
     };
     return this.callMedia.hold(this.callConnectionId, holdRequest);
   }
