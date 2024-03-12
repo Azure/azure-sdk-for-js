@@ -23,9 +23,9 @@ const envSetupForPlayback: { [k: string]: string } = {
   SEARCH_API_ADMIN_KEY: "admin_key",
   SEARCH_API_ADMIN_KEY_ALT: "admin_key_alt",
   ENDPOINT: "https://endpoint",
-  OPENAI_DEPLOYMENT_NAME: "deployment-name",
-  OPENAI_ENDPOINT: "https://openai.endpoint",
-  OPENAI_KEY: "openai-key",
+  AZURE_OPENAI_DEPLOYMENT_NAME: "deployment-name",
+  AZURE_OPENAI_ENDPOINT: "https://openai.endpoint",
+  AZURE_OPENAI_KEY: "openai-key",
 };
 
 export const testEnv = new Proxy(envSetupForPlayback, {
@@ -34,21 +34,28 @@ export const testEnv = new Proxy(envSetupForPlayback, {
   },
 });
 
+// Hard-coded endpoint suffixes in tests are typically inadvisable so as not to impede with
+// sovereign cloud support. These are fine, as they're only used during test recording.
+const endpointSuffixes = {
+  search: "search.windows.net",
+  openai: "openai.azure.com",
+};
+
 const generalSanitizers = [];
 
 if (env.ENDPOINT) {
   generalSanitizers.push({
     regex: false,
     value: "subdomain",
-    target: env.ENDPOINT.match(/:\/\/(.*).search.windows.net/)![1],
+    target: env.ENDPOINT.match(String.raw`://(.*).${endpointSuffixes.search}`)![1],
   });
 }
 
-if (env.OPENAI_ENDPOINT) {
+if (env.AZURE_OPENAI_ENDPOINT) {
   generalSanitizers.push({
     regex: false,
     value: "subdomain",
-    target: env.OPENAI_ENDPOINT.match(/:\/\/(.*).openai.azure.com/)![1],
+    target: env.AZURE_OPENAI_ENDPOINT.match(String.raw`://(.*).${endpointSuffixes.openai}`)![1],
   });
 }
 
@@ -69,8 +76,8 @@ export async function createClients<IndexModel extends object>(
   indexName = recorder.variable("TEST_INDEX_NAME", indexName);
   const endPoint: string = env.ENDPOINT ?? "https://endpoint";
   const credential = new AzureKeyCredential(testEnv.SEARCH_API_ADMIN_KEY);
-  const openAIEndpoint = env.OPENAI_ENDPOINT ?? "https://openai.endpoint";
-  const openAIKey = new AzureKeyCredential(env.OPENAI_KEY ?? "openai-key");
+  const openAIEndpoint = env.AZURE_OPENAI_ENDPOINT ?? "https://openai.endpoint";
+  const openAIKey = new AzureKeyCredential(env.AZURE_OPENAI_KEY ?? "openai-key");
   const searchClient = new SearchClient<IndexModel>(
     endPoint,
     indexName,
