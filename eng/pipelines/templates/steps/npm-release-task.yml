@@ -13,7 +13,7 @@ steps:
           pwsh: true
         condition: succeeded()
       - ${{ each package in split(variables.NpmPublishList, ',') }}:
-          - task: EsrpRelease@6
+          - task: SFP.release-tasks.custom-build-release-task.EsrpRelease@6
             displayName: 'Publish ${{package}} to ESRP'
             ConnectedServiceName: 'ESRP Release Service'
             Intent: 'PackageDistribution'
