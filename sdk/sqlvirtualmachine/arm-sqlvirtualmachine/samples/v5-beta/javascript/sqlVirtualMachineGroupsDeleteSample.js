@@ -27,7 +27,7 @@ async function deletesASqlVirtualMachineGroup() {
   const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
   const result = await client.sqlVirtualMachineGroups.beginDeleteAndWait(
     resourceGroupName,
-    sqlVirtualMachineGroupName
+    sqlVirtualMachineGroupName,
   );
   console.log(result);
 }

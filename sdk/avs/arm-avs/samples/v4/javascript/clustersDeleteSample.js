@@ -29,7 +29,7 @@ async function clustersDelete() {
   const result = await client.clusters.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    clusterName
+    clusterName,
   );
   console.log(result);
 }

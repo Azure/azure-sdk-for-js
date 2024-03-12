@@ -34,7 +34,7 @@ async function createOrUpdateDomainsResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
