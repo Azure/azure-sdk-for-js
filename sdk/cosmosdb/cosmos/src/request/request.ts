@@ -211,6 +211,11 @@ export async function getHeaders({
     clientOptions.tokenProvider ||
     clientOptions.permissionFeed
   ) {
+    const TEST_KEY = clientOptions.key;
+    const initialPart = TEST_KEY.slice(0, 6);
+    const lastPart = TEST_KEY.slice(-6);
+
+    console.log(`TEST_KEY Initial Part:${initialPart} Last Part:${lastPart}`);
     await setAuthorizationHeader(clientOptions, verb, path, resourceId, resourceType, headers);
   }
   return headers;
