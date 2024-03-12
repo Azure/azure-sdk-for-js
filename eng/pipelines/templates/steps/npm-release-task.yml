@@ -12,8 +12,8 @@ steps:
           arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
-      - ${{ each package in split(variables.NpmPublishList, ',') }}:
-          - pwsh: write-host ${{package}}; write-host ${{variables.NpmPublishList}}
+      - ${{ each package in split($(NpmPublishList), ',') }}:
+          - pwsh: write-host ${{package}}; write-host $(NpmPublishList)
           - task: EsrpRelease@6
             inputs:
               displayName: 'Publish ${{package}} to ESRP'
