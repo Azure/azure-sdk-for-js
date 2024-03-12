@@ -8,30 +8,30 @@
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "bd33aaa6-75ea-411e-a71d-dd564215dbc1"
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "8094cb2d-93f0-4bb2-a159-bdf3aa0820a8"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Cache-Control": "no-cache",
-        "Content-Length": "1654",
+        "Content-Length": "831",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Thu, 07 Mar 2024 09:51:32 GMT",
+        "Date": "Fri, 08 Mar 2024 08:59:52 GMT",
         "Expires": "-1",
         "Pragma": "no-cache",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Cache": "CONFIG_NOCACHE",
         "X-Content-Type-Options": "nosniff",
-        "x-ms-correlation-request-id": "b8038e14-db6e-4b74-8466-1c37e333c91b",
+        "x-ms-correlation-request-id": "3d06c35e-cd65-4b84-9b58-357e642caacf",
         "x-ms-original-request-ids": [
-          "236bdd30-1193-4db7-aa65-2e6a1c50bcf2",
-          "35166a94-64e3-4665-a52f-f9645388bfd2"
+          "7b70f488-f9fc-45bc-8545-cc4190f1c818",
+          "72ba3933-167d-4705-8a18-2f7bbe5bda1a"
         ],
-        "x-ms-ratelimit-remaining-subscription-reads": "11999",
-        "x-ms-request-id": "b8038e14-db6e-4b74-8466-1c37e333c91b",
-        "x-ms-routing-request-id": "SOUTHEASTASIA:20240307T095132Z:b8038e14-db6e-4b74-8466-1c37e333c91b",
-        "X-MSEdge-Ref": "Ref A: 3173310AC20A4786A02C358102600AAE Ref B: MAA201060516053 Ref C: 2024-03-07T09:51:31Z"
+        "x-ms-ratelimit-remaining-subscription-reads": "11997",
+        "x-ms-request-id": "3d06c35e-cd65-4b84-9b58-357e642caacf",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240308T085953Z:3d06c35e-cd65-4b84-9b58-357e642caacf",
+        "X-MSEdge-Ref": "Ref A: EA9E74B89BC84DCAB31F4ECA2F4FED3C Ref B: MAA201060514017 Ref C: 2024-03-08T08:59:51Z"
       },
       "ResponseBody": {
         "value": [
@@ -43,13 +43,13 @@
             "systemData": {
               "createdBy": "azure_client_id",
               "createdByType": "Application",
-              "createdAt": "2024-03-07T09:41:13.9074937Z",
+              "createdAt": "2024-03-08T08:59:39.4127255Z",
               "lastModifiedBy": "azure_client_id",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2024-03-07T09:41:13.9074937Z"
+              "lastModifiedAt": "2024-03-08T08:59:39.4127255Z"
             },
             "identity": {
-              "principalId": "7968308e-a92e-4f34-8c1a-64e5d48af9c3",
+              "principalId": "6dbeb2fd-a3d8-4045-99f9-37bb914cd24e",
               "tenantId": "88888888-8888-8888-8888-888888888888",
               "type": "SystemAssigned"
             },
@@ -59,36 +59,7 @@
               "majorVersion": "1",
               "managedResourceGroupConfiguration": {
                 "location": "eastus2euap",
-                "name": "resourcetest-HostedResources-6E594FE6"
-              },
-              "provisioningState": "Accepted"
-            }
-          },
-          {
-            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest1",
-            "name": "resourcetest1",
-            "type": "microsoft.networkanalytics/dataproducts",
-            "location": "eastus2euap",
-            "systemData": {
-              "createdBy": "azure_client_id",
-              "createdByType": "Application",
-              "createdAt": "2024-03-07T09:41:21.6294118Z",
-              "lastModifiedBy": "azure_client_id",
-              "lastModifiedByType": "Application",
-              "lastModifiedAt": "2024-03-07T09:41:21.6294118Z"
-            },
-            "identity": {
-              "principalId": "f1d2ca20-0334-4535-b131-f31060c143fa",
-              "tenantId": "88888888-8888-8888-8888-888888888888",
-              "type": "SystemAssigned"
-            },
-            "properties": {
-              "publisher": "Microsoft",
-              "product": "MCC",
-              "majorVersion": "1",
-              "managedResourceGroupConfiguration": {
-                "location": "eastus2euap",
-                "name": "resourcetest1-HostedResources-486EBC43"
+                "name": "resourcetest-HostedResources-0C06856A"
               },
               "provisioningState": "Accepted"
             }

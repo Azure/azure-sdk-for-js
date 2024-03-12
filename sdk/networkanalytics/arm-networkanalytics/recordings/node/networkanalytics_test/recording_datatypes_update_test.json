@@ -1,0 +1,49 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest/dataTypes/testdatatype?api-version=2023-11-15",
+      "RequestMethod": "PATCH",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "5f236e1a-4d93-43e6-844e-7badb7c53daa"
+      },
+      "RequestBody": {
+        "properties": {
+          "state": "Stopped"
+        }
+      },
+      "StatusCode": 404,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "160",
+        "Content-Type": "application/json",
+        "Date": "Fri, 08 Mar 2024 09:07:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "dc1fc402-72bc-43d9-8240-b712d10e9a05",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "a19dcea8-1c8a-4a7a-814b-ff229022e3f3",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240308T090723Z:dc1fc402-72bc-43d9-8240-b712d10e9a05",
+        "X-MSEdge-Ref": "Ref A: ED21650A1D8D4DBCB31E525436E662C2 Ref B: MAA201060515045 Ref C: 2024-03-08T09:07:21Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "ResourceNotFound",
+          "message": "The resource \u0027Microsoft.NetworkAnalytics/dataProducts/resourcetest/dataTypes/testdatatype\u0027 could not be found."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

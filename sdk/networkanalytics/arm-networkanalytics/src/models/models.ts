@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /** Base class used for type definitions */
-export interface ArmResourceBase {}
+export interface ArmResourceBase { }
 
 /** Common properties for all Azure Resource Manager resources. */
 export interface ArmResource extends ArmResourceBase {
@@ -304,7 +304,7 @@ export interface DataProductListResult {
 }
 
 /** The base proxy resource. */
-export interface ProxyResourceBase extends ArmResource {}
+export interface ProxyResourceBase extends ArmResource { }
 
 /** The data type resource. */
 export interface DataType extends ProxyResourceBase {

@@ -1,0 +1,51 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest/dataTypes/testdatatype?api-version=2023-11-15",
+      "RequestMethod": "PUT",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "Content-Length": "34",
+        "Content-Type": "application/json; charset=UTF-8",
+        "User-Agent": "azsdk-js-arm-networkanalytics-rest/1.0.0-beta.1 core-rest-pipeline/1.14.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "c949c62b-9b86-4526-a7d5-13889b2534de"
+      },
+      "RequestBody": {
+        "properties": {
+          "state": "Running"
+        }
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "88",
+        "Content-Type": "application/json",
+        "Date": "Fri, 08 Mar 2024 09:07:20 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "56f78ac6-d870-47a6-ba02-f035f3bb9131",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-build-version": "\u003Cversion\u003E",
+        "x-ms-correlation-request-id": "fe54a1fa-e9b1-4db1-bac7-93a21a26e372",
+        "x-ms-failure-cause": "gateway",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-writes": "1199",
+        "x-ms-request-id": "d16eb4b1-32d3-4801-bb9f-e3312300526e",
+        "x-ms-routing-request-id": "SOUTHEASTASIA:20240308T090721Z:fe54a1fa-e9b1-4db1-bac7-93a21a26e372",
+        "X-MSEdge-Ref": "Ref A: 76475896C39E485881F3993A76EAC9AD Ref B: MAA201060515045 Ref C: 2024-03-08T09:07:17Z"
+      },
+      "ResponseBody": {
+        "error": {
+          "code": "BadRequest",
+          "message": "DataType PUT only allowed from Data Product."
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}
