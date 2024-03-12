@@ -14,7 +14,6 @@ export default defineConfig({
     },
     watch: false,
     include: ["test/**/*.spec.ts", "test/*.spec.ts"],
-    exclude: ["test/**/browser/*.spec.ts"],
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [

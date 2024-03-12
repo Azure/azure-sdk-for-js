@@ -47,14 +47,8 @@ describe("Exports", () => {
     assert.equal(exportDeclaration.getModuleSpecifier()?.getLiteralValue(), "./module");
 
     const namedExports = exportDeclaration.getNamedExports();
-    assert.equal(namedExports.length, 2);
-    assert.include(
-      namedExports.map((e) => e.getName()),
-      "Foo",
-    );
-    assert.include(
-      namedExports.map((e) => e.getName()),
-      "Bar",
-    );
+    assert.lengthOf(namedExports, 2);
+    const namedExportNames = namedExports.map((e) => e.getName());
+    assert.includeMembers(namedExportNames, ["Foo", "Bar"]);
   });
 });

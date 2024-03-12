@@ -206,7 +206,7 @@ class MyClass {}
       assert.include(methodBody, "return originalNumber;");
       assert.notInclude(methodBody, "return 1;");
 
-      assert.equal(methodDocs?.length, 1);
+      assert.lengthOf(methodDocs!, 1);
       assert.equal(methodDocs?.[0], "Customized docs");
 
       assert.notInclude(privateMethodBody, "return originalNumber;");
@@ -237,7 +237,7 @@ class MyClass {}
       });
       augmentConstructor(customConstructor, originalClass!);
 
-      assert.equal(originalFile.getClass("MyClass")?.getConstructors().length, 1);
+      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
     });
 
     it("should replace the original constructor with the custom constructor", () => {
@@ -249,7 +249,7 @@ class MyClass {}
       });
       augmentConstructor(customConstructor, originalClass!);
 
-      assert.equal(originalFile.getClass("MyClass")?.getConstructors().length, 1);
+      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
       assert.isDefined(originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("foo"));
       assert.isUndefined(
         originalFile.getClass("MyClass")?.getConstructors()[0].getParameter("bar"),
@@ -285,7 +285,7 @@ class MyClass {}
 
       augmentConstructor(customConstructor, originalClass!);
 
-      assert.equal(originalFile.getClass("MyClass")?.getConstructors().length, 1);
+      assert.lengthOf(originalFile.getClass("MyClass")?.getConstructors()!, 1);
       assert.equal(originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs().length, 1);
       assert.equal(
         originalFile.getClass("MyClass")?.getConstructors()[0].getJsDocs()[0].getDescription(),
