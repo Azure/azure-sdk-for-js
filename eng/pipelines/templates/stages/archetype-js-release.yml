@@ -101,7 +101,6 @@ stages:
                             - template: /eng/pipelines/templates/steps/npm-release-task.yml
                               parameters:
                                 Registry: ${{parameters.Registry}}
-                              condition: succeeded()
                             - pwsh: >
                                 write-host "$(Package.Archive)"
 
