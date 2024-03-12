@@ -14,17 +14,18 @@ steps:
         condition: succeeded()
       - ${{ each package in split(variables.NpmPublishList, ',') }}:
           - task: EsrpRelease@6
-            displayName: 'Publish ${{package}} to ESRP'
-            ConnectedServiceName: 'ESRP Release Service'
-            Intent: 'PackageDistribution'
-            ContentType: 'npm'
-            FolderLocation: ${{package}}
-            Owners: $(Build.RequestedForEmail)
-            Approvers: 'wesh@microsoft.com'
-            ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
-            MainPublisher: 'ESRPRELPACMANTEST'
-            DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
-            ProductStateField: $(Tag)
+            inputs:
+              displayName: 'Publish ${{package}} to ESRP'
+              ConnectedServiceName: 'ESRP Release Service'
+              Intent: 'PackageDistribution'
+              ContentType: 'npm'
+              FolderLocation: ${{package}}
+              Owners: $(Build.RequestedForEmail)
+              Approvers: 'wesh@microsoft.com'
+              ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
+              MainPublisher: 'ESRPRELPACMANTEST'
+              DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+              ProductStateField: $(Tag)
 
           - pwsh: >
               $regAuth=$registry.replace("https:","")
