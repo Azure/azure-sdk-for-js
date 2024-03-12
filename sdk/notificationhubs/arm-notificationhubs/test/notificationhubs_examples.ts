@@ -60,7 +60,22 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces create test", async function () {
-    const res = await client.namespaces.createOrUpdate(resourceGroup, nameSpaceName, { location: location });
+    const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,
+      nameSpaceName,
+      {
+        properties: {
+          networkAcls: {
+            ipRules: [
+              { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
+            ],
+            publicNetworkRule: { rights: ["Listen"] },
+          },
+          zoneRedundancy: "Enabled",
+        },
+        sku: { name: "Standard", tier: "Standard" },
+        tags: { tag1: "value1", tag2: "value2" },
+        location: location
+      }, testPollingOptions);
     assert.equal(res.name, nameSpaceName);
   });
 
@@ -71,6 +86,7 @@ describe("NotificationHubs test", () => {
 
   it("notificationHubs create test", async function () {
     const res = await client.notificationHubs.createOrUpdate(resourceGroup, nameSpaceName, notificationhubsName, { location: location });
+    await delay(100000);
     assert.equal(res.name, notificationhubsName);
   });
 
@@ -97,6 +113,6 @@ describe("NotificationHubs test", () => {
   });
 
   it("namespaces delete test", async function () {
-    const res = await client.namespaces.beginDeleteAndWait(resourceGroup, nameSpaceName, testPollingOptions);
+    const res = await client.namespaces.delete(resourceGroup, nameSpaceName);
   });
 });
