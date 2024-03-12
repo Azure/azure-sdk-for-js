@@ -28,7 +28,7 @@ async function checkNameAvailabilityAvailable() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function checkNameAvailabilityUnavailable() {
   const credential = new DefaultAzureCredential();
   const client = new CommunicationServiceManagementClient(credential, subscriptionId);
   const result = await client.communicationServices.checkNameAvailability(
-    nameAvailabilityParameters
+    nameAvailabilityParameters,
   );
   console.log(result);
 }

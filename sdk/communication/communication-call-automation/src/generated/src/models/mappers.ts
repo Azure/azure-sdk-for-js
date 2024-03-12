@@ -4258,6 +4258,138 @@ export const RestTranscriptionFailed: coreClient.CompositeMapper = {
   },
 };
 
+export const RestCreateCallFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestCreateCallFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestAnswerFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestAnswerFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const RestHoldFailed: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RestHoldFailed",
+    modelProperties: {
+      operationContext: {
+        serializedName: "operationContext",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      resultInformation: {
+        serializedName: "resultInformation",
+        type: {
+          name: "Composite",
+          className: "RestResultInformation",
+        },
+      },
+      callConnectionId: {
+        serializedName: "callConnectionId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      serverCallId: {
+        serializedName: "serverCallId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      correlationId: {
+        serializedName: "correlationId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const AzureOpenAIDialog: coreClient.CompositeMapper = {
   serializedName: "AzureOpenAI",
   type: {

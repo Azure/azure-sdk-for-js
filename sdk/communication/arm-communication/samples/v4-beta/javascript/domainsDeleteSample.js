@@ -29,7 +29,7 @@ async function deleteDomainsResource() {
   const result = await client.domains.beginDeleteAndWait(
     resourceGroupName,
     emailServiceName,
-    domainName
+    domainName,
   );
   console.log(result);
 }

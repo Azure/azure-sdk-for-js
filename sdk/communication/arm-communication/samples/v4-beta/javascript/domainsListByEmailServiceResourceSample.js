@@ -28,7 +28,7 @@ async function listDomainsResourcesByEmailServiceName() {
   const resArray = new Array();
   for await (let item of client.domains.listByEmailServiceResource(
     resourceGroupName,
-    emailServiceName
+    emailServiceName,
   )) {
     resArray.push(item);
   }
