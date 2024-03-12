@@ -2,7 +2,6 @@
 // Licensed under the MIT license
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-
 import concurrently from "concurrently";
 import { createPrinter } from "../../util/printer";
 import { runTestsWithProxyTool } from "../../util/testUtils";

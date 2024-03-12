@@ -3154,8 +3154,8 @@ packages:
     resolution: {integrity: sha512-C5Mc6rdnsaJDjO3UpGW/CQTHtCKaYlScZTly4JIu97Jxo/odCiH0ITnDXSJPTOrEKk/ycSZ0AOgTmkDtkOsvIA==}
     dev: false
 
-  /@ts-morph/common@0.22.0:
-    resolution: {integrity: sha512-HqNBuV/oIlMKdkLshXd1zKBqNQCsuPEsgQOkfFQ/eUKjRlwndXW1AjN9LVkBEIukm00gGXSRmfkl0Wv5VXLnlw==}
+  /@ts-morph/common@0.23.0:
+    resolution: {integrity: sha512-m7Lllj9n/S6sOkCkRftpM7L24uvmfXQFedlW/4hENcuJH1HHm9u5EgxZb9uVjQSCGrbBWBkOGgcTxNg36r6ywA==}
     dependencies:
       fast-glob: 3.3.2
       minimatch: 9.0.3
@@ -4553,8 +4553,8 @@ packages:
     engines: {node: '>=0.8'}
     dev: false
 
-  /code-block-writer@12.0.0:
-    resolution: {integrity: sha512-q4dMFMlXtKR3XNBHyMHt/3pwYNA69EDk00lloMOaaUMKPUXBw6lpXtbu3MMVG6/uOihGnRDOlkyqsONEUj60+w==}
+  /code-block-writer@13.0.1:
+    resolution: {integrity: sha512-c5or4P6erEA69TxaxTNcHUNcIn+oyxSRTOWV+pSYF+z4epXqNvwvJ70XPGjPNgue83oAFAPBRQYwpAJ/Hpe/Sg==}
     dev: false
 
   /color-convert@1.9.3:
@@ -9516,11 +9516,11 @@ packages:
     hasBin: true
     dev: false
 
-  /ts-morph@21.0.1:
-    resolution: {integrity: sha512-dbDtVdEAncKctzrVZ+Nr7kHpHkv+0JDJb2MjjpBaj8bFeCkePU9rHfMklmhuLFnpeq/EJZk2IhStY6NzqgjOkg==}
+  /ts-morph@22.0.0:
+    resolution: {integrity: sha512-M9MqFGZREyeb5fTl6gNHKZLqBQA0TjA1lea+CR48R8EBTDuWrNqW6ccC5QvjNR4s6wDumD3LTCjOFSp9iwlzaw==}
     dependencies:
-      '@ts-morph/common': 0.22.0
-      code-block-writer: 12.0.0
+      '@ts-morph/common': 0.23.0
+      code-block-writer: 13.0.1
     dev: false
 
   /ts-node@10.9.2(@types/node@16.18.87)(typescript@5.3.3):
@@ -18746,7 +18746,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-nG09YWhjmXYNV6+T5bq5NgXbetMsZVCsTumlZbkOnyq7pM435jJTDYSC2nsBxvDCYGkqhOQNB2N6gsNs9gZGag==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-g2sD7pNnn7rPJrvryHfXFz/s/IGrGDUBZMXOsyAdH2McMYMOPqIY0cfqOxXEAKY89AWo2yr6h6taU6bvywZDQg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18767,6 +18767,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.22
       '@types/semver': 7.5.8
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
       archiver: 7.0.1
       autorest: 3.7.1
       builtin-modules: 3.3.0
@@ -18792,17 +18793,29 @@ packages:
       rollup-plugin-visualizer: 5.12.0(rollup@4.12.1)
       semver: 7.6.0
       strip-json-comments: 5.0.1
-      ts-morph: 21.0.1
+      ts-morph: 22.0.0
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
+      vitest: 1.3.1(@types/node@18.19.22)(@vitest/browser@1.3.1)
       yaml: 2.4.1
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
       - '@swc/core'
       - '@swc/wasm'
+      - '@vitest/browser'
+      - '@vitest/ui'
       - bufferutil
       - debug
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
     dev: false
 
