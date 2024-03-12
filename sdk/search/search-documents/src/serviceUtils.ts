@@ -660,14 +660,10 @@ export function publicSkillsetToGeneratedSkillset(
   skillset: SearchIndexerSkillset,
 ): GeneratedSearchIndexerSkillset {
   return {
-    name: skillset.name,
-    description: skillset.description,
-    etag: skillset.etag,
-    skills: skillset.skills,
+    ...skillset,
     cognitiveServicesAccount: convertCognitiveServicesAccountToGenerated(
       skillset.cognitiveServicesAccount,
     ),
-    knowledgeStore: skillset.knowledgeStore,
     encryptionKey: convertEncryptionKeyToGenerated(skillset.encryptionKey),
   };
 }

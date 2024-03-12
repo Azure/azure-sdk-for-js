@@ -21,7 +21,7 @@ const dataSourceConnectionName = "example-ds-connection-sample-1";
 
 async function createDataSourceConnection(
   dataSourceConnectionName: string,
-  client: SearchIndexerClient
+  client: SearchIndexerClient,
 ) {
   console.log(`Creating DS Connection Operation`);
   const dataSourceConnection: SearchIndexerDataSourceConnection = {
@@ -38,12 +38,11 @@ async function createDataSourceConnection(
 
 async function getAndUpdateDataSourceConnection(
   dataSourceConnectionName: string,
-  client: SearchIndexerClient
+  client: SearchIndexerClient,
 ) {
   console.log(`Get And Update DS Connection Operation`);
-  const ds: SearchIndexerDataSourceConnection = await client.getDataSourceConnection(
-    dataSourceConnectionName
-  );
+  const ds: SearchIndexerDataSourceConnection =
+    await client.getDataSourceConnection(dataSourceConnectionName);
   ds.container.name = "Listings_5K_KingCounty_WA";
   console.log(`Updating Container Name of Datasource Connection ${dataSourceConnectionName}`);
   await client.createOrUpdateDataSourceConnection(ds);
@@ -72,7 +71,7 @@ async function listDataSourceConnections(client: SearchIndexerClient) {
 
 async function deleteDataSourceConnection(
   dataSourceConnectionName: string,
-  client: SearchIndexerClient
+  client: SearchIndexerClient,
 ) {
   console.log(`Deleting DS Connection Operation`);
   await client.deleteDataSourceConnection(dataSourceConnectionName);

@@ -29,8 +29,8 @@ const inputs = [
 
 async function main() {
   const client = new OpenAIClient(
-    process.env.OPENAI_ENDPOINT!,
-    new AzureKeyCredential(process.env.OPENAI_KEY!)
+    process.env.AZURE_OPENAI_ENDPOINT!,
+    new AzureKeyCredential(process.env.AZURE_OPENAI_KEY!)
   );
 
   const writeStream = createWriteStream(outputPath, { mode: 0o755 });
@@ -43,7 +43,7 @@ async function main() {
 
   const expressions = await Promise.all(
     inputs.map(async ({ ident, text, comment }) => {
-      const result = await client.getEmbeddings(process.env.OPENAI_DEPLOYMENT_NAME!, [text]);
+      const result = await client.getEmbeddings(process.env.AZURE_OPENAI_DEPLOYMENT_NAME!, [text]);
       const embedding = result.data[0].embedding;
       return `// ${comment}\nexport const ${ident} = [${embedding.toString()}];\n\n`;
     })

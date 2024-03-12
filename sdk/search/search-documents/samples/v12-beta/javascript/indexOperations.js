@@ -103,10 +103,10 @@ async function getServiceStatistics(client) {
   console.log(`\tMax Fields Per Index: ${limits.maxFieldsPerIndex}`);
   console.log(`\tMax Field Nesting Depth Per Index: ${limits.maxFieldNestingDepthPerIndex}`);
   console.log(
-    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`
+    `\tMax Complex Collection Fields Per Index: ${limits.maxComplexCollectionFieldsPerIndex}`,
   );
   console.log(
-    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`
+    `\tMax Complex Objects In Collections Per Document: ${limits.maxComplexObjectsInCollectionsPerDocument}`,
   );
 }
 
