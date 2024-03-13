@@ -243,6 +243,7 @@ stages:
                     displayName: Detecting package archive_${{artifact.name}}
                   - template: /eng/pipelines/templates/steps/npm-release-task.yml
                     parameters:
+                      Artifact: ${{artifact}}
                       Registry: ${{parameters.Registry}}
                     
       - job: PublishDocsToNightlyBranch
