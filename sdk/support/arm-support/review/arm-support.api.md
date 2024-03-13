@@ -52,6 +52,7 @@ export interface ChatTranscriptsListResult {
 // @public
 export interface ChatTranscriptsNoSubscription {
     get(supportTicketName: string, chatTranscriptName: string, options?: ChatTranscriptsNoSubscriptionGetOptionalParams): Promise<ChatTranscriptsNoSubscriptionGetResponse>;
+    list(supportTicketName: string, options?: ChatTranscriptsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
 }
 
 // @public
@@ -60,6 +61,20 @@ export interface ChatTranscriptsNoSubscriptionGetOptionalParams extends coreClie
 
 // @public
 export type ChatTranscriptsNoSubscriptionGetResponse = ChatTranscriptDetails;
+
+// @public
+export interface ChatTranscriptsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
+
+// @public
+export interface ChatTranscriptsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
 
 // @public
 export interface CheckNameAvailabilityInput {
@@ -72,6 +87,13 @@ export interface CheckNameAvailabilityOutput {
     readonly message?: string;
     readonly nameAvailable?: boolean;
     readonly reason?: string;
+}
+
+// @public
+export interface ClassificationService {
+    readonly displayName?: string;
+    resourceTypes?: string[];
+    readonly serviceId?: string;
 }
 
 // @public
@@ -150,6 +172,7 @@ export interface CommunicationsNoSubscription {
     beginCreateAndWait(supportTicketName: string, communicationName: string, createCommunicationParameters: CommunicationDetails, options?: CommunicationsNoSubscriptionCreateOptionalParams): Promise<CommunicationsNoSubscriptionCreateResponse>;
     checkNameAvailability(supportTicketName: string, checkNameAvailabilityInput: CheckNameAvailabilityInput, options?: CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams): Promise<CommunicationsNoSubscriptionCheckNameAvailabilityResponse>;
     get(supportTicketName: string, communicationName: string, options?: CommunicationsNoSubscriptionGetOptionalParams): Promise<CommunicationsNoSubscriptionGetResponse>;
+    list(supportTicketName: string, options?: CommunicationsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<CommunicationDetails>;
 }
 
 // @public
@@ -180,6 +203,22 @@ export interface CommunicationsNoSubscriptionGetOptionalParams extends coreClien
 
 // @public
 export type CommunicationsNoSubscriptionGetResponse = CommunicationDetails;
+
+// @public
+export interface CommunicationsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type CommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
+
+// @public
+export interface CommunicationsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+    top?: number;
+}
+
+// @public
+export type CommunicationsNoSubscriptionListResponse = CommunicationsListResult;
 
 // @public
 export type CommunicationType = string;
@@ -423,6 +462,29 @@ export enum KnownUserConsent {
 }
 
 // @public
+export interface LookUpResourceId {
+    post(lookUpResourceIdRequest: LookUpResourceIdRequest, options?: LookUpResourceIdPostOptionalParams): Promise<LookUpResourceIdPostResponse>;
+}
+
+// @public
+export interface LookUpResourceIdPostOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type LookUpResourceIdPostResponse = LookUpResourceIdResponse;
+
+// @public
+export interface LookUpResourceIdRequest {
+    identifier?: string;
+    type?: "Microsoft.Support/supportTickets";
+}
+
+// @public
+export interface LookUpResourceIdResponse {
+    resourceId?: string;
+}
+
+// @public
 export interface MessageProperties {
     body: string;
     readonly communicationDirection?: CommunicationDirection;
@@ -456,17 +518,21 @@ export class MicrosoftSupport extends coreClient.ServiceClient {
     // (undocumented)
     fileWorkspacesNoSubscription: FileWorkspacesNoSubscription;
     // (undocumented)
+    lookUpResourceId: LookUpResourceId;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     problemClassifications: ProblemClassifications;
     // (undocumented)
+    problemClassificationsNoSubscription: ProblemClassificationsNoSubscription;
+    // (undocumented)
+    serviceClassifications: ServiceClassifications;
+    // (undocumented)
+    serviceClassificationsNoSubscription: ServiceClassificationsNoSubscription;
+    // (undocumented)
     services: Services;
     // (undocumented)
     subscriptionId?: string;
-    // (undocumented)
-    supportTicketChatTranscriptsNoSubscription: SupportTicketChatTranscriptsNoSubscription;
-    // (undocumented)
-    supportTicketCommunicationsNoSubscription: SupportTicketCommunicationsNoSubscription;
     // (undocumented)
     supportTickets: SupportTickets;
     // (undocumented)
@@ -518,16 +584,51 @@ export type PreferredContactMethod = string;
 export interface ProblemClassification {
     displayName?: string;
     readonly id?: string;
+    readonly metadata?: {
+        [propertyName: string]: string;
+    };
     readonly name?: string;
+    parentProblemClassification?: ProblemClassification;
     secondaryConsentEnabled?: SecondaryConsentEnabled[];
     readonly type?: string;
 }
 
 // @public
 export interface ProblemClassifications {
+    classifyProblems(problemServiceName: string, problemClassificationsClassificationInput: ProblemClassificationsClassificationInput, options?: ProblemClassificationsClassifyProblemsOptionalParams): Promise<ProblemClassificationsClassifyProblemsResponse>;
     get(serviceName: string, problemClassificationName: string, options?: ProblemClassificationsGetOptionalParams): Promise<ProblemClassificationsGetResponse>;
     list(serviceName: string, options?: ProblemClassificationsListOptionalParams): PagedAsyncIterableIterator<ProblemClassification>;
 }
+
+// @public
+export interface ProblemClassificationsClassificationInput {
+    issueSummary: string;
+    resourceId?: string;
+}
+
+// @public
+export interface ProblemClassificationsClassificationOutput {
+    problemClassificationResults?: ProblemClassificationsClassificationResult[];
+}
+
+// @public
+export interface ProblemClassificationsClassificationResult {
+    readonly description?: string;
+    readonly displayName?: string;
+    readonly problemClassificationId?: string;
+    readonly problemId?: string;
+    resourceTypes?: string[];
+    readonly serviceId?: string;
+    readonly serviceIdRelatedServiceId?: string;
+    readonly title?: string;
+}
+
+// @public
+export interface ProblemClassificationsClassifyProblemsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProblemClassificationsClassifyProblemsResponse = ProblemClassificationsClassificationOutput;
 
 // @public
 export interface ProblemClassificationsGetOptionalParams extends coreClient.OperationOptions {
@@ -547,6 +648,18 @@ export type ProblemClassificationsListResponse = ProblemClassificationsListResul
 export interface ProblemClassificationsListResult {
     value?: ProblemClassification[];
 }
+
+// @public
+export interface ProblemClassificationsNoSubscription {
+    classifyProblems(problemServiceName: string, problemClassificationsClassificationInput: ProblemClassificationsClassificationInput, options?: ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams): Promise<ProblemClassificationsNoSubscriptionClassifyProblemsResponse>;
+}
+
+// @public
+export interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ProblemClassificationsNoSubscriptionClassifyProblemsResponse = ProblemClassificationsClassificationOutput;
 
 // @public
 export interface ProxyResource extends Resource {
@@ -589,10 +702,54 @@ export interface SecondaryConsentEnabled {
 export interface Service {
     displayName?: string;
     readonly id?: string;
+    readonly metadata?: {
+        [propertyName: string]: string;
+    };
     readonly name?: string;
     resourceTypes?: string[];
     readonly type?: string;
 }
+
+// @public
+export interface ServiceClassificationAnswer extends ClassificationService {
+    childService?: ClassificationService;
+}
+
+// @public
+export interface ServiceClassificationOutput {
+    serviceClassificationResults?: ServiceClassificationAnswer[];
+}
+
+// @public
+export interface ServiceClassificationRequest {
+    additionalContext?: string;
+    issueSummary?: string;
+    resourceId?: string;
+}
+
+// @public
+export interface ServiceClassifications {
+    classifyServices(serviceClassificationRequest: ServiceClassificationRequest, options?: ServiceClassificationsClassifyServicesOptionalParams): Promise<ServiceClassificationsClassifyServicesResponse>;
+}
+
+// @public
+export interface ServiceClassificationsClassifyServicesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceClassificationsClassifyServicesResponse = ServiceClassificationOutput;
+
+// @public
+export interface ServiceClassificationsNoSubscription {
+    classifyServices(serviceClassificationRequest: ServiceClassificationRequest, options?: ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams): Promise<ServiceClassificationsNoSubscriptionClassifyServicesResponse>;
+}
+
+// @public
+export interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ServiceClassificationsNoSubscriptionClassifyServicesResponse = ServiceClassificationOutput;
 
 // @public
 export interface ServiceLevelAgreement {
@@ -638,52 +795,12 @@ export interface SupportEngineer {
 }
 
 // @public
-export interface SupportTicketChatTranscriptsNoSubscription {
-    list(supportTicketName: string, options?: SupportTicketChatTranscriptsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<ChatTranscriptDetails>;
-}
-
-// @public
-export interface SupportTicketChatTranscriptsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketChatTranscriptsNoSubscriptionListNextResponse = ChatTranscriptsListResult;
-
-// @public
-export interface SupportTicketChatTranscriptsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketChatTranscriptsNoSubscriptionListResponse = ChatTranscriptsListResult;
-
-// @public
-export interface SupportTicketCommunicationsNoSubscription {
-    list(supportTicketName: string, options?: SupportTicketCommunicationsNoSubscriptionListOptionalParams): PagedAsyncIterableIterator<CommunicationDetails>;
-}
-
-// @public
-export interface SupportTicketCommunicationsNoSubscriptionListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type SupportTicketCommunicationsNoSubscriptionListNextResponse = CommunicationsListResult;
-
-// @public
-export interface SupportTicketCommunicationsNoSubscriptionListOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    top?: number;
-}
-
-// @public
-export type SupportTicketCommunicationsNoSubscriptionListResponse = CommunicationsListResult;
-
-// @public
 export interface SupportTicketDetails {
     advancedDiagnosticConsent?: Consent;
     contactDetails?: ContactProfile;
     readonly createdDate?: Date;
     description?: string;
-    readonly enrollmentId?: string;
+    enrollmentId?: string;
     fileWorkspaceName?: string;
     readonly id?: string;
     readonly modifiedDate?: Date;
