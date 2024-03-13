@@ -8515,6 +8515,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -17008,7 +17009,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-3JVcl02aSpUgesD81sxncG7rK0U1nKN1aG2PO76mEizvWZYCtgU7j+UtFaBKr8hQQgnFv5nKUmc2Gg7ixKc/4A==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-nlD7fs9IWaIOe4YHffQVQXOlqAQhqKCPsXH/QtkQdcTq16c3TRk/k9s7eMfP1dneqLOboy1yZ6Hq1smYoxTOQQ==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17021,6 +17022,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
@@ -18746,7 +18748,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-g2sD7pNnn7rPJrvryHfXFz/s/IGrGDUBZMXOsyAdH2McMYMOPqIY0cfqOxXEAKY89AWo2yr6h6taU6bvywZDQg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-COAzPkDCKpsPZD0iyU3vk8letk0oh0SMzpVHrj2FPDEB6jwtl0PUaHq/9aDqFoaT6E3+HQ7n3BOwMsjM6mDvZg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -18805,8 +18807,6 @@ packages:
       - '@swc/wasm'
       - '@vitest/browser'
       - '@vitest/ui'
-      - bufferutil
-      - debug
       - happy-dom
       - jsdom
       - less
@@ -18816,7 +18816,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
     dev: false
 
   file:projects/developer-devcenter.tgz:
