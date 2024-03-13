@@ -71,6 +71,7 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "c8": "^8.0.0",
+    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "eslint-plugin-node": "^11.1.0",
