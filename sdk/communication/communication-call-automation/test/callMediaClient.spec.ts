@@ -37,6 +37,7 @@ import {
   StartTranscriptionOptions,
   StopTranscriptionOptions,
   HoldOptions,
+  UnholdOptions,
 } from "../src";
 
 // Current directory imports
@@ -356,7 +357,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful Hold request with no playSource", async function () {
+  it("makes successful hold request with no playSource", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
@@ -378,12 +379,15 @@ describe("CallMedia Unit Tests", async function () {
     const spy = sinon.spy(mockHttpClient, "sendRequest");
 
     const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-
-    await callMedia.unhold(participantToUnhold);
+    const options: UnholdOptions = {
+      operationContext: "unholdContext",
+    };
+    await callMedia.unhold(participantToUnhold, options);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
   });
 
   it("makes successful Start Transcription request", async function () {
