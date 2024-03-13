@@ -445,7 +445,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         this.cachedClaims = optionsClaims;
       }
       if (this.cachedClaims && !optionsClaims) {
-        (options as any).claims = this.cachedClaims;
+        options.claims = this.cachedClaims;
       }
       // We don't return the promise since we want to catch errors right here.
       return await this.getTokenSilent(scopes, options);

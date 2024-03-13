@@ -2,10 +2,9 @@
 // Licensed under the MIT license.
 
 import { readFile, pathExists } from "fs-extra";
-import path from "path";
+import path from "node:path";
 import { createMigration } from "../../util/migrations";
 import { runMigrationScript } from "../../util/testProxyUtils";
-
 import * as git from "../../util/git";
 import * as pwsh from "../../util/pwsh";
 
