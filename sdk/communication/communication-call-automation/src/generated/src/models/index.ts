@@ -524,14 +524,14 @@ export interface ChannelAffinity {
 }
 
 export interface ExternalStorage {
-  /** Defines the type of external storage */
-  storageType: RecordingStorageType;
-  /** Defines the blob storage location where the recording will be stored */
-  blobStorage?: BlobStorage;
+  /** Defines the kind of external storage */
+  recordingStorageKind: RecordingStorageKind;
+  /** Defines the Azure Blob storage location where the recording will be stored */
+  azureBlobStorage?: AzureBlobStorage;
 }
 
-/** Used to specify Blob container url to recording storage */
-export interface BlobStorage {
+/** Used to specify Azure Blob container url to recording storage */
+export interface AzureBlobStorage {
   /** Url of a container or a location within a container */
   containerUri: string;
 }
@@ -733,6 +733,7 @@ export interface RecordingStateChanged {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly startDateTime?: Date;
+  recordingKind?: RecordingKind;
 }
 
 export interface PlayCompleted {
@@ -1215,23 +1216,23 @@ export enum KnownRecordingFormatType {
  */
 export type RecordingFormatType = string;
 
-/** Known values of {@link RecordingStorageType} that the service accepts. */
-export enum KnownRecordingStorageType {
-  /** Acs */
-  Acs = "acs",
-  /** BlobStorage */
-  BlobStorage = "blobStorage",
+/** Known values of {@link RecordingStorageKind} that the service accepts. */
+export enum KnownRecordingStorageKind {
+  /** AzureCommunicationServices */
+  AzureCommunicationServices = "azureCommunicationServices",
+  /** AzureBlobStorage */
+  AzureBlobStorage = "azureBlobStorage",
 }
 
 /**
- * Defines values for RecordingStorageType. \
- * {@link KnownRecordingStorageType} can be used interchangeably with RecordingStorageType,
+ * Defines values for RecordingStorageKind. \
+ * {@link KnownRecordingStorageKind} can be used interchangeably with RecordingStorageKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **acs** \
- * **blobStorage**
+ * **azureCommunicationServices** \
+ * **azureBlobStorage**
  */
-export type RecordingStorageType = string;
+export type RecordingStorageKind = string;
 
 /** Known values of {@link RecordingState} that the service accepts. */
 export enum KnownRecordingState {
@@ -1253,8 +1254,8 @@ export type RecordingState = string;
 
 /** Known values of {@link RecordingKind} that the service accepts. */
 export enum KnownRecordingKind {
-  /** AzureCommunication */
-  AzureCommunication = "azureCommunication",
+  /** AzureCommunicationServices */
+  AzureCommunicationServices = "azureCommunicationServices",
   /** Teams */
   Teams = "teams",
   /** TeamsCompliance */
@@ -1268,7 +1269,7 @@ export enum KnownRecordingKind {
  * {@link KnownRecordingKind} can be used interchangeably with RecordingKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureCommunication** \
+ * **azureCommunicationServices** \
  * **teams** \
  * **teamsCompliance** \
  * **others**

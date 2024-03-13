@@ -1410,28 +1410,28 @@ export const ExternalStorage: coreClient.CompositeMapper = {
     name: "Composite",
     className: "ExternalStorage",
     modelProperties: {
-      storageType: {
-        serializedName: "storageType",
+      recordingStorageKind: {
+        serializedName: "recordingStorageKind",
         required: true,
         type: {
           name: "String",
         },
       },
-      blobStorage: {
-        serializedName: "blobStorage",
+      azureBlobStorage: {
+        serializedName: "azureBlobStorage",
         type: {
           name: "Composite",
-          className: "BlobStorage",
+          className: "AzureBlobStorage",
         },
       },
     },
   },
 };
 
-export const BlobStorage: coreClient.CompositeMapper = {
+export const AzureBlobStorage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "BlobStorage",
+    className: "AzureBlobStorage",
     modelProperties: {
       containerUri: {
         serializedName: "containerUri",
@@ -2017,6 +2017,12 @@ export const RecordingStateChanged: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "DateTime",
+        },
+      },
+      recordingKind: {
+        serializedName: "recordingKind",
+        type: {
+          name: "String",
         },
       },
     },

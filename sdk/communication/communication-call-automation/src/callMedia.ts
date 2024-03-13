@@ -24,10 +24,12 @@ import { CallMediaImpl } from "./generated/src/operations";
 
 import {
   CommunicationIdentifier,
+  createCommunicationAuthPolicy,
   serializeCommunicationIdentifier,
 } from "@azure/communication-common";
 
 import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
+
 import {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
@@ -38,21 +40,8 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
-  CancelAllMediaOperationsResult,
-  PlayResult,
-  SendDtmfTonesResult,
-  StartRecognizingResult,
-} from "./models/responses";
-import {
-  CancelAllMediaOperationsEventResult,
-  PlayEventResult,
-  SendDtmfEventResult,
-  StartRecognizingEventResult,
-} from "./eventprocessor/eventResponses";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+import { SendDtmfTonesResult } from "./models/responses";
+import { v4 as uuidv4 } from "uuid";
 
 /**
  * CallMedia class represents call media related APIs.
@@ -61,26 +50,21 @@ export class CallMedia {
   private readonly callConnectionId: string;
   private readonly callMedia: CallMediaImpl;
   private readonly callAutomationApiClient: CallAutomationApiClient;
-  private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
   constructor(
     callConnectionId: string,
     endpoint: string,
     credential: KeyCredential | TokenCredential,
-    eventProcessor: CallAutomationEventProcessor,
-    options?: CallAutomationApiClientOptionalParams,
+    options?: CallAutomationApiClientOptionalParams
   ) {
-    this.callAutomationApiClient = createCustomCallAutomationApiClient(
-      credential,
-      options,
-      endpoint,
-    );
+    this.callAutomationApiClient = new CallAutomationApiClient(endpoint, options);
+    const authPolicy = createCommunicationAuthPolicy(credential);
+    this.callAutomationApiClient.pipeline.addPolicy(authPolicy);
     this.callConnectionId = callConnectionId;
-    this.callAutomationEventProcessor = eventProcessor;
     this.callMedia = new CallMediaImpl(this.callAutomationApiClient);
   }
 
   private createPlaySourceInternal(
-    playSource: FileSource | TextSource | SsmlSource,
+    playSource: FileSource | TextSource | SsmlSource
   ): PlaySourceInternal {
     if (playSource.kind === "fileSource") {
       const fileSource: FileSourceInternal = {
@@ -89,9 +73,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.File,
         file: fileSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "textSource") {
       const textSource: TextSourceInternal = {
@@ -104,9 +86,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Text,
         text: textSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     } else if (playSource.kind === "ssmlSource") {
       const ssmlSource: SsmlSourceInternal = {
@@ -116,9 +96,7 @@ export class CallMedia {
       return {
         kind: KnownPlaySourceType.Ssml,
         ssml: ssmlSource,
-        playSourceCacheId: playSource.playSourceCacheId
-          ? playSource.playSourceCacheId
-          : playSource.playsourcacheid,
+        playSourceCacheId: playSource.playsourcacheid,
       };
     }
     throw new Error("Invalid play source");
@@ -134,15 +112,15 @@ export class CallMedia {
   public async play(
     playSources: (FileSource | TextSource | SsmlSource)[],
     playTo: CommunicationIdentifier[],
-    options: PlayOptions = { loop: false },
-  ): Promise<PlayResult> {
+    options: PlayOptions = { loop: false }
+  ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: playTo.map((identifier) => serializeCommunicationIdentifier(identifier)),
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -150,42 +128,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    await this.callMedia.play(this.callConnectionId, playRequest, options);
-
-    const playResult: PlayResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const playEventResult: PlayEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayCompleted" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = true;
-              playEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayFailed" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = false;
-              playEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return playEventResult;
-      },
-    };
-    return playResult;
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   /**
@@ -196,15 +139,15 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
-  ): Promise<PlayResult> {
+    options: PlayOptions = { loop: false }
+  ): Promise<void> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
       playTo: [],
       playOptions: {
         loop: false,
       },
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
 
@@ -212,42 +155,7 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
-    await this.callMedia.play(this.callConnectionId, playRequest, options);
-
-    const playResult: PlayResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const playEventResult: PlayEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayCompleted" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = true;
-              playEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "PlayFailed" &&
-              event.operationContext === playRequest.operationContext
-            ) {
-              playEventResult.isSuccess = false;
-              playEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return playEventResult;
-      },
-    };
-    return playResult;
+    return this.callMedia.play(this.callConnectionId, playRequest, options);
   }
 
   private createRecognizeRequest(
@@ -256,7 +164,7 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions,
+      | CallMediaRecognizeSpeechOrDtmfOptions
   ): RecognizeRequest {
     if (recognizeOptions.kind === "callMediaRecognizeDtmfOptions") {
       const dtmfOptionsInternal: DtmfOptions = {
@@ -352,6 +260,7 @@ export class CallMedia {
         targetParticipant: serializeCommunicationIdentifier(targetParticipant),
         speechOptions: speechOptions,
         dtmfOptions: dtmfOptionsInternal,
+        speechLanguage: recognizeOptions.speechLanguage,
         speechRecognitionModelEndpointId: recognizeOptions.speechRecognitionModelEndpointId,
       };
       return {
@@ -378,8 +287,8 @@ export class CallMedia {
   public async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesToCollect: number,
-    options: CallMediaRecognizeDtmfOptions,
-  ): Promise<StartRecognizingResult>;
+    options: CallMediaRecognizeDtmfOptions
+  ): Promise<void>;
 
   /**
    *  Recognize participant input.
@@ -392,8 +301,8 @@ export class CallMedia {
       | CallMediaRecognizeDtmfOptions
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
-      | CallMediaRecognizeSpeechOrDtmfOptions,
-  ): Promise<StartRecognizingResult>;
+      | CallMediaRecognizeSpeechOrDtmfOptions
+  ): Promise<void>;
   async startRecognizing(
     targetParticipant: CommunicationIdentifier,
     maxTonesOrOptions:
@@ -402,63 +311,26 @@ export class CallMedia {
       | CallMediaRecognizeChoiceOptions
       | CallMediaRecognizeSpeechOptions
       | CallMediaRecognizeSpeechOrDtmfOptions,
-    options?: CallMediaRecognizeDtmfOptions,
-  ): Promise<StartRecognizingResult> {
+    options?: CallMediaRecognizeDtmfOptions
+  ): Promise<void> {
     if (typeof maxTonesOrOptions === "number" && options) {
       // Old function signature logic
       console.warn(
-        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options.",
+        "Deprecated function signature used. Please use the new signature with targetParticipant and options params instead, and set maxTonesToCollect in options."
       );
       options.maxTonesToCollect = maxTonesOrOptions;
-      await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, options),
-        {},
+        {}
       );
     } else if (typeof maxTonesOrOptions !== "number" && !options) {
-      maxTonesOrOptions.operationContext = maxTonesOrOptions.operationContext
-        ? maxTonesOrOptions.operationContext
-        : randomUUID();
       // New function signature logic
-      await this.callMedia.recognize(
+      return this.callMedia.recognize(
         this.callConnectionId,
         this.createRecognizeRequest(targetParticipant, maxTonesOrOptions),
-        {},
+        {}
       );
-      const startRecognizingResult: StartRecognizingResult = {
-        waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-          const startRecognizingEventResult: StartRecognizingEventResult = {
-            isSuccess: false,
-          };
-          await this.callAutomationEventProcessor.waitForEventProcessor(
-            (event) => {
-              if (
-                event.callConnectionId === this.callConnectionId &&
-                event.kind === "RecognizeCompleted" &&
-                event.operationContext === maxTonesOrOptions.operationContext
-              ) {
-                startRecognizingEventResult.isSuccess = true;
-                startRecognizingEventResult.successResult = event;
-                return true;
-              } else if (
-                event.callConnectionId === this.callConnectionId &&
-                event.kind === "RecognizeFailed" &&
-                event.operationContext === maxTonesOrOptions.operationContext
-              ) {
-                startRecognizingEventResult.isSuccess = false;
-                startRecognizingEventResult.failureResult = event;
-                return true;
-              } else {
-                return false;
-              }
-            },
-            abortSignal,
-            timeoutInMs,
-          );
-          return startRecognizingEventResult;
-        },
-      };
-      return startRecognizingResult;
     }
     throw new Error("Invalid params");
   }
@@ -466,38 +338,8 @@ export class CallMedia {
   /**
    * Cancels all the queued media operations.
    */
-  public async cancelAllOperations(): Promise<CancelAllMediaOperationsResult> {
-    await this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
-
-    const cancelAllMediaOperationsResult: CancelAllMediaOperationsResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const cancelAllMediaOperationsEventResult: CancelAllMediaOperationsEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (event.callConnectionId === this.callConnectionId && event.kind === "PlayCanceled") {
-              cancelAllMediaOperationsEventResult.isSuccess = true;
-              cancelAllMediaOperationsEventResult.playCanceledSuccessResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "RecognizeCanceled"
-            ) {
-              cancelAllMediaOperationsEventResult.isSuccess = false;
-              cancelAllMediaOperationsEventResult.recognizeCanceledSuccessResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return cancelAllMediaOperationsEventResult;
-      },
-    };
-    return cancelAllMediaOperationsResult;
+  public async cancelAllOperations(): Promise<void> {
+    return this.callMedia.cancelAllMediaOperations(this.callConnectionId, {});
   }
 
   /**
@@ -507,16 +349,16 @@ export class CallMedia {
    * */
   public async startContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {},
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
     };
     return this.callMedia.startContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {},
+      {}
     );
   }
 
@@ -527,17 +369,17 @@ export class CallMedia {
    * */
   public async stopContinuousDtmfRecognition(
     targetParticipant: CommunicationIdentifier,
-    options: ContinuousDtmfRecognitionOptions = {},
+    options: ContinuousDtmfRecognitionOptions = {}
   ): Promise<void> {
     const continuousDtmfRecognitionRequest: ContinuousDtmfRecognitionRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopContinuousDtmfRecognition(
       this.callConnectionId,
       continuousDtmfRecognitionRequest,
-      {},
+      {}
     );
   }
 
@@ -550,48 +392,26 @@ export class CallMedia {
   public async sendDtmfTones(
     tones: Tone[] | DtmfTone[],
     targetParticipant: CommunicationIdentifier,
-    options: SendDtmfTonesOptions = {},
+    options: SendDtmfTonesOptions = {}
   ): Promise<SendDtmfTonesResult> {
     const sendDtmfTonesRequest: SendDtmfTonesRequest = {
       tones: tones,
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationContext: options.operationContext,
       operationCallbackUri: options.operationCallbackUrl,
     };
-    await this.callMedia.sendDtmfTones(this.callConnectionId, sendDtmfTonesRequest, {});
-
+    const optionsInternal = {
+      ...options,
+      repeatabilityFirstSent: new Date(),
+      repeatabilityRequestID: uuidv4(),
+    };
+    const result = await this.callMedia.sendDtmfTones(
+      this.callConnectionId,
+      sendDtmfTonesRequest,
+      optionsInternal
+    );
     const sendDtmfTonesResult: SendDtmfTonesResult = {
-      waitForEventProcessor: async (abortSignal, timeoutInMs) => {
-        const sendDtmfEventResult: SendDtmfEventResult = {
-          isSuccess: false,
-        };
-        await this.callAutomationEventProcessor.waitForEventProcessor(
-          (event) => {
-            if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "SendDtmfTonesCompleted" &&
-              event.operationContext === sendDtmfTonesResult.operationContext
-            ) {
-              sendDtmfEventResult.isSuccess = true;
-              sendDtmfEventResult.successResult = event;
-              return true;
-            } else if (
-              event.callConnectionId === this.callConnectionId &&
-              event.kind === "SendDtmfTonesFailed" &&
-              event.operationContext === sendDtmfTonesResult.operationContext
-            ) {
-              sendDtmfEventResult.isSuccess = false;
-              sendDtmfEventResult.failureResult = event;
-              return true;
-            } else {
-              return false;
-            }
-          },
-          abortSignal,
-          timeoutInMs,
-        );
-        return sendDtmfEventResult;
-      },
+      ...result,
     };
     return sendDtmfTonesResult;
   }

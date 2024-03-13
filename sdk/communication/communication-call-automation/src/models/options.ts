@@ -33,8 +33,6 @@ export interface CallMediaRecognizeOptions extends OperationOptions {
   interruptPrompt?: boolean;
   /** Time to wait for first input after prompt. */
   initialSilenceTimeoutInSeconds?: number;
-  /** speechModelEndpointId. */
-  speechModelEndpointId?: string;
   /**
    * Set a callback URL that overrides the default callback URL set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
@@ -103,12 +101,10 @@ export interface CreateCallOptions extends OperationOptions {
   sourceCallIdNumber?: PhoneNumberIdentifier;
   /** Display name of the call if dialing out to a pstn number */
   sourceDisplayName?: string;
-  /** The operation context. */
-  operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
+  /** The operation Context. */
+  operationContext?: string;
 }
 
 /**
@@ -119,18 +115,6 @@ export interface AnswerCallOptions extends OperationOptions {
   callIntelligenceOptions?: CallIntelligenceOptions;
   /** The operation context. */
   operationContext?: string;
-  /** The caller ID number which is a phone number that will be used when inviting a pstn target.
-   *  Required only when this is an incoming voip call and there will be a transfer call request to a PSTN target.
-   */
-  sourceCallIdNumber?: PhoneNumberIdentifier;
-}
-
-/**
- * Options to redirect call.
- */
-export interface RedirectCallOptions extends OperationOptions {
-  /** The Custom Context. */
-  customCallingContext?: CustomCallingContext;
 }
 
 /**
@@ -272,6 +256,11 @@ export type PauseRecordingOptions = OperationOptions;
 export type GetRecordingPropertiesOptions = OperationOptions;
 
 /**
+ * Options to redirect call.
+ */
+export type RedirectCallOptions = OperationOptions;
+
+/**
  * Options to resume recording.
  */
 export type ResumeRecordingOptions = OperationOptions;
@@ -326,22 +315,4 @@ export interface CancelAddParticipantOperationOptions extends OperationOptions {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUrl?: string;
-}
-
-/**
- * Options to start transcription
- */
-export interface StartTranscriptionOptions extends OperationOptions {
-  /** Defines Locale for the transcription e,g en-US */
-  locale?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/**
- * Options to stop transcription
- */
-export interface StopTranscriptionOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
 }

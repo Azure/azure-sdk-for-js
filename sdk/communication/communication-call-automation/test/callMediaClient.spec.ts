@@ -23,17 +23,13 @@ import {
 } from "../src/models/models";
 import {
   CallMediaRecognizeDtmfOptions,
-  CallMediaRecognizeChoiceOptions,
-  CallMediaRecognizeSpeechOptions,
   CallAutomationClient,
   CallConnection,
   CallInvite,
   ContinuousDtmfRecognitionOptions,
+  CallMediaRecognizeChoiceOptions,
+  CallMediaRecognizeSpeechOptions,
   SendDtmfTonesOptions,
-  CallAutomationEventProcessor,
-  CreateCallOptions,
-  AnswerCallOptions,
-  PlayOptions,
 } from "../src";
 
 // Current directory imports
@@ -73,12 +69,7 @@ describe("CallMedia Unit Tests", async function () {
   });
 
   it("can instantiate", async function () {
-    new CallMedia(
-      CALL_CONNECTION_ID,
-      baseUri,
-      { key: generateToken() },
-      new CallAutomationEventProcessor(),
-    );
+    new CallMedia(CALL_CONNECTION_ID, baseUri, { key: generateToken() });
   });
 
   it("makes successful Play file request", async function () {
@@ -235,7 +226,7 @@ describe("CallMedia Unit Tests", async function () {
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
-      speechModelEndpointId: "customModelEndpointId",
+      speechRecognitionModelEndpointId: "customModelEndpointId",
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
@@ -271,7 +262,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.startContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions,
+      continuousDtmfRecognitionOptions
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -293,7 +284,7 @@ describe("CallMedia Unit Tests", async function () {
 
     await callMedia.stopContinuousDtmfRecognition(
       targetParticipant,
-      continuousDtmfRecognitionOptions,
+      continuousDtmfRecognitionOptions
     );
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
@@ -303,24 +294,24 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
   });
 
-  it("makes successful SendDtmf request", async function () {
+  it("makes successful SendDtmfTones request", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
     const spy = sinon.spy(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
-    const sendDtmfOptions: SendDtmfTonesOptions = {
+    const sendDtmfTonesOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
     };
-    const tones = ["one", "two", "three", "pound"];
+    const tones = [DtmfTone.One, DtmfTone.Two, DtmfTone.Three, DtmfTone.Pound];
 
-    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfOptions);
+    await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfTonesOptions);
     const request = spy.getCall(0).args[0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
     assert.deepEqual(data.tones, tones);
-    assert.equal(data.operationContext, sendDtmfOptions.operationContext);
+    assert.equal(data.operationContext, sendDtmfTonesOptions.operationContext);
     assert.equal(request.method, "POST");
   });
 });
@@ -346,6 +337,13 @@ describe("Call Media Client Live Tests", function () {
 
   afterEach(async function (this: Context) {
     persistEvents(testName);
+    if (callConnection) {
+      try {
+        await callConnection.hangUp(true);
+      } catch (e) {
+        console.log("Call is terminated");
+      }
+    }
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
     });
@@ -356,13 +354,6 @@ describe("Call Media Client Live Tests", function () {
     serviceBusReceivers.clear();
     incomingCallContexts.clear();
     await recorder.stop();
-    if (callConnection) {
-      try {
-        await callConnection.hangUp(true);
-      } catch {
-        return;
-      }
-    }
   });
 
   it("Play audio to target participant", async function () {
@@ -374,13 +365,8 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const createCallOption: CreateCallOptions = { operationContext: "playAudioCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      createCallOption,
-    );
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -388,12 +374,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      const answerCallOption: AnswerCallOptions = { operationContext: "playAudioAnswer" };
-      await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOption,
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -406,8 +387,7 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    const playOption: PlayOptions = { operationContext: "playAudio" };
-    await callConnection.getCallMedia().play(playSource, [testUser2], playOption);
+    await callConnection.getCallMedia().play(playSource, [testUser2]);
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent);
     await callConnection.hangUp(true);
@@ -424,13 +404,8 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const createCallOption: CreateCallOptions = { operationContext: "playToAllCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      createCallOption,
-    );
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -438,12 +413,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      const answerCallOption: AnswerCallOptions = { operationContext: "playToAllAnswer" };
-      await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOption,
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -456,8 +426,7 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    const playOption: PlayOptions = { operationContext: "playToAllAudio" };
-    await callConnection.getCallMedia().playToAll(playSource, playOption);
+    await callConnection.getCallMedia().playToAll(playSource);
 
     const playCompletedEvent = await waitForEvent("PlayCompleted", callConnectionId, 20000);
     assert.isDefined(playCompletedEvent);
@@ -476,13 +445,8 @@ describe("Call Media Client Live Tests", function () {
     const callInvite: CallInvite = { targetParticipant: testUser2 };
     const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
     const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-    const createCallOption: CreateCallOptions = { operationContext: "CancelMediaCreateCall" };
 
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      createCallOption,
-    );
+    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
     const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
     const callConnectionId: string = result.callConnectionProperties.callConnectionId
       ? result.callConnectionProperties.callConnectionId
@@ -490,12 +454,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(incomingCallContext);
 
     if (incomingCallContext) {
-      const answerCallOption: AnswerCallOptions = { operationContext: "CancelMediaAnswer" };
-      await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOption,
-      );
+      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
     }
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
     assert.isDefined(callConnectedEvent);
@@ -508,8 +467,7 @@ describe("Call Media Client Live Tests", function () {
       },
     ];
 
-    const playOption: PlayOptions = { operationContext: "CancelplayToAllAudio" };
-    await callConnection.getCallMedia().playToAll(playSource, playOption);
+    await callConnection.getCallMedia().playToAll(playSource);
     await callConnection.getCallMedia().cancelAllOperations();
 
     const playCanceledEvent = await waitForEvent("PlayCanceled", callConnectionId, 20000);
@@ -530,7 +488,7 @@ describe("Call Media Client Live Tests", function () {
     assert.isAtLeast(
       phoneNumbers.length,
       2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers",
+      "Invalid PSTN setup, test needs at least 2 phone numbers"
     );
     callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
     receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
@@ -556,32 +514,21 @@ describe("Call Media Client Live Tests", function () {
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
-    const continuousDtmfRecognitionOptions1: ContinuousDtmfRecognitionOptions = {
-      operationContext: "ContinuousDtmfRecognitionStart",
-    };
-    await callConnection
-      .getCallMedia()
-      .startContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions1);
+    await callConnection.getCallMedia().startContinuousDtmfRecognition(receiverPhoneUser);
 
-    const continuousDtmfRecognitionOptions2: ContinuousDtmfRecognitionOptions = {
-      operationContext: "ContinuousDtmfRecognitionSend",
-    };
-    await callConnection
-      .getCallMedia()
-      .sendDtmfTones([DtmfTone.Pound], receiverPhoneUser, continuousDtmfRecognitionOptions2);
-    const sendDtmfCompleted = await waitForEvent("SendDtmfTonesCompleted", callConnectionId, 8000);
-    assert.isDefined(sendDtmfCompleted);
+    await callConnection.getCallMedia().sendDtmfTones([DtmfTone.Pound], receiverPhoneUser);
+    const sendDtmfTonesCompleted = await waitForEvent(
+      "SendDtmfTonesCompleted",
+      callConnectionId,
+      8000
+    );
+    assert.isDefined(sendDtmfTonesCompleted);
 
-    const continuousDtmfRecognitionOptions3: ContinuousDtmfRecognitionOptions = {
-      operationContext: "ContinuousDtmfRecognitionStop",
-    };
-    await callConnection
-      .getCallMedia()
-      .stopContinuousDtmfRecognition(receiverPhoneUser, continuousDtmfRecognitionOptions3);
+    await callConnection.getCallMedia().stopContinuousDtmfRecognition(receiverPhoneUser);
     const continuousDtmfRecognitionStopped = await waitForEvent(
       "ContinuousDtmfRecognitionStopped",
       callConnectionId,
-      8000,
+      8000
     );
     assert.isDefined(continuousDtmfRecognitionStopped);
 
