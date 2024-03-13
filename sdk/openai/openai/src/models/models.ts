@@ -490,6 +490,8 @@ export interface ChatCompletionsFunctionToolCall {
   function: FunctionCall;
   /** The ID of the tool call. */
   id: string;
+  /** The index of the tool calls. */
+  index?: number;
 }
 
 /**
