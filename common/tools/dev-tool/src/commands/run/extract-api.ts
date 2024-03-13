@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import {
   Extractor,
@@ -8,13 +11,12 @@ import {
   IConfigDtsRollup,
   IConfigFile,
 } from "@microsoft/api-extractor";
-
 import { createPrinter } from "../../util/printer";
 import { resolveProject } from "../../util/resolveProject";
 import path from "path";
 import { readFile } from "fs-extra";
-import { readdir } from "fs/promises";
-import { createReadStream, createWriteStream } from "fs";
+import { readdir } from "node:fs/promises";
+import { createReadStream, createWriteStream } from "node:fs";
 import archiver from "archiver";
 
 export const commandInfo = makeCommandInfo(

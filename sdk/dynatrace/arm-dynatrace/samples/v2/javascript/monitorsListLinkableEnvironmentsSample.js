@@ -34,7 +34,7 @@ async function monitorsListLinkableEnvironmentsMaximumSetGen() {
   for await (let item of client.monitors.listLinkableEnvironments(
     resourceGroupName,
     monitorName,
-    request
+    request,
   )) {
     resArray.push(item);
   }
@@ -63,7 +63,7 @@ async function monitorsListLinkableEnvironmentsMinimumSetGen() {
   for await (let item of client.monitors.listLinkableEnvironments(
     resourceGroupName,
     monitorName,
-    request
+    request,
   )) {
     resArray.push(item);
   }

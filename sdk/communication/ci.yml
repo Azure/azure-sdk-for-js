@@ -55,6 +55,8 @@ extends:
         safeName: azurecommunicationjobrouter
       - name: azure-rest-communication-job-router
         safeName: azurerestcommunicationjobrouter
+      - name: azure-rest-communication-messages
+        safeName: azurerestcommunicationmessages
       - name: azure-tools-communication-toll-free-verification
         safeName: azuretoolscommunicationtollfreeverification
       - name: azure-communication-call-automation
@@ -65,9 +67,5 @@ extends:
         skipPublishDocGithubIo: true
       - name: azure-tools-communication-tiering
         safeName: azuretoolscommunicationtiering
-        skipPublishDocMs: true
-        skipPublishDocGithubIo: true
-      - name: azure-rest-communication-messages
-        safeName: azurerestcommunicationmessages
         skipPublishDocMs: true
         skipPublishDocGithubIo: true

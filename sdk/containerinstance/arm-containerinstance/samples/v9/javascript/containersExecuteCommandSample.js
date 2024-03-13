@@ -33,7 +33,7 @@ async function containerExec() {
     resourceGroupName,
     containerGroupName,
     containerName,
-    containerExecRequest
+    containerExecRequest,
   );
   console.log(result);
 }

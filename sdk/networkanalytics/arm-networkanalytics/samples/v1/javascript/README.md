@@ -58,7 +58,7 @@ node dataProductsAddUserRoleSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NETWORKANALYTICS_SUBSCRIPTION_ID="<networkanalytics subscription id>" NETWORKANALYTICS_RESOURCE_GROUP="<networkanalytics resource group>" NETWORKANALYTICS_SUBSCRIPTION_ID="<networkanalytics subscription id>" NETWORKANALYTICS_RESOURCE_GROUP="<networkanalytics resource group>" node dataProductsAddUserRoleSample.js
+npx cross-env NETWORKANALYTICS_SUBSCRIPTION_ID="<networkanalytics subscription id>" NETWORKANALYTICS_RESOURCE_GROUP="<networkanalytics resource group>" node dataProductsAddUserRoleSample.js
 ```
 
 ## Next Steps
