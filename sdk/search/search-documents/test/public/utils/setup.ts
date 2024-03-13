@@ -26,6 +26,8 @@ export async function createIndex(
   const algorithmConfigurationName = "algorithm-configuration-name";
   const vectorizerName = "vectorizer-name";
   const vectorSearchProfileName = "profile-name";
+  const compressedVectorSearchProfileName = "compressed-profile-name";
+  const compressionConfigurationName = "compression-configuration-name";
 
   const hotelIndex: SearchIndex = {
     name,
@@ -213,6 +215,15 @@ export async function createIndex(
         hidden: true,
         vectorSearchProfileName,
       },
+      {
+        type: "Collection(Edm.Half)",
+        name: "compressedVectorDescription",
+        searchable: true,
+        hidden: true,
+        vectorSearchDimensions: 1536,
+        vectorSearchProfileName: compressedVectorSearchProfileName,
+        stored: false,
+      },
     ],
     suggesters: [
       {
@@ -246,7 +257,7 @@ export async function createIndex(
       algorithms: [
         {
           name: algorithmConfigurationName,
-          kind: "exhaustiveKnn",
+          kind: "hnsw",
           parameters: {
             metric: "dotProduct",
           },
@@ -265,11 +276,25 @@ export async function createIndex(
             },
           ]
         : undefined,
+      compressions: [
+        {
+          name: compressionConfigurationName,
+          kind: "scalarQuantization",
+          parameters: { quantizedDataType: "int8" },
+          rerankWithOriginalVectors: true,
+        },
+      ],
       profiles: [
         {
           name: vectorSearchProfileName,
           vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
           algorithmConfigurationName,
+        },
+        {
+          name: compressedVectorSearchProfileName,
+          vectorizer: serviceVersion.includes("Preview") ? vectorizerName : undefined,
+          algorithmConfigurationName,
+          compressionConfigurationName,
         },
       ],
     },
@@ -286,6 +311,20 @@ export async function createIndex(
       ],
     },
   };
+
+  // This feature isn't publically available yet
+  if (env.COMPRESSION_DISABLED) {
+    hotelIndex.fields = hotelIndex.fields.filter(
+      (field) => field.name !== "compressedVectorDescription",
+    );
+    const vs = hotelIndex.vectorSearch;
+    if (vs) {
+      delete vs.compressions;
+      vs.profiles = vs.profiles?.filter(
+        (profile) => profile.name !== compressedVectorSearchProfileName,
+      );
+    }
+  }
 
   await client.createIndex(hotelIndex);
 }
@@ -529,6 +568,9 @@ async function addVectorDescriptions(
     const { embedding, index } = embeddingItem;
     const document = documents[index];
     document.vectorDescription = embedding;
+    if (!env.COMPRESSION_DISABLED) {
+      document.compressedVectorDescription = embedding;
+    }
   });
 }
 

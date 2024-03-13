@@ -379,7 +379,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
     });
   });
 
-  onVersions({ minVer: "2023-10-01-Preview" }).describe(
+  onVersions({ minVer: "2024-03-01-Preview" }).describe(
     "SearchClient tests",
     function (this: Suite) {
       let recorder: Recorder;
@@ -590,6 +590,44 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
         }
         assert.deepEqual(["1", "3", "4"], resultIds);
       });
+
+      it("oversampling compressed vectors", async function () {
+        // This live test is disabled due to temporary limitations with the new OpenAI service
+        if (isLiveMode()) {
+          this.skip();
+        }
+        // Currently unable to create a compression resource
+        if (env.COMPRESSION_DISABLED) {
+          this.skip();
+        }
+        const embeddings = await openAIClient.getEmbeddings(
+          env.AZURE_OPENAI_DEPLOYMENT_NAME ?? "deployment-name",
+          ["What are the most luxurious hotels?"],
+        );
+
+        const embedding = embeddings.data[0].embedding;
+        const searchResults = await searchClient.search("*", {
+          vectorSearchOptions: {
+            queries: [
+              {
+                kind: "vector",
+                vector: embedding,
+                kNearestNeighborsCount: 3,
+                fields: ["compressedVectorDescription"],
+                oversampling: 2,
+              },
+            ],
+          },
+          top: 3,
+          select: ["hotelId"],
+        });
+
+        const resultIds = [];
+        for await (const result of searchResults.results) {
+          resultIds.push(result.document.hotelId);
+        }
+        assert.deepEqual(["1", "3", "4"], resultIds);
+      });
     },
   );
 });
@@ -617,8 +655,8 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
 
       it("defaults to the current apiVersion", () => {
         const client = new SearchClient<Hotel>("", "", credential);
-        assert.equal("2023-10-01-Preview", client.serviceVersion);
-        assert.equal("2023-10-01-Preview", client.apiVersion);
+        assert.equal("2024-03-01-Preview", client.serviceVersion);
+        assert.equal("2024-03-01-Preview", client.apiVersion);
       });
     });
   });

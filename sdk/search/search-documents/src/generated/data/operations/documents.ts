@@ -191,7 +191,7 @@ const countOperationSpec: coreClient.OperationSpec = {
       bodyMapper: { type: { name: "Number" } },
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -207,7 +207,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -254,7 +254,7 @@ const searchPostOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchDocumentsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.searchRequest,
@@ -274,7 +274,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       },
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion, Parameters.selectedFields],
@@ -290,7 +290,7 @@ const suggestGetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SuggestDocumentsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -319,7 +319,7 @@ const suggestPostOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SuggestDocumentsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.suggestRequest,
@@ -340,7 +340,7 @@ const indexOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.IndexDocumentsResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.batch,
@@ -358,7 +358,7 @@ const autocompleteGetOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutocompleteResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [
@@ -386,7 +386,7 @@ const autocompletePostOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.AutocompleteResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.autocompleteRequest,

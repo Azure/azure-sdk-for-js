@@ -841,9 +841,9 @@ export function delay(timeInMs: number): Promise<void> {
   return new Promise((resolve) => setTimeout(() => resolve(), timeInMs));
 }
 
-export const serviceVersions = ["2023-11-01", "2023-10-01-Preview"];
+export const serviceVersions = ["2023-11-01", "2024-03-01-Preview"];
 
-export const defaultServiceVersion = "2023-10-01-Preview";
+export const defaultServiceVersion = "2024-03-01-Preview";
 
 function convertKnowledgeStoreToPublic(
   knowledgeStore: BaseSearchIndexerKnowledgeStore | undefined,

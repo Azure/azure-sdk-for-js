@@ -51,6 +51,7 @@ import {
   PatternReplaceCharFilter,
   PatternReplaceTokenFilter,
   PhoneticTokenFilter,
+  ScalarQuantizationCompressionConfiguration,
   ScoringFunctionAggregation,
   SearchAlias,
   SearchIndexerDataContainer,
@@ -875,7 +876,8 @@ export type ScoringFunction =
  * Possible values include: 'Edm.String', 'Edm.Int32', 'Edm.Int64', 'Edm.Double', 'Edm.Boolean',
  * 'Edm.DateTimeOffset', 'Edm.GeographyPoint', 'Collection(Edm.String)', 'Collection(Edm.Int32)',
  * 'Collection(Edm.Int64)', 'Collection(Edm.Double)', 'Collection(Edm.Boolean)',
- * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)'
+ * 'Collection(Edm.DateTimeOffset)', 'Collection(Edm.GeographyPoint)', 'Collection(Edm.Single)',
+ * 'Collection(Edm.Half)', 'Collection(Edm.Int16)', 'Collection(Edm.SByte)'
  *
  * NB: `Edm.Single` alone is not a valid data type. It must be used as part of a collection type.
  * @readonly
@@ -895,7 +897,10 @@ export type SearchFieldDataType =
   | "Collection(Edm.Boolean)"
   | "Collection(Edm.DateTimeOffset)"
   | "Collection(Edm.GeographyPoint)"
-  | "Collection(Edm.Single)";
+  | "Collection(Edm.Single)"
+  | "Collection(Edm.Half)"
+  | "Collection(Edm.Int16)"
+  | "Collection(Edm.SByte)";
 
 /**
  * Defines values for ComplexDataType.
@@ -936,14 +941,25 @@ export interface SimpleField {
    */
   key?: boolean;
   /**
-   * A value indicating whether the field can be returned in a search result. You can enable this
+   * A value indicating whether the field can be returned in a search result. You can disable this
    * option if you want to use a field (for example, margin) as a filter, sorting, or scoring
-   * mechanism but do not want the field to be visible to the end user. This property must be false
-   * for key fields. This property can be changed on existing fields.
-   * Disabling this property does not cause any increase in index storage requirements.
-   * Default is false.
+   * mechanism but do not want the field to be visible to the end user. This property must be true
+   * for key fields. This property can be changed on existing fields. Enabling this property does
+   * not cause any increase in index storage requirements. Default is true for simple fields and
+   * false for vector fields.
    */
   hidden?: boolean;
+  /**
+   * An immutable value indicating whether the field will be persisted separately on disk to be
+   * returned in a search result. You can disable this option if you don't plan to return the field
+   * contents in a search response to save on storage overhead. This can only be set during index
+   * creation and only for vector fields. This property cannot be changed for existing fields or set
+   * as false for new fields. If this property is set as false, the property `hidden` must be set as
+   * true. This property must be true or unset for key fields, for new fields, and for non-vector
+   * fields, and it must be null for complex fields. Disabling this property will reduce index
+   * storage requirements. The default is true for vector fields.
+   */
+  stored?: boolean;
   /**
    * A value indicating whether the field is full-text searchable. This means it will undergo
    * analysis such as word-breaking during indexing. If you set a searchable field to a value like
@@ -2113,6 +2129,11 @@ export interface VectorSearch {
   algorithms?: VectorSearchAlgorithmConfiguration[];
   /** Contains configuration options on how to vectorize text vector queries. */
   vectorizers?: VectorSearchVectorizer[];
+  /**
+   * Contains configuration options specific to the compression method used during indexing or
+   * querying.
+   */
+  compressions?: VectorSearchCompressionConfiguration[];
 }
 
 /** Contains configuration options specific to the algorithm used during indexing and/or querying. */
@@ -2467,5 +2488,11 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
   /** A string indicating which domain-specific details to return. */
   details?: ImageDetail[];
 }
+
+/**
+ * Contains configuration options specific to the compression method used during indexing or
+ * querying.
+ */
+export type VectorSearchCompressionConfiguration = ScalarQuantizationCompressionConfiguration;
 
 // END manually modified generated interfaces

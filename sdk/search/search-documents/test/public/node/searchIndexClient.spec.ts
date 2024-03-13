@@ -231,7 +231,7 @@ versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
       });
     });
   });
-  onVersions({ minVer: "2023-10-01-Preview" }).describe(
+  onVersions({ minVer: "2024-03-01-Preview" }).describe(
     "SearchIndexClient",
     function (this: Suite) {
       let recorder: Recorder;

@@ -252,10 +252,26 @@ export const AzureActiveDirectoryApplicationCredentials: coreClient.CompositeMap
     },
   };
 
-export const SearchError: coreClient.CompositeMapper = {
+export const ErrorResponse: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SearchError",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -266,7 +282,13 @@ export const SearchError: coreClient.CompositeMapper = {
       },
       message: {
         serializedName: "message",
-        required: true,
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
         readOnly: true,
         type: {
           name: "String",
@@ -280,9 +302,46 @@ export const SearchError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SearchError",
+              className: "ErrorDetail",
             },
           },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
         },
       },
     },
@@ -1858,6 +1917,12 @@ export const SearchField: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      stored: {
+        serializedName: "stored",
+        type: {
+          name: "Boolean",
+        },
+      },
       searchable: {
         serializedName: "searchable",
         type: {
@@ -2434,6 +2499,18 @@ export const VectorSearch: coreClient.CompositeMapper = {
           },
         },
       },
+      compressions: {
+        serializedName: "compressions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "BaseVectorSearchCompressionConfiguration",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -2459,6 +2536,12 @@ export const VectorSearchProfile: coreClient.CompositeMapper = {
       },
       vectorizer: {
         serializedName: "vectorizer",
+        type: {
+          name: "String",
+        },
+      },
+      compressionConfigurationName: {
+        serializedName: "compression",
         type: {
           name: "String",
         },
@@ -2522,6 +2605,49 @@ export const VectorSearchVectorizer: coreClient.CompositeMapper = {
     },
   },
 };
+
+export const BaseVectorSearchCompressionConfiguration: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "BaseVectorSearchCompressionConfiguration",
+      uberParent: "BaseVectorSearchCompressionConfiguration",
+      polymorphicDiscriminator: {
+        serializedName: "kind",
+        clientName: "kind",
+      },
+      modelProperties: {
+        name: {
+          serializedName: "name",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        kind: {
+          serializedName: "kind",
+          required: true,
+          type: {
+            name: "String",
+          },
+        },
+        rerankWithOriginalVectors: {
+          defaultValue: true,
+          serializedName: "rerankWithOriginalVectors",
+          type: {
+            name: "Boolean",
+          },
+        },
+        defaultOversampling: {
+          serializedName: "defaultOversampling",
+          nullable: true,
+          type: {
+            name: "Number",
+          },
+        },
+      },
+    },
+  };
 
 export const ListIndexesResult: coreClient.CompositeMapper = {
   type: {
@@ -2969,6 +3095,22 @@ export const ExhaustiveKnnParameters: coreClient.CompositeMapper = {
     modelProperties: {
       metric: {
         serializedName: "metric",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const ScalarQuantizationParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ScalarQuantizationParameters",
+    modelProperties: {
+      quantizedDataType: {
+        serializedName: "quantizedDataType",
         nullable: true,
         type: {
           name: "String",
@@ -6144,6 +6286,28 @@ export const CustomVectorizer: coreClient.CompositeMapper = {
   },
 };
 
+export const ScalarQuantizationCompressionConfiguration: coreClient.CompositeMapper =
+  {
+    serializedName: "scalarQuantization",
+    type: {
+      name: "Composite",
+      className: "ScalarQuantizationCompressionConfiguration",
+      uberParent: "BaseVectorSearchCompressionConfiguration",
+      polymorphicDiscriminator:
+        BaseVectorSearchCompressionConfiguration.type.polymorphicDiscriminator,
+      modelProperties: {
+        ...BaseVectorSearchCompressionConfiguration.type.modelProperties,
+        parameters: {
+          serializedName: "scalarQuantizationParameters",
+          type: {
+            name: "Composite",
+            className: "ScalarQuantizationParameters",
+          },
+        },
+      },
+    },
+  };
+
 export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreClient.CompositeMapper =
   {
     type: {
@@ -6183,6 +6347,8 @@ export let discriminators = {
   Similarity: Similarity,
   VectorSearchAlgorithmConfiguration: VectorSearchAlgorithmConfiguration,
   VectorSearchVectorizer: VectorSearchVectorizer,
+  BaseVectorSearchCompressionConfiguration:
+    BaseVectorSearchCompressionConfiguration,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity":
     SearchIndexerDataNoneIdentity,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity":
@@ -6314,4 +6480,6 @@ export let discriminators = {
     ExhaustiveKnnAlgorithmConfiguration,
   "VectorSearchVectorizer.azureOpenAI": AzureOpenAIVectorizer,
   "VectorSearchVectorizer.customWebApi": CustomVectorizer,
+  "BaseVectorSearchCompressionConfiguration.scalarQuantization":
+    ScalarQuantizationCompressionConfiguration,
 };

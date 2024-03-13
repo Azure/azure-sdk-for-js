@@ -55,6 +55,10 @@
     "ENDPOINT": {
       "type": "string",
       "value": "[concat('https://', parameters('baseName'), '.', parameters('searchEndpointSuffix'))]"
+    },
+    "COMPRESSION_DISABLED": {
+      "type": "string",
+      "value": "true"
     }
   }
 }
