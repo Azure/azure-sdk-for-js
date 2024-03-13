@@ -222,12 +222,21 @@ export interface BaseVectorQuery<TModel extends object> {
     fields?: SearchFieldArray<TModel>;
     kind: VectorQueryKind;
     kNearestNeighborsCount?: number;
+    oversampling?: number;
 }
 
 // @public
 export interface BaseVectorSearchAlgorithmConfiguration {
     kind: VectorSearchAlgorithmKind;
     name: string;
+}
+
+// @public
+export interface BaseVectorSearchCompressionConfiguration {
+    defaultOversampling?: number;
+    kind: "scalarQuantization";
+    name: string;
+    rerankWithOriginalVectors?: boolean;
 }
 
 // @public
@@ -1911,6 +1920,16 @@ export enum KnownVectorQueryKind {
 }
 
 // @public
+export enum KnownVectorSearchCompressionKind {
+    ScalarQuantization = "scalarQuantization"
+}
+
+// @public
+export enum KnownVectorSearchCompressionTargetDataType {
+    Int8 = "int8"
+}
+
+// @public
 export enum KnownVectorSearchVectorizerKind {
     AzureOpenAI = "azureOpenAI",
     CustomWebApi = "customWebApi"
@@ -2253,6 +2272,17 @@ export interface ResourceCounter {
 export type RunIndexerOptions = OperationOptions;
 
 // @public
+export interface ScalarQuantizationCompressionConfiguration extends BaseVectorSearchCompressionConfiguration {
+    kind: "scalarQuantization";
+    parameters?: ScalarQuantizationParameters;
+}
+
+// @public
+export interface ScalarQuantizationParameters {
+    quantizedDataType?: VectorSearchCompressionTargetDataType;
+}
+
+// @public
 export type ScoringFunction = DistanceScoringFunction | FreshnessScoringFunction | MagnitudeScoringFunction | TagScoringFunction;
 
 // @public
@@ -2339,7 +2369,7 @@ export type SearchField = SimpleField | ComplexField;
 export type SearchFieldArray<TModel extends object = object> = (<T>() => T extends TModel ? true : false) extends <T>() => T extends object ? true : false ? readonly string[] : readonly SelectFields<TModel>[];
 
 // @public
-export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)";
+export type SearchFieldDataType = "Edm.String" | "Edm.Int32" | "Edm.Int64" | "Edm.Double" | "Edm.Boolean" | "Edm.DateTimeOffset" | "Edm.GeographyPoint" | "Collection(Edm.String)" | "Collection(Edm.Int32)" | "Collection(Edm.Int64)" | "Collection(Edm.Double)" | "Collection(Edm.Boolean)" | "Collection(Edm.DateTimeOffset)" | "Collection(Edm.GeographyPoint)" | "Collection(Edm.Single)" | "Collection(Edm.Half)" | "Collection(Edm.Int16)" | "Collection(Edm.SByte)";
 
 // @public
 export interface SearchIndex {
@@ -2881,6 +2911,7 @@ export interface SimpleField {
     searchable?: boolean;
     searchAnalyzerName?: LexicalAnalyzerName;
     sortable?: boolean;
+    stored?: boolean;
     synonymMapNames?: string[];
     type: SearchFieldDataType;
     vectorSearchDimensions?: number;
@@ -3091,6 +3122,7 @@ export type VectorQueryKind = "vector" | "text";
 // @public
 export interface VectorSearch {
     algorithms?: VectorSearchAlgorithmConfiguration[];
+    compressions?: VectorSearchCompressionConfiguration[];
     profiles?: VectorSearchProfile[];
     vectorizers?: VectorSearchVectorizer[];
 }
@@ -3105,6 +3137,15 @@ export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
 
 // @public
+export type VectorSearchCompressionConfiguration = ScalarQuantizationCompressionConfiguration;
+
+// @public
+export type VectorSearchCompressionKind = string;
+
+// @public
+export type VectorSearchCompressionTargetDataType = string;
+
+// @public
 export interface VectorSearchOptions<TModel extends object> {
     filterMode?: VectorFilterMode;
     queries: VectorQuery<TModel>[];
@@ -3113,6 +3154,7 @@ export interface VectorSearchOptions<TModel extends object> {
 // @public
 export interface VectorSearchProfile {
     algorithmConfigurationName: string;
+    compressionConfigurationName?: string;
     name: string;
     vectorizer?: string;
 }

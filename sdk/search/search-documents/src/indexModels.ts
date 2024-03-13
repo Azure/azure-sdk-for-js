@@ -198,8 +198,19 @@ export interface BaseVectorQuery<TModel extends object> {
   kNearestNeighborsCount?: number;
   /** Vector Fields of type Collection(Edm.Single) to be included in the vector searched. */
   fields?: SearchFieldArray<TModel>;
-  /** When true, triggers an exhaustive k-nearest neighbor search across all vectors within the vector index. Useful for scenarios where exact matches are critical, such as determining ground truth values. */
+  /**
+   * When true, triggers an exhaustive k-nearest neighbor search across all vectors within the
+   * vector index. Useful for scenarios where exact matches are critical, such as determining ground
+   * truth values.
+   */
   exhaustive?: boolean;
+  /**
+   * Oversampling factor. Minimum value is 1. It overrides the 'defaultOversampling' parameter
+   * configured in the index definition. It can be set only when 'rerankWithOriginalVectors' is
+   * true. This parameter is only permitted when a compression method is used on the underlying
+   * vector field.
+   */
+  oversampling?: number;
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */

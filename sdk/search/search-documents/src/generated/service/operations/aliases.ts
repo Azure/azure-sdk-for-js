@@ -118,7 +118,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.alias,
@@ -136,7 +136,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ListAliasesResult,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -155,7 +155,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.alias,
@@ -178,7 +178,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     204: {},
     404: {},
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -198,7 +198,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SearchAlias,
     },
     default: {
-      bodyMapper: Mappers.SearchError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],

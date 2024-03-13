@@ -10,7 +10,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/58e92dd03733bc175e6a9540f4bc53703b57fcc9/specification/search/data-plane/Azure.Search/preview/2023-10-01-Preview/searchservice.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/a0151afd7cd14913fc86cb793bde49c71122eb1e/specification/search/data-plane/Azure.Search/preview/2024-03-01-Preview/searchservice.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.14"
@@ -358,6 +358,13 @@ directive:
   - from: swagger-document
     where: $.definitions.PIIDetectionSkill.properties.maskingCharacter
     transform: $["x-ms-client-name"] = undefined;
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.VectorSearchCompressionConfiguration
+    transform: $["x-ms-client-name"] = "BaseVectorSearchCompressionConfiguration";
 ```
 
 ### Deprecations

@@ -93,7 +93,12 @@ type ExpectPIIDetectionSkillMaskingMode = `${KnownPIIDetectionSkillMaskingMode}`
 type ExpectRegexFlags = `${KnownRegexFlags}`;
 type ExpectSearchFieldDataType = Exclude<
   `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
-  "Edm.ComplexType" | "Collection(Edm.ComplexType)" | "Edm.Single"
+  | "Edm.ComplexType"
+  | "Collection(Edm.ComplexType)"
+  | "Edm.Single"
+  | "Edm.Half"
+  | "Edm.Int16"
+  | "Edm.SByte"
 >;
 type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
 type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;

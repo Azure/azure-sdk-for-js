@@ -84,6 +84,12 @@
 
 ### Features Added
 
+- Add vector compression [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
+  - Service-side scalar quantization of your vector data
+  - Optional reranking with full-precision vectors
+  - Optional oversampling of documents when reranking compressed vectors
+- Add `Edm.Half`, `Edm.Int16`, and `Edm.SByte` vector spaces [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
+- Add non-persistent vector usage through `SimpleField.stored` [#28772](https://github.com/Azure/azure-sdk-for-js/pull/28772)
 - Expose the internal HTTP pipeline to allow users to send raw requests with it
 
 ## 12.0.0-beta.4 (2023-10-11)

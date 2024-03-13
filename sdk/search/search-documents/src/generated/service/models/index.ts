@@ -114,6 +114,9 @@ export type VectorSearchVectorizerUnion =
   | VectorSearchVectorizer
   | AzureOpenAIVectorizer
   | CustomVectorizer;
+export type BaseVectorSearchCompressionConfigurationUnion =
+  | BaseVectorSearchCompressionConfiguration
+  | ScalarQuantizationCompressionConfiguration;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
@@ -199,23 +202,53 @@ export interface AzureActiveDirectoryApplicationCredentials {
   applicationSecret?: string;
 }
 
-/** Describes an error condition for the API. */
-export interface SearchError {
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
   /**
-   * One of a server-defined set of error codes.
+   * The error code.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly code?: string;
   /**
-   * A human-readable representation of the error.
+   * The error message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly message: string;
+  readonly message?: string;
   /**
-   * An array of details about specific errors that led to this reported error.
+   * The error target.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly details?: SearchError[];
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Response from a List Datasources request. If successful, it includes the full definitions of all datasources. */
@@ -805,8 +838,10 @@ export interface SearchField {
   type: SearchFieldDataType;
   /** A value indicating whether the field uniquely identifies documents in the index. Exactly one top-level field in each index must be chosen as the key field and it must be of type Edm.String. Key fields can be used to look up documents directly and update or delete specific documents. Default is false for simple fields and null for complex fields. */
   key?: boolean;
-  /** A value indicating whether the field can be returned in a search result. You can disable this option if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This property must be true for key fields, and it must be null for complex fields. This property can be changed on existing fields. Enabling this property does not cause any increase in index storage requirements. Default is true for simple fields and null for complex fields. */
+  /** A value indicating whether the field can be returned in a search result. You can disable this option if you want to use a field (for example, margin) as a filter, sorting, or scoring mechanism but do not want the field to be visible to the end user. This property must be true for key fields, and it must be null for complex fields. This property can be changed on existing fields. Enabling this property does not cause any increase in index storage requirements. Default is true for simple fields, false for vector fields, and null for complex fields. */
   retrievable?: boolean;
+  /** An immutable value indicating whether the field will be persisted separately on disk to be returned in a search result. You can disable this option if you don't plan to return the field contents in a search response to save on storage overhead. This can only be set during index creation and only for vector fields. This property cannot be changed for existing fields or set as false for new fields. If this property is set as false, the property 'retrievable' must also be set to false. This property must be true or unset for key fields, for new fields, and for non-vector fields, and it must be null for complex fields. Disabling this property will reduce index storage requirements. The default is true for vector fields. */
+  stored?: boolean;
   /** A value indicating whether the field is full-text searchable. This means it will undergo analysis such as word-breaking during indexing. If you set a searchable field to a value like "sunny day", internally it will be split into the individual tokens "sunny" and "day". This enables full-text searches for these terms. Fields of type Edm.String or Collection(Edm.String) are searchable by default. This property must be false for simple fields of other non-string data types, and it must be null for complex fields. Note: searchable fields consume extra space in your index to accommodate additional tokenized versions of the field value for full-text searches. If you want to save space in your index and you don't need a field to be included in searches, set searchable to false. */
   searchable?: boolean;
   /** A value indicating whether to enable the field to be referenced in $filter queries. filterable differs from searchable in how strings are handled. Fields of type Edm.String or Collection(Edm.String) that are filterable do not undergo word-breaking, so comparisons are for exact matches only. For example, if you set such a field f to "sunny day", $filter=f eq 'sunny' will find no matches, but $filter=f eq 'sunny day' will. This property must be null for complex fields. Default is true for simple fields and null for complex fields. */
@@ -1011,6 +1046,8 @@ export interface VectorSearch {
   algorithms?: VectorSearchAlgorithmConfigurationUnion[];
   /** Contains configuration options on how to vectorize text vector queries. */
   vectorizers?: VectorSearchVectorizerUnion[];
+  /** Contains configuration options specific to the compression method used during indexing or querying. */
+  compressions?: BaseVectorSearchCompressionConfigurationUnion[];
 }
 
 /** Defines a combination of configurations to use with vector search. */
@@ -1021,6 +1058,8 @@ export interface VectorSearchProfile {
   algorithmConfigurationName: string;
   /** The name of the kind of vectorization method being configured for use with vector search. */
   vectorizer?: string;
+  /** The name of the compression method configuration that specifies the compression method and optional parameters. */
+  compressionConfigurationName?: string;
 }
 
 /** Contains configuration options specific to the algorithm used during indexing or querying. */
@@ -1037,6 +1076,18 @@ export interface VectorSearchVectorizer {
   kind: "azureOpenAI" | "customWebApi";
   /** The name to associate with this particular vectorization method. */
   name: string;
+}
+
+/** Contains configuration options specific to the compression method used during indexing or querying. */
+export interface BaseVectorSearchCompressionConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "scalarQuantization";
+  /** The name to associate with this particular configuration. */
+  name: string;
+  /** If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency. */
+  rerankWithOriginalVectors?: boolean;
+  /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
+  defaultOversampling?: number;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
@@ -1198,6 +1249,12 @@ export interface HnswParameters {
 export interface ExhaustiveKnnParameters {
   /** The similarity metric to use for vector comparisons. */
   metric?: VectorSearchAlgorithmMetric;
+}
+
+/** Contains the parameters specific to Scalar Quantization. */
+export interface ScalarQuantizationParameters {
+  /** The quantized data type of compressed vector values. */
+  quantizedDataType?: VectorSearchCompressionTargetDataType;
 }
 
 /** Specifies the parameters for connecting to the Azure OpenAI resource. */
@@ -2201,6 +2258,15 @@ export interface CustomVectorizer extends VectorSearchVectorizer {
   customWebApiParameters?: CustomWebApiParameters;
 }
 
+/** Contains configuration options specific to the scalar quantization compression method used during indexing and querying. */
+export interface ScalarQuantizationCompressionConfiguration
+  extends BaseVectorSearchCompressionConfiguration {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "scalarQuantization";
+  /** Contains the parameters specific to Scalar Quantization. */
+  parameters?: ScalarQuantizationParameters;
+}
+
 /** Projection definition for what data to store in Azure Blob. */
 export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
@@ -2209,20 +2275,20 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20231001Preview} that the service accepts. */
-export enum KnownApiVersion20231001Preview {
-  /** Api Version '2023-10-01-Preview' */
-  TwoThousandTwentyThree1001Preview = "2023-10-01-Preview",
+/** Known values of {@link ApiVersion20240301Preview} that the service accepts. */
+export enum KnownApiVersion20240301Preview {
+  /** Api Version '2024-03-01-Preview' */
+  TwoThousandTwentyFour0301Preview = "2024-03-01-Preview",
 }
 
 /**
- * Defines values for ApiVersion20231001Preview. \
- * {@link KnownApiVersion20231001Preview} can be used interchangeably with ApiVersion20231001Preview,
+ * Defines values for ApiVersion20240301Preview. \
+ * {@link KnownApiVersion20240301Preview} can be used interchangeably with ApiVersion20240301Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-10-01-Preview**: Api Version '2023-10-01-Preview'
+ * **2024-03-01-Preview**: Api Version '2024-03-01-Preview'
  */
-export type ApiVersion20231001Preview = string;
+export type ApiVersion20240301Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -2433,6 +2499,12 @@ export enum KnownSearchFieldDataType {
   Complex = "Edm.ComplexType",
   /** Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). */
   Single = "Edm.Single",
+  /** Indicates that a field contains a half-precision floating point number. This is only valid when used with Collection(Edm.Half). */
+  Half = "Edm.Half",
+  /** Indicates that a field contains a 16-bit signed integer. This is only valid when used with Collection(Edm.Int16). */
+  Int16 = "Edm.Int16",
+  /** Indicates that a field contains a 8-bit signed integer. This is only valid when used with Collection(Edm.SByte). */
+  SByte = "Edm.SByte",
 }
 
 /**
@@ -2448,7 +2520,10 @@ export enum KnownSearchFieldDataType {
  * **Edm.DateTimeOffset**: Indicates that a field contains a date\/time value, including timezone information. \
  * **Edm.GeographyPoint**: Indicates that a field contains a geo-location in terms of longitude and latitude. \
  * **Edm.ComplexType**: Indicates that a field contains one or more complex objects that in turn have sub-fields of other types. \
- * **Edm.Single**: Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single).
+ * **Edm.Single**: Indicates that a field contains a single-precision floating point number. This is only valid when used with Collection(Edm.Single). \
+ * **Edm.Half**: Indicates that a field contains a half-precision floating point number. This is only valid when used with Collection(Edm.Half). \
+ * **Edm.Int16**: Indicates that a field contains a 16-bit signed integer. This is only valid when used with Collection(Edm.Int16). \
+ * **Edm.SByte**: Indicates that a field contains a 8-bit signed integer. This is only valid when used with Collection(Edm.SByte).
  */
 export type SearchFieldDataType = string;
 
@@ -2806,6 +2881,21 @@ export enum KnownVectorSearchVectorizerKind {
  */
 export type VectorSearchVectorizerKind = string;
 
+/** Known values of {@link VectorSearchCompressionKind} that the service accepts. */
+export enum KnownVectorSearchCompressionKind {
+  /** Scalar Quantization, a type of compression method. In scalar quantization, the original vectors values are compressed to a narrower type by discretizing and representing each component of a vector using a reduced set of quantized values, thereby reducing the overall data size. */
+  ScalarQuantization = "scalarQuantization",
+}
+
+/**
+ * Defines values for VectorSearchCompressionKind. \
+ * {@link KnownVectorSearchCompressionKind} can be used interchangeably with VectorSearchCompressionKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **scalarQuantization**: Scalar Quantization, a type of compression method. In scalar quantization, the original vectors values are compressed to a narrower type by discretizing and representing each component of a vector using a reduced set of quantized values, thereby reducing the overall data size.
+ */
+export type VectorSearchCompressionKind = string;
+
 /** Known values of {@link TokenFilterName} that the service accepts. */
 export enum KnownTokenFilterName {
   /** A token filter that applies the Arabic normalizer to normalize the orthography. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ar\/ArabicNormalizationFilter.html */
@@ -2955,6 +3045,21 @@ export enum KnownVectorSearchAlgorithmMetric {
  * **dotProduct**
  */
 export type VectorSearchAlgorithmMetric = string;
+
+/** Known values of {@link VectorSearchCompressionTargetDataType} that the service accepts. */
+export enum KnownVectorSearchCompressionTargetDataType {
+  /** Int8 */
+  Int8 = "int8",
+}
+
+/**
+ * Defines values for VectorSearchCompressionTargetDataType. \
+ * {@link KnownVectorSearchCompressionTargetDataType} can be used interchangeably with VectorSearchCompressionTargetDataType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **int8**
+ */
+export type VectorSearchCompressionTargetDataType = string;
 
 /** Known values of {@link KeyPhraseExtractionSkillLanguage} that the service accepts. */
 export enum KnownKeyPhraseExtractionSkillLanguage {
