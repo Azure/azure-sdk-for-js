@@ -35,3 +35,5 @@ extends:
     Artifacts:
       - name: azure-cosmos
         safeName: azurecosmos
+env:
+  ACCOUNT_KEY: ${ACCOUNT_KEY}
