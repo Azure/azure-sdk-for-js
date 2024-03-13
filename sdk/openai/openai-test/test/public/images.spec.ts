@@ -11,18 +11,16 @@ describe("Images", function () {
   matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI;
-      let modelName: string;
 
       beforeEach(async function (this: Context) {
-        client = createClient();
-        modelName = "dall-e-3";
+        client = createClient("dalle");
       });
 
       describe("getImages", function () {
         it("images test", async function () {
           const prompt = "A dolphin baking cakes";
           const image = await client.images.generate({
-            model: modelName,
+            model: "",
             prompt,
           });
           assert.isNotNull(image);
