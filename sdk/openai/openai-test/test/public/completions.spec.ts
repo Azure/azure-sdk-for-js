@@ -11,17 +11,15 @@ describe("Completions", function () {
   matrix([["OpenAIKey"]] as const, async function (authMethod: AuthMethod) {
     describe(`[${authMethod}] Client`, () => {
       let client: OpenAI;
-      let modelName: string;
 
       beforeEach(async function (this: Context) {
-        client = createClient();
-        modelName = "gpt-3.5-turbo-1106";
+        client = createClient("completions");
       });
 
       describe("Completions", function () {
         it("Comletions test", async function () {
           const completions = await client.chat.completions.create({
-            model: modelName,
+            model: "",
             messages: [{ role: "system", content: "You are a helpful assistant." }],
           });
           assertChatCompletions(completions);
@@ -43,6 +41,7 @@ function assertChatCompletions(completions: OpenAI.Chat.Completions.ChatCompleti
     });
   }
 }
+
 function ifDefined(
   val: any,
   validate: (x: any) => void,
