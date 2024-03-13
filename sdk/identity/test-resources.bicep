@@ -25,7 +25,7 @@ param adminUserName string = 'azureuser'
 
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
 // var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
-var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b) // Storage Blob Data Owner
+var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
 
 // Cluster parameters
