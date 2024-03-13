@@ -14,7 +14,7 @@ steps:
           pwsh: true
         condition: succeeded()
       - ${{ if contains(variables.NpmPublishList, parameters.Artifact.name) }}:
-          - pwsh: write-host ${{package}}; write-host $(NpmPublishList)
+          - pwsh: write-host ${{parameters.Artifact.name}}; write-host $(NpmPublishList)
           - task: EsrpRelease@6
             inputs:
               displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
