@@ -254,17 +254,8 @@ export async function _analyzeWidgetDeserialize(
   };
 }
 
-/** Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis. */
-export async function _analyzeWidget(
-  context: Client,
-  id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} },
-): Promise<AnalyzeResult> {
-  const result = await _analyzeWidgetSend(context, id, options);
-  return _analyzeWidgetDeserialize(result);
-}
-
 /**
+ * Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis.
  * In this customization we will perform the following tasks in addition to the generated:
  *  - We are going to add special error handling for demonstration purposes
  */
@@ -275,8 +266,8 @@ export async function analyzeWidget(
 ): Promise<AnalyzeResult> {
   try {
     foo();
-    const result = await _analyzeWidget(context, id, options);
-    return result;
+    const result = await _analyzeWidgetSend(context, id, options);
+    return _analyzeWidgetDeserialize(result);
   } catch (error: any) {
     console.error("Error occurred while calling analyzeWidget:", error);
     if (error.message && error.statusCode) {
