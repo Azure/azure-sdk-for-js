@@ -14,9 +14,9 @@ steps:
           pwsh: true
         condition: succeeded()
       - pwsh: >
-          $artifactFolder = $(Package.Archive) -replace '[^\/]+$', ''
+          $artifactFolder = "$(Package.Archive)" -replace '[^\/]+$', ''
           Write-Host "archive"
-          write-host $(Package.Archive)
+          write-host "$(Package.Archive)"
           write-host "artifact folder"
           write-host $artifactFolder
           Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
