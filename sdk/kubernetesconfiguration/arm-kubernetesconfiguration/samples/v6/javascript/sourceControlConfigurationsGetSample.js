@@ -32,7 +32,7 @@ async function getSourceControlConfiguration() {
     clusterRp,
     clusterResourceName,
     clusterName,
-    sourceControlConfigurationName
+    sourceControlConfigurationName,
   );
   console.log(result);
 }

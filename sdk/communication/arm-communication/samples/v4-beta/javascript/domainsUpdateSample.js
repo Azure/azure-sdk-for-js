@@ -33,7 +33,7 @@ async function updateDomainsResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

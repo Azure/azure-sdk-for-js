@@ -27,7 +27,7 @@ async function tagRulesListByNewRelicMonitorResourceMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.tagRules.listByNewRelicMonitorResource(
     resourceGroupName,
-    monitorName
+    monitorName,
   )) {
     resArray.push(item);
   }
@@ -49,7 +49,7 @@ async function tagRulesListByNewRelicMonitorResourceMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.tagRules.listByNewRelicMonitorResource(
     resourceGroupName,
-    monitorName
+    monitorName,
   )) {
     resArray.push(item);
   }

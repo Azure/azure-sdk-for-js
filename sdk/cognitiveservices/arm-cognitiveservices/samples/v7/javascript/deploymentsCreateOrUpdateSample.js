@@ -33,7 +33,7 @@ async function putDeployment() {
     resourceGroupName,
     accountName,
     deploymentName,
-    deployment
+    deployment,
   );
   console.log(result);
 }

@@ -41,7 +41,7 @@ export async function main() {
 
   // Get the name and vaultUrl from the secretId
   const { name: secretName, vaultUrl } = parseKeyVaultSecretIdentifier(
-    parsedSecretReference.value.secretId
+    parsedSecretReference.value.secretId,
   );
 
   const secretClient = new SecretClient(vaultUrl, new DefaultAzureCredential());
@@ -53,7 +53,7 @@ export async function main() {
     const error = err as { code: string; statusCode: number };
     if (error.code === "SecretNotFound" && error.statusCode === 404) {
       throw new Error(
-        `\n Secret is not found, make sure the secret ${parsedSecretReference.value.secretId} is present in your keyvault account;\n Original error - ${error}`
+        `\n Secret is not found, make sure the secret ${parsedSecretReference.value.secretId} is present in your keyvault account;\n Original error - ${error}`,
       );
     } else {
       throw err;
@@ -76,7 +76,7 @@ async function setup(key: string) {
   ) {
     console.log(
       `At least one of the AZURE_TENANT_ID, AZURE_CLIENT_ID, AZURE_CLIENT_SECRET, APPCONFIG_CONNECTION_STRING and KEYVAULT_URI variables is not present, 
-      please add the missing ones in your environment and rerun the sample.`
+      please add the missing ones in your environment and rerun the sample.`,
     );
     return;
   }
@@ -114,7 +114,7 @@ async function createConfigSetting(key: string, secretId: string) {
   await cleanupSampleValues([key], appConfigClient);
 
   console.log(
-    `Add a new secretReference with key: ${key} and secretId: ${secretReference.value.secretId}`
+    `Add a new secretReference with key: ${key} and secretId: ${secretReference.value.secretId}`,
   );
   await appConfigClient.addConfigurationSetting(secretReference);
 }

@@ -30,7 +30,7 @@ async function firmwareGenerateCveSummaryMaximumSetGen() {
   const result = await client.firmwareOperations.generateCveSummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateCveSummaryMinimumSetGen() {
   const result = await client.firmwareOperations.generateCveSummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }

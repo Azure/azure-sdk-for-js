@@ -53,6 +53,8 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+  /** The Microsoft Teams application. */
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -74,6 +76,14 @@ export interface MicrosoftTeamsUserIdentifierModel {
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** A Microsoft Teams application. */
+export interface MicrosoftTeamsAppIdentifierModel {
+  /** The Id of the Microsoft Teams application. */
+  appId: string;
+  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -143,8 +153,8 @@ export interface CallConnectionPropertiesInternal {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredBy?: CommunicationUserIdentifierModel;
-  /** The original PSTN target of the incoming Call. */
-  originalPstnTarget?: PhoneNumberIdentifierModel;
+  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  answeredFor?: PhoneNumberIdentifierModel;
 }
 
 /** The Communication Services error. */
@@ -420,15 +430,44 @@ export interface UpdateTranscriptionRequest {
 }
 
 /** The request payload for holding participant from the call. */
+export interface HoldRequest {
+  /** Participant to be held from the call. */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Prompt to play while in hold. */
+  playSourceInfo?: PlaySourceInternal;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
+}
+
+/** The request payload for holding participant from the call. */
+export interface UnholdRequest {
+  /**
+   * Participants to be hold from the call.
+   * Only ACS Users are supported.
+   */
+  targetParticipant: CommunicationIdentifierModel;
+  /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+}
+
+/** The request payload for holding participant from the call. */
 export interface StartHoldMusicRequest {
   /** Participant to be held from the call. */
   targetParticipant: CommunicationIdentifierModel;
   /** Prompt to play while in hold. */
-  playSourceInfo: PlaySourceInternal;
-  /** If the prompt will be looped or not. */
-  loop?: boolean;
+  playSourceInfo?: PlaySourceInternal;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
   operationContext?: string;
+  /**
+   * Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUri?: string;
 }
 
 /** The request payload for holding participant from the call. */
@@ -503,6 +542,8 @@ export interface CallParticipantInternal {
   identifier?: CommunicationIdentifierModel;
   /** Is participant muted */
   isMuted?: boolean;
+  /** Is participant on hold. */
+  isOnHold?: boolean;
 }
 
 /** The request payload for adding participant to the call. */
@@ -1989,6 +2030,92 @@ export interface RestTranscriptionFailed {
   readonly correlationId?: string;
 }
 
+/** The CreateCallFailed event */
+export interface RestCreateCallFailed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+/** AnswerFailed event */
+export interface RestAnswerFailed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestHoldFailed {
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
 /** Azure Open AI Dialog */
 export interface AzureOpenAIDialog extends BaseDialog {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -2021,6 +2148,8 @@ export enum KnownCommunicationIdentifierModelKind {
   PhoneNumber = "phoneNumber",
   /** MicrosoftTeamsUser */
   MicrosoftTeamsUser = "microsoftTeamsUser",
+  /** MicrosoftTeamsApp */
+  MicrosoftTeamsApp = "microsoftTeamsApp",
 }
 
 /**
@@ -2031,7 +2160,8 @@ export enum KnownCommunicationIdentifierModelKind {
  * **unknown** \
  * **communicationUser** \
  * **phoneNumber** \
- * **microsoftTeamsUser**
+ * **microsoftTeamsUser** \
+ * **microsoftTeamsApp**
  */
 export type CommunicationIdentifierModelKind = string;
 
@@ -2452,6 +2582,8 @@ export enum KnownTranscriptionStatus {
   TranscriptionStarted = "transcriptionStarted",
   /** TranscriptionFailed */
   TranscriptionFailed = "transcriptionFailed",
+  /** TranscriptionResumed */
+  TranscriptionResumed = "transcriptionResumed",
   /** TranscriptionUpdated */
   TranscriptionUpdated = "transcriptionUpdated",
   /** TranscriptionStopped */
@@ -2467,6 +2599,7 @@ export enum KnownTranscriptionStatus {
  * ### Known values supported by the service
  * **transcriptionStarted** \
  * **transcriptionFailed** \
+ * **transcriptionResumed** \
  * **transcriptionUpdated** \
  * **transcriptionStopped** \
  * **unspecifiedError**
@@ -2749,6 +2882,14 @@ export interface CallMediaUpdateTranscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
+export interface CallMediaHoldOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface CallMediaUnholdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
 export interface CallMediaStartHoldMusicOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -2766,7 +2907,7 @@ export type CallDialogStartDialogResponse = DialogStateResponse;
 /** Optional parameters. */
 export interface CallDialogStopDialogOptionalParams
   extends coreClient.OperationOptions {
-  /** Opeation callback URI. */
+  /** Operation callback URI. */
   operationCallbackUri?: string;
 }
 

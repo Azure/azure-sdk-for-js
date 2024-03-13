@@ -30,7 +30,7 @@ async function firmwareGenerateCryptoKeySummaryMaximumSetGen() {
   const result = await client.firmwareOperations.generateCryptoKeySummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function firmwareGenerateCryptoKeySummaryMinimumSetGen() {
   const result = await client.firmwareOperations.generateCryptoKeySummary(
     resourceGroupName,
     workspaceName,
-    firmwareId
+    firmwareId,
   );
   console.log(result);
 }
