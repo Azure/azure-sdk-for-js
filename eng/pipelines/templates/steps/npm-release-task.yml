@@ -13,6 +13,9 @@ steps:
           arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
+      - pwsh: >
+          $artifactFolder = $(Package.Archive) -replace '[^\/]+$', ''
+          Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
       - ${{ if contains(variables.NpmPublishList, parameters.Artifact.name) }}:
           - pwsh: write-host ${{parameters.Artifact.name}}; write-host $(NpmPublishList)
           - task: EsrpRelease@6
@@ -21,7 +24,7 @@ steps:
               ConnectedServiceName: 'ESRP Release Service'
               Intent: 'PackageDistribution'
               ContentType: 'npm'
-              FolderLocation: $(Package.Archive)
+              FolderLocation: $(artifactFolder)
               Owners: $(Build.RequestedForEmail)
               Approvers: 'azuresdk@microsoft.com'
               ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
