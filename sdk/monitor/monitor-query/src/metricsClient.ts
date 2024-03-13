@@ -4,25 +4,23 @@ import { TokenCredential } from "@azure/core-auth";
 import { CommonClientOptions } from "@azure/core-client";
 import { tracingClient } from "./tracing";
 import {
-  AzureMonitorMetricBatch as GeneratedMonitorMetricBatchClient,
-  KnownApiVersion20230501Preview as MonitorMetricBatchApiVersion,
+  AzureMonitorMetricBatch as GeneratedMonitorMetricClient,
+  KnownApiVersion20231001 as MonitorMetricBatchApiVersion,
 } from "./generated/metricBatch/src";
 import {
   convertResponseForMetricBatch,
   convertRequestForMetricsBatchQuery,
 } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
-import {
-  MetricResultsResponseValuesItem,
-  MetricsBatchOptionalParams,
-} from "./models/publicBatchModels";
+import { MetricsBatchQueryOptions } from "./models/publicBatchModels";
+import { MetricsQueryResult } from "./models/publicMetricsModels";
 
 const defaultMetricsScope = "https://management.azure.com/.default";
 
 /**
  * Options for the MetricsQueryClient.
  */
-export interface MetricsBatchQueryClientOptions extends CommonClientOptions {
+export interface MetricsClientOptions extends CommonClientOptions {
   /** Metrics scope */
   batchMetricsAuthScope?: string;
 }
@@ -36,14 +34,14 @@ export const getSubscriptionFromResourceId = function (resourceId: string): stri
 /**
  * A client that can query batch metrics.
  */
-export class MetricsBatchQueryClient {
-  private _metricBatchClient: GeneratedMonitorMetricBatchClient;
+export class MetricsClient {
+  private _metricBatchClient: GeneratedMonitorMetricClient;
   private _baseUrl: string;
 
   constructor(
     batchEndPoint: string,
     tokenCredential: TokenCredential,
-    options?: MetricsBatchQueryClientOptions,
+    options?: MetricsClientOptions,
   ) {
     let scope;
     if (options?.batchMetricsAuthScope) {
@@ -70,9 +68,9 @@ export class MetricsBatchQueryClient {
 
     this._baseUrl = batchEndPoint;
 
-    this._metricBatchClient = new GeneratedMonitorMetricBatchClient(
+    this._metricBatchClient = new GeneratedMonitorMetricClient(
       this._baseUrl,
-      MonitorMetricBatchApiVersion.TwoThousandTwentyThree0501Preview,
+      MonitorMetricBatchApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions,
     );
   }
@@ -80,12 +78,12 @@ export class MetricsBatchQueryClient {
   /**
    * Returns all the Azure Monitor metrics requested for the batch of resources.
    */
-  async queryBatch(
+  async queryResources(
     resourceIds: string[],
-    metricNamespace: string,
     metricNames: string[],
-    options: MetricsBatchOptionalParams = {},
-  ): Promise<MetricResultsResponseValuesItem[]> {
+    metricNamespace: string,
+    options: MetricsBatchQueryOptions = {},
+  ): Promise<MetricsQueryResult[]> {
     if (resourceIds.length === 0) {
       throw new Error("Resource IDs can not be empty");
     }

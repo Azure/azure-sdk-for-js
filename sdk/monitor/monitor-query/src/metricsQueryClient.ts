@@ -16,11 +16,11 @@ import {
 
 import {
   MonitorManagementClient as GeneratedMetricsClient,
-  KnownApiVersion201801 as MetricsApiVersion,
+  KnownApiVersion20231001 as MetricsApiVersion,
 } from "./generated/metrics/src";
 import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
-  KnownApiVersion201801 as MetricDefinitionsApiVersion,
+  KnownApiVersion20231001 as MetricDefinitionsApiVersion,
 } from "./generated/metricsdefinitions/src";
 import {
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
@@ -83,12 +83,12 @@ export class MetricsQueryClient {
     };
 
     this._metricsClient = new GeneratedMetricsClient(
-      MetricsApiVersion.TwoThousandEighteen0101,
+      MetricsApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions,
     );
 
     this._definitionsClient = new GeneratedMetricsDefinitionsClient(
-      MetricDefinitionsApiVersion.TwoThousandEighteen0101,
+      MetricDefinitionsApiVersion.TwoThousandTwentyThree1001,
       serviceClientOptions,
     );
 
