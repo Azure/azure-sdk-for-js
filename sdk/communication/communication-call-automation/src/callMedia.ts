@@ -46,6 +46,7 @@ import {
   StartTranscriptionOptions,
   StopTranscriptionOptions,
   HoldOptions,
+  UnholdOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -610,9 +611,7 @@ export class CallMedia {
    * Put participant on hold while playing audio.
    *
    * @param targetParticipant - The targets to play to.
-   * @param playSource - A PlaySource representing the source to play.
-   * @param operationContext - Operation Context.
-   * @param operationCallbackUri - Set a callback URI that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * @param options - Additional attributes for hold participant.
    */
   public async hold(
     targetParticipant: CommunicationIdentifier,
@@ -636,15 +635,16 @@ export class CallMedia {
    * Remove participant from hold.
    *
    * @param targetParticipant - The targets to play to.
-   * @param operationContext - Operation Context.
+   * @param options - Additional attributes for unhold participant.
    */
   public async unhold(
     targetParticipant: CommunicationIdentifier,
-    operationContext: string | undefined = undefined,
+    options: UnholdOptions = {},
   ): Promise<void> {
     const unholdRequest: UnholdRequest = {
       targetParticipant: serializeCommunicationIdentifier(targetParticipant),
-      operationContext: operationContext,
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
     };
     return this.callMedia.unhold(this.callConnectionId, unholdRequest);
   }
@@ -661,6 +661,7 @@ export class CallMedia {
   public async startHoldMusic(
     targetParticipant: CommunicationIdentifier,
     playSource: FileSource | TextSource | SsmlSource | undefined = undefined,
+    loop?: boolean,
     operationContext: string | undefined = undefined,
     operationCallbackUri: string | undefined = undefined,
   ): Promise<void> {
@@ -671,7 +672,9 @@ export class CallMedia {
       operationContext: operationContext,
       operationCallbackUri: operationCallbackUri,
     };
-
+    if (loop) {
+      // Do nothing. Added since it needs to be backwards compatible.
+    }
     return this.callMedia.startHoldMusic(this.callConnectionId, holdRequest);
   }
 
