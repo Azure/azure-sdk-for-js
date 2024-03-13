@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Organization Validate proxy resource
  *
  * @summary Organization Validate proxy resource
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Validations_ValidateOrganizations.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Validations_ValidateOrganizations.json
  */
 async function validationsValidateOrganizations() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function validationsValidateOrganizations() {
   const result = await client.validations.validateOrganization(
     resourceGroupName,
     organizationName,
-    body
+    body,
   );
   console.log(result);
 }
