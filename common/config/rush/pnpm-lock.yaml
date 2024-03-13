@@ -17454,7 +17454,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-7ik+mCe+DXNguC7eA3dmLuvrEzmZbZMMtBnja563UuHfxesOf5qd9zRlOjRRswl3RyxOpGOQekgDiMGgkIQH3g==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-GlfaW8LpMQIUhPvcm8hPXAhIFXJm0ya38369m1RHeWxOY0MMGU11jUOYLlv2FLUVEIomHS9Qsj34SLNxiZ5s+w==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -19730,7 +19730,7 @@ packages:
     dev: false
 
   file:projects/keyvault-keys.tgz:
-    resolution: {integrity: sha512-Lm9kmpj+mLjTeom6qKzDjmEHc5LMSnm2ceYEM2o/SSIpTUvokMf4BxgTG9xs6o3+wkr/y8p5beL/eS1LT3KyMA==, tarball: file:projects/keyvault-keys.tgz}
+    resolution: {integrity: sha512-tGzJ200FaETep8Y2lb4/bqtGwstjimWTnepRZwgjrHYFEsjWTfhRGhYKsATCKCKbf8C5NTuQTcNdbgkN8hTLKg==, tarball: file:projects/keyvault-keys.tgz}
     name: '@rush-temp/keyvault-keys'
     version: 0.0.0
     dependencies:
@@ -19776,7 +19776,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-78pvcjIVGlVu0f4kbH6O+Sc1VjC4nK8Fk0WZFzTbGpI0Sohtqtr887IqhDAzm+viBOcluiedo6zM/qzFC5pd3g==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-ceC2UCgZnkE+7/DscilyDhsx9ZVLk1jZR71J7kVXb/JIOQgkyHbQNFAYSQ2EdQRyrq4aYoeeSsKEaJT7k8qXdA==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -20250,7 +20250,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-N56SzgQh3l6LGPwgMlHv3RtLOxykWs5ktrU0DTpwlZMUm/fWrxSjCpIK/JquegKDSe+KbZx0Ez/wzCPyTN+0YQ==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-kTOHl9kMbOSOskX+nYUM3Sb7Vk6EgewbgaXKqjz+Brir3IvHoWDSgb+qZM85SeHIjYxEhQI/36jd18HyM4oepg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -20269,6 +20269,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.22
       c8: 8.0.1
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       eslint-plugin-node: 11.1.0(eslint@8.57.0)
@@ -20284,7 +20285,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-/6E4qlxY7lclgvYiAwnhVpNnyK2ml8lbcxrGmGrcNi2YWgiaXs2rRck2B/WrAAYpNvWLlihmoxBv5W5roviVBA==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-oY3JKxapMG5+aFPyq2/ae4IToa2aKOocXo2pcX0O/LBqLry3Hm6fzY302mbH8oW2LjDL7UX/82k5yxXHMXxPgQ==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -20314,6 +20315,7 @@ packages:
       '@types/node': 18.19.22
       '@types/sinon': 17.0.3
       c8: 8.0.1
+      cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       eslint-plugin-node: 11.1.0(eslint@8.57.0)

@@ -75,22 +75,16 @@ stages:
                         deploy:
                           steps:
                             - checkout: self
-                            - script: >
+                            - script: |
                                 export DETECTED_PACKAGE_NAME=`ls $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}/*.tgz`
-
                                 echo "##vso[task.setvariable variable=Package.Archive]$DETECTED_PACKAGE_NAME"
                               displayName: Detecting package archive
-                            - pwsh: >
+                            - pwsh: |
                                 write-host "$(Package.Archive)"
-
                                 $result = eng/scripts/get-npm-tags.ps1 -packageArtifact $(Package.Archive) -workingDirectory $(System.DefaultWorkingDirectory)/temp
-
                                 write-host "Tag: $($result.Tag)"
-
                                 write-host "Additional tag: $($result.AdditionalTag)"
-
                                 echo "##vso[task.setvariable variable=Tag]$($result.Tag)"
-
                                 echo "##vso[task.setvariable variable=AdditionalTag]$($result.AdditionalTag)"
                               condition: and(succeeded(), ne(variables['Skip.AutoAddTag'], 'true'))
                               displayName: Set Tag and Additional Tag
@@ -162,7 +156,7 @@ stages:
                         deploy:
                           steps:
                             - checkout: self
-                            - pwsh: >
+                            - pwsh: |
                                 Get-ChildItem -Recurse ${{parameters.ArtifactName}}/${{artifact.name}}
                               workingDirectory: $(Pipeline.Workspace)
                               displayName: Output Visible Artifacts
@@ -190,16 +184,26 @@ stages:
                           steps:
                             - checkout: self
                             - template: /eng/pipelines/templates/steps/common.yml
-                            - bash: >
+                            - bash: |
                                 npm install
                               workingDirectory: ./eng/tools/versioning
                               displayName: Install versioning tool dependencies
-                            - bash: >
+
+                            - bash: |
                                 node ./eng/tools/versioning/increment.js --artifact-name ${{ artifact.name }} --repo-root .
                               displayName: Increment package version
-                            - bash: >
+
+                            - bash: |
                                 node common/scripts/install-run-rush.js install
-                              displayName: Install dependencies
+                              displayName: "Install dependencies"
+
+                            # Disabled until packages can be updated to support ES2019 syntax.
+                            # - bash: |
+                            #     npm install -g ./common/tools/dev-tool
+                            #     npm install ./eng/tools/eng-package-utils
+                            #     node ./eng/tools/eng-package-utils/update-samples.js ${{ artifact.name }}
+                            #   displayName: Update samples
+
                             - template: /eng/common/pipelines/templates/steps/create-pull-request.yml
                               parameters:
                                 RepoName: azure-sdk-for-js
@@ -237,11 +241,11 @@ stages:
                       echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
                       if ('$(Build.Repository.Name)' -eq 'Azure/azure-sdk-for-js') {
                         $npmToken="$(azure-sdk-npm-token)"
-                        $registry=${{parameters.Registry}}"
+                        $registry="${{parameters.Registry}}"
                       }
                       else {
                         $npmToken="$(azure-sdk-devops-npm-token)"
-                        $registry=${{parameters.PrivateRegistry}}"
+                        $registry="${{parameters.PrivateRegistry}}"
                       }
                       echo "##vso[task.setvariable variable=NpmToken]$npmToken"
                       echo "##vso[task.setvariable variable=Registry]$registry"
@@ -257,7 +261,7 @@ stages:
         dependsOn: PublishPackages
         pool:
           name: azsdk-pool-mms-ubuntu-2004-general
-          vmImage: azsdk-pool-mms-ubuntu-2004-1espt
+          image: azsdk-pool-mms-ubuntu-2004-1espt
           os: linux
         steps:
           - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
@@ -266,7 +270,7 @@ stages:
                 - sdk/**/*.md
                 - .github/CODEOWNERS
           - download: current
-          - pwsh: >
+          - pwsh: |
               Get-ChildItem -Recurse $(Pipeline.Workspace)/${{parameters.ArtifactName}}/
             displayName: Show visible artifacts
           - template: /eng/pipelines/templates/steps/install-rex-validation-tool.yml
