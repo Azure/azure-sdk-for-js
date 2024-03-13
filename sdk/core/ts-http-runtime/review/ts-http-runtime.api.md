@@ -36,7 +36,7 @@ export interface AccessToken {
 }
 
 // @public
-export function addCredentialPipelinePolicy(pipeline: Pipeline, baseUrl: string, options?: AddCredentialPipelinePolicyOptions): void;
+export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string, options?: AddCredentialPipelinePolicyOptions): void;
 
 // @public
 export interface AddCredentialPipelinePolicyOptions {
@@ -129,6 +129,7 @@ export type ClientOptions = PipelineOptions & {
         apiKeyHeaderName?: string;
     };
     baseUrl?: string;
+    endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
@@ -262,10 +263,10 @@ export interface FullOperationResponse extends PipelineResponse {
 }
 
 // @public
-export function getClient(baseUrl: string, options?: ClientOptions): Client;
+export function getClient(endpoint: string, options?: ClientOptions): Client;
 
 // @public
-export function getClient(baseUrl: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
+export function getClient(endpoint: string, credentials?: TokenCredential | KeyCredential, options?: ClientOptions): Client;
 
 // @public
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined;
@@ -370,6 +371,9 @@ export const isDeno: boolean;
 
 // @public
 export function isError(e: unknown): e is Error;
+
+// @public
+export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
 // @public
 export const isNode: boolean;

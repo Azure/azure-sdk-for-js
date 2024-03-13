@@ -1,8 +1,12 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types/latest"
+    "paths": {
+      "@azure-rest/core-client": ["./src/index.ts"]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"]
+  "include": ["./src/**/*.ts", "./src/**/*.mts", "./src/**/*.cts", "./test/**/*.ts"]
 }

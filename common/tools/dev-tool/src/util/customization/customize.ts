@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license
 
-import { copyFile, stat, readFile, writeFile, readdir } from "fs/promises";
+import { copyFile, stat, readFile, writeFile, readdir } from "node:fs/promises";
 import { ensureDir, copy } from "fs-extra";
 import path from "../pathUtil";
 import {
@@ -23,7 +23,6 @@ import { augmentTypeAliases } from "./aliases";
 import { setCustomizationState, resetCustomizationState } from "./state";
 import { getNewCustomFiles } from "./helpers/files";
 import { augmentImports } from "./imports";
-
 import { format } from "../prettier";
 import { augmentExports } from "./exports";
 

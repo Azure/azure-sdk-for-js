@@ -19,7 +19,7 @@ import {
   PrepareNetworkPoliciesRequest,
   SubnetsPrepareNetworkPoliciesOptionalParams,
   UnprepareNetworkPoliciesRequest,
-  SubnetsUnprepareNetworkPoliciesOptionalParams
+  SubnetsUnprepareNetworkPoliciesOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface Subnets {
   list(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: SubnetsListOptionalParams
+    options?: SubnetsListOptionalParams,
   ): PagedAsyncIterableIterator<Subnet>;
   /**
    * Deletes the specified subnet.
@@ -47,7 +47,7 @@ export interface Subnets {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetsDeleteOptionalParams
+    options?: SubnetsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified subnet.
@@ -60,7 +60,7 @@ export interface Subnets {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetsDeleteOptionalParams
+    options?: SubnetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified subnet by virtual network and resource group.
@@ -73,7 +73,7 @@ export interface Subnets {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetsGetOptionalParams
+    options?: SubnetsGetOptionalParams,
   ): Promise<SubnetsGetResponse>;
   /**
    * Creates or updates a subnet in the specified virtual network.
@@ -88,7 +88,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     subnetParameters: Subnet,
-    options?: SubnetsCreateOrUpdateOptionalParams
+    options?: SubnetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<SubnetsCreateOrUpdateResponse>,
@@ -108,7 +108,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     subnetParameters: Subnet,
-    options?: SubnetsCreateOrUpdateOptionalParams
+    options?: SubnetsCreateOrUpdateOptionalParams,
   ): Promise<SubnetsCreateOrUpdateResponse>;
   /**
    * Prepares a subnet by applying network intent policies.
@@ -124,7 +124,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     prepareNetworkPoliciesRequestParameters: PrepareNetworkPoliciesRequest,
-    options?: SubnetsPrepareNetworkPoliciesOptionalParams
+    options?: SubnetsPrepareNetworkPoliciesOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Prepares a subnet by applying network intent policies.
@@ -140,7 +140,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     prepareNetworkPoliciesRequestParameters: PrepareNetworkPoliciesRequest,
-    options?: SubnetsPrepareNetworkPoliciesOptionalParams
+    options?: SubnetsPrepareNetworkPoliciesOptionalParams,
   ): Promise<void>;
   /**
    * Unprepares a subnet by removing network intent policies.
@@ -156,7 +156,7 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     unprepareNetworkPoliciesRequestParameters: UnprepareNetworkPoliciesRequest,
-    options?: SubnetsUnprepareNetworkPoliciesOptionalParams
+    options?: SubnetsUnprepareNetworkPoliciesOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Unprepares a subnet by removing network intent policies.
@@ -172,6 +172,6 @@ export interface Subnets {
     virtualNetworkName: string,
     subnetName: string,
     unprepareNetworkPoliciesRequestParameters: UnprepareNetworkPoliciesRequest,
-    options?: SubnetsUnprepareNetworkPoliciesOptionalParams
+    options?: SubnetsUnprepareNetworkPoliciesOptionalParams,
   ): Promise<void>;
 }

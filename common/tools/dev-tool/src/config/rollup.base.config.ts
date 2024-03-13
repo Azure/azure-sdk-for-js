@@ -8,14 +8,12 @@ import {
   RollupLog,
   WarningHandlerWithDefault,
 } from "rollup";
-
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
-import * as path from "path";
+import * as path from "node:path";
 import { readFile } from "node:fs/promises";
-
 import nodeBuiltins from "builtin-modules";
 import { createPrinter } from "../util/printer";
 
@@ -135,6 +133,11 @@ export function sourcemaps() {
     name: "load-source-maps",
     async load(this: PluginContext, id: string): Promise<LoadResult> {
       if (!id.endsWith(".js")) {
+        return null;
+      }
+      if (id.startsWith("\x00")) {
+        // Some Rollup plugins mark virtual modules with \0 prefix. Other plugins should not try to process it.
+        //     https://rollupjs.org/plugin-development/#conventions
         return null;
       }
       try {

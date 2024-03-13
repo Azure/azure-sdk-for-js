@@ -31,7 +31,7 @@ async function deleteASuppressionListsResource() {
     resourceGroupName,
     emailServiceName,
     domainName,
-    suppressionListName
+    suppressionListName,
   );
   console.log(result);
 }

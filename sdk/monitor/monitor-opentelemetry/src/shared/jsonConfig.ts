@@ -36,6 +36,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
 
   private static _instance: JsonConfig;
 
+  private _tempDir: string;
+
   /** Get Singleton instance */
   public static getInstance() {
     if (!JsonConfig._instance) {
@@ -48,11 +50,8 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
    * Initializes a new instance of the JsonConfig class.
    */
   constructor() {
-    this._loadJsonFile();
-  }
-
-  private _loadJsonFile() {
     let jsonString = "";
+    this._tempDir = "";
     const contentJsonConfig = process.env[ENV_CONTENT];
     // JSON string added directly in env variable
     if (contentJsonConfig) {
@@ -62,17 +61,17 @@ export class JsonConfig implements AzureMonitorOpenTelemetryOptions {
     else {
       let configFileName = "applicationinsights.json";
       let rootPath = path.join(__dirname, "../../../"); // Root of folder (__dirname = ../dist-esm/src)
-      let tempDir = path.join(rootPath, configFileName); // default
+      this._tempDir = path.join(rootPath, configFileName); // default
       let configFile = process.env[ENV_CONFIGURATION_FILE];
       if (configFile) {
         if (path.isAbsolute(configFile)) {
-          tempDir = configFile;
+          this._tempDir = configFile;
         } else {
-          tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
+          this._tempDir = path.join(rootPath, configFile); // Relative path to applicationinsights folder
         }
       }
       try {
-        jsonString = fs.readFileSync(tempDir, "utf8");
+        jsonString = fs.readFileSync(this._tempDir, "utf8");
       } catch (err) {
         Logger.getInstance().info("Failed to read JSON config file: ", err);
       }

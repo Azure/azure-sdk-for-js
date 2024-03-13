@@ -33,7 +33,7 @@ async function getASuppressionListAddressResource() {
     emailServiceName,
     domainName,
     suppressionListName,
-    addressId
+    addressId,
   );
   console.log(result);
 }

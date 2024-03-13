@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateMobilityServiceRequest,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
  *
  * @summary The operation to update(push update) the installed mobility service software on a replication protected item to the latest available version.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_UpdateMobilityService.json
  */
 async function updateTheMobilityServiceOnAProtectedItem() {
   const subscriptionId =
@@ -35,18 +35,19 @@ async function updateTheMobilityServiceOnAProtectedItem() {
   const protectionContainerName = "cloud_c6780228-83bd-4f3e-a70e-cb46b7da33a0";
   const replicatedProtectedItemName = "79dd20ab-2b40-11e7-9791-0050568f387e";
   const updateMobilityServiceRequest: UpdateMobilityServiceRequest = {
-    properties: { runAsAccountId: "2" }
+    properties: { runAsAccountId: "2" },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
-  const result = await client.replicationProtectedItems.beginUpdateMobilityServiceAndWait(
-    resourceName,
-    resourceGroupName,
-    fabricName,
-    protectionContainerName,
-    replicatedProtectedItemName,
-    updateMobilityServiceRequest
-  );
+  const result =
+    await client.replicationProtectedItems.beginUpdateMobilityServiceAndWait(
+      resourceName,
+      resourceGroupName,
+      fabricName,
+      protectionContainerName,
+      replicatedProtectedItemName,
+      updateMobilityServiceRequest,
+    );
   console.log(result);
 }
 

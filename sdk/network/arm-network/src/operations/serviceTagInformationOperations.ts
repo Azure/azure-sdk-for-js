@@ -18,13 +18,14 @@ import {
   ServiceTagInformationListNextOptionalParams,
   ServiceTagInformationListOptionalParams,
   ServiceTagInformationListResponse,
-  ServiceTagInformationListNextResponse
+  ServiceTagInformationListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ServiceTagInformationOperations operations. */
 export class ServiceTagInformationOperationsImpl
-  implements ServiceTagInformationOperations {
+  implements ServiceTagInformationOperations
+{
   private readonly client: NetworkManagementClient;
 
   /**
@@ -44,7 +45,7 @@ export class ServiceTagInformationOperationsImpl
    */
   public list(
     location: string,
-    options?: ServiceTagInformationListOptionalParams
+    options?: ServiceTagInformationListOptionalParams,
   ): PagedAsyncIterableIterator<ServiceTagInformation> {
     const iter = this.listPagingAll(location, options);
     return {
@@ -59,14 +60,14 @@ export class ServiceTagInformationOperationsImpl
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     location: string,
     options?: ServiceTagInformationListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServiceTagInformation[]> {
     let result: ServiceTagInformationListResponse;
     let continuationToken = settings?.continuationToken;
@@ -88,7 +89,7 @@ export class ServiceTagInformationOperationsImpl
 
   private async *listPagingAll(
     location: string,
-    options?: ServiceTagInformationListOptionalParams
+    options?: ServiceTagInformationListOptionalParams,
   ): AsyncIterableIterator<ServiceTagInformation> {
     for await (const page of this.listPagingPage(location, options)) {
       yield* page;
@@ -104,11 +105,11 @@ export class ServiceTagInformationOperationsImpl
    */
   private _list(
     location: string,
-    options?: ServiceTagInformationListOptionalParams
+    options?: ServiceTagInformationListOptionalParams,
   ): Promise<ServiceTagInformationListResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -123,11 +124,11 @@ export class ServiceTagInformationOperationsImpl
   private _listNext(
     location: string,
     nextLink: string,
-    options?: ServiceTagInformationListNextOptionalParams
+    options?: ServiceTagInformationListNextOptionalParams,
   ): Promise<ServiceTagInformationListNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -135,47 +136,46 @@ export class ServiceTagInformationOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/serviceTagDetails",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceTagInformationListResult
+      bodyMapper: Mappers.ServiceTagInformationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.noAddressPrefixes,
-    Parameters.tagName
+    Parameters.tagName,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceTagInformationListResult
+      bodyMapper: Mappers.ServiceTagInformationListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

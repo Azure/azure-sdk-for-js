@@ -1,10 +1,6 @@
 # Release History
 
-## 1.14.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.15.0 (2024-03-12)
 
 ### Bugs Fixed
 
@@ -13,6 +9,8 @@
 ### Other Changes
 
 - In the browser, `formDataPolicy` once again uses `multipartPolicy` when content type is `multipart/form-data`. This functionality was removed in 1.14.0, but has now been re-enabled.
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.14.0 (2024-02-01)
 

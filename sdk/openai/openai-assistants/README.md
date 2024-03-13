@@ -90,7 +90,8 @@ const messageResponse = await assistantsClient.createMessage(assistantThread.id,
 A Run represent an invocation of an Assistant on a Thread. The Assistant uses it’s configuration and the Thread’s Messages to perform tasks by calling models and tools. As part of a Run, the Assistant appends Messages to the Thread.
 A run can then be started that evaluates the thread against an assistant:
 ```javascript Snippet:OverviewCreateRun
-let runResponse = await assistantsClient.createRun(assistantThread.id, assistant.id, {
+let runResponse = await assistantsClient.createRun(assistantThread.id, {
+   assistantId: assistant.id,
    instructions: "Please address the user as Jane Doe. The user has a premium account." 
 });
 ```

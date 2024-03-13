@@ -30,7 +30,7 @@ async function getAllSenderUsernamesResourcesForADomain() {
   for await (let item of client.senderUsernames.listByDomains(
     resourceGroupName,
     emailServiceName,
-    domainName
+    domainName,
   )) {
     resArray.push(item);
   }

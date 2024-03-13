@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert, describe, it, vi } from "vitest";
-
 import {
   type PipelineResponse,
   type SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   ndJsonPolicy,
-} from "../src";
+} from "../src/index.js";
+import { describe, it, assert, vi } from "vitest";
 
 describe("NdJsonPolicy", function () {
   it("Formats arrays correctly", async function () {

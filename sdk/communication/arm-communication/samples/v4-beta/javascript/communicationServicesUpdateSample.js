@@ -32,7 +32,7 @@ async function updateResource() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -60,7 +60,7 @@ async function updateResourceToAddSystemAndUserManagedIdentities() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -85,7 +85,7 @@ async function updateResourceToAddASystemAssignedManagedIdentity() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -113,7 +113,7 @@ async function updateResourceToAddAUserAssignedManagedIdentity() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -137,7 +137,7 @@ async function updateResourceToRemoveIdentity() {
   const result = await client.communicationServices.update(
     resourceGroupName,
     communicationServiceName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

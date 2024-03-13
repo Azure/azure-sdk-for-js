@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to get the details of a protectable item.
  *
  * @summary The operation to get the details of a protectable item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectableItems_Get.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectableItems_Get.json
  */
 async function getsTheDetailsOfAProtectableItem() {
   const subscriptionId =
@@ -38,7 +38,7 @@ async function getsTheDetailsOfAProtectableItem() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    protectableItemName
+    protectableItemName,
   );
   console.log(result);
 }
