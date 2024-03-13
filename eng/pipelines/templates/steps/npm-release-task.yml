@@ -15,6 +15,10 @@ steps:
         condition: succeeded()
       - pwsh: >
           $artifactFolder = $(Package.Archive) -replace '[^\/]+$', ''
+          Write-Host "archive"
+          write-host $(Package.Archive)
+          write-host "artifact folder"
+          write-host $artifactFolder
           Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
       - ${{ if contains(variables.NpmPublishList, parameters.Artifact.name) }}:
           - pwsh: write-host ${{parameters.Artifact.name}}; write-host $(NpmPublishList)
