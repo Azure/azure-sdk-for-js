@@ -1,4 +1,5 @@
 parameters:
+  ArtifactName: ''
   Artifact: {}
   Registry: ''
 
@@ -6,7 +7,7 @@ steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
   - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
       - task: PowerShell@2
-        displayName: Get package list
+        displayName: Create publish package directory
         inputs:
           targetType: filePath
           filePath: eng/tools/publish-to-npm.ps1
@@ -21,23 +22,19 @@ steps:
           write-host "artifact folder"
           write-host $artifactFolder
           Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
-      - ${{ if contains(variables.NpmPublishList, parameters.Artifact.name) }}:
-          - pwsh: |
-              write-host ${{parameters.Artifact.name}}
-              write-host $(NpmPublishList)
-          - task: EsrpRelease@6
-            inputs:
-              displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
-              ConnectedServiceName: 'ESRP Release Service'
-              Intent: 'PackageDistribution'
-              ContentType: 'npm'
-              FolderLocation: $(artifactFolder)
-              Owners: $(Build.RequestedForEmail)
-              Approvers: 'azuresdk@microsoft.com'
-              ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
-              MainPublisher: 'ESRPRELPACMANTEST'
-              DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
-              ProductStateField: $(Tag)
+      - task: EsrpRelease@6
+        inputs:
+          displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
+          ConnectedServiceName: 'ESRP Release Service'
+          Intent: 'PackageDistribution'
+          ContentType: 'npm'
+          FolderLocation: $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}}/${{parameters.artifact.name}}
+          Owners: $(Build.RequestedForEmail)
+          Approvers: 'azuresdk@microsoft.com'
+          ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
+          MainPublisher: 'ESRPRELPACMANTEST'
+          DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+          ProductStateField: $(Tag)
 
       - pwsh: |
           $packageList = @()
@@ -50,9 +47,12 @@ steps:
               }
           }
 
+          Remove-Item $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}} -Recurse
+        displayName: Add Additional Tags
+
   - ${{ else }}:
       - task: PowerShell@2
-        displayName: Publish to dev feed
+        displayName: Publish to Dev Feed
         inputs:
           targetType: filePath
           filePath: eng/tools/publish-to-npm.ps1

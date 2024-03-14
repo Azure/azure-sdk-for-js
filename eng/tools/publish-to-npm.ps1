@@ -153,14 +153,13 @@ try {
             }
         }
         elseif ($p.Publish -and $publishToNpm) {
-          $publishList += $p.TarGz
+          $artifactSubPath = $pathToArtifacts -replace '$(Pipeline.Workspace)\/', ''
+          write-host "Copy $($p.TarGz) to $artifactSubPath"
+          Copy-Item -Path $($p.TarGz) -Destination "$(System.DefaultWorkingDirectory)/temp/$artifactSubPath"
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
         }
-    }
-    if ($publishToNpm) {
-      Write-Host "##vso[task.setvariable variable=NpmPublishList;]$($publishList)"
     }
 }
 finally
