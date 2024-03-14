@@ -8,9 +8,7 @@
 
 - Adds support for vitest
 
-### Breaking Changes
-
-## 3.1.0 (Unreleased)
+## 3.1.0 (2023-03-14)
 
 ### Features Added
 
