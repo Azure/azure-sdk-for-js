@@ -15,7 +15,7 @@ steps:
         condition: succeeded()
       - pwsh: |
           write-host "$(Package.Archive)"
-          $artifactFolder = "$(Package.Archive)".Replace('[^\/]+$', '')
+          $artifactFolder = "$(Package.Archive)" -Replace '[^\/]+$', ''
           Write-Host "archive"
           write-host "$(Package.Archive)"
           write-host "artifact folder"
