@@ -32,6 +32,7 @@ import {
   ContentFilterResultsForPrompt,
   FunctionCall,
   ImageGenerations,
+  StopFinishDetails,
 } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { get } from "./utils.js";
@@ -215,7 +216,7 @@ function assertChatFinishDetails(val: ChatFinishDetails): void {
     case "max_tokens":
       break;
     case "stop": {
-      assert.isString(val.stop);
+      assert.isString((val as StopFinishDetails).stop);
       break;
     }
   }

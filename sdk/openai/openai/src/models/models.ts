@@ -1687,6 +1687,7 @@ export type ChatCompletionsToolDefinitionUnion =
 /** Alias for ChatCompletionsNamedToolSelectionUnion */
 export type ChatCompletionsNamedToolSelectionUnion =
   | ChatCompletionsNamedFunctionToolSelection
+  | ChatCompletionsToolSelectionPreset
   | ChatCompletionsNamedToolSelection;
 /** Alias for ChatFinishDetailsUnion */
 export type ChatFinishDetailsUnion =

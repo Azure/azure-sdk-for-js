@@ -254,7 +254,7 @@ export interface ChatCompletionsNamedToolSelection {
 }
 
 // @public
-export type ChatCompletionsNamedToolSelectionUnion = ChatCompletionsNamedFunctionToolSelection | ChatCompletionsNamedToolSelection;
+export type ChatCompletionsNamedToolSelectionUnion = ChatCompletionsNamedFunctionToolSelection | ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
 
 // @public
 export interface ChatCompletionsResponseFormat {

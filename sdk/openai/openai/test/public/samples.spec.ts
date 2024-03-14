@@ -146,7 +146,7 @@ describe("README samples", () => {
       const choice = result.choices[0];
       const responseMessage = choice.message;
       if (responseMessage?.role === "assistant") {
-        const requestedToolCalls = responseMessage?.toolCalls;
+        const requestedToolCalls = responseMessage?.toolCalls as ChatCompletionsFunctionToolCall[];
         if (requestedToolCalls?.length) {
           const toolCallResolutionMessages = [
             ...messages,

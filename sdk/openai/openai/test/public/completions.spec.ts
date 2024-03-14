@@ -20,7 +20,7 @@ import {
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
-import { ChatRequestMessage, OpenAIClient } from "../../src/index.js";
+import { ChatCompletionsFunctionToolCall, ChatRequestMessage, ChatRequestMessageUnion, OpenAIClient } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
 describe("OpenAI", function () {
@@ -213,7 +213,7 @@ describe("OpenAI", function () {
                   chatCompletionModels,
                 ),
                 async (deploymentName) => {
-                  const weatherMessages: ChatRequestMessage[] = [
+                  const weatherMessages: ChatRequestMessageUnion[] = [
                     { role: "user", content: "What's the weather like in Boston?" },
                   ];
                   const result = await client.getChatCompletions(deploymentName, weatherMessages, {
@@ -339,7 +339,7 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   assert.isDefined(res.choices[0].message?.toolCalls);
-                  const argument = res.choices[0].message?.toolCalls[0].function.arguments;
+                  const argument = (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall).function.arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
               ),
@@ -436,7 +436,7 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   assert.equal(
-                    res.choices[0].message?.toolCalls[0].function.name,
+              (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall).function.name,
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);
