@@ -98,7 +98,7 @@
     "@azure/identity": "^4.0.1",
     "@azure/keyvault-secrets": "^4.2.0",
     "@azure-tools/test-credential": "^1.0.0",
-    "@azure-tools/test-recorder": "^3.1.0",
+    "@azure-tools/test-recorder": "^3.2.0",
     "@azure/test-utils": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
@@ -123,7 +123,8 @@
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "tsx": "^4.7.1",
-    "typescript": "~5.3.3"
+    "typescript": "~5.3.3",
+    "tshy": "^1.11.1"
   },
   "//sampleConfiguration": {
     "productName": "Azure App Configuration",
@@ -137,6 +138,20 @@
     "skip": [
       "secretReference.js",
       "updateSyncTokenSample.js"
+    ]
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
     ]
   }
 }
