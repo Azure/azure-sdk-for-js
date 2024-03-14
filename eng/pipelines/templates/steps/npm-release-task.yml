@@ -8,6 +8,7 @@ steps:
   - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
       - task: PowerShell@2
         displayName: Create publish package directory
+        WorkingDirectory: $(System.DefaultWorkingDirectory)
         inputs:
           targetType: filePath
           filePath: eng/tools/publish-to-npm.ps1
