@@ -73,12 +73,7 @@ export interface AzureChatEnhancements {
 }
 
 // @public
-export interface AzureChatExtensionConfiguration {
-    type: AzureChatExtensionType;
-}
-
-// @public
-export type AzureChatExtensionConfigurationUnion = AzureCognitiveSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | AzureChatExtensionConfiguration;
+export type AzureChatExtensionConfiguration = AzureCognitiveSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration;
 
 // @public
 export interface AzureChatExtensionsMessageContext {
@@ -99,13 +94,7 @@ export interface AzureChatOCREnhancementConfiguration {
 }
 
 // @public
-export interface AzureCognitiveSearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    parameters: AzureCognitiveSearchChatExtensionParameters;
-    type: "AzureCognitiveSearch";
-}
-
-// @public
-export interface AzureCognitiveSearchChatExtensionParameters {
+export interface AzureCognitiveSearchChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     embeddingDependency?: OnYourDataVectorizationSourceUnion;
     embeddingEndpoint?: string;
@@ -121,6 +110,7 @@ export interface AzureCognitiveSearchChatExtensionParameters {
     semanticConfiguration?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureCognitiveSearch";
 }
 
 // @public
@@ -138,23 +128,18 @@ export interface AzureCognitiveSearchIndexFieldMappingOptions {
 export type AzureCognitiveSearchQueryType = string;
 
 // @public
-export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    parameters: AzureCosmosDBChatExtensionParameters;
-    type: "AzureCosmosDB";
-}
-
-// @public
-export interface AzureCosmosDBChatExtensionParameters {
+export interface AzureCosmosDBChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     containerName: string;
     databaseName: string;
-    embeddingDependency: OnYourDataVectorizationSourceUnion;
+    embeddingDependency?: OnYourDataVectorizationSourceUnion;
     fieldsMapping: AzureCosmosDBFieldMappingOptions;
     indexName: string;
     inScope?: boolean;
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureCosmosDB";
 }
 
 // @public
@@ -170,7 +155,7 @@ export interface AzureCosmosDBFieldMappingOptions {
 // @public
 export interface AzureExtensionsOptions {
     enhancements?: AzureChatEnhancementConfiguration;
-    extensions?: AzureChatExtensionConfigurationUnion[];
+    extensions?: AzureChatExtensionConfiguration[];
 }
 
 // @public
@@ -201,13 +186,7 @@ export interface AzureGroundingEnhancementLineSpan {
 export { AzureKeyCredential }
 
 // @public
-export interface AzureMachineLearningIndexChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    parameters: AzureMachineLearningIndexChatExtensionParameters;
-    type: "AzureMLIndex";
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionParameters {
+export interface AzureMachineLearningIndexChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     filter?: string;
     inScope?: boolean;
@@ -216,6 +195,7 @@ export interface AzureMachineLearningIndexChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "AzureMLIndex";
     version: string;
 }
 
@@ -519,13 +499,7 @@ export interface ContentFilterSuccessResultsForChoice {
 }
 
 // @public
-export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    parameters: ElasticsearchChatExtensionParameters;
-    type: "Elasticsearch";
-}
-
-// @public
-export interface ElasticsearchChatExtensionParameters {
+export interface ElasticsearchChatExtensionConfiguration {
     authentication?: OnYourDataAuthenticationOptionsUnion;
     embeddingDependency?: OnYourDataVectorizationSourceUnion;
     endpoint: string;
@@ -536,6 +510,7 @@ export interface ElasticsearchChatExtensionParameters {
     roleInformation?: string;
     strictness?: number;
     topNDocuments?: number;
+    type: "Elasticsearch";
 }
 
 // @public
@@ -621,8 +596,8 @@ export interface GetChatCompletionsOptions extends OperationOptions {
     seed?: number;
     stop?: string[];
     temperature?: number;
-    toolChoice?: ChatCompletionsNamedToolSelection;
-    tools?: ChatCompletionsToolDefinition[];
+    toolChoice?: ChatCompletionsNamedToolSelectionUnion;
+    tools?: ChatCompletionsToolDefinitionUnion[];
     topP?: number;
     user?: string;
 }
@@ -801,8 +776,16 @@ export class OpenAIKeyCredential implements KeyCredential {
 }
 
 // @public
-export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-    parameters: PineconeChatExtensionParameters;
+export interface PineconeChatExtensionConfiguration {
+    authentication?: OnYourDataAuthenticationOptions;
+    embeddingDependency?: OnYourDataVectorizationSource;
+    environment: string;
+    fieldsMapping: PineconeFieldMappingOptions;
+    indexName: string;
+    inScope?: boolean;
+    roleInformation?: string;
+    strictness?: number;
+    topNDocuments?: number;
     type: "Pinecone";
 }
 

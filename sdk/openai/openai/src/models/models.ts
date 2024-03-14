@@ -148,7 +148,7 @@ export interface AzureExtensionsOptions {
    *   The configuration entries for Azure OpenAI chat extensions that use them.
    *   This additional specification is only compatible with Azure OpenAI.
    */
-  extensions?: AzureChatExtensionConfigurationUnion[];
+  extensions?: AzureChatExtensionConfiguration[];
   /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
   enhancements?: AzureChatEnhancementConfiguration;
 }
@@ -608,7 +608,7 @@ export interface ChatCompletionsOptions {
    *   The configuration entries for Azure OpenAI chat extensions that use them.
    *   This additional specification is only compatible with Azure OpenAI.
    */
-  dataSources?: AzureChatExtensionConfigurationUnion[];
+  dataSources?: AzureChatExtensionConfiguration[];
   /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
   enhancements?: AzureChatEnhancementConfiguration;
   /**
@@ -803,32 +803,15 @@ export interface FunctionName {
 }
 
 /**
- *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
- *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
- *   The use of this configuration is compatible only with Azure OpenAI.
- */
-export interface AzureChatExtensionConfiguration {
-  /** the discriminator possible values: AzureCognitiveSearch, AzureMLIndex, AzureCosmosDB, Elasticsearch, Pinecone */
-  type: AzureChatExtensionType;
-}
-
-/**
  * A specific representation of configurable options for Azure Cognitive Search when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCognitiveSearchChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface AzureCognitiveSearchChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cognitive Search.
    */
   type: "AzureCognitiveSearch";
-  /** The parameters to use when configuring Azure Cognitive Search. */
-  parameters: AzureCognitiveSearchChatExtensionParameters;
-}
-
-/** Parameters for Azure Cognitive Search when used as an Azure OpenAI chat extension. The supported authentication types are APIKey, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
-export interface AzureCognitiveSearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -859,7 +842,7 @@ export interface AzureCognitiveSearchChatExtensionParameters {
   semanticConfiguration?: string;
   /** Search filter. */
   filter?: string;
-  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}. */
+  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format `https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}`. */
   embeddingEndpoint?: string;
   /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
   embeddingKey?: string;
@@ -1017,19 +1000,12 @@ export type OnYourDataVectorizationSourceType = string;
  * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
  * OpenAI chat extension.
  */
-export interface AzureMachineLearningIndexChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface AzureMachineLearningIndexChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Machine Learning vector index.
    */
   type: "AzureMLIndex";
-  /** The parameters for the Azure Machine Learning vector index chat extension. */
-  parameters: AzureMachineLearningIndexChatExtensionParameters;
-}
-
-/** Parameters for the Azure Machine Learning vector index chat extension. The supported authentication types are AccessToken, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
-export interface AzureMachineLearningIndexChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1057,25 +1033,15 @@ export interface AzureMachineLearningIndexChatExtensionParameters {
 }
 
 /**
- * A specific representation of configurable options for Azure Cosmos DB when using it as an Azure OpenAI chat
+ * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCosmosDBChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface AzureCosmosDBChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cosmos DB.
    */
   type: "AzureCosmosDB";
-  /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
-  parameters: AzureCosmosDBChatExtensionParameters;
-}
-
-/**
- * Parameters to use when configuring Azure OpenAI On Your Data chat extensions when using Azure Cosmos DB for
- * MongoDB vCore. The supported authentication type is ConnectionString.
- */
-export interface AzureCosmosDBChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1101,9 +1067,8 @@ export interface AzureCosmosDBChatExtensionParameters {
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: AzureCosmosDBFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency: OnYourDataVectorizationSourceUnion;
+  embeddingDependency?: OnYourDataVectorizationSourceUnion;
 }
-
 /** Optional settings to control how fields are processed when using a configured Azure Cosmos DB resource. */
 export interface AzureCosmosDBFieldMappingOptions {
   /** The name of the index field to use as a title. */
@@ -1124,19 +1089,12 @@ export interface AzureCosmosDBFieldMappingOptions {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface ElasticsearchChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface ElasticsearchChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Elasticsearch®.
    */
   type: "Elasticsearch";
-  /** The parameters to use when configuring Elasticsearch®. */
-  parameters: ElasticsearchChatExtensionParameters;
-}
-
-/** Parameters to use when configuring Elasticsearch® as an Azure OpenAI chat extension. The supported authentication types are KeyAndKeyId and EncodedAPIKey. */
-export interface ElasticsearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1185,20 +1143,54 @@ export interface ElasticsearchIndexFieldMappingOptions {
 /** "simple", "vector" */
 export type ElasticsearchQueryType = string;
 
+
 /**
- * A specific representation of configurable options for Pinecone when using it as an Azure OpenAI chat
+ * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface PineconeChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface PineconeChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
    */
   type: "Pinecone";
-  /** The parameters to use when configuring Azure OpenAI chat extensions. */
-  parameters: PineconeChatExtensionParameters;
+  /**
+   * The authentication method to use when accessing the defined data source.
+   * Each data source type supports a specific set of available authentication methods; please see the documentation of
+   * the data source for supported mechanisms.
+   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
+   * authentication.
+   */
+  authentication?: OnYourDataAuthenticationOptions;
+  /** The configured top number of documents to feature for the configured query. */
+  topNDocuments?: number;
+  /** Whether queries should be restricted to use of indexed data. */
+  inScope?: boolean;
+  /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
+  strictness?: number;
+  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
+  roleInformation?: string;
+  /** The environment name of Pinecone. */
+  environment: string;
+  /** The name of the Pinecone database index. */
+  indexName: string;
+  /** Customized field mapping behavior to use when interacting with the search index. */
+  fieldsMapping: PineconeFieldMappingOptions;
+  /** The embedding dependency for vector search. */
+  embeddingDependency?: OnYourDataVectorizationSource;
 }
+/**
+ * 
+ *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
+ *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
+ *   The use of this configuration is compatible only with Azure OpenAI.
+ */
+export type AzureChatExtensionConfiguration =
+  | AzureCognitiveSearchChatExtensionConfiguration
+  | AzureMachineLearningIndexChatExtensionConfiguration
+  | AzureCosmosDBChatExtensionConfiguration
+  | ElasticsearchChatExtensionConfiguration
+  | PineconeChatExtensionConfiguration;
 
 /** Parameters for configuring Azure OpenAI Pinecone chat extensions. The supported authentication type is APIKey. */
 export interface PineconeChatExtensionParameters {
@@ -1667,14 +1659,6 @@ export type ChatMessageContentItemUnion =
 export type ChatCompletionsToolCallUnion =
   | ChatCompletionsFunctionToolCall
   | ChatCompletionsToolCall;
-/** Alias for AzureChatExtensionConfigurationUnion */
-export type AzureChatExtensionConfigurationUnion =
-  | AzureCognitiveSearchChatExtensionConfiguration
-  | AzureMachineLearningIndexChatExtensionConfiguration
-  | AzureCosmosDBChatExtensionConfiguration
-  | ElasticsearchChatExtensionConfiguration
-  | PineconeChatExtensionConfiguration
-  | AzureChatExtensionConfiguration;
 /** Alias for OnYourDataAuthenticationOptionsUnion */
 export type OnYourDataAuthenticationOptionsUnion =
   | OnYourDataApiKeyAuthenticationOptions

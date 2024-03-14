@@ -4,9 +4,9 @@
 import { OperationOptions } from "@azure-rest/core-client";
 import {
   AzureExtensionsOptions,
-  ChatCompletionsNamedToolSelection,
+  ChatCompletionsNamedToolSelectionUnion,
   ChatCompletionsResponseFormat,
-  ChatCompletionsToolDefinition,
+  ChatCompletionsToolDefinitionUnion,
   FunctionCallPreset,
   FunctionDefinition,
   FunctionName,
@@ -244,9 +244,9 @@ export interface GetChatCompletionsOptions extends OperationOptions {
   /** An object specifying the format that the model must output. Used to enable JSON mode. */
   responseFormat?: ChatCompletionsResponseFormat;
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
-  tools?: ChatCompletionsToolDefinition[];
+  tools?: ChatCompletionsToolDefinitionUnion[];
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
-  toolChoice?: ChatCompletionsNamedToolSelection;
+  toolChoice?: ChatCompletionsNamedToolSelectionUnion;
   /**
    *   The configuration entries for Azure OpenAI chat extensions that use them.
    *   This additional specification is only compatible with Azure OpenAI.
