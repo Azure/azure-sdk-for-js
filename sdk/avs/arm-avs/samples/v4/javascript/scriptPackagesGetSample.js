@@ -29,7 +29,7 @@ async function scriptPackagesGet() {
   const result = await client.scriptPackages.get(
     resourceGroupName,
     privateCloudName,
-    scriptPackageName
+    scriptPackageName,
   );
   console.log(result);
 }

@@ -3,7 +3,7 @@
   "author": "Microsoft Corporation",
   "sdk-type": "client",
   "type": "module",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "exports": {
     "./package.json": "./package.json",
@@ -26,6 +26,11 @@
       }
     }
   },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "tags": [

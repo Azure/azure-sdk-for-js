@@ -6,6 +6,7 @@ import { LogRecord } from "@opentelemetry/sdk-logs";
 import {
   DocumentIngress,
   Exception,
+  KeyValuePairString,
   KnownDocumentIngressDocumentType,
   MetricPoint,
   MonitoringDataPoint,
@@ -30,6 +31,7 @@ import { Resource } from "@opentelemetry/resources";
 import { QuickPulseMetricNames, QuickPulseOpenTelemetryMetricNames } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
+import { LogAttributes } from "@opentelemetry/api-logs";
 
 /** Get the internal SDK version */
 export function getSdkVersion(): string {
@@ -229,6 +231,7 @@ export function getSpanDocument(span: ReadableSpan): Request | RemoteDependency 
       duration: hrTimeToMilliseconds(span.duration).toString(),
     };
   }
+  document.properties = createPropertiesFromAttributes(span.attributes);
   return document;
 }
 
@@ -250,7 +253,44 @@ export function getLogDocument(logRecord: LogRecord): Trace | Exception {
       message: String(logRecord.body),
     };
   }
+  document.properties = createPropertiesFromAttributes(logRecord.attributes);
   return document;
+}
+
+function createPropertiesFromAttributes(
+  attributes?: Attributes | LogAttributes,
+): KeyValuePairString[] {
+  const properties: KeyValuePairString[] = [];
+  if (attributes) {
+    for (const key of Object.keys(attributes)) {
+      // Avoid duplication ignoring fields already mapped.
+      if (
+        !(
+          key.startsWith("_MS.") ||
+          key === SemanticAttributes.NET_PEER_IP ||
+          key === SemanticAttributes.NET_PEER_NAME ||
+          key === SemanticAttributes.PEER_SERVICE ||
+          key === SemanticAttributes.HTTP_METHOD ||
+          key === SemanticAttributes.HTTP_URL ||
+          key === SemanticAttributes.HTTP_STATUS_CODE ||
+          key === SemanticAttributes.HTTP_ROUTE ||
+          key === SemanticAttributes.HTTP_HOST ||
+          key === SemanticAttributes.HTTP_URL ||
+          key === SemanticAttributes.DB_SYSTEM ||
+          key === SemanticAttributes.DB_STATEMENT ||
+          key === SemanticAttributes.DB_OPERATION ||
+          key === SemanticAttributes.DB_NAME ||
+          key === SemanticAttributes.RPC_SYSTEM ||
+          key === SemanticAttributes.RPC_GRPC_STATUS_CODE ||
+          key === SemanticAttributes.EXCEPTION_TYPE ||
+          key === SemanticAttributes.EXCEPTION_MESSAGE
+        )
+      ) {
+        properties.push({ key: key, value: attributes[key] as string });
+      }
+    }
+  }
+  return properties;
 }
 
 function getUrl(attributes: Attributes): string {
