@@ -14,7 +14,6 @@ steps:
           arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
           pwsh: true
         condition: succeeded()
-        workingDirectory: $(System.DefaultWorkingDirectory)
       - pwsh: |
           write-host "$(Package.Archive)"
           $artifactFolder = "$(Package.Archive)" -Replace '[^\/]+$', ''
