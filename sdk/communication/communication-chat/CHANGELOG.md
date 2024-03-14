@@ -2,13 +2,9 @@
 
 ## 1.4.1 (Unreleased)
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
-### Other Changes
+- Updated to @azure/communication-signaling@1.0.0-beta.24 to fix the real time notification issues in React Native.
 
 ## 1.4.0 (2023-12-04)
 
