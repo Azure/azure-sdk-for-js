@@ -42,7 +42,7 @@ import {
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
-import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
+import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 
@@ -137,11 +137,11 @@ export class LiveMetrics {
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
     });
     let exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
@@ -464,7 +464,7 @@ export class LiveMetrics {
     }
     this.lastDependencyDuration = {
       count: this.totalDependencyCount,
-      duration: this.requestDuration,
+      duration: this.dependencyDuration,
       time: currentTime,
     };
   }

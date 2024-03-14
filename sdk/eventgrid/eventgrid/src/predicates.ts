@@ -204,6 +204,8 @@ import {
   StorageTaskAssignmentCompletedEventData,
   AvsClusterUpdatedEventData,
   AvsClusterFailedEventData,
+  ApiCenterApiDefinitionAddedEventData,
+  ApiCenterApiDefinitionUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -622,6 +624,10 @@ export interface SystemEventNameToEventData {
   "Microsoft.AVS.ClusterUpdated": AvsClusterUpdatedEventData;
   /** An interface for the event data of a "Microsoft.AVS.ClusterFailed" event. */
   "Microsoft.AVS.ClusterFailed": AvsClusterFailedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionAdded" event. */
+  "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+  /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionUpdated" event. */
+  "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
 }
 
 /**

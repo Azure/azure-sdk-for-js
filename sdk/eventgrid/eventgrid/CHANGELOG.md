@@ -1,14 +1,13 @@
 # Release History
 
-## 5.2.1 (Unreleased)
+## 5.3.0 (2024-03-13)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
-
-### Other Changes
+  - `Microsoft.ApiCenter.ApiDefinitionAdded`
+  - `Microsoft.ApiCenter.ApiDefinitionUpdated`
 
 ## 5.2.0 (2024-02-08)
 

@@ -26,6 +26,11 @@
       }
     }
   },
+  "files": [
+    "dist/",
+    "LICENSE",
+    "README.md"
+  ],
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "tags": [
