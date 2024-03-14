@@ -1,8 +1,8 @@
 {
-  "name": "@azure/test-utils-perf",
+  "name": "@azure-tools/test-perf",
   "version": "1.0.0",
   "sdk-type": "utility",
-  "description": "Performance and stress test framework for the Azure SDK for JavaScript and TypeScript",
+  "description": "Performance test framework for the Azure SDK for JavaScript and TypeScript",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {},
@@ -46,7 +46,6 @@
     "azure",
     "cloud",
     "performance",
-    "stress",
     "test",
     "framework"
   ],
