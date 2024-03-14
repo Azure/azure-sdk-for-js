@@ -13,7 +13,6 @@ import {
   QuickpulseClientOptionalParams,
 } from "../../../generated";
 
-
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
 /**
@@ -59,16 +58,12 @@ export class QuickpulseSender {
    * @internal
    */
   async ping(optionalParams: PingOptionalParams): Promise<PingResponse | undefined> {
-
     try {
       let response = await this.quickpulseClient.ping(this.instrumentationKey, optionalParams);
       return response;
     } catch (error: any) {
       const restError = error as RestError;
-      diag.info(
-        "Failed to ping Quickpulse service",
-        restError.message,
-      );
+      diag.info("Failed to ping Quickpulse service", restError.message);
     }
     return;
   }
@@ -83,10 +78,7 @@ export class QuickpulseSender {
       return response;
     } catch (error: any) {
       const restError = error as RestError;
-      diag.warn(
-        "Failed to post Quickpulse service",
-        restError.message,
-      );
+      diag.warn("Failed to post Quickpulse service", restError.message);
     }
     return;
   }

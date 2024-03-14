@@ -38,7 +38,7 @@ import {
   SEMRESATTRS_SERVICE_INSTANCE_ID,
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
-  SEMRESATTRS_TELEMETRY_SDK_VERSION
+  SEMRESATTRS_TELEMETRY_SDK_VERSION,
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
 import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
@@ -98,18 +98,15 @@ export function getCloudRole(resource: Resource): string {
     }
   }
   // Kubernetes attributes should take precedence
-  const kubernetesDeploymentName =
-    resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
+  const kubernetesDeploymentName = resource.attributes[SEMRESATTRS_K8S_DEPLOYMENT_NAME];
   if (kubernetesDeploymentName) {
     return String(kubernetesDeploymentName);
   }
-  const kuberneteReplicasetName =
-    resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
+  const kuberneteReplicasetName = resource.attributes[SEMRESATTRS_K8S_REPLICASET_NAME];
   if (kuberneteReplicasetName) {
     return String(kuberneteReplicasetName);
   }
-  const kubernetesStatefulSetName =
-    resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
+  const kubernetesStatefulSetName = resource.attributes[SEMRESATTRS_K8S_STATEFULSET_NAME];
   if (kubernetesStatefulSetName) {
     return String(kubernetesStatefulSetName);
   }
@@ -121,8 +118,7 @@ export function getCloudRole(resource: Resource): string {
   if (kubernetesCronjobName) {
     return String(kubernetesCronjobName);
   }
-  const kubernetesDaemonsetName =
-    resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
+  const kubernetesDaemonsetName = resource.attributes[SEMRESATTRS_K8S_DAEMONSET_NAME];
   if (kubernetesDaemonsetName) {
     return String(kubernetesDaemonsetName);
   }
