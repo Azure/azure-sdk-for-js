@@ -90,7 +90,7 @@ export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
  * Default Live Metrics endpoint.
  * @internal
  */
-export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://rt.services.visualstudio.com";
+export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.monitor.azure.com";
 
 export enum StatsbeatFeature {
   NONE = 0,
