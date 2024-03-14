@@ -1,6 +1,10 @@
 # Release History
 
-## 1.0.0 (Unreleased)
+## 1.0.0 (2024-03-14)
+
+### Features Added
+
+Marks the first release of `@azure-tools/test-perf`. This project is a test utility that assits with performance testing of the packages maintained at the Azure SDK for JavaScript repository. This is not intended for the public utilization.
 
 ### 2023-03-07
 
@@ -10,7 +14,7 @@
 
 - [#14146](https://github.com/Azure/azure-sdk-for-js/pull/14146) Adds profiling support to the perf framework. Two new options "profile" and "profile-path" introduced.
 
-  [#24240](https://github.com/Azure/azure-sdk-for-js/pull/24240) 
+  [#24240](https://github.com/Azure/azure-sdk-for-js/pull/24240)
 
 ### 2023-01-18
 
