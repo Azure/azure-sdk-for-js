@@ -1,0 +1,61 @@
+parameters:
+  ArtifactName: ''
+  Artifact: {}
+  Registry: ''
+
+steps:
+  - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
+  - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
+      - task: PowerShell@2
+        displayName: Create publish package directory
+        inputs:
+          targetType: filePath
+          filePath: eng/tools/publish-to-npm.ps1
+          arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          pwsh: true
+        condition: succeeded()
+      - pwsh: |
+          write-host "$(Package.Archive)"
+          $artifactFolder = "$(Package.Archive)" -Replace '[^\/]+$', ''
+          Write-Host "archive"
+          write-host "$(Package.Archive)"
+          write-host "artifact folder"
+          write-host $artifactFolder
+          Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
+      - task: EsrpRelease@6
+        inputs:
+          displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
+          ConnectedServiceName: 'ESRP Release Service'
+          Intent: 'PackageDistribution'
+          ContentType: 'npm'
+          FolderLocation: $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}}/${{parameters.artifact.name}}
+          Owners: $(Build.RequestedForEmail)
+          Approvers: 'azuresdk@microsoft.com'
+          ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
+          MainPublisher: 'ESRPRELPACMANTEST'
+          DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
+          ProductStateField: $(Tag)
+
+      - pwsh: |
+          $packageList = @()
+          foreach ($p in $(dir $(Package.Archive) -r -i *.tgz)) {
+              $packageList += extractPackage $p
+          }
+          foreach ($p in $packageList) {
+              if($p.Publish && $(AdditionalTag) && $(AdditionalTag) -ne $(Tag)) {
+                  $(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName "$(AdditionalTag)" -npmToken "$(azure-sdk-npm-token)"
+              }
+          }
+
+          Remove-Item $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}} -Recurse
+        displayName: Add Additional Tags
+
+  - ${{ else }}:
+      - task: PowerShell@2
+        displayName: Publish to Dev Feed
+        inputs:
+          targetType: filePath
+          filePath: eng/tools/publish-to-npm.ps1
+          arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          pwsh: true
+        condition: succeeded()

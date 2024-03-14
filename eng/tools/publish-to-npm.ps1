@@ -98,11 +98,10 @@ try {
         }
     }
 
+    $publishToNpm = $false
     if(!$basicDeployment) {
        if($registry -eq 'https://registry.npmjs.org/'){
-        Write-Host "Choosing AuthToken Deployment"
-        $env:NPM_TOKEN=$npmToken
-        npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+        $publishToNpm = $true
        }
        else{
           Write-Host "Choosing Private Devops Feed Deployment"
@@ -123,16 +122,18 @@ try {
         npm config set $regAuth`:email=not_set
     }
 
+    $publishList = @()
     foreach ($p in $packageList) {
-        if($p.Publish) {
+        if($p.Publish -and !$publishToNpm) {
+            # Publishing to private feed
             if ($tag) {
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
             }
             else {
-              Write-Host "Tag is empty"
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+                Write-Host "Tag is empty"
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
             }
             
             if ($LastExitCode -ne 0) {
@@ -150,6 +151,11 @@ try {
                 Write-Host "npm dist-tag add failed with exit code $addTagCheck"
                 exit 1
             }
+        }
+        elseif ($p.Publish -and $publishToNpm) {
+          $artifactSubPath = $pathToArtifacts -replace '$(Pipeline.Workspace)\/', ''
+          write-host "Copy $($p.TarGz) to $artifactSubPath"
+          Copy-Item -Path $($p.TarGz) -Destination "temp/$artifactSubPath"
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
