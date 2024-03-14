@@ -1,13 +1,11 @@
 # Release History
 
-## 3.1.0 (Unreleased)
+## 3.1.0 (2023-03-14)
 
 ### Features Added
 
 - Add support for setting `TLSValidationCert` in the Test Proxy Transport.
 - Add a `testPollingOptions` that allow skip polling wait in playback mode.
-
-### Breaking Changes
 
 ### Bugs Fixed
 
@@ -20,6 +18,7 @@
   - Forward mismatch error when recording file cannot be found during `start` call in playback mode
   - Add more descriptive message in the case that the test proxy has not been started before running the tests
 - Ignore `Accept-Language` header for browsers in Playback mode.
+
 ## 3.0.0 (2023-03-07)
 
 ### Features Added
