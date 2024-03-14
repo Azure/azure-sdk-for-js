@@ -7,9 +7,9 @@ import { assert } from "chai";
 import { Context } from "mocha";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe.only("AzureWebApps Integration test", function () {
+describe("AzureWebApps Integration test", function () {
   it("test the Azure Web Apps endpoint where the '/' MI credential is used.", async function (this: Context) {
-    if (!isLiveMode) {
+    if (!isLiveMode()) {
       this.skip();
     }
     const baseUri = baseUrlSync();
