@@ -5,10 +5,10 @@ import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { diag } from "@opentelemetry/api";
 import {
-  PingOptionalParams,
-  PingResponse,
-  PostOptionalParams,
-  PostResponse,
+  IsSubscribedOptionalParams,
+  IsSubscribedResponse,
+  PublishOptionalParams,
+  PublishResponse,
   QuickpulseClient,
   QuickpulseClientOptionalParams,
 } from "../../../generated";
@@ -23,6 +23,7 @@ export class QuickpulseSender {
   private readonly quickpulseClient: QuickpulseClient;
   private quickpulseClientOptions: QuickpulseClientOptionalParams;
   private instrumentationKey: string;
+  private endpointUrl: string;
 
   constructor(options: {
     endpointUrl: string;
@@ -31,8 +32,9 @@ export class QuickpulseSender {
     aadAudience?: string;
   }) {
     // Build endpoint using provided configuration or default values
+    this.endpointUrl = options.endpointUrl;
     this.quickpulseClientOptions = {
-      host: options.endpointUrl,
+      endpoint: this.endpointUrl,
     };
 
     this.instrumentationKey = options.instrumentationKey;
@@ -54,12 +56,18 @@ export class QuickpulseSender {
   }
 
   /**
-   * Ping Quickpulse service
+   * isSubscribed Quickpulse service
    * @internal
    */
-  async ping(optionalParams: PingOptionalParams): Promise<PingResponse | undefined> {
+  async isSubscribed(
+    optionalParams: IsSubscribedOptionalParams,
+  ): Promise<IsSubscribedResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.ping(this.instrumentationKey, optionalParams);
+      let response = await this.quickpulseClient.isSubscribed(
+        this.endpointUrl,
+        this.instrumentationKey,
+        optionalParams,
+      );
       return response;
     } catch (error: any) {
       const restError = error as RestError;
@@ -69,12 +77,16 @@ export class QuickpulseSender {
   }
 
   /**
-   * Post Quickpulse service
+   * publish Quickpulse service
    * @internal
    */
-  async post(optionalParams: PostOptionalParams): Promise<PostResponse | undefined> {
+  async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.post(this.instrumentationKey, optionalParams);
+      let response = await this.quickpulseClient.publish(
+        this.endpointUrl,
+        this.instrumentationKey,
+        optionalParams,
+      );
       return response;
     } catch (error: any) {
       const restError = error as RestError;
@@ -87,7 +99,7 @@ export class QuickpulseSender {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {
-        this.quickpulseClient.host = "https://" + locUrl.host;
+        this.endpointUrl = "https://" + locUrl.host;
       }
     }
   }
