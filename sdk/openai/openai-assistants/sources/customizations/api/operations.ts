@@ -60,7 +60,7 @@ import {
   createRestError,
 } from "@azure-rest/core-client";
 import { createFile } from "@azure/core-rest-pipeline";
-import { camelCaseKeys } from "./util.js";
+import { camelCaseKeys, unixToDate } from "./util.js";
 import { ListRunSteps200Response } from "../rest/responses.js";
 import { MessageContentOutput } from "../rest/outputModels.js";
 import { parseToolCallOutput, parseRequiredToolCallOutput } from "../models/helpers.js";
@@ -101,12 +101,12 @@ export async function _createRunDeserialize(result: CreateRun200Response): Promi
           code: last_error?.["code"],
           message: last_error?.["message"],
         },
-    createdAt: new Date(created_at),
-    expiresAt: expires_at === null ? null : new Date(expires_at),
-    startedAt: started_at === null ? null : new Date(started_at),
-    completedAt: completed_at === null ? null : new Date(completed_at),
-    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
-    failedAt: failed_at === null ? null : new Date(failed_at),
+    createdAt: unixToDate(created_at),
+    expiresAt: expires_at === null ? null : unixToDate(Number(expires_at)),
+    startedAt: started_at === null ? null : unixToDate(Number(started_at)),
+    completedAt: completed_at === null ? null : unixToDate(Number(completed_at)),
+    cancelledAt: cancelled_at === null ? null : unixToDate(Number(cancelled_at)),
+    failedAt: failed_at === null ? null : unixToDate(Number(failed_at)),
   };
 }
 
@@ -134,12 +134,12 @@ export async function _listRunsDeserialize(
           tools: p["tools"],
           fileIds: p["file_ids"],
           metadata: p["metadata"],
-          createdAt: new Date(p["created_at"]),
-          expiresAt: p["expires_at"] === null ? null : new Date(p["expires_at"]),
-          startedAt: p["started_at"] === null ? null : new Date(p["started_at"]),
-          completedAt: p["completed_at"] === null ? null : new Date(p["completed_at"]),
-          cancelledAt: p["cancelled_at"] === null ? null : new Date(p["cancelled_at"]),
-          failedAt: p["failed_at"] === null ? null : new Date(p["failed_at"]),
+          createdAt: unixToDate(p["created_at"]),
+          expiresAt: p["expires_at"] === null ? null : unixToDate(Number(p["expires_at"])),
+          startedAt: p["started_at"] === null ? null : unixToDate(Number(p["started_at"])),
+          completedAt: p["completed_at"] === null ? null : unixToDate(Number(p["completed_at"])),
+          cancelledAt: p["cancelled_at"] === null ? null : unixToDate(Number(p["cancelled_at"])),
+          failedAt: p["failed_at"] === null ? null : unixToDate(Number(p["failed_at"])),
         } as ThreadRun)
     ),
     firstId: result.body["first_id"],
@@ -219,14 +219,17 @@ export async function _getRunDeserialize(result: GetRun200Response): Promise<Thr
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
-    createdAt: new Date(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -265,14 +268,17 @@ export async function _submitToolOutputsToRunDeserialize(
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
-    createdAt: new Date(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -311,14 +317,17 @@ export async function _createThreadAndRunDeserialize(
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
     metadata: result.body["metadata"],
-    createdAt: new Date(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
   };
 }
 
@@ -354,14 +363,17 @@ export async function _cancelRunDeserialize(result: CancelRun200Response): Promi
     instructions: result.body["instructions"],
     tools: result.body["tools"],
     fileIds: result.body["file_ids"],
-    createdAt: new Date(result.body["created_at"]),
-    expiresAt: result.body["expires_at"] === null ? null : new Date(result.body["expires_at"]),
-    startedAt: result.body["started_at"] === null ? null : new Date(result.body["started_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
+    expiresAt:
+      result.body["expires_at"] === null ? null : unixToDate(Number(result.body["expires_at"])),
+    startedAt:
+      result.body["started_at"] === null ? null : unixToDate(Number(result.body["started_at"])),
     completedAt:
-      result.body["completed_at"] === null ? null : new Date(result.body["completed_at"]),
+      result.body["completed_at"] === null ? null : unixToDate(Number(result.body["completed_at"])),
     cancelledAt:
-      result.body["cancelled_at"] === null ? null : new Date(result.body["cancelled_at"]),
-    failedAt: result.body["failed_at"] === null ? null : new Date(result.body["failed_at"]),
+      result.body["cancelled_at"] === null ? null : unixToDate(Number(result.body["cancelled_at"])),
+    failedAt:
+      result.body["failed_at"] === null ? null : unixToDate(Number(result.body["failed_at"])),
     metadata: result.body["metadata"],
   };
 }
@@ -422,7 +434,7 @@ export async function _listMessageFilesDeserialize(
   return {
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      createdAt: new Date(p["created_at"]),
+      createdAt: unixToDate(p["created_at"]),
       messageId: p["message_id"],
     })),
     firstId: result.body["first_id"],
@@ -451,7 +463,7 @@ export async function _createMessageDeserialize(
 
   return {
     id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: (result.body["content"] ?? []).map(parseMessageContentOutput),
@@ -472,7 +484,7 @@ export async function _listMessagesDeserialize(
   return {
     data: (result.body["data"] ?? []).map((p) => ({
       id: p["id"],
-      createdAt: new Date(p["created_at"]),
+      createdAt: unixToDate(p["created_at"]),
       threadId: p["thread_id"],
       role: p["role"],
       content: (p["content"] ?? []).map(parseMessageContentOutput),
@@ -495,7 +507,7 @@ export async function _getMessageDeserialize(
 
   return {
     id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: (result.body["content"] ?? []).map(parseMessageContentOutput),
@@ -514,7 +526,7 @@ export async function _updateMessageDeserialize(
 
   return {
     id: result.body["id"],
-    createdAt: new Date(result.body["created_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
     threadId: result.body["thread_id"],
     role: result.body["role"],
     content: (result.body["content"] ?? []).map(parseMessageContentOutput),
@@ -556,11 +568,11 @@ function parseRunStepOutput(runStepOutput: RunStepOutput): RunStep {
     stepDetails: parseRunStepDetails(step_details),
     lastError:
       last_error === null ? null : { code: last_error["code"], message: last_error["message"] },
-    createdAt: new Date(created_at),
-    expiredAt: expired_at === null ? null : new Date(expired_at),
-    completedAt: completed_at === null ? null : new Date(completed_at),
-    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
-    failedAt: failed_at === null ? null : new Date(failed_at),
+    createdAt: unixToDate(created_at),
+    expiredAt: expired_at === null ? null : unixToDate(expired_at),
+    completedAt: completed_at === null ? null : unixToDate(completed_at),
+    cancelledAt: cancelled_at === null ? null : unixToDate(cancelled_at),
+    failedAt: failed_at === null ? null : unixToDate(failed_at),
   } as RunStep;
 }
 
@@ -604,11 +616,11 @@ export async function _getRunStepDeserialize(result: GetRunStep200Response): Pro
             code: last_error["code"],
             message: last_error["message"],
           },
-    createdAt: new Date(created_at),
-    expiredAt: expired_at === null ? null : new Date(expired_at),
-    completedAt: completed_at === null ? null : new Date(completed_at),
-    cancelledAt: cancelled_at === null ? null : new Date(cancelled_at),
-    failedAt: failed_at === null ? null : new Date(failed_at),
+    createdAt: unixToDate(created_at),
+    expiredAt: expired_at === null ? null : unixToDate(expired_at),
+    completedAt: completed_at === null ? null : unixToDate(completed_at),
+    cancelledAt: cancelled_at === null ? null : unixToDate(cancelled_at),
+    failedAt: failed_at === null ? null : unixToDate(failed_at),
   };
 }
 
@@ -633,7 +645,7 @@ export async function _listAssistantsDeserialize(
   return {
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      createdAt: new Date(p["created_at"]),
+      createdAt: unixToDate(p["created_at"]),
       name: p["name"],
       description: p["description"],
       model: p["model"],
@@ -667,7 +679,7 @@ export async function _listAssistantFilesDeserialize(
   return {
     data: result.body["data"].map((p) => ({
       id: p["id"],
-      createdAt: new Date(p["created_at"]),
+      createdAt: unixToDate(p["created_at"]),
       assistantId: p["assistant_id"],
     })),
     firstId: result.body["first_id"],
@@ -728,7 +740,7 @@ export async function _uploadFileDeserialize(result: UploadFile200Response): Pro
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],
-    createdAt: new Date(result.body["created_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
     purpose: result.body["purpose"],
   };
 }
@@ -742,7 +754,7 @@ export async function _getFileDeserialize(result: GetFile200Response): Promise<I
     id: result.body["id"],
     bytes: result.body["bytes"],
     filename: result.body["filename"],
-    createdAt: new Date(result.body["created_at"]),
+    createdAt: unixToDate(result.body["created_at"]),
     purpose: result.body["purpose"],
   };
 }

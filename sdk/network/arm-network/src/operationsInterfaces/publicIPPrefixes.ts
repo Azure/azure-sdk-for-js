@@ -19,7 +19,7 @@ import {
   PublicIPPrefixesCreateOrUpdateResponse,
   TagsObject,
   PublicIPPrefixesUpdateTagsOptionalParams,
-  PublicIPPrefixesUpdateTagsResponse
+  PublicIPPrefixesUpdateTagsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface PublicIPPrefixes {
    * @param options The options parameters.
    */
   listAll(
-    options?: PublicIPPrefixesListAllOptionalParams
+    options?: PublicIPPrefixesListAllOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPPrefix>;
   /**
    * Gets all public IP prefixes in a resource group.
@@ -39,7 +39,7 @@ export interface PublicIPPrefixes {
    */
   list(
     resourceGroupName: string,
-    options?: PublicIPPrefixesListOptionalParams
+    options?: PublicIPPrefixesListOptionalParams,
   ): PagedAsyncIterableIterator<PublicIPPrefix>;
   /**
    * Deletes the specified public IP prefix.
@@ -50,7 +50,7 @@ export interface PublicIPPrefixes {
   beginDelete(
     resourceGroupName: string,
     publicIpPrefixName: string,
-    options?: PublicIPPrefixesDeleteOptionalParams
+    options?: PublicIPPrefixesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified public IP prefix.
@@ -61,7 +61,7 @@ export interface PublicIPPrefixes {
   beginDeleteAndWait(
     resourceGroupName: string,
     publicIpPrefixName: string,
-    options?: PublicIPPrefixesDeleteOptionalParams
+    options?: PublicIPPrefixesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the specified public IP prefix in a specified resource group.
@@ -72,7 +72,7 @@ export interface PublicIPPrefixes {
   get(
     resourceGroupName: string,
     publicIpPrefixName: string,
-    options?: PublicIPPrefixesGetOptionalParams
+    options?: PublicIPPrefixesGetOptionalParams,
   ): Promise<PublicIPPrefixesGetResponse>;
   /**
    * Creates or updates a static or dynamic public IP prefix.
@@ -85,7 +85,7 @@ export interface PublicIPPrefixes {
     resourceGroupName: string,
     publicIpPrefixName: string,
     parameters: PublicIPPrefix,
-    options?: PublicIPPrefixesCreateOrUpdateOptionalParams
+    options?: PublicIPPrefixesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PublicIPPrefixesCreateOrUpdateResponse>,
@@ -103,7 +103,7 @@ export interface PublicIPPrefixes {
     resourceGroupName: string,
     publicIpPrefixName: string,
     parameters: PublicIPPrefix,
-    options?: PublicIPPrefixesCreateOrUpdateOptionalParams
+    options?: PublicIPPrefixesCreateOrUpdateOptionalParams,
   ): Promise<PublicIPPrefixesCreateOrUpdateResponse>;
   /**
    * Updates public IP prefix tags.
@@ -116,6 +116,6 @@ export interface PublicIPPrefixes {
     resourceGroupName: string,
     publicIpPrefixName: string,
     parameters: TagsObject,
-    options?: PublicIPPrefixesUpdateTagsOptionalParams
+    options?: PublicIPPrefixesUpdateTagsOptionalParams,
   ): Promise<PublicIPPrefixesUpdateTagsResponse>;
 }

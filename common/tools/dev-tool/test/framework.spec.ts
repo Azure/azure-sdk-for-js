@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
-
+import { describe, it, assert, beforeAll } from "vitest";
 import { parseOptions } from "../src/framework/parseOptions";
 import { makeCommandInfo, subCommand, leafCommand } from "../src/framework/command";
-
 import { silenceLogger } from "./util";
 
 const simpleCommandInfo = makeCommandInfo("simple", "a simple command", {
@@ -24,7 +22,7 @@ interface SimpleExpectedOptionsType {
 }
 
 describe("Command Framework", () => {
-  before(silenceLogger);
+  beforeAll(silenceLogger);
 
   describe("subCommand", () => {
     it("simple dispatcher", async () => {

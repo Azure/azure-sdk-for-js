@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the vCenter servers registered in the vault.
  *
  * @summary Lists the vCenter servers registered in the vault.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationvCenters_List.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationvCenters_List.json
  */
 async function getsTheListOfVCenterRegisteredUnderTheVault() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getsTheListOfVCenterRegisteredUnderTheVault() {
   const resArray = new Array();
   for await (let item of client.replicationvCenters.list(
     resourceName,
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

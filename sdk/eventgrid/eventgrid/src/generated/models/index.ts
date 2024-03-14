@@ -2721,6 +2721,34 @@ export interface AvsScriptExecutionEventData {
   output: string[];
 }
 
+/** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionAdded event. */
+export interface ApiCenterApiDefinitionAddedEventData {
+  /** API definition title. */
+  title: string;
+  /** API definition description. */
+  description: string;
+  /** API specification details. */
+  specification: ApiCenterApiSpecification;
+}
+
+/** API specification details. */
+export interface ApiCenterApiSpecification {
+  /** Specification name. */
+  name: string;
+  /** Specification version. */
+  version: string;
+}
+
+/** Schema of the data property of an EventGridEvent for a Microsoft.ApiCenter.ApiDefinitionUpdated event. */
+export interface ApiCenterApiDefinitionUpdatedEventData {
+  /** API definition title. */
+  title: string;
+  /** API definition description. */
+  description: string;
+  /** API specification details. */
+  specification: ApiCenterApiSpecification;
+}
+
 /** Event data for Microsoft.EventGrid.MQTTClientCreatedOrUpdated event. */
 export type EventGridMqttClientCreatedOrUpdatedEventData = EventGridMqttClientEventData & {
   /** Configured state of the client. The value could be Enabled or Disabled */

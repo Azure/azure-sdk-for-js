@@ -59,9 +59,11 @@
     "CONTOSO",
     "deps",
     "deserialization",
+    "deserializers",
     "devboxes",
     "devcenter",
     "devdeps",
+    "dicom",
     "dotenv",
     "DTDL",
     "dtmi",
@@ -89,6 +91,7 @@
     "lcov",
     "lcovonly",
     "Localizable",
+    "loinc",
     "Lucene",
     "Mibps",
     "mkdir",
@@ -102,6 +105,8 @@
     "npmjs",
     "ODATA",
     "Odbc",
+    "Onco",
+    "oncophenotype",
     "openai",
     "perfstress",
     "personalizer",
@@ -125,9 +130,11 @@
     "soundex",
     "southcentralus",
     "struct",
+    "structdef",
     "Sybase",
     "Teradata",
     "tmpdir",
+    "tshy",
     "uaecentral",
     "uksouth",
     "ukwest",
@@ -147,9 +154,7 @@
     "USUK",
     "Vertica",
     "westus",
-    "Xiaomi",
-    "Onco",
-    "oncophenotype"
+    "Xiaomi"
   ],
   "allowCompoundWords": true,
   "overrides": [
@@ -461,6 +466,20 @@
         "wordprocessingml",
         "spreadsheetml",
         "presentationml"
+      ]
+    },
+    {
+      "filename": "sdk/healthinsights/azure-healthinsights-radiologyinsights/**",
+      "words": [
+        "ctxt",
+        "mros",
+        "nify"
+      ]
+    },
+    {
+      "filename": "sdk/notificationhubs/notification-hubs/review/notification-hubs.api.md",
+      "words": [
+        "fcmv"
       ]
     }
   ]

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ReverseReplicationInput,
-  SiteRecoveryManagementClient
+  SiteRecoveryManagementClient,
 } from "@azure/arm-recoveryservices-siterecovery";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Operation to reprotect or reverse replicate a failed over replication protected item.
  *
  * @summary Operation to reprotect or reverse replicate a failed over replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_Reprotect.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_Reprotect.json
  */
 async function executeReverseReplicationReprotect() {
   const subscriptionId =
@@ -37,8 +37,8 @@ async function executeReverseReplicationReprotect() {
   const reprotectInput: ReverseReplicationInput = {
     properties: {
       failoverDirection: "PrimaryToRecovery",
-      providerSpecificDetails: { instanceType: "HyperVReplicaAzure" }
-    }
+      providerSpecificDetails: { instanceType: "HyperVReplicaAzure" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new SiteRecoveryManagementClient(credential, subscriptionId);
@@ -48,7 +48,7 @@ async function executeReverseReplicationReprotect() {
     fabricName,
     protectionContainerName,
     replicatedProtectedItemName,
-    reprotectInput
+    reprotectInput,
   );
   console.log(result);
 }

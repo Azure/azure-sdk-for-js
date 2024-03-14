@@ -14,14 +14,14 @@ import { SiteRecoveryManagementClient } from "../siteRecoveryManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   ReplicationVaultHealthGetOptionalParams,
   ReplicationVaultHealthGetResponse,
   ReplicationVaultHealthRefreshOptionalParams,
-  ReplicationVaultHealthRefreshResponse
+  ReplicationVaultHealthRefreshResponse,
 } from "../models";
 
 /** Class containing ReplicationVaultHealth operations. */
@@ -46,11 +46,11 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
   get(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthGetOptionalParams
+    options?: ReplicationVaultHealthGetOptionalParams,
   ): Promise<ReplicationVaultHealthGetResponse> {
     return this.client.sendOperationRequest(
       { resourceName, resourceGroupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -64,7 +64,7 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
   async beginRefresh(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthRefreshOptionalParams
+    options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ReplicationVaultHealthRefreshResponse>,
@@ -73,21 +73,20 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ReplicationVaultHealthRefreshResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -96,8 +95,8 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -105,22 +104,22 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceName, resourceGroupName, options },
-      spec: refreshOperationSpec
+      spec: refreshOperationSpec,
     });
     const poller = await createHttpPoller<
       ReplicationVaultHealthRefreshResponse,
       OperationState<ReplicationVaultHealthRefreshResponse>
     >(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -136,12 +135,12 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
   async beginRefreshAndWait(
     resourceName: string,
     resourceGroupName: string,
-    options?: ReplicationVaultHealthRefreshOptionalParams
+    options?: ReplicationVaultHealthRefreshOptionalParams,
   ): Promise<ReplicationVaultHealthRefreshResponse> {
     const poller = await this.beginRefresh(
       resourceName,
       resourceGroupName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -150,49 +149,47 @@ export class ReplicationVaultHealthImpl implements ReplicationVaultHealth {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultHealthDetails
-    }
+      bodyMapper: Mappers.VaultHealthDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const refreshOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VaultHealthDetails
+      bodyMapper: Mappers.VaultHealthDetails,
     },
     201: {
-      bodyMapper: Mappers.VaultHealthDetails
+      bodyMapper: Mappers.VaultHealthDetails,
     },
     202: {
-      bodyMapper: Mappers.VaultHealthDetails
+      bodyMapper: Mappers.VaultHealthDetails,
     },
     204: {
-      bodyMapper: Mappers.VaultHealthDetails
-    }
+      bodyMapper: Mappers.VaultHealthDetails,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

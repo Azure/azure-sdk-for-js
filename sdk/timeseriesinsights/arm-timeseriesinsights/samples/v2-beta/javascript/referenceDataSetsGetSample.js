@@ -28,7 +28,7 @@ async function referenceDataSetsGet() {
   const result = await client.referenceDataSets.get(
     resourceGroupName,
     environmentName,
-    referenceDataSetName
+    referenceDataSetName,
   );
   console.log(result);
 }

@@ -8,6 +8,7 @@ import {
   createBaiduNotification,
   createBrowserNotification,
   createFcmLegacyNotification,
+  createFcmV1Notification,
   createTemplateNotification,
   createXiaomiNotification,
   createWindowsBadgeNotification,
@@ -62,6 +63,18 @@ describe("createBrowserNotification", () => {
     assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
     assert.equal(notification.platform, "browser");
     assert.equal(notification.body, `{"title":"(Hello title)","body":"Hello"}`);
+  });
+});
+
+describe("createFcmV1Notification", () => {
+  it("should create a Firebase message with defaults", () => {
+    const notification = createFcmV1Notification({
+      body: `{"notification":{"title":"TITLE","body":"Hello}}`,
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "fcmv1");
+    assert.equal(notification.body, `{"notification":{"title":"TITLE","body":"Hello}}`);
   });
 });
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets all available service aliases for this subscription in this region.
  *
  * @summary Gets all available service aliases for this subscription in this region.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-06-01/examples/AvailableServiceAliasesList.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2023-09-01/examples/AvailableServiceAliasesList.json
  */
 async function getAvailableServiceAliases() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subId";

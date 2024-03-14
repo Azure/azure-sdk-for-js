@@ -28,7 +28,7 @@ async function deleteEventSource() {
   const result = await client.eventSources.delete(
     resourceGroupName,
     environmentName,
-    eventSourceName
+    eventSourceName,
   );
   console.log(result);
 }

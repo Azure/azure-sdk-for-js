@@ -1,7 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { isBrowser, isBun, isDeno, isNode, isReactNative, isWebWorker } from "../../../src";
+import {
+  isBrowser,
+  isBun,
+  isDeno,
+  isNode,
+  isReactNative,
+  isWebWorker,
+} from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("checkEnvironment (node)", function () {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to restart an Azure Site Recovery job.
  *
  * @summary The operation to restart an Azure Site Recovery job.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationJobs_Restart.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationJobs_Restart.json
  */
 async function restartsTheSpecifiedJob() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function restartsTheSpecifiedJob() {
   const result = await client.replicationJobs.beginRestartAndWait(
     resourceName,
     resourceGroupName,
-    jobName
+    jobName,
   );
   console.log(result);
 }

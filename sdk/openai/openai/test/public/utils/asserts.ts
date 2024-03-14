@@ -58,6 +58,13 @@ function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   }
 }
 
+function assertArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isArray(val);
+  for (const x of val) {
+    validate(x);
+  }
+}
+
 async function assertAsyncIterable<T>(
   val: AsyncIterable<T>,
   validate: (x: T) => void,
@@ -121,9 +128,11 @@ function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetai
     ifDefined(cfr.selfHarm, assertContentFilterResult);
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.customBlocklists, assertContentFilterBlocklistIdResult);
+    ifDefined(cfr.customBlocklists, (arr) =>
+      assertArray(arr, assertContentFilterBlocklistIdResult),
+    );
   }
 }
 
