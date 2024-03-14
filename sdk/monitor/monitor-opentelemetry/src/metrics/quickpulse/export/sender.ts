@@ -1,7 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import url from "url";
-import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
+import { diag } from "@opentelemetry/api";
 import {
   PingOptionalParams,
   PingResponse,
@@ -10,7 +12,7 @@ import {
   QuickpulseClient,
   QuickpulseClientOptionalParams,
 } from "../../../generated";
-import { TokenCredential } from "@azure/core-auth";
+
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -56,18 +58,37 @@ export class QuickpulseSender {
    * Ping Quickpulse service
    * @internal
    */
-  async ping(optionalParams: PingOptionalParams): Promise<PingResponse> {
-    let response = await this.quickpulseClient.ping(this.instrumentationKey, optionalParams);
-    return response;
+  async ping(optionalParams: PingOptionalParams): Promise<PingResponse | undefined> {
+
+    try {
+      let response = await this.quickpulseClient.ping(this.instrumentationKey, optionalParams);
+      return response;
+    } catch (error: any) {
+      const restError = error as RestError;
+      diag.info(
+        "Failed to ping Quickpulse service",
+        restError.message,
+      );
+    }
+    return;
   }
 
   /**
    * Post Quickpulse service
    * @internal
    */
-  async post(optionalParams: PostOptionalParams): Promise<PostResponse> {
-    let response = await this.quickpulseClient.post(this.instrumentationKey, optionalParams);
-    return response;
+  async post(optionalParams: PostOptionalParams): Promise<PostResponse | undefined> {
+    try {
+      let response = await this.quickpulseClient.post(this.instrumentationKey, optionalParams);
+      return response;
+    } catch (error: any) {
+      const restError = error as RestError;
+      diag.warn(
+        "Failed to post Quickpulse service",
+        restError.message,
+      );
+    }
+    return;
   }
 
   handlePermanentRedirect(location: string | undefined) {
