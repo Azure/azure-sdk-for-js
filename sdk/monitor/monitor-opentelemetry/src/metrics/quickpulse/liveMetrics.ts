@@ -132,7 +132,7 @@ export class LiveMetrics {
       machineName: machineName,
       streamId: streamId,
       performanceCollectionSupported: true,
-      isWebApp: false,
+      isWebApp: process.env["WEBSITE_SITE_NAME"] ? true : false,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString,
