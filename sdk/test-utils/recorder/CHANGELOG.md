@@ -1,6 +1,6 @@
 # Release History
 
-## 3.2.0 (Unreleased)
+## 4.0.0 (Unreleased)
 
 // TODO: make this 4.0.0 instead to avoid any breaking changes w.r.t environment variables.
 
@@ -24,8 +24,6 @@
   - `ConnectionStringSanitizer`: A sanitizer that securely handles connection strings.
   - `RemoveHeaderSanitizer`: A sanitizer that removes specified headers from HTTP requests or responses.
     This update aims to provide users with a more comprehensive and customizable sanitization process.
-
-### Breaking Changes
 
 ### Bugs Fixed
 

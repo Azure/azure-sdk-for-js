@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import fs from "fs-extra";
-import path from "path";
-
+import path from "node:path";
 import { findMatchingFiles } from "../../util/findMatchingFiles";
 import { createPrinter } from "../../util/printer";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
