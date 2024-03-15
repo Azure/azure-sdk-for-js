@@ -483,7 +483,7 @@ export interface AzureCognitiveSearchChatExtensionParameters {
   semanticConfiguration?: string;
   /** Search filter. */
   filter?: string;
-  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}. */
+  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version=\{api-version\}. */
   embeddingEndpoint?: string;
   /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
   embeddingKey?: string;
@@ -960,7 +960,7 @@ export interface EmbeddingsOptions {
    * Input texts to get embeddings for, encoded as a an array of strings.
    * Each input must not exceed 2048 tokens in length.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
+   * Unless you are embedding code, we suggest replacing newlines (\\n) in your input with a single space,
    * as we have observed inferior results when newlines are present.
    */
   input: string[];

@@ -251,8 +251,8 @@ export function getCompletionsResult(
       ...(!content_filter_results
         ? {}
         : {
-          contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
-        }),
+            contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
+          }),
     })),
   };
 }
@@ -358,19 +358,18 @@ export function getChatCompletionsResult(
     choices: !choices
       ? []
       : choices.map(({ content_filter_results, delta, message, ...choice }) => ({
-        ...camelCaseKeys(choice),
-        ...(!delta ? {} : { delta: parseMessage(delta) }),
-        ...(!message ? {} : { message: parseMessage(message) }),
-        ...(!content_filter_results
-          ? {}
-          : {
-            contentFilterResults:
-              parseContentFilterResultsForChoiceOutput(content_filter_results),
-          }),
-      })),
+          ...camelCaseKeys(choice),
+          ...(!delta ? {} : { delta: parseMessage(delta) }),
+          ...(!message ? {} : { message: parseMessage(message) }),
+          ...(!content_filter_results
+            ? {}
+            : {
+                contentFilterResults:
+                  parseContentFilterResultsForChoiceOutput(content_filter_results),
+              }),
+        })),
   };
 }
-
 
 /**
  * Gets chat completions for the provided chat messages.
