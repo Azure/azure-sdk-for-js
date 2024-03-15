@@ -33,7 +33,7 @@ export async function createRecordedClientContext(
 
   if (!env.NOTIFICATION_HUB_CONNECTION_STRING || !env.NOTIFICATION_HUB_NAME) {
     throw new Error(
-      "Notificaiton Hub connection string and hub name must be specified. Make sure NOTIFICATION_HUB_CONNECTION_STRING and NOTIFICATION_HUB_NAME are defined",
+      "Notification Hub connection string and hub name must be specified. Make sure NOTIFICATION_HUB_CONNECTION_STRING and NOTIFICATION_HUB_NAME are defined",
     );
   }
   return createClientContext(

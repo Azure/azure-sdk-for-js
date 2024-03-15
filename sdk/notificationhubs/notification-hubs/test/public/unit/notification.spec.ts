@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert } from "vitest";
 import * as Constants from "../../../src/utils/constants.js";
 import {
   createAdmNotification,
@@ -16,7 +17,6 @@ import {
   createWindowsTileNotification,
   createWindowsToastNotification,
 } from "../../../src/models/notification.js";
-import { assert } from "@azure/test-utils";
 
 describe("createAppleNotification", () => {
   it("should create an apple message with defaults", () => {

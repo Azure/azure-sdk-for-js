@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, beforeEach } from "vitest";
 import {
   NotificationHubsClientContext,
   createOrUpdateInstallation,
   deleteInstallation,
-} from "@azure/notification-hubs/api";
-import { assert, isNode } from "@azure/test-utils";
+} from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createAppleInstallation } from "@azure/notification-hubs/models";
+import { createAppleInstallation } from "../../src/models/index.js";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
+import { isNode } from "@azure/core-util";
 
 describe("createOrUpdateInstallation()", () => {
   let recorder: Recorder;
@@ -17,16 +18,16 @@ describe("createOrUpdateInstallation()", () => {
   const installationId = "0e7c5973-714c-4ba9-a233-7c4497d5f43b";
   const pushChannel = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async function (this: Mocha.Context) {
+  beforeEach(async (_ctx) => {
     if (!isNode) {
       return;
     }
 
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder();
     context = await createRecordedClientContext(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (!isNode) {
       return;
     }
@@ -34,9 +35,9 @@ describe("createOrUpdateInstallation()", () => {
     await recorder.stop();
   });
 
-  it("should add an installation", async function () {
+  it("should add an installation", async (ctx) => {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     const installation = createAppleInstallation({

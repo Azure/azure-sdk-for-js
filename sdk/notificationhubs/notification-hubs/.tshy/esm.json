@@ -1,0 +1,14 @@
+{
+  "extends": "./build.json",
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.mts",
+    "../src/**/*.tsx"
+  ],
+  "exclude": [
+    ".././src/auth/hmacSha256-browser.mts"
+  ],
+  "compilerOptions": {
+    "outDir": "../.tshy-build/esm"
+  }
+}
