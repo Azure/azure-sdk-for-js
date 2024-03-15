@@ -120,127 +120,127 @@ resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   }
 }
 
-resource farm 'Microsoft.Web/serverfarms@2021-03-01' = {
-  name: '${baseName}_farm'
-  location: location
-  sku: {
-    name: 'B1'
-    tier: 'Basic'
-    size: 'B1'
-    family: 'B'
-    capacity: 1
-  }
-  properties: {
-    reserved: true
-  }
-  kind: 'app,linux'
-}
+// resource farm 'Microsoft.Web/serverfarms@2021-03-01' = {
+//   name: '${baseName}_farm'
+//   location: location
+//   sku: {
+//     name: 'B1'
+//     tier: 'Basic'
+//     size: 'B1'
+//     family: 'B'
+//     capacity: 1
+//   }
+//   properties: {
+//     reserved: true
+//   }
+//   kind: 'app,linux'
+// }
 
-resource web 'Microsoft.Web/sites@2022-09-01' = {
-  name: '${baseName}webapp'
-  location: location
-  kind: 'app'
-  identity: {
-    type: 'SystemAssigned, UserAssigned'
-    userAssignedIdentities: {
-      '${userAssignedIdentity.id}' : { }
-    }
-  }
-  properties: {
-    enabled: true
-    serverFarmId: farm.id
-    httpsOnly: true
-    keyVaultReferenceIdentity: 'SystemAssigned'
-    siteConfig: {
-      linuxFxVersion: 'NODE|18-lts'
-      http20Enabled: true
-      minTlsVersion: '1.2'
-      appSettings: [
-        {
-          name: 'AZURE_REGIONAL_AUTHORITY_NAME'
-          value: 'eastus'
-        }
-        {
-          name: 'IDENTITY_STORAGE_NAME_1'
-          value: storageAccount.name
-        }
-        {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
-        }
-        {
-          name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
-          value: userAssignedIdentity.properties.clientId
-        }
-        {
-          name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
-          value: 'true'
-        }
-      ]
-    }
-  }
-}
+// resource web 'Microsoft.Web/sites@2022-09-01' = {
+//   name: '${baseName}webapp'
+//   location: location
+//   kind: 'app'
+//   identity: {
+//     type: 'SystemAssigned, UserAssigned'
+//     userAssignedIdentities: {
+//       '${userAssignedIdentity.id}' : { }
+//     }
+//   }
+//   properties: {
+//     enabled: true
+//     serverFarmId: farm.id
+//     httpsOnly: true
+//     keyVaultReferenceIdentity: 'SystemAssigned'
+//     siteConfig: {
+//       linuxFxVersion: 'NODE|18-lts'
+//       http20Enabled: true
+//       minTlsVersion: '1.2'
+//       appSettings: [
+//         {
+//           name: 'AZURE_REGIONAL_AUTHORITY_NAME'
+//           value: 'eastus'
+//         }
+//         {
+//           name: 'IDENTITY_STORAGE_NAME_1'
+//           value: storageAccount.name
+//         }
+//         {
+//           name: 'IDENTITY_STORAGE_NAME_2'
+//           value: storageAccount2.name
+//         }
+//         {
+//           name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
+//           value: userAssignedIdentity.properties.clientId
+//         }
+//         {
+//           name: 'SCM_DO_BUILD_DURING_DEPLOYMENT'
+//           value: 'true'
+//         }
+//       ]
+//     }
+//   }
+// }
 
-resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
-  name: '${baseName}func'
-  location: location
-  kind: 'functionapp'
-  identity: {
-    type: 'SystemAssigned, UserAssigned'
-    userAssignedIdentities: {
-      '${userAssignedIdentity.id}' : { }
-    }
-  }
-  properties: {
-    enabled: true
-    serverFarmId: farm.id
-    httpsOnly: true
-    keyVaultReferenceIdentity: 'SystemAssigned'
-    siteConfig: {
-      alwaysOn: true
-      http20Enabled: true
-      minTlsVersion: '1.2'
-      appSettings: [
-        {
-          name: 'IDENTITY_STORAGE_NAME_1'
-          value: storageAccount.name
-        }
-        {
-          name: 'IDENTITY_STORAGE_NAME_2'
-          value: storageAccount2.name
-        }
-        {
-          name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
-          value: userAssignedIdentity.properties.clientId
-        }
-        {
-          name: 'AzureWebJobsStorage'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
-          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
-          value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
-        }
-        {
-          name: 'WEBSITE_CONTENTSHARE'
-          value: toLower('${baseName}-func')
-        }
-        {
-          name: 'FUNCTIONS_EXTENSION_VERSION'
-          value: '~4'
-        }
-        {
-          name: 'FUNCTIONS_WORKER_RUNTIME'
-          value: 'node'
-        }
-        {
-          name: 'DOCKER_CUSTOM_IMAGE_NAME'
-          value: 'mcr.microsoft.com/azure-functions/node:4-node18-appservice-stage3'
-        }
-      ]
-    }
-  }
-}
+// resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
+//   name: '${baseName}func'
+//   location: location
+//   kind: 'functionapp'
+//   identity: {
+//     type: 'SystemAssigned, UserAssigned'
+//     userAssignedIdentities: {
+//       '${userAssignedIdentity.id}' : { }
+//     }
+//   }
+//   properties: {
+//     enabled: true
+//     serverFarmId: farm.id
+//     httpsOnly: true
+//     keyVaultReferenceIdentity: 'SystemAssigned'
+//     siteConfig: {
+//       alwaysOn: true
+//       http20Enabled: true
+//       minTlsVersion: '1.2'
+//       appSettings: [
+//         {
+//           name: 'IDENTITY_STORAGE_NAME_1'
+//           value: storageAccount.name
+//         }
+//         {
+//           name: 'IDENTITY_STORAGE_NAME_2'
+//           value: storageAccount2.name
+//         }
+//         {
+//           name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
+//           value: userAssignedIdentity.properties.clientId
+//         }
+//         {
+//           name: 'AzureWebJobsStorage'
+//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         }
+//         {
+//           name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+//           value: 'DefaultEndpointsProtocol=https;AccountName=${storageAccount.name};EndpointSuffix=${environment().suffixes.storage};AccountKey=${storageAccount.listKeys().keys[0].value}'
+//         }
+//         {
+//           name: 'WEBSITE_CONTENTSHARE'
+//           value: toLower('${baseName}-func')
+//         }
+//         {
+//           name: 'FUNCTIONS_EXTENSION_VERSION'
+//           value: '~4'
+//         }
+//         {
+//           name: 'FUNCTIONS_WORKER_RUNTIME'
+//           value: 'node'
+//         }
+//         {
+//           name: 'DOCKER_CUSTOM_IMAGE_NAME'
+//           value: 'mcr.microsoft.com/azure-functions/node:4-node18-appservice-stage3'
+//         }
+//       ]
+//     }
+//   }
+// }
 
 resource publishPolicyWeb 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
   kind: 'app'

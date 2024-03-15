@@ -46,6 +46,8 @@ async function main() {
   if (!success) {
     throw new Error("Unable to authenticate, see console logs for details");
   }
+
+  return "Successfully authenticated with storage";
 }
 
 main().catch((err) => {
