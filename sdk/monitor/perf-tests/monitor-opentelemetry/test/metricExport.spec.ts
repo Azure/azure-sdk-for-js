@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure/test-utils-perf";
-import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec";
+import { MonitorOpenTelemetryTest } from "./monitorOpenTelemetry.spec.js";
 import { metrics } from "@opentelemetry/api";
 
 type MonitorOpenTelemetryTestOptions = Record<string, unknown>;

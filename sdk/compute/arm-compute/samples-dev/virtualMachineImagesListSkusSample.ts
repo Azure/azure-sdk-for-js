@@ -31,7 +31,7 @@ async function virtualMachineImageListSkusMaximumSetGen() {
   const result = await client.virtualMachineImages.listSkus(
     location,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function virtualMachineImageListSkusMinimumSetGen() {
   const result = await client.virtualMachineImages.listSkus(
     location,
     publisherName,
-    offer
+    offer,
   );
   console.log(result);
 }
