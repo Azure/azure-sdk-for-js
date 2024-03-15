@@ -1,5 +1,11 @@
 # Release History
 
+## Unreleased ()
+
+### Other Changes
+
+- Updated the @microsoft/applicationinsights-web-snippet to v1.1.2.
+
 ## 1.3.0 (2024-02-13)
 
 ### Features Added

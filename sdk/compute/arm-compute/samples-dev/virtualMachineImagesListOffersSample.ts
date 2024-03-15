@@ -29,7 +29,7 @@ async function virtualMachineImageListOffersMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImages.listOffers(
     location,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function virtualMachineImageListOffersMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineImages.listOffers(
     location,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }

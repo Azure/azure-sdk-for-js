@@ -29,7 +29,7 @@ async function dedicatedHostGroupListByResourceGroupMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dedicatedHostGroups.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -51,7 +51,7 @@ async function dedicatedHostGroupListByResourceGroupMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.dedicatedHostGroups.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

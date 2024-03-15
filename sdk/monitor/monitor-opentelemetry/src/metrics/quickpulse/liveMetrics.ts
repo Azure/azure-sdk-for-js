@@ -13,6 +13,7 @@ import {
   ObservableGauge,
   ObservableResult,
   SpanKind,
+  SpanStatusCode,
   ValueType,
   context,
 } from "@opentelemetry/api";
@@ -23,9 +24,9 @@ import {
   DocumentIngress,
   Exception,
   MonitoringDataPoint,
-  PingOptionalParams,
-  PingResponse,
-  PostResponse,
+  IsSubscribedOptionalParams,
+  IsSubscribedResponse,
+  PublishResponse,
   RemoteDependency,
   Request,
   Trace,
@@ -41,7 +42,7 @@ import {
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
-import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
+import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
 import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 
@@ -130,17 +131,19 @@ export class LiveMetrics {
       roleName: roleName,
       machineName: machineName,
       streamId: streamId,
+      performanceCollectionSupported: true,
+      isWebApp: process.env["WEBSITE_SITE_NAME"] ? true : false,
     };
     const parsedConnectionString = ConnectionStringParser.parse(
       this.config.azureMonitorExporterOptions.connectionString,
     );
     this.pingSender = new QuickpulseSender({
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
     });
     let exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
-      instrumentationKey: parsedConnectionString.instrumentationkey || DEFAULT_BREEZE_ENDPOINT,
+      instrumentationKey: parsedConnectionString.instrumentationkey || "",
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
@@ -161,12 +164,12 @@ export class LiveMetrics {
     if (!this.isCollectingData) {
       // If not collecting, Ping
       try {
-        let params: PingOptionalParams = {
-          xMsQpsTransmissionTime: getTransmissionTime(),
+        let params: IsSubscribedOptionalParams = {
+          transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
         };
         await context.with(suppressTracing(context.active()), async () => {
-          let response = await this.pingSender.ping(params);
+          let response = await this.pingSender.isSubscribed(params);
           this.quickPulseDone(response);
         });
       } catch (error) {
@@ -180,7 +183,7 @@ export class LiveMetrics {
     }
   }
 
-  private async quickPulseDone(response: PostResponse | PingResponse | undefined) {
+  private async quickPulseDone(response: PublishResponse | IsSubscribedResponse | undefined) {
     if (!response) {
       if (!this.isCollectingData) {
         if (Date.now() - this.lastSuccessTime >= MAX_PING_WAIT_TIME) {
@@ -207,12 +210,14 @@ export class LiveMetrics {
         this.handle.unref();
       }
 
-      this.pingSender.handlePermanentRedirect(response.xMsQpsServiceEndpointRedirectV2);
-      this.quickpulseExporter
-        .getSender()
-        .handlePermanentRedirect(response.xMsQpsServiceEndpointRedirectV2);
-      if (response.xMsQpsServicePollingIntervalHint) {
-        this.pingInterval = Number(response.xMsQpsServicePollingIntervalHint);
+      const endpointRedirect = (response as IsSubscribedResponse).xMsQpsServiceEndpointRedirectV2;
+      if (endpointRedirect) {
+        this.pingSender.handlePermanentRedirect(endpointRedirect);
+        this.quickpulseExporter.getSender().handlePermanentRedirect(endpointRedirect);
+      }
+      const pollingInterval = (response as IsSubscribedResponse).xMsQpsServicePollingIntervalHint;
+      if (pollingInterval) {
+        this.pingInterval = Number(pollingInterval);
       } else {
         this.pingInterval = PING_INTERVAL;
       }
@@ -366,8 +371,7 @@ export class LiveMetrics {
       let document: Request | RemoteDependency = getSpanDocument(span);
       this.addDocument(document);
       const durationMs = hrTimeToMilliseconds(span.duration);
-      const statusCode = String(span.attributes["http.status_code"]);
-      let success = statusCode === "200" ? true : false;
+      let success = span.status.code !== SpanStatusCode.ERROR;
 
       if (span.kind === SpanKind.SERVER || span.kind === SpanKind.CONSUMER) {
         this.totalRequestCount++;
@@ -464,7 +468,7 @@ export class LiveMetrics {
     }
     this.lastDependencyDuration = {
       count: this.totalDependencyCount,
-      duration: this.requestDuration,
+      duration: this.dependencyDuration,
       time: currentTime,
     };
   }

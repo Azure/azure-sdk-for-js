@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
-import * as msalPlugins from "../../../src/msal/nodeFlows/msalPlugins";
 
 import { AuthenticationResult, ConfidentialClientApplication } from "@azure/msal-node";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
@@ -13,6 +12,7 @@ import { AuthenticationRequiredError } from "../../../src/errors";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure/test-utils";
 import { credentialLogger } from "../../../src/util/logging";
+import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
 
 describe("MsalClient", function () {
