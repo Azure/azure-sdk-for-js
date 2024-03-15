@@ -769,19 +769,6 @@ export interface PineconeChatExtensionConfiguration {
 }
 
 // @public
-export interface PineconeChatExtensionParameters {
-    authentication?: OnYourDataAuthenticationOptionsUnion;
-    embeddingDependency?: OnYourDataVectorizationSourceUnion;
-    environment: string;
-    fieldsMapping: PineconeFieldMappingOptions;
-    indexName: string;
-    inScope?: boolean;
-    roleInformation?: string;
-    strictness?: number;
-    topNDocuments?: number;
-}
-
-// @public
 export interface PineconeFieldMappingOptions {
     contentFields?: string[];
     contentFieldsSeparator?: string;

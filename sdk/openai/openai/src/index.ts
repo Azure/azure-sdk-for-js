@@ -64,7 +64,6 @@ export {
   ElasticsearchIndexFieldMappingOptions,
   ElasticsearchQueryType,
   PineconeChatExtensionConfiguration,
-  PineconeChatExtensionParameters,
   PineconeFieldMappingOptions,
   AzureChatExtensionType,
   AzureChatEnhancementConfiguration,

@@ -1145,6 +1145,7 @@ export interface PineconeChatExtensionConfiguration {
   /** The embedding dependency for vector search. */
   embeddingDependency?: OnYourDataVectorizationSource;
 }
+
 /**
  *
  *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
@@ -1157,34 +1158,6 @@ export type AzureChatExtensionConfiguration =
   | AzureCosmosDBChatExtensionConfiguration
   | ElasticsearchChatExtensionConfiguration
   | PineconeChatExtensionConfiguration;
-
-/** Parameters for configuring Azure OpenAI Pinecone chat extensions. */
-export interface PineconeChatExtensionParameters {
-  /**
-   * The authentication method to use when accessing the defined data source.
-   * Each data source type supports a specific set of available authentication methods; please see the documentation of
-   * the data source for supported mechanisms.
-   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
-   * authentication.
-   */
-  authentication?: OnYourDataAuthenticationOptionsUnion;
-  /** The configured top number of documents to feature for the configured query. */
-  topNDocuments?: number;
-  /** Whether queries should be restricted to use of indexed data. */
-  inScope?: boolean;
-  /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
-  strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  roleInformation?: string;
-  /** The environment name of Pinecone. */
-  environment: string;
-  /** The name of the Pinecone database index. */
-  indexName: string;
-  /** Customized field mapping behavior to use when interacting with the search index. */
-  fieldsMapping: PineconeFieldMappingOptions;
-  /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataVectorizationSourceUnion;
-}
 
 /** Optional settings to control how fields are processed when using a configured Pinecone resource. */
 export interface PineconeFieldMappingOptions {

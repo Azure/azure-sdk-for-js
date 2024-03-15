@@ -237,46 +237,25 @@ export async function _getCompletionsDeserialize(
 export function getCompletionsResult(
   body: CompletionsOutput & ContentFilterResultsForPromptX,
 ): Completions {
-  const { prompt_annotations, prompt_filter_results } = body;
+  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {
-    id: body["id"],
-    created: new Date(body["created"]),
+    ...camelCaseKeys(rest),
+    created: new Date(created),
     promptFilterResults: getContentFilterResultsForPrompt({
       prompt_filter_results,
       prompt_annotations,
     }),
-    choices: !body["choices"]
-      ? []
-      : body["choices"].map((p) => ({
-          ...(!p.content_filter_results
-            ? {}
-            : {
-                contentFilterResults: parseContentFilterResultsForChoiceOutput(
-                  p.content_filter_results,
-                ),
-              }),
-          text: p["text"],
-          index: p["index"],
-          logprobs:
-            p.logprobs === null
-              ? null
-              : {
-                  tokens: p.logprobs["tokens"],
-                  tokenLogprobs: p.logprobs["token_logprobs"],
-                  topLogprobs: p.logprobs["top_logprobs"],
-                  textOffset: p.logprobs["text_offset"],
-                },
-          finishReason: p["finish_reason"],
-        })),
-    usage: !body["usage"]
-      ? body["usage"]
-      : {
-          completionTokens: body.usage["completion_tokens"],
-          promptTokens: body.usage["prompt_tokens"],
-          totalTokens: body.usage["total_tokens"],
-        },
+    choices: choices.map(({ content_filter_results, ...choice }) => ({
+      ...camelCaseKeys(choice),
+      ...(!content_filter_results
+        ? {}
+        : {
+          contentFilterResults: parseContentFilterResultsForChoiceOutput(content_filter_results),
+        }),
+    })),
   };
 }
+
 /**
  * Gets completions for the provided input prompts.
  * Completions support a wide variety of tasks and generate text that continues from or "completes"
@@ -374,60 +353,30 @@ export async function _getChatCompletionsDeserialize(
 export function getChatCompletionsResult(
   body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
 ): ChatCompletions {
-  const { prompt_annotations, prompt_filter_results } = body;
+  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
   return {
-    id: body["id"],
-    created: new Date(body["created"]),
-    choices: !body["choices"]
-      ? []
-      : body["choices"].map((p) => ({
-          ...(!p.delta ? {} : { delta: parseMessage(p.delta) }),
-          ...(!p.message ? {} : { message: parseMessage(p.message) }),
-          ...(!p.content_filter_results
-            ? {}
-            : {
-                contentFilterResults: parseContentFilterResultsForChoiceOutput(
-                  p.content_filter_results,
-                ),
-              }),
-          index: p["index"],
-          finishReason: p["finish_reason"],
-          finishDetails: !p.finish_details ? undefined : { type: p.finish_details?.["type"] },
-          enhancements: !p.enhancements
-            ? undefined
-            : {
-                grounding: !p.enhancements?.grounding
-                  ? undefined
-                  : {
-                      lines: p.enhancements?.grounding?.["lines"].map((p) => ({
-                        text: p["text"],
-                        spans: p["spans"].map((p) => ({
-                          text: p["text"],
-                          offset: p["offset"],
-                          length: p["length"],
-                          polygon: p["polygon"].map((p) => ({
-                            x: p["x"],
-                            y: p["y"],
-                          })),
-                        })),
-                      })),
-                    },
-              },
-        })),
+    ...camelCaseKeys(rest),
+    created: new Date(created),
     promptFilterResults: getContentFilterResultsForPrompt({
       prompt_filter_results,
       prompt_annotations,
     }),
-    systemFingerprint: body["system_fingerprint"],
-    usage: !body["usage"]
-      ? body["usage"]
-      : {
-          completionTokens: body.usage["completion_tokens"],
-          promptTokens: body.usage["prompt_tokens"],
-          totalTokens: body.usage["total_tokens"],
-        },
+    choices: !choices
+      ? []
+      : choices.map(({ content_filter_results, delta, message, ...choice }) => ({
+        ...camelCaseKeys(choice),
+        ...(!delta ? {} : { delta: parseMessage(delta) }),
+        ...(!message ? {} : { message: parseMessage(message) }),
+        ...(!content_filter_results
+          ? {}
+          : {
+            contentFilterResults:
+              parseContentFilterResultsForChoiceOutput(content_filter_results),
+          }),
+      })),
   };
 }
+
 
 /**
  * Gets chat completions for the provided chat messages.
@@ -694,58 +643,7 @@ function parseContentFilterResultsForChoiceOutput({
           details: error["details"] ?? [],
         },
       }
-    : {
-        sexual: !successResult?.sexual
-          ? undefined
-          : {
-              severity: successResult?.sexual?.["severity"],
-              filtered: successResult?.sexual?.["filtered"],
-            },
-        violence: !successResult?.violence
-          ? undefined
-          : {
-              severity: successResult?.violence?.["severity"],
-              filtered: successResult?.violence?.["filtered"],
-            },
-        hate: !successResult?.hate
-          ? undefined
-          : {
-              severity: successResult?.hate?.["severity"],
-              filtered: successResult?.hate?.["filtered"],
-            },
-        selfHarm: !successResult?.self_harm
-          ? undefined
-          : {
-              severity: successResult?.self_harm?.["severity"],
-              filtered: successResult?.self_harm?.["filtered"],
-            },
-        profanity: !successResult?.profanity
-          ? undefined
-          : {
-              filtered: successResult?.profanity?.["filtered"],
-              detected: successResult?.profanity?.["detected"],
-            },
-        customBlocklists: !successResult?.["custom_blocklists"]
-          ? successResult?.["custom_blocklists"]
-          : successResult?.["custom_blocklists"].map((p) => ({
-              id: p["id"],
-              filtered: p["filtered"],
-            })),
-        protectedMaterialText: !successResult?.protected_material_text
-          ? undefined
-          : {
-              filtered: successResult?.protected_material_text?.["filtered"],
-              detected: successResult?.protected_material_text?.["detected"],
-            },
-        protectedMaterialCode: !successResult?.protected_material_code
-          ? undefined
-          : {
-              filtered: successResult?.protected_material_code?.["filtered"],
-              detected: successResult?.protected_material_code?.["detected"],
-              url: successResult?.protected_material_code?.["URL"],
-              license: successResult?.protected_material_code?.["license"],
-            },
-      };
+    : camelCaseKeys(successResult);
 }
 
 function parseMessage(message: ChatResponseMessageOutput): ChatResponseMessage {
