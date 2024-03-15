@@ -1236,6 +1236,42 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/communication-common@2.3.1:
+    resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-rest-pipeline': 1.14.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/core-util': 1.7.0
+      events: 3.3.0
+      jwt-decode: 4.0.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
+  /@azure/communication-phone-numbers@1.2.0:
+    resolution: {integrity: sha512-fuCtFFSJb8fZohEJmy3rdD6yohCCirlVzSiebJ8JIX2wrzw44/JEP0jd9V+vtGZUCyDk5Xj2ackb4FI/kH7wUQ==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/communication-common': 2.3.1
+      '@azure/core-auth': 1.6.0
+      '@azure/core-client': 1.8.0
+      '@azure/core-lro': 2.6.0
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.14.0
+      '@azure/core-tracing': 1.0.1
+      '@azure/logger': 1.0.4
+      events: 3.3.0
+      tslib: 2.6.2
+      uuid: 8.3.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-signaling@1.0.0-beta.22:
     resolution: {integrity: sha512-0ispnIoRERypuNck90C+QaMTRC4v8owOOV+MbNec72HWCuPz+ndribcc8kIfCgplgwXDFsghskHkD6CaPyYdsA==}
     engines: {node: '>=8.0.0'}
@@ -17423,6 +17459,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/communication-phone-numbers': 1.2.0
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
       '@types/mocha': 10.0.6

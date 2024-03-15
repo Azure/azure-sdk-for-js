@@ -32,7 +32,7 @@ async function getInformationAboutAPrivateEndpointConnectionUnderADiskAccessReso
   const result = await client.diskAccesses.getAPrivateEndpointConnection(
     resourceGroupName,
     diskAccessName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

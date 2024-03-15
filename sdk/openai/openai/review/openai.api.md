@@ -262,6 +262,7 @@ export interface ChatCompletionsTextResponseFormat extends ChatCompletionsRespon
 // @public
 export interface ChatCompletionsToolCall {
     id: string;
+    index?: number;
     type: string;
 }
 

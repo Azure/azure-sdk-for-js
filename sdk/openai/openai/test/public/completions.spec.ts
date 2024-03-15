@@ -514,6 +514,40 @@ describe("OpenAI", function () {
             );
           });
 
+          it("calls toolCalls", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.streamChatCompletions(
+                      deploymentName,
+                      [{ role: "user", content: "What's the weather like in Boston?" }],
+                      {
+                        tools: [{ type: "function", function: getCurrentWeather }],
+                      },
+                    ),
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
           it("bring your own data", async function () {
             if (authMethod === "OpenAIKey") {
               this.skip();

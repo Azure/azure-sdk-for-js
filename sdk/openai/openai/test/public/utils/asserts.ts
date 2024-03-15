@@ -15,6 +15,7 @@ import {
   AzureGroundingEnhancementLineSpan,
   ChatChoice,
   ChatCompletions,
+  ChatCompletionsFunctionToolCall,
   ChatCompletionsToolCallUnion,
   ChatFinishDetails,
   ChatResponseMessage,
@@ -181,8 +182,11 @@ function assertToolCall(
 ): void {
   assertIf(!stream, functionCall.type, assert.isString);
   assertIf(!stream, functionCall.id, assert.isString);
-  if ("function" in functionCall){
-    assertFunctionCall(functionCall.function, { stream });
+  assertIf(Boolean(stream), functionCall.index, assert.isNumber);
+  switch (functionCall.type) {
+    case "function":
+      assertFunctionCall((functionCall as ChatCompletionsFunctionToolCall).function, { stream });
+      break;
   }
 }
 

@@ -692,6 +692,8 @@ export interface ChatCompletionsToolCall {
   type: string;
   /** The ID of the tool call. */
   id: string;
+  /** The index of the tool call. */
+  index?: number;
 }
 
 /**
