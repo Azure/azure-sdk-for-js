@@ -29,14 +29,14 @@ async function getASasOnAManagedDisk() {
   const grantAccessData: GrantAccessData = {
     access: "Read",
     durationInSeconds: 300,
-    fileFormat: "VHD"
+    fileFormat: "VHD",
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }
@@ -56,14 +56,14 @@ async function getSasOnManagedDiskAndVMGuestState() {
   const grantAccessData: GrantAccessData = {
     access: "Read",
     durationInSeconds: 300,
-    getSecureVMGuestStateSAS: true
+    getSecureVMGuestStateSAS: true,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginGrantAccessAndWait(
     resourceGroupName,
     diskName,
-    grantAccessData
+    grantAccessData,
   );
   console.log(result);
 }

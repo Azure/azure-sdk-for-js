@@ -18,7 +18,7 @@ import {
   GalleryApplicationsUpdateResponse,
   GalleryApplicationsGetOptionalParams,
   GalleryApplicationsGetResponse,
-  GalleryApplicationsDeleteOptionalParams
+  GalleryApplicationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,7 +34,7 @@ export interface GalleryApplications {
   listByGallery(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleryApplicationsListByGalleryOptionalParams
+    options?: GalleryApplicationsListByGalleryOptionalParams,
   ): PagedAsyncIterableIterator<GalleryApplication>;
   /**
    * Create or update a gallery Application Definition.
@@ -52,7 +52,7 @@ export interface GalleryApplications {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplication,
-    options?: GalleryApplicationsCreateOrUpdateOptionalParams
+    options?: GalleryApplicationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryApplicationsCreateOrUpdateResponse>,
@@ -75,7 +75,7 @@ export interface GalleryApplications {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplication,
-    options?: GalleryApplicationsCreateOrUpdateOptionalParams
+    options?: GalleryApplicationsCreateOrUpdateOptionalParams,
   ): Promise<GalleryApplicationsCreateOrUpdateResponse>;
   /**
    * Update a gallery Application Definition.
@@ -93,7 +93,7 @@ export interface GalleryApplications {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplicationUpdate,
-    options?: GalleryApplicationsUpdateOptionalParams
+    options?: GalleryApplicationsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleryApplicationsUpdateResponse>,
@@ -116,7 +116,7 @@ export interface GalleryApplications {
     galleryName: string,
     galleryApplicationName: string,
     galleryApplication: GalleryApplicationUpdate,
-    options?: GalleryApplicationsUpdateOptionalParams
+    options?: GalleryApplicationsUpdateOptionalParams,
   ): Promise<GalleryApplicationsUpdateResponse>;
   /**
    * Retrieves information about a gallery Application Definition.
@@ -130,7 +130,7 @@ export interface GalleryApplications {
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationsGetOptionalParams
+    options?: GalleryApplicationsGetOptionalParams,
   ): Promise<GalleryApplicationsGetResponse>;
   /**
    * Delete a gallery Application.
@@ -144,7 +144,7 @@ export interface GalleryApplications {
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationsDeleteOptionalParams
+    options?: GalleryApplicationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a gallery Application.
@@ -158,6 +158,6 @@ export interface GalleryApplications {
     resourceGroupName: string,
     galleryName: string,
     galleryApplicationName: string,
-    options?: GalleryApplicationsDeleteOptionalParams
+    options?: GalleryApplicationsDeleteOptionalParams,
   ): Promise<void>;
 }
