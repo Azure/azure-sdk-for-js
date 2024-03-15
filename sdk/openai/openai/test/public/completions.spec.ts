@@ -406,7 +406,7 @@ describe("OpenAI", function () {
                     deploymentName,
                     [{ role: "user", content: "What's the weather like in Boston?" }],
                     {
-                      toolChoice: { type: "function", function: { name: getCurrentWeather.name } },
+                      toolChoice: { type: "function", function: { name: getCurrentWeather.name } } as any,
                       tools: [
                         { type: "function", function: getCurrentWeather },
                         {

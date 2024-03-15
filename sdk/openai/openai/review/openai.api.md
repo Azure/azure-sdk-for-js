@@ -144,11 +144,6 @@ export interface AzureCosmosDBChatExtensionConfiguration {
 
 // @public
 export interface AzureCosmosDBFieldMappingOptions {
-    contentFields: string[];
-    contentFieldsSeparator?: string;
-    filepathField?: string;
-    titleField?: string;
-    urlField?: string;
     vectorFields: string[];
 }
 
@@ -233,18 +228,13 @@ export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsTo
 }
 
 // @public
-export interface ChatCompletionsFunctionToolSelection {
-    name: string;
-}
-
-// @public
 export interface ChatCompletionsJsonResponseFormat extends ChatCompletionsResponseFormat {
     type: "json_object";
 }
 
 // @public
 export interface ChatCompletionsNamedFunctionToolSelection extends ChatCompletionsNamedToolSelection {
-    function: ChatCompletionsFunctionToolSelection;
+    name: string;
     type: "function";
 }
 
@@ -665,12 +655,6 @@ export interface MaxTokensFinishDetails extends ChatFinishDetails {
 }
 
 // @public
-export interface OnYourDataAccessTokenAuthenticationOptions extends OnYourDataAuthenticationOptions {
-    accessToken: string;
-    type: "AccessToken";
-}
-
-// @public
 export interface OnYourDataApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptions {
     key: string;
     type: "APIKey";
@@ -682,7 +666,7 @@ export interface OnYourDataAuthenticationOptions {
 }
 
 // @public
-export type OnYourDataAuthenticationOptionsUnion = OnYourDataApiKeyAuthenticationOptions | OnYourDataConnectionStringAuthenticationOptions | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataEncodedApiKeyAuthenticationOptions | OnYourDataAccessTokenAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAuthenticationOptions;
+export type OnYourDataAuthenticationOptionsUnion = OnYourDataApiKeyAuthenticationOptions | OnYourDataConnectionStringAuthenticationOptions | OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAuthenticationOptions;
 
 // @public
 export type OnYourDataAuthenticationType = string;
@@ -697,12 +681,6 @@ export interface OnYourDataConnectionStringAuthenticationOptions extends OnYourD
 export interface OnYourDataDeploymentNameVectorizationSource extends OnYourDataVectorizationSource {
     deploymentName: string;
     type: "DeploymentName";
-}
-
-// @public
-export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptions {
-    encodedApiKey: string;
-    type: "EncodedAPIKey";
 }
 
 // @public
@@ -792,7 +770,7 @@ export interface PineconeChatExtensionConfiguration {
 // @public
 export interface PineconeChatExtensionParameters {
     authentication?: OnYourDataAuthenticationOptionsUnion;
-    embeddingDependency: OnYourDataVectorizationSourceUnion;
+    embeddingDependency?: OnYourDataVectorizationSourceUnion;
     environment: string;
     fieldsMapping: PineconeFieldMappingOptions;
     indexName: string;
@@ -804,11 +782,13 @@ export interface PineconeChatExtensionParameters {
 
 // @public
 export interface PineconeFieldMappingOptions {
-    contentFields: string[];
+    contentFields?: string[];
     contentFieldsSeparator?: string;
     filepathField?: string;
+    imageVectorFields?: string[];
     titleField?: string;
     urlField?: string;
+    vectorFields?: string[];
 }
 
 // @public

@@ -852,7 +852,7 @@ export interface AzureCognitiveSearchChatExtensionConfiguration {
 
 /** The authentication options for Azure OpenAI On Your Data. */
 export interface OnYourDataAuthenticationOptions {
-  /** the discriminator possible values: APIKey, ConnectionString, KeyAndKeyId, EncodedAPIKey, AccessToken, SystemAssignedManagedIdentity, UserAssignedManagedIdentity */
+  /** the discriminator possible values: APIKey, ConnectionString, KeyAndKeyId, SystemAssignedManagedIdentity, UserAssignedManagedIdentity */
   type: OnYourDataAuthenticationType;
 }
 
@@ -885,24 +885,6 @@ export interface OnYourDataKeyAndKeyIdAuthenticationOptions
   keyId: string;
 }
 
-/** The authentication options for Azure OpenAI On Your Data when using an Elasticsearch encoded API key. */
-export interface OnYourDataEncodedApiKeyAuthenticationOptions
-  extends OnYourDataAuthenticationOptions {
-  /** The authentication type of Elasticsearch encoded API Key. */
-  type: "EncodedAPIKey";
-  /** The encoded API key to use for authentication. */
-  encodedApiKey: string;
-}
-
-/** The authentication options for Azure OpenAI On Your Data when using access token. */
-export interface OnYourDataAccessTokenAuthenticationOptions
-  extends OnYourDataAuthenticationOptions {
-  /** The authentication type of access token. */
-  type: "AccessToken";
-  /** The access token to use for authentication. */
-  accessToken: string;
-}
-
 /** The authentication options for Azure OpenAI On Your Data when using a system-assigned managed identity. */
 export interface OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   extends OnYourDataAuthenticationOptions {
@@ -920,7 +902,7 @@ export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions
 }
 
 /** The authentication types supported with Azure OpenAI On Your Data. */
-/** "APIKey", "ConnectionString", "KeyAndKeyId", "EncodedAPIKey", "AccessToken", "SystemAssignedManagedIdentity", "UserAssignedManagedIdentity" */
+/** "APIKey", "ConnectionString", "KeyAndKeyId", "SystemAssignedManagedIdentity", "UserAssignedManagedIdentity" */
 export type OnYourDataAuthenticationType = string;
 
 /** Optional settings to control how fields are processed when using a configured Azure Cognitive Search resource. */
@@ -1071,16 +1053,6 @@ export interface AzureCosmosDBChatExtensionConfiguration {
 }
 /** Optional settings to control how fields are processed when using a configured Azure Cosmos DB resource. */
 export interface AzureCosmosDBFieldMappingOptions {
-  /** The name of the index field to use as a title. */
-  titleField?: string;
-  /** The name of the index field to use as a URL. */
-  urlField?: string;
-  /** The name of the index field to use as a filepath. */
-  filepathField?: string;
-  /** The names of index fields that should be treated as content. */
-  contentFields: string[];
-  /** The separator pattern that content fields should use. */
-  contentFieldsSeparator?: string;
   /** The names of fields that represent vector data. */
   vectorFields: string[];
 }
@@ -1192,7 +1164,7 @@ export type AzureChatExtensionConfiguration =
   | ElasticsearchChatExtensionConfiguration
   | PineconeChatExtensionConfiguration;
 
-/** Parameters for configuring Azure OpenAI Pinecone chat extensions. The supported authentication type is APIKey. */
+/** Parameters for configuring Azure OpenAI Pinecone chat extensions. */
 export interface PineconeChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
@@ -1217,7 +1189,7 @@ export interface PineconeChatExtensionParameters {
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: PineconeFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency: OnYourDataVectorizationSourceUnion;
+  embeddingDependency?: OnYourDataVectorizationSourceUnion;
 }
 
 /** Optional settings to control how fields are processed when using a configured Pinecone resource. */
@@ -1229,9 +1201,13 @@ export interface PineconeFieldMappingOptions {
   /** The name of the index field to use as a filepath. */
   filepathField?: string;
   /** The names of index fields that should be treated as content. */
-  contentFields: string[];
+  contentFields?: string[];
   /** The separator pattern that content fields should use. */
   contentFieldsSeparator?: string;
+  /** The names of fields that represent vector data. */
+  vectorFields?: string[];
+  /** The names of fields that represent image vector data. */
+  imageVectorFields?: string[];
 }
 
 /**
@@ -1318,12 +1294,6 @@ export interface ChatCompletionsNamedFunctionToolSelection
   extends ChatCompletionsNamedToolSelection {
   /** The object type, which is always 'function'. */
   type: "function";
-  /** The function that should be called. */
-  function: ChatCompletionsFunctionToolSelection;
-}
-
-/** A tool selection of a specific, named function tool that will limit chat completions to using the named function. */
-export interface ChatCompletionsFunctionToolSelection {
   /** The name of the function that should be called. */
   name: string;
 }
@@ -1664,8 +1634,6 @@ export type OnYourDataAuthenticationOptionsUnion =
   | OnYourDataApiKeyAuthenticationOptions
   | OnYourDataConnectionStringAuthenticationOptions
   | OnYourDataKeyAndKeyIdAuthenticationOptions
-  | OnYourDataEncodedApiKeyAuthenticationOptions
-  | OnYourDataAccessTokenAuthenticationOptions
   | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions
   | OnYourDataUserAssignedManagedIdentityAuthenticationOptions
   | OnYourDataAuthenticationOptions;

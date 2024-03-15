@@ -2,30 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { getCompletionsResult, getChatCompletionsResult } from "../../src/api/operations.js";
-import { HttpResponse } from "@azure-rest/core-client";
-import { PipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { getChatCompletionsResult, getCompletionsResult } from "../../src/api/operations.js";
 
 const created = new Date("2022-01-01T00:00:00.000Z").getTime();
-function createFakeResponse<T>(body: T): HttpResponse & {
-  body: T;
-  status: "200"
-} {
-  const fakeRequest: PipelineRequest = {
-    url: "https://fakeurl.com",
-    method: "GET",
-    headers: createHttpHeaders({}),
-    timeout: 0,
-    withCredentials: false,
-    requestId: "123",
-  };
-  return {
-    body,
-    status: "200",
-    request: fakeRequest,
-    headers: {"header": "header"}
-  };
-}
+
 describe("deserializers", () => {
   describe("getCompletionsResult", () => {
     it("should deserialize completions response", () => {
@@ -92,15 +72,8 @@ describe("deserializers", () => {
         ],
         usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
       };
-      const fakeRequest: PipelineRequest = {
-        url: "https://fakeurl.com",
-        method: "GET",
-        headers: createHttpHeaders({}),
-        timeout: 0,
-        withCredentials: false,
-        requestId: "123",
-      };
-      const result = getCompletionsResult({body, status: "200", request: fakeRequest, headers: {"header": "header"}});
+
+      const result = getCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -232,7 +205,7 @@ describe("deserializers", () => {
         usage: { completion_tokens: 135, prompt_tokens: 68, total_tokens: 203 },
       };
 
-      const result = getCompletionsResult(createFakeResponse(body));
+      const result = getCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -360,7 +333,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(createFakeResponse(body));
+      const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -481,7 +454,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(createFakeResponse(body));
+      const result = getChatCompletionsResult(body as any);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -580,7 +553,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(createFakeResponse(body));
+      const result = getChatCompletionsResult(body);
 
       assert.deepStrictEqual(result, {
         id: "123",
@@ -640,7 +613,7 @@ describe("deserializers", () => {
         system_fingerprint: "123",
       };
 
-      const result = getChatCompletionsResult(createFakeResponse(body) as any);
+      const result = getChatCompletionsResult(body as any);
 
       assert.deepStrictEqual(result, {
         id: "123",
