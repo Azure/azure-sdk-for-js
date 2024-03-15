@@ -41,6 +41,11 @@ export interface AuthorizationRule {
     secondaryKey?: string;
 }
 
+// @public (undocumented)
+export interface BatchDeleteMessagesOptions extends OperationOptionsBase {
+    enqueuedTimeUtcOlderThan?: Date;
+}
+
 // @public
 export interface CorrelationRuleFilter {
     applicationProperties?: {
@@ -477,6 +482,7 @@ export interface ServiceBusReceiver {
     abandonMessage(message: ServiceBusReceivedMessage, propertiesToModify?: {
         [key: string]: number | boolean | string | Date | null;
     }): Promise<void>;
+    batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<number>;
     close(): Promise<void>;
     completeMessage(message: ServiceBusReceivedMessage): Promise<void>;
     deadLetterMessage(message: ServiceBusReceivedMessage, options?: DeadLetterOptions & {

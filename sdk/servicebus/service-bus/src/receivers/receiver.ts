@@ -7,6 +7,7 @@ import {
   MessageHandlers,
   ReceiveMessagesOptions,
   SubscribeOptions,
+  BatchDeleteMessagesOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
@@ -139,6 +140,16 @@ export interface ServiceBusReceiver {
     maxMessageCount: number,
     options?: PeekMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]>;
+
+  /**
+   * Delete messages in a batch
+   * @param messageCount - Number of messages to delete.
+   * @param options - Options that allow to specify messages older than a time,
+   *                        or an abortSignal to abort the operation.
+   * @returns number of messages that have been deleted.
+   */
+  batchDeleteMessages(messageCount: number, options?: BatchDeleteMessagesOptions): Promise<number>;
+
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -452,6 +463,32 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
+  }
+
+  async batchDeleteMessages(
+    messageCount: number,
+    options?: BatchDeleteMessagesOptions,
+  ): Promise<number> {
+    this._throwIfReceiverOrConnectionClosed();
+
+    const batchDeleteMessagesOperationPromise = (): Promise<number> => {
+      return this._context
+        .getManagementClient(this.entityPath)
+        .batchDeleteMessages(messageCount, options?.enqueuedTimeUtcOlderThan, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "batchDeleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
+    };
+    const config: RetryConfig<number> = {
+      operation: batchDeleteMessagesOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
+    return retry<number>(config);
   }
 
   // ManagementClient methods # Begin

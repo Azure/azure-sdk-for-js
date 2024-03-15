@@ -326,3 +326,10 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
    */
   omitMessageBody?: boolean;
 }
+
+export interface BatchDeleteMessagesOptions extends OperationOptionsBase {
+  /**
+   * If specified, only messages enqueued before this time are deleted.
+   */
+  enqueuedTimeUtcOlderThan?: Date;
+}

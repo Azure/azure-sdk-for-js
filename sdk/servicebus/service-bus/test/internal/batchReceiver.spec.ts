@@ -782,6 +782,50 @@ describe("Batching Receiver", () => {
       },
     );
 
+    const getMessage = () => ({ body: `${Date.now()}-${Math.random().toString()}` });
+    it.only(
+      TestClientType.PartitionedQueue + ": batchDeleteMessages request on the receiver",
+      async function (): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueue, "receiveAndDelete");
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
+
+        await testPeekMsgsLength(receiver, numMessages);
+
+        await receiver.batchDeleteMessages(numMessages);
+
+        await testPeekMsgsLength(receiver, 0);
+      },
+    );
+
+    it.skip(
+      TestClientType.PartitionedQueueWithSessions + ": batchDeleteMessages request on the receiver",
+      async function (): Promise<void> {
+        await beforeEachTest(TestClientType.PartitionedQueueWithSessions, "receiveAndDelete");
+        const testMessage = TestMessage.getSessionSample();
+        testMessage.timeToLive = 24 * 60 * 60 * 1000;
+
+        const numMessages = 3;
+        const toSend = [];
+        for (let i = 0; i < numMessages; i++) {
+          toSend.push(getMessage());
+        }
+        await sender.sendMessages(toSend);
+
+        const peeked = await receiver.peekMessages(numMessages + 1);
+        assert.equal(peeked.length, numMessages);
+
+        await receiver.batchDeleteMessages(numMessages);
+
+        await testPeekMsgsLength(receiver, 0);
+      },
+    );
+
     it(
       noSessionTestClientType + ": Abort receiveDeferredMessages request on the receiver",
       async function (): Promise<void> {
