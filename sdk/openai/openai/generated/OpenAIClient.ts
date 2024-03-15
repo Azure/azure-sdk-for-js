@@ -68,12 +68,7 @@ export class OpenAIClient {
     body: AudioTranscriptionOptions,
     options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} },
   ): Promise<string> {
-    return getAudioTranscriptionAsPlainText(
-      this._client,
-      deploymentId,
-      body,
-      options,
-    );
+    return getAudioTranscriptionAsPlainText(this._client, deploymentId, body, options);
   }
 
   /**
@@ -87,12 +82,7 @@ export class OpenAIClient {
       requestOptions: {},
     },
   ): Promise<AudioTranscription> {
-    return getAudioTranscriptionAsResponseObject(
-      this._client,
-      deploymentId,
-      body,
-      options,
-    );
+    return getAudioTranscriptionAsResponseObject(this._client, deploymentId, body, options);
   }
 
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
@@ -101,12 +91,7 @@ export class OpenAIClient {
     body: AudioTranslationOptions,
     options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} },
   ): Promise<string> {
-    return getAudioTranslationAsPlainText(
-      this._client,
-      deploymentId,
-      body,
-      options,
-    );
+    return getAudioTranslationAsPlainText(this._client, deploymentId, body, options);
   }
 
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
@@ -117,12 +102,7 @@ export class OpenAIClient {
       requestOptions: {},
     },
   ): Promise<AudioTranslation> {
-    return getAudioTranslationAsResponseObject(
-      this._client,
-      deploymentId,
-      body,
-      options,
-    );
+    return getAudioTranslationAsResponseObject(this._client, deploymentId, body, options);
   }
 
   /**
@@ -163,12 +143,7 @@ export class OpenAIClient {
       requestOptions: {},
     },
   ): Promise<ChatCompletions> {
-    return getChatCompletionsWithAzureExtensions(
-      this._client,
-      deploymentId,
-      body,
-      options,
-    );
+    return getChatCompletionsWithAzureExtensions(this._client, deploymentId, body, options);
   }
 
   /** Creates an image given a prompt. */

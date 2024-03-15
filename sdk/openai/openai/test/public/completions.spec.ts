@@ -20,7 +20,12 @@ import {
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
-import { ChatCompletionsFunctionToolCall, ChatRequestMessage, ChatRequestMessageUnion, OpenAIClient } from "../../src/index.js";
+import {
+  ChatCompletionsFunctionToolCall,
+  ChatRequestMessage,
+  ChatRequestMessageUnion,
+  OpenAIClient,
+} from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
 describe("OpenAI", function () {
@@ -339,7 +344,9 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   assert.isDefined(res.choices[0].message?.toolCalls);
-                  const argument = (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall).function.arguments;
+                  const argument = (
+                    res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall
+                  ).function.arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
               ),
@@ -406,7 +413,10 @@ describe("OpenAI", function () {
                     deploymentName,
                     [{ role: "user", content: "What's the weather like in Boston?" }],
                     {
-                      toolChoice: { type: "function", function: { name: getCurrentWeather.name } } as any,
+                      toolChoice: {
+                        type: "function",
+                        function: { name: getCurrentWeather.name },
+                      } as any,
                       tools: [
                         { type: "function", function: getCurrentWeather },
                         {
@@ -436,7 +446,8 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   assert.equal(
-              (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall).function.name,
+                    (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall)
+                      .function.name,
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);

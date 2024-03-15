@@ -55,7 +55,13 @@ import {
 } from "../models/options.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import { createFile } from "@azure/core-rest-pipeline";
-import { GetAudioTranscriptionOptions, AudioResultSimpleJson, AudioResultFormat, AudioResult, GetAudioTranslationOptions } from "../models/audio.js";
+import {
+  GetAudioTranscriptionOptions,
+  AudioResultSimpleJson,
+  AudioResultFormat,
+  AudioResult,
+  GetAudioTranslationOptions,
+} from "../models/audio.js";
 import { snakeCaseKeys, camelCaseKeys } from "./util.js";
 
 /**
@@ -123,7 +129,6 @@ export async function getAudioTranscription<Format extends AudioResultFormat>(
     ? body
     : (camelCaseKeys(body) as unknown as AudioResult<Format>);
 }
-
 
 /**
  * Returns the translation of an audio file.
@@ -197,28 +202,26 @@ export function _getCompletionsSend(
   body: CompletionsOptions,
   options: GetCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        prompt: body["prompt"],
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        logprobs: body["logprobs"],
-        echo: body["echo"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        best_of: body["bestOf"],
-        stream: body["stream"],
-        model: body["model"],
-      },
-    });
+  return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: body["prompt"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      logprobs: body["logprobs"],
+      echo: body["echo"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      best_of: body["bestOf"],
+      stream: body["stream"],
+      model: body["model"],
+    },
+  });
 }
 
 export async function _getCompletionsDeserialize(
@@ -231,7 +234,9 @@ export async function _getCompletionsDeserialize(
   return getCompletionsResult(result.body);
 }
 
-export function getCompletionsResult(body: CompletionsOutput & ContentFilterResultsForPromptX): Completions {
+export function getCompletionsResult(
+  body: CompletionsOutput & ContentFilterResultsForPromptX,
+): Completions {
   const { prompt_annotations, prompt_filter_results } = body;
   return {
     id: body["id"],
@@ -240,34 +245,36 @@ export function getCompletionsResult(body: CompletionsOutput & ContentFilterResu
       prompt_filter_results,
       prompt_annotations,
     }),
-    choices: !body["choices"] 
+    choices: !body["choices"]
       ? []
       : body["choices"].map((p) => ({
-        ...(!p.content_filter_results
-          ? {}
-          : {
-            contentFilterResults: parseContentFilterResultsForChoiceOutput(p.content_filter_results),
-          }),
-        text: p["text"],
-        index: p["index"],
-        logprobs:
-          p.logprobs === null
-            ? null
+          ...(!p.content_filter_results
+            ? {}
             : {
-              tokens: p.logprobs["tokens"],
-              tokenLogprobs: p.logprobs["token_logprobs"],
-              topLogprobs: p.logprobs["top_logprobs"],
-              textOffset: p.logprobs["text_offset"],
-            },
-        finishReason: p["finish_reason"],
-      })),
+                contentFilterResults: parseContentFilterResultsForChoiceOutput(
+                  p.content_filter_results,
+                ),
+              }),
+          text: p["text"],
+          index: p["index"],
+          logprobs:
+            p.logprobs === null
+              ? null
+              : {
+                  tokens: p.logprobs["tokens"],
+                  tokenLogprobs: p.logprobs["token_logprobs"],
+                  topLogprobs: p.logprobs["top_logprobs"],
+                  textOffset: p.logprobs["text_offset"],
+                },
+          finishReason: p["finish_reason"],
+        })),
     usage: !body["usage"]
-    ? body["usage"]
-    : {
-      completionTokens: body.usage["completion_tokens"],
-      promptTokens: body.usage["prompt_tokens"],
-      totalTokens: body.usage["total_tokens"],
-    },
+      ? body["usage"]
+      : {
+          completionTokens: body.usage["completion_tokens"],
+          promptTokens: body.usage["prompt_tokens"],
+          totalTokens: body.usage["total_tokens"],
+        },
   };
 }
 /**
@@ -281,12 +288,7 @@ export async function getCompletions(
   body: CompletionsOptions,
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getCompletionsSend(context, deploymentId, body, options);
   return _getCompletionsDeserialize(result);
 }
 
@@ -310,62 +312,53 @@ export function streamCompletions(
   return getOaiSSEs(response, getCompletionsResult);
 }
 
-
 export function _getChatCompletionsSend(
   context: Client,
   deploymentId: string,
   body: ChatCompletionsOptions,
   options: GeneratedGetChatCompletionsOptions = { requestOptions: {} },
-): StreamableMethod<
-  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        messages: body["messages"].map((p) =>
-          serializeChatRequestMessageUnion(p),
-        ),
-        functions:
-          body["functions"] === undefined
-            ? body["functions"]
-            : body["functions"].map((p) => ({
-                name: p["name"],
-                description: p["description"],
-                parameters: p["parameters"],
-              })),
-        function_call: body["functionCall"],
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        stream: body["stream"],
-        model: body["model"],
-        dataSources: body["dataSources"],
-        enhancements: !body.enhancements
-          ? undefined
-          : {
-              grounding: !body.enhancements?.grounding
-                ? undefined
-                : { enabled: body.enhancements?.grounding?.["enabled"] },
-              ocr: !body.enhancements?.ocr
-                ? undefined
-                : { enabled: body.enhancements?.ocr?.["enabled"] },
-            },
-        seed: body["seed"],
-        response_format: !body.responseFormat
-          ? undefined
-          : { type: body.responseFormat?.["type"] },
-        tools: body["tools"],
-        tool_choice: body["toolChoice"],
-      },
-    });
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
+      functions:
+        body["functions"] === undefined
+          ? body["functions"]
+          : body["functions"].map((p) => ({
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
+      function_call: body["functionCall"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      stream: body["stream"],
+      model: body["model"],
+      dataSources: body["dataSources"],
+      enhancements: !body.enhancements
+        ? undefined
+        : {
+            grounding: !body.enhancements?.grounding
+              ? undefined
+              : { enabled: body.enhancements?.grounding?.["enabled"] },
+            ocr: !body.enhancements?.ocr
+              ? undefined
+              : { enabled: body.enhancements?.ocr?.["enabled"] },
+          },
+      seed: body["seed"],
+      response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
+      tools: body["tools"],
+      tool_choice: body["toolChoice"],
+    },
+  });
 }
 
 export async function _getChatCompletionsDeserialize(
@@ -381,47 +374,46 @@ export async function _getChatCompletionsDeserialize(
 export function getChatCompletionsResult(
   body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
 ): ChatCompletions {
-  const {prompt_annotations, prompt_filter_results} = body;
+  const { prompt_annotations, prompt_filter_results } = body;
   return {
     id: body["id"],
     created: new Date(body["created"]),
     choices: !body["choices"]
-    ? []
+      ? []
       : body["choices"].map((p) => ({
-        ...(!p.delta ? {} : { delta: parseMessage(p.delta) }),
-        ...(!p.message ? {} : { message: parseMessage(p.message) }),
-        ...(!p.content_filter_results
-          ? {}
-          : {
-            contentFilterResults:
-              parseContentFilterResultsForChoiceOutput(p.content_filter_results),
-          }),
-        index: p["index"],
-        finishReason: p["finish_reason"],
-        finishDetails: !p.finish_details
-          ? undefined
-          : { type: p.finish_details?.["type"] },
-        enhancements: !p.enhancements
-          ? undefined
-          : {
-            grounding: !p.enhancements?.grounding
-              ? undefined
-              : {
-                lines: p.enhancements?.grounding?.["lines"].map((p) => ({
-                  text: p["text"],
-                  spans: p["spans"].map((p) => ({
-                    text: p["text"],
-                    offset: p["offset"],
-                    length: p["length"],
-                    polygon: p["polygon"].map((p) => ({
-                      x: p["x"],
-                      y: p["y"],
-                    })),
-                  })),
-})),
+          ...(!p.delta ? {} : { delta: parseMessage(p.delta) }),
+          ...(!p.message ? {} : { message: parseMessage(p.message) }),
+          ...(!p.content_filter_results
+            ? {}
+            : {
+                contentFilterResults: parseContentFilterResultsForChoiceOutput(
+                  p.content_filter_results,
+                ),
+              }),
+          index: p["index"],
+          finishReason: p["finish_reason"],
+          finishDetails: !p.finish_details ? undefined : { type: p.finish_details?.["type"] },
+          enhancements: !p.enhancements
+            ? undefined
+            : {
+                grounding: !p.enhancements?.grounding
+                  ? undefined
+                  : {
+                      lines: p.enhancements?.grounding?.["lines"].map((p) => ({
+                        text: p["text"],
+                        spans: p["spans"].map((p) => ({
+                          text: p["text"],
+                          offset: p["offset"],
+                          length: p["length"],
+                          polygon: p["polygon"].map((p) => ({
+                            x: p["x"],
+                            y: p["y"],
+                          })),
+                        })),
+                      })),
+                    },
               },
-          },
-      })),
+        })),
     promptFilterResults: getContentFilterResultsForPrompt({
       prompt_filter_results,
       prompt_annotations,
@@ -430,11 +422,11 @@ export function getChatCompletionsResult(
     usage: !body["usage"]
       ? body["usage"]
       : {
-        completionTokens: body.usage["completion_tokens"],
-        promptTokens: body.usage["prompt_tokens"],
-        totalTokens: body.usage["total_tokens"],
-      },
-  }
+          completionTokens: body.usage["completion_tokens"],
+          promptTokens: body.usage["prompt_tokens"],
+          totalTokens: body.usage["total_tokens"],
+        },
+  };
 }
 
 /**
@@ -448,12 +440,7 @@ export async function getChatCompletions(
   messages: ChatRequestMessageUnion[],
   options: GetChatCompletionsOptions = { requestOptions: {} },
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSendX(
-    context,
-    deploymentName,
-    messages,
-    options,
-  );
+  const result = await _getChatCompletionsSendX(context, deploymentName, messages, options);
   return _getChatCompletionsDeserialize(result);
 }
 
@@ -514,16 +501,11 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
   return context
-    .path(
-      "/deployments/{deploymentId}/extensions/chat/completions",
-      deploymentId,
-    )
+    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body["messages"].map((p) =>
-          serializeChatRequestMessageUnion(p),
-        ),
+        messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
         functions:
           body["functions"] === undefined
             ? body["functions"]
@@ -556,9 +538,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
                 : { enabled: body.enhancements?.ocr?.["enabled"] },
             },
         seed: body["seed"],
-        response_format: !body.responseFormat
-          ? undefined
-          : { type: body.responseFormat?.["type"] },
+        response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
         tools: body["tools"],
         tool_choice: body["toolChoice"],
       },
@@ -583,24 +563,20 @@ export function _getImageGenerationsSend(
   deploymentId: string,
   body: ImageGenerationOptions,
   options: GetImageGenerationsOptions = { requestOptions: {} },
-): StreamableMethod<
-  GetImageGenerations200Response | GetImageGenerationsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/images/generations", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        model: body["model"],
-        prompt: body["prompt"],
-        n: body["n"],
-        size: body["size"],
-        response_format: body["responseFormat"],
-        quality: body["quality"],
-        style: body["style"],
-        user: body["user"],
-      },
-    });
+): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/images/generations", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      model: body["model"],
+      prompt: body["prompt"],
+      n: body["n"],
+      size: body["size"],
+      response_format: body["responseFormat"],
+      quality: body["quality"],
+      style: body["style"],
+      user: body["user"],
+    },
+  });
 }
 
 export async function _getImageGenerationsDeserialize(
@@ -627,12 +603,7 @@ export async function getImageGenerations(
   body: ImageGenerationOptions,
   options: GetImagesOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const result = await _getImageGenerationsSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getImageGenerationsSend(context, deploymentId, body, options);
   return _getImageGenerationsDeserialize(result);
 }
 
@@ -642,12 +613,10 @@ export function _getEmbeddingsSend(
   body: EmbeddingsOptions,
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/embeddings", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: { user: body["user"], model: body["model"], input: body["input"] },
-    });
+  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: { user: body["user"], model: body["model"], input: body["input"] },
+  });
 }
 
 export async function _getEmbeddingsDeserialize(
@@ -718,82 +687,65 @@ function parseContentFilterResultsForChoiceOutput({
   error,
   ...successResult
 }: ContentFilterResultsForChoiceOutput = {}): ContentFilterResultsForChoice {
-  return error ? {
-    error: {
-      ...error,
-      details: error["details"] ?? []
-    }
-  } : {
-    sexual: !successResult?.sexual
-      ? undefined
-      : {
-        severity: successResult?.sexual?.["severity"],
-        filtered: successResult?.sexual?.["filtered"],
-      },
-    violence: !successResult?.violence
-      ? undefined
-      : {
-        severity: successResult?.violence?.["severity"],
-        filtered: successResult?.violence?.["filtered"],
-      },
-    hate: !successResult?.hate
-      ? undefined
-      : {
-        severity: successResult?.hate?.["severity"],
-        filtered: successResult?.hate?.["filtered"],
-      },
-    selfHarm: !successResult?.self_harm
-      ? undefined
-      : {
-        severity: successResult?.self_harm?.["severity"],
-        filtered: successResult?.self_harm?.["filtered"],
-      },
-    profanity: !successResult?.profanity
-      ? undefined
-      : {
-        filtered: successResult?.profanity?.["filtered"],
-        detected: successResult?.profanity?.["detected"],
-      },
-    customBlocklists: !successResult?.["custom_blocklists"]
-      ? successResult?.["custom_blocklists"]
-      : successResult?.["custom_blocklists"].map((p) => ({
-        id: p["id"],
-        filtered: p["filtered"],
-      })),
-    protectedMaterialText: !successResult
-      ?.protected_material_text
-      ? undefined
-      : {
-        filtered:
-          successResult?.protected_material_text?.[
-          "filtered"
-          ],
-        detected:
-          successResult?.protected_material_text?.[
-          "detected"
-          ],
-      },
-    protectedMaterialCode: !successResult
-      ?.protected_material_code
-      ? undefined
-      : {
-        filtered:
-          successResult?.protected_material_code?.[
-          "filtered"
-          ],
-        detected:
-          successResult?.protected_material_code?.[
-          "detected"
-          ],
-        url: successResult?.protected_material_code?.[
-          "URL"
-        ],
-        license:
-          successResult?.protected_material_code?.[
-          "license"
-          ],
-      },
-  };
+  return error
+    ? {
+        error: {
+          ...error,
+          details: error["details"] ?? [],
+        },
+      }
+    : {
+        sexual: !successResult?.sexual
+          ? undefined
+          : {
+              severity: successResult?.sexual?.["severity"],
+              filtered: successResult?.sexual?.["filtered"],
+            },
+        violence: !successResult?.violence
+          ? undefined
+          : {
+              severity: successResult?.violence?.["severity"],
+              filtered: successResult?.violence?.["filtered"],
+            },
+        hate: !successResult?.hate
+          ? undefined
+          : {
+              severity: successResult?.hate?.["severity"],
+              filtered: successResult?.hate?.["filtered"],
+            },
+        selfHarm: !successResult?.self_harm
+          ? undefined
+          : {
+              severity: successResult?.self_harm?.["severity"],
+              filtered: successResult?.self_harm?.["filtered"],
+            },
+        profanity: !successResult?.profanity
+          ? undefined
+          : {
+              filtered: successResult?.profanity?.["filtered"],
+              detected: successResult?.profanity?.["detected"],
+            },
+        customBlocklists: !successResult?.["custom_blocklists"]
+          ? successResult?.["custom_blocklists"]
+          : successResult?.["custom_blocklists"].map((p) => ({
+              id: p["id"],
+              filtered: p["filtered"],
+            })),
+        protectedMaterialText: !successResult?.protected_material_text
+          ? undefined
+          : {
+              filtered: successResult?.protected_material_text?.["filtered"],
+              detected: successResult?.protected_material_text?.["detected"],
+            },
+        protectedMaterialCode: !successResult?.protected_material_code
+          ? undefined
+          : {
+              filtered: successResult?.protected_material_code?.["filtered"],
+              detected: successResult?.protected_material_code?.["detected"],
+              url: successResult?.protected_material_code?.["URL"],
+              license: successResult?.protected_material_code?.["license"],
+            },
+      };
 }
 
 function parseMessage(message: ChatResponseMessageOutput): ChatResponseMessage {
@@ -804,13 +756,13 @@ function parseMessage(message: ChatResponseMessageOutput): ChatResponseMessage {
     ...(!context
       ? {}
       : {
-        context: {
-          ...(!context.messages
-            ? {}
-            : {
-              messages: context.messages.map(parseMessage),
-            }),
-        },
-      }),
+          context: {
+            ...(!context.messages
+              ? {}
+              : {
+                  messages: context.messages.map(parseMessage),
+                }),
+          },
+        }),
   };
 }

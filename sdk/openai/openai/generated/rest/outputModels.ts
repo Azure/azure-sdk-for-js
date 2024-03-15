@@ -339,8 +339,7 @@ export interface ChatCompletionsToolCallOutputParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCallOutput
-  extends ChatCompletionsToolCallOutputParent {
+export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -485,8 +484,7 @@ export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
  * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
  * complete.
  */
-export interface MaxTokensFinishDetailsOutput
-  extends ChatFinishDetailsOutputParent {
+export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
   /** The object type, which is always 'max_tokens' for this object. */
   type: "max_tokens";
 }

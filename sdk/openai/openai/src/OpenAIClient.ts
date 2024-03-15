@@ -16,11 +16,7 @@ import {
   GetEmbeddingsOptions,
   GetImagesOptions,
 } from "./models/options.js";
-import {
-  createOpenAI,
-  OpenAIClientOptions,
-  OpenAIContext,
-} from "./api/index.js";
+import { createOpenAI, OpenAIClientOptions, OpenAIContext } from "./api/index.js";
 import {
   getCompletions,
   getChatCompletions,
@@ -31,7 +27,13 @@ import {
 } from "./api/operations.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import { streamChatCompletions, streamCompletions } from "./api/operations.js";
-import { GetAudioTranscriptionOptions, AudioResultSimpleJson, AudioResultFormat, AudioResult, GetAudioTranslationOptions } from "./models/audio.js";
+import {
+  GetAudioTranscriptionOptions,
+  AudioResultSimpleJson,
+  AudioResultFormat,
+  AudioResult,
+  GetAudioTranslationOptions,
+} from "./models/audio.js";
 
 function createOpenAIEndpoint(version: number): string {
   return `https://api.openai.com/v${version}`;
@@ -137,14 +139,14 @@ export class OpenAIClient {
       ...(this._isAzure
         ? {}
         : {
-          additionalPolicies: [
-            ...(opts.additionalPolicies ?? []),
-            {
-              position: "perCall",
-              policy: nonAzurePolicy(),
-            },
-          ],
-        }),
+            additionalPolicies: [
+              ...(opts.additionalPolicies ?? []),
+              {
+                position: "perCall",
+                policy: nonAzurePolicy(),
+              },
+            ],
+          }),
     });
   }
 
@@ -198,7 +200,7 @@ export class OpenAIClient {
     }
     return getAudioTranslation(this._client, deploymentName, fileContent, response_format, options);
   }
-  
+
   /**
    * Returns the transcription of an audio file in a simple JSON format.
    * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
@@ -250,7 +252,6 @@ export class OpenAIClient {
     );
   }
 
-
   /**
    * Gets completions for the provided input prompts.
    * Completions support a wide variety of tasks and generate text that continues from or "completes"
@@ -263,16 +264,21 @@ export class OpenAIClient {
   ): Promise<Completions> {
     this.setModel(deploymentName, options);
     const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getCompletions(this._client, deploymentName, { prompt, ...rest }, { abortSignal, onResponse, requestOptions, tracingOptions });
+    return getCompletions(
+      this._client,
+      deploymentName,
+      { prompt, ...rest },
+      { abortSignal, onResponse, requestOptions, tracingOptions },
+    );
   }
 
   /**
- * Lists the completions tokens as they become available for a given prompt.
- * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
- * @param prompt - The prompt to use for this request.
- * @param options - The completions options for this completions request.
- * @returns An asynchronous iterable of completions tokens.
- */
+   * Lists the completions tokens as they become available for a given prompt.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param prompt - The prompt to use for this request.
+   * @param options - The completions options for this completions request.
+   * @returns An asynchronous iterable of completions tokens.
+   */
   streamCompletions(
     deploymentName: string,
     prompt: string[],
@@ -294,15 +300,15 @@ export class OpenAIClient {
   ): Promise<ChatCompletions> {
     this.setModel(deploymentName, options);
     return getChatCompletions(this._client, deploymentName, messages, options);
-}
+  }
 
   /**
-  * Lists the chat completions tokens as they become available for a chat context.
-  * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
-  * @param messages - The chat context messages to use for this request.
-  * @param options - The chat completions options for this chat completions request.
-  * @returns An asynchronous iterable of chat completions tokens.
-  */
+   * Lists the chat completions tokens as they become available for a chat context.
+   * @param deploymentName - The name of the model deployment (when using Azure OpenAI) or model name (when using non-Azure OpenAI) to use for this request.
+   * @param messages - The chat context messages to use for this request.
+   * @param options - The chat completions options for this chat completions request.
+   * @returns An asynchronous iterable of chat completions tokens.
+   */
   streamChatCompletions(
     deploymentName: string,
     messages: ChatRequestMessageUnion[],
@@ -320,7 +326,12 @@ export class OpenAIClient {
   ): Promise<ImageGenerations> {
     this.setModel(deploymentName, options);
     const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getImageGenerations(this._client, deploymentName, { prompt, ...rest }, { abortSignal, onResponse, requestOptions, tracingOptions });
+    return getImageGenerations(
+      this._client,
+      deploymentName,
+      { prompt, ...rest },
+      { abortSignal, onResponse, requestOptions, tracingOptions },
+    );
   }
 
   /** Return the embeddings for a given prompt. */
@@ -331,6 +342,11 @@ export class OpenAIClient {
   ): Promise<Embeddings> {
     this.setModel(deploymentName, options);
     const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
-    return getEmbeddings(this._client, deploymentName, { input, ...rest }, { abortSignal, onResponse, requestOptions, tracingOptions });
+    return getEmbeddings(
+      this._client,
+      deploymentName,
+      { input, ...rest },
+      { abortSignal, onResponse, requestOptions, tracingOptions },
+    );
   }
 }

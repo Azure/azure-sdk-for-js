@@ -62,25 +62,21 @@ export function _getAudioTranscriptionAsPlainTextSend(
   body: AudioTranscriptionOptions,
   options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} },
 ): StreamableMethod<
-  | GetAudioTranscriptionAsPlainText200Response
-  | GetAudioTranscriptionAsPlainTextDefaultResponse
+  GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
 > {
-  return context
-    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        file: uint8ArrayToString(body["file"], "base64"),
-        filename: body["filename"],
-        response_format: body["responseFormat"],
-        language: body["language"],
-        prompt: body["prompt"],
-        temperature: body["temperature"],
-        model: body["model"],
-      },
-    }) as StreamableMethod<
-    | GetAudioTranscriptionAsPlainText200Response
-    | GetAudioTranscriptionAsPlainTextDefaultResponse
+  return context.path("/deployments/{deploymentId}/audio/transcriptions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      file: uint8ArrayToString(body["file"], "base64"),
+      filename: body["filename"],
+      response_format: body["responseFormat"],
+      language: body["language"],
+      prompt: body["prompt"],
+      temperature: body["temperature"],
+      model: body["model"],
+    },
+  }) as StreamableMethod<
+    GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
   >;
 }
 
@@ -106,12 +102,7 @@ export async function getAudioTranscriptionAsPlainText(
   body: AudioTranscriptionOptions,
   options: GetAudioTranscriptionAsPlainTextOptions = { requestOptions: {} },
 ): Promise<string> {
-  const result = await _getAudioTranscriptionAsPlainTextSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getAudioTranscriptionAsPlainTextSend(context, deploymentId, body, options);
   return _getAudioTranscriptionAsPlainTextDeserialize(result);
 }
 
@@ -126,21 +117,19 @@ export function _getAudioTranscriptionAsResponseObjectSend(
   | GetAudioTranscriptionAsResponseObject200Response
   | GetAudioTranscriptionAsResponseObjectDefaultResponse
 > {
-  return context
-    .path("/deployments/{deploymentId}/audio/transcriptions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
-      body: {
-        file: uint8ArrayToString(body["file"], "base64"),
-        filename: body["filename"],
-        response_format: body["responseFormat"],
-        language: body["language"],
-        prompt: body["prompt"],
-        temperature: body["temperature"],
-        model: body["model"],
-      },
-    }) as StreamableMethod<
+  return context.path("/deployments/{deploymentId}/audio/transcriptions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: (options.contentType as any) ?? "multipart/form-data",
+    body: {
+      file: uint8ArrayToString(body["file"], "base64"),
+      filename: body["filename"],
+      response_format: body["responseFormat"],
+      language: body["language"],
+      prompt: body["prompt"],
+      temperature: body["temperature"],
+      model: body["model"],
+    },
+  }) as StreamableMethod<
     | GetAudioTranscriptionAsResponseObject200Response
     | GetAudioTranscriptionAsResponseObjectDefaultResponse
   >;
@@ -205,31 +194,25 @@ export function _getAudioTranslationAsPlainTextSend(
   body: AudioTranslationOptions,
   options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} },
 ): StreamableMethod<
-  | GetAudioTranslationAsPlainText200Response
-  | GetAudioTranslationAsPlainTextDefaultResponse
+  GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
 > {
-  return context
-    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        file: uint8ArrayToString(body["file"], "base64"),
-        filename: body["filename"],
-        response_format: body["responseFormat"],
-        prompt: body["prompt"],
-        temperature: body["temperature"],
-        model: body["model"],
-      },
-    }) as StreamableMethod<
-    | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsPlainTextDefaultResponse
+  return context.path("/deployments/{deploymentId}/audio/translations", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      file: uint8ArrayToString(body["file"], "base64"),
+      filename: body["filename"],
+      response_format: body["responseFormat"],
+      prompt: body["prompt"],
+      temperature: body["temperature"],
+      model: body["model"],
+    },
+  }) as StreamableMethod<
+    GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
   >;
 }
 
 export async function _getAudioTranslationAsPlainTextDeserialize(
-  result:
-    | GetAudioTranslationAsPlainText200Response
-    | GetAudioTranslationAsPlainTextDefaultResponse,
+  result: GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse,
 ): Promise<string> {
   if (isUnexpected(result)) {
     throw createRestError(result);
@@ -245,12 +228,7 @@ export async function getAudioTranslationAsPlainText(
   body: AudioTranslationOptions,
   options: GetAudioTranslationAsPlainTextOptions = { requestOptions: {} },
 ): Promise<string> {
-  const result = await _getAudioTranslationAsPlainTextSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getAudioTranslationAsPlainTextSend(context, deploymentId, body, options);
   return _getAudioTranslationAsPlainTextDeserialize(result);
 }
 
@@ -263,20 +241,18 @@ export function _getAudioTranslationAsResponseObjectSend(
   | GetAudioTranslationAsResponseObject200Response
   | GetAudioTranslationAsResponseObjectDefaultResponse
 > {
-  return context
-    .path("/deployments/{deploymentId}/audio/translations", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      contentType: (options.contentType as any) ?? "multipart/form-data",
-      body: {
-        file: uint8ArrayToString(body["file"], "base64"),
-        filename: body["filename"],
-        response_format: body["responseFormat"],
-        prompt: body["prompt"],
-        temperature: body["temperature"],
-        model: body["model"],
-      },
-    }) as StreamableMethod<
+  return context.path("/deployments/{deploymentId}/audio/translations", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    contentType: (options.contentType as any) ?? "multipart/form-data",
+    body: {
+      file: uint8ArrayToString(body["file"], "base64"),
+      filename: body["filename"],
+      response_format: body["responseFormat"],
+      prompt: body["prompt"],
+      temperature: body["temperature"],
+      model: body["model"],
+    },
+  }) as StreamableMethod<
     | GetAudioTranslationAsResponseObject200Response
     | GetAudioTranslationAsResponseObjectDefaultResponse
   >;
@@ -336,28 +312,26 @@ export function _getCompletionsSend(
   body: CompletionsOptions,
   options: GetCompletionsOptions = { requestOptions: {} },
 ): StreamableMethod<GetCompletions200Response | GetCompletionsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        prompt: body["prompt"],
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        logprobs: body["logprobs"],
-        echo: body["echo"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        best_of: body["bestOf"],
-        stream: body["stream"],
-        model: body["model"],
-      },
-    });
+  return context.path("/deployments/{deploymentId}/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      prompt: body["prompt"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      logprobs: body["logprobs"],
+      echo: body["echo"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      best_of: body["bestOf"],
+      stream: body["stream"],
+      model: body["model"],
+    },
+  });
 }
 
 export async function _getCompletionsDeserialize(
@@ -413,9 +387,7 @@ export async function _getCompletionsDeserialize(
                       id: p["id"],
                       filtered: p["filtered"],
                     })),
-              error: !p.content_filter_results.error
-                ? undefined
-                : p.content_filter_results.error,
+              error: !p.content_filter_results.error ? undefined : p.content_filter_results.error,
               jailbreak: !p.content_filter_results.jailbreak
                 ? undefined
                 : {
@@ -467,41 +439,20 @@ export async function _getCompletionsDeserialize(
                     id: p["id"],
                     filtered: p["filtered"],
                   })),
-            error: !p.content_filter_results?.error
-              ? undefined
-              : p.content_filter_results?.error,
-            protectedMaterialText: !p.content_filter_results
-              ?.protected_material_text
+            error: !p.content_filter_results?.error ? undefined : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results?.protected_material_text
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_text?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_text?.[
-                      "detected"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_text?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_text?.["detected"],
                 },
-            protectedMaterialCode: !p.content_filter_results
-              ?.protected_material_code
+            protectedMaterialCode: !p.content_filter_results?.protected_material_code
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_code?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_code?.[
-                      "detected"
-                    ],
-                  url: p.content_filter_results?.protected_material_code?.[
-                    "URL"
-                  ],
-                  license:
-                    p.content_filter_results?.protected_material_code?.[
-                      "license"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_code?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_code?.["detected"],
+                  url: p.content_filter_results?.protected_material_code?.["URL"],
+                  license: p.content_filter_results?.protected_material_code?.["license"],
                 },
           },
       logprobs:
@@ -534,12 +485,7 @@ export async function getCompletions(
   body: CompletionsOptions,
   options: GetCompletionsOptions = { requestOptions: {} },
 ): Promise<Completions> {
-  const result = await _getCompletionsSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getCompletionsSend(context, deploymentId, body, options);
   return _getCompletionsDeserialize(result);
 }
 
@@ -548,56 +494,48 @@ export function _getChatCompletionsSend(
   deploymentId: string,
   body: ChatCompletionsOptions,
   options: GetChatCompletionsOptions = { requestOptions: {} },
-): StreamableMethod<
-  GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/chat/completions", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        messages: body["messages"].map((p) =>
-          serializeChatRequestMessageUnion(p),
-        ),
-        functions:
-          body["functions"] === undefined
-            ? body["functions"]
-            : body["functions"].map((p) => ({
-                name: p["name"],
-                description: p["description"],
-                parameters: p["parameters"],
-              })),
-        function_call: body["functionCall"],
-        max_tokens: body["maxTokens"],
-        temperature: body["temperature"],
-        top_p: body["topP"],
-        logit_bias: body["logitBias"],
-        user: body["user"],
-        n: body["n"],
-        stop: body["stop"],
-        presence_penalty: body["presencePenalty"],
-        frequency_penalty: body["frequencyPenalty"],
-        stream: body["stream"],
-        model: body["model"],
-        dataSources: body["dataSources"],
-        enhancements: !body.enhancements
-          ? undefined
-          : {
-              grounding: !body.enhancements?.grounding
-                ? undefined
-                : { enabled: body.enhancements?.grounding?.["enabled"] },
-              ocr: !body.enhancements?.ocr
-                ? undefined
-                : { enabled: body.enhancements?.ocr?.["enabled"] },
-            },
-        seed: body["seed"],
-        response_format: !body.responseFormat
-          ? undefined
-          : { type: body.responseFormat?.["type"] },
-        tools: body["tools"],
-        tool_choice: body["toolChoice"],
-      },
-    });
+): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
+      functions:
+        body["functions"] === undefined
+          ? body["functions"]
+          : body["functions"].map((p) => ({
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
+      function_call: body["functionCall"],
+      max_tokens: body["maxTokens"],
+      temperature: body["temperature"],
+      top_p: body["topP"],
+      logit_bias: body["logitBias"],
+      user: body["user"],
+      n: body["n"],
+      stop: body["stop"],
+      presence_penalty: body["presencePenalty"],
+      frequency_penalty: body["frequencyPenalty"],
+      stream: body["stream"],
+      model: body["model"],
+      dataSources: body["dataSources"],
+      enhancements: !body.enhancements
+        ? undefined
+        : {
+            grounding: !body.enhancements?.grounding
+              ? undefined
+              : { enabled: body.enhancements?.grounding?.["enabled"] },
+            ocr: !body.enhancements?.ocr
+              ? undefined
+              : { enabled: body.enhancements?.ocr?.["enabled"] },
+          },
+      seed: body["seed"],
+      response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
+      tools: body["tools"],
+      tool_choice: body["toolChoice"],
+    },
+  });
 }
 
 export async function _getChatCompletionsDeserialize(
@@ -636,9 +574,7 @@ export async function _getChatCompletionsDeserialize(
                           role: p["role"],
                           content: p["content"],
                           toolCalls:
-                            p["tool_calls"] === undefined
-                              ? p["tool_calls"]
-                              : p["tool_calls"],
+                            p["tool_calls"] === undefined ? p["tool_calls"] : p["tool_calls"],
                           functionCall: !p.function_call
                             ? undefined
                             : {
@@ -651,9 +587,7 @@ export async function _getChatCompletionsDeserialize(
           },
       index: p["index"],
       finishReason: p["finish_reason"],
-      finishDetails: !p.finish_details
-        ? undefined
-        : { type: p.finish_details?.["type"] },
+      finishDetails: !p.finish_details ? undefined : { type: p.finish_details?.["type"] },
       delta: !p.delta
         ? undefined
         : {
@@ -679,9 +613,7 @@ export async function _getChatCompletionsDeserialize(
                           role: p["role"],
                           content: p["content"],
                           toolCalls:
-                            p["tool_calls"] === undefined
-                              ? p["tool_calls"]
-                              : p["tool_calls"],
+                            p["tool_calls"] === undefined ? p["tool_calls"] : p["tool_calls"],
                           functionCall: !p.function_call
                             ? undefined
                             : {
@@ -732,41 +664,20 @@ export async function _getChatCompletionsDeserialize(
                     id: p["id"],
                     filtered: p["filtered"],
                   })),
-            error: !p.content_filter_results?.error
-              ? undefined
-              : p.content_filter_results?.error,
-            protectedMaterialText: !p.content_filter_results
-              ?.protected_material_text
+            error: !p.content_filter_results?.error ? undefined : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results?.protected_material_text
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_text?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_text?.[
-                      "detected"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_text?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_text?.["detected"],
                 },
-            protectedMaterialCode: !p.content_filter_results
-              ?.protected_material_code
+            protectedMaterialCode: !p.content_filter_results?.protected_material_code
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_code?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_code?.[
-                      "detected"
-                    ],
-                  url: p.content_filter_results?.protected_material_code?.[
-                    "URL"
-                  ],
-                  license:
-                    p.content_filter_results?.protected_material_code?.[
-                      "license"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_code?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_code?.["detected"],
+                  url: p.content_filter_results?.protected_material_code?.["URL"],
+                  license: p.content_filter_results?.protected_material_code?.["license"],
                 },
           },
       enhancements: !p.enhancements
@@ -833,9 +744,7 @@ export async function _getChatCompletionsDeserialize(
                       id: p["id"],
                       filtered: p["filtered"],
                     })),
-              error: !p.content_filter_results.error
-                ? undefined
-                : p.content_filter_results.error,
+              error: !p.content_filter_results.error ? undefined : p.content_filter_results.error,
               jailbreak: !p.content_filter_results.jailbreak
                 ? undefined
                 : {
@@ -864,12 +773,7 @@ export async function getChatCompletions(
   body: ChatCompletionsOptions,
   options: GetChatCompletionsOptions = { requestOptions: {} },
 ): Promise<ChatCompletions> {
-  const result = await _getChatCompletionsSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getChatCompletionsSend(context, deploymentId, body, options);
   return _getChatCompletionsDeserialize(result);
 }
 
@@ -885,16 +789,11 @@ export function _getChatCompletionsWithAzureExtensionsSend(
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
 > {
   return context
-    .path(
-      "/deployments/{deploymentId}/extensions/chat/completions",
-      deploymentId,
-    )
+    .path("/deployments/{deploymentId}/extensions/chat/completions", deploymentId)
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body["messages"].map((p) =>
-          serializeChatRequestMessageUnion(p),
-        ),
+        messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
         functions:
           body["functions"] === undefined
             ? body["functions"]
@@ -927,9 +826,7 @@ export function _getChatCompletionsWithAzureExtensionsSend(
                 : { enabled: body.enhancements?.ocr?.["enabled"] },
             },
         seed: body["seed"],
-        response_format: !body.responseFormat
-          ? undefined
-          : { type: body.responseFormat?.["type"] },
+        response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
         tools: body["tools"],
         tool_choice: body["toolChoice"],
       },
@@ -974,9 +871,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                           role: p["role"],
                           content: p["content"],
                           toolCalls:
-                            p["tool_calls"] === undefined
-                              ? p["tool_calls"]
-                              : p["tool_calls"],
+                            p["tool_calls"] === undefined ? p["tool_calls"] : p["tool_calls"],
                           functionCall: !p.function_call
                             ? undefined
                             : {
@@ -989,9 +884,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
           },
       index: p["index"],
       finishReason: p["finish_reason"],
-      finishDetails: !p.finish_details
-        ? undefined
-        : { type: p.finish_details?.["type"] },
+      finishDetails: !p.finish_details ? undefined : { type: p.finish_details?.["type"] },
       delta: !p.delta
         ? undefined
         : {
@@ -1017,9 +910,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                           role: p["role"],
                           content: p["content"],
                           toolCalls:
-                            p["tool_calls"] === undefined
-                              ? p["tool_calls"]
-                              : p["tool_calls"],
+                            p["tool_calls"] === undefined ? p["tool_calls"] : p["tool_calls"],
                           functionCall: !p.function_call
                             ? undefined
                             : {
@@ -1070,41 +961,20 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                     id: p["id"],
                     filtered: p["filtered"],
                   })),
-            error: !p.content_filter_results?.error
-              ? undefined
-              : p.content_filter_results?.error,
-            protectedMaterialText: !p.content_filter_results
-              ?.protected_material_text
+            error: !p.content_filter_results?.error ? undefined : p.content_filter_results?.error,
+            protectedMaterialText: !p.content_filter_results?.protected_material_text
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_text?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_text?.[
-                      "detected"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_text?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_text?.["detected"],
                 },
-            protectedMaterialCode: !p.content_filter_results
-              ?.protected_material_code
+            protectedMaterialCode: !p.content_filter_results?.protected_material_code
               ? undefined
               : {
-                  filtered:
-                    p.content_filter_results?.protected_material_code?.[
-                      "filtered"
-                    ],
-                  detected:
-                    p.content_filter_results?.protected_material_code?.[
-                      "detected"
-                    ],
-                  url: p.content_filter_results?.protected_material_code?.[
-                    "URL"
-                  ],
-                  license:
-                    p.content_filter_results?.protected_material_code?.[
-                      "license"
-                    ],
+                  filtered: p.content_filter_results?.protected_material_code?.["filtered"],
+                  detected: p.content_filter_results?.protected_material_code?.["detected"],
+                  url: p.content_filter_results?.protected_material_code?.["URL"],
+                  license: p.content_filter_results?.protected_material_code?.["license"],
                 },
           },
       enhancements: !p.enhancements
@@ -1171,9 +1041,7 @@ export async function _getChatCompletionsWithAzureExtensionsDeserialize(
                       id: p["id"],
                       filtered: p["filtered"],
                     })),
-              error: !p.content_filter_results.error
-                ? undefined
-                : p.content_filter_results.error,
+              error: !p.content_filter_results.error ? undefined : p.content_filter_results.error,
               jailbreak: !p.content_filter_results.jailbreak
                 ? undefined
                 : {
@@ -1218,24 +1086,20 @@ export function _getImageGenerationsSend(
   deploymentId: string,
   body: ImageGenerationOptions,
   options: GetImageGenerationsOptions = { requestOptions: {} },
-): StreamableMethod<
-  GetImageGenerations200Response | GetImageGenerationsDefaultResponse
-> {
-  return context
-    .path("/deployments/{deploymentId}/images/generations", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: {
-        model: body["model"],
-        prompt: body["prompt"],
-        n: body["n"],
-        size: body["size"],
-        response_format: body["responseFormat"],
-        quality: body["quality"],
-        style: body["style"],
-        user: body["user"],
-      },
-    });
+): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/images/generations", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      model: body["model"],
+      prompt: body["prompt"],
+      n: body["n"],
+      size: body["size"],
+      response_format: body["responseFormat"],
+      quality: body["quality"],
+      style: body["style"],
+      user: body["user"],
+    },
+  });
 }
 
 export async function _getImageGenerationsDeserialize(
@@ -1262,12 +1126,7 @@ export async function getImageGenerations(
   body: ImageGenerationOptions,
   options: GetImageGenerationsOptions = { requestOptions: {} },
 ): Promise<ImageGenerations> {
-  const result = await _getImageGenerationsSend(
-    context,
-    deploymentId,
-    body,
-    options,
-  );
+  const result = await _getImageGenerationsSend(context, deploymentId, body, options);
   return _getImageGenerationsDeserialize(result);
 }
 
@@ -1277,12 +1136,10 @@ export function _getEmbeddingsSend(
   body: EmbeddingsOptions,
   options: GetEmbeddingsOptions = { requestOptions: {} },
 ): StreamableMethod<GetEmbeddings200Response | GetEmbeddingsDefaultResponse> {
-  return context
-    .path("/deployments/{deploymentId}/embeddings", deploymentId)
-    .post({
-      ...operationOptionsToRequestParameters(options),
-      body: { user: body["user"], model: body["model"], input: body["input"] },
-    });
+  return context.path("/deployments/{deploymentId}/embeddings", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: { user: body["user"], model: body["model"], input: body["input"] },
+  });
 }
 
 export async function _getEmbeddingsDeserialize(

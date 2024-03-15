@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-
 export { AzureKeyCredential } from "@azure/core-auth";
 export { OpenAIClient, OpenAIClientOptions } from "./OpenAIClient.js";
 export { OpenAIKeyCredential } from "./OpenAIKeyCredential.js";

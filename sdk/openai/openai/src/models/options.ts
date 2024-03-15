@@ -16,30 +16,25 @@ import {
   ImageSize,
 } from "./models.js";
 
-export interface GetAudioTranscriptionAsPlainTextOptions
-  extends OperationOptions {}
+export interface GetAudioTranscriptionAsPlainTextOptions extends OperationOptions {}
 
-export interface GetAudioTranscriptionAsResponseObjectOptions
-  extends OperationOptions {
+export interface GetAudioTranscriptionAsResponseObjectOptions extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface GetAudioTranslationAsPlainTextOptions
-  extends OperationOptions {}
+export interface GetAudioTranslationAsPlainTextOptions extends OperationOptions {}
 
-export interface GetAudioTranslationAsResponseObjectOptions
-  extends OperationOptions {
+export interface GetAudioTranslationAsResponseObjectOptions extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
 export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 
-export interface GetChatCompletionsWithAzureExtensionsOptions
-  extends OperationOptions {}
-  
-export interface GetImageGenerationsOptions extends OperationOptions { }
+export interface GetChatCompletionsWithAzureExtensionsOptions extends OperationOptions {}
+
+export interface GetImageGenerationsOptions extends OperationOptions {}
 
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {

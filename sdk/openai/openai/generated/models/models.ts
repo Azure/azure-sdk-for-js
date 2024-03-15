@@ -592,9 +592,7 @@ export interface ChatCompletionsOptions {
   /** The available tool definitions that the chat completions request can use, including caller-defined functions. */
   tools?: ChatCompletionsToolDefinitionUnion[];
   /** If specified, the model will configure which of the provided tools it can use for the chat completions response. */
-  toolChoice?:
-    | ChatCompletionsToolSelectionPreset
-    | ChatCompletionsNamedToolSelectionUnion;
+  toolChoice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelectionUnion;
 }
 
 /** An abstract representation of a chat message as provided in a request. */
@@ -700,8 +698,7 @@ export interface ChatCompletionsToolCall {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCall
-  extends ChatCompletionsToolCall {
+export interface ChatCompletionsFunctionToolCall extends ChatCompletionsToolCall {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -846,8 +843,7 @@ export interface OnYourDataAuthenticationOptions {
 }
 
 /** The authentication options for Azure OpenAI On Your Data when using an API key. */
-export interface OnYourDataApiKeyAuthenticationOptions
-  extends OnYourDataAuthenticationOptions {
+export interface OnYourDataApiKeyAuthenticationOptions extends OnYourDataAuthenticationOptions {
   /** The authentication type of API key. */
   type: "APIKey";
   /** The API key to use for authentication. */
@@ -926,8 +922,7 @@ export interface OnYourDataVectorizationSource {
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a public Azure OpenAI endpoint call for embeddings.
  */
-export interface OnYourDataEndpointVectorizationSource
-  extends OnYourDataVectorizationSource {
+export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSource {
   /** The type of vectorization source to use. Always 'Endpoint' for this type. */
   type: "Endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
@@ -940,8 +935,7 @@ export interface OnYourDataEndpointVectorizationSource
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on an internal embeddings model deployment name in the same Azure OpenAI resource.
  */
-export interface OnYourDataDeploymentNameVectorizationSource
-  extends OnYourDataVectorizationSource {
+export interface OnYourDataDeploymentNameVectorizationSource extends OnYourDataVectorizationSource {
   /** The type of vectorization source to use. Always 'DeploymentName' for this type. */
   type: "DeploymentName";
   /** The embedding model deployment name within the same Azure OpenAI resource. This enables you to use vector search without Azure OpenAI api-key and without Azure OpenAI public network access. */
@@ -952,8 +946,7 @@ export interface OnYourDataDeploymentNameVectorizationSource
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a search service model ID. Currently only supported by Elasticsearch®.
  */
-export interface OnYourDataModelIdVectorizationSource
-  extends OnYourDataVectorizationSource {
+export interface OnYourDataModelIdVectorizationSource extends OnYourDataVectorizationSource {
   /** The type of vectorization source to use. Always 'ModelId' for this type. */
   type: "ModelId";
   /** The embedding model ID build inside the search service. Currently only supported by Elasticsearch®. */
@@ -1014,8 +1007,7 @@ export interface AzureMachineLearningIndexChatExtensionParameters {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCosmosDBChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cosmos DB.
@@ -1068,8 +1060,7 @@ export interface AzureCosmosDBFieldMappingOptions {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface ElasticsearchChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Elasticsearch®.
@@ -1133,8 +1124,7 @@ export type ElasticsearchQueryType = string;
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface PineconeChatExtensionConfiguration
-  extends AzureChatExtensionConfiguration {
+export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
@@ -1231,15 +1221,13 @@ export interface ChatCompletionsResponseFormat {
  * The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
  * content that adheres to a specific schema.
  */
-export interface ChatCompletionsTextResponseFormat
-  extends ChatCompletionsResponseFormat {
+export interface ChatCompletionsTextResponseFormat extends ChatCompletionsResponseFormat {
   /** The discriminated object type, which is always 'text' for this format. */
   type: "text";
 }
 
 /** A response format for Chat Completions that restricts responses to emitting valid JSON objects. */
-export interface ChatCompletionsJsonResponseFormat
-  extends ChatCompletionsResponseFormat {
+export interface ChatCompletionsJsonResponseFormat extends ChatCompletionsResponseFormat {
   /** The discriminated object type, which is always 'json_object' for this format. */
   type: "json_object";
 }
@@ -1251,8 +1239,7 @@ export interface ChatCompletionsToolDefinition {
 }
 
 /** The definition information for a chat completions function tool that can call a function in response to a tool call. */
-export interface ChatCompletionsFunctionToolDefinition
-  extends ChatCompletionsToolDefinition {
+export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsToolDefinition {
   /** The object name, which is always 'function'. */
   type: "function";
   /** The function definition details for the function tool. */
@@ -1645,7 +1632,4 @@ export type ChatCompletionsNamedToolSelectionUnion =
   | ChatCompletionsNamedFunctionToolSelection
   | ChatCompletionsNamedToolSelection;
 /** Alias for ChatFinishDetailsUnion */
-export type ChatFinishDetailsUnion =
-  | StopFinishDetails
-  | MaxTokensFinishDetails
-  | ChatFinishDetails;
+export type ChatFinishDetailsUnion = StopFinishDetails | MaxTokensFinishDetails | ChatFinishDetails;

@@ -19,9 +19,7 @@ import {
 } from "../models/models.js";
 
 /** serialize function for ChatRequestUserMessage */
-function serializeChatRequestUserMessage(
-  obj: ChatRequestUserMessage,
-): ChatRequestUserMessageRest {
+function serializeChatRequestUserMessage(obj: ChatRequestUserMessage): ChatRequestUserMessageRest {
   return {
     role: obj["role"],
     content: obj["content"] as any,
@@ -48,9 +46,7 @@ function serializeChatRequestAssistantMessage(
 }
 
 /** serialize function for ChatRequestToolMessage */
-function serializeChatRequestToolMessage(
-  obj: ChatRequestToolMessage,
-): ChatRequestToolMessageRest {
+function serializeChatRequestToolMessage(obj: ChatRequestToolMessage): ChatRequestToolMessageRest {
   return {
     role: obj["role"],
     content: obj["content"],
@@ -66,9 +62,7 @@ export function serializeChatRequestMessageUnion(
     case "user":
       return serializeChatRequestUserMessage(obj as ChatRequestUserMessage);
     case "assistant":
-      return serializeChatRequestAssistantMessage(
-        obj as ChatRequestAssistantMessage,
-      );
+      return serializeChatRequestAssistantMessage(obj as ChatRequestAssistantMessage);
     case "tool":
       return serializeChatRequestToolMessage(obj as ChatRequestToolMessage);
     default:
@@ -92,9 +86,7 @@ export function serializeChatMessageContentItemUnion(
 ): ChatMessageContentItemRest {
   switch (obj.type) {
     case "image_url":
-      return serializeChatMessageImageContentItem(
-        obj as ChatMessageImageContentItem,
-      );
+      return serializeChatMessageImageContentItem(obj as ChatMessageImageContentItem);
     default:
       return obj;
   }

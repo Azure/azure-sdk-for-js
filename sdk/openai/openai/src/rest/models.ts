@@ -299,8 +299,7 @@ export interface ChatMessageContentItemParent {
 }
 
 /** A structured chat content item containing plain text. */
-export interface ChatMessageTextContentItem
-  extends ChatMessageContentItemParent {
+export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'text' for this type. */
   type: "text";
   /** The content of the message. */
@@ -308,8 +307,7 @@ export interface ChatMessageTextContentItem
 }
 
 /** A structured chat content item containing an image reference. */
-export interface ChatMessageImageContentItem
-  extends ChatMessageContentItemParent {
+export interface ChatMessageImageContentItem extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'image_url' for this type. */
   type: "image_url";
   /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
@@ -363,8 +361,7 @@ export interface ChatCompletionsToolCallParent {
  * A tool call to a function tool, issued by the model in evaluation of a configured function tool, that represents
  * a function invocation needed for a subsequent chat completions request to resolve.
  */
-export interface ChatCompletionsFunctionToolCall
-  extends ChatCompletionsToolCallParent {
+export interface ChatCompletionsFunctionToolCall extends ChatCompletionsToolCallParent {
   /** The type of tool call, in this case always 'function'. */
   type: "function";
   /** The details of the function invocation requested by the tool call. */
@@ -571,8 +568,7 @@ export interface OnYourDataVectorizationSourceParent {
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a public Azure OpenAI endpoint call for embeddings.
  */
-export interface OnYourDataEndpointVectorizationSource
-  extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'Endpoint' for this type. */
   type: "Endpoint";
   /** Specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings. The api-version query parameter is not allowed. */
@@ -597,8 +593,7 @@ export interface OnYourDataDeploymentNameVectorizationSource
  * The details of a a vectorization source, used by Azure OpenAI On Your Data when applying vector search, that is based
  * on a search service model ID. Currently only supported by Elasticsearch®.
  */
-export interface OnYourDataModelIdVectorizationSource
-  extends OnYourDataVectorizationSourceParent {
+export interface OnYourDataModelIdVectorizationSource extends OnYourDataVectorizationSourceParent {
   /** The type of vectorization source to use. Always 'ModelId' for this type. */
   type: "ModelId";
   /** The embedding model ID build inside the search service. Currently only supported by Elasticsearch®. */
@@ -771,8 +766,7 @@ export interface ElasticsearchIndexFieldMappingOptions {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface PineconeChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
+export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
@@ -860,15 +854,13 @@ export interface ChatCompletionsResponseFormatParent {
  * The standard Chat Completions response format that can freely generate text and is not guaranteed to produce response
  * content that adheres to a specific schema.
  */
-export interface ChatCompletionsTextResponseFormat
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsTextResponseFormat extends ChatCompletionsResponseFormatParent {
   /** The discriminated object type, which is always 'text' for this format. */
   type: "text";
 }
 
 /** A response format for Chat Completions that restricts responses to emitting valid JSON objects. */
-export interface ChatCompletionsJsonResponseFormat
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsJsonResponseFormat extends ChatCompletionsResponseFormatParent {
   /** The discriminated object type, which is always 'json_object' for this format. */
   type: "json_object";
 }
@@ -879,8 +871,7 @@ export interface ChatCompletionsToolDefinitionParent {
 }
 
 /** The definition information for a chat completions function tool that can call a function in response to a tool call. */
-export interface ChatCompletionsFunctionToolDefinition
-  extends ChatCompletionsToolDefinitionParent {
+export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsToolDefinitionParent {
   /** The object name, which is always 'function'. */
   type: "function";
   /** The function definition details for the function tool. */
