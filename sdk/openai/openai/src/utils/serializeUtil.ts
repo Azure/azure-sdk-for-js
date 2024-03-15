@@ -35,13 +35,8 @@ function serializeChatRequestAssistantMessage(
     role: obj["role"],
     content: obj["content"],
     name: obj["name"],
-    tool_calls: obj["toolCalls"],
-    function_call: !obj.functionCall
-      ? undefined
-      : {
-          name: obj.functionCall?.["name"],
-          arguments: obj.functionCall?.["arguments"],
-        },
+    ...(!obj["toolCalls"] || obj["toolCalls"].length === 0 ? {} : { tool_calls: obj["toolCalls"] }),
+    ...(obj.functionCall ? { function_call: obj.functionCall } : {}),
   };
 }
 

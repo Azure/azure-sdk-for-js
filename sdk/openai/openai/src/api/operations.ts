@@ -19,6 +19,7 @@ import {
 } from "../models/models.js";
 import { serializeChatRequestMessageUnion } from "../utils/serializeUtil.js";
 import {
+  AzureChatExtensionConfiguration,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
   GetChatCompletionsWithAzureExtensions200Response,
@@ -301,14 +302,7 @@ export function _getChatCompletionsSend(
     ...operationOptionsToRequestParameters(options),
     body: {
       messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-      functions:
-        body["functions"] === undefined
-          ? body["functions"]
-          : body["functions"].map((p) => ({
-              name: p["name"],
-              description: p["description"],
-              parameters: p["parameters"],
-            })),
+      functions: body["functions"],
       function_call: body["functionCall"],
       max_tokens: body["maxTokens"],
       temperature: body["temperature"],
@@ -475,7 +469,9 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: body["dataSources"],
+        dataSources: body["dataSources"]?.map(
+          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
+        ),
         enhancements: !body.enhancements
           ? undefined
           : {
