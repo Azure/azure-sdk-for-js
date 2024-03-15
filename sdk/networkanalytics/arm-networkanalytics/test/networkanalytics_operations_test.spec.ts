@@ -88,7 +88,7 @@ describe("NetworkAnalytics test", () => {
     assert.equal(res.name, resourcename);
   });
 
-  it.only("dataProducts update test", async function () {
+  it("dataProducts update test", async function () {
     try {
       const res = await client.dataProducts.beginUpdate(
         resourceGroup,
@@ -100,6 +100,7 @@ describe("NetworkAnalytics test", () => {
         });
     } catch (error: any) {
       const errorMessage = error.message || '';
+      console.log(errorMessage)
       assert.equal(errorMessage.includes("Accepted"), true)
     }
   });
