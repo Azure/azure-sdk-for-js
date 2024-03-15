@@ -12,7 +12,7 @@ import {
   convertRequestForMetricsBatchQuery,
 } from "./internal/modelConverters";
 import { SDK_VERSION } from "./constants";
-import { MetricsBatchQueryOptions } from "./models/publicBatchModels";
+import { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
 import { MetricsQueryResult } from "./models/publicMetricsModels";
 
 const defaultMetricsScope = "https://management.azure.com/.default";
@@ -38,11 +38,7 @@ export class MetricsClient {
   private _metricBatchClient: GeneratedMonitorMetricClient;
   private _baseUrl: string;
 
-  constructor(
-    batchEndPoint: string,
-    tokenCredential: TokenCredential,
-    options?: MetricsClientOptions,
-  ) {
+  constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions) {
     let scope;
     if (options?.batchMetricsAuthScope) {
       scope = `${options?.batchMetricsAuthScope}/.default`;
@@ -57,8 +53,8 @@ export class MetricsClient {
         : `${packageDetails}`;
     const serviceClientOptions = {
       ...options,
-      $host: batchEndPoint,
-      endpoint: batchEndPoint,
+      $host: endpoint,
+      endpoint: endpoint,
       credentialScopes: credentialOptions?.credentialScopes ?? defaultMetricsScope,
       credential: tokenCredential,
       userAgentOptions: {
@@ -66,7 +62,7 @@ export class MetricsClient {
       },
     };
 
-    this._baseUrl = batchEndPoint;
+    this._baseUrl = endpoint;
 
     this._metricBatchClient = new GeneratedMonitorMetricClient(
       this._baseUrl,
@@ -82,7 +78,7 @@ export class MetricsClient {
     resourceIds: string[],
     metricNames: string[],
     metricNamespace: string,
-    options: MetricsBatchQueryOptions = {},
+    options: MetricsQueryResourcesOptions = {},
   ): Promise<MetricsQueryResult[]> {
     if (resourceIds.length === 0) {
       throw new Error("Resource IDs can not be empty");

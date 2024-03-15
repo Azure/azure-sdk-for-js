@@ -4,7 +4,7 @@
 import * as coreClient from "@azure/core-client";
 
 /** Optional parameters. */
-export interface MetricsBatchQueryOptions extends coreClient.OperationOptions {
+export interface MetricsQueryResourcesOptions extends coreClient.OperationOptions {
   /**
    * The start time of the query. It is a string in the format 'yyyy-MM-ddTHH:mm:ss.fffZ'. If you have specified the endTime parameter, then this parameter is required.
    * If only startTime is specified, then endTime defaults to the current time.

@@ -179,21 +179,9 @@ export interface MetricsBatchClientOptions extends CommonClientOptions {
 }
 
 // @public
-export interface MetricsBatchQueryOptions extends coreClient.OperationOptions {
-    aggregation?: string;
-    endTime?: Date;
-    filter?: string;
-    interval?: string;
-    orderBy?: string;
-    rollUpBy?: string;
-    startTime?: Date;
-    top?: number;
-}
-
-// @public
 export class MetricsClient {
-    constructor(batchEndPoint: string, tokenCredential: TokenCredential, options?: MetricsBatchClientOptions);
-    queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsBatchQueryOptions): Promise<MetricsQueryResult[]>;
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsBatchClientOptions);
+    queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
 // @public
@@ -222,6 +210,18 @@ export interface MetricsQueryOptions extends OperationOptions {
     timespan?: QueryTimeInterval;
     top?: number;
     validateDimensions?: boolean;
+}
+
+// @public
+export interface MetricsQueryResourcesOptions extends coreClient.OperationOptions {
+    aggregation?: string;
+    endTime?: Date;
+    filter?: string;
+    interval?: string;
+    orderBy?: string;
+    rollUpBy?: string;
+    startTime?: Date;
+    top?: number;
 }
 
 // @public

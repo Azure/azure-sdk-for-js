@@ -60,7 +60,7 @@ import {
   MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
   MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
 } from "../generated/metricBatch/src";
-import { MetricsBatchQueryOptions } from "../models/publicBatchModels";
+import { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
 
 /**
  * @internal
@@ -191,17 +191,17 @@ export function fixInvalidBatchQueryResponse(
  * @internal
  */
 export function convertRequestForMetricsBatchQuery(
-  metricsBatchQueryOptions: MetricsBatchQueryOptions | undefined,
+  metricsQueryResourcesOptions: MetricsQueryResourcesOptions | undefined,
 ): GeneratedMetricsBatchOptionalParams {
-  if (!metricsBatchQueryOptions) {
+  if (!metricsQueryResourcesOptions) {
     return {};
   }
 
   return {
-    starttime: metricsBatchQueryOptions.startTime?.toISOString(),
-    endtime: metricsBatchQueryOptions.endTime?.toISOString(),
-    rollupby: metricsBatchQueryOptions.rollUpBy,
-    ...metricsBatchQueryOptions,
+    starttime: metricsQueryResourcesOptions.startTime?.toISOString(),
+    endtime: metricsQueryResourcesOptions.endTime?.toISOString(),
+    rollupby: metricsQueryResourcesOptions.rollUpBy,
+    ...metricsQueryResourcesOptions,
   };
 }
 
