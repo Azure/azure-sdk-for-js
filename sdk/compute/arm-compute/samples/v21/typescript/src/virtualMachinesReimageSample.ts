@@ -11,7 +11,7 @@
 import {
   VirtualMachineReimageParameters,
   VirtualMachinesReimageOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,9 +34,9 @@ async function reimageANonEphemeralVirtualMachine() {
     exactVersion: "aaaaaa",
     osProfile: {
       adminPassword: "{your-password}",
-      customData: "{your-custom-data}"
+      customData: "{your-custom-data}",
     },
-    tempDisk: true
+    tempDisk: true,
   };
   const options: VirtualMachinesReimageOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function reimageANonEphemeralVirtualMachine() {
   const result = await client.virtualMachines.beginReimageAndWait(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -68,7 +68,7 @@ async function reimageAVirtualMachine() {
   const result = await client.virtualMachines.beginReimageAndWait(
     resourceGroupName,
     vmName,
-    options
+    options,
   );
   console.log(result);
 }

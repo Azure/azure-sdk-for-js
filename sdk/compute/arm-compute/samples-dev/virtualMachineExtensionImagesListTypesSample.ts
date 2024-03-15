@@ -29,7 +29,7 @@ async function virtualMachineExtensionImageListTypesMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensionImages.listTypes(
     location,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function virtualMachineExtensionImageListTypesMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineExtensionImages.listTypes(
     location,
-    publisherName
+    publisherName,
   );
   console.log(result);
 }

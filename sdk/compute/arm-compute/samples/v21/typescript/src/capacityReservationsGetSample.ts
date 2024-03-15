@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservationsGetOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,7 +38,7 @@ async function getACapacityReservation() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    options
+    options,
   );
   console.log(result);
 }

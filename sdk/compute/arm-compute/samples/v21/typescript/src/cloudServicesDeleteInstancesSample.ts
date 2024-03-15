@@ -11,7 +11,7 @@
 import {
   RoleInstances,
   CloudServicesDeleteInstancesOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function deleteCloudServiceRoleInstancesInACloudService() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: RoleInstances = {
-    roleInstances: ["ContosoFrontend_IN_0", "ContosoBackend_IN_1"]
+    roleInstances: ["ContosoFrontend_IN_0", "ContosoBackend_IN_1"],
   };
   const options: CloudServicesDeleteInstancesOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function deleteCloudServiceRoleInstancesInACloudService() {
   const result = await client.cloudServices.beginDeleteInstancesAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }
