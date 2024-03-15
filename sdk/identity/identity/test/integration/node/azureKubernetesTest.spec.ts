@@ -18,7 +18,7 @@ describe("Azure Kubernetes Integration test", function () {
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
-    const podName = requireEnvVar("IDENTITY_POD_NAME");
+    const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
 
     const azPath = runCommand(`which az`);
     const kubectlPath = runCommand(`which kubectl`);

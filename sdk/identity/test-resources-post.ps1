@@ -64,8 +64,8 @@ az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $DeploymentO
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
-$SaAccountName = 'workload-identity-sa'
-$PodName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$saAccountName = 'workload-identity-sa'
+$podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 
 # Get the aks cluster credentials
@@ -88,20 +88,20 @@ kind: ServiceAccount
 metadata:
   annotations:
     azure.workload.identity/client-id: $MIClientId
-  name: $SaAccountName
+  name: $saAccountName
   namespace: default
 ---
 apiVersion: v1
 kind: Pod
 metadata:
-  name: $PodName
+  name: $podName
   namespace: default
   labels:
     azure.workload.identity/use: "true"
 spec:
-  serviceAccountName: $SaAccountName
+  serviceAccountName: $saAccountName
   containers:
-  - name: $PodName
+  - name: $podName
     image: $image
     env:
     - name: IDENTITY_STORAGE_NAME
