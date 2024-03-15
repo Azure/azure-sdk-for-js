@@ -175,7 +175,6 @@ export interface MetricNamespace {
 
 // @public
 export interface MetricsBatchClientOptions extends CommonClientOptions {
-    batchMetricsAuthScope?: string;
 }
 
 // @public
