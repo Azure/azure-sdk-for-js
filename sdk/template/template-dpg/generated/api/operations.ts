@@ -25,19 +25,17 @@ export interface ListWidgetsOptions extends RequestOptions {}
 
 export function _listWidgetsSend(
   context: Client,
-  options: ListWidgetsOptions = { requestOptions: {} }
+  options: ListWidgetsOptions = { requestOptions: {} },
 ): StreamableMethod<ListWidgets200Response | ListWidgetsDefaultResponse> {
-  return context
-    .path("/widgets")
-    .get({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-    });
+  return context.path("/widgets").get({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+  });
 }
 
 export async function _listWidgetsDeserialize(
-  result: ListWidgets200Response | ListWidgetsDefaultResponse
+  result: ListWidgets200Response | ListWidgetsDefaultResponse,
 ): Promise<Widget[]> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -57,7 +55,7 @@ export async function _listWidgetsDeserialize(
  */
 export async function listWidgets(
   context: Client,
-  options: ListWidgetsOptions = { requestOptions: {} }
+  options: ListWidgetsOptions = { requestOptions: {} },
 ): Promise<Widget[]> {
   const result = await _listWidgetsSend(context, options);
   return _listWidgetsDeserialize(result);
@@ -68,19 +66,17 @@ export interface GetWidgetOptions extends RequestOptions {}
 export function _getWidgetSend(
   context: Client,
   id: string,
-  options: GetWidgetOptions = { requestOptions: {} }
+  options: GetWidgetOptions = { requestOptions: {} },
 ): StreamableMethod<GetWidget200Response | GetWidgetDefaultResponse> {
-  return context
-    .path("/widgets/{id}", id)
-    .get({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-    });
+  return context.path("/widgets/{id}", id).get({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+  });
 }
 
 export async function _getWidgetDeserialize(
-  result: GetWidget200Response | GetWidgetDefaultResponse
+  result: GetWidget200Response | GetWidgetDefaultResponse,
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -97,7 +93,7 @@ export async function _getWidgetDeserialize(
 export async function getWidget(
   context: Client,
   id: string,
-  options: GetWidgetOptions = { requestOptions: {} }
+  options: GetWidgetOptions = { requestOptions: {} },
 ): Promise<Widget> {
   const result = await _getWidgetSend(context, id, options);
   return _getWidgetDeserialize(result);
@@ -109,20 +105,18 @@ export function _createWidgetSend(
   context: Client,
   weight: number,
   color: ColorType,
-  options: CreateWidgetOptions = { requestOptions: {} }
+  options: CreateWidgetOptions = { requestOptions: {} },
 ): StreamableMethod<CreateWidget201Response | CreateWidgetDefaultResponse> {
-  return context
-    .path("/widgets")
-    .post({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-      body: { weight: weight, color: color },
-    });
+  return context.path("/widgets").post({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+    body: { weight: weight, color: color },
+  });
 }
 
 export async function _createWidgetDeserialize(
-  result: CreateWidget201Response | CreateWidgetDefaultResponse
+  result: CreateWidget201Response | CreateWidgetDefaultResponse,
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -145,7 +139,7 @@ export async function createWidget(
   context: Client,
   weight: number,
   color: ColorType,
-  options: CreateWidgetOptions = { requestOptions: {} }
+  options: CreateWidgetOptions = { requestOptions: {} },
 ): Promise<Widget> {
   const result = await _createWidgetSend(context, weight, color, options);
   return _createWidgetDeserialize(result);
@@ -161,20 +155,18 @@ export interface UpdateWidgetOptions extends RequestOptions {
 export function _updateWidgetSend(
   context: Client,
   id: string,
-  options: UpdateWidgetOptions = { requestOptions: {} }
+  options: UpdateWidgetOptions = { requestOptions: {} },
 ): StreamableMethod<UpdateWidget200Response | UpdateWidgetDefaultResponse> {
-  return context
-    .path("/widgets/{id}", id)
-    .patch({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-      body: { weight: options?.weight, color: options?.color },
-    });
+  return context.path("/widgets/{id}", id).patch({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+    body: { weight: options?.weight, color: options?.color },
+  });
 }
 
 export async function _updateWidgetDeserialize(
-  result: UpdateWidget200Response | UpdateWidgetDefaultResponse
+  result: UpdateWidget200Response | UpdateWidgetDefaultResponse,
 ): Promise<Widget> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -194,7 +186,7 @@ export async function _updateWidgetDeserialize(
 export async function updateWidget(
   context: Client,
   id: string,
-  options: UpdateWidgetOptions = { requestOptions: {} }
+  options: UpdateWidgetOptions = { requestOptions: {} },
 ): Promise<Widget> {
   const result = await _updateWidgetSend(context, id, options);
   return _updateWidgetDeserialize(result);
@@ -205,19 +197,17 @@ export interface DeleteWidgetOptions extends RequestOptions {}
 export function _deleteWidgetSend(
   context: Client,
   id: string,
-  options: DeleteWidgetOptions = { requestOptions: {} }
+  options: DeleteWidgetOptions = { requestOptions: {} },
 ): StreamableMethod<DeleteWidget204Response | DeleteWidgetDefaultResponse> {
-  return context
-    .path("/widgets/{id}", id)
-    .delete({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-    });
+  return context.path("/widgets/{id}", id).delete({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+  });
 }
 
 export async function _deleteWidgetDeserialize(
-  result: DeleteWidget204Response | DeleteWidgetDefaultResponse
+  result: DeleteWidget204Response | DeleteWidgetDefaultResponse,
 ): Promise<void> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -230,7 +220,7 @@ export async function _deleteWidgetDeserialize(
 export async function deleteWidget(
   context: Client,
   id: string,
-  options: DeleteWidgetOptions = { requestOptions: {} }
+  options: DeleteWidgetOptions = { requestOptions: {} },
 ): Promise<void> {
   const result = await _deleteWidgetSend(context, id, options);
   return _deleteWidgetDeserialize(result);
@@ -241,19 +231,17 @@ export interface AnalyzeWidgetOptions extends RequestOptions {}
 export function _analyzeWidgetSend(
   context: Client,
   id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} }
+  options: AnalyzeWidgetOptions = { requestOptions: {} },
 ): StreamableMethod<AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse> {
-  return context
-    .path("/widgets/{id}/analyze", id)
-    .post({
-      allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
-      skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
-      headers: { ...options.requestOptions?.headers },
-    });
+  return context.path("/widgets/{id}/analyze", id).post({
+    allowInsecureConnection: options.requestOptions?.allowInsecureConnection,
+    skipUrlEncoding: options.requestOptions?.skipUrlEncoding,
+    headers: { ...options.requestOptions?.headers },
+  });
 }
 
 export async function _analyzeWidgetDeserialize(
-  result: AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse
+  result: AnalyzeWidget200Response | AnalyzeWidgetDefaultResponse,
 ): Promise<AnalyzeResult> {
   if (isUnexpected(result)) {
     throw result.body;
@@ -268,7 +256,7 @@ export async function _analyzeWidgetDeserialize(
 export async function analyzeWidget(
   context: Client,
   id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} }
+  options: AnalyzeWidgetOptions = { requestOptions: {} },
 ): Promise<AnalyzeResult> {
   const result = await _analyzeWidgetSend(context, id, options);
   return _analyzeWidgetDeserialize(result);

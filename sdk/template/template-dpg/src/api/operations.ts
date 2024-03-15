@@ -1,19 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
-import { StreamableMethod } from "@azure-rest/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
-import { RequestOptions } from "../common/interfaces.js";
-import { WidgetServiceContext as Client } from "../rest/clientDefinitions.js";
 import {
+  WidgetServiceContext as Client,
+  isUnexpected,
   AnalyzeWidget200Response,
   AnalyzeWidgetDefaultResponse,
   CreateWidget201Response,
@@ -26,27 +16,14 @@ import {
   ListWidgetsDefaultResponse,
   UpdateWidget200Response,
   UpdateWidgetDefaultResponse,
-  isUnexpected,
 } from "../rest/index.js";
+import { StreamableMethod } from "@azure-rest/core-client";
+import { Widget, ColorType, AnalyzeResult } from "./models.js";
+import { RequestOptions } from "../common/interfaces.js";
 import { foo } from "./foo.js";
-import { AnalyzeResult, ColorType, Widget } from "./models.js";
+import { RestError } from "@azure/core-rest-pipeline";
 
 export interface ListWidgetsOptions extends RequestOptions {}
-
-export interface GetWidgetOptions extends RequestOptions {}
-
-export interface CreateWidgetOptions extends RequestOptions {}
-
-export interface UpdateWidgetOptions extends RequestOptions {
-  /** The weight of the widget. This is an int32, but must be greater than zero. */
-  weight?: number;
-  /** The color of the widget. */
-  color?: ColorType;
-}
-
-export interface DeleteWidgetOptions extends RequestOptions {}
-
-export interface AnalyzeWidgetOptions extends RequestOptions {}
 
 export function _listWidgetsSend(
   context: Client,
@@ -86,6 +63,8 @@ export async function listWidgets(
   return _listWidgetsDeserialize(result);
 }
 
+export interface GetWidgetOptions extends RequestOptions {}
+
 export function _getWidgetSend(
   context: Client,
   id: string,
@@ -121,6 +100,8 @@ export async function getWidget(
   const result = await _getWidgetSend(context, id, options);
   return _getWidgetDeserialize(result);
 }
+
+export interface CreateWidgetOptions extends RequestOptions {}
 
 export function _createWidgetSend(
   context: Client,
@@ -166,6 +147,13 @@ export async function createWidget(
   return _createWidgetDeserialize(result);
 }
 
+export interface UpdateWidgetOptions extends RequestOptions {
+  /** The weight of the widget. This is an int32, but must be greater than zero. */
+  weight?: number;
+  /** The color of the widget. */
+  color?: ColorType;
+}
+
 export function _updateWidgetSend(
   context: Client,
   id: string,
@@ -206,6 +194,8 @@ export async function updateWidget(
   return _updateWidgetDeserialize(result);
 }
 
+export interface DeleteWidgetOptions extends RequestOptions {}
+
 export function _deleteWidgetSend(
   context: Client,
   id: string,
@@ -238,6 +228,8 @@ export async function deleteWidget(
   return _deleteWidgetDeserialize(result);
 }
 
+export interface AnalyzeWidgetOptions extends RequestOptions {}
+
 export function _analyzeWidgetSend(
   context: Client,
   id: string,
@@ -263,6 +255,7 @@ export async function _analyzeWidgetDeserialize(
 }
 
 /**
+ * Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis.
  * In this customization we will perform the following tasks in addition to the generated:
  *  - We are going to add special error handling for demonstration purposes
  */
@@ -273,8 +266,8 @@ export async function analyzeWidget(
 ): Promise<AnalyzeResult> {
   try {
     foo();
-    const result = await _analyzeWidget(context, id, options);
-    return result;
+    const result = await _analyzeWidgetSend(context, id, options);
+    return _analyzeWidgetDeserialize(result);
   } catch (error: any) {
     console.error("Error occurred while calling analyzeWidget:", error);
     if (error.message && error.statusCode) {
@@ -283,14 +276,4 @@ export async function analyzeWidget(
 
     throw new Error(error);
   }
-}
-
-/** Analyze a widget. The only guarantee is that this method will return a string containing the results of the analysis. */
-async function _analyzeWidget(
-  context: Client,
-  id: string,
-  options: AnalyzeWidgetOptions = { requestOptions: {} },
-): Promise<AnalyzeResult> {
-  const result = await _analyzeWidgetSend(context, id, options);
-  return _analyzeWidgetDeserialize(result);
 }

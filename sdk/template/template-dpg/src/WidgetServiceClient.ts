@@ -1,34 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/**
- * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
- *
- * Any changes you make here may be lost.
- *
- * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
- */
-
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { WidgetServiceClientOptions, createWidgetService } from "./api/WidgetServiceContext.js";
 import {
-  AnalyzeResult,
-  AnalyzeWidgetOptions,
-  ColorType,
-  CreateWidgetOptions,
-  DeleteWidgetOptions,
-  GetWidgetOptions,
-  ListWidgetsOptions,
-  UpdateWidgetOptions,
   Widget,
-  analyzeWidget,
-  createWidget,
-  deleteWidget,
-  getWidget,
+  ColorType,
+  AnalyzeResult,
   listWidgets,
+  getWidget,
+  createWidget,
   updateWidget,
+  deleteWidget,
+  analyzeWidget,
+  ListWidgetsOptions,
+  GetWidgetOptions,
+  CreateWidgetOptions,
+  UpdateWidgetOptions,
+  DeleteWidgetOptions,
+  AnalyzeWidgetOptions,
+  createWidgetService,
+  WidgetServiceContext,
+  WidgetServiceClientOptions,
 } from "./api/index.js";
-import { WidgetServiceContext } from "./rest/clientDefinitions.js";
 
 export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 

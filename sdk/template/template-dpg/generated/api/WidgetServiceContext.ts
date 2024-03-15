@@ -12,7 +12,7 @@ export interface WidgetServiceClientOptions extends ClientOptions {}
 /** */
 export function createWidgetService(
   endpoint: string,
-  options: WidgetServiceClientOptions = {}
+  options: WidgetServiceClientOptions = {},
 ): WidgetServiceContext {
   const baseUrl = endpoint;
   const clientContext = getClient(baseUrl, options);

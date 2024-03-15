@@ -12,7 +12,7 @@ import { WidgetServiceContext } from "./clientDefinitions.js";
  */
 export default function createClient(
   endpoint: string,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): WidgetServiceContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "1.0.0";
