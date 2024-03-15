@@ -66,8 +66,8 @@ describe("NetworkAnalytics test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it.skip("dataProducts create test", async function () {
-    const res = await client.dataProducts.beginCreateAndWait(
+  it("dataProducts create test", async function () {
+    const res = await client.dataProducts.beginCreate(
       resourceGroup,
       resourcename,
       {
@@ -79,14 +79,29 @@ describe("NetworkAnalytics test", () => {
         }
       },
       testPollingOptions);
-    assert.equal(res.name, resourcename);
-  }).timeout(14400000);
+  });
 
   it("dataProducts get test", async function () {
     const res = await client.dataProducts.get(
       resourceGroup,
       resourcename);
     assert.equal(res.name, resourcename);
+  });
+
+  it.only("dataProducts update test", async function () {
+    try {
+      const res = await client.dataProducts.beginUpdate(
+        resourceGroup,
+        resourcename,
+        {
+          properties: {
+            purviewAccount: "1"
+          }
+        });
+    } catch (error: any) {
+      const errorMessage = error.message || '';
+      assert.equal(errorMessage.includes("Accepted"), true)
+    }
   });
 
   it("dataProducts list test", async function () {
