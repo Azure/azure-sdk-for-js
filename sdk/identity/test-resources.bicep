@@ -36,25 +36,25 @@ resource userAssignedIdentity 'Microsoft.ManagedIdentity/userAssignedIdentities@
   location: location
 }
 
-resource blobRoleWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner)
-  properties: {
-    principalId: web.identity.principalId
-    roleDefinitionId: blobOwner
-    principalType: 'ServicePrincipal'
-  }
-}
+// resource blobRoleWeb 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+//   scope: storageAccount
+//   name: guid(resourceGroup().id, blobOwner)
+//   properties: {
+//     principalId: web.identity.principalId
+//     roleDefinitionId: blobOwner
+//     principalType: 'ServicePrincipal'
+//   }
+// }
 
-resource blobRoleFunc 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: storageAccount
-  name: guid(resourceGroup().id, blobOwner, 'azureFunction')
-  properties: {
-    principalId: azureFunction.identity.principalId
-    roleDefinitionId: blobOwner
-    principalType: 'ServicePrincipal'
-  }
-}
+// resource blobRoleFunc 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+//   scope: storageAccount
+//   name: guid(resourceGroup().id, blobOwner, 'azureFunction')
+//   properties: {
+//     principalId: azureFunction.identity.principalId
+//     roleDefinitionId: blobOwner
+//     principalType: 'ServicePrincipal'
+//   }
+// }
 
 resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   scope: storageAccount
@@ -76,25 +76,25 @@ resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   }
 }
 
-resource webRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: web
-  name: guid(resourceGroup().id, websiteContributor, 'web')
-  properties: {
-    principalId: testApplicationOid
-    roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
-  }
-}
+// resource webRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+//   scope: web
+//   name: guid(resourceGroup().id, websiteContributor, 'web')
+//   properties: {
+//     principalId: testApplicationOid
+//     roleDefinitionId: websiteContributor
+//     principalType: 'ServicePrincipal'
+//   }
+// }
 
-resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
-  scope: azureFunction
-  name: guid(resourceGroup().id, websiteContributor, 'azureFunction')
-  properties: {
-    principalId: testApplicationOid
-    roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
-  }
-}
+// resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+//   scope: azureFunction
+//   name: guid(resourceGroup().id, websiteContributor, 'azureFunction')
+//   properties: {
+//     principalId: testApplicationOid
+//     roleDefinitionId: websiteContributor
+//     principalType: 'ServicePrincipal'
+//   }
+// }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
   name: baseName
@@ -242,23 +242,23 @@ resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
 //   }
 // }
 
-resource publishPolicyWeb 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
-  kind: 'app'
-  parent: web
-  name: 'scm'
-  properties: {
-    allow: true
-  }
-}
+// resource publishPolicyWeb 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+//   kind: 'app'
+//   parent: web
+//   name: 'scm'
+//   properties: {
+//     allow: true
+//   }
+// }
 
-resource publishPolicyFunction 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
-  kind: 'functionapp'
-  parent: azureFunction
-  name: 'scm'
-  properties: {
-    allow: true
-  }
-}
+// resource publishPolicyFunction 'Microsoft.Web/sites/basicPublishingCredentialsPolicies@2022-09-01' = {
+//   kind: 'functionapp'
+//   parent: azureFunction
+//   name: 'scm'
+//   properties: {
+//     allow: true
+//   }
+// }
 
 resource acrResource 'Microsoft.ContainerRegistry/registries@2023-01-01-preview' = {
   name: acrName
@@ -318,14 +318,14 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
   }
 }
 
-output IDENTITY_WEBAPP_NAME string = web.name
-output IDENTITY_WEBAPP_PLAN string = farm.name
+// output IDENTITY_WEBAPP_NAME string = web.name
+// output IDENTITY_WEBAPP_PLAN string = farm.name
 output IDENTITY_USER_DEFINED_IDENTITY string = userAssignedIdentity.id
 output IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID string = userAssignedIdentity.properties.clientId
 output IDENTITY_USER_DEFINED_IDENTITY_NAME string = userAssignedIdentity.name
 output IDENTITY_STORAGE_NAME_1 string = storageAccount.name
 output IDENTITY_STORAGE_NAME_2 string = storageAccount2.name
-output IDENTITY_FUNCTION_NAME string = azureFunction.name
+// output IDENTITY_FUNCTION_NAME string = azureFunction.name
 output IDENTITY_AKS_CLUSTER_NAME string = kubernetesCluster.name
 output IDENTITY_AKS_POD_NAME string = 'javascript-test-app'
 output IDENTITY_ACR_NAME string = acrResource.name
