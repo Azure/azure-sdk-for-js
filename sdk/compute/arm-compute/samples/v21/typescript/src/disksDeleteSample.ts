@@ -30,7 +30,7 @@ async function deleteAManagedDisk() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.disks.beginDeleteAndWait(
     resourceGroupName,
-    diskName
+    diskName,
   );
   console.log(result);
 }

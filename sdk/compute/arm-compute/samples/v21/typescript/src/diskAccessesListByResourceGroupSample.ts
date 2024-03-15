@@ -29,7 +29,7 @@ async function listAllDiskAccessResourcesInAResourceGroup() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.diskAccesses.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

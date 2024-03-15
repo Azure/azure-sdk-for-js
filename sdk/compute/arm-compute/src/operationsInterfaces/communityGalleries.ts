@@ -8,7 +8,7 @@
 
 import {
   CommunityGalleriesGetOptionalParams,
-  CommunityGalleriesGetResponse
+  CommunityGalleriesGetResponse,
 } from "../models";
 
 /** Interface representing a CommunityGalleries. */
@@ -22,6 +22,6 @@ export interface CommunityGalleries {
   get(
     location: string,
     publicGalleryName: string,
-    options?: CommunityGalleriesGetOptionalParams
+    options?: CommunityGalleriesGetOptionalParams,
   ): Promise<CommunityGalleriesGetResponse>;
 }
