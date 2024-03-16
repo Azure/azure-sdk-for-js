@@ -236,16 +236,16 @@ export interface BaseVectorSearchVectorizer {
     name: string;
 }
 
-// @public
+// @public (undocumented)
 export type BlobIndexerDataToExtract = "storageMetadata" | "allMetadata" | "contentAndMetadata";
 
-// @public
+// @public (undocumented)
 export type BlobIndexerImageAction = "none" | "generateNormalizedImages" | "generateNormalizedImagePerPage";
 
-// @public
+// @public (undocumented)
 export type BlobIndexerParsingMode = "default" | "text" | "delimitedText" | "json" | "jsonArray" | "jsonLines";
 
-// @public
+// @public (undocumented)
 export type BlobIndexerPDFTextRotationAlgorithm = "none" | "detectAngles";
 
 // @public
@@ -424,7 +424,7 @@ export interface CustomEntityLookupSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.CustomEntityLookupSkill";
 }
 
-// @public
+// @public (undocumented)
 export type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";
 
 // @public
@@ -586,7 +586,7 @@ export interface EntityRecognitionSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill";
 }
 
-// @public
+// @public (undocumented)
 export type EntityRecognitionSkillLanguage = "ar" | "cs" | "zh-Hans" | "zh-Hant" | "da" | "nl" | "en" | "fi" | "fr" | "de" | "el" | "hu" | "it" | "ja" | "ko" | "no" | "pl" | "pt-PT" | "pt-BR" | "ru" | "es" | "sv" | "tr";
 
 // @public
@@ -744,7 +744,7 @@ export interface ImageAnalysisSkill extends BaseSearchIndexerSkill {
     visualFeatures?: VisualFeature[];
 }
 
-// @public
+// @public (undocumented)
 export type ImageAnalysisSkillLanguage = "ar" | "az" | "bg" | "bs" | "ca" | "cs" | "cy" | "da" | "de" | "el" | "en" | "es" | "et" | "eu" | "fi" | "fr" | "ga" | "gl" | "he" | "hi" | "hr" | "hu" | "id" | "it" | "ja" | "kk" | "ko" | "lt" | "lv" | "mk" | "ms" | "nb" | "nl" | "pl" | "prs" | "pt-BR" | "pt" | "pt-PT" | "ro" | "ru" | "sk" | "sl" | "sr-Cyrl" | "sr-Latn" | "sv" | "th" | "tr" | "uk" | "vi" | "zh" | "zh-Hans" | "zh-Hant";
 
 // @public (undocumented)
@@ -784,7 +784,7 @@ export interface IndexDocumentsResult {
     readonly results: IndexingResult[];
 }
 
-// @public
+// @public (undocumented)
 export type IndexerExecutionEnvironment = "standard" | "private";
 
 // @public
@@ -901,7 +901,7 @@ export interface KeyPhraseExtractionSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.KeyPhraseExtractionSkill";
 }
 
-// @public
+// @public (undocumented)
 export type KeyPhraseExtractionSkillLanguage = "da" | "nl" | "en" | "fi" | "fr" | "de" | "it" | "ja" | "ko" | "no" | "pl" | "pt-PT" | "pt-BR" | "ru" | "es" | "sv";
 
 // @public
@@ -1895,7 +1895,7 @@ export interface OcrSkill extends BaseSearchIndexerSkill {
     shouldDetectOrientation?: boolean;
 }
 
-// @public
+// @public (undocumented)
 export type OcrSkillLanguage = "af" | "sq" | "anp" | "ar" | "ast" | "awa" | "az" | "bfy" | "eu" | "be" | "be-cyrl" | "be-latn" | "bho" | "bi" | "brx" | "bs" | "bra" | "br" | "bg" | "bns" | "bua" | "ca" | "ceb" | "rab" | "ch" | "hne" | "zh-Hans" | "zh-Hant" | "kw" | "co" | "crh" | "hr" | "cs" | "da" | "prs" | "dhi" | "doi" | "nl" | "en" | "myv" | "et" | "fo" | "fj" | "fil" | "fi" | "fr" | "fur" | "gag" | "gl" | "de" | "gil" | "gon" | "el" | "kl" | "gvr" | "ht" | "hlb" | "hni" | "bgc" | "haw" | "hi" | "mww" | "hoc" | "hu" | "is" | "smn" | "id" | "ia" | "iu" | "ga" | "it" | "ja" | "Jns" | "jv" | "kea" | "kac" | "xnr" | "krc" | "kaa-cyrl" | "kaa" | "csb" | "kk-cyrl" | "kk-latn" | "klr" | "kha" | "quc" | "ko" | "kfq" | "kpy" | "kos" | "kum" | "ku-arab" | "ku-latn" | "kru" | "ky" | "lkt" | "la" | "lt" | "dsb" | "smj" | "lb" | "bfz" | "ms" | "mt" | "kmj" | "gv" | "mi" | "mr" | "mn" | "cnr-cyrl" | "cnr-latn" | "nap" | "ne" | "niu" | "nog" | "sme" | "nb" | "no" | "oc" | "os" | "ps" | "fa" | "pl" | "pt" | "pa" | "ksh" | "ro" | "rm" | "ru" | "sck" | "sm" | "sa" | "sat" | "sco" | "gd" | "sr" | "sr-Cyrl" | "sr-Latn" | "xsr" | "srx" | "sms" | "sk" | "sl" | "so" | "sma" | "es" | "sw" | "sv" | "tg" | "tt" | "tet" | "thf" | "to" | "tr" | "tk" | "tyv" | "hsb" | "ur" | "ug" | "uz-arab" | "uz-cyrl" | "uz" | "vo" | "wae" | "cy" | "fy" | "yua" | "za" | "zu" | "unk";
 
 // @public
@@ -1979,7 +1979,7 @@ export interface PIIDetectionSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.PIIDetectionSkill";
 }
 
-// @public
+// @public (undocumented)
 export type PIIDetectionSkillMaskingMode = "none" | "replace";
 
 // @public
@@ -2029,7 +2029,7 @@ export type QuerySpellerType = string;
 // @public
 export type QueryType = "simple" | "full" | "semantic";
 
-// @public
+// @public (undocumented)
 export type RegexFlags = "CANON_EQ" | "CASE_INSENSITIVE" | "COMMENTS" | "DOTALL" | "LITERAL" | "MULTILINE" | "UNICODE_CASE" | "UNIX_LINES";
 
 // @public
@@ -2616,7 +2616,7 @@ export interface SentimentSkill extends BaseSearchIndexerSkill {
     odatatype: "#Microsoft.Skills.Text.SentimentSkill";
 }
 
-// @public
+// @public (undocumented)
 export type SentimentSkillLanguage = "da" | "nl" | "en" | "fi" | "fr" | "de" | "el" | "it" | "no" | "pl" | "pt-PT" | "ru" | "es" | "sv" | "tr";
 
 // @public
@@ -2718,7 +2718,7 @@ export interface SplitSkill extends BaseSearchIndexerSkill {
     textSplitMode?: TextSplitMode;
 }
 
-// @public
+// @public (undocumented)
 export type SplitSkillLanguage = "am" | "bs" | "cs" | "da" | "de" | "en" | "es" | "et" | "fi" | "fr" | "he" | "hi" | "hr" | "hu" | "id" | "is" | "it" | "ja" | "ko" | "lv" | "nb" | "nl" | "pl" | "pt" | "pt-br" | "ru" | "sk" | "sl" | "sr" | "sv" | "tr" | "ur" | "zh";
 
 // @public
@@ -2828,7 +2828,7 @@ export interface TextTranslationSkill extends BaseSearchIndexerSkill {
     suggestedFrom?: TextTranslationSkillLanguage;
 }
 
-// @public
+// @public (undocumented)
 export type TextTranslationSkillLanguage = "af" | "ar" | "bn" | "bs" | "bg" | "yue" | "ca" | "zh-Hans" | "zh-Hant" | "hr" | "cs" | "da" | "nl" | "en" | "et" | "fj" | "fil" | "fi" | "fr" | "de" | "el" | "ht" | "he" | "hi" | "mww" | "hu" | "is" | "id" | "it" | "ja" | "sw" | "tlh" | "tlh-Latn" | "tlh-Piqd" | "ko" | "lv" | "lt" | "mg" | "ms" | "mt" | "nb" | "fa" | "pl" | "pt" | "pt-br" | "pt-PT" | "otq" | "ro" | "ru" | "sm" | "sr-Cyrl" | "sr-Latn" | "sk" | "sl" | "es" | "sv" | "ty" | "ta" | "te" | "th" | "to" | "tr" | "uk" | "ur" | "vi" | "cy" | "yua" | "ga" | "kn" | "mi" | "ml" | "pa";
 
 // @public
@@ -2871,7 +2871,7 @@ export interface UniqueTokenFilter extends BaseTokenFilter {
 // @public
 export type UploadDocumentsOptions = IndexDocumentsOptions;
 
-// @public
+// @public (undocumented)
 export type VectorFilterMode = "postFilter" | "preFilter";
 
 // @public
@@ -2905,7 +2905,7 @@ export type VectorSearchAlgorithmConfiguration = HnswAlgorithmConfiguration | Ex
 // @public (undocumented)
 export type VectorSearchAlgorithmKind = "hnsw" | "exhaustiveKnn";
 
-// @public
+// @public (undocumented)
 export type VectorSearchAlgorithmMetric = "cosine" | "euclidean" | "dotProduct";
 
 // @public

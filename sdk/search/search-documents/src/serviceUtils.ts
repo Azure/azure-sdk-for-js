@@ -55,13 +55,19 @@ import {
   VectorSearchAlgorithmConfigurationUnion as GeneratedVectorSearchAlgorithmConfiguration,
   VectorSearchVectorizerUnion as GeneratedVectorSearchVectorizer,
 } from "./generated/service/models";
-import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
 import {
-  AzureOpenAIVectorizer,
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
   BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
+  IndexerExecutionEnvironment,
+  RegexFlags,
+  SearchIndexerDataSourceType,
+  VectorSearchAlgorithmMetric,
+} from "./generatedStringLiteralUnions";
+import { SearchResult, SelectFields, SuggestDocumentsResult, SuggestResult } from "./indexModels";
+import {
+  AzureOpenAIVectorizer,
   CharFilter,
   CognitiveServicesAccount,
   ComplexField,
@@ -71,7 +77,6 @@ import {
   DataDeletionDetectionPolicy,
   EntityRecognitionSkill,
   ImageAnalysisSkill,
-  IndexerExecutionEnvironment,
   IndexingParameters,
   IndexingParametersConfiguration,
   isComplexField,
@@ -82,7 +87,6 @@ import {
   OcrSkill,
   PatternAnalyzer,
   PIIDetectionSkill,
-  RegexFlags,
   ScoringProfile,
   SearchField,
   SearchFieldDataType,
@@ -91,7 +95,6 @@ import {
   SearchIndexerCache,
   SearchIndexerDataIdentity,
   SearchIndexerDataSourceConnection,
-  SearchIndexerDataSourceType,
   SearchIndexerIndexProjections,
   SearchIndexerKnowledgeStore,
   SearchIndexerSkill,
@@ -106,7 +109,6 @@ import {
   TokenFilter,
   VectorSearch,
   VectorSearchAlgorithmConfiguration,
-  VectorSearchAlgorithmMetric,
   VectorSearchVectorizer,
   WebApiSkill,
 } from "./serviceModels";
