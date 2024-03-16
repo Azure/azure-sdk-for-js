@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { Suite } from "mocha";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import { Context, Suite } from "mocha";
 
-import { createClients } from "../utils/recordedClient";
+import { OpenAIClient } from "@azure/openai";
+import { versionsToTest } from "@azure/test-utils";
 import {
   AutocompleteResult,
   AzureKeyCredential,
@@ -17,12 +17,11 @@ import {
   SearchIndexClient,
   SelectFields,
 } from "../../../src";
-import { Hotel } from "../utils/interfaces";
-import { WAIT_TIME, createIndex, createRandomIndexName, populateIndex } from "../utils/setup";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { versionsToTest } from "@azure/test-utils";
 import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
-import { OpenAIClient } from "@azure/openai";
+import { delay, serviceVersions } from "../../../src/serviceUtils";
+import { Hotel } from "../utils/interfaces";
+import { createClients } from "../utils/recordedClient";
+import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchClient tests", function (this: Suite) {

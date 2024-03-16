@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-client";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   AnswerResult,
   AutocompleteMode,
@@ -19,7 +20,6 @@ import {
   SearchMode,
   Speller,
 } from "./generated/data/models";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import GeographyPoint from "./geographyPoint";
 
 /**

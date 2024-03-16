@@ -8,35 +8,35 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import {
-  KnownSearchFieldDataType,
-  KnownVectorSearchAlgorithmMetric,
-  KnownVectorSearchAlgorithmKind,
-  KnownIndexProjectionMode,
-  KnownVectorSearchVectorizerKind,
-} from "../../src/generated/service";
-import {
-  KnownSemanticPartialResponseReason,
-  KnownSemanticPartialResponseType,
   KnownQueryDebugMode,
   KnownSemanticErrorHandling,
   KnownSemanticFieldState,
-  KnownVectorQueryKind,
+  KnownSemanticPartialResponseReason,
+  KnownSemanticPartialResponseType,
   KnownVectorFilterMode,
+  KnownVectorQueryKind,
 } from "../../src/generated/data";
 import {
+  KnownIndexProjectionMode,
+  KnownSearchFieldDataType,
+  KnownVectorSearchAlgorithmKind,
+  KnownVectorSearchAlgorithmMetric,
+  KnownVectorSearchVectorizerKind,
+} from "../../src/generated/service";
+import {
   ComplexDataType,
-  SearchFieldDataType,
-  SemanticPartialResponseReason,
-  SemanticPartialResponseType,
+  IndexProjectionMode,
   QueryDebugMode,
+  SearchFieldDataType,
   SemanticErrorHandlingMode,
   SemanticFieldState,
-  VectorSearchAlgorithmMetric,
-  VectorSearchAlgorithmKind,
-  IndexProjectionMode,
-  VectorSearchVectorizerKind,
-  VectorQueryKind,
+  SemanticPartialResponseReason,
+  SemanticPartialResponseType,
   VectorFilterMode,
+  VectorQueryKind,
+  VectorSearchAlgorithmKind,
+  VectorSearchAlgorithmMetric,
+  VectorSearchVectorizerKind,
 } from "../../src/index";
 
 type IsIdentical<T1, T2> =

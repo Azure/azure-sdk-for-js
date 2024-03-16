@@ -3,31 +3,32 @@
 
 /// <reference lib="esnext.asynciterable" />
 
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
-import { logger } from "./logger";
+import { decode, encode } from "./base64";
 import {
+  Answers,
   AutocompleteRequest,
   AutocompleteResult,
   IndexDocumentsResult,
   KnownSemanticPartialResponseReason,
   KnownSemanticPartialResponseType,
-  SuggestRequest,
-  SearchRequest as GeneratedSearchRequest,
-  Answers,
   QueryAnswerType,
-  VectorQueryUnion as GeneratedVectorQuery,
-  VectorQuery as GeneratedBaseVectorQuery,
   RawVectorQuery as GeneratedRawVectorQuery,
+  SearchRequest as GeneratedSearchRequest,
+  SuggestRequest,
   VectorizableTextQuery as GeneratedVectorizableTextQuery,
+  VectorQuery as GeneratedBaseVectorQuery,
+  VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
-import { createSpan } from "./tracing";
-import { deserialize, serialize } from "./serialization";
+import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
+import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
+  AnswersOptions,
   AutocompleteOptions,
+  BaseVectorQuery,
   CountDocumentsOptions,
   DeleteDocumentsOptions,
   GetDocumentOptions,
@@ -35,32 +36,31 @@ import {
   ListSearchResultsPageSettings,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
+  NarrowedModel,
+  RawVectorQuery,
   SearchDocumentsPageResult,
   SearchDocumentsResult,
+  SearchFieldArray,
   SearchIterator,
   SearchOptions,
   SearchRequest,
-  SelectFields,
   SearchResult,
+  SelectArray,
+  SelectFields,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
-  NarrowedModel,
-  SelectArray,
-  SearchFieldArray,
-  AnswersOptions,
-  BaseVectorQuery,
-  RawVectorQuery,
   VectorizableTextQuery,
   VectorQuery,
 } from "./indexModels";
+import { logger } from "./logger";
 import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { IndexDocumentsBatch } from "./indexDocumentsBatch";
-import { decode, encode } from "./base64";
-import * as utils from "./serviceUtils";
-import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
 import { KnownSearchAudience } from "./searchAudience";
+import { IndexDocumentsClient } from "./searchIndexingBufferedSender";
+import { deserialize, serialize } from "./serialization";
+import * as utils from "./serviceUtils";
+import { createSpan } from "./tracing";
 
 /**
  * Client options used to configure Cognitive Search API requests.

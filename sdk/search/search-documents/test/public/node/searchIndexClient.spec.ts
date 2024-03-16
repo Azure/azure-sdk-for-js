@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, isLiveMode, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { Suite } from "mocha";
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
+import { versionsToTest } from "@azure/test-utils";
 import { assert } from "chai";
+import { Context, Suite } from "mocha";
 import {
   AzureOpenAIVectorizer,
   SearchIndex,
@@ -13,17 +13,16 @@ import {
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src";
+import { delay, serviceVersions } from "../../../src/serviceUtils";
 import { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
-  WAIT_TIME,
   createRandomIndexName,
   createSimpleIndex,
   createSynonymMaps,
   deleteSynonymMaps,
+  WAIT_TIME,
 } from "../utils/setup";
-import { delay, serviceVersions } from "../../../src/serviceUtils";
-import { versionsToTest } from "@azure/test-utils";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {
   onVersions({ minVer: "2020-06-30" }).describe("SearchIndexClient", function (this: Suite) {

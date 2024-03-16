@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils";
 import { SearchField as GeneratedSearchField } from "../../src/generated/service/models/index";
 import { KnownLexicalAnalyzerName } from "../../src/index";
 import { ComplexField, SearchField } from "../../src/serviceModels";
+import { convertFieldsToGenerated, convertFieldsToPublic } from "../../src/serviceUtils";
 
 describe("serviceUtils", function () {
   it("convert generated fields to public fields", function () {

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 
+import { OpenAIClient } from "@azure/openai";
 import {
   AzureKeyCredential,
   SearchClient,
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src";
-import { OpenAIClient } from "@azure/openai";
 
 export interface Clients<IndexModel extends object> {
   searchClient: SearchClient<IndexModel>;

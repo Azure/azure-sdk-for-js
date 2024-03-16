@@ -3,13 +3,17 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 import { InternalClientPipelineOptions } from "@azure/core-client";
+import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { AnalyzeResult } from "./generated/service/models";
 import { SearchServiceClient as GeneratedClient } from "./generated/service/searchServiceClient";
 import { logger } from "./logger";
+import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
 import { createSearchApiKeyCredentialPolicy } from "./searchApiKeyCredentialPolicy";
+import { KnownSearchAudience } from "./searchAudience";
+import { SearchClient, SearchClientOptions as GetSearchClientOptions } from "./searchClient";
 import {
   AliasIterator,
   AnalyzeTextOptions,
@@ -40,10 +44,6 @@ import {
 } from "./serviceModels";
 import * as utils from "./serviceUtils";
 import { createSpan } from "./tracing";
-import { createOdataMetadataPolicy } from "./odataMetadataPolicy";
-import { SearchClientOptions as GetSearchClientOptions, SearchClient } from "./searchClient";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
-import { KnownSearchAudience } from "./searchAudience";
 
 /**
  * Client options used to configure Cognitive Search API requests.

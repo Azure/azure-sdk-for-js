@@ -9,10 +9,10 @@
 
 import { SearchClient, SelectFields } from "../src/index";
 import {
+  NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,
   SelectArray,
-  NarrowedModel as GenericNarrowedModel,
   SuggestNarrowedModel,
 } from "../src/indexModels";
 

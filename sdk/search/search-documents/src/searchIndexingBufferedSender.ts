@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { OperationOptions } from "@azure/core-client";
+import { RestError } from "@azure/core-rest-pipeline";
+import EventEmitter from "events";
+import { IndexDocumentsResult } from "./generated/data/models";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   IndexDocumentsAction,
@@ -12,13 +16,8 @@ import {
   SearchIndexingBufferedSenderOptions,
   SearchIndexingBufferedSenderUploadDocumentsOptions,
 } from "./indexModels";
-import { IndexDocumentsResult } from "./generated/data/models";
-import { OperationOptions } from "@azure/core-client";
-import EventEmitter from "events";
+import { delay, getRandomIntegerInclusive } from "./serviceUtils";
 import { createSpan } from "./tracing";
-import { delay } from "./serviceUtils";
-import { getRandomIntegerInclusive } from "./serviceUtils";
-import { RestError } from "@azure/core-rest-pipeline";
 
 /**
  * Index Documents Client

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import { OpenAIClient } from "@azure/openai";
+import { assert } from "chai";
 import {
   GeographyPoint,
   KnownAnalyzerNames,
@@ -9,11 +12,8 @@ import {
   SearchIndexClient,
   SearchIndexerClient,
 } from "../../../src";
-import { Hotel } from "./interfaces";
 import { delay } from "../../../src/serviceUtils";
-import { assert } from "chai";
-import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { OpenAIClient } from "@azure/openai";
+import { Hotel } from "./interfaces";
 
 export const WAIT_TIME = isPlaybackMode() ? 0 : 4000;
 
