@@ -19,6 +19,7 @@ import {
   SemanticSearchResultsType,
   Speller,
 } from "./generated/data/models";
+import { VectorFilterMode, VectorQueryKind } from "./generatedStringLiteralUnions";
 import GeographyPoint from "./geographyPoint";
 
 /**
@@ -178,13 +179,6 @@ export type SearchIterator<
   SearchDocumentsPageResult<TModel, TFields>,
   ListSearchResultsPageSettings
 >;
-
-export type VectorQueryKind = "vector" | "text";
-
-/**
- * Determines whether or not filters are applied before or after the vector search is performed.
- */
-export type VectorFilterMode = "postFilter" | "preFilter";
 
 /** The query parameters for vector and hybrid search queries. */
 export type VectorQuery<TModel extends object> =
