@@ -222,7 +222,7 @@ export function convertTokenFiltersToGenerated(
   return result;
 }
 
-export function convertAnalyzersToGenerated(
+function convertAnalyzersToGenerated(
   analyzers?: LexicalAnalyzer[],
 ): LexicalAnalyzerUnion[] | undefined {
   if (!analyzers) {
@@ -253,7 +253,7 @@ export function convertAnalyzersToGenerated(
   return result;
 }
 
-export function convertAnalyzersToPublic(
+function convertAnalyzersToPublic(
   analyzers?: LexicalAnalyzerUnion[],
 ): LexicalAnalyzer[] | undefined {
   if (!analyzers) {
@@ -350,7 +350,7 @@ export function convertFieldsToGenerated(fields: SearchField[]): GeneratedSearch
   });
 }
 
-export function convertTokenizersToGenerated(
+function convertTokenizersToGenerated(
   tokenizers?: LexicalTokenizer[],
 ): LexicalTokenizerUnion[] | undefined {
   if (!tokenizers) {
@@ -371,7 +371,7 @@ export function convertTokenizersToGenerated(
   return result;
 }
 
-export function convertTokenizersToPublic(
+function convertTokenizersToPublic(
   tokenizers?: LexicalTokenizerUnion[],
 ): LexicalTokenizer[] | undefined {
   if (!tokenizers) {
@@ -418,7 +418,7 @@ export function convertSimilarityToPublic(
   }
 }
 
-export function convertEncryptionKeyToPublic(
+function convertEncryptionKeyToPublic(
   encryptionKey?: GeneratedSearchResourceEncryptionKey,
 ): SearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
@@ -440,7 +440,7 @@ export function convertEncryptionKeyToPublic(
   return result;
 }
 
-export function convertEncryptionKeyToGenerated(
+function convertEncryptionKeyToGenerated(
   encryptionKey?: SearchResourceEncryptionKey,
 ): GeneratedSearchResourceEncryptionKey | undefined {
   if (!encryptionKey) {
@@ -858,7 +858,7 @@ function convertKnowledgeStoreToPublic(
   };
 }
 
-function convertSearchIndexerCacheToPublic(
+export function convertSearchIndexerCacheToPublic(
   cache?: GeneratedSearchIndexerCache,
 ): SearchIndexerCache | undefined {
   if (!cache) {

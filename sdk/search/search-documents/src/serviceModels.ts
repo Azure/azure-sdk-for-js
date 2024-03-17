@@ -29,6 +29,7 @@ import {
   FreshnessScoringFunction,
   HighWaterMarkChangeDetectionPolicy,
   IndexingSchedule,
+  IndexProjectionMode,
   KeepTokenFilter,
   KeywordMarkerTokenFilter,
   LanguageDetectionSkill,
@@ -2278,11 +2279,6 @@ export interface SearchIndexerKnowledgeStoreParameters {
   /** Whether or not projections should synthesize a generated key name if one isn't already present. */
   synthesizeGeneratedKeyName?: boolean;
 }
-
-/**
- * Defines behavior of the index projections in relation to the rest of the indexer.
- */
-export type IndexProjectionMode = "skipIndexingParentDocuments" | "includeIndexingParentDocuments";
 
 /** A dictionary of indexer-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
 export interface IndexingParametersConfiguration {

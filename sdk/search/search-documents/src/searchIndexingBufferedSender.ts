@@ -49,13 +49,9 @@ export const DEFAULT_FLUSH_WINDOW: number = 60000;
  */
 export const DEFAULT_RETRY_COUNT: number = 3;
 /**
- * Default retry delay.
- */
-export const DEFAULT_RETRY_DELAY: number = 800;
-/**
  * Default Max Delay between retries.
  */
-export const DEFAULT_MAX_RETRY_DELAY: number = 60000;
+const DEFAULT_MAX_RETRY_DELAY: number = 60000;
 
 /**
  * Class used to perform buffered operations against a search index,
