@@ -16,7 +16,7 @@ import {
   AliasesCreateOrUpdateResponse,
   AliasesDeleteOptionalParams,
   AliasesGetOptionalParams,
-  AliasesGetResponse
+  AliasesGetResponse,
 } from "../models";
 
 /** Interface representing a Aliases. */
@@ -28,7 +28,7 @@ export interface Aliases {
    */
   create(
     alias: SearchAlias,
-    options?: AliasesCreateOptionalParams
+    options?: AliasesCreateOptionalParams,
   ): Promise<AliasesCreateResponse>;
   /**
    * Lists all aliases available for a search service.
@@ -44,7 +44,7 @@ export interface Aliases {
   createOrUpdate(
     aliasName: string,
     alias: SearchAlias,
-    options?: AliasesCreateOrUpdateOptionalParams
+    options?: AliasesCreateOrUpdateOptionalParams,
   ): Promise<AliasesCreateOrUpdateResponse>;
   /**
    * Deletes a search alias and its associated mapping to an index. This operation is permanent, with no
@@ -54,7 +54,7 @@ export interface Aliases {
    */
   delete(
     aliasName: string,
-    options?: AliasesDeleteOptionalParams
+    options?: AliasesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves an alias definition.
@@ -63,6 +63,6 @@ export interface Aliases {
    */
   get(
     aliasName: string,
-    options?: AliasesGetOptionalParams
+    options?: AliasesGetOptionalParams,
   ): Promise<AliasesGetResponse>;
 }
