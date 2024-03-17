@@ -876,7 +876,7 @@ export type IndexIterator = PagedAsyncIterableIterator<SearchIndex, SearchIndex[
 export type IndexNameIterator = PagedAsyncIterableIterator<string, string[], {}>;
 
 // @public
-export type IndexProjectionMode = "skipIndexingParentDocuments" | "includeIndexingParentDocuments";
+export type IndexProjectionMode = string;
 
 // @public
 export interface InputFieldMappingEntry {
@@ -1046,6 +1046,11 @@ export enum KnownBlobIndexerPDFTextRotationAlgorithm {
 }
 
 // @public
+export enum KnownCharFilterName {
+    HtmlStrip = "html_strip"
+}
+
+// @public
 export enum KnownCharFilterNames {
     HtmlStrip = "html_strip"
 }
@@ -1164,6 +1169,12 @@ export enum KnownImageDetail {
 }
 
 // @public
+export enum KnownIndexerExecutionEnvironment {
+    Private = "private",
+    Standard = "standard"
+}
+
+// @public
 export enum KnownIndexerExecutionStatusDetail {
     ResetDocs = "resetDocs"
 }
@@ -1172,6 +1183,12 @@ export enum KnownIndexerExecutionStatusDetail {
 export enum KnownIndexingMode {
     IndexingAllDocs = "indexingAllDocs",
     IndexingResetDocs = "indexingResetDocs"
+}
+
+// @public
+export enum KnownIndexProjectionMode {
+    IncludeIndexingParentDocuments = "includeIndexingParentDocuments",
+    SkipIndexingParentDocuments = "skipIndexingParentDocuments"
 }
 
 // @public
@@ -1195,20 +1212,136 @@ export enum KnownKeyPhraseExtractionSkillLanguage {
 }
 
 // @public
-export enum KnownLineEnding {
-    CarriageReturn = "carriageReturn",
-    CarriageReturnLineFeed = "carriageReturnLineFeed",
-    LineFeed = "lineFeed",
-    Space = "space"
+export enum KnownLexicalAnalyzerName {
+    ArLucene = "ar.lucene",
+    ArMicrosoft = "ar.microsoft",
+    BgLucene = "bg.lucene",
+    BgMicrosoft = "bg.microsoft",
+    BnMicrosoft = "bn.microsoft",
+    CaLucene = "ca.lucene",
+    CaMicrosoft = "ca.microsoft",
+    CsLucene = "cs.lucene",
+    CsMicrosoft = "cs.microsoft",
+    DaLucene = "da.lucene",
+    DaMicrosoft = "da.microsoft",
+    DeLucene = "de.lucene",
+    DeMicrosoft = "de.microsoft",
+    ElLucene = "el.lucene",
+    ElMicrosoft = "el.microsoft",
+    EnLucene = "en.lucene",
+    EnMicrosoft = "en.microsoft",
+    EsLucene = "es.lucene",
+    EsMicrosoft = "es.microsoft",
+    EtMicrosoft = "et.microsoft",
+    EuLucene = "eu.lucene",
+    FaLucene = "fa.lucene",
+    FiLucene = "fi.lucene",
+    FiMicrosoft = "fi.microsoft",
+    FrLucene = "fr.lucene",
+    FrMicrosoft = "fr.microsoft",
+    GaLucene = "ga.lucene",
+    GlLucene = "gl.lucene",
+    GuMicrosoft = "gu.microsoft",
+    HeMicrosoft = "he.microsoft",
+    HiLucene = "hi.lucene",
+    HiMicrosoft = "hi.microsoft",
+    HrMicrosoft = "hr.microsoft",
+    HuLucene = "hu.lucene",
+    HuMicrosoft = "hu.microsoft",
+    HyLucene = "hy.lucene",
+    IdLucene = "id.lucene",
+    IdMicrosoft = "id.microsoft",
+    IsMicrosoft = "is.microsoft",
+    ItLucene = "it.lucene",
+    ItMicrosoft = "it.microsoft",
+    JaLucene = "ja.lucene",
+    JaMicrosoft = "ja.microsoft",
+    Keyword = "keyword",
+    KnMicrosoft = "kn.microsoft",
+    KoLucene = "ko.lucene",
+    KoMicrosoft = "ko.microsoft",
+    LtMicrosoft = "lt.microsoft",
+    LvLucene = "lv.lucene",
+    LvMicrosoft = "lv.microsoft",
+    MlMicrosoft = "ml.microsoft",
+    MrMicrosoft = "mr.microsoft",
+    MsMicrosoft = "ms.microsoft",
+    NbMicrosoft = "nb.microsoft",
+    NlLucene = "nl.lucene",
+    NlMicrosoft = "nl.microsoft",
+    NoLucene = "no.lucene",
+    PaMicrosoft = "pa.microsoft",
+    Pattern = "pattern",
+    PlLucene = "pl.lucene",
+    PlMicrosoft = "pl.microsoft",
+    PtBrLucene = "pt-BR.lucene",
+    PtBrMicrosoft = "pt-BR.microsoft",
+    PtPtLucene = "pt-PT.lucene",
+    PtPtMicrosoft = "pt-PT.microsoft",
+    RoLucene = "ro.lucene",
+    RoMicrosoft = "ro.microsoft",
+    RuLucene = "ru.lucene",
+    RuMicrosoft = "ru.microsoft",
+    Simple = "simple",
+    SkMicrosoft = "sk.microsoft",
+    SlMicrosoft = "sl.microsoft",
+    SrCyrillicMicrosoft = "sr-cyrillic.microsoft",
+    SrLatinMicrosoft = "sr-latin.microsoft",
+    StandardAsciiFoldingLucene = "standardasciifolding.lucene",
+    StandardLucene = "standard.lucene",
+    Stop = "stop",
+    SvLucene = "sv.lucene",
+    SvMicrosoft = "sv.microsoft",
+    TaMicrosoft = "ta.microsoft",
+    TeMicrosoft = "te.microsoft",
+    ThLucene = "th.lucene",
+    ThMicrosoft = "th.microsoft",
+    TrLucene = "tr.lucene",
+    TrMicrosoft = "tr.microsoft",
+    UkMicrosoft = "uk.microsoft",
+    UrMicrosoft = "ur.microsoft",
+    ViMicrosoft = "vi.microsoft",
+    Whitespace = "whitespace",
+    ZhHansLucene = "zh-Hans.lucene",
+    ZhHansMicrosoft = "zh-Hans.microsoft",
+    ZhHantLucene = "zh-Hant.lucene",
+    ZhHantMicrosoft = "zh-Hant.microsoft"
 }
 
 // @public
-export enum KnownNormalizerNames {
+enum KnownLexicalNormalizerName {
     AsciiFolding = "asciifolding",
     Elision = "elision",
     Lowercase = "lowercase",
     Standard = "standard",
     Uppercase = "uppercase"
+}
+export { KnownLexicalNormalizerName }
+export { KnownLexicalNormalizerName as KnownNormalizerNames }
+
+// @public
+export enum KnownLexicalTokenizerName {
+    Classic = "classic",
+    EdgeNGram = "edgeNGram",
+    Keyword = "keyword_v2",
+    Letter = "letter",
+    Lowercase = "lowercase",
+    MicrosoftLanguageStemmingTokenizer = "microsoft_language_stemming_tokenizer",
+    MicrosoftLanguageTokenizer = "microsoft_language_tokenizer",
+    NGram = "nGram",
+    PathHierarchy = "path_hierarchy_v2",
+    Pattern = "pattern",
+    Standard = "standard_v2",
+    UaxUrlEmail = "uax_url_email",
+    Whitespace = "whitespace"
+}
+
+// @public
+export enum KnownLineEnding {
+    CarriageReturn = "carriageReturn",
+    CarriageReturnLineFeed = "carriageReturnLineFeed",
+    LineFeed = "lineFeed",
+    Space = "space"
 }
 
 // @public
@@ -1392,6 +1525,12 @@ export enum KnownPIIDetectionSkillMaskingMode {
 }
 
 // @public
+export enum KnownQueryDebugMode {
+    Disabled = "disabled",
+    Semantic = "semantic"
+}
+
+// @public
 export enum KnownQueryLanguage {
     ArEg = "ar-eg",
     ArJo = "ar-jo",
@@ -1513,6 +1652,13 @@ export enum KnownSemanticErrorReason {
     CapacityOverloaded = "capacityOverloaded",
     MaxWaitExceeded = "maxWaitExceeded",
     Transient = "transient"
+}
+
+// @public
+export enum KnownSemanticFieldState {
+    Partial = "partial",
+    Unused = "unused",
+    Used = "used"
 }
 
 // @public
@@ -1666,6 +1812,44 @@ export enum KnownTextTranslationSkillLanguage {
 }
 
 // @public
+export enum KnownTokenFilterName {
+    Apostrophe = "apostrophe",
+    ArabicNormalization = "arabic_normalization",
+    AsciiFolding = "asciifolding",
+    CjkBigram = "cjk_bigram",
+    CjkWidth = "cjk_width",
+    Classic = "classic",
+    CommonGram = "common_grams",
+    EdgeNGram = "edgeNGram_v2",
+    Elision = "elision",
+    GermanNormalization = "german_normalization",
+    HindiNormalization = "hindi_normalization",
+    IndicNormalization = "indic_normalization",
+    KeywordRepeat = "keyword_repeat",
+    KStem = "kstem",
+    Length = "length",
+    Limit = "limit",
+    Lowercase = "lowercase",
+    NGram = "nGram_v2",
+    PersianNormalization = "persian_normalization",
+    Phonetic = "phonetic",
+    PorterStem = "porter_stem",
+    Reverse = "reverse",
+    ScandinavianFoldingNormalization = "scandinavian_folding",
+    ScandinavianNormalization = "scandinavian_normalization",
+    Shingle = "shingle",
+    Snowball = "snowball",
+    SoraniNormalization = "sorani_normalization",
+    Stemmer = "stemmer",
+    Stopwords = "stopwords",
+    Trim = "trim",
+    Truncate = "truncate",
+    Unique = "unique",
+    Uppercase = "uppercase",
+    WordDelimiter = "word_delimiter"
+}
+
+// @public
 export enum KnownTokenFilterNames {
     Apostrophe = "apostrophe",
     ArabicNormalization = "arabic_normalization",
@@ -1718,6 +1902,18 @@ export enum KnownTokenizerNames {
     Standard = "standard_v2",
     UaxUrlEmail = "uax_url_email",
     Whitespace = "whitespace"
+}
+
+// @public
+export enum KnownVectorQueryKind {
+    $DO_NOT_NORMALIZE$_text = "text",
+    Vector = "vector"
+}
+
+// @public
+export enum KnownVectorSearchVectorizerKind {
+    AzureOpenAI = "azureOpenAI",
+    CustomWebApi = "customWebApi"
 }
 
 // @public
@@ -2005,7 +2201,7 @@ export interface QueryCaptionResult {
 }
 
 // @public
-export type QueryDebugMode = "disabled" | "semantic";
+export type QueryDebugMode = string;
 
 // @public
 export type QueryLanguage = string;
@@ -2567,11 +2763,11 @@ export interface SemanticDebugInfo {
     readonly titleField?: QueryResultDocumentSemanticField;
 }
 
-// @public
-export type SemanticErrorMode = string;
+// @public (undocumented)
+export type SemanticErrorMode = "partial" | "fail";
 
-// @public
-export type SemanticErrorReason = string;
+// @public (undocumented)
+export type SemanticErrorReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
 
 // @public
 export interface SemanticField {
@@ -2580,7 +2776,7 @@ export interface SemanticField {
 }
 
 // @public
-export type SemanticFieldState = "used" | "unused" | "partial";
+export type SemanticFieldState = string;
 
 // @public
 export interface SemanticPrioritizedFields {
@@ -2607,8 +2803,8 @@ export interface SemanticSearchOptions {
     semanticQuery?: string;
 }
 
-// @public
-export type SemanticSearchResultsType = string;
+// @public (undocumented)
+export type SemanticSearchResultsType = "baseResults" | "rerankedResults";
 
 // @public @deprecated
 export interface SentimentSkill extends BaseSearchIndexerSkill {

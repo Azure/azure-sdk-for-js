@@ -7,13 +7,19 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { KnownVectorFilterMode, KnownVectorQueryKind } from "../../../src/generated/data";
+import {
+  KnownSemanticErrorMode,
+  KnownSemanticErrorReason,
+  KnownSemanticSearchResultsType,
+  KnownVectorFilterMode,
+  KnownVectorQueryKind,
+} from "../../../src/generated/data";
 
 import {
   KnownBlobIndexerDataToExtract,
   KnownBlobIndexerImageAction,
-  KnownBlobIndexerParsingMode,
   KnownBlobIndexerPDFTextRotationAlgorithm,
+  KnownBlobIndexerParsingMode,
   KnownCustomEntityLookupSkillLanguage,
   KnownEntityCategory,
   KnownEntityRecognitionSkillLanguage,
@@ -32,16 +38,15 @@ import {
   KnownTextTranslationSkillLanguage,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
+  KnownVectorSearchVectorizerKind,
   KnownVisualFeature,
 } from "../../../src/generated/service";
 
 import {
-  VectorFilterMode,
-  VectorQueryKind,
   BlobIndexerDataToExtract,
   BlobIndexerImageAction,
-  BlobIndexerParsingMode,
   BlobIndexerPDFTextRotationAlgorithm,
+  BlobIndexerParsingMode,
   CustomEntityLookupSkillLanguage,
   EntityCategory,
   EntityRecognitionSkillLanguage,
@@ -54,20 +59,24 @@ import {
   RegexFlags,
   SearchFieldDataType,
   SearchIndexerDataSourceType,
+  SemanticErrorMode,
+  SemanticErrorReason,
+  SemanticSearchResultsType,
   SentimentSkillLanguage,
   SplitSkillLanguage,
   TextSplitMode,
   TextTranslationSkillLanguage,
+  VectorFilterMode,
+  VectorQueryKind,
   VectorSearchAlgorithmKind,
   VectorSearchAlgorithmMetric,
+  VectorSearchVectorizerKind,
   VisualFeature,
 } from "../../../src/index";
 
 type IsIdentical<T1, T2> =
   (<T>() => T extends T1 ? true : false) extends <T>() => T extends T2 ? true : false ? any : never;
 
-type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
-type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
 type ExpectBlobIndexerDataToExtract = `${KnownBlobIndexerDataToExtract}`;
 type ExpectBlobIndexerImageAction = `${KnownBlobIndexerImageAction}`;
 type ExpectBlobIndexerParsingMode = `${KnownBlobIndexerParsingMode}`;
@@ -87,48 +96,57 @@ type ExpectSearchFieldDataType = Exclude<
   "Edm.ComplexType" | "Collection(Edm.ComplexType)" | "Edm.Single"
 >;
 type ExpectSearchIndexerDataSourceType = `${KnownSearchIndexerDataSourceType}`;
+type ExpectSemanticErrorMode = `${KnownSemanticErrorMode}`;
+type ExpectSemanticErrorReason = `${KnownSemanticErrorReason}`;
+type ExpectSemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
 type ExpectSentimentSkillLanguage = `${KnownSentimentSkillLanguage}`;
 type ExpectSplitSkillLanguage = `${KnownSplitSkillLanguage}`;
 type ExpectTextSplitMode = `${KnownTextSplitMode}`;
 type ExpectTextTranslationSkillLanguage = `${KnownTextTranslationSkillLanguage}`;
+type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
+type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
 type ExpectVectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
+type ExpectVectorSearchVectorizerKind = `${KnownVectorSearchVectorizerKind}`;
 type ExpectVisualFeature = `${KnownVisualFeature}`;
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 function fun() {
-  const a: IsIdentical<ExpectVisualFeature, VisualFeature> = "pass";
-  const b: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
-  const c: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
-  const d: IsIdentical<ExpectBlobIndexerDataToExtract, BlobIndexerDataToExtract> = "pass";
-  const e: IsIdentical<ExpectBlobIndexerImageAction, BlobIndexerImageAction> = "pass";
-  const f: IsIdentical<ExpectBlobIndexerParsingMode, BlobIndexerParsingMode> = "pass";
-  const g: IsIdentical<
+  const a: IsIdentical<ExpectBlobIndexerDataToExtract, BlobIndexerDataToExtract> = "pass";
+  const b: IsIdentical<ExpectBlobIndexerImageAction, BlobIndexerImageAction> = "pass";
+  const c: IsIdentical<ExpectBlobIndexerParsingMode, BlobIndexerParsingMode> = "pass";
+  const d: IsIdentical<
     ExpectBlobIndexerPDFTextRotationAlgorithm,
     BlobIndexerPDFTextRotationAlgorithm
   > = "pass";
-  const h: IsIdentical<ExpectCustomEntityLookupSkillLanguage, CustomEntityLookupSkillLanguage> =
+  const e: IsIdentical<ExpectCustomEntityLookupSkillLanguage, CustomEntityLookupSkillLanguage> =
     "pass";
-  const i: IsIdentical<ExpectEntityCategory, EntityCategory> = "pass";
-  const j: IsIdentical<ExpectEntityRecognitionSkillLanguage, EntityRecognitionSkillLanguage> =
+  const f: IsIdentical<ExpectEntityCategory, EntityCategory> = "pass";
+  const g: IsIdentical<ExpectEntityRecognitionSkillLanguage, EntityRecognitionSkillLanguage> =
     "pass";
-  const k: IsIdentical<ExpectImageAnalysisSkillLanguage, ImageAnalysisSkillLanguage> = "pass";
-  const l: IsIdentical<ExpectImageDetail, ImageDetail> = "pass";
-  const m: IsIdentical<ExpectIndexerExecutionEnvironment, IndexerExecutionEnvironment> = "pass";
-  const n: IsIdentical<ExpectKeyPhraseExtractionSkillLanguage, KeyPhraseExtractionSkillLanguage> =
+  const h: IsIdentical<ExpectImageAnalysisSkillLanguage, ImageAnalysisSkillLanguage> = "pass";
+  const i: IsIdentical<ExpectImageDetail, ImageDetail> = "pass";
+  const j: IsIdentical<ExpectIndexerExecutionEnvironment, IndexerExecutionEnvironment> = "pass";
+  const k: IsIdentical<ExpectKeyPhraseExtractionSkillLanguage, KeyPhraseExtractionSkillLanguage> =
     "pass";
-  const o: IsIdentical<ExpectOcrSkillLanguage, OcrSkillLanguage> = "pass";
-  const p: IsIdentical<ExpectPIIDetectionSkillMaskingMode, PIIDetectionSkillMaskingMode> = "pass";
-  const q: IsIdentical<ExpectRegexFlags, RegexFlags> = "pass";
-  const r: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
-  const s: IsIdentical<ExpectSearchIndexerDataSourceType, SearchIndexerDataSourceType> = "pass";
+  const l: IsIdentical<ExpectOcrSkillLanguage, OcrSkillLanguage> = "pass";
+  const m: IsIdentical<ExpectPIIDetectionSkillMaskingMode, PIIDetectionSkillMaskingMode> = "pass";
+  const n: IsIdentical<ExpectRegexFlags, RegexFlags> = "pass";
+  const o: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
+  const p: IsIdentical<ExpectSearchIndexerDataSourceType, SearchIndexerDataSourceType> = "pass";
+  const q: IsIdentical<ExpectSemanticErrorMode, SemanticErrorMode> = "pass";
+  const r: IsIdentical<ExpectSemanticErrorReason, SemanticErrorReason> = "pass";
+  const s: IsIdentical<ExpectSemanticSearchResultsType, SemanticSearchResultsType> = "pass";
   const t: IsIdentical<ExpectSentimentSkillLanguage, SentimentSkillLanguage> = "pass";
   const u: IsIdentical<ExpectSplitSkillLanguage, SplitSkillLanguage> = "pass";
   const v: IsIdentical<ExpectTextSplitMode, TextSplitMode> = "pass";
   const w: IsIdentical<ExpectTextTranslationSkillLanguage, TextTranslationSkillLanguage> = "pass";
-  const x: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
-  const y: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
-
-  return [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y];
+  const x: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
+  const y: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
+  const z: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
+  const aa: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
+  const ab: IsIdentical<ExpectVectorSearchVectorizerKind, VectorSearchVectorizerKind> = "pass";
+  const ac: IsIdentical<ExpectVisualFeature, VisualFeature> = "pass";
+  return [a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z, aa, ab, ac];
 }

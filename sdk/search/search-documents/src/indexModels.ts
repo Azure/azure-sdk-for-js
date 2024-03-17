@@ -9,17 +9,22 @@ import {
   IndexActionType,
   QueryAnswerResult,
   QueryCaptionResult,
+  QueryDebugMode,
   QueryLanguage,
   QueryResultDocumentRerankerInput,
   QueryType,
   ScoringStatistics,
   SearchMode,
+  SemanticFieldState,
+  Speller,
+} from "./generated/data/models";
+import {
   SemanticErrorMode,
   SemanticErrorReason,
   SemanticSearchResultsType,
-  Speller,
-} from "./generated/data/models";
-import { VectorFilterMode, VectorQueryKind } from "./generatedStringLiteralUnions";
+  VectorFilterMode,
+  VectorQueryKind,
+} from "./generatedStringLiteralUnions";
 import GeographyPoint from "./geographyPoint";
 
 /**
@@ -918,22 +923,6 @@ export interface ExtractiveQueryCaption {
  * highlighting is enabled by default. Defaults to 'none'.
  */
 export type QueryCaption = ExtractiveQueryCaption;
-
-/**
- * disabled: No query debugging information will be returned.
- *
- * semantic: Allows the user to further explore their Semantic search results.
- */
-export type QueryDebugMode = "disabled" | "semantic";
-
-/**
- * used: The field was fully used for semantic enrichment.
- *
- * unused: The field was not used for semantic enrichment.
- *
- * partial: The field was partially used for semantic enrichment.
- */
-export type SemanticFieldState = "used" | "unused" | "partial";
 
 /**
  * Defines options for semantic search queries

@@ -15,14 +15,13 @@ import {
   QueryAnswerType as BaseAnswers,
   QueryCaptionType as BaseCaptions,
   SearchRequest as GeneratedSearchRequest,
-  SemanticErrorReason,
-  SemanticSearchResultsType,
   SuggestRequest,
   VectorizableTextQuery as GeneratedVectorizableTextQuery,
   VectorizedQuery as GeneratedVectorizedQuery,
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
+import { SemanticErrorReason, SemanticSearchResultsType } from "./generatedStringLiteralUnions";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   AutocompleteOptions,

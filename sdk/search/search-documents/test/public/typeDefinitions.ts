@@ -9,38 +9,26 @@
 
 import {
   KnownCharFilterName,
-  KnownIndexProjectionMode,
   KnownLexicalAnalyzerName,
   KnownLexicalTokenizerName,
   KnownSearchFieldDataType,
   KnownTokenFilterName,
   KnownVectorSearchAlgorithmKind,
   KnownVectorSearchAlgorithmMetric,
-  KnownVectorSearchVectorizerKind,
 } from "../../src/generated/service";
 
-import {
-  KnownQueryDebugMode,
-  KnownSemanticFieldState,
-  KnownVectorFilterMode,
-  KnownVectorQueryKind,
-} from "../../src/generated/data";
+import { KnownVectorFilterMode } from "../../src/generated/data";
 
 import {
   ComplexDataType,
-  IndexProjectionMode,
   KnownAnalyzerNames,
   KnownCharFilterNames,
   KnownTokenFilterNames,
   KnownTokenizerNames,
-  QueryDebugMode,
   SearchFieldDataType,
-  SemanticFieldState,
   VectorFilterMode,
-  VectorQueryKind,
   VectorSearchAlgorithmKind,
   VectorSearchAlgorithmMetric,
-  VectorSearchVectorizerKind,
 } from "../../src/index";
 
 type IsIdentical<T1, T2> =
@@ -50,13 +38,8 @@ type ExpectSearchFieldDataType = Exclude<
   `${KnownSearchFieldDataType}` | `Collection(${KnownSearchFieldDataType})`,
   ComplexDataType | "Edm.Single"
 >;
-type ExpectQueryDebugMode = `${KnownQueryDebugMode}`;
-type ExpectSemanticFieldState = `${KnownSemanticFieldState}`;
 type ExpectVectorSearchAlgorithmMetric = `${KnownVectorSearchAlgorithmMetric}`;
 type ExpectVectorSearchAlgorithmKind = `${KnownVectorSearchAlgorithmKind}`;
-type ExpectIndexProjectionMode = `${KnownIndexProjectionMode}`;
-type ExpectVectorSearchVectorizerKind = `${KnownVectorSearchVectorizerKind}`;
-type ExpectVectorQueryKind = `${KnownVectorQueryKind}`;
 type ExpectVectorFilterMode = `${KnownVectorFilterMode}`;
 type ExpectKnownCharFilterNames = `${KnownCharFilterName}`;
 type ExpectKnownAnalyzerNames = `${KnownLexicalAnalyzerName}`;
@@ -67,18 +50,13 @@ type ExpectKnownTokenFilterNames = `${KnownTokenFilterName}`;
 // @ts-ignore
 function fun() {
   const a: IsIdentical<ExpectSearchFieldDataType, SearchFieldDataType> = "pass";
-  const b: IsIdentical<ExpectQueryDebugMode, QueryDebugMode> = "pass";
-  const c: IsIdentical<ExpectSemanticFieldState, SemanticFieldState> = "pass";
-  const d: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
-  const e: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
-  const f: IsIdentical<ExpectIndexProjectionMode, IndexProjectionMode> = "pass";
-  const g: IsIdentical<ExpectVectorSearchVectorizerKind, VectorSearchVectorizerKind> = "pass";
-  const h: IsIdentical<ExpectVectorQueryKind, VectorQueryKind> = "pass";
-  const i: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
-  const j: IsIdentical<ExpectKnownCharFilterNames, `${KnownCharFilterNames}`> = "pass";
-  const k: IsIdentical<ExpectKnownAnalyzerNames, `${KnownAnalyzerNames}`> = "pass";
-  const l: IsIdentical<ExpectKnownTokenizerNames, `${KnownTokenizerNames}`> = "pass";
-  const m: IsIdentical<ExpectKnownTokenFilterNames, `${KnownTokenFilterNames}`> = "pass";
+  const b: IsIdentical<ExpectVectorSearchAlgorithmMetric, VectorSearchAlgorithmMetric> = "pass";
+  const c: IsIdentical<ExpectVectorSearchAlgorithmKind, VectorSearchAlgorithmKind> = "pass";
+  const d: IsIdentical<ExpectVectorFilterMode, VectorFilterMode> = "pass";
+  const e: IsIdentical<ExpectKnownCharFilterNames, `${KnownCharFilterNames}`> = "pass";
+  const f: IsIdentical<ExpectKnownAnalyzerNames, `${KnownAnalyzerNames}`> = "pass";
+  const g: IsIdentical<ExpectKnownTokenizerNames, `${KnownTokenizerNames}`> = "pass";
+  const h: IsIdentical<ExpectKnownTokenFilterNames, `${KnownTokenFilterNames}`> = "pass";
 
-  return [a, b, c, d, e, f, g, h, i, j, k, l, m];
+  return [a, b, c, d, e, f, g, h];
 }

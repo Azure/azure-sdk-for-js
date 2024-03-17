@@ -316,6 +316,9 @@ export type SearchIndexerDataSourceType =
   | "azuretable"
   | "mysql"
   | "adlsgen2";
+export type SemanticErrorMode = "partial" | "fail";
+export type SemanticErrorReason = "maxWaitExceeded" | "capacityOverloaded" | "transient";
+export type SemanticSearchResultsType = "baseResults" | "rerankedResults";
 export type SentimentSkillLanguage =
   | "da"
   | "nl"
