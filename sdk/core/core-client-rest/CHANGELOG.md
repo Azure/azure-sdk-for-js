@@ -15,6 +15,7 @@
 ### Features Added
 
 - Allow customers to set request content type by `option.contentType` or `content-type` request headers.
+- Add support for `NodeJS.ReadableStream` and the web `ReadableStream<Uint8Array>` as file upload fields in `multipart/form-data`.
 
 ### Bugs Fixed
 

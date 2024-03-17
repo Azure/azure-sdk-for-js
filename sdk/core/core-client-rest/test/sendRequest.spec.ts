@@ -254,6 +254,33 @@ describe("sendRequest", () => {
         contentType: "multipart/form-data",
       });
     });
+
+    it("should handle request body as FormData with Web stream", async () => {
+      const fileContent = new TextEncoder().encode("Hello World!");
+      const fileStream = new Blob([fileContent]).stream();
+
+      const mockPipeline = createEmptyPipeline();
+
+      mockPipeline.sendRequest = async (_client, request) => {
+        assert.sameOrderedMembers(
+          [
+            ...new Uint8Array(
+              await new Response((request.formData?.file as Blob).stream()).arrayBuffer(),
+            ),
+          ],
+          [...fileContent],
+        );
+
+        return { headers: createHttpHeaders() } as PipelineResponse;
+      };
+
+      await sendRequest("POST", mockBaseUrl, mockPipeline, {
+        body: {
+          file: fileStream,
+        },
+        contentType: "multipart/form-data",
+      });
+    });
   });
 
   it("should send request with json body", async () => {
