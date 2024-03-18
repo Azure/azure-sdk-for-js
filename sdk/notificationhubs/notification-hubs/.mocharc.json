@@ -1,9 +1,0 @@
-{
-  "extension": ["ts"],
-  "require": "ts-node/register",
-  "reporter": "../../../common/tools/mocha-multi-reporter.js",
-  "timeout": "1200000",
-  "loader": "ts-node/esm",
-  "requre": "esm ts-node/register",
-  "fullTrace": true
-}

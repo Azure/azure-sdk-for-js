@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   AppleRegistrationDescription,
   createAppleRegistrationDescription,
-} from "@azure/notification-hubs/models";
+} from "../../src/models/index.js";
 import {
   NotificationHubsClientContext,
   createRegistration,
   deleteRegistration,
   listRegistrationsByTag,
-} from "@azure/notification-hubs/api";
-import { assert, isNode } from "@azure/test-utils";
+} from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
+import { isNode } from "@azure/core-util";
 
 describe("listRegistrationsByTag()", () => {
   let recorder: Recorder;
@@ -21,12 +22,12 @@ describe("listRegistrationsByTag()", () => {
   const registrationIds: string[] = [];
   const deviceToken = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 
-  beforeEach(async function () {
+  beforeEach(async (_ctx) => {
     if (!isNode) {
       return;
     }
 
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder();
     await recorder.setMatcher("BodilessMatcher");
     context = await createRecordedClientContext(recorder);
 
@@ -56,9 +57,9 @@ describe("listRegistrationsByTag()", () => {
     await recorder.stop();
   });
 
-  it("should list all registrations", async function () {
+  it("should list all registrations", async (ctx) => {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     const tag = "likes_football";
