@@ -230,7 +230,7 @@ describe.skip("Computed Properties test", async () => {
     const database = await getTestDatabase("sample database");
     // create container
     const { resource: containerdef } = await database.containers.createIfNotExists({
-      id: "replace computed property for a contianer",
+      id: "delete computed property for a container",
       computedProperties: [lowerName],
       indexingPolicy: indexDefaultIncludeAll,
     });
