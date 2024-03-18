@@ -1,6 +1,6 @@
 # Release History
 
-## 2.6.1 (Unreleased)
+## 2.7.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.7.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 2.6.0 (2024-02-01)
 
