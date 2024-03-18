@@ -1,15 +1,17 @@
 # Release History
+    
+## 9.2.0 (2024-03-13)
+    
+**Features**
 
-## 9.1.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added Interface AutomaticOSUpgradePolicy
+  - Added Interface RollingUpgradePolicy
+  - Added Interface UpgradePolicy
+  - Added Type Alias UpgradeMode
+  - Interface Pool has a new optional parameter upgradePolicy
+  - Interface SupportedSku has a new optional parameter batchSupportEndOfLife
+    
+    
 ## 9.1.0 (2023-12-08)
     
 **Features**
