@@ -8,6 +8,221 @@
 
 import * as coreClient from "@azure/core-client";
 
+export const MmsSendMessageRequest: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsSendMessageRequest",
+    modelProperties: {
+      from: {
+        serializedName: "from",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      recipients: {
+        constraints: {
+          MinItems: 1,
+          MaxItems: 100
+        },
+        serializedName: "recipients",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MmsRecipient"
+            }
+          }
+        }
+      },
+      message: {
+        constraints: {
+          MaxLength: 1000
+        },
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      attachments: {
+        constraints: {
+          MinItems: 1,
+          MaxItems: 10
+        },
+        serializedName: "attachments",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MmsSendRequestAttachment"
+            }
+          }
+        }
+      },
+      sendOptions: {
+        serializedName: "sendOptions",
+        type: {
+          name: "Composite",
+          className: "MmsSendOptions"
+        }
+      }
+    }
+  }
+};
+
+export const MmsRecipient: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsRecipient",
+    modelProperties: {
+      to: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "to",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      repeatabilityRequestId: {
+        serializedName: "repeatabilityRequestId",
+        type: {
+          name: "String"
+        }
+      },
+      repeatabilityFirstSent: {
+        serializedName: "repeatabilityFirstSent",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MmsSendRequestAttachment: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsSendRequestAttachment",
+    modelProperties: {
+      contentType: {
+        serializedName: "contentType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      contentInBase64: {
+        serializedName: "contentInBase64",
+        required: true,
+        type: {
+          name: "ByteArray"
+        }
+      }
+    }
+  }
+};
+
+export const MmsSendOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsSendOptions",
+    modelProperties: {
+      enableDeliveryReport: {
+        serializedName: "enableDeliveryReport",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      tag: {
+        serializedName: "tag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MmsSendResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsSendResponse",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MmsSendResponseItem"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MmsSendResponseItem: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MmsSendResponseItem",
+    modelProperties: {
+      to: {
+        constraints: {
+          MinLength: 1
+        },
+        serializedName: "to",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      messageId: {
+        serializedName: "messageId",
+        type: {
+          name: "String"
+        }
+      },
+      httpStatusCode: {
+        serializedName: "httpStatusCode",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
+      repeatabilityResult: {
+        serializedName: "repeatabilityResult",
+        type: {
+          name: "String"
+        }
+      },
+      successful: {
+        serializedName: "successful",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const SendMessageRequest: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -151,6 +366,12 @@ export const SmsSendResponseItem: coreClient.CompositeMapper = {
           name: "Number"
         }
       },
+      errorMessage: {
+        serializedName: "errorMessage",
+        type: {
+          name: "String"
+        }
+      },
       repeatabilityResult: {
         serializedName: "repeatabilityResult",
         type: {
@@ -162,12 +383,6 @@ export const SmsSendResponseItem: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "Boolean"
-        }
-      },
-      errorMessage: {
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
         }
       }
     }

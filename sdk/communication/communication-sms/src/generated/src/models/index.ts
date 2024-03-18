@@ -8,9 +8,70 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Represents the properties of a send message request. */
+/** Represents the properties of a send MMS message request. */
+export interface MmsSendMessageRequest {
+  /** The sender's identifier (typically phone number in E.164 format) that is owned by the authenticated account. */
+  from: string;
+  /** The recipient phone numbers in E.164 format. */
+  recipients: MmsRecipient[];
+  /** The contents of the message that will be sent to the recipient. */
+  message?: string;
+  /** A list of media attachments to include as part of the MMS. You can have maximum 10 attachments. */
+  attachments: MmsSendRequestAttachment[];
+  /** Optional configuration for sending MMS messages. */
+  sendOptions?: MmsSendOptions;
+}
+
+/** Represents properties for a single recipient. */
+export interface MmsRecipient {
+  /** The recipient's phone number in E.164 format. */
+  to: string;
+  /** If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, 36-character hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request. */
+  repeatabilityRequestId?: string;
+  /** MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT. */
+  repeatabilityFirstSent?: string;
+}
+
+/** Represents the properties of a send request attachment. */
+export interface MmsSendRequestAttachment {
+  /** MIME type of attachment. */
+  contentType: MmsContentType;
+  /** Content of the attachment encoded in base 64. */
+  contentInBase64: Uint8Array;
+}
+
+/** Optional configuration for sending MMS messages. */
+export interface MmsSendOptions {
+  /** Enable this flag to receive a delivery report for this message on the Azure Resource EventGrid. */
+  enableDeliveryReport: boolean;
+  /** Use this field to provide metadata that will then be sent back in the corresponding Delivery Report. */
+  tag?: string;
+}
+
+/** Response for a successful or multi status MMS send request. */
+export interface MmsSendResponse {
+  value: MmsSendResponseItem[];
+}
+
+/** MMS response for a single recipient. */
+export interface MmsSendResponseItem {
+  /** The recipient's phone number in E.164 format. */
+  to: string;
+  /** The identifier of the outgoing message. Only present if message processed. */
+  messageId?: string;
+  /** HTTP Status code. */
+  httpStatusCode: number;
+  /** Optional error message in case of 4xx/5xx/repeatable errors. */
+  errorMessage?: string;
+  /** The result of a repeatable request with one of the case-insensitive values accepted or rejected. */
+  repeatabilityResult?: MmsSendResponseItemRepeatabilityResult;
+  /** Indicates if the message is processed successfully or not. */
+  successful: boolean;
+}
+
+/** Represents the properties of a send SMS message request. */
 export interface SendMessageRequest {
-  /** The sender's phone number in E.164 format that is owned by the authenticated account. */
+  /** The sender's identifier (typically phone number in E.164 format) that is owned by the authenticated account. */
   from: string;
   /** The recipient's phone number in E.164 format. In this version, a minimum of 1 and upto 100 recipients in the list are supported. */
   smsRecipients: SmsRecipient[];
@@ -20,13 +81,13 @@ export interface SendMessageRequest {
   smsSendOptions?: SmsSendOptions;
 }
 
-/** Recipient details for sending SMS messages. */
+/** Represents properties for a single recipient. */
 export interface SmsRecipient {
   /** The recipient's phone number in E.164 format. */
   to: string;
   /** If specified, the client directs that the request is repeatable; that is, the client can make the request multiple times with the same Repeatability-Request-ID and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-ID is an opaque string representing a client-generated, 36-character hexadecimal case-insensitive encoding of a UUID (GUID), identifier for the request. */
   repeatabilityRequestId?: string;
-  /** MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT */
+  /** MUST be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created.eg- Tue, 26 Mar 2019 16:06:51 GMT. */
   repeatabilityFirstSent?: string;
 }
 
@@ -38,26 +99,89 @@ export interface SmsSendOptions {
   tag?: string;
 }
 
-/** Response for a successful or multi status send Sms request. */
+/** Response for a successful or multi status SMS send request. */
 export interface SmsSendResponse {
   value: SmsSendResponseItem[];
 }
 
-/** Response for a single recipient. */
+/** SMS response for a single recipient. */
 export interface SmsSendResponseItem {
   /** The recipient's phone number in E.164 format. */
   to: string;
-  /** The identifier of the outgoing Sms message. Only present if message processed. */
+  /** The identifier of the outgoing message. Only present if message processed. */
   messageId?: string;
   /** HTTP Status code. */
   httpStatusCode: number;
+  /** Optional error message in case of 4xx/5xx/repeatable errors. */
+  errorMessage?: string;
   /** The result of a repeatable request with one of the case-insensitive values accepted or rejected. */
   repeatabilityResult?: SmsSendResponseItemRepeatabilityResult;
   /** Indicates if the message is processed successfully or not. */
   successful: boolean;
-  /** Optional error message in case of 4xx/5xx/repeatable errors. */
-  errorMessage?: string;
 }
+
+/** Known values of {@link MmsContentType} that the service accepts. */
+export enum KnownMmsContentType {
+  /** ImagePng */
+  ImagePng = "image/png",
+  /** ImageJpeg */
+  ImageJpeg = "image/jpeg",
+  /** ImageGif */
+  ImageGif = "image/gif",
+  /** ImageBmp */
+  ImageBmp = "image/bmp",
+  /** AudioWav */
+  AudioWav = "audio/wav",
+  /** AudioXWav */
+  AudioXWav = "audio/x-wav",
+  /** AudioAc3 */
+  AudioAc3 = "audio/ac3",
+  /** AudioAmr */
+  AudioAmr = "audio/amr",
+  /** VideoMp4 */
+  VideoMp4 = "video/mp4",
+  /** VideoXMsvideo */
+  VideoXMsvideo = "video/x-msvideo",
+  /** TextPlain */
+  TextPlain = "text/plain"
+}
+
+/**
+ * Defines values for MmsContentType. \
+ * {@link KnownMmsContentType} can be used interchangeably with MmsContentType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **image\/png** \
+ * **image\/jpeg** \
+ * **image\/gif** \
+ * **image\/bmp** \
+ * **audio\/wav** \
+ * **audio\/x-wav** \
+ * **audio\/ac3** \
+ * **audio\/amr** \
+ * **video\/mp4** \
+ * **video\/x-msvideo** \
+ * **text\/plain**
+ */
+export type MmsContentType = string;
+
+/** Known values of {@link MmsSendResponseItemRepeatabilityResult} that the service accepts. */
+export enum KnownMmsSendResponseItemRepeatabilityResult {
+  /** Accepted */
+  Accepted = "accepted",
+  /** Rejected */
+  Rejected = "rejected"
+}
+
+/**
+ * Defines values for MmsSendResponseItemRepeatabilityResult. \
+ * {@link KnownMmsSendResponseItemRepeatabilityResult} can be used interchangeably with MmsSendResponseItemRepeatabilityResult,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **accepted** \
+ * **rejected**
+ */
+export type MmsSendResponseItemRepeatabilityResult = string;
 
 /** Known values of {@link SmsSendResponseItemRepeatabilityResult} that the service accepts. */
 export enum KnownSmsSendResponseItemRepeatabilityResult {
@@ -76,6 +200,12 @@ export enum KnownSmsSendResponseItemRepeatabilityResult {
  * **rejected**
  */
 export type SmsSendResponseItemRepeatabilityResult = string;
+
+/** Optional parameters. */
+export interface MmsSendOptionalParams extends coreClient.OperationOptions {}
+
+/** Contains response data for the send operation. */
+export type MmsSendOperationResponse = MmsSendResponse;
 
 /** Optional parameters. */
 export interface SmsSendOptionalParams extends coreClient.OperationOptions {}
