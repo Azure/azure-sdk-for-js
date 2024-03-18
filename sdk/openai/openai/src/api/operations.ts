@@ -301,9 +301,8 @@ export function _getChatCompletionsSend(
   return context.path("/deployments/{deploymentId}/chat/completions", deploymentId).post({
     ...operationOptionsToRequestParameters(options),
     body: {
-      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-      functions: body["functions"],
-      function_call: body["functionCall"],
+      model: body["model"],
+      stream: body["stream"],
       max_tokens: body["maxTokens"],
       temperature: body["temperature"],
       top_p: body["topP"],
@@ -313,8 +312,6 @@ export function _getChatCompletionsSend(
       stop: body["stop"],
       presence_penalty: body["presencePenalty"],
       frequency_penalty: body["frequencyPenalty"],
-      stream: body["stream"],
-      model: body["model"],
       dataSources: body["dataSources"],
       enhancements: !body.enhancements
         ? undefined
@@ -328,8 +325,11 @@ export function _getChatCompletionsSend(
           },
       seed: body["seed"],
       response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
-      tools: body["tools"],
       tool_choice: body["toolChoice"],
+      tools: body["tools"],
+      functions: body["functions"],
+      function_call: body["functionCall"],
+      messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
     },
   });
 }
@@ -447,16 +447,6 @@ export function _getChatCompletionsWithAzureExtensionsSend(
     .post({
       ...operationOptionsToRequestParameters(options),
       body: {
-        messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
-        functions:
-          body["functions"] === undefined
-            ? body["functions"]
-            : body["functions"].map((p) => ({
-                name: p["name"],
-                description: p["description"],
-                parameters: p["parameters"],
-              })),
-        function_call: body["functionCall"],
         max_tokens: body["maxTokens"],
         temperature: body["temperature"],
         top_p: body["topP"],
@@ -468,9 +458,6 @@ export function _getChatCompletionsWithAzureExtensionsSend(
         frequency_penalty: body["frequencyPenalty"],
         stream: body["stream"],
         model: body["model"],
-        dataSources: body["dataSources"]?.map(
-          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
-        ),
         enhancements: !body.enhancements
           ? undefined
           : {
@@ -483,8 +470,21 @@ export function _getChatCompletionsWithAzureExtensionsSend(
             },
         seed: body["seed"],
         response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
-        tools: body["tools"],
         tool_choice: body["toolChoice"],
+        tools: body["tools"],
+        dataSources: body["dataSources"]?.map(
+          ({ type, ...opts }) => ({ type, parameters: opts }) as AzureChatExtensionConfiguration,
+        ),
+        functions:
+          body["functions"] === undefined
+            ? body["functions"]
+            : body["functions"].map((p) => ({
+                name: p["name"],
+                description: p["description"],
+                parameters: p["parameters"],
+              })),
+        function_call: body["functionCall"],
+        messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
       },
     });
 }

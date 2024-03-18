@@ -17,26 +17,39 @@ import {
   ChatMessageImageContentItem,
   ChatMessageContentItemUnion,
 } from "../models/models.js";
+import { snakeCaseKeys } from "../api/util.js";
 
 /** serialize function for ChatRequestUserMessage */
 function serializeChatRequestUserMessage(obj: ChatRequestUserMessage): ChatRequestUserMessageRest {
   return {
     role: obj["role"],
-    content: obj["content"] as any,
+    content: typeof obj["content"] === "string" ? obj["content"] : obj["content"].map(serializeChatRequestContentItemUnion),
     name: obj["name"],
   };
 }
 
+/** serialize function for ChatMessageImageContentItem */
+function serializeChatRequestContentItemUnion(obj: ChatMessageContentItemUnion): ChatMessageContentItemRest {
+  switch (obj.type) {
+    case "image_url":
+      return serializeChatMessageImageContentItem(obj as ChatMessageImageContentItem);
+    default:
+      return obj;
+  }
+
+}
 /** serialize function for ChatRequestAssistantMessage */
 function serializeChatRequestAssistantMessage(
   obj: ChatRequestAssistantMessage,
 ): ChatRequestAssistantMessageRest {
+  if (obj.content === undefined) {
+    obj.content = null;
+  }
+  const { functionCall, toolCalls, ...rest } = obj;
   return {
-    role: obj["role"],
-    content: obj["content"],
-    name: obj["name"],
-    ...(!obj["toolCalls"] || obj["toolCalls"].length === 0 ? {} : { tool_calls: obj["toolCalls"] }),
-    ...(obj.functionCall ? { function_call: obj.functionCall } : {}),
+    ...snakeCaseKeys(rest),
+    ...(!toolCalls || toolCalls.length === 0 ? {} : { tool_calls: toolCalls }),
+    ...(functionCall ? { function_call: functionCall } : {}),
   };
 }
 
