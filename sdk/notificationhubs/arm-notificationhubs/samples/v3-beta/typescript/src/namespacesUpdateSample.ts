@@ -34,10 +34,8 @@ async function namespacesUpdate() {
     properties: {
       pnsCredentials: {
         gcmCredential: {
-          properties: {
-            gcmEndpoint: "https://fcm.googleapis.com/fcm/send",
-            googleApiKey: "#############################",
-          },
+          gcmEndpoint: "https://fcm.googleapis.com/fcm/send",
+          googleApiKey: "#############################",
         },
       },
     },

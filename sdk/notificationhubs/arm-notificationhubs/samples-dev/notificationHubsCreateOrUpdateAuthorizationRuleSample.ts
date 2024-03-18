@@ -33,7 +33,7 @@ async function notificationHubsCreateOrUpdateAuthorizationRule() {
   const notificationHubName = "nh-sdk-hub";
   const authorizationRuleName = "MyManageSharedAccessKey";
   const parameters: SharedAccessAuthorizationRuleResource = {
-    properties: { rights: ["Listen", "Send"] },
+    rights: ["Listen", "Send"],
   };
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(

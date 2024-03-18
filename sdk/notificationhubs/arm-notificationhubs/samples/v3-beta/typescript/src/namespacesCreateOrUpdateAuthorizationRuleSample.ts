@@ -32,7 +32,7 @@ async function namespacesCreateOrUpdateAuthorizationRule() {
   const namespaceName = "nh-sdk-ns";
   const authorizationRuleName = "sdk-AuthRules-1788";
   const parameters: SharedAccessAuthorizationRuleResource = {
-    properties: { rights: ["Listen", "Send"] },
+    rights: ["Listen", "Send"],
   };
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(

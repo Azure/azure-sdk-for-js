@@ -15,11 +15,6 @@ export type AccessRights = string;
 
 // @public
 export interface AdmCredential {
-    properties: AdmCredentialProperties;
-}
-
-// @public
-export interface AdmCredentialProperties {
     authTokenUrl: string;
     clientId: string;
     clientSecret: string;
@@ -27,11 +22,6 @@ export interface AdmCredentialProperties {
 
 // @public
 export interface ApnsCredential {
-    properties: ApnsCredentialProperties;
-}
-
-// @public
-export interface ApnsCredentialProperties {
     apnsCertificate?: string;
     appId?: string;
     appName?: string;
@@ -50,11 +40,6 @@ export interface Availability {
 
 // @public
 export interface BaiduCredential {
-    properties: BaiduCredentialProperties;
-}
-
-// @public
-export interface BaiduCredentialProperties {
     baiduApiKey: string;
     baiduEndPoint: string;
     baiduSecretKey: string;
@@ -62,11 +47,6 @@ export interface BaiduCredentialProperties {
 
 // @public
 export interface BrowserCredential {
-    properties: BrowserCredentialProperties;
-}
-
-// @public
-export interface BrowserCredentialProperties {
     subject: string;
     vapidPrivateKey: string;
     vapidPublicKey: string;
@@ -109,18 +89,13 @@ export type CreatedByType = string;
 
 // @public
 export interface DebugSendResponse extends ProxyResource {
+    readonly failure?: number;
     location?: string;
-    properties?: DebugSendResult;
+    readonly results?: RegistrationResult[];
+    readonly success?: number;
     tags?: {
         [propertyName: string]: string;
     };
-}
-
-// @public
-export interface DebugSendResult {
-    readonly failure?: number;
-    readonly results?: RegistrationResult[];
-    readonly success?: number;
 }
 
 // @public
@@ -145,11 +120,6 @@ export interface ErrorResponse {
 
 // @public
 export interface FcmV1Credential {
-    properties: FcmV1CredentialProperties;
-}
-
-// @public
-export interface FcmV1CredentialProperties {
     clientEmail: string;
     privateKey: string;
     projectId: string;
@@ -157,11 +127,6 @@ export interface FcmV1CredentialProperties {
 
 // @public
 export interface GcmCredential {
-    properties: GcmCredentialProperties;
-}
-
-// @public
-export interface GcmCredentialProperties {
     gcmEndpoint?: string;
     googleApiKey: string;
 }
@@ -305,11 +270,6 @@ export interface MetricSpecification {
 
 // @public
 export interface MpnsCredential {
-    properties: MpnsCredentialProperties;
-}
-
-// @public
-export interface MpnsCredentialProperties {
     certificateKey: string;
     mpnsCertificate: string;
     thumbprint: string;
@@ -356,8 +316,27 @@ export interface NamespaceProperties {
 
 // @public
 export interface NamespaceResource extends TrackedResource {
-    properties?: NamespaceProperties;
+    readonly createdAt?: Date;
+    readonly critical?: boolean;
+    dataCenter?: string;
+    readonly enabled?: boolean;
+    readonly metricId?: string;
+    readonly namePropertiesName?: string;
+    namespaceType?: NamespaceType;
+    networkAcls?: NetworkAcls;
+    pnsCredentials?: PnsCredentials;
+    readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+    provisioningState?: OperationProvisioningState;
+    publicNetworkAccess?: PublicNetworkAccess;
+    readonly region?: string;
+    replicationRegion?: ReplicationRegion;
+    scaleUnit?: string;
+    readonly serviceBusEndpoint?: string;
     sku: Sku;
+    status?: NamespaceStatus;
+    readonly subscriptionId?: string;
+    readonly updatedAt?: Date;
+    zoneRedundancy?: ZoneRedundancyPreference;
 }
 
 // @public
@@ -518,15 +497,6 @@ export interface NotificationHubListResult {
 
 // @public
 export interface NotificationHubPatchParameters {
-    properties?: NotificationHubProperties;
-    sku?: Sku;
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export interface NotificationHubProperties {
     admCredential?: AdmCredential;
     apnsCredential?: ApnsCredential;
     readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
@@ -538,14 +508,30 @@ export interface NotificationHubProperties {
     mpnsCredential?: MpnsCredential;
     name?: string;
     registrationTtl?: string;
+    sku?: Sku;
+    tags?: {
+        [propertyName: string]: string;
+    };
     wnsCredential?: WnsCredential;
     xiaomiCredential?: XiaomiCredential;
 }
 
 // @public
 export interface NotificationHubResource extends TrackedResource {
-    properties?: NotificationHubProperties;
+    admCredential?: AdmCredential;
+    apnsCredential?: ApnsCredential;
+    readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+    baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    readonly dailyMaxActiveDevices?: number;
+    fcmV1Credential?: FcmV1Credential;
+    gcmCredential?: GcmCredential;
+    mpnsCredential?: MpnsCredential;
+    namePropertiesName?: string;
+    registrationTtl?: string;
     sku?: Sku;
+    wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
 }
 
 // @public
@@ -764,11 +750,19 @@ export interface PnsCredentials {
 
 // @public
 export interface PnsCredentialsResource extends ProxyResource {
+    admCredential?: AdmCredential;
+    apnsCredential?: ApnsCredential;
+    baiduCredential?: BaiduCredential;
+    browserCredential?: BrowserCredential;
+    fcmV1Credential?: FcmV1Credential;
+    gcmCredential?: GcmCredential;
     location?: string;
-    properties?: PnsCredentials;
+    mpnsCredential?: MpnsCredential;
     tags?: {
         [propertyName: string]: string;
     };
+    wnsCredential?: WnsCredential;
+    xiaomiCredential?: XiaomiCredential;
 }
 
 // @public
@@ -972,8 +966,16 @@ export interface SharedAccessAuthorizationRuleProperties {
 
 // @public
 export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
+    readonly claimType?: string;
+    readonly claimValue?: string;
+    readonly createdTime?: Date;
+    readonly keyName?: string;
     location?: string;
-    properties?: SharedAccessAuthorizationRuleProperties;
+    readonly modifiedTime?: Date;
+    primaryKey?: string;
+    readonly revision?: number;
+    rights?: AccessRights[];
+    secondaryKey?: string;
     tags?: {
         [propertyName: string]: string;
     };
@@ -1011,11 +1013,6 @@ export interface TrackedResource extends Resource {
 
 // @public
 export interface WnsCredential {
-    properties: WnsCredentialProperties;
-}
-
-// @public
-export interface WnsCredentialProperties {
     certificateKey?: string;
     packageSid?: string;
     secretKey?: string;
@@ -1025,11 +1022,6 @@ export interface WnsCredentialProperties {
 
 // @public
 export interface XiaomiCredential {
-    properties: XiaomiCredentialProperties;
-}
-
-// @public
-export interface XiaomiCredentialProperties {
     appSecret?: string;
     endpoint?: string;
 }

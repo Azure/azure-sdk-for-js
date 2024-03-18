@@ -63,15 +63,13 @@ describe("NotificationHubs test", () => {
     const res = await client.namespaces.beginCreateOrUpdateAndWait(resourceGroup,
       nameSpaceName,
       {
-        properties: {
-          networkAcls: {
-            ipRules: [
-              { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
-            ],
-            publicNetworkRule: { rights: ["Listen"] },
-          },
-          zoneRedundancy: "Enabled",
+        networkAcls: {
+          ipRules: [
+            { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
+          ],
+          publicNetworkRule: { rights: ["Listen"] },
         },
+        zoneRedundancy: "Enabled",
         sku: { name: "Standard", tier: "Standard" },
         tags: { tag1: "value1", tag2: "value2" },
         location: location

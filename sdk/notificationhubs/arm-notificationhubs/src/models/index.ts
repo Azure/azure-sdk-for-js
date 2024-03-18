@@ -138,39 +138,6 @@ export interface ErrorAdditionalInfo {
   readonly info?: Record<string, unknown>;
 }
 
-/** NotificationHub properties. */
-export interface NotificationHubProperties {
-  /** Gets or sets the NotificationHub name. */
-  name?: string;
-  /** Gets or sets the RegistrationTtl of the created NotificationHub */
-  registrationTtl?: string;
-  /**
-   * Gets or sets the AuthorizationRules of the created NotificationHub
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-  /** Description of a NotificationHub ApnsCredential. */
-  apnsCredential?: ApnsCredential;
-  /** Description of a NotificationHub WnsCredential. */
-  wnsCredential?: WnsCredential;
-  /** Description of a NotificationHub GcmCredential. */
-  gcmCredential?: GcmCredential;
-  /** Description of a NotificationHub MpnsCredential. */
-  mpnsCredential?: MpnsCredential;
-  /** Description of a NotificationHub AdmCredential. */
-  admCredential?: AdmCredential;
-  /** Description of a NotificationHub BaiduCredential. */
-  baiduCredential?: BaiduCredential;
-  /** Description of a NotificationHub BrowserCredential. */
-  browserCredential?: BrowserCredential;
-  /** Description of a NotificationHub XiaomiCredential. */
-  xiaomiCredential?: XiaomiCredential;
-  /** Description of a NotificationHub FcmV1Credential. */
-  fcmV1Credential?: FcmV1Credential;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
-  readonly dailyMaxActiveDevices?: number;
-}
-
 /** SharedAccessAuthorizationRule properties. */
 export interface SharedAccessAuthorizationRuleProperties {
   /** Gets or sets the rights associated with the rule. */
@@ -219,12 +186,6 @@ export interface SharedAccessAuthorizationRuleProperties {
 
 /** Description of a NotificationHub ApnsCredential. */
 export interface ApnsCredential {
-  /** Description of a NotificationHub ApnsCredential. */
-  properties: ApnsCredentialProperties;
-}
-
-/** Description of a NotificationHub ApnsCredential. */
-export interface ApnsCredentialProperties {
   /** Gets or sets the APNS certificate. */
   apnsCertificate?: string;
   /** Gets or sets the certificate key. */
@@ -254,12 +215,6 @@ export interface ApnsCredentialProperties {
 
 /** Description of a NotificationHub WnsCredential. */
 export interface WnsCredential {
-  /** Description of a NotificationHub WnsCredential. */
-  properties: WnsCredentialProperties;
-}
-
-/** Description of a NotificationHub WnsCredential. */
-export interface WnsCredentialProperties {
   /** Gets or sets the package ID for this credential. */
   packageSid?: string;
   /** Gets or sets the secret key. */
@@ -274,12 +229,6 @@ export interface WnsCredentialProperties {
 
 /** Description of a NotificationHub GcmCredential. */
 export interface GcmCredential {
-  /** Description of a NotificationHub GcmCredential. */
-  properties: GcmCredentialProperties;
-}
-
-/** Description of a NotificationHub GcmCredential. */
-export interface GcmCredentialProperties {
   /** Gets or sets the GCM endpoint. */
   gcmEndpoint?: string;
   /** Gets or sets the Google API key. */
@@ -288,12 +237,6 @@ export interface GcmCredentialProperties {
 
 /** Description of a NotificationHub MpnsCredential. */
 export interface MpnsCredential {
-  /** Description of a NotificationHub MpnsCredential. */
-  properties: MpnsCredentialProperties;
-}
-
-/** Description of a NotificationHub MpnsCredential. */
-export interface MpnsCredentialProperties {
   /** Gets or sets the MPNS certificate. */
   mpnsCertificate: string;
   /** Gets or sets the certificate key for this credential. */
@@ -304,12 +247,6 @@ export interface MpnsCredentialProperties {
 
 /** Description of a NotificationHub AdmCredential. */
 export interface AdmCredential {
-  /** Description of a NotificationHub AdmCredential. */
-  properties: AdmCredentialProperties;
-}
-
-/** Description of a NotificationHub AdmCredential. */
-export interface AdmCredentialProperties {
   /** Gets or sets the client identifier. */
   clientId: string;
   /** Gets or sets the credential secret access key. */
@@ -320,12 +257,6 @@ export interface AdmCredentialProperties {
 
 /** Description of a NotificationHub BaiduCredential. */
 export interface BaiduCredential {
-  /** Description of a NotificationHub BaiduCredential. */
-  properties: BaiduCredentialProperties;
-}
-
-/** Description of a NotificationHub BaiduCredential. */
-export interface BaiduCredentialProperties {
   /** Gets or sets baidu Api Key. */
   baiduApiKey: string;
   /** Gets or sets baidu Endpoint. */
@@ -336,12 +267,6 @@ export interface BaiduCredentialProperties {
 
 /** Description of a NotificationHub BrowserCredential. */
 export interface BrowserCredential {
-  /** Description of a NotificationHub BrowserCredential. */
-  properties: BrowserCredentialProperties;
-}
-
-/** Description of a NotificationHub BrowserCredential. */
-export interface BrowserCredentialProperties {
   /** Gets or sets web push subject. */
   subject: string;
   /** Gets or sets VAPID private key. */
@@ -352,12 +277,6 @@ export interface BrowserCredentialProperties {
 
 /** Description of a NotificationHub XiaomiCredential. */
 export interface XiaomiCredential {
-  /** Description of a NotificationHub XiaomiCredentialProperties. */
-  properties: XiaomiCredentialProperties;
-}
-
-/** Description of a NotificationHub XiaomiCredentialProperties. */
-export interface XiaomiCredentialProperties {
   /** Gets or sets app secret. */
   appSecret?: string;
   /** Gets or sets xiaomi service endpoint. */
@@ -366,12 +285,6 @@ export interface XiaomiCredentialProperties {
 
 /** Description of a NotificationHub FcmV1Credential. */
 export interface FcmV1Credential {
-  /** Description of a NotificationHub FcmV1Credential. */
-  properties: FcmV1CredentialProperties;
-}
-
-/** Description of a NotificationHub FcmV1Credential. */
-export interface FcmV1CredentialProperties {
   /** Gets or sets client email. */
   clientEmail: string;
   /** Gets or sets private key. */
@@ -382,12 +295,39 @@ export interface FcmV1CredentialProperties {
 
 /** Patch parameter for NamespaceResource. */
 export interface NotificationHubPatchParameters {
-  /** NotificationHub properties. */
-  properties?: NotificationHubProperties;
   /** The Sku description for a namespace */
   sku?: Sku;
   /** Dictionary of <string> */
   tags?: { [propertyName: string]: string };
+  /** Gets or sets the NotificationHub name. */
+  name?: string;
+  /** Gets or sets the RegistrationTtl of the created NotificationHub */
+  registrationTtl?: string;
+  /**
+   * Gets or sets the AuthorizationRules of the created NotificationHub
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly dailyMaxActiveDevices?: number;
 }
 
 /** The response of the List NotificationHub operation. */
@@ -402,25 +342,6 @@ export interface NotificationHubListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
-}
-
-/** Result of DebugSend operations. */
-export interface DebugSendResult {
-  /**
-   * Gets or sets successful send
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly success?: number;
-  /**
-   * Gets or sets send failure
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failure?: number;
-  /**
-   * Gets or sets actual failure description
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly results?: RegistrationResult[];
 }
 
 /** Notification result for a single registration. */
@@ -1004,22 +925,75 @@ export interface CheckAvailabilityResult extends ProxyResource {
 
 /** Description of a NotificationHub Resource. */
 export interface DebugSendResponse extends ProxyResource {
-  /** Result of DebugSend operations. */
-  properties?: DebugSendResult;
   /** Deprecated - only for compatibility. */
   location?: string;
   /** Deprecated - only for compatibility. */
   tags?: { [propertyName: string]: string };
+  /**
+   * Gets or sets successful send
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly success?: number;
+  /**
+   * Gets or sets send failure
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failure?: number;
+  /**
+   * Gets or sets actual failure description
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly results?: RegistrationResult[];
 }
 
 /** Response for POST requests that return single SharedAccessAuthorizationRule. */
 export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
-  /** SharedAccessAuthorizationRule properties. */
-  properties?: SharedAccessAuthorizationRuleProperties;
   /** Deprecated - only for compatibility. */
   location?: string;
   /** Deprecated - only for compatibility. */
   tags?: { [propertyName: string]: string };
+  /** Gets or sets the rights associated with the rule. */
+  rights?: AccessRights[];
+  /**
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
+   */
+  primaryKey?: string;
+  /**
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
+   */
+  secondaryKey?: string;
+  /**
+   * Gets a string that describes the authorization rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyName?: string;
+  /**
+   * Gets the last modified time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedTime?: Date;
+  /**
+   * Gets the created time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets a string that describes the claim type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly claimType?: string;
+  /**
+   * Gets a string that describes the claim value
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly claimValue?: string;
+  /**
+   * Gets the revision number for the rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly revision?: number;
 }
 
 /**
@@ -1027,12 +1001,28 @@ export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
  * PNS credentials.
  */
 export interface PnsCredentialsResource extends ProxyResource {
-  /** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
-  properties?: PnsCredentials;
   /** Deprecated - only for compatibility. */
   location?: string;
   /** Deprecated - only for compatibility. */
   tags?: { [propertyName: string]: string };
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
 }
 
 /** Represents a Private Endpoint Connection ARM resource - a sub-resource of Notification Hubs namespace. */
@@ -1049,18 +1039,116 @@ export interface PrivateLinkResource extends ProxyResource {
 
 /** Notification Hub Resource. */
 export interface NotificationHubResource extends TrackedResource {
-  /** NotificationHub properties. */
-  properties?: NotificationHubProperties;
   /** The Sku description for a namespace */
   sku?: Sku;
+  /** Gets or sets the NotificationHub name. */
+  namePropertiesName?: string;
+  /** Gets or sets the RegistrationTtl of the created NotificationHub */
+  registrationTtl?: string;
+  /**
+   * Gets or sets the AuthorizationRules of the created NotificationHub
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly dailyMaxActiveDevices?: number;
 }
 
 /** Notification Hubs Namespace Resource. */
 export interface NamespaceResource extends TrackedResource {
   /** The Sku description for a namespace */
   sku: Sku;
-  /** Represents namespace properties. */
-  properties?: NamespaceProperties;
+  /**
+   * Name of the Notification Hubs namespace. This is immutable property, set automatically
+   * by the service when the namespace is created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesName?: string;
+  /** Defines values for OperationProvisioningState. */
+  provisioningState?: OperationProvisioningState;
+  /** Namespace status. */
+  status?: NamespaceStatus;
+  /**
+   * Gets or sets whether or not the namespace is currently enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabled?: boolean;
+  /**
+   * Gets or sets whether or not the namespace is set as Critical.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly critical?: boolean;
+  /**
+   * Namespace subscription id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Region. The value is always set to the same value as Namespace.Location, so we are deprecating
+   * this property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly region?: string;
+  /**
+   * Azure Insights Metrics id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricId?: string;
+  /**
+   * Time when the namespace was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * Time when the namespace was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /** Defines values for NamespaceType. */
+  namespaceType?: NamespaceType;
+  /** Allowed replication region */
+  replicationRegion?: ReplicationRegion;
+  /** Namespace SKU name. */
+  zoneRedundancy?: ZoneRedundancyPreference;
+  /** A collection of network authorization rules. */
+  networkAcls?: NetworkAcls;
+  /** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
+  pnsCredentials?: PnsCredentials;
+  /**
+   * Gets or sets endpoint you can use to perform NotificationHub
+   * operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceBusEndpoint?: string;
+  /**
+   * Private Endpoint Connections for namespace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+  /** Gets or sets scaleUnit where the namespace gets created */
+  scaleUnit?: string;
+  /** Deprecated. */
+  dataCenter?: string;
+  /** Type of public network access. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
 /** Defines headers for PrivateEndpointConnections_delete operation. */

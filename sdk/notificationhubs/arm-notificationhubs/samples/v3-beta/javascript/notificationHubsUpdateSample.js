@@ -25,15 +25,11 @@ async function notificationHubsUpdate() {
   const namespaceName = "nh-sdk-ns";
   const notificationHubName = "sdk-notificationHubs-8708";
   const parameters = {
-    properties: {
-      gcmCredential: {
-        properties: {
-          gcmEndpoint: "https://fcm.googleapis.com/fcm/send",
-          googleApiKey: "###################################",
-        },
-      },
-      registrationTtl: "10675199.02:48:05.4775807",
+    gcmCredential: {
+      gcmEndpoint: "https://fcm.googleapis.com/fcm/send",
+      googleApiKey: "###################################",
     },
+    registrationTtl: "10675199.02:48:05.4775807",
   };
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);

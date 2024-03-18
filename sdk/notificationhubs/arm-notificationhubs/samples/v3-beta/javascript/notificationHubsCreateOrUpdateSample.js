@@ -24,10 +24,7 @@ async function notificationHubsCreateOrUpdate() {
   const resourceGroupName = process.env["NOTIFICATIONHUBS_RESOURCE_GROUP"] || "5ktrial";
   const namespaceName = "nh-sdk-ns";
   const notificationHubName = "nh-sdk-hub";
-  const parameters = {
-    location: "eastus",
-    properties: {},
-  };
+  const parameters = { location: "eastus" };
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(credential, subscriptionId);
   const result = await client.notificationHubs.createOrUpdate(

@@ -32,17 +32,15 @@ async function namespacesCreateOrUpdate() {
   const namespaceName = "nh-sdk-ns";
   const parameters: NamespaceResource = {
     location: "South Central US",
-    properties: {
-      networkAcls: {
-        ipRules: [
-          { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
-        ],
-        publicNetworkRule: { rights: ["Listen"] },
-      },
-      zoneRedundancy: "Enabled",
+    networkAcls: {
+      ipRules: [
+        { ipMask: "185.48.100.00/24", rights: ["Manage", "Send", "Listen"] },
+      ],
+      publicNetworkRule: { rights: ["Listen"] },
     },
     sku: { name: "Standard", tier: "Standard" },
     tags: { tag1: "value1", tag2: "value2" },
+    zoneRedundancy: "Enabled",
   };
   const credential = new DefaultAzureCredential();
   const client = new NotificationHubsManagementClient(

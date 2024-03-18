@@ -1,6 +1,6 @@
 # Release History
     
-## 3.0.0-beta.1 (2024-03-12)
+## 3.0.0-beta.1 (2024-03-18)
     
 **Features**
 
@@ -11,29 +11,20 @@
   - Added operation Namespaces.getPnsCredentials
   - Added operation Namespaces.update
   - Added operation NotificationHubs.update
-  - Added Interface AdmCredentialProperties
-  - Added Interface ApnsCredentialProperties
   - Added Interface Availability
-  - Added Interface BaiduCredentialProperties
   - Added Interface BrowserCredential
-  - Added Interface BrowserCredentialProperties
   - Added Interface ConnectionDetails
-  - Added Interface DebugSendResult
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface FcmV1Credential
-  - Added Interface FcmV1CredentialProperties
-  - Added Interface GcmCredentialProperties
   - Added Interface GroupConnectivityInformation
   - Added Interface IpRule
   - Added Interface LogSpecification
   - Added Interface MetricSpecification
-  - Added Interface MpnsCredentialProperties
   - Added Interface NamespaceProperties
   - Added Interface NamespacesGetPnsCredentialsOptionalParams
   - Added Interface NamespacesUpdateOptionalParams
   - Added Interface NetworkAcls
-  - Added Interface NotificationHubProperties
   - Added Interface NotificationHubsUpdateOptionalParams
   - Added Interface OperationProperties
   - Added Interface PnsCredentials
@@ -60,9 +51,7 @@
   - Added Interface ServiceSpecification
   - Added Interface SystemData
   - Added Interface TrackedResource
-  - Added Interface WnsCredentialProperties
   - Added Interface XiaomiCredential
-  - Added Interface XiaomiCredentialProperties
   - Added Type Alias CreatedByType
   - Added Type Alias NamespacesGetPnsCredentialsResponse
   - Added Type Alias NamespaceStatus
@@ -85,34 +74,48 @@
   - Interface CheckAvailabilityResult has a new optional parameter sku
   - Interface CheckAvailabilityResult has a new optional parameter tags
   - Interface DebugSendResponse has a new optional parameter location
-  - Interface DebugSendResponse has a new optional parameter properties
   - Interface DebugSendResponse has a new optional parameter tags
   - Interface ErrorResponse has a new optional parameter error
   - Interface NamespacePatchParameters has a new optional parameter properties
-  - Interface NamespaceResource has a new optional parameter properties
+  - Interface NamespaceResource has a new optional parameter networkAcls
+  - Interface NamespaceResource has a new optional parameter pnsCredentials
+  - Interface NamespaceResource has a new optional parameter privateEndpointConnections
+  - Interface NamespaceResource has a new optional parameter publicNetworkAccess
+  - Interface NamespaceResource has a new optional parameter replicationRegion
+  - Interface NamespaceResource has a new optional parameter zoneRedundancy
   - Interface NamespacesCreateOrUpdateOptionalParams has a new optional parameter resumeFrom
   - Interface NamespacesCreateOrUpdateOptionalParams has a new optional parameter updateIntervalInMs
   - Interface NamespacesListAllOptionalParams has a new optional parameter skipToken
   - Interface NamespacesListAllOptionalParams has a new optional parameter top
   - Interface NamespacesListOptionalParams has a new optional parameter skipToken
   - Interface NamespacesListOptionalParams has a new optional parameter top
-  - Interface NotificationHubPatchParameters has a new optional parameter properties
+  - Interface NotificationHubPatchParameters has a new optional parameter browserCredential
+  - Interface NotificationHubPatchParameters has a new optional parameter dailyMaxActiveDevices
+  - Interface NotificationHubPatchParameters has a new optional parameter fcmV1Credential
+  - Interface NotificationHubPatchParameters has a new optional parameter name
   - Interface NotificationHubPatchParameters has a new optional parameter sku
   - Interface NotificationHubPatchParameters has a new optional parameter tags
-  - Interface NotificationHubResource has a new optional parameter properties
+  - Interface NotificationHubPatchParameters has a new optional parameter xiaomiCredential
+  - Interface NotificationHubResource has a new optional parameter browserCredential
+  - Interface NotificationHubResource has a new optional parameter dailyMaxActiveDevices
+  - Interface NotificationHubResource has a new optional parameter fcmV1Credential
   - Interface NotificationHubResource has a new optional parameter sku
+  - Interface NotificationHubResource has a new optional parameter xiaomiCredential
   - Interface NotificationHubsListOptionalParams has a new optional parameter skipToken
   - Interface NotificationHubsListOptionalParams has a new optional parameter top
   - Interface Operation has a new optional parameter isDataAction
   - Interface Operation has a new optional parameter properties
   - Interface OperationDisplay has a new optional parameter description
+  - Interface PnsCredentialsResource has a new optional parameter browserCredential
+  - Interface PnsCredentialsResource has a new optional parameter fcmV1Credential
   - Interface PnsCredentialsResource has a new optional parameter location
-  - Interface PnsCredentialsResource has a new optional parameter properties
   - Interface PnsCredentialsResource has a new optional parameter tags
+  - Interface PnsCredentialsResource has a new optional parameter xiaomiCredential
   - Interface Resource has a new optional parameter systemData
   - Interface SharedAccessAuthorizationRuleResource has a new optional parameter location
-  - Interface SharedAccessAuthorizationRuleResource has a new optional parameter properties
   - Interface SharedAccessAuthorizationRuleResource has a new optional parameter tags
+  - Interface WnsCredential has a new optional parameter certificateKey
+  - Interface WnsCredential has a new optional parameter wnsCertificate
   - Added Enum KnownAccessRights
   - Added Enum KnownCreatedByType
   - Added Enum KnownNamespaceStatus
@@ -137,96 +140,35 @@
   - Operation NotificationHubs.createOrUpdate has a new signature
   - Operation NotificationHubs.createOrUpdateAuthorizationRule has a new signature
   - Operation NotificationHubs.regenerateKeys has a new signature
-  - Interface AdmCredential no longer has parameter authTokenUrl
-  - Interface AdmCredential no longer has parameter clientId
-  - Interface AdmCredential no longer has parameter clientSecret
-  - Interface ApnsCredential no longer has parameter apnsCertificate
-  - Interface ApnsCredential no longer has parameter appId
-  - Interface ApnsCredential no longer has parameter appName
-  - Interface ApnsCredential no longer has parameter certificateKey
-  - Interface ApnsCredential no longer has parameter endpoint
-  - Interface ApnsCredential no longer has parameter keyId
-  - Interface ApnsCredential no longer has parameter thumbprint
-  - Interface ApnsCredential no longer has parameter token
-  - Interface BaiduCredential no longer has parameter baiduApiKey
-  - Interface BaiduCredential no longer has parameter baiduEndPoint
-  - Interface BaiduCredential no longer has parameter baiduSecretKey
-  - Interface DebugSendResponse no longer has parameter failure
-  - Interface DebugSendResponse no longer has parameter results
-  - Interface DebugSendResponse no longer has parameter success
   - Interface ErrorResponse no longer has parameter code
   - Interface ErrorResponse no longer has parameter message
-  - Interface GcmCredential no longer has parameter gcmEndpoint
-  - Interface GcmCredential no longer has parameter googleApiKey
-  - Interface MpnsCredential no longer has parameter certificateKey
-  - Interface MpnsCredential no longer has parameter mpnsCertificate
-  - Interface MpnsCredential no longer has parameter thumbprint
-  - Interface NamespaceResource no longer has parameter createdAt
-  - Interface NamespaceResource no longer has parameter critical
-  - Interface NamespaceResource no longer has parameter dataCenter
-  - Interface NamespaceResource no longer has parameter enabled
-  - Interface NamespaceResource no longer has parameter metricId
-  - Interface NamespaceResource no longer has parameter namePropertiesName
-  - Interface NamespaceResource no longer has parameter namespaceType
-  - Interface NamespaceResource no longer has parameter provisioningState
-  - Interface NamespaceResource no longer has parameter region
-  - Interface NamespaceResource no longer has parameter scaleUnit
-  - Interface NamespaceResource no longer has parameter serviceBusEndpoint
-  - Interface NamespaceResource no longer has parameter status
-  - Interface NamespaceResource no longer has parameter subscriptionId
-  - Interface NamespaceResource no longer has parameter updatedAt
   - Interface NamespacesDeleteOptionalParams no longer has parameter resumeFrom
   - Interface NamespacesDeleteOptionalParams no longer has parameter updateIntervalInMs
-  - Interface NotificationHubPatchParameters no longer has parameter admCredential
-  - Interface NotificationHubPatchParameters no longer has parameter apnsCredential
-  - Interface NotificationHubPatchParameters no longer has parameter authorizationRules
-  - Interface NotificationHubPatchParameters no longer has parameter baiduCredential
-  - Interface NotificationHubPatchParameters no longer has parameter gcmCredential
-  - Interface NotificationHubPatchParameters no longer has parameter mpnsCredential
   - Interface NotificationHubPatchParameters no longer has parameter namePropertiesName
-  - Interface NotificationHubPatchParameters no longer has parameter registrationTtl
-  - Interface NotificationHubPatchParameters no longer has parameter wnsCredential
-  - Interface NotificationHubResource no longer has parameter admCredential
-  - Interface NotificationHubResource no longer has parameter apnsCredential
-  - Interface NotificationHubResource no longer has parameter authorizationRules
-  - Interface NotificationHubResource no longer has parameter baiduCredential
-  - Interface NotificationHubResource no longer has parameter gcmCredential
-  - Interface NotificationHubResource no longer has parameter mpnsCredential
-  - Interface NotificationHubResource no longer has parameter namePropertiesName
-  - Interface NotificationHubResource no longer has parameter registrationTtl
-  - Interface NotificationHubResource no longer has parameter wnsCredential
   - Interface NotificationHubsDebugSendOptionalParams no longer has parameter parameters
-  - Interface PnsCredentialsResource no longer has parameter admCredential
-  - Interface PnsCredentialsResource no longer has parameter apnsCredential
-  - Interface PnsCredentialsResource no longer has parameter baiduCredential
-  - Interface PnsCredentialsResource no longer has parameter gcmCredential
-  - Interface PnsCredentialsResource no longer has parameter mpnsCredential
-  - Interface PnsCredentialsResource no longer has parameter wnsCredential
   - Interface Resource no longer has parameter location
   - Interface Resource no longer has parameter sku
   - Interface Resource no longer has parameter tags
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter claimType
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter claimValue
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter createdTime
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter keyName
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter modifiedTime
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter primaryKey
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter revision
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter rights
-  - Interface SharedAccessAuthorizationRuleResource no longer has parameter secondaryKey
-  - Interface WnsCredential no longer has parameter packageSid
-  - Interface WnsCredential no longer has parameter secretKey
-  - Interface WnsCredential no longer has parameter windowsLiveEndpoint
-  - Interface AdmCredential has a new required parameter properties
-  - Interface ApnsCredential has a new required parameter properties
-  - Interface BaiduCredential has a new required parameter properties
-  - Interface GcmCredential has a new required parameter properties
-  - Interface MpnsCredential has a new required parameter properties
   - Interface NamespaceResource has a new required parameter sku
-  - Interface WnsCredential has a new required parameter properties
+  - Parameter authTokenUrl of interface AdmCredential is now required
+  - Parameter clientId of interface AdmCredential is now required
+  - Parameter clientSecret of interface AdmCredential is now required
+  - Parameter endpoint of interface ApnsCredential is now required
+  - Parameter baiduApiKey of interface BaiduCredential is now required
+  - Parameter baiduEndPoint of interface BaiduCredential is now required
+  - Parameter baiduSecretKey of interface BaiduCredential is now required
+  - Parameter googleApiKey of interface GcmCredential is now required
+  - Parameter certificateKey of interface MpnsCredential is now required
+  - Parameter mpnsCertificate of interface MpnsCredential is now required
+  - Parameter thumbprint of interface MpnsCredential is now required
   - Parameter rights of interface SharedAccessAuthorizationRuleProperties is now required
+  - Type of parameter results of interface DebugSendResponse is changed from Record<string, unknown> to RegistrationResult[]
+  - Type of parameter provisioningState of interface NamespaceResource is changed from string to OperationProvisioningState
+  - Type of parameter status of interface NamespaceResource is changed from string to NamespaceStatus
   - Type of parameter createdTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
   - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleProperties is changed from string to Date
+  - Type of parameter createdTime of interface SharedAccessAuthorizationRuleResource is changed from string to Date
+  - Type of parameter modifiedTime of interface SharedAccessAuthorizationRuleResource is changed from string to Date
     
     
 ## 2.1.0 (2022-12-01)
@@ -257,4 +199,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).
