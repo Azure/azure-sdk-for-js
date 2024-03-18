@@ -158,8 +158,11 @@ try {
           $artifactSubPath = $pathToArtifacts -replace $pipelineWorkspace, ''
           write-host "Copy $($p.TarGz) to $artifactSubPath"
           ls -Recurse $pathToArtifacts
+          $destination = "$($pipelineWorkspace)temp$artifactSubPath"
           ls $($p.TarGz)
-          Copy-Item -Path $($p.TarGz) -Destination "temp$artifactSubPath" -Force
+          write-host $destination
+          New-Item -ItemType File -Path $destination -Force
+          Copy-Item -Path $($p.TarGz) -Destination $destination -Force
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
