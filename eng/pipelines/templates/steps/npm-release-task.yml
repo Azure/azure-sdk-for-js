@@ -28,7 +28,7 @@ steps:
           ConnectedServiceName: 'ESRP Release Service'
           Intent: 'PackageDistribution'
           ContentType: 'npm'
-          FolderLocation: $(Pipeline.Workspace)/temp/packages/${{parameters.ArtifactName}}
+          FolderLocation: $(Pipeline.Workspace)/temp/${{parameters.ArtifactName}}/${{parameters.artifact.name}}
           Owners: $(Build.RequestedForEmail)
           Approvers: 'azuresdk@microsoft.com'
           ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
