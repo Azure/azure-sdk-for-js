@@ -154,6 +154,7 @@ try {
         }
         elseif ($p.Publish -and $publishToNpm) {
           $artifactSubPath = $pathToArtifacts -replace '$(Pipeline.Workspace)\/', ''
+          ls -r $(Pipeline.Workspace)
           write-host "Copy $($p.TarGz) to $artifactSubPath"
           Copy-Item -Path $($p.TarGz) -Destination "temp/$artifactSubPath"
         }
