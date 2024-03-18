@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -35,18 +35,17 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
     doNotRunExtensionsOnOverprovisionedVMs: true,
     identity: {
       type: "SystemAssigned",
-      userAssignedIdentities: { key3951: {} }
+      userAssignedIdentities: { key3951: {} },
     },
     overprovision: true,
     plan: {
       name: "windows2016",
       product: "windows-data-science-vm",
       promotionCode: "aaaaaaaaaa",
-      publisher: "microsoft-ads"
+      publisher: "microsoft-ads",
     },
     proximityPlacementGroup: {
-      id:
-        "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+      id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
     },
     scaleInPolicy: { forceDeletion: true, rules: ["OldestVM"] },
     singlePlacementGroup: true,
@@ -56,7 +55,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
       automaticOSUpgradePolicy: {
         disableAutomaticRollback: true,
         enableAutomaticOSUpgrade: true,
-        osRollingUpgradeDeferral: true
+        osRollingUpgradeDeferral: true,
       },
       mode: "Manual",
       rollingUpgradePolicy: {
@@ -67,8 +66,8 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
         maxUnhealthyUpgradedInstancePercent: 98,
         pauseTimeBetweenBatches: "aaaaaaaaaaaaaaa",
         prioritizeUnhealthyInstances: true,
-        rollbackFailedInstancesOnPolicyBreach: true
-      }
+        rollbackFailedInstancesOnPolicyBreach: true,
+      },
     },
     virtualMachineProfile: {
       billingProfile: { maxPrice: -1 },
@@ -76,8 +75,8 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
         bootDiagnostics: {
           enabled: true,
           storageUri:
-            "http://{existing-storage-account-name}.blob.core.windows.net"
-        }
+            "http://{existing-storage-account-name}.blob.core.windows.net",
+        },
       },
       extensionProfile: {
         extensionsTimeBudget: "PT1H20M",
@@ -93,15 +92,14 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
             publisher: "{extension-Publisher}",
             settings: {},
             suppressFailures: true,
-            typeHandlerVersion: "{handler-version}"
-          }
-        ]
+            typeHandlerVersion: "{handler-version}",
+          },
+        ],
       },
       licenseType: "aaaaaaaaaaaa",
       networkProfile: {
         healthProbe: {
-          id:
-            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
+          id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
         },
         networkApiVersion: "2020-11-01",
         networkInterfaceConfigurations: [
@@ -117,27 +115,23 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
                 name: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 applicationGatewayBackendAddressPools: [
                   {
-                    id:
-                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-                  }
+                    id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                  },
                 ],
                 applicationSecurityGroups: [
                   {
-                    id:
-                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-                  }
+                    id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                  },
                 ],
                 loadBalancerBackendAddressPools: [
                   {
-                    id:
-                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-                  }
+                    id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                  },
                 ],
                 loadBalancerInboundNatPools: [
                   {
-                    id:
-                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
-                  }
+                    id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+                  },
                 ],
                 primary: true,
                 privateIPAddressVersion: "IPv4",
@@ -145,21 +139,19 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
                   name: "a",
                   deleteOption: "Delete",
                   dnsSettings: { domainNameLabel: "aaaaaaaaaaaaaaaaaa" },
-                  idleTimeoutInMinutes: 3
+                  idleTimeoutInMinutes: 3,
                 },
                 subnet: {
-                  id:
-                    "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"
-                }
-              }
+                  id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123",
+                },
+              },
             ],
             networkSecurityGroup: {
-              id:
-                "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              id: "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
             },
-            primary: true
-          }
-        ]
+            primary: true,
+          },
+        ],
       },
       osProfile: {
         customData: "aaaaaaaaaaaaaaaaaaaaaaaaaa",
@@ -167,7 +159,7 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
           disablePasswordAuthentication: true,
           patchSettings: {
             assessmentMode: "ImageDefault",
-            patchMode: "ImageDefault"
+            patchMode: "ImageDefault",
           },
           provisionVMAgent: true,
           ssh: {
@@ -175,24 +167,23 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
               {
                 path: "/home/{your-username}/.ssh/authorized_keys",
                 keyData:
-                  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"
-              }
-            ]
-          }
+                  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1",
+              },
+            ],
+          },
         },
         secrets: [
           {
             sourceVault: {
-              id:
-                "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}",
             },
             vaultCertificates: [
               {
                 certificateStore: "aaaaaaaaaaaaaaaaaaaaaaaaa",
-                certificateUrl: "aaaaaaa"
-              }
-            ]
-          }
+                certificateUrl: "aaaaaaa",
+              },
+            ],
+          },
         ],
         windowsConfiguration: {
           additionalUnattendContent: [
@@ -200,35 +191,35 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
               componentName: "Microsoft-Windows-Shell-Setup",
               content: "aaaaaaaaaaaaaaaaaaaa",
               passName: "OobeSystem",
-              settingName: "AutoLogon"
-            }
+              settingName: "AutoLogon",
+            },
           ],
           enableAutomaticUpdates: true,
           patchSettings: {
             assessmentMode: "ImageDefault",
             automaticByPlatformSettings: { rebootSetting: "Never" },
             enableHotpatching: true,
-            patchMode: "AutomaticByPlatform"
+            patchMode: "AutomaticByPlatform",
           },
           provisionVMAgent: true,
           timeZone: "aaaaaaaaaaaaaaaa",
           winRM: {
             listeners: [
-              { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" }
-            ]
-          }
-        }
+              { certificateUrl: "aaaaaaaaaaaaaaaaaaaaaa", protocol: "Http" },
+            ],
+          },
+        },
       },
       scheduledEventsProfile: {
         terminateNotificationProfile: {
           enable: true,
-          notBeforeTimeout: "PT10M"
-        }
+          notBeforeTimeout: "PT10M",
+        },
       },
       securityProfile: {
         encryptionAtHost: true,
         securityType: "TrustedLaunch",
-        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true }
+        uefiSettings: { secureBootEnabled: true, vTpmEnabled: true },
       },
       storageProfile: {
         dataDisks: [
@@ -242,10 +233,10 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
             lun: 26,
             managedDisk: {
               diskEncryptionSet: { id: "aaaaaaaaaaaa" },
-              storageAccountType: "Standard_LRS"
+              storageAccountType: "Standard_LRS",
             },
-            writeAcceleratorEnabled: true
-          }
+            writeAcceleratorEnabled: true,
+          },
         ],
         imageReference: {
           id: "aaaaaaaaaaaaaaaaaaa",
@@ -253,32 +244,31 @@ async function virtualMachineScaleSetUpdateMaximumSetGen() {
           publisher: "MicrosoftWindowsServer",
           sharedGalleryImageId: "aaaaaa",
           sku: "2016-Datacenter",
-          version: "latest"
+          version: "latest",
         },
         osDisk: {
           caching: "ReadWrite",
           diskSizeGB: 6,
           image: {
-            uri:
-              "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"
+            uri: "http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd",
           },
           managedDisk: {
             diskEncryptionSet: { id: "aaaaaaaaaaaa" },
-            storageAccountType: "Standard_LRS"
+            storageAccountType: "Standard_LRS",
           },
           vhdContainers: ["aa"],
-          writeAcceleratorEnabled: true
-        }
+          writeAcceleratorEnabled: true,
+        },
       },
-      userData: "aaaaaaaaaaaaa"
-    }
+      userData: "aaaaaaaaaaaaa",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachineScaleSets.beginUpdateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -301,7 +291,7 @@ async function virtualMachineScaleSetUpdateMinimumSetGen() {
   const result = await client.virtualMachineScaleSets.beginUpdateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -201,13 +201,13 @@ describe("#LiveMetrics", () => {
     assert.strictEqual(documents[6].documentType, "RemoteDependency");
     assert.strictEqual((documents[6] as RemoteDependency).commandName, "http://test.com");
     assert.strictEqual((documents[6] as RemoteDependency).resultCode, "200");
-    assert.strictEqual((documents[6] as RemoteDependency).duration, "12345678");
+    assert.strictEqual((documents[6] as RemoteDependency).duration, "PT12345.678S");
     assert.equal((documents[6].properties as any)[0].key, "customAttribute");
     assert.equal((documents[6].properties as any)[0].value, "test");
     for (let i = 7; i < 9; i++) {
       assert.strictEqual((documents[i] as Request).url, "http://test.com");
       assert.strictEqual((documents[i] as Request).responseCode, "200");
-      assert.strictEqual((documents[i] as Request).duration, "98765432");
+      assert.strictEqual((documents[i] as Request).duration, "PT98765.432S");
       assert.equal((documents[i].properties as any)[0].key, "customAttribute");
       assert.equal((documents[i].properties as any)[0].value, "test");
     }
@@ -215,14 +215,14 @@ describe("#LiveMetrics", () => {
       assert.strictEqual(documents[i].documentType, "RemoteDependency");
       assert.strictEqual((documents[i] as RemoteDependency).commandName, "http://test.com");
       assert.strictEqual((documents[i] as RemoteDependency).resultCode, "400");
-      assert.strictEqual((documents[i] as RemoteDependency).duration, "900000");
+      assert.strictEqual((documents[i] as RemoteDependency).duration, "PT900S");
       assert.equal((documents[i].properties as any)[0].key, "customAttribute");
       assert.equal((documents[i].properties as any)[0].value, "test");
     }
     for (let i = 12; i < 15; i++) {
       assert.strictEqual((documents[i] as Request).url, "http://test.com");
       assert.strictEqual((documents[i] as Request).responseCode, "400");
-      assert.strictEqual((documents[i] as Request).duration, "100000");
+      assert.strictEqual((documents[i] as Request).duration, "PT100S");
       assert.equal((documents[i].properties as any)[0].key, "customAttribute");
       assert.equal((documents[i].properties as any)[0].value, "test");
     }
