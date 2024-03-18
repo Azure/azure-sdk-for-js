@@ -33,6 +33,7 @@
   ],
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "tags": [
     "isomorphic",
     "browser",

@@ -13,6 +13,7 @@
   "sideEffects": false,
   "type": "module",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
