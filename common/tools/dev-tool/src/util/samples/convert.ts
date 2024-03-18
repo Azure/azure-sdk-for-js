@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { EOL } from "os";
-
+import { EOL } from "node:os";
 import ts from "typescript";
-
 import { createPrinter } from "../printer";
 import { format } from "../prettier";
 

@@ -219,6 +219,7 @@ export interface ChatCompletions {
 export interface ChatCompletionsFunctionToolCall {
     function: FunctionCall;
     id: string;
+    index?: number;
     type: "function";
 }
 

@@ -30,7 +30,7 @@ async function reapplyTheStateOfAVirtualMachine() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginReapplyAndWait(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

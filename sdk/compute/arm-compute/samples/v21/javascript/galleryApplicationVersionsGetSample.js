@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
  *
  * @summary Retrieves information about a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_Get_WithReplicationStatus.json
  */
 async function getAGalleryApplicationVersionWithReplicationStatus() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";
@@ -42,7 +42,7 @@ async function getAGalleryApplicationVersionWithReplicationStatus() {
  * This sample demonstrates how to Retrieves information about a gallery Application Version.
  *
  * @summary Retrieves information about a gallery Application Version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_Get.json
  */
 async function getAGalleryApplicationVersion() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

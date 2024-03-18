@@ -334,4 +334,7 @@ export {
   KnownAcsEmailDeliveryReportStatus,
   KnownAcsUserEngagement,
   KnownHealthcareFhirResourceType,
+  ApiCenterApiDefinitionAddedEventData,
+  ApiCenterApiDefinitionUpdatedEventData,
+  ApiCenterApiSpecification,
 } from "./generated/models";
