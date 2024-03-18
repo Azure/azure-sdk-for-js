@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-required-scripts";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-package-json-required-scripts.js";
 
 //------------------------------------------------------------------------------
 // Example files

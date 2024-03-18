@@ -33,9 +33,9 @@ import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils"
 import {
   ParserWeakMap,
   ParserWeakMapESTreeToTSNode,
-} from "@typescript-eslint/typescript-estree/dist/parser-options";
+} from "@typescript-eslint/typescript-estree/dist/parser-options.js";
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Helpers
@@ -237,7 +237,7 @@ const evaluateOverloads = (
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-use-interface-parameters",
     "encourage usage of interfaces over classes as function parameters",

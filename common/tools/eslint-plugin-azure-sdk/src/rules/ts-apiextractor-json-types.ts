@@ -7,16 +7,16 @@
  * @author Will Temple
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Property } from "estree";
 import { Rule } from "eslint";
-import { stripFileName } from "../utils/verifiers";
+import { stripFileName } from "../utils/verifiers.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-apiextractor-json-types",
     "force api-extractor.json to configure types in a consistent way",

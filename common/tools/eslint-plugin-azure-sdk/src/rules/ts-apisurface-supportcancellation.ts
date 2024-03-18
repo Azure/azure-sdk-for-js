@@ -9,8 +9,8 @@
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
-import { getPublicMethods, getRuleMetaData } from "../utils";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { getPublicMethods, getRuleMetaData } from "../utils/index.js";
+import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
@@ -98,7 +98,7 @@ const isValidParam = (
   );
 };
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-apisurface-supportcancellation",
     "require async client methods to accept an AbortSignalLike parameter",

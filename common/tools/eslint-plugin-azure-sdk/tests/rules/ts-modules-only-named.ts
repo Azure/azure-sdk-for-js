@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-modules-only-named";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-modules-only-named.js";
 
 //------------------------------------------------------------------------------
 // Tests
@@ -29,7 +29,7 @@ ruleTester.run("ts-modules-only-named", rule, {
   valid: [
     // different non-default exports
     {
-      code: 'export = {test: "test"}',
+      code: 'export default {test: "test"}',
       filename: "test.ts",
     },
     {

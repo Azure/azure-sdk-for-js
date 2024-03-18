@@ -7,14 +7,14 @@
  */
 
 import { Literal, Property } from "estree";
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-main-is-cjs",
     "force package.json's main value to point to a CommonJS or UMD module",

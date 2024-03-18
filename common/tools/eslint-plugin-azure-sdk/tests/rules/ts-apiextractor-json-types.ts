@@ -7,8 +7,8 @@
  * @author Will Temple
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-apiextractor-json-types";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-apiextractor-json-types.js";
 
 //------------------------------------------------------------------------------
 // Example files

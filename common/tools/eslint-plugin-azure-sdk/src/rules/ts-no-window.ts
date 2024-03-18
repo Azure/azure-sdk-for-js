@@ -7,13 +7,13 @@
  */
 
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData("ts-no-window", "forbid usage of window", "code"),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({

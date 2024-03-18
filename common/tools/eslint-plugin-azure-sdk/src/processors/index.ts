@@ -11,7 +11,7 @@ import { Linter } from "eslint";
 /**
  * An object containing processors used by the plugin
  */
-export = {
+export default {
   /**
    * The processor for JSON files
    * Ignores the no-unused-expressions ESLint rule

@@ -8,7 +8,7 @@
 
 import { Comment, Node } from "estree";
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -24,7 +24,7 @@ function isValid(comments: Comment[]): boolean {
     .every((v) => v.actual.type === "Line" && v.expected === v.actual.value.trim());
 }
 
-export = {
+export default {
   meta: getRuleMetaData(
     "github-source-headers",
     "require copyright headers in every source file",

@@ -9,13 +9,13 @@
 import { Identifier, NewExpression, ThrowStatement } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-error-handling",
     "limit thrown errors to ECMAScript built-in error types (TypeError, RangeError, Error)",

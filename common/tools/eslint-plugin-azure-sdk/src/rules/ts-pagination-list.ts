@@ -9,13 +9,13 @@
 import { Identifier, MethodDefinition } from "estree";
 import { Rule } from "eslint";
 import { TSESTree } from "@typescript-eslint/experimental-utils";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-pagination-list",
     "require client list methods to return a PagedAsyncIterableIterator",

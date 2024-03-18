@@ -7,7 +7,7 @@
  */
 
 import { Literal, Property } from "estree";
-import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
@@ -53,7 +53,7 @@ function updateFixRequiredPatterns(currRequiredPatterns: string[]): void {
   }
 }
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-files-required",
     "requires package.json's files value to contain paths to the package contents",

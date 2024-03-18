@@ -6,12 +6,12 @@
  * @author Arpan Laha
  */
 
-import rootConfig from "./azure-sdk-base";
+import rootConfig from "./azure-sdk-base.js";
 
 /**
  * An object containing configurations available for the plugin
  */
-export = {
+export default {
   /**
    * The recommended (default) configuration
    */

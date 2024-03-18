@@ -8,14 +8,14 @@
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { getPublicMethods, getRuleMetaData } from "../utils";
+import { getPublicMethods, getRuleMetaData } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-naming-options",
     "require client method option parameter type names to be suffixed with Options and prefixed with the method name",

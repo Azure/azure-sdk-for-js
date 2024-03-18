@@ -6,8 +6,8 @@
  * @author Wei Jun Tan
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-config-include";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-config-include.js";
 
 //------------------------------------------------------------------------------
 // Example files

@@ -7,9 +7,9 @@
  */
 
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
-import { getLocalExports, getRuleMetaData } from "../utils";
+import { getLocalExports, getRuleMetaData } from "../utils/index.js";
 import { Node } from "estree";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options.js";
 import { Rule } from "eslint";
 import { TypeChecker } from "typescript";
 import { globSync } from "glob";
@@ -92,7 +92,7 @@ try {
   exclude = [];
 }
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-doc-internal",
     "require TSDoc comments to include an '@internal' or '@hidden' tag if the object is not public-facing",

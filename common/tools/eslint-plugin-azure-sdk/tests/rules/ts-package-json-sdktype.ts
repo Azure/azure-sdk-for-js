@@ -6,8 +6,8 @@
  * @author Ben Zhang
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-package-json-sdktype";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-package-json-sdktype.js";
 
 //------------------------------------------------------------------------------
 // Example files

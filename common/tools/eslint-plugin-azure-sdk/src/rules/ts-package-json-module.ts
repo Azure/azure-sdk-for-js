@@ -7,14 +7,14 @@
  */
 
 import { Literal, Property } from "estree";
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-module",
     "force package.json's module value to be the ES6 entrypoint to the application",

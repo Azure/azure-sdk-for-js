@@ -6,14 +6,14 @@
  * @author Arpan Laha
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-sideeffects",
     "force package.json's sideEffects value to be false",

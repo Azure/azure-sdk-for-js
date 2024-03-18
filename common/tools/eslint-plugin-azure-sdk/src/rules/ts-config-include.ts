@@ -7,14 +7,14 @@
  */
 
 import { ArrayExpression, Literal, Property } from "estree";
-import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-config-include",
     "force tsconfig.json's 'include' value to at least contain 'src/**/*.ts', 'test/**/*.ts', and 'samples-dev/**/*.ts'",

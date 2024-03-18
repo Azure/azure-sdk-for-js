@@ -8,10 +8,10 @@
 
 import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
 import { Node } from "estree";
-import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
+import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options.js";
 import { Rule } from "eslint";
 import { SyntaxKind, canHaveModifiers } from "typescript";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
@@ -57,7 +57,7 @@ const reportInternal = (
   }
 };
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-doc-internal-private-member",
     "requires TSDoc comments to not include an '@internal' tag if the object is private",

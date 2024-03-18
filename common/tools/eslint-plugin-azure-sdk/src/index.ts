@@ -10,9 +10,9 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import configs from "./configs";
-import processors from "./processors";
-import rules from "./rules";
+import configs from "./configs/index.js";
+import processors from "./processors/index.js";
+import rules from "./rules/index.js";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
@@ -21,4 +21,4 @@ import rules from "./rules";
 /**
  * The elements making up the plugin
  */
-export = { configs, processors, rules };
+export default { configs, processors, rules };

@@ -6,7 +6,7 @@
  * @author Arpan Laha
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Property } from "estree";
 import { Rule } from "eslint";
 
@@ -14,7 +14,7 @@ import { Rule } from "eslint";
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-required-scripts",
     "force package.json's scripts value to at least contain build, test, and prepack",

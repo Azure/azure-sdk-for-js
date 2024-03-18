@@ -6,9 +6,8 @@
  * @author Arpan Laha
  */
 
-import { describe, it } from "mocha";
-import { assert } from "chai";
-import plugin from "../src";
+import { describe, it, assert } from "vitest";
+import plugin from "../src/index.js";
 
 /**
  * A list of all currently supported rules

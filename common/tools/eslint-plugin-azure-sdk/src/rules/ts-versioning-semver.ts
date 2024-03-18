@@ -6,7 +6,7 @@
  * @author Arpan Laha
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Property } from "estree";
 import { Rule } from "eslint";
 
@@ -14,7 +14,7 @@ import { Rule } from "eslint";
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData("ts-versioning-semver", "force adherence to SemVer guidelines"),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const verifiers = getVerifiers(context, {

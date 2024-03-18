@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "description": "An ESLint plugin enforcing design guidelines for the JavaScript/TypeScript Azure SDK",
   "sdk-type": "utility",
+  "type": "module",
   "private": true,
   "keywords": [
     "eslint",
@@ -31,13 +32,13 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "main": "dist/index.js",
+  "main": "./dist/commonjs/index.js",
   "files": [
     "prettier.json",
     "dist/"
   ],
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "tshy",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
     "clean": "rimraf dist/",
@@ -50,7 +51,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "mocha --require source-map-support/register --require ts-node/register --timeout 10000 --full-trace tests/**/*.ts",
+    "unit-test:node": "vitest",
     "unit-test:browser": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
@@ -66,7 +67,8 @@
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-no-only-tests": "^3.0.0",
     "eslint-plugin-promise": "^6.0.0",
-    "eslint-plugin-tsdoc": "^0.2.10"
+    "eslint-plugin-tsdoc": "^0.2.10",
+    "@eslint/eslintrc": "^3.0.2"
   },
   "dependencies": {
     "@typescript-eslint/typescript-estree": "~5.57.0",
@@ -76,24 +78,60 @@
     "glob": "^9.0.0",
     "json-schema": "^0.4.0",
     "typescript": "~5.3.3",
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
-    "@types/chai": "^4.1.6",
     "@types/json-schema": "^7.0.6",
-    "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "~5.57.0",
     "@typescript-eslint/experimental-utils": "~5.57.0",
     "@typescript-eslint/parser": "~5.57.0",
-    "chai": "^4.2.0",
+    "@typescript-eslint/rule-tester": "^7.3.0",
+    "@vitest/coverage-istanbul": "^1.4.0",
     "eslint": "^8.50.0",
-    "mocha": "^10.0.0",
-    "prettier": "^3.2.5",
-    "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.9",
-    "typescript": "~5.3.3",
     "eslint-plugin-markdown": "~3.0.0",
-    "ts-node": "^10.0.0"
-  }
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "source-map-support": "^0.5.9",
+    "tshy": "^1.12.0",
+    "typescript": "~5.3.3",
+    "vitest": "^1.4.0"
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "types": "./dist/commonjs/index.d.ts"
 }

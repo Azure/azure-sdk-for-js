@@ -9,13 +9,13 @@
 import { normalize, relative } from "path";
 import { ExportDefaultDeclaration } from "estree";
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-modules-only-named",
     "force there to be only named exports at the top level",

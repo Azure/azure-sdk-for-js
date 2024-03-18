@@ -8,14 +8,14 @@
 
 import { ParserServices } from "@typescript-eslint/experimental-utils";
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 import { isExternalModule } from "typescript";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData("ts-use-promises", "force usage of built-in promises over external ones"),
   create: (context: Rule.RuleContext): Rule.RuleListener => {
     const parserServices: ParserServices = context.sourceCode.parserServices;

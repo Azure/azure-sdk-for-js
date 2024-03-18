@@ -7,7 +7,7 @@
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { getPublicMethods, getRuleMetaData } from "../utils";
+import { getPublicMethods, getRuleMetaData } from "../utils/index.js";
 import { Rule } from "eslint";
 
 //------------------------------------------------------------------------------
@@ -30,7 +30,7 @@ const bannedPrefixes = [
   "fetch",
 ];
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-apisurface-standardized-verbs",
     "require client methods to use standardized verb prefixes and suffixes where possible",

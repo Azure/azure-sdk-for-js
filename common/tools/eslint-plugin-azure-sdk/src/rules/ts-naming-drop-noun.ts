@@ -7,7 +7,7 @@
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { getPublicMethods, getRuleMetaData } from "../utils";
+import { getPublicMethods, getRuleMetaData } from "../utils/index.js";
 import { Rule } from "eslint";
 import { TSESTree } from "@typescript-eslint/experimental-utils";
 
@@ -15,7 +15,7 @@ import { TSESTree } from "@typescript-eslint/experimental-utils";
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-naming-drop-noun",
     "require client methods returning an instance of the client to not include the client name in the method name",

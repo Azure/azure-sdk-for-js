@@ -4,21 +4,27 @@
     "forceConsistentCasingInFileNames": true,
     "importHelpers": true,
     "isolatedModules": true,
-    "lib": ["es2017"],
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "outDir": "./dist",
     "pretty": true,
     "removeComments": true,
     "strict": true,
     "target": "es2017",
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "sourceMap": true,
     "resolveJsonModule": true,
     "skipLibCheck": true
   },
-  "include": ["src", "tests"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src",
+    "tests"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

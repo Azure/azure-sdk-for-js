@@ -7,13 +7,13 @@
  */
 
 import { Rule } from "eslint";
-import { getRuleMetaData } from "../utils";
+import { getRuleMetaData } from "../utils/index.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData("ts-no-const-enums", "forbid usage of TypeScript's const enums", "code"),
   create: (context: Rule.RuleContext): Rule.RuleListener =>
     ({

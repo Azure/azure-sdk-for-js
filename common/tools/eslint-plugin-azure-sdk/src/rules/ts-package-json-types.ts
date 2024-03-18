@@ -6,16 +6,16 @@
  * @author Arpan Laha
  */
 
-import { getRuleMetaData, getVerifiers, stripPath } from "../utils";
+import { getRuleMetaData, getVerifiers, stripPath } from "../utils/index.js";
 import { Property } from "estree";
 import { Rule } from "eslint";
-import { stripFileName } from "../utils/verifiers";
+import { stripFileName } from "../utils/verifiers.js";
 
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
 
-export = {
+export default {
   meta: getRuleMetaData(
     "ts-package-json-types",
     "force package.json to specify types according to package directory",

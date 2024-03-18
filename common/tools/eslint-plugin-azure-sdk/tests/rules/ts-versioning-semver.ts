@@ -6,8 +6,8 @@
  * @author Arpan Laha
  */
 
-import { RuleTester } from "eslint";
-import rule from "../../src/rules/ts-versioning-semver";
+import { RuleTester } from "../ruleTester.js";
+import rule from "../../src/rules/ts-versioning-semver.js";
 
 //------------------------------------------------------------------------------
 // Example files
