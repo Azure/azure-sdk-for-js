@@ -100,8 +100,9 @@ describe("NetworkAnalytics test", () => {
         });
     } catch (error: any) {
       const errorMessage = error.message || '';
-      console.log(errorMessage)
-      assert.equal(errorMessage.includes("Accepted"), true)
+      assert.equal(errorMessage,
+        "The operation for resource '/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.NetworkAnalytics/dataProducts/resourcetest' is invalid as it is being provisioned with state: 'Accepted'."
+      )
     }
   });
 
