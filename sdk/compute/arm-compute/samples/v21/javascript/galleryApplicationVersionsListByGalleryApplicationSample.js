@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List gallery Application Versions in a gallery Application Definition.
  *
  * @summary List gallery Application Versions in a gallery Application Definition.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/galleryExamples/GalleryApplicationVersion_ListByGalleryApplication.json
  */
 async function listGalleryApplicationVersionsInAGalleryApplicationDefinition() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

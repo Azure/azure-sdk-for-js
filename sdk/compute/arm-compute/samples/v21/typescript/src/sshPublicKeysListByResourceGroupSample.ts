@@ -29,7 +29,7 @@ async function sshPublicKeyListByResourceGroupMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.sshPublicKeys.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
@@ -51,7 +51,7 @@ async function sshPublicKeyListByResourceGroupMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.sshPublicKeys.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }
