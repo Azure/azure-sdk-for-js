@@ -154,13 +154,9 @@ try {
             }
         }
         elseif ($p.Publish -and $publishToNpm) {
-          write-host $pipelineWorkspace
           $artifactSubPath = $pathToArtifacts -replace $pipelineWorkspace, ''
-          write-host "Copy $($p.TarGz) to $artifactSubPath"
-          ls -Recurse $pathToArtifacts
-          $destination = "$($pipelineWorkspace)temp$artifactSubPath"
-          ls $($p.TarGz)
-          write-host $destination
+          $destination = "$pipelineWorkspace/temp$artifactSubPath"
+          write-host "Copy $($p.TarGz) to $destination"
           New-Item -ItemType File -Path $destination -Force
           Copy-Item -Path $($p.TarGz) -Destination $destination -Force
         }
