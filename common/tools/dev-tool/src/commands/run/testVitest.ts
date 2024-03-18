@@ -44,10 +44,20 @@ export default leafCommand(commandInfo, async (options) => {
     await playwrightInstall();
   }
 
-  const args = options["browser"] ? "-c vitest.browser.config.ts" : "";
   const updatedArgs = options["--"]?.map((opt) =>
     opt.includes("**") && !opt.startsWith("'") && !opt.startsWith('"') ? `"${opt}"` : opt,
   );
+
+  let args = "";
+  // Only set if we didn't provide a config file path
+  if (
+    options["browser"] &&
+    updatedArgs?.indexOf("-c") !== -1 &&
+    updatedArgs?.indexOf("--config") !== -1
+  ) {
+    args = "-c vitest.browser.config.ts";
+  }
+
   const vitestArgs = updatedArgs?.length ? updatedArgs.join(" ") : "";
   const command = {
     command: `vitest ${args} ${vitestArgs}`,
