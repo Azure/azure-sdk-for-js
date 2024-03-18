@@ -14,14 +14,6 @@ steps:
           arguments: -pathToArtifacts $(Package.Archive) -accessLevel "public" -tag "$(Tag)" -additionalTag "$(AdditionalTag)" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token) -pipelineWorkspace $(Pipeline.Workspace)
           pwsh: true
         condition: succeeded()
-      - pwsh: |
-          write-host "$(Package.Archive)"
-          $artifactFolder = "$(Package.Archive)" -Replace '[^\/]+$', ''
-          Write-Host "archive"
-          write-host "$(Package.Archive)"
-          write-host "artifact folder"
-          write-host $artifactFolder
-          Write-Host "##vso[task.setvariable variable=artifactFolder;]$artifactFolder"
       - task: EsrpRelease@6
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
@@ -37,6 +29,7 @@ steps:
           ProductStateField: $(Tag)
 
       - pwsh: |
+          . .eng/tools/publish-to-npm.ps1
           $packageList = @()
           foreach ($p in $(dir $(Package.Archive) -r -i *.tgz)) {
               $packageList += extractPackage $p
