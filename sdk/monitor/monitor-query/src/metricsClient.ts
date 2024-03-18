@@ -20,7 +20,7 @@ const defaultMetricsScope = "https://management.azure.com/.default";
 /**
  * Options for the MetricsQueryClient.
  */
-export interface MetricsClientOptions extends CommonClientOptions {}
+export interface MetricClientOptions extends CommonClientOptions {}
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
   const startPos: number = resourceId.indexOf("subscriptions/") + 14;
@@ -35,7 +35,8 @@ export class MetricsClient {
   private _metricBatchClient: GeneratedMonitorMetricClient;
   private _baseUrl: string;
 
-  constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricsClientOptions) {
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricClientOptions) {
     let scope;
     if (endpoint) {
       scope = `${endpoint}/.default`;
