@@ -29,7 +29,7 @@ ruleTester.run("ts-modules-only-named", rule, {
   valid: [
     // different non-default exports
     {
-      code: 'export default {test: "test"}',
+      code: 'export = {test: "test"}',
       filename: "test.ts",
     },
     {
