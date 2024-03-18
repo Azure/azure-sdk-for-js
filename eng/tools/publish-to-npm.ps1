@@ -8,7 +8,8 @@ param (
   $filterArg="",
   $basicDeployment=$false,
   $devopsFeed=$false,
-  $skipDiff=$false
+  $skipDiff=$false,
+  $pipelineWorkspace
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -153,11 +154,9 @@ try {
             }
         }
         elseif ($p.Publish -and $publishToNpm) {
-          write-host $env:Pipeline.Workspace
-          write-host "XxxxxxxxxxxxxxxX"
-          write-host $env:PipelineWorkspace
-          $artifactSubPath = $pathToArtifacts -replace '$env:Pipeline.Workspace\/', ''
-          ls -r $(Pipeline.Workspace)
+          write-host $pipelineWorkspace
+          $artifactSubPath = $pathToArtifacts -replace '$pipelineWorkspace\/', ''
+          ls -r $pipelineWorkspace
           write-host "Copy $($p.TarGz) to $artifactSubPath"
           Copy-Item -Path $($p.TarGz) -Destination "temp/$artifactSubPath" -Force
         }
