@@ -4,20 +4,20 @@
 import { TokenCredential } from "@azure/core-auth";
 import { Pipeline } from "@azure/core-rest-pipeline";
 import {
-  getOperations,
-  Operations,
+  getOperationsOperations,
+  OperationsOperations,
 } from "./classic/operations/index.js";
 import {
-  getDataProductsCatalogs,
-  DataProductsCatalogs,
+  getDataProductsCatalogsOperations,
+  DataProductsCatalogsOperations,
 } from "./classic/dataProductsCatalogs/index.js";
 import {
-  getDataTypes,
-  DataTypes,
+  getDataTypesOperations,
+  DataTypesOperations,
 } from "./classic/dataTypes/index.js";
 import {
-  getDataProducts,
-  DataProducts,
+  getDataProductsOperations,
+  DataProductsOperations,
 } from "./classic/dataProducts/index.js";
 import {
   createNetworkAnalytics,
@@ -38,18 +38,18 @@ export class NetworkAnalyticsClient {
   ) {
     this._client = createNetworkAnalytics(credential, options);
     this.pipeline = this._client.pipeline;
-    this.operations = getOperations(this._client);
-    this.dataProductsCatalogs = getDataProductsCatalogs(this._client);
-    this.dataTypes = getDataTypes(this._client);
-    this.dataProducts = getDataProducts(this._client);
+    this.operations = getOperationsOperations(this._client);
+    this.dataProductsCatalogs = getDataProductsCatalogsOperations(this._client);
+    this.dataTypes = getDataTypesOperations(this._client);
+    this.dataProducts = getDataProductsOperations(this._client);
   }
 
   /** The operation groups for Operations */
-  public readonly operations: Operations;
+  public readonly operations: OperationsOperations;
   /** The operation groups for DataProductsCatalogs */
-  public readonly dataProductsCatalogs: DataProductsCatalogs;
+  public readonly dataProductsCatalogs: DataProductsCatalogsOperations;
   /** The operation groups for DataTypes */
-  public readonly dataTypes: DataTypes;
+  public readonly dataTypes: DataTypesOperations;
   /** The operation groups for DataProducts */
-  public readonly dataProducts: DataProducts;
+  public readonly dataProducts: DataProductsOperations;
 }

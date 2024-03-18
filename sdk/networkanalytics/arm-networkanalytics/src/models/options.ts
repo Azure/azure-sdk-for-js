@@ -13,7 +13,10 @@ export interface DataProductsCatalogsListByResourceGroupOptions
 export interface DataProductsCatalogsListBySubscriptionOptions
   extends OperationOptions {}
 
-export interface DataTypesCreateOptions extends OperationOptions {}
+export interface DataTypesCreateOptions extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 export interface DataTypesGetOptions extends OperationOptions {}
 
@@ -37,7 +40,10 @@ export interface DataTypesGenerateStorageContainerSasTokenOptions
 
 export interface DataTypesListByDataProductOptions extends OperationOptions {}
 
-export interface DataProductsCreateOptions extends OperationOptions {}
+export interface DataProductsCreateOptions extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 export interface DataProductsGetOptions extends OperationOptions {}
 

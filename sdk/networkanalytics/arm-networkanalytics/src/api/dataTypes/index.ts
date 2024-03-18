@@ -16,6 +16,7 @@ import {
   DataTypesCreate200Response,
   DataTypesCreate201Response,
   DataTypesCreateDefaultResponse,
+  DataTypesCreateLogicalResponse,
   DataTypesDeleteData202Response,
   DataTypesDeleteData204Response,
   DataTypesDeleteDataDefaultResponse,
@@ -64,6 +65,7 @@ export function _dataTypesCreateSend(
   | DataTypesCreate200Response
   | DataTypesCreate201Response
   | DataTypesCreateDefaultResponse
+  | DataTypesCreateLogicalResponse
 > {
   return context
     .path(
@@ -94,12 +96,14 @@ export async function _dataTypesCreateDeserialize(
   result:
     | DataTypesCreate200Response
     | DataTypesCreate201Response
-    | DataTypesCreateDefaultResponse,
+    | DataTypesCreateDefaultResponse
+    | DataTypesCreateLogicalResponse,
 ): Promise<DataType> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
+  result = result as DataTypesCreateLogicalResponse;
   return {
     id: result.body["id"],
     type: result.body["type"],
@@ -136,7 +140,7 @@ export async function _dataTypesCreateDeserialize(
 }
 
 /** Create data type resource. */
-export async function dataTypesCreate(
+export function dataTypesCreate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
@@ -144,17 +148,21 @@ export async function dataTypesCreate(
   dataTypeName: string,
   resource: DataType,
   options: DataTypesCreateOptions = { requestOptions: {} },
-): Promise<DataType> {
-  const result = await _dataTypesCreateSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    dataProductName,
-    dataTypeName,
-    resource,
-    options,
-  );
-  return _dataTypesCreateDeserialize(result);
+): PollerLike<OperationState<DataType>, DataType> {
+  return getLongRunningPoller(context, _dataTypesCreateDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataTypesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        dataProductName,
+        dataTypeName,
+        resource,
+        options,
+      ),
+  }) as PollerLike<OperationState<DataType>, DataType>;
 }
 
 export function _dataTypesGetSend(

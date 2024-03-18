@@ -89,6 +89,12 @@ export interface DataTypesCreateDefaultResponse extends HttpResponse {
   body: ErrorResponseOutput;
 }
 
+/** The final response for long-running create operation */
+export interface DataTypesCreateLogicalResponse extends HttpResponse {
+  status: "200";
+  body: DataTypeOutput;
+}
+
 /** Azure operation completed successfully. */
 export interface DataTypesGet200Response extends HttpResponse {
   status: "200";
@@ -232,6 +238,12 @@ export interface DataProductsCreate201Response extends HttpResponse {
 export interface DataProductsCreateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
+}
+
+/** The final response for long-running create operation */
+export interface DataProductsCreateLogicalResponse extends HttpResponse {
+  status: "200";
+  body: DataProductOutput;
 }
 
 /** Azure operation completed successfully. */

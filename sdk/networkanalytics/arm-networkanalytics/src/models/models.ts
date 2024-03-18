@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /** Base class used for type definitions */
-export interface ArmResourceBase { }
+export interface ArmResourceBase {}
 
 /** Common properties for all Azure Resource Manager resources. */
 export interface ArmResource extends ArmResourceBase {
@@ -94,6 +94,13 @@ export interface DataProductProperties {
   readonly keyVaultUrl?: string;
 }
 
+/** The status of the current operation. */
+/** "Succeeded", "Failed", "Canceled", "Provisioning", "Updating", "Deleting", "Accepted" */
+export type ProvisioningState = string;
+/** The data type state */
+/** "Enabled", "Disabled" */
+export type ControlState = string;
+
 /** Encryption key details. */
 export interface EncryptionKeyDetails {
   /** The Uri of the key vault. */
@@ -133,6 +140,10 @@ export interface IPRules {
   /** The action of virtual network rule. */
   action: string;
 }
+
+/** Specifies the default action of allow or deny when no other rules match. */
+/** "Allow", "Deny" */
+export type DefaultAction = string;
 
 /** ManagedResourceGroup related properties */
 export interface ManagedResourceGroupConfiguration {
@@ -269,6 +280,10 @@ export interface RoleAssignmentCommonProperties {
   role: DataProductUserRole;
 }
 
+/** The data type state */
+/** "Reader", "SensitiveReader" */
+export type DataProductUserRole = string;
+
 /** The details for role assignment response. */
 export interface RoleAssignmentDetail {
   /** Role Id of the Built-In Role */
@@ -300,11 +315,11 @@ export interface DataProductListResult {
   /** The DataProduct items on this page */
   value: DataProduct[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The base proxy resource. */
-export interface ProxyResourceBase extends ArmResource { }
+export interface ProxyResourceBase extends ArmResource {}
 
 /** The data type resource. */
 export interface DataType extends ProxyResourceBase {
@@ -329,6 +344,10 @@ export interface DataTypeProperties {
   /** Url for data visualization. */
   readonly visualizationUrl?: string;
 }
+
+/** The data type state */
+/** "Stopped", "Running" */
+export type DataTypeState = string;
 
 /** The type used for update operations of the DataType. */
 export interface DataTypeUpdate {
@@ -368,7 +387,7 @@ export interface DataTypeListResult {
   /** The DataType items on this page */
   value: DataType[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** The data catalog resource. */
@@ -414,7 +433,7 @@ export interface DataProductsCatalogListResult {
   /** The DataProductsCatalog items on this page */
   value: DataProductsCatalog[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -422,7 +441,7 @@ export interface PagedOperation {
   /** The Operation items on this page */
   value: Operation[];
   /** The link to the next page of items */
-  nextLink?: string;
+  readonly nextLink?: string;
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -457,21 +476,3 @@ export type Origin = string;
 /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 /** "Internal" */
 export type ActionType = string;
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | "Succeeded"
-  | "Failed"
-  | "Canceled"
-  | "Provisioning"
-  | "Updating"
-  | "Deleting"
-  | "Accepted";
-/** Alias for ControlState */
-export type ControlState = string | "Enabled" | "Disabled";
-/** Alias for DefaultAction */
-export type DefaultAction = string | "Allow" | "Deny";
-/** Alias for DataProductUserRole */
-export type DataProductUserRole = string | "Reader" | "SensitiveReader";
-/** Alias for DataTypeState */
-export type DataTypeState = string | "Stopped" | "Running";

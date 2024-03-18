@@ -12,6 +12,7 @@ import {
   DataProductsCatalogsListBySubscriptionDefaultResponse,
   DataTypesCreate200Response,
   DataTypesCreate201Response,
+  DataTypesCreateLogicalResponse,
   DataTypesCreateDefaultResponse,
   DataTypesGet200Response,
   DataTypesGetDefaultResponse,
@@ -33,6 +34,7 @@ import {
   DataTypesListByDataProductDefaultResponse,
   DataProductsCreate200Response,
   DataProductsCreate201Response,
+  DataProductsCreateLogicalResponse,
   DataProductsCreateDefaultResponse,
   DataProductsGet200Response,
   DataProductsGetDefaultResponse,
@@ -130,6 +132,7 @@ export function isUnexpected(
   response:
     | DataTypesCreate200Response
     | DataTypesCreate201Response
+    | DataTypesCreateLogicalResponse
     | DataTypesCreateDefaultResponse,
 ): response is DataTypesCreateDefaultResponse;
 export function isUnexpected(
@@ -170,6 +173,7 @@ export function isUnexpected(
   response:
     | DataProductsCreate200Response
     | DataProductsCreate201Response
+    | DataProductsCreateLogicalResponse
     | DataProductsCreateDefaultResponse,
 ): response is DataProductsCreateDefaultResponse;
 export function isUnexpected(
@@ -236,6 +240,7 @@ export function isUnexpected(
     | DataProductsCatalogsListBySubscriptionDefaultResponse
     | DataTypesCreate200Response
     | DataTypesCreate201Response
+    | DataTypesCreateLogicalResponse
     | DataTypesCreateDefaultResponse
     | DataTypesGet200Response
     | DataTypesGetDefaultResponse
@@ -257,6 +262,7 @@ export function isUnexpected(
     | DataTypesListByDataProductDefaultResponse
     | DataProductsCreate200Response
     | DataProductsCreate201Response
+    | DataProductsCreateLogicalResponse
     | DataProductsCreateDefaultResponse
     | DataProductsGet200Response
     | DataProductsGetDefaultResponse

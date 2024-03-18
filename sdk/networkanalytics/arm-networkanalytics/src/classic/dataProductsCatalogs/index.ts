@@ -15,7 +15,7 @@ import {
   DataProductsCatalogsListBySubscriptionOptions,
 } from "../../models/options.js";
 
-export interface DataProductsCatalogs {
+export interface DataProductsCatalogsOperations {
   get: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -66,7 +66,7 @@ export function getDataProductsCatalogs(context: NetworkAnalyticsContext) {
 
 export function getDataProductsCatalogsOperations(
   context: NetworkAnalyticsContext,
-): DataProductsCatalogs {
+): DataProductsCatalogsOperations {
   return {
     ...getDataProductsCatalogs(context),
   };

@@ -11,11 +11,13 @@ import { NetworkAnalyticsContext } from "./api/NetworkAnalyticsContext.js";
 import { NetworkAnalyticsClient } from "./NetworkAnalyticsClient.js";
 import { getLongRunningPoller } from "./api/pollingHelpers.js";
 import {
+  _dataTypesCreateDeserialize,
   _dataTypesUpdateDeserialize,
   _dataTypesDeleteOperationDeserialize,
   _dataTypesDeleteDataDeserialize,
 } from "./api/dataTypes/index.js";
 import {
+  _dataProductsCreateDeserialize,
   _dataProductsUpdateDeserialize,
   _dataProductsDeleteOperationDeserialize,
 } from "./api/dataProducts/index.js";
@@ -39,19 +41,6 @@ export interface RestorePollerOptions<
   processResponseBody?: (result: TResponse) => PromiseLike<TResult>;
 }
 
-const deserializeMap: Record<string, Function> = {
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}":
-    _dataTypesUpdateDeserialize,
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}":
-    _dataTypesDeleteOperationDeserialize,
-  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/deleteData":
-    _dataTypesDeleteDataDeserialize,
-  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}":
-    _dataProductsUpdateDeserialize,
-  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}":
-    _dataProductsDeleteOperationDeserialize,
-};
-
 /**
  * Creates a poller from the serialized state of another poller. This can be
  * useful when you want to create pollers on a different host or a poller
@@ -66,16 +55,15 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
-  const { initialUrl } = pollerConfig;
-  const requestMethod = pollerConfig.requestMethod;
+  const { initialUrl, requestMethod, metadata } = pollerConfig;
   if (!initialUrl || !requestMethod) {
     throw new Error(
       `Invalid serialized state: ${serializedState} for sourceOperation ${sourceOperation?.name}`,
     );
   }
-  const resourceLocationConfig = pollerConfig?.metadata?.[
-    "resourceLocationConfig"
-  ] as ResourceLocationConfig | undefined;
+  const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
+    | ResourceLocationConfig
+    | undefined;
   const deserializeHelper =
     options?.processResponseBody ??
     getDeserializationHelper(initialUrl, requestMethod);
@@ -96,6 +84,23 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
     },
   );
 }
+
+const deserializeMap: Record<string, Function> = {
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}":
+    _dataTypesCreateDeserialize,
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}":
+    _dataTypesUpdateDeserialize,
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}":
+    _dataTypesDeleteOperationDeserialize,
+  "POST /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}/dataTypes/{dataTypeName}/deleteData":
+    _dataTypesDeleteDataDeserialize,
+  "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}":
+    _dataProductsCreateDeserialize,
+  "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}":
+    _dataProductsUpdateDeserialize,
+  "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkAnalytics/dataProducts/{dataProductName}":
+    _dataProductsDeleteOperationDeserialize,
+};
 
 function getDeserializationHelper(
   urlStr: string,

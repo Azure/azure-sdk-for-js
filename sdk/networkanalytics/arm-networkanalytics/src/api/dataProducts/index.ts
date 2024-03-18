@@ -22,6 +22,7 @@ import {
   DataProductsCreate200Response,
   DataProductsCreate201Response,
   DataProductsCreateDefaultResponse,
+  DataProductsCreateLogicalResponse,
   DataProductsDeleteLogicalResponse,
   DataProductsDeleteOperation202Response,
   DataProductsDeleteOperation204Response,
@@ -77,6 +78,7 @@ export function _dataProductsCreateSend(
   | DataProductsCreate200Response
   | DataProductsCreate201Response
   | DataProductsCreateDefaultResponse
+  | DataProductsCreateLogicalResponse
 > {
   return context
     .path(
@@ -166,12 +168,14 @@ export async function _dataProductsCreateDeserialize(
   result:
     | DataProductsCreate200Response
     | DataProductsCreate201Response
-    | DataProductsCreateDefaultResponse,
+    | DataProductsCreateDefaultResponse
+    | DataProductsCreateLogicalResponse,
 ): Promise<DataProduct> {
   if (isUnexpected(result)) {
     throw createRestError(result);
   }
 
+  result = result as DataProductsCreateLogicalResponse;
   return {
     location: result.body["location"],
     tags: result.body["tags"],
@@ -297,23 +301,27 @@ export async function _dataProductsCreateDeserialize(
 }
 
 /** Create data product resource. */
-export async function dataProductsCreate(
+export function dataProductsCreate(
   context: Client,
   subscriptionId: string,
   resourceGroupName: string,
   dataProductName: string,
   resource: DataProduct,
   options: DataProductsCreateOptions = { requestOptions: {} },
-): Promise<DataProduct> {
-  const result = await _dataProductsCreateSend(
-    context,
-    subscriptionId,
-    resourceGroupName,
-    dataProductName,
-    resource,
-    options,
-  );
-  return _dataProductsCreateDeserialize(result);
+): PollerLike<OperationState<DataProduct>, DataProduct> {
+  return getLongRunningPoller(context, _dataProductsCreateDeserialize, {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _dataProductsCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        dataProductName,
+        resource,
+        options,
+      ),
+  }) as PollerLike<OperationState<DataProduct>, DataProduct>;
 }
 
 export function _dataProductsGetSend(

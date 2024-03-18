@@ -29,7 +29,7 @@ import {
   DataTypesListByDataProductOptions,
 } from "../../models/options.js";
 
-export interface DataTypes {
+export interface DataTypesOperations {
   create: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -37,7 +37,7 @@ export interface DataTypes {
     dataTypeName: string,
     resource: DataType,
     options?: DataTypesCreateOptions,
-  ) => Promise<DataType>;
+  ) => PollerLike<OperationState<DataType>, DataType>;
   get: (
     subscriptionId: string,
     resourceGroupName: string,
@@ -202,7 +202,7 @@ export function getDataTypes(context: NetworkAnalyticsContext) {
 
 export function getDataTypesOperations(
   context: NetworkAnalyticsContext,
-): DataTypes {
+): DataTypesOperations {
   return {
     ...getDataTypes(context),
   };

@@ -7,7 +7,7 @@ import { operationsList } from "../../api/operations/index.js";
 import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
 import { OperationsListOptions } from "../../models/options.js";
 
-export interface Operations {
+export interface OperationsOperations {
   list: (
     options?: OperationsListOptions,
   ) => PagedAsyncIterableIterator<Operation>;
@@ -21,7 +21,7 @@ export function getOperations(context: NetworkAnalyticsContext) {
 
 export function getOperationsOperations(
   context: NetworkAnalyticsContext,
-): Operations {
+): OperationsOperations {
   return {
     ...getOperations(context),
   };

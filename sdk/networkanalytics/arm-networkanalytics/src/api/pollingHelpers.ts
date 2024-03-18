@@ -61,7 +61,9 @@ export function getLongRunningPoller<
   const poller: LongRunningOperation<TResponse> = {
     sendInitialRequest: async () => {
       if (!getInitialResponse) {
-        throw new Error("getInitialResponse is required if init a new poller");
+        throw new Error(
+          "getInitialResponse is required when initializing a new poller",
+        );
       }
       initialResponse = await getInitialResponse();
       return getLroResponse(initialResponse);
