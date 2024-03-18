@@ -18,7 +18,7 @@ import {
   SkillsetsCreateOptionalParams,
   SkillsetsCreateResponse,
   SkillNames,
-  SkillsetsResetSkillsOptionalParams
+  SkillsetsResetSkillsOptionalParams,
 } from "../models";
 
 /** Interface representing a Skillsets. */
@@ -32,7 +32,7 @@ export interface Skillsets {
   createOrUpdate(
     skillsetName: string,
     skillset: SearchIndexerSkillset,
-    options?: SkillsetsCreateOrUpdateOptionalParams
+    options?: SkillsetsCreateOrUpdateOptionalParams,
   ): Promise<SkillsetsCreateOrUpdateResponse>;
   /**
    * Deletes a skillset in a search service.
@@ -41,7 +41,7 @@ export interface Skillsets {
    */
   delete(
     skillsetName: string,
-    options?: SkillsetsDeleteOptionalParams
+    options?: SkillsetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Retrieves a skillset in a search service.
@@ -50,7 +50,7 @@ export interface Skillsets {
    */
   get(
     skillsetName: string,
-    options?: SkillsetsGetOptionalParams
+    options?: SkillsetsGetOptionalParams,
   ): Promise<SkillsetsGetResponse>;
   /**
    * List all skillsets in a search service.
@@ -64,7 +64,7 @@ export interface Skillsets {
    */
   create(
     skillset: SearchIndexerSkillset,
-    options?: SkillsetsCreateOptionalParams
+    options?: SkillsetsCreateOptionalParams,
   ): Promise<SkillsetsCreateResponse>;
   /**
    * Reset an existing skillset in a search service.
@@ -75,6 +75,6 @@ export interface Skillsets {
   resetSkills(
     skillsetName: string,
     skillNames: SkillNames,
-    options?: SkillsetsResetSkillsOptionalParams
+    options?: SkillsetsResetSkillsOptionalParams,
   ): Promise<void>;
 }
