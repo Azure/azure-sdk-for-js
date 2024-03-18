@@ -156,7 +156,7 @@ try {
           $artifactSubPath = $pathToArtifacts -replace '$(Pipeline.Workspace)\/', ''
           ls -r $(Pipeline.Workspace)
           write-host "Copy $($p.TarGz) to $artifactSubPath"
-          Copy-Item -Path $($p.TarGz) -Destination "temp/$artifactSubPath"
+          Copy-Item -Path $($p.TarGz) -Destination "temp/$artifactSubPath" -Force
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
