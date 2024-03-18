@@ -8,7 +8,11 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NginxManagementClient } from "@azure/arm-nginx";
+import {
+  NginxDeployment,
+  DeploymentsCreateOrUpdateOptionalParams,
+  NginxManagementClient,
+} from "@azure/arm-nginx";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -27,11 +31,45 @@ async function deploymentsCreate() {
   const resourceGroupName =
     process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
+  const body: NginxDeployment = {
+    name: "myDeployment",
+    location: "West US",
+    properties: {
+      autoUpgradeProfile: { upgradeChannel: "stable" },
+      managedResourceGroup: "myManagedResourceGroup",
+      networkProfile: {
+        frontEndIPConfiguration: {
+          privateIPAddresses: [
+            {
+              privateIPAddress: "1.1.1.1",
+              privateIPAllocationMethod: "Static",
+              subnetId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+            },
+          ],
+          publicIPAddresses: [
+            {
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/publicIPAddresses/myPublicIPAddress",
+            },
+          ],
+        },
+        networkInterfaceConfiguration: {
+          subnetId:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/myVnet/subnets/mySubnet",
+        },
+      },
+      scalingProperties: { capacity: 10 },
+      userProfile: { preferredEmail: "example@example.email" },
+    },
+    tags: { environment: "Dev" },
+  };
+  const options: DeploymentsCreateOrUpdateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
   const result = await client.deployments.beginCreateOrUpdateAndWait(
     resourceGroupName,
     deploymentName,
+    options,
   );
   console.log(result);
 }

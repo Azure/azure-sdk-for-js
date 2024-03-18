@@ -23,9 +23,17 @@ async function deploymentsUpdate() {
     process.env["NGINX_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const resourceGroupName = process.env["NGINX_RESOURCE_GROUP"] || "myResourceGroup";
   const deploymentName = "myDeployment";
+  const body = {
+    tags: { environment: "Dev" },
+  };
+  const options = { body };
   const credential = new DefaultAzureCredential();
   const client = new NginxManagementClient(credential, subscriptionId);
-  const result = await client.deployments.beginUpdateAndWait(resourceGroupName, deploymentName);
+  const result = await client.deployments.beginUpdateAndWait(
+    resourceGroupName,
+    deploymentName,
+    options,
+  );
   console.log(result);
 }
 
