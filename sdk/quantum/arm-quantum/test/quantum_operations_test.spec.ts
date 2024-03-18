@@ -64,16 +64,19 @@ describe("quantum test", () => {
       resourcename,
       {
         location,
-        providers: [
-          {
-            providerId: "microsoft-qc",
-            providerSku: "learn-and-develop",
-          }
-        ],
-        storageAccount: "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
+        properties: {
+          providers: [
+            {
+              providerId: "microsoft-qc",
+              providerSku: "learn-and-develop",
+            }
+          ],
+          storageAccount: "/subscriptions/" + subscriptionId + "/resourcegroups/" + resourceGroup + "/providers/Microsoft.Storage/storageAccounts/czwtestsa",
+        },
         identity: { type: "SystemAssigned" }
       },
       testPollingOptions);
+    await delay(10000);
     assert.equal(res.name, resourcename);
   });
 
