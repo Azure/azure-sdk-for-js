@@ -3,10 +3,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters,
-  isUnexpected,
-} from "@azure-rest/purview-workflow";
+import createPurviewWorkflowClient, { isUnexpected, SubmitUserRequestsParameters } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -45,6 +42,13 @@ async function userRequestsSubmit() {
             },
           },
         },
+        {
+          "type": "DeleteTerm",
+          "payload": {
+            "termGuid": "11bca96d-4565-4a49-96ab-dd418ba83f7c",
+            "forceDeleteChild": true
+          }
+        }
       ],
     },
   }; //This payload is an example payload, please replace the payload with real data.
