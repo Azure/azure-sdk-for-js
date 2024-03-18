@@ -785,6 +785,4 @@ export interface StopFinishDetails extends ChatFinishDetails {
     type: "stop";
 }
 
-// (No @packageDocumentation comment for this package)
-
 ```
