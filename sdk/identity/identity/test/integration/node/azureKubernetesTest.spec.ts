@@ -17,29 +17,27 @@ describe("Azure Kubernetes Integration test", function () {
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
     const podName = requireEnvVar("IDENTITY_AKS_POD_NAME");
 
-    const azPath = runCommand(`which az`);
-    const kubectlPath = runCommand(`which kubectl`);
-
-    if (process.env.AZURE_CLIENT_SECRET) {
+    if (process.env.IDENTITY_CLIENT_SECRET) {
       // Log in as service principal in CI
       const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
       const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
       const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
       runCommand(
-        azPath,
+        "az",
         `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
       );
     }
 
-    runCommand(azPath, `account set --subscription ${subscriptionId}`);
+    runCommand("az", `account set --subscription ${subscriptionId}`);
     runCommand(
-      azPath,
+      "az",
       `aks get-credentials --resource-group ${resourceGroup} --name ${aksClusterName}`,
     );
-    const pods = runCommand(kubectlPath, `get pods -o jsonpath='{.items[0].metadata.name}'`);
+    const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
 
-    const podOutput = runCommand(kubectlPath, `exec ${podName} -- node /app/index.js`);
+    const podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
+    console.log(podOutput);
     assert.include(podOutput, "Successfully authenticated with storage");
   });
 });

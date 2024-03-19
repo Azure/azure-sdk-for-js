@@ -9,6 +9,9 @@ param (
 
   [Parameter()]
   [hashtable] $DeploymentOutputs
+
+  [Parameter()]
+  [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
 )
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
@@ -26,7 +29,7 @@ $workingFolder = $webappRoot;
 
 Write-Host "Working directory: $workingFolder"
 
-if ($DeploymentOutputs['IDENTITY_CLIENT_SECRET'] -ne $null) {
+if ($CI) {
   Write-Host "Logging in to service principal"
   az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
   az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
