@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns list of operations.
  *
  * @summary Returns list of operations.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/operations.json
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/operations.json
  */
 async function operations() {
   const subscriptionId =
