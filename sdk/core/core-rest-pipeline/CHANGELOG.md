@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
 ### Other Changes
 
 ## 1.15.0 (2024-03-12)
