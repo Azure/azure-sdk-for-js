@@ -86,92 +86,90 @@ function containsProductCodeDiff($currentDevPackage,$lastDevPackage) {
     return $false
 }
 
-if ($MyInvocation.InvocationName -ne ".") {
-    try {
-        $regAuth=$registry.replace("https:","")
-        $filterPackageList= $filterArg -split "," | % { return $_.trim() }
-        $packageList = @()
-        #We need to run the npm pack before we set NPM_TOKEN in npmrc so that the npmrc file is in default (empty) state
-        foreach ($p in $(dir $pathToArtifacts -r -i *.tgz)) {
-            foreach($filterItem in $filterPackageList) {
-                if($p.BaseName.contains($filterItem)) {
-                    $packageList += extractPackage $p
-                }
-            }
-        }
-
-        $publishToNpm = $false
-        if(!$basicDeployment) {
-          if($registry -eq 'https://registry.npmjs.org/'){
-            $publishToNpm = $true
-          }
-          else{
-              Write-Host "Choosing Private Devops Feed Deployment"
-              $npmReg = $regAuth.replace("registry/","");
-              $env:NPM_TOKEN=$npmToken
-              npm config set $regAuth`:username=azure-sdk
-              npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
-              npm config set $regAuth`:email=not_set
-              npm config set $npmReg`:username=azure-sdk
-              npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
-              npm config set $npmReg`:email=not_set
-          }
-        }
-        else {
-            Write-Host "Choosing BasicAuth Deployment"
-            npm config set $regAuth`:username=pat_will_be_used
-            npm config set $regAuth`:_password=$npmToken
-            npm config set $regAuth`:email=not_set
-        }
-
-        $publishList = @()
-        foreach ($p in $packageList) {
-            if($p.Publish -and !$publishToNpm) {
-                # Publishing to private feed
-                if ($tag) {
-                    Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-                    npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
-                }
-                else {
-                    Write-Host "Tag is empty"
-                    Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
-                    npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
-                }
-                
-                if ($LastExitCode -ne 0) {
-                    Write-Host "npm publish failed with exit code $LastExitCode"
-                    exit 1
-                }
-                $addTagCheck = 0
-                if(($additionalTag) -and ($additionalTag -ne $tag)) {
-                    $nameAndVersion = $p.Project.name + "@" + $p.Project.version
-                    Write-Host "npm dist-tag add $($nameAndVersion) $additionalTag"
-                    npm dist-tag add $nameAndVersion $additionalTag
-                    $addTagCheck = $LastExitCode
-                }
-                if ($addTagCheck -ne 0) {
-                    Write-Host "npm dist-tag add failed with exit code $addTagCheck"
-                    exit 1
-                }
-            }
-            elseif ($p.Publish -and $publishToNpm) {
-              $artifactSubPath = $pathToArtifacts -replace $pipelineWorkspace, ''
-              $destination = "$pipelineWorkspace/temp$artifactSubPath"
-              write-host "Copy $($p.TarGz) to $destination"
-              New-Item -ItemType File -Path $destination -Force
-              Copy-Item -Path $($p.TarGz) -Destination $destination -Force
-            }
-            else{
-                Write-Host "Skipping package publish $($p.TarGz)"
+try {
+    $regAuth=$registry.replace("https:","")
+    $filterPackageList= $filterArg -split "," | % { return $_.trim() }
+    $packageList = @()
+    #We need to run the npm pack before we set NPM_TOKEN in npmrc so that the npmrc file is in default (empty) state
+    foreach ($p in $(dir $pathToArtifacts -r -i *.tgz)) {
+        foreach($filterItem in $filterPackageList) {
+            if($p.BaseName.contains($filterItem)) {
+                $packageList += extractPackage $p
             }
         }
     }
-    finally
-    {
-        npm config delete $regAuth`:_authToken
-        npm config delete $regAuth`:_password
-        npm config delete $regAuth`:email
-        npm config delete $regAuth`:username
-        $env:NPM_TOKEN=""
+
+    $publishToNpm = $false
+    if(!$basicDeployment) {
+      if($registry -eq 'https://registry.npmjs.org/'){
+        $publishToNpm = $true
+      }
+      else{
+          Write-Host "Choosing Private Devops Feed Deployment"
+          $npmReg = $regAuth.replace("registry/","");
+          $env:NPM_TOKEN=$npmToken
+          npm config set $regAuth`:username=azure-sdk
+          npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
+          npm config set $regAuth`:email=not_set
+          npm config set $npmReg`:username=azure-sdk
+          npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
+          npm config set $npmReg`:email=not_set
+      }
     }
+    else {
+        Write-Host "Choosing BasicAuth Deployment"
+        npm config set $regAuth`:username=pat_will_be_used
+        npm config set $regAuth`:_password=$npmToken
+        npm config set $regAuth`:email=not_set
+    }
+
+    $publishList = @()
+    foreach ($p in $packageList) {
+        if($p.Publish -and !$publishToNpm) {
+            # Publishing to private feed
+            if ($tag) {
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+            }
+            else {
+                Write-Host "Tag is empty"
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+            }
+            
+            if ($LastExitCode -ne 0) {
+                Write-Host "npm publish failed with exit code $LastExitCode"
+                exit 1
+            }
+            $addTagCheck = 0
+            if(($additionalTag) -and ($additionalTag -ne $tag)) {
+                $nameAndVersion = $p.Project.name + "@" + $p.Project.version
+                Write-Host "npm dist-tag add $($nameAndVersion) $additionalTag"
+                npm dist-tag add $nameAndVersion $additionalTag
+                $addTagCheck = $LastExitCode
+            }
+            if ($addTagCheck -ne 0) {
+                Write-Host "npm dist-tag add failed with exit code $addTagCheck"
+                exit 1
+            }
+        }
+        elseif ($p.Publish -and $publishToNpm) {
+          $artifactSubPath = $pathToArtifacts -replace $pipelineWorkspace, ''
+          $destination = "$pipelineWorkspace/temp$artifactSubPath"
+          write-host "Copy $($p.TarGz) to $destination"
+          New-Item -ItemType File -Path $destination -Force
+          Copy-Item -Path $($p.TarGz) -Destination $destination -Force
+        }
+        else{
+            Write-Host "Skipping package publish $($p.TarGz)"
+        }
+    }
+}
+finally
+{
+    npm config delete $regAuth`:_authToken
+    npm config delete $regAuth`:_password
+    npm config delete $regAuth`:email
+    npm config delete $regAuth`:username
+    $env:NPM_TOKEN=""
 }
