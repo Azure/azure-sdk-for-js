@@ -6,7 +6,7 @@ import { assert } from "chai";
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe.only("Azure Kubernetes Integration test", function () {
+describe("Azure Kubernetes Integration test", function () {
   it("can fetch a token", async function (this: Context) {
     if (!isLiveMode()) {
       this.skip();
