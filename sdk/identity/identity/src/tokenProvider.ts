@@ -53,6 +53,8 @@ export function getBearerTokenProvider(
   const pipeline = createEmptyPipeline();
   pipeline.addPolicy(bearerTokenAuthenticationPolicy({ credential, scopes }));
   async function getRefreshedToken(): Promise<string> {
+    // Create a pipeline with just the bearer token policy
+    // and run a dummy request request through it to get the token
     const res = await pipeline.sendRequest(
       {
         sendRequest: (request) =>
