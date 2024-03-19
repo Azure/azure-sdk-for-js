@@ -6,6 +6,7 @@
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
