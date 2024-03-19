@@ -775,7 +775,7 @@ export interface MpnsTemplateRegistrationDescriptionCommon extends MpnsRegistrat
 }
 
 // @public
-export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | XiaomiNotification | WindowsNotification | TemplateNotification;
+export type Notification = AppleNotification | AdmNotification | BaiduNotification | BrowserNotification | FcmLegacyNotification | FcmV1Notification | XiaomiNotification | WindowsNotification | TemplateNotification;
 
 // @public
 export interface NotificationCommon {
