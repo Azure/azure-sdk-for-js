@@ -1,4 +1,4 @@
-import { createPerfProgram } from "@azure/test-utils-perf";
+import { createPerfProgram } from "@azure-tools/test-perf";
 import { BearerTokenAuthenticationPolicyChallengeTest } from "./bearerTokenChallengeAuthenticationPolicy/wwwChallenge.spec.js";
 import { CoreRestPipelineTest } from "./core-rest-pipeline.spec.js";
 import { FetchTest } from "./fetch.spec.js";

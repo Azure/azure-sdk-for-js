@@ -1,4 +1,4 @@
-import { PerfOptionDictionary } from "@azure/test-utils-perf";
+import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { SecretTest } from "./secretTest";
 import { v4 as uuid } from "uuid";
 
@@ -27,7 +27,7 @@ export class ListSecretsTest extends SecretTest<ListSecretPerfTestOptions> {
     ) {
       throw new Error(
         `KeyVault ${this.secretClient.vaultUrl} must contain 0 ` +
-          "secrets (including soft-deleted) before starting perf test",
+        "secrets (including soft-deleted) before starting perf test",
       );
     }
 
