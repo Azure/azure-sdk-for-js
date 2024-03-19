@@ -3,22 +3,23 @@
 
 import { TokenCredential } from "@azure/core-auth";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
-import { KeyClient } from "@azure/keyvault-keys";
+import { KeyClient, KeyWrapAlgorithm } from "@azure/keyvault-keys";
 
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
-  private client: KeyClient;
+  private credentials: TokenCredential;
 
-  constructor(credentials: TokenCredential, url: string) {
-    this.client = new KeyClient(url, credentials);
+  constructor(credentials: TokenCredential) {
+    this.credentials = credentials;
   }
 
   public async wrapKey(encryptionKeyId: string, algorithm: string, key: Buffer): Promise<Buffer> {
-    console.log(algorithm);
+    const origin = this.getOrigin(encryptionKeyId);
+    const keyClient = new KeyClient(origin, this.credentials);
     const [keyName, keyVersion] = this.getKeyDetails(encryptionKeyId);
-    const cryptographyClient = this.client.getCryptographyClient(keyName, {
+    const cryptographyClient = keyClient.getCryptographyClient(keyName, {
       keyVersion: keyVersion,
     });
-    const res = await cryptographyClient.wrapKey("RSA-OAEP", key);
+    const res = await cryptographyClient.wrapKey(algorithm as KeyWrapAlgorithm, key);
     return Buffer.from(res.result);
   }
 
@@ -27,12 +28,13 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
     algorithm: string,
     wrappedKey: Buffer,
   ): Promise<Buffer> {
-    console.log(algorithm);
+    const origin = this.getOrigin(encryptionKeyId);
+    const keyClient = new KeyClient(origin, this.credentials);
     const [keyName, keyVersion] = this.getKeyDetails(encryptionKeyId);
-    const cryptographyClient = this.client.getCryptographyClient(keyName, {
+    const cryptographyClient = keyClient.getCryptographyClient(keyName, {
       keyVersion: keyVersion ? keyVersion : "",
     });
-    const res = await cryptographyClient.unwrapKey("RSA-OAEP", wrappedKey);
+    const res = await cryptographyClient.unwrapKey(algorithm as KeyWrapAlgorithm, wrappedKey);
     return Buffer.from(res.result);
   }
   //TODO: improve this
@@ -46,5 +48,10 @@ export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver
       return [parts[2], undefined];
     }
     return [undefined, undefined];
+  }
+
+  private getOrigin(encryptionKeyId: string): string {
+    const url = new URL(encryptionKeyId);
+    return url.origin;
   }
 }
