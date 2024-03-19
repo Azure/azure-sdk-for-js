@@ -8,7 +8,7 @@ param (
   $RemainingArguments,
 
   [Parameter()]
-  [hashtable] $DeploymentOutputs
+  [hashtable] $DeploymentOutputs,
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)

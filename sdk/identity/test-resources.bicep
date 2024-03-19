@@ -23,6 +23,9 @@ param sshPubKey string
 @description('The admin user name for the Linux VMs.')
 param adminUserName string = 'azureuser'
 
+@description('The user type - ServicePrincipal in CI, User locally')
+param principalUserType string = 'User'
+
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
 var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
 var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
@@ -82,7 +85,7 @@ resource webRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   properties: {
     principalId: testApplicationOid
     roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
+    principalType: principalUserType
   }
 }
 
@@ -92,7 +95,7 @@ resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   properties: {
     principalId: testApplicationOid
     roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
+    principalType: principalUserType
   }
 }
 
