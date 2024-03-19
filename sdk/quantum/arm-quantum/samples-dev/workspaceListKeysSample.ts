@@ -15,12 +15,12 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Deletes a Workspace resource.
+ * This sample demonstrates how to Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
  *
- * @summary Deletes a Workspace resource.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/quantumWorkspacesDelete.json
+ * @summary Get the keys to use with the Quantum APIs. A key is used to authenticate and authorize access to the Quantum REST APIs. Only one key is needed at a time; two are given to provide seamless key regeneration.
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/listKeys.json
  */
-async function quantumWorkspacesDelete() {
+async function listKeys() {
   const subscriptionId =
     process.env["QUANTUM_SUBSCRIPTION_ID"] ||
     "00000000-1111-2222-3333-444444444444";
@@ -29,7 +29,7 @@ async function quantumWorkspacesDelete() {
   const workspaceName = "quantumworkspace1";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuantumManagementClient(credential, subscriptionId);
-  const result = await client.workspaces.beginDeleteAndWait(
+  const result = await client.workspace.listKeys(
     resourceGroupName,
     workspaceName,
   );
@@ -37,7 +37,7 @@ async function quantumWorkspacesDelete() {
 }
 
 async function main() {
-  quantumWorkspacesDelete();
+  listKeys();
 }
 
 main().catch(console.error);
