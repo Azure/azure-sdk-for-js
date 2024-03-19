@@ -14,7 +14,7 @@ import {
   ConfigurationSnapshot,
   SnapshotResponse,
   EtagEntity,
-} from "../models/index.js";
+} from "../models";
 import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
 import {
   GetKeyValuesOptionalParams,
