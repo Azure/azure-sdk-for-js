@@ -37,7 +37,6 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(pods, podName);
 
     const podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
-    console.log(podOutput);
     assert.include(podOutput, "Successfully authenticated with storage");
   });
 });
