@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-http-compat",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Core HTTP Compatibility Library to bridge the gap between Core V1 & V2 packages.",
   "sdk-type": "client",
   "type": "module",

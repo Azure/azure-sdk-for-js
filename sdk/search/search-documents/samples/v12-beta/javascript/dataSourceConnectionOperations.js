@@ -5,14 +5,14 @@
  * @summary Demonstrates the DataSource Connection Operations.
  */
 
-const { SearchIndexerClient, AzureKeyCredential } = require("@azure/search-documents");
+const { AzureKeyCredential, SearchIndexerClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const connectionString = process.env.CONNECTION_STRING || "";
-const dataSourceConnectionName = "example-ds-connection-sample-1";
+const TEST_DATA_SOURCE_CONNECTION_NAME = "example-ds-connection-sample-1";
 
 async function createDataSourceConnection(dataSourceConnectionName, client) {
   console.log(`Creating DS Connection Operation`);
@@ -42,7 +42,7 @@ async function listDataSourceConnections(client) {
 
   console.log(`List of Data Source Connections`);
   console.log(`*******************************`);
-  for (let ds of listOfDataSourceConnections) {
+  for (const ds of listOfDataSourceConnections) {
     console.log(`Name: ${ds.name}`);
     console.log(`Description: ${ds.description}`);
     console.log(`Connection String: ${ds.connectionString}`);
@@ -69,11 +69,11 @@ async function main() {
   }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createDataSourceConnection(dataSourceConnectionName, client);
-    await getAndUpdateDataSourceConnection(dataSourceConnectionName, client);
+    await createDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
+    await getAndUpdateDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
     await listDataSourceConnections(client);
   } finally {
-    await deleteDataSourceConnection(dataSourceConnectionName, client);
+    await deleteDataSourceConnection(TEST_DATA_SOURCE_CONNECTION_NAME, client);
   }
 }
 
