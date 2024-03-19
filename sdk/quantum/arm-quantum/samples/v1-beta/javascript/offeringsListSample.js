@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns the list of all provider offerings available for the given location.
  *
  * @summary Returns the list of all provider offerings available for the given location.
- * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/offeringsList.json
+ * x-ms-original-file: specification/quantum/resource-manager/Microsoft.Quantum/preview/2023-11-13-preview/examples/offeringsList.json
  */
 async function offeringsList() {
   const subscriptionId =
