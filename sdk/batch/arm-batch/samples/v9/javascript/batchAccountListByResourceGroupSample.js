@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets information about the Batch accounts associated with the specified resource group.
  *
  * @summary Gets information about the Batch accounts associated with the specified resource group.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountListByResourceGroup.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountListByResourceGroup.json
  */
 async function batchAccountListByResourceGroup() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

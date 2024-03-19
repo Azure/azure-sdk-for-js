@@ -8,15 +8,615 @@
 
 import * as coreClient from "@azure/core-client";
 
-/** Result of the request to list NotificationHubs operations. It contains a list of operations and a URL link to get the next set of results. */
+/**
+ * Parameters supplied to the Check Name Availability for Namespace and
+ * NotificationHubs.
+ */
+export interface CheckAvailabilityParameters {
+  /**
+   * Gets resource Id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /** Gets or sets resource name */
+  name: string;
+  /**
+   * Gets resource type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** Gets or sets resource location */
+  location?: string;
+  /** Gets or sets resource tags */
+  tags?: { [propertyName: string]: string };
+  /** Not used and deprecated since API version 2023-01-01-preview */
+  isAvailiable?: boolean;
+  /** The Sku description for a namespace */
+  sku?: Sku;
+}
+
+/** The Sku description for a namespace */
+export interface Sku {
+  /** Namespace SKU name. */
+  name: SkuName;
+  /** Gets or sets the tier of particular sku */
+  tier?: string;
+  /** Gets or sets the Sku size */
+  size?: string;
+  /** Gets or sets the Sku Family */
+  family?: string;
+  /** Gets or sets the capacity of the resource */
+  capacity?: number;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** SharedAccessAuthorizationRule properties. */
+export interface SharedAccessAuthorizationRuleProperties {
+  /** Gets or sets the rights associated with the rule. */
+  rights: AccessRights[];
+  /**
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
+   */
+  primaryKey?: string;
+  /**
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
+   */
+  secondaryKey?: string;
+  /**
+   * Gets a string that describes the authorization rule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyName?: string;
+  /**
+   * Gets the last modified time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedTime?: Date;
+  /**
+   * Gets the created time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets a string that describes the claim type
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly claimType?: string;
+  /**
+   * Gets a string that describes the claim value
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly claimValue?: string;
+  /**
+   * Gets the revision number for the rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly revision?: number;
+}
+
+/** Description of a NotificationHub ApnsCredential. */
+export interface ApnsCredential {
+  /** Gets or sets the APNS certificate. */
+  apnsCertificate?: string;
+  /** Gets or sets the certificate key. */
+  certificateKey?: string;
+  /** Gets or sets the endpoint of this credential. */
+  endpoint: string;
+  /** Gets or sets the APNS certificate Thumbprint */
+  thumbprint?: string;
+  /**
+   * Gets or sets a 10-character key identifier (kid) key, obtained from
+   * your developer account
+   */
+  keyId?: string;
+  /** Gets or sets the name of the application */
+  appName?: string;
+  /**
+   * Gets or sets the issuer (iss) registered claim key, whose value is
+   * your 10-character Team ID, obtained from your developer account
+   */
+  appId?: string;
+  /**
+   * Gets or sets provider Authentication Token, obtained through your
+   * developer account
+   */
+  token?: string;
+}
+
+/** Description of a NotificationHub WnsCredential. */
+export interface WnsCredential {
+  /** Gets or sets the package ID for this credential. */
+  packageSid?: string;
+  /** Gets or sets the secret key. */
+  secretKey?: string;
+  /** Gets or sets the Windows Live endpoint. */
+  windowsLiveEndpoint?: string;
+  /** Ges or sets the WNS Certificate Key. */
+  certificateKey?: string;
+  /** Gets or sets the WNS Certificate. */
+  wnsCertificate?: string;
+}
+
+/** Description of a NotificationHub GcmCredential. */
+export interface GcmCredential {
+  /** Gets or sets the GCM endpoint. */
+  gcmEndpoint?: string;
+  /** Gets or sets the Google API key. */
+  googleApiKey: string;
+}
+
+/** Description of a NotificationHub MpnsCredential. */
+export interface MpnsCredential {
+  /** Gets or sets the MPNS certificate. */
+  mpnsCertificate: string;
+  /** Gets or sets the certificate key for this credential. */
+  certificateKey: string;
+  /** Gets or sets the MPNS certificate Thumbprint */
+  thumbprint: string;
+}
+
+/** Description of a NotificationHub AdmCredential. */
+export interface AdmCredential {
+  /** Gets or sets the client identifier. */
+  clientId: string;
+  /** Gets or sets the credential secret access key. */
+  clientSecret: string;
+  /** Gets or sets the URL of the authorization token. */
+  authTokenUrl: string;
+}
+
+/** Description of a NotificationHub BaiduCredential. */
+export interface BaiduCredential {
+  /** Gets or sets baidu Api Key. */
+  baiduApiKey: string;
+  /** Gets or sets baidu Endpoint. */
+  baiduEndPoint: string;
+  /** Gets or sets baidu Secret Key */
+  baiduSecretKey: string;
+}
+
+/** Description of a NotificationHub BrowserCredential. */
+export interface BrowserCredential {
+  /** Gets or sets web push subject. */
+  subject: string;
+  /** Gets or sets VAPID private key. */
+  vapidPrivateKey: string;
+  /** Gets or sets VAPID public key. */
+  vapidPublicKey: string;
+}
+
+/** Description of a NotificationHub XiaomiCredential. */
+export interface XiaomiCredential {
+  /** Gets or sets app secret. */
+  appSecret?: string;
+  /** Gets or sets xiaomi service endpoint. */
+  endpoint?: string;
+}
+
+/** Description of a NotificationHub FcmV1Credential. */
+export interface FcmV1Credential {
+  /** Gets or sets client email. */
+  clientEmail: string;
+  /** Gets or sets private key. */
+  privateKey: string;
+  /** Gets or sets project id. */
+  projectId: string;
+}
+
+/** Patch parameter for NamespaceResource. */
+export interface NotificationHubPatchParameters {
+  /** The Sku description for a namespace */
+  sku?: Sku;
+  /** Dictionary of <string> */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the NotificationHub name. */
+  name?: string;
+  /** Gets or sets the RegistrationTtl of the created NotificationHub */
+  registrationTtl?: string;
+  /**
+   * Gets or sets the AuthorizationRules of the created NotificationHub
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly dailyMaxActiveDevices?: number;
+}
+
+/** The response of the List NotificationHub operation. */
+export interface NotificationHubListResult {
+  /**
+   * Gets or sets result of the List AuthorizationRules operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: NotificationHubResource[];
+  /**
+   * Gets or sets link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Notification result for a single registration. */
+export interface RegistrationResult {
+  /**
+   * PNS type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly applicationPlatform?: string;
+  /**
+   * PNS handle.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly pnsHandle?: string;
+  /**
+   * Registration id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly registrationId?: string;
+  /**
+   * Notification outcome.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly outcome?: string;
+}
+
+/** The response of the List Namespace operation. */
+export interface SharedAccessAuthorizationRuleListResult {
+  /**
+   * Gets or sets result of the List AuthorizationRules operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: SharedAccessAuthorizationRuleResource[];
+  /**
+   * Gets or sets link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Response for the POST request that returns Namespace or NotificationHub access keys (connection strings). */
+export interface ResourceListKeys {
+  /**
+   * Gets or sets primaryConnectionString of the AuthorizationRule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryConnectionString?: string;
+  /**
+   * Gets or sets secondaryConnectionString of the created
+   * AuthorizationRule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryConnectionString?: string;
+  /**
+   * Gets or sets primaryKey of the created AuthorizationRule.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly primaryKey?: string;
+  /**
+   * Gets or sets secondaryKey of the created AuthorizationRule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly secondaryKey?: string;
+  /**
+   * Gets or sets keyName of the created AuthorizationRule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyName?: string;
+}
+
+/** Namespace / NotificationHub Regenerate Keys request. */
+export interface PolicyKeyResource {
+  /** Type of Shared Access Policy Key (primary or secondary). */
+  policyKey: PolicyKeyType;
+}
+
+/** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
+export interface PnsCredentials {
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+}
+
+/** Represents namespace properties. */
+export interface NamespaceProperties {
+  /**
+   * Name of the Notification Hubs namespace. This is immutable property, set automatically
+   * by the service when the namespace is created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /** Defines values for OperationProvisioningState. */
+  provisioningState?: OperationProvisioningState;
+  /** Namespace status. */
+  status?: NamespaceStatus;
+  /**
+   * Gets or sets whether or not the namespace is currently enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabled?: boolean;
+  /**
+   * Gets or sets whether or not the namespace is set as Critical.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly critical?: boolean;
+  /**
+   * Namespace subscription id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Region. The value is always set to the same value as Namespace.Location, so we are deprecating
+   * this property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly region?: string;
+  /**
+   * Azure Insights Metrics id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricId?: string;
+  /**
+   * Time when the namespace was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * Time when the namespace was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /** Defines values for NamespaceType. */
+  namespaceType?: NamespaceType;
+  /** Allowed replication region */
+  replicationRegion?: ReplicationRegion;
+  /** Namespace SKU name. */
+  zoneRedundancy?: ZoneRedundancyPreference;
+  /** A collection of network authorization rules. */
+  networkAcls?: NetworkAcls;
+  /** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
+  pnsCredentials?: PnsCredentials;
+  /**
+   * Gets or sets endpoint you can use to perform NotificationHub
+   * operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceBusEndpoint?: string;
+  /**
+   * Private Endpoint Connections for namespace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+  /** Gets or sets scaleUnit where the namespace gets created */
+  scaleUnit?: string;
+  /** Deprecated. */
+  dataCenter?: string;
+  /** Type of public network access. */
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+/** A collection of network authorization rules. */
+export interface NetworkAcls {
+  /** List of IP rules. */
+  ipRules?: IpRule[];
+  /** A default (public Internet) network authorization rule, which contains rights if no other network rule matches. */
+  publicNetworkRule?: PublicInternetAuthorizationRule;
+}
+
+/** A network authorization rule that filters traffic based on IP address. */
+export interface IpRule {
+  /** IP mask. */
+  ipMask: string;
+  /** List of access rights. */
+  rights: AccessRights[];
+}
+
+/** A default (public Internet) network authorization rule, which contains rights if no other network rule matches. */
+export interface PublicInternetAuthorizationRule {
+  /** List of access rights. */
+  rights: AccessRights[];
+}
+
+/** Private Endpoint Connection properties. */
+export interface PrivateEndpointConnectionProperties {
+  /** State of Private Endpoint Connection. */
+  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  /** Represents a Private Endpoint that is connected to Notification Hubs namespace using Private Endpoint Connection. */
+  privateEndpoint?: RemotePrivateEndpointConnection;
+  /**
+   * List of group ids. For Notification Hubs, it always contains a single "namespace" element.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupIds?: string[];
+  /** State of the Private Link Service connection. */
+  privateLinkServiceConnectionState?: RemotePrivateLinkServiceConnectionState;
+}
+
+/** Represents a Private Endpoint that is connected to Notification Hubs namespace using Private Endpoint Connection. */
+export interface RemotePrivateEndpointConnection {
+  /**
+   * ARM resource ID of the Private Endpoint. This may belong to different subscription and resource group than a Notification Hubs namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+}
+
+/** State of the Private Link Service connection. */
+export interface RemotePrivateLinkServiceConnectionState {
+  /** State of Private Link Connection. */
+  status?: PrivateLinkConnectionStatus;
+  /**
+   * Human-friendly description.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Human-friendly description of required actions.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly actionsRequired?: string;
+}
+
+/** Patch parameter for NamespaceResource. */
+export interface NamespacePatchParameters {
+  /** The Sku description for a namespace */
+  sku?: Sku;
+  /** Represents namespace properties. */
+  properties?: NamespaceProperties;
+  /** Dictionary of <string> */
+  tags?: { [propertyName: string]: string };
+}
+
+/** The response of the List Namespace operation. */
+export interface NamespaceListResult {
+  /**
+   * Gets or sets result of the List AuthorizationRules operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: NamespaceResource[];
+  /**
+   * Gets or sets link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Result of the request to list NotificationHubs operations. It contains
+ * a list of operations and a URL link to get the next set of results.
+ */
 export interface OperationListResult {
   /**
-   * List of NotificationHubs operations supported by the Microsoft.NotificationHubs resource provider.
+   * Gets list of NotificationHubs operations supported by the
+   * Microsoft.NotificationHubs resource provider.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: Operation[];
   /**
-   * URL to get the next set of operation list results if there are any.
+   * Gets URL to get the next set of operation list results if there are
+   * any.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
@@ -25,492 +625,535 @@ export interface OperationListResult {
 /** A NotificationHubs REST API operation */
 export interface Operation {
   /**
-   * Operation name: {provider}/{resource}/{operation}
+   * Gets operation name: {provider}/{resource}/{operation}
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /** The object that represents the operation. */
   display?: OperationDisplay;
+  /** Optional operation properties. */
+  properties?: OperationProperties;
+  /**
+   * Gets or sets IsDataAction property. It is used to differentiate management and data plane operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isDataAction?: boolean;
 }
 
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /**
-   * Service provider: Microsoft.NotificationHubs
+   * Gets service provider: Microsoft.NotificationHubs
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provider?: string;
   /**
-   * Resource on which the operation is performed: Invoice, etc.
+   * Gets resource on which the operation is performed: Invoice, etc.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resource?: string;
   /**
-   * Operation type: Read, write, delete, etc.
+   * Gets operation type: Read, write, delete, etc.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operation?: string;
-}
-
-/** Error response indicates NotificationHubs service is not able to process the incoming request. The reason is provided in the error message. */
-export interface ErrorResponse {
-  /** Error code. */
-  code?: string;
-  /** Error message indicating why the operation failed. */
-  message?: string;
-}
-
-/** Parameters supplied to the Check Name Availability for Namespace and NotificationHubs. */
-export interface CheckAvailabilityParameters {
   /**
-   * Resource Id
+   * Human-friendly operation description.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
-  /** Resource name */
-  name: string;
-  /**
-   * Resource type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /** Resource location */
-  location?: string;
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The sku of the created namespace */
-  sku?: Sku;
-  /** True if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false. */
-  isAvailiable?: boolean;
+  readonly description?: string;
 }
 
-/** The Sku description for a namespace */
-export interface Sku {
-  /** Name of the notification hub sku */
-  name: SkuName;
-  /** The tier of particular sku */
-  tier?: string;
-  /** The Sku size */
-  size?: string;
-  /** The Sku Family */
-  family?: string;
-  /** The capacity of the resource */
-  capacity?: number;
+/** Optional operation properties. */
+export interface OperationProperties {
+  /** Optional service specification used in Operations API. */
+  serviceSpecification?: ServiceSpecification;
 }
 
-export interface Resource {
+/** Optional service specification used in Operations API. */
+export interface ServiceSpecification {
   /**
-   * Resource Id
+   * Log specifications.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly id?: string;
+  readonly logSpecifications?: LogSpecification[];
   /**
-   * Resource name
+   * Metric specification.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricSpecifications?: MetricSpecification[];
+}
+
+/** A single log category specification. */
+export interface LogSpecification {
+  /**
+   * Name of the log category.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly name?: string;
   /**
-   * Resource type
+   * Display name of the log category.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly type?: string;
-  /** Resource location */
-  location?: string;
-  /** Resource tags */
+  readonly displayName?: string;
+  /**
+   * Duration of data written to a single blob.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blobDuration?: string;
+  /** Category group for the log specification. */
+  categoryGroups?: string[];
+}
+
+/** A metric specification. */
+export interface MetricSpecification {
+  /**
+   * Metric name / id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * User-visible metric name.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayName?: string;
+  /**
+   * Description of the metric.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly displayDescription?: string;
+  /**
+   * Metric unit.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly unit?: string;
+  /**
+   * Type of the aggregation (Average, Minimum, Maximum, Total or Count).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly aggregationType?: string;
+  /**
+   * List of availabilities.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly availabilities?: Availability[];
+  /**
+   * List of supported time grain types.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly supportedTimeGrainTypes?: string[];
+  /**
+   * The matching regex pattern to be applied to the field pointed by the "metricsFilterPathSelector" flag in the ARM manifest.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricFilterPattern?: string;
+  /**
+   * Optional property. If set to true, then zero will be returned for time duration where no metric is emitted / published.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly fillGapWithZero?: boolean;
+}
+
+/** Represents metric availability (part of RP operation descriptions). */
+export interface Availability {
+  /**
+   * Time grain of the availability.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly timeGrain?: string;
+  /**
+   * Duration of the availability blob.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly blobDuration?: string;
+}
+
+/** The response of the List Private Endpoint Connections operation. */
+export interface PrivateEndpointConnectionResourceListResult {
+  /**
+   * Gets or sets result of the List AuthorizationRules operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateEndpointConnectionResource[];
+  /**
+   * Gets or sets link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/** Represents properties of Private Link Resource. */
+export interface PrivateLinkResourceProperties {
+  /**
+   * A Group Id for Private Link. For Notification Hubs, it is always set to "namespace".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * Required members. For Notification Hubs, it's always a collection with a single "namespace" item.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredMembers?: string[];
+  /**
+   * Required DNS zone names. For Notification Hubs, it contains two CNames for Service Bus and Notification Hubs zones.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly requiredZoneNames?: string[];
+}
+
+/** The response of the List Private Link Resources operation. */
+export interface PrivateLinkResourceListResult {
+  /**
+   * Gets or sets result of the List AuthorizationRules operation.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: PrivateLinkResource[];
+  /**
+   * Gets or sets link to the next set of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Part of Private Endpoint description that stores information about a connection between Private Endpoint and Notification Hubs namespace.
+ * This is internal class, not visible to customers, and we use it only to discover the link identifier.
+ */
+export interface ConnectionDetails {
+  /**
+   * A unique ID of the connection. This is not the ARM id, but rather an internal identifier set by the Networking RP. Notification Hubs code
+   * does not analyze it.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * IP address of the Private Endpoint. This is not used by Notification Hubs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateIpAddress?: string;
+  /**
+   * Link identifier. This is a string representation of an integer that is also encoded in every IPv6 frame received by Front Door,
+   * and we use it to create implicit authorization rule that allows connection from the associated Private Endpoint.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkIdentifier?: string;
+  /**
+   * Group name. Always "namespace" for Notification Hubs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * Member name. Always "namespace" for Notification Hubs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memberName?: string;
+}
+
+/**
+ * Represents a connectivity information to Notification Hubs namespace. This is part of PrivateLinkService proxy that tell
+ * the Networking RP how to connect to the Notification Hubs namespace.
+ */
+export interface GroupConnectivityInformation {
+  /**
+   * Group id. Always set to "namespace".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly groupId?: string;
+  /**
+   * Member name. Always set to "namespace".
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly memberName?: string;
+  /**
+   * List of customer-visible domain names that point to a Notification Hubs namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly customerVisibleFqdns?: string[];
+  /**
+   * One of the domain name from the customer-visible names; this is used internally by Private Link service to make connection to Notification Hubs
+   * namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly internalFqdn?: string;
+  /**
+   * Not used by Notification Hubs.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly redirectMapId?: string;
+  /**
+   * ARM region for Private Link Service. We use the region that contains the connected Notification Hubs namespace.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateLinkServiceArmRegion?: string;
+}
+
+/** A customer-visible sub-resource of Private Endpoint, which describe the connection between Private Endpoint and Notification Hubs namespace. */
+export interface PrivateLinkServiceConnection {
+  /** Name of the Private Link Service connection. */
+  name?: string;
+  /** List of group ids. Always contains a single element - "namespace" - for Notification Hub Namespace. */
+  groupIds?: string[];
+  /** Request message provided by the user that created the connection. This is usually used when the connection requires manual approval. */
+  requestMessage?: string;
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
   tags?: { [propertyName: string]: string };
-  /** The sku of the created namespace */
-  sku?: Sku;
-}
-
-/** Parameters supplied to the Patch Namespace operation. */
-export interface NamespacePatchParameters {
-  /** Resource tags */
-  tags?: { [propertyName: string]: string };
-  /** The sku of the created namespace */
-  sku?: Sku;
-}
-
-/** Parameters supplied to the CreateOrUpdate Namespace AuthorizationRules. */
-export interface SharedAccessAuthorizationRuleCreateOrUpdateParameters {
-  /** Properties of the Namespace AuthorizationRules. */
-  properties: SharedAccessAuthorizationRuleProperties;
-}
-
-/** SharedAccessAuthorizationRule properties. */
-export interface SharedAccessAuthorizationRuleProperties {
-  /** The rights associated with the rule. */
-  rights?: AccessRights[];
-  /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly primaryKey?: string;
-  /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly secondaryKey?: string;
-  /**
-   * A string that describes the authorization rule.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly keyName?: string;
-  /**
-   * A string that describes the claim type
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly claimType?: string;
-  /**
-   * A string that describes the claim value
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly claimValue?: string;
-  /**
-   * The last modified time for this rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly modifiedTime?: string;
-  /**
-   * The created time for this rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: string;
-  /**
-   * The revision number for the rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly revision?: number;
-}
-
-/** The response of the List Namespace operation. */
-export interface NamespaceListResult {
-  /** Result of the List Namespace operation. */
-  value?: NamespaceResource[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of Namespaces */
-  nextLink?: string;
-}
-
-/** The response of the List Namespace operation. */
-export interface SharedAccessAuthorizationRuleListResult {
-  /** Result of the List AuthorizationRules operation. */
-  value?: SharedAccessAuthorizationRuleResource[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of AuthorizationRules */
-  nextLink?: string;
-}
-
-/** Namespace/NotificationHub Connection String */
-export interface ResourceListKeys {
-  /** PrimaryConnectionString of the AuthorizationRule. */
-  primaryConnectionString?: string;
-  /** SecondaryConnectionString of the created AuthorizationRule */
-  secondaryConnectionString?: string;
-  /** PrimaryKey of the created AuthorizationRule. */
-  primaryKey?: string;
-  /** SecondaryKey of the created AuthorizationRule */
-  secondaryKey?: string;
-  /** KeyName of the created AuthorizationRule */
-  keyName?: string;
-}
-
-/** Namespace/NotificationHub Regenerate Keys */
-export interface PolicykeyResource {
-  /** Name of the key that has to be regenerated for the Namespace/Notification Hub Authorization Rule. The value can be Primary Key/Secondary Key. */
-  policyKey?: string;
-}
-
-/** Description of a NotificationHub ApnsCredential. */
-export interface ApnsCredential {
-  /** The APNS certificate. Specify if using Certificate Authentication Mode. */
-  apnsCertificate?: string;
-  /** The APNS certificate password if it exists. */
-  certificateKey?: string;
-  /** The APNS endpoint of this credential. If using Certificate Authentication Mode and Sandbox specify 'gateway.sandbox.push.apple.com'. If using Certificate Authentication Mode and Production specify 'gateway.push.apple.com'. If using Token Authentication Mode and Sandbox specify 'https://api.development.push.apple.com:443/3/device'. If using Token Authentication Mode and Production specify 'https://api.push.apple.com:443/3/device'. */
-  endpoint?: string;
-  /** The APNS certificate thumbprint. Specify if using Certificate Authentication Mode. */
-  thumbprint?: string;
-  /** A 10-character key identifier (kid) key, obtained from your developer account. Specify if using Token Authentication Mode. */
-  keyId?: string;
-  /** The name of the application or BundleId. Specify if using Token Authentication Mode. */
-  appName?: string;
-  /** The issuer (iss) registered claim key. The value is a 10-character TeamId, obtained from your developer account. Specify if using Token Authentication Mode. */
-  appId?: string;
-  /** Provider Authentication Token, obtained through your developer account. Specify if using Token Authentication Mode. */
-  token?: string;
-}
-
-/** Description of a NotificationHub WnsCredential. */
-export interface WnsCredential {
-  /** The package ID for this credential. */
-  packageSid?: string;
-  /** The secret key. */
-  secretKey?: string;
-  /** The Windows Live endpoint. */
-  windowsLiveEndpoint?: string;
-}
-
-/** Description of a NotificationHub GcmCredential. */
-export interface GcmCredential {
-  /** The FCM legacy endpoint. Default value is 'https://fcm.googleapis.com/fcm/send' */
-  gcmEndpoint?: string;
-  /** The Google API key. */
-  googleApiKey?: string;
-}
-
-/** Description of a NotificationHub MpnsCredential. */
-export interface MpnsCredential {
-  /** The MPNS certificate. */
-  mpnsCertificate?: string;
-  /** The certificate key for this credential. */
-  certificateKey?: string;
-  /** The MPNS certificate Thumbprint */
-  thumbprint?: string;
-}
-
-/** Description of a NotificationHub AdmCredential. */
-export interface AdmCredential {
-  /** The client identifier. */
-  clientId?: string;
-  /** The credential secret access key. */
-  clientSecret?: string;
-  /** The URL of the authorization token. */
-  authTokenUrl?: string;
-}
-
-/** Description of a NotificationHub BaiduCredential. */
-export interface BaiduCredential {
-  /** Baidu Api Key. */
-  baiduApiKey?: string;
-  /** Baidu Endpoint. */
-  baiduEndPoint?: string;
-  /** Baidu Secret Key */
-  baiduSecretKey?: string;
-}
-
-/** The response of the List NotificationHub operation. */
-export interface NotificationHubListResult {
-  /** Result of the List NotificationHub operation. */
-  value?: NotificationHubResource[];
-  /** Link to the next set of results. Not empty if Value contains incomplete list of NotificationHub */
-  nextLink?: string;
-}
-
-export interface SubResource {
-  /** Resource Id */
-  id?: string;
+  /** The geo-location where the resource lives */
+  location: string;
 }
 
 /** Description of a CheckAvailability resource. */
-export interface CheckAvailabilityResult extends Resource {
-  /** True if the name is available and can be used to create new Namespace/NotificationHub. Otherwise false. */
+export interface CheckAvailabilityResult extends ProxyResource {
+  /**
+   * Gets or sets true if the name is available and can be used to
+   * create new Namespace/NotificationHub. Otherwise false.
+   */
   isAvailiable?: boolean;
+  /** Deprecated - only for compatibility. */
+  location?: string;
+  /** Deprecated - only for compatibility. */
+  tags?: { [propertyName: string]: string };
+  /** The Sku description for a namespace */
+  sku?: Sku;
 }
 
-/** Parameters supplied to the CreateOrUpdate Namespace operation. */
-export interface NamespaceCreateOrUpdateParameters extends Resource {
-  /** The name of the namespace. */
-  namePropertiesName?: string;
-  /** Provisioning state of the Namespace. */
-  provisioningState?: string;
-  /** Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe */
-  region?: string;
+/** Description of a NotificationHub Resource. */
+export interface DebugSendResponse extends ProxyResource {
+  /** Deprecated - only for compatibility. */
+  location?: string;
+  /** Deprecated - only for compatibility. */
+  tags?: { [propertyName: string]: string };
   /**
-   * Identifier for Azure Insights metrics
+   * Gets or sets successful send
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly metricId?: string;
-  /** Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting */
-  status?: string;
-  /** The time the namespace was created. */
-  createdAt?: Date;
-  /** The time the namespace was updated. */
-  updatedAt?: Date;
-  /** Endpoint you can use to perform NotificationHub operations. */
-  serviceBusEndpoint?: string;
-  /** The Id of the Azure subscription associated with the namespace. */
-  subscriptionId?: string;
-  /** ScaleUnit where the namespace gets created */
-  scaleUnit?: string;
-  /** Whether or not the namespace is currently enabled. */
-  enabled?: boolean;
-  /** Whether or not the namespace is set as Critical. */
-  critical?: boolean;
-  /** Data center for the namespace */
-  dataCenter?: string;
-  /** The namespace type. */
-  namespaceType?: NamespaceType;
-}
-
-/** Description of a Namespace resource. */
-export interface NamespaceResource extends Resource {
-  /** The name of the namespace. */
-  namePropertiesName?: string;
-  /** Provisioning state of the Namespace. */
-  provisioningState?: string;
-  /** Specifies the targeted region in which the namespace should be created. It can be any of the following values: Australia East, Australia Southeast, Central US, East US, East US 2, West US, North Central US, South Central US, East Asia, Southeast Asia, Brazil South, Japan East, Japan West, North Europe, West Europe */
-  region?: string;
+  readonly success?: number;
   /**
-   * Identifier for Azure Insights metrics
+   * Gets or sets send failure
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly metricId?: string;
-  /** Status of the namespace. It can be any of these values:1 = Created/Active2 = Creating3 = Suspended4 = Deleting */
-  status?: string;
-  /** The time the namespace was created. */
-  createdAt?: Date;
-  /** The time the namespace was updated. */
-  updatedAt?: Date;
-  /** Endpoint you can use to perform NotificationHub operations. */
-  serviceBusEndpoint?: string;
-  /** The Id of the Azure subscription associated with the namespace. */
-  subscriptionId?: string;
-  /** ScaleUnit where the namespace gets created */
-  scaleUnit?: string;
-  /** Whether or not the namespace is currently enabled. */
-  enabled?: boolean;
-  /** Whether or not the namespace is set as Critical. */
-  critical?: boolean;
-  /** Data center for the namespace */
-  dataCenter?: string;
-  /** The namespace type. */
-  namespaceType?: NamespaceType;
+  readonly failure?: number;
+  /**
+   * Gets or sets actual failure description
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly results?: RegistrationResult[];
 }
 
-/** Description of a Namespace AuthorizationRules. */
-export interface SharedAccessAuthorizationRuleResource extends Resource {
-  /** The rights associated with the rule. */
+/** Response for POST requests that return single SharedAccessAuthorizationRule. */
+export interface SharedAccessAuthorizationRuleResource extends ProxyResource {
+  /** Deprecated - only for compatibility. */
+  location?: string;
+  /** Deprecated - only for compatibility. */
+  tags?: { [propertyName: string]: string };
+  /** Gets or sets the rights associated with the rule. */
   rights?: AccessRights[];
   /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
    */
-  readonly primaryKey?: string;
+  primaryKey?: string;
   /**
-   * A base64-encoded 256-bit primary key for signing and validating the SAS token.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
+   * Gets a base64-encoded 256-bit primary key for signing and
+   * validating the SAS token.
    */
-  readonly secondaryKey?: string;
+  secondaryKey?: string;
   /**
-   * A string that describes the authorization rule.
+   * Gets a string that describes the authorization rule.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly keyName?: string;
   /**
-   * A string that describes the claim type
+   * Gets the last modified time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly modifiedTime?: Date;
+  /**
+   * Gets the created time for this rule
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdTime?: Date;
+  /**
+   * Gets a string that describes the claim type
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly claimType?: string;
   /**
-   * A string that describes the claim value
+   * Gets a string that describes the claim value
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly claimValue?: string;
   /**
-   * The last modified time for this rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly modifiedTime?: string;
-  /**
-   * The created time for this rule
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly createdTime?: string;
-  /**
-   * The revision number for the rule
+   * Gets the revision number for the rule
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly revision?: number;
 }
 
-/** Parameters supplied to the CreateOrUpdate NotificationHub operation. */
-export interface NotificationHubCreateOrUpdateParameters extends Resource {
-  /** The NotificationHub name. */
+/**
+ * Description of a NotificationHub PNS Credentials. This is a response of the POST requests that return namespace or hubs
+ * PNS credentials.
+ */
+export interface PnsCredentialsResource extends ProxyResource {
+  /** Deprecated - only for compatibility. */
+  location?: string;
+  /** Deprecated - only for compatibility. */
+  tags?: { [propertyName: string]: string };
+  /** Description of a NotificationHub AdmCredential. */
+  admCredential?: AdmCredential;
+  /** Description of a NotificationHub ApnsCredential. */
+  apnsCredential?: ApnsCredential;
+  /** Description of a NotificationHub BaiduCredential. */
+  baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub GcmCredential. */
+  gcmCredential?: GcmCredential;
+  /** Description of a NotificationHub MpnsCredential. */
+  mpnsCredential?: MpnsCredential;
+  /** Description of a NotificationHub WnsCredential. */
+  wnsCredential?: WnsCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+}
+
+/** Represents a Private Endpoint Connection ARM resource - a sub-resource of Notification Hubs namespace. */
+export interface PrivateEndpointConnectionResource extends ProxyResource {
+  /** Private Endpoint Connection properties. */
+  properties?: PrivateEndpointConnectionProperties;
+}
+
+/** A Private Link Arm Resource. */
+export interface PrivateLinkResource extends ProxyResource {
+  /** Represents properties of Private Link Resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+/** Notification Hub Resource. */
+export interface NotificationHubResource extends TrackedResource {
+  /** The Sku description for a namespace */
+  sku?: Sku;
+  /** Gets or sets the NotificationHub name. */
   namePropertiesName?: string;
-  /** The RegistrationTtl of the created NotificationHub */
+  /** Gets or sets the RegistrationTtl of the created NotificationHub */
   registrationTtl?: string;
-  /** The AuthorizationRules of the created NotificationHub */
-  authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-  /** The ApnsCredential of the created NotificationHub */
+  /**
+   * Gets or sets the AuthorizationRules of the created NotificationHub
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly authorizationRules?: SharedAccessAuthorizationRuleProperties[];
+  /** Description of a NotificationHub ApnsCredential. */
   apnsCredential?: ApnsCredential;
-  /** The WnsCredential of the created NotificationHub */
+  /** Description of a NotificationHub WnsCredential. */
   wnsCredential?: WnsCredential;
-  /** The GcmCredential of the created NotificationHub */
+  /** Description of a NotificationHub GcmCredential. */
   gcmCredential?: GcmCredential;
-  /** The MpnsCredential of the created NotificationHub */
+  /** Description of a NotificationHub MpnsCredential. */
   mpnsCredential?: MpnsCredential;
-  /** The AdmCredential of the created NotificationHub */
+  /** Description of a NotificationHub AdmCredential. */
   admCredential?: AdmCredential;
-  /** The BaiduCredential of the created NotificationHub */
+  /** Description of a NotificationHub BaiduCredential. */
   baiduCredential?: BaiduCredential;
+  /** Description of a NotificationHub BrowserCredential. */
+  browserCredential?: BrowserCredential;
+  /** Description of a NotificationHub XiaomiCredential. */
+  xiaomiCredential?: XiaomiCredential;
+  /** Description of a NotificationHub FcmV1Credential. */
+  fcmV1Credential?: FcmV1Credential;
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  readonly dailyMaxActiveDevices?: number;
 }
 
-/** Description of a NotificationHub Resource. */
-export interface NotificationHubResource extends Resource {
-  /** The NotificationHub name. */
-  namePropertiesName?: string;
-  /** The RegistrationTtl of the created NotificationHub */
-  registrationTtl?: string;
-  /** The AuthorizationRules of the created NotificationHub */
-  authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-  /** The ApnsCredential of the created NotificationHub */
-  apnsCredential?: ApnsCredential;
-  /** The WnsCredential of the created NotificationHub */
-  wnsCredential?: WnsCredential;
-  /** The GcmCredential of the created NotificationHub */
-  gcmCredential?: GcmCredential;
-  /** The MpnsCredential of the created NotificationHub */
-  mpnsCredential?: MpnsCredential;
-  /** The AdmCredential of the created NotificationHub */
-  admCredential?: AdmCredential;
-  /** The BaiduCredential of the created NotificationHub */
-  baiduCredential?: BaiduCredential;
+/** Notification Hubs Namespace Resource. */
+export interface NamespaceResource extends TrackedResource {
+  /** The Sku description for a namespace */
+  sku: Sku;
+  /**
+   * Name of the Notification Hubs namespace. This is immutable property, set automatically
+   * by the service when the namespace is created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly namePropertiesName?: string;
+  /** Defines values for OperationProvisioningState. */
+  provisioningState?: OperationProvisioningState;
+  /** Namespace status. */
+  status?: NamespaceStatus;
+  /**
+   * Gets or sets whether or not the namespace is currently enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enabled?: boolean;
+  /**
+   * Gets or sets whether or not the namespace is set as Critical.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly critical?: boolean;
+  /**
+   * Namespace subscription id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly subscriptionId?: string;
+  /**
+   * Region. The value is always set to the same value as Namespace.Location, so we are deprecating
+   * this property.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly region?: string;
+  /**
+   * Azure Insights Metrics id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly metricId?: string;
+  /**
+   * Time when the namespace was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly createdAt?: Date;
+  /**
+   * Time when the namespace was updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly updatedAt?: Date;
+  /** Defines values for NamespaceType. */
+  namespaceType?: NamespaceType;
+  /** Allowed replication region */
+  replicationRegion?: ReplicationRegion;
+  /** Namespace SKU name. */
+  zoneRedundancy?: ZoneRedundancyPreference;
+  /** A collection of network authorization rules. */
+  networkAcls?: NetworkAcls;
+  /** Collection of Notification Hub or Notification Hub Namespace PNS credentials. */
+  pnsCredentials?: PnsCredentials;
+  /**
+   * Gets or sets endpoint you can use to perform NotificationHub
+   * operations.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serviceBusEndpoint?: string;
+  /**
+   * Private Endpoint Connections for namespace
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly privateEndpointConnections?: PrivateEndpointConnectionResource[];
+  /** Gets or sets scaleUnit where the namespace gets created */
+  scaleUnit?: string;
+  /** Deprecated. */
+  dataCenter?: string;
+  /** Type of public network access. */
+  publicNetworkAccess?: PublicNetworkAccess;
 }
 
-/** Parameters supplied to the patch NotificationHub operation. */
-export interface NotificationHubPatchParameters extends Resource {
-  /** The NotificationHub name. */
-  namePropertiesName?: string;
-  /** The RegistrationTtl of the created NotificationHub */
-  registrationTtl?: string;
-  /** The AuthorizationRules of the created NotificationHub */
-  authorizationRules?: SharedAccessAuthorizationRuleProperties[];
-  /** The ApnsCredential of the created NotificationHub */
-  apnsCredential?: ApnsCredential;
-  /** The WnsCredential of the created NotificationHub */
-  wnsCredential?: WnsCredential;
-  /** The GcmCredential of the created NotificationHub */
-  gcmCredential?: GcmCredential;
-  /** The MpnsCredential of the created NotificationHub */
-  mpnsCredential?: MpnsCredential;
-  /** The AdmCredential of the created NotificationHub */
-  admCredential?: AdmCredential;
-  /** The BaiduCredential of the created NotificationHub */
-  baiduCredential?: BaiduCredential;
-}
-
-/** Description of a NotificationHub Resource. */
-export interface DebugSendResponse extends Resource {
-  /** successful send */
-  success?: number;
-  /** send failure */
-  failure?: number;
-  /** actual failure description */
-  results?: Record<string, unknown>;
-}
-
-/** Description of a NotificationHub PNS Credentials. */
-export interface PnsCredentialsResource extends Resource {
-  /** The ApnsCredential of the created NotificationHub */
-  apnsCredential?: ApnsCredential;
-  /** The WnsCredential of the created NotificationHub */
-  wnsCredential?: WnsCredential;
-  /** The GcmCredential of the created NotificationHub */
-  gcmCredential?: GcmCredential;
-  /** The MpnsCredential of the created NotificationHub */
-  mpnsCredential?: MpnsCredential;
-  /** The AdmCredential of the created NotificationHub */
-  admCredential?: AdmCredential;
-  /** The BaiduCredential of the created NotificationHub */
-  baiduCredential?: BaiduCredential;
+/** Defines headers for PrivateEndpointConnections_delete operation. */
+export interface PrivateEndpointConnectionsDeleteHeaders {
+  location?: string;
 }
 
 /** Known values of {@link SkuName} that the service accepts. */
@@ -520,7 +1163,7 @@ export enum KnownSkuName {
   /** Basic */
   Basic = "Basic",
   /** Standard */
-  Standard = "Standard"
+  Standard = "Standard",
 }
 
 /**
@@ -533,163 +1176,284 @@ export enum KnownSkuName {
  * **Standard**
  */
 export type SkuName = string;
-/** Defines values for NamespaceType. */
-export type NamespaceType = "Messaging" | "NotificationHub";
-/** Defines values for AccessRights. */
-export type AccessRights = "Manage" | "Send" | "Listen";
 
-/** Optional parameters. */
-export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type OperationsListResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface OperationsListNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listNext operation. */
-export type OperationsListNextResponse = OperationListResult;
-
-/** Optional parameters. */
-export interface NamespacesCheckAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the checkAvailability operation. */
-export type NamespacesCheckAvailabilityResponse = CheckAvailabilityResult;
-
-/** Optional parameters. */
-export interface NamespacesCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type NamespacesCreateOrUpdateResponse = NamespaceResource;
-
-/** Optional parameters. */
-export interface NamespacesPatchOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the patch operation. */
-export type NamespacesPatchResponse = NamespaceResource;
-
-/** Optional parameters. */
-export interface NamespacesDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
 }
 
-/** Optional parameters. */
-export interface NamespacesGetOptionalParams
-  extends coreClient.OperationOptions {}
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 
-/** Contains response data for the get operation. */
-export type NamespacesGetResponse = NamespaceResource;
+/** Known values of {@link AccessRights} that the service accepts. */
+export enum KnownAccessRights {
+  /** Manage */
+  Manage = "Manage",
+  /** Send */
+  Send = "Send",
+  /** Listen */
+  Listen = "Listen",
+}
 
-/** Optional parameters. */
-export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+/**
+ * Defines values for AccessRights. \
+ * {@link KnownAccessRights} can be used interchangeably with AccessRights,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Manage** \
+ * **Send** \
+ * **Listen**
+ */
+export type AccessRights = string;
 
-/** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NamespacesCreateOrUpdateAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
+/** Known values of {@link PolicyKeyType} that the service accepts. */
+export enum KnownPolicyKeyType {
+  /** PrimaryKey */
+  PrimaryKey = "PrimaryKey",
+  /** SecondaryKey */
+  SecondaryKey = "SecondaryKey",
+}
 
-/** Optional parameters. */
-export interface NamespacesDeleteAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+/**
+ * Defines values for PolicyKeyType. \
+ * {@link KnownPolicyKeyType} can be used interchangeably with PolicyKeyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PrimaryKey** \
+ * **SecondaryKey**
+ */
+export type PolicyKeyType = string;
 
-/** Optional parameters. */
-export interface NamespacesGetAuthorizationRuleOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link OperationProvisioningState} that the service accepts. */
+export enum KnownOperationProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Pending */
+  Pending = "Pending",
+  /** Disabled */
+  Disabled = "Disabled",
+}
 
-/** Contains response data for the getAuthorizationRule operation. */
-export type NamespacesGetAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
+/**
+ * Defines values for OperationProvisioningState. \
+ * {@link KnownOperationProvisioningState} can be used interchangeably with OperationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **InProgress** \
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Pending** \
+ * **Disabled**
+ */
+export type OperationProvisioningState = string;
 
-/** Optional parameters. */
-export interface NamespacesListOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link NamespaceStatus} that the service accepts. */
+export enum KnownNamespaceStatus {
+  /** Created */
+  Created = "Created",
+  /** Creating */
+  Creating = "Creating",
+  /** Suspended */
+  Suspended = "Suspended",
+  /** Deleting */
+  Deleting = "Deleting",
+}
 
-/** Contains response data for the list operation. */
-export type NamespacesListResponse = NamespaceListResult;
+/**
+ * Defines values for NamespaceStatus. \
+ * {@link KnownNamespaceStatus} can be used interchangeably with NamespaceStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Created** \
+ * **Creating** \
+ * **Suspended** \
+ * **Deleting**
+ */
+export type NamespaceStatus = string;
 
-/** Optional parameters. */
-export interface NamespacesListAllOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link NamespaceType} that the service accepts. */
+export enum KnownNamespaceType {
+  /** Messaging */
+  Messaging = "Messaging",
+  /** NotificationHub */
+  NotificationHub = "NotificationHub",
+}
 
-/** Contains response data for the listAll operation. */
-export type NamespacesListAllResponse = NamespaceListResult;
+/**
+ * Defines values for NamespaceType. \
+ * {@link KnownNamespaceType} can be used interchangeably with NamespaceType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Messaging** \
+ * **NotificationHub**
+ */
+export type NamespaceType = string;
 
-/** Optional parameters. */
-export interface NamespacesListAuthorizationRulesOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link ReplicationRegion} that the service accepts. */
+export enum KnownReplicationRegion {
+  /** Default */
+  Default = "Default",
+  /** WestUs2 */
+  WestUs2 = "WestUs2",
+  /** NorthEurope */
+  NorthEurope = "NorthEurope",
+  /** AustraliaEast */
+  AustraliaEast = "AustraliaEast",
+  /** BrazilSouth */
+  BrazilSouth = "BrazilSouth",
+  /** SouthEastAsia */
+  SouthEastAsia = "SouthEastAsia",
+  /** SouthAfricaNorth */
+  SouthAfricaNorth = "SouthAfricaNorth",
+  /** None */
+  None = "None",
+}
 
-/** Contains response data for the listAuthorizationRules operation. */
-export type NamespacesListAuthorizationRulesResponse = SharedAccessAuthorizationRuleListResult;
+/**
+ * Defines values for ReplicationRegion. \
+ * {@link KnownReplicationRegion} can be used interchangeably with ReplicationRegion,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Default** \
+ * **WestUs2** \
+ * **NorthEurope** \
+ * **AustraliaEast** \
+ * **BrazilSouth** \
+ * **SouthEastAsia** \
+ * **SouthAfricaNorth** \
+ * **None**
+ */
+export type ReplicationRegion = string;
 
-/** Optional parameters. */
-export interface NamespacesListKeysOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link ZoneRedundancyPreference} that the service accepts. */
+export enum KnownZoneRedundancyPreference {
+  /** Disabled */
+  Disabled = "Disabled",
+  /** Enabled */
+  Enabled = "Enabled",
+}
 
-/** Contains response data for the listKeys operation. */
-export type NamespacesListKeysResponse = ResourceListKeys;
+/**
+ * Defines values for ZoneRedundancyPreference. \
+ * {@link KnownZoneRedundancyPreference} can be used interchangeably with ZoneRedundancyPreference,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disabled** \
+ * **Enabled**
+ */
+export type ZoneRedundancyPreference = string;
 
-/** Optional parameters. */
-export interface NamespacesRegenerateKeysOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+export enum KnownPrivateEndpointConnectionProvisioningState {
+  /** Unknown */
+  Unknown = "Unknown",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** UpdatingByProxy */
+  UpdatingByProxy = "UpdatingByProxy",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** DeletingByProxy */
+  DeletingByProxy = "DeletingByProxy",
+  /** Deleted */
+  Deleted = "Deleted",
+}
 
-/** Contains response data for the regenerateKeys operation. */
-export type NamespacesRegenerateKeysResponse = ResourceListKeys;
+/**
+ * Defines values for PrivateEndpointConnectionProvisioningState. \
+ * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown** \
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **UpdatingByProxy** \
+ * **Deleting** \
+ * **DeletingByProxy** \
+ * **Deleted**
+ */
+export type PrivateEndpointConnectionProvisioningState = string;
 
-/** Optional parameters. */
-export interface NamespacesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link PrivateLinkConnectionStatus} that the service accepts. */
+export enum KnownPrivateLinkConnectionStatus {
+  /** Disconnected */
+  Disconnected = "Disconnected",
+  /** Pending */
+  Pending = "Pending",
+  /** Approved */
+  Approved = "Approved",
+  /** Rejected */
+  Rejected = "Rejected",
+}
 
-/** Contains response data for the listNext operation. */
-export type NamespacesListNextResponse = NamespaceListResult;
+/**
+ * Defines values for PrivateLinkConnectionStatus. \
+ * {@link KnownPrivateLinkConnectionStatus} can be used interchangeably with PrivateLinkConnectionStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Disconnected** \
+ * **Pending** \
+ * **Approved** \
+ * **Rejected**
+ */
+export type PrivateLinkConnectionStatus = string;
 
-/** Optional parameters. */
-export interface NamespacesListAllNextOptionalParams
-  extends coreClient.OperationOptions {}
+/** Known values of {@link PublicNetworkAccess} that the service accepts. */
+export enum KnownPublicNetworkAccess {
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
 
-/** Contains response data for the listAllNext operation. */
-export type NamespacesListAllNextResponse = NamespaceListResult;
-
-/** Optional parameters. */
-export interface NamespacesListAuthorizationRulesNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listAuthorizationRulesNext operation. */
-export type NamespacesListAuthorizationRulesNextResponse = SharedAccessAuthorizationRuleListResult;
+/**
+ * Defines values for PublicNetworkAccess. \
+ * {@link KnownPublicNetworkAccess} can be used interchangeably with PublicNetworkAccess,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enabled** \
+ * **Disabled**
+ */
+export type PublicNetworkAccess = string;
 
 /** Optional parameters. */
 export interface NotificationHubsCheckNotificationHubAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the checkNotificationHubAvailability operation. */
-export type NotificationHubsCheckNotificationHubAvailabilityResponse = CheckAvailabilityResult;
-
-/** Optional parameters. */
-export interface NotificationHubsCreateOrUpdateOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the createOrUpdate operation. */
-export type NotificationHubsCreateOrUpdateResponse = NotificationHubResource;
-
-/** Optional parameters. */
-export interface NotificationHubsPatchOptionalParams
-  extends coreClient.OperationOptions {
-  /** Parameters supplied to patch a NotificationHub Resource. */
-  parameters?: NotificationHubPatchParameters;
-}
-
-/** Contains response data for the patch operation. */
-export type NotificationHubsPatchResponse = NotificationHubResource;
-
-/** Optional parameters. */
-export interface NotificationHubsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export type NotificationHubsCheckNotificationHubAvailabilityResponse =
+  CheckAvailabilityResult;
 
 /** Optional parameters. */
 export interface NotificationHubsGetOptionalParams
@@ -699,11 +1463,38 @@ export interface NotificationHubsGetOptionalParams
 export type NotificationHubsGetResponse = NotificationHubResource;
 
 /** Optional parameters. */
-export interface NotificationHubsDebugSendOptionalParams
+export interface NotificationHubsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NotificationHubsCreateOrUpdateResponse = NotificationHubResource;
+
+/** Optional parameters. */
+export interface NotificationHubsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type NotificationHubsUpdateResponse = NotificationHubResource;
+
+/** Optional parameters. */
+export interface NotificationHubsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface NotificationHubsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Debug send parameters */
-  parameters?: Record<string, unknown>;
+  /** Continuation token. */
+  skipToken?: string;
+  /** Page size. */
+  top?: number;
 }
+
+/** Contains response data for the list operation. */
+export type NotificationHubsListResponse = NotificationHubListResult;
+
+/** Optional parameters. */
+export interface NotificationHubsDebugSendOptionalParams
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the debugSend operation. */
 export type NotificationHubsDebugSendResponse = DebugSendResponse;
@@ -713,7 +1504,8 @@ export interface NotificationHubsCreateOrUpdateAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdateAuthorizationRule operation. */
-export type NotificationHubsCreateOrUpdateAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
+export type NotificationHubsCreateOrUpdateAuthorizationRuleResponse =
+  SharedAccessAuthorizationRuleResource;
 
 /** Optional parameters. */
 export interface NotificationHubsDeleteAuthorizationRuleOptionalParams
@@ -724,21 +1516,16 @@ export interface NotificationHubsGetAuthorizationRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAuthorizationRule operation. */
-export type NotificationHubsGetAuthorizationRuleResponse = SharedAccessAuthorizationRuleResource;
-
-/** Optional parameters. */
-export interface NotificationHubsListOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the list operation. */
-export type NotificationHubsListResponse = NotificationHubListResult;
+export type NotificationHubsGetAuthorizationRuleResponse =
+  SharedAccessAuthorizationRuleResource;
 
 /** Optional parameters. */
 export interface NotificationHubsListAuthorizationRulesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRules operation. */
-export type NotificationHubsListAuthorizationRulesResponse = SharedAccessAuthorizationRuleListResult;
+export type NotificationHubsListAuthorizationRulesResponse =
+  SharedAccessAuthorizationRuleListResult;
 
 /** Optional parameters. */
 export interface NotificationHubsListKeysOptionalParams
@@ -773,7 +1560,211 @@ export interface NotificationHubsListAuthorizationRulesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAuthorizationRulesNext operation. */
-export type NotificationHubsListAuthorizationRulesNextResponse = SharedAccessAuthorizationRuleListResult;
+export type NotificationHubsListAuthorizationRulesNextResponse =
+  SharedAccessAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface NamespacesCheckAvailabilityOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the checkAvailability operation. */
+export type NamespacesCheckAvailabilityResponse = CheckAvailabilityResult;
+
+/** Optional parameters. */
+export interface NamespacesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type NamespacesGetResponse = NamespaceResource;
+
+/** Optional parameters. */
+export interface NamespacesCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type NamespacesCreateOrUpdateResponse = NamespaceResource;
+
+/** Optional parameters. */
+export interface NamespacesUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type NamespacesUpdateResponse = NamespaceResource;
+
+/** Optional parameters. */
+export interface NamespacesDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface NamespacesListAllOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip token for subsequent requests. */
+  skipToken?: string;
+  /** Maximum number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the listAll operation. */
+export type NamespacesListAllResponse = NamespaceListResult;
+
+/** Optional parameters. */
+export interface NamespacesListOptionalParams
+  extends coreClient.OperationOptions {
+  /** Skip token for subsequent requests. */
+  skipToken?: string;
+  /** Maximum number of results to return. */
+  top?: number;
+}
+
+/** Contains response data for the list operation. */
+export type NamespacesListResponse = NamespaceListResult;
+
+/** Optional parameters. */
+export interface NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdateAuthorizationRule operation. */
+export type NamespacesCreateOrUpdateAuthorizationRuleResponse =
+  SharedAccessAuthorizationRuleResource;
+
+/** Optional parameters. */
+export interface NamespacesDeleteAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface NamespacesGetAuthorizationRuleOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getAuthorizationRule operation. */
+export type NamespacesGetAuthorizationRuleResponse =
+  SharedAccessAuthorizationRuleResource;
+
+/** Optional parameters. */
+export interface NamespacesListAuthorizationRulesOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAuthorizationRules operation. */
+export type NamespacesListAuthorizationRulesResponse =
+  SharedAccessAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface NamespacesListKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listKeys operation. */
+export type NamespacesListKeysResponse = ResourceListKeys;
+
+/** Optional parameters. */
+export interface NamespacesRegenerateKeysOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the regenerateKeys operation. */
+export type NamespacesRegenerateKeysResponse = ResourceListKeys;
+
+/** Optional parameters. */
+export interface NamespacesGetPnsCredentialsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getPnsCredentials operation. */
+export type NamespacesGetPnsCredentialsResponse = PnsCredentialsResource;
+
+/** Optional parameters. */
+export interface NamespacesListAllNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAllNext operation. */
+export type NamespacesListAllNextResponse = NamespaceListResult;
+
+/** Optional parameters. */
+export interface NamespacesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type NamespacesListNextResponse = NamespaceListResult;
+
+/** Optional parameters. */
+export interface NamespacesListAuthorizationRulesNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listAuthorizationRulesNext operation. */
+export type NamespacesListAuthorizationRulesNextResponse =
+  SharedAccessAuthorizationRuleListResult;
+
+/** Optional parameters. */
+export interface OperationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type OperationsListResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface OperationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type OperationsListNextResponse = OperationListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type PrivateEndpointConnectionsUpdateResponse =
+  PrivateEndpointConnectionResource;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the delete operation. */
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnectionsDeleteHeaders;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PrivateEndpointConnectionsGetResponse =
+  PrivateEndpointConnectionResource;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionResourceListResult;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsGetGroupIdOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getGroupId operation. */
+export type PrivateEndpointConnectionsGetGroupIdResponse = PrivateLinkResource;
+
+/** Optional parameters. */
+export interface PrivateEndpointConnectionsListGroupIdsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listGroupIds operation. */
+export type PrivateEndpointConnectionsListGroupIdsResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface NotificationHubsManagementClientOptionalParams

@@ -30,7 +30,7 @@ async function dedicatedHostGroupDeleteMaximumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.delete(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function dedicatedHostGroupDeleteMinimumSetGen() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.delete(
     resourceGroupName,
-    hostGroupName
+    hostGroupName,
   );
   console.log(result);
 }

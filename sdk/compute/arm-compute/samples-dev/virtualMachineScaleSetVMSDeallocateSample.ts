@@ -32,7 +32,7 @@ async function virtualMachineScaleSetVMDeallocateMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginDeallocateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetVMDeallocateMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginDeallocateAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

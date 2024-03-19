@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Environment list of an organization
  *
  * @summary Environment list of an organization
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_EnvironmentList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_EnvironmentList.json
  */
 async function accessEnvironmentList() {
   const subscriptionId =

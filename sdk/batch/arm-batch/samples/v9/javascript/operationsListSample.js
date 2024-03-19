@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists available operations for the Microsoft.Batch provider
  *
  * @summary Lists available operations for the Microsoft.Batch provider
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/OperationsList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/OperationsList.json
  */
 async function operationsList() {
   const subscriptionId =

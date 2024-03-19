@@ -180,6 +180,7 @@ function assertToolCall(
 ): void {
   assertIf(!stream, functionCall.type, assert.isString);
   assertIf(!stream, functionCall.id, assert.isString);
+  assertIf(Boolean(stream), functionCall.index, assert.isNumber);
   switch (functionCall.type) {
     case "function":
       assertFunctionCall(functionCall.function, { stream });
