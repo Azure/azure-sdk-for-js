@@ -74,6 +74,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
             parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
             legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
           },
+          openBrowser: ibcNodeOptions.openBrowser,
         });
       }
     } else {

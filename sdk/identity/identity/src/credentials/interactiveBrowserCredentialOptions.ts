@@ -47,6 +47,11 @@ export interface InteractiveBrowserCredentialNodeOptions
    * Setting this option skips the account selection prompt and immediately attempts to login with the specified account.
    */
   loginHint?: string;
+
+  /**
+   * Open browser override
+   */
+  openBrowser?: (url: string) => Promise<void>;
 }
 
 /**

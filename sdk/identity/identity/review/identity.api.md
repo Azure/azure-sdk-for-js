@@ -315,6 +315,7 @@ export interface InteractiveBrowserCredentialInBrowserOptions extends Interactiv
 export interface InteractiveBrowserCredentialNodeOptions extends InteractiveCredentialOptions, CredentialPersistenceOptions, BrowserCustomizationOptions, BrokerAuthOptions {
     clientId?: string;
     loginHint?: string;
+    openBrowser?: (url: string) => Promise<void>;
     redirectUri?: string | (() => string);
     tenantId?: string;
 }

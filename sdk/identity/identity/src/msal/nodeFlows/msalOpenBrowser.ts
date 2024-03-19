@@ -23,6 +23,7 @@ export interface MsalOpenBrowserOptions extends MsalNodeOptions {
     errorMessage?: string;
     successMessage?: string;
   };
+  openBrowser?: (url: string) => Promise<void>;
 }
 
 /**
@@ -42,12 +43,14 @@ export class MsalOpenBrowser extends MsalNode {
   private loginHint?: string;
   private errorTemplate?: string;
   private successTemplate?: string;
+  private openBrowser?: (url: string) => Promise<void>;
 
   constructor(options: MsalOpenBrowserOptions) {
     super(options);
     this.loginHint = options.loginHint;
     this.errorTemplate = options.browserCustomizationOptions?.errorMessage;
     this.successTemplate = options.browserCustomizationOptions?.successMessage;
+    this.openBrowser = options.openBrowser;
     this.logger = credentialLogger("Node.js MSAL Open Browser");
   }
 
@@ -57,9 +60,11 @@ export class MsalOpenBrowser extends MsalNode {
   ): Promise<AccessToken> {
     try {
       const interactiveRequest: msalNode.InteractiveRequest = {
-        openBrowser: async (url) => {
-          await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
-        },
+        openBrowser:
+          this.openBrowser ??
+          (async (url) => {
+            await interactiveBrowserMockable.open(url, { wait: true, newInstance: true });
+          }),
         scopes,
         authority: options?.authority,
         claims: options?.claims,
