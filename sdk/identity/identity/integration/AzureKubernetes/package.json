@@ -1,19 +1,14 @@
 {
   "name": "@azure-samples/azure-kubernetes-test",
   "version": "1.0.0",
-  "description": "",
+  "description": "A simple node JS script that can be used to test MSI on Kubernetes",
   "main": "index.js",
-  "scripts": {
-    "build": "tsc -p .",
-    "start": "ts-node src/index.ts",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "scripts": {},
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@azure/identity": "dev",
     "@azure/storage-blob": "^12.17.0",
-    "tslib": "^1.10.0",
-    "dotenv": "^16.0.0"
+    "tslib": "^1.10.0"
   }
 }

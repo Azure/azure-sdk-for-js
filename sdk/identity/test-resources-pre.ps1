@@ -33,15 +33,15 @@ param (
 
 Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
 
-# Remove-Item $PSScriptRoot/sshKey -Force
-# Remove-Item $PSScriptRoot/sshKey.pub -Force
-# ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
+Remove-Item $PSScriptRoot/sshKey -Force
+Remove-Item $PSScriptRoot/sshKey.pub -Force
+ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
 $sshKey = Get-Content $PSScriptRoot/sshKey.pub
 
 $templateFileParameters['sshPubKey'] = $sshKey
 
 # Write-Host "Sleeping for a bit to ensure service principal is ready."
-# Start-Sleep -s 45
+Start-Sleep -s 45
 
 if ($CI) {
   # Install this specific version of the Azure CLI to avoid https://github.com/Azure/azure-cli/issues/28358.

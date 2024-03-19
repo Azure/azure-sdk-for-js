@@ -11,12 +11,12 @@ param (
   [hashtable] $DeploymentOutputs
 )
 
-$MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
+$MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
 $saAccountName = 'workload-identity-sa'
 $podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
 $storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
-$userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
+$userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
@@ -98,7 +98,7 @@ spec:
     env:
     - name: IDENTITY_STORAGE_NAME_2
       value: "$storageName2"
-    - name: IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID
+    - name: IDENTITY_USER_DEFINED_CLIENT_ID
       value: "$userDefinedClientId"
     ports:
     - containerPort: 80
