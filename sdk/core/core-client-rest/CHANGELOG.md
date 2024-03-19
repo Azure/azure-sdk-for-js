@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
 ## 1.3.0 (2024-03-12)
 
 ### Features Added
