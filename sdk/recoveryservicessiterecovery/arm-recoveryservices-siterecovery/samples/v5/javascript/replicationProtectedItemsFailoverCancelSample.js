@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operation to cancel the failover of the replication protected item.
  *
  * @summary Operation to cancel the failover of the replication protected item.
- * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-06-01/examples/ReplicationProtectedItems_FailoverCancel.json
+ * x-ms-original-file: specification/recoveryservicessiterecovery/resource-manager/Microsoft.RecoveryServices/stable/2023-08-01/examples/ReplicationProtectedItems_FailoverCancel.json
  */
 async function executeCancelFailover() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function executeCancelFailover() {
     resourceGroupName,
     fabricName,
     protectionContainerName,
-    replicatedProtectedItemName
+    replicatedProtectedItemName,
   );
   console.log(result);
 }

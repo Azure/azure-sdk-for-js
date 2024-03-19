@@ -29,7 +29,7 @@ async function workloadNetworksDeletePortMirroring() {
   const result = await client.workloadNetworks.beginDeletePortMirroringAndWait(
     resourceGroupName,
     portMirroringId,
-    privateCloudName
+    privateCloudName,
   );
   console.log(result);
 }

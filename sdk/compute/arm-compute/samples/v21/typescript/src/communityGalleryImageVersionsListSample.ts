@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List community gallery image versions inside an image.
  *
  * @summary List community gallery image versions inside an image.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_List.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_List.json
  */
 async function listCommunityGalleryImageVersions() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function listCommunityGalleryImageVersions() {
   for await (let item of client.communityGalleryImageVersions.list(
     location,
     publicGalleryName,
-    galleryImageName
+    galleryImageName,
   )) {
     resArray.push(item);
   }

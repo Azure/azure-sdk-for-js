@@ -19,7 +19,7 @@ import {
   GalleriesUpdateResponse,
   GalleriesGetOptionalParams,
   GalleriesGetResponse,
-  GalleriesDeleteOptionalParams
+  GalleriesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +32,14 @@ export interface Galleries {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: GalleriesListByResourceGroupOptionalParams
+    options?: GalleriesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Gallery>;
   /**
    * List galleries under a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: GalleriesListOptionalParams
+    options?: GalleriesListOptionalParams,
   ): PagedAsyncIterableIterator<Gallery>;
   /**
    * Create or update a Shared Image Gallery.
@@ -53,7 +53,7 @@ export interface Galleries {
     resourceGroupName: string,
     galleryName: string,
     gallery: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams
+    options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleriesCreateOrUpdateResponse>,
@@ -72,7 +72,7 @@ export interface Galleries {
     resourceGroupName: string,
     galleryName: string,
     gallery: Gallery,
-    options?: GalleriesCreateOrUpdateOptionalParams
+    options?: GalleriesCreateOrUpdateOptionalParams,
   ): Promise<GalleriesCreateOrUpdateResponse>;
   /**
    * Update a Shared Image Gallery.
@@ -86,7 +86,7 @@ export interface Galleries {
     resourceGroupName: string,
     galleryName: string,
     gallery: GalleryUpdate,
-    options?: GalleriesUpdateOptionalParams
+    options?: GalleriesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<GalleriesUpdateResponse>,
@@ -105,7 +105,7 @@ export interface Galleries {
     resourceGroupName: string,
     galleryName: string,
     gallery: GalleryUpdate,
-    options?: GalleriesUpdateOptionalParams
+    options?: GalleriesUpdateOptionalParams,
   ): Promise<GalleriesUpdateResponse>;
   /**
    * Retrieves information about a Shared Image Gallery.
@@ -116,7 +116,7 @@ export interface Galleries {
   get(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleriesGetOptionalParams
+    options?: GalleriesGetOptionalParams,
   ): Promise<GalleriesGetResponse>;
   /**
    * Delete a Shared Image Gallery.
@@ -127,7 +127,7 @@ export interface Galleries {
   beginDelete(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleriesDeleteOptionalParams
+    options?: GalleriesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Shared Image Gallery.
@@ -138,6 +138,6 @@ export interface Galleries {
   beginDeleteAndWait(
     resourceGroupName: string,
     galleryName: string,
-    options?: GalleriesDeleteOptionalParams
+    options?: GalleriesDeleteOptionalParams,
   ): Promise<void>;
 }

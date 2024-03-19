@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DedicatedHostGroupUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,7 +34,7 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
       hosts: [
         {
           availableCapacity: {
-            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }]
+            allocatableVMs: [{ count: 26, vmSize: "aaaaaaaaaaaaaaaaaaaa" }],
           },
           statuses: [
             {
@@ -42,23 +42,23 @@ async function dedicatedHostGroupUpdateMaximumSetGen() {
               displayStatus: "aaaaaa",
               level: "Info",
               message: "a",
-              time: new Date("2021-11-30T12:58:26.522Z")
-            }
-          ]
-        }
-      ]
+              time: new Date("2021-11-30T12:58:26.522Z"),
+            },
+          ],
+        },
+      ],
     },
     platformFaultDomainCount: 3,
     supportAutomaticPlacement: true,
     tags: { key9921: "aaaaaaaaaa" },
-    zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"]
+    zones: ["aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.dedicatedHostGroups.update(
     resourceGroupName,
     hostGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -81,7 +81,7 @@ async function dedicatedHostGroupUpdateMinimumSetGen() {
   const result = await client.dedicatedHostGroups.update(
     resourceGroupName,
     hostGroupName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -29,7 +29,7 @@ async function workloadNetworksGetVMGroup() {
   const result = await client.workloadNetworks.getVMGroup(
     resourceGroupName,
     privateCloudName,
-    vmGroupId
+    vmGroupId,
   );
   console.log(result);
 }

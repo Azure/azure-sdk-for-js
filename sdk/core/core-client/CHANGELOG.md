@@ -1,6 +1,6 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.1 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,16 @@
 
 ### Bugs Fixed
 
+- Addressed an issue with `authorizeRequestOnTenantChallenge` not correctly parsing challenges. [PR #28967](https://github.com/Azure/azure-sdk-for-js/pull/28967)
+
 ### Other Changes
+
+## 1.9.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.8.0 (2024-02-01)
 
@@ -23,6 +32,7 @@
 ## 1.7.3 (2023-06-01)
 
 ### Other Changes
+
 - remove the validation that credential scopes must be a valid URL [Issue #25881](https://github.com/Azure/azure-sdk-for-js/issues/25881)
 
 ## 1.7.2 (2023-02-23)

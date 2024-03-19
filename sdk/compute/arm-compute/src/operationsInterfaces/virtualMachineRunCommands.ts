@@ -22,7 +22,7 @@ import {
   VirtualMachineRunCommandsUpdateResponse,
   VirtualMachineRunCommandsDeleteOptionalParams,
   VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
-  VirtualMachineRunCommandsGetByVirtualMachineResponse
+  VirtualMachineRunCommandsGetByVirtualMachineResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,7 +35,7 @@ export interface VirtualMachineRunCommands {
    */
   list(
     location: string,
-    options?: VirtualMachineRunCommandsListOptionalParams
+    options?: VirtualMachineRunCommandsListOptionalParams,
   ): PagedAsyncIterableIterator<RunCommandDocumentBase>;
   /**
    * The operation to get all run commands of a Virtual Machine.
@@ -46,7 +46,7 @@ export interface VirtualMachineRunCommands {
   listByVirtualMachine(
     resourceGroupName: string,
     vmName: string,
-    options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams
+    options?: VirtualMachineRunCommandsListByVirtualMachineOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachineRunCommand>;
   /**
    * Gets specific run command for a subscription in a location.
@@ -57,7 +57,7 @@ export interface VirtualMachineRunCommands {
   get(
     location: string,
     commandId: string,
-    options?: VirtualMachineRunCommandsGetOptionalParams
+    options?: VirtualMachineRunCommandsGetOptionalParams,
   ): Promise<VirtualMachineRunCommandsGetResponse>;
   /**
    * The operation to create or update the run command.
@@ -72,7 +72,7 @@ export interface VirtualMachineRunCommands {
     vmName: string,
     runCommandName: string,
     runCommand: VirtualMachineRunCommand,
-    options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams
+    options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineRunCommandsCreateOrUpdateResponse>,
@@ -92,7 +92,7 @@ export interface VirtualMachineRunCommands {
     vmName: string,
     runCommandName: string,
     runCommand: VirtualMachineRunCommand,
-    options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams
+    options?: VirtualMachineRunCommandsCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachineRunCommandsCreateOrUpdateResponse>;
   /**
    * The operation to update the run command.
@@ -107,7 +107,7 @@ export interface VirtualMachineRunCommands {
     vmName: string,
     runCommandName: string,
     runCommand: VirtualMachineRunCommandUpdate,
-    options?: VirtualMachineRunCommandsUpdateOptionalParams
+    options?: VirtualMachineRunCommandsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachineRunCommandsUpdateResponse>,
@@ -127,7 +127,7 @@ export interface VirtualMachineRunCommands {
     vmName: string,
     runCommandName: string,
     runCommand: VirtualMachineRunCommandUpdate,
-    options?: VirtualMachineRunCommandsUpdateOptionalParams
+    options?: VirtualMachineRunCommandsUpdateOptionalParams,
   ): Promise<VirtualMachineRunCommandsUpdateResponse>;
   /**
    * The operation to delete the run command.
@@ -140,7 +140,7 @@ export interface VirtualMachineRunCommands {
     resourceGroupName: string,
     vmName: string,
     runCommandName: string,
-    options?: VirtualMachineRunCommandsDeleteOptionalParams
+    options?: VirtualMachineRunCommandsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * The operation to delete the run command.
@@ -153,7 +153,7 @@ export interface VirtualMachineRunCommands {
     resourceGroupName: string,
     vmName: string,
     runCommandName: string,
-    options?: VirtualMachineRunCommandsDeleteOptionalParams
+    options?: VirtualMachineRunCommandsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * The operation to get the run command.
@@ -166,6 +166,6 @@ export interface VirtualMachineRunCommands {
     resourceGroupName: string,
     vmName: string,
     runCommandName: string,
-    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams
+    options?: VirtualMachineRunCommandsGetByVirtualMachineOptionalParams,
   ): Promise<VirtualMachineRunCommandsGetByVirtualMachineResponse>;
 }

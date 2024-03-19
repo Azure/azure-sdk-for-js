@@ -20,7 +20,7 @@ import {
   VirtualApplianceSkusListResponse,
   VirtualApplianceSkusGetOptionalParams,
   VirtualApplianceSkusGetResponse,
-  VirtualApplianceSkusListNextResponse
+  VirtualApplianceSkusListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
    * @param options The options parameters.
    */
   public list(
-    options?: VirtualApplianceSkusListOptionalParams
+    options?: VirtualApplianceSkusListOptionalParams,
   ): PagedAsyncIterableIterator<NetworkVirtualApplianceSku> {
     const iter = this.listPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: VirtualApplianceSkusListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NetworkVirtualApplianceSku[]> {
     let result: VirtualApplianceSkusListResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
   }
 
   private async *listPagingAll(
-    options?: VirtualApplianceSkusListOptionalParams
+    options?: VirtualApplianceSkusListOptionalParams,
   ): AsyncIterableIterator<NetworkVirtualApplianceSku> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -95,7 +95,7 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
    * @param options The options parameters.
    */
   private _list(
-    options?: VirtualApplianceSkusListOptionalParams
+    options?: VirtualApplianceSkusListOptionalParams,
   ): Promise<VirtualApplianceSkusListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -107,11 +107,11 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
    */
   get(
     skuName: string,
-    options?: VirtualApplianceSkusGetOptionalParams
+    options?: VirtualApplianceSkusGetOptionalParams,
   ): Promise<VirtualApplianceSkusGetResponse> {
     return this.client.sendOperationRequest(
       { skuName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -122,11 +122,11 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
    */
   private _listNext(
     nextLink: string,
-    options?: VirtualApplianceSkusListNextOptionalParams
+    options?: VirtualApplianceSkusListNextOptionalParams,
   ): Promise<VirtualApplianceSkusListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -134,59 +134,57 @@ export class VirtualApplianceSkusImpl implements VirtualApplianceSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult
+      bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkVirtualApplianceSkus/{skuName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkVirtualApplianceSku
+      bodyMapper: Mappers.NetworkVirtualApplianceSku,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.skuName
+    Parameters.skuName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult
+      bodyMapper: Mappers.NetworkVirtualApplianceSkuListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

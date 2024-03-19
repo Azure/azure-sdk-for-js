@@ -36,7 +36,7 @@ async function linkNotificationHub() {
   const result = await client.communicationServices.linkNotificationHub(
     resourceGroupName,
     communicationServiceName,
-    options
+    options,
   );
   console.log(result);
 }
