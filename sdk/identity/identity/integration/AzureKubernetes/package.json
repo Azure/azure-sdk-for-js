@@ -8,7 +8,6 @@
   "license": "ISC",
   "dependencies": {
     "@azure/identity": "dev",
-    "@azure/storage-blob": "^12.17.0",
-    "tslib": "^1.10.0"
+    "@azure/storage-blob": "^12.17.0"
   }
 }
