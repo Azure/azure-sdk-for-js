@@ -33,8 +33,7 @@ param (
 
 Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
 
-Remove-Item $PSScriptRoot/sshKey -Force
-Remove-Item $PSScriptRoot/sshKey.pub -Force
+Remove-Item $PSScriptRoot/sshKey* -Force
 ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
 $sshKey = Get-Content $PSScriptRoot/sshKey.pub
 
