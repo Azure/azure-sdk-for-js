@@ -49,35 +49,35 @@ parameters:
 extends:
   template: /eng/pipelines/templates/stages/1es-redirect.yml
   parameters:
-  stages:
-    - stage:
-      displayName: NPM Tag
+    stages:
+      - stage:
+        displayName: NPM Tag
 
-      jobs:
-      - deployment: 'NPM_Admin'
-        displayName: NPM package management
-        environment: npm
+        jobs:
+        - deployment: 'NPM_Admin'
+          displayName: NPM package management
+          environment: npm
 
-        pool:
-          name: azsdk-pool-mms-win-2022-general
-          image: azsdk-pool-mms-win-2022-1espt
-          os: windows
+          pool:
+            name: azsdk-pool-mms-win-2022-general
+            image: azsdk-pool-mms-win-2022-1espt
+            os: windows
 
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
-                - task: PowerShell@2
-                  displayName: 'Run Task'
-                  inputs:
-                    targetType: filePath
-                    filePath: "eng/scripts/npm-admin-tasks.ps1"
-                    arguments: >
-                      -taskType ${{parameters.TaskType}}
-                      -packageName ${{parameters.PackageName}}
-                      -pkgVersion ${{parameters.PkgVersion}}
-                      -tagName ${{parameters.TagName}}
-                      -npmToken "$(azure-sdk-npm-token)"
-                      -reason "${{parameters.Reason}}"
-                    pwsh: true
+          strategy:
+            runOnce:
+              deploy:
+                steps:
+                  - template: /eng/common/pipelines/templates/steps/sparse-checkout.yml
+                  - task: PowerShell@2
+                    displayName: 'Run Task'
+                    inputs:
+                      targetType: filePath
+                      filePath: "eng/scripts/npm-admin-tasks.ps1"
+                      arguments: >
+                        -taskType ${{parameters.TaskType}}
+                        -packageName ${{parameters.PackageName}}
+                        -pkgVersion ${{parameters.PkgVersion}}
+                        -tagName ${{parameters.TagName}}
+                        -npmToken "$(azure-sdk-npm-token)"
+                        -reason "${{parameters.Reason}}"
+                      pwsh: true
