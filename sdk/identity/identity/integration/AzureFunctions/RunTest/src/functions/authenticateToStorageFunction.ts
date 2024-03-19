@@ -38,7 +38,7 @@ async function authToStorageHelper(context: InvocationContext): Promise<void> {
   const account1 = process.env.IDENTITY_STORAGE_NAME_1;
   const account2 = process.env.IDENTITY_STORAGE_NAME_2;
 
-  const credential2 = new ManagedIdentityCredential({ clientId: clientId });
+  const credential2 = new ManagedIdentityCredential({ clientId });
   const client1 = new BlobServiceClient(`https://${account1}.blob.core.windows.net`, credential1);
   const client2 = new BlobServiceClient(`https://${account2}.blob.core.windows.net`, credential2);
   context.log("Getting containers for storage account client: system managed identity");

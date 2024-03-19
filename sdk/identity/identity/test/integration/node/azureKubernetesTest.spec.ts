@@ -12,9 +12,6 @@ describe.only("Azure Kubernetes Integration test", function () {
       this.skip();
     }
 
-    // const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
-    // const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
-    // const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
@@ -23,10 +20,16 @@ describe.only("Azure Kubernetes Integration test", function () {
     const azPath = runCommand(`which az`);
     const kubectlPath = runCommand(`which kubectl`);
 
-    // runCommand(
-    //   azPath,
-    //   `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
-    // );
+    if (process.env.AZURE_CLIENT_SECRET) {
+      // Log in as service principal in CI
+      const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
+      const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
+      const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
+      runCommand(
+        azPath,
+        `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
+      );
+    }
 
     runCommand(azPath, `account set --subscription ${subscriptionId}`);
     runCommand(
@@ -37,13 +40,11 @@ describe.only("Azure Kubernetes Integration test", function () {
     assert.include(pods, podName);
 
     const podOutput = runCommand(kubectlPath, `exec ${podName} -- node /app/index.js`);
-    console.log({ podOutput });
-    assert.equal(podOutput, "Successfully authenticated with storage");
+    assert.include(podOutput, "Successfully authenticated with storage");
   });
 });
 
 function runCommand(command: string, args: string = ""): string {
-  console.log({ command, args });
   return execSync(`${command} ${args}`).toString().trim();
 }
 

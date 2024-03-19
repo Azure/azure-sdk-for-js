@@ -49,13 +49,3 @@ if ($CI) {
 }
 $az_version = az version
 Write-Host "Azure CLI version: $az_version"
-
-# az login --service-principal -u $TestApplicationId -p $TestApplicationSecret --tenant $TenantId
-# az account set --subscription $SubscriptionId
-# $versions = az aks get-versions -l westus -o json | ConvertFrom-Json
-# Write-Host "AKS versions: $($versions | ConvertTo-Json -Depth 100)"
-# $patchVersions = $versions.values | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty patchVersions
-# Write-Host "AKS patch versions: $($patchVersions | ConvertTo-Json -Depth 100)"
-# $latestAksVersion = $patchVersions | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | Sort-Object -Descending | Select-Object -First 1
-# Write-Host "Latest AKS version: $latestAksVersion"
-# $templateFileParameters['latestAksVersion'] = $latestAksVersion
