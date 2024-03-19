@@ -1,15 +1,36 @@
 # Release History
+    
+## 4.0.0-beta.1 (2024-03-18)
+    
+**Features**
 
-## 3.0.1 (Unreleased)
+  - Added operation Configurations.analysis
+  - Added Interface AnalysisCreate
+  - Added Interface AnalysisCreateConfig
+  - Added Interface AnalysisDiagnostic
+  - Added Interface AnalysisResult
+  - Added Interface AnalysisResultData
+  - Added Interface AutoUpgradeProfile
+  - Added Interface ConfigurationsAnalysisOptionalParams
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Added Interface NginxCertificateErrorResponseBody
+  - Added Interface ScaleProfile
+  - Added Interface ScaleProfileCapacity
+  - Added Type Alias ConfigurationsAnalysisResponse
+  - Interface NginxCertificateProperties has a new optional parameter certificateError
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretCreated
+  - Interface NginxCertificateProperties has a new optional parameter keyVaultSecretVersion
+  - Interface NginxCertificateProperties has a new optional parameter sha1Thumbprint
+  - Interface NginxDeploymentProperties has a new optional parameter autoUpgradeProfile
+  - Interface NginxDeploymentScalingProperties has a new optional parameter profiles
+  - Interface NginxDeploymentUpdateProperties has a new optional parameter autoUpgradeProfile
 
-### Features Added
+**Breaking Changes**
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Type of parameter error of interface ResourceProviderDefaultErrorResponse is changed from ErrorResponseBody to ErrorDetail
+    
+    
 ## 3.0.0 (2023-11-09)
     
 **Features**
