@@ -22582,7 +22582,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-Y3sD4ZuALQBa3x4YQyyFSeciWnF1O/eB0MNHaimgcO1aN0okQ3U408iStIzwGGIMYJGcD//+haXAmPOHSxl+AQ==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-/c4mftLDuj00hCH9HYl+SzAmLnA5eteW2pFyVSUBxpasGRdoz2g/0q/kOHVtp6KepbLvupuMiFFWegg8YOR5tA==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -22590,13 +22590,20 @@ packages:
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
       '@types/chai': 4.3.12
+      '@types/express': 4.17.21
+      '@types/fs-extra': 8.1.5
       '@types/mocha': 10.0.6
       '@types/node': 18.19.18
+      '@vitest/browser': 1.3.1(playwright@1.41.2)(vitest@1.3.1)
+      '@vitest/coverage-istanbul': 1.3.1(vitest@1.3.1)
+      c8: 8.0.1
       chai: 4.3.10
+      concurrently: 8.2.2
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
       esm: 3.2.25
+      express: 4.18.2
       inherits: 2.0.4
       karma: 6.4.3(debug@4.3.4)
       karma-chrome-launcher: 3.2.0
@@ -22608,21 +22615,38 @@ packages:
       karma-junit-reporter: 2.0.1(karma@6.4.3)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
+      loupe: 3.1.0
       mocha: 10.3.0
       nyc: 15.1.0
+      playwright: 1.41.2
+      prettier: 3.2.5
       rimraf: 5.0.5
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.18)(typescript@5.3.3)
+      tshy: 1.11.1
       tslib: 2.6.2
       typescript: 5.3.3
       util: 0.12.5
+      vitest: 1.3.1(@types/node@18.19.18)(@vitest/browser@1.3.1)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
       - '@swc/core'
       - '@swc/wasm'
+      - '@vitest/ui'
       - bufferutil
       - debug
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - safaridriver
+      - sass
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - webdriverio
     dev: false
 
   file:projects/test-credential.tgz:

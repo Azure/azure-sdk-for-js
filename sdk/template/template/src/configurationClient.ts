@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ConfigurationSetting, GeneratedClient } from "./generated";
+import { GeneratedClient } from "./generated/index.js";
+import { ConfigurationSetting } from "./generated/models/index.js";
 import {
   CommonClientOptions,
   OperationOptions,
@@ -10,9 +11,9 @@ import {
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/core-auth";
 import { TracingClient, createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants";
-import { logger } from "./logger";
-import { quoteETag } from "./util";
+import { SDK_VERSION } from "./constants.js";
+import { logger } from "./logger.js";
+import { quoteETag } from "./util.js";
 
 // re-export generated types that are used as public interfaces.
 export { ConfigurationSetting };
