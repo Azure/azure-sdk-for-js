@@ -11320,10 +11320,11 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-YRTlkM67laEvE/VpyCfD4OXqasmWi1cYrds1dtQli667RMP0rHgNBoeYs7k+I8VnE2rT5WQdeU/dNyhvAuJ4yg==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-eARr9XwFebll95f3Ad+GuUcpYao/PQS7dZj9Oym0tdBaO20F25A8YzXkOot1ehmZ33TEkZR4ktCUxjGoysViiA==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
+      '@azure-tools/test-recorder': 3.1.0
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.41.0(@types/node@18.19.18)
@@ -22582,7 +22583,7 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-/c4mftLDuj00hCH9HYl+SzAmLnA5eteW2pFyVSUBxpasGRdoz2g/0q/kOHVtp6KepbLvupuMiFFWegg8YOR5tA==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-CsEYrvvHezox8e6fcInq84CEOK75GPiqFc+xNNJqlTBAQ61dXfpCmvL8ghQIyrsYTgn6BOW2cPTKTBYOIcIzpg==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
@@ -22633,8 +22634,6 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - '@vitest/ui'
-      - bufferutil
-      - debug
       - happy-dom
       - jsdom
       - less
@@ -22645,7 +22644,6 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - utf-8-validate
       - webdriverio
     dev: false
 
