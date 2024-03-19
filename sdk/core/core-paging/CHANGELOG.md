@@ -1,6 +1,6 @@
 # Release History
 
-## 1.5.1 (Unreleased)
+## 1.6.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,13 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.6.0 (2024-03-12)
+
+### Other Changes
+
+- Migrated the codebase to ESM. This change is internal and should not affect customers.
+- Migrated unit tests to vitest.
 
 ## 1.5.0 (2023-02-02)
 

@@ -31,7 +31,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMaximumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetGetOSUpgradeHistoryMinimumSetGen() {
   const resArray = new Array();
   for await (let item of client.virtualMachineScaleSets.listOSUpgradeHistory(
     resourceGroupName,
-    vmScaleSetName
+    vmScaleSetName,
   )) {
     resArray.push(item);
   }

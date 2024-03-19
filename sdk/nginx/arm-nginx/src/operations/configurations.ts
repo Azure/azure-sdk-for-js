@@ -16,7 +16,7 @@ import { NginxManagementClient } from "../nginxManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,9 @@ import {
   ConfigurationsCreateOrUpdateOptionalParams,
   ConfigurationsCreateOrUpdateResponse,
   ConfigurationsDeleteOptionalParams,
-  ConfigurationsListNextResponse
+  ConfigurationsAnalysisOptionalParams,
+  ConfigurationsAnalysisResponse,
+  ConfigurationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -54,7 +56,7 @@ export class ConfigurationsImpl implements Configurations {
   public list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): PagedAsyncIterableIterator<NginxConfiguration> {
     const iter = this.listPagingAll(resourceGroupName, deploymentName, options);
     return {
@@ -72,9 +74,9 @@ export class ConfigurationsImpl implements Configurations {
           resourceGroupName,
           deploymentName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +84,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     options?: ConfigurationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NginxConfiguration[]> {
     let result: ConfigurationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +100,7 @@ export class ConfigurationsImpl implements Configurations {
         resourceGroupName,
         deploymentName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -110,12 +112,12 @@ export class ConfigurationsImpl implements Configurations {
   private async *listPagingAll(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): AsyncIterableIterator<NginxConfiguration> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       deploymentName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -130,11 +132,11 @@ export class ConfigurationsImpl implements Configurations {
   private _list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): Promise<ConfigurationsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -150,11 +152,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, configurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -170,7 +172,7 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ConfigurationsCreateOrUpdateResponse>,
@@ -179,21 +181,20 @@ export class ConfigurationsImpl implements Configurations {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<ConfigurationsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -202,8 +203,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -211,15 +212,15 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, deploymentName, configurationName, options },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       ConfigurationsCreateOrUpdateResponse,
@@ -227,7 +228,7 @@ export class ConfigurationsImpl implements Configurations {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -245,13 +246,13 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsCreateOrUpdateOptionalParams
+    options?: ConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<ConfigurationsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       deploymentName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -268,25 +269,24 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
+    options?: ConfigurationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -295,8 +295,8 @@ export class ConfigurationsImpl implements Configurations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -304,19 +304,19 @@ export class ConfigurationsImpl implements Configurations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, deploymentName, configurationName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -334,15 +334,35 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     configurationName: string,
-    options?: ConfigurationsDeleteOptionalParams
+    options?: ConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       deploymentName,
       configurationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Analyze an NGINX configuration without applying it to the NGINXaaS deployment
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param deploymentName The name of targeted NGINX deployment
+   * @param configurationName The name of configuration, only 'default' is supported value due to the
+   *                          singleton of NGINX conf
+   * @param options The options parameters.
+   */
+  analysis(
+    resourceGroupName: string,
+    deploymentName: string,
+    configurationName: string,
+    options?: ConfigurationsAnalysisOptionalParams,
+  ): Promise<ConfigurationsAnalysisResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, deploymentName, configurationName, options },
+      analysisOperationSpec,
+    );
   }
 
   /**
@@ -356,11 +376,11 @@ export class ConfigurationsImpl implements Configurations {
     resourceGroupName: string,
     deploymentName: string,
     nextLink: string,
-    options?: ConfigurationsListNextOptionalParams
+    options?: ConfigurationsListNextOptionalParams,
   ): Promise<ConfigurationsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, deploymentName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -368,38 +388,15 @@ export class ConfigurationsImpl implements Configurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfigurationListResponse
+      bodyMapper: Mappers.NginxConfigurationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.deploymentName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NginxConfiguration
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -407,31 +404,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NginxConfiguration,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentName,
+    Parameters.configurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfiguration
+      bodyMapper: Mappers.NginxConfiguration,
     },
     201: {
-      bodyMapper: Mappers.NginxConfiguration
+      bodyMapper: Mappers.NginxConfiguration,
     },
     202: {
-      bodyMapper: Mappers.NginxConfiguration
+      bodyMapper: Mappers.NginxConfiguration,
     },
     204: {
-      bodyMapper: Mappers.NginxConfiguration
+      bodyMapper: Mappers.NginxConfiguration,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   requestBody: Parameters.body1,
   queryParameters: [Parameters.apiVersion],
@@ -440,15 +457,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -456,8 +472,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -465,29 +481,53 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.configurationName
+    Parameters.configurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const analysisOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Nginx.NginxPlus/nginxDeployments/{deploymentName}/configurations/{configurationName}/analyze",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalysisResult,
+    },
+    default: {
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
+  },
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.deploymentName,
+    Parameters.configurationName1,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NginxConfigurationListResponse
+      bodyMapper: Mappers.NginxConfigurationListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.deploymentName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

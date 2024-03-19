@@ -147,6 +147,14 @@ export type ApplicationUpdateResponse = Application;
 export type AuthenticationMode = "SharedKey" | "AAD" | "TaskAuthenticationToken";
 
 // @public
+export interface AutomaticOSUpgradePolicy {
+    disableAutomaticRollback?: boolean;
+    enableAutomaticOSUpgrade?: boolean;
+    osRollingUpgradeDeferral?: boolean;
+    useRollingUpgradePolicy?: boolean;
+}
+
+// @public
 export interface AutoScaleRun {
     error?: AutoScaleRunError;
     evaluationTime: Date;
@@ -1125,6 +1133,7 @@ export interface Pool extends ProxyResource {
     targetNodeCommunicationMode?: NodeCommunicationMode;
     taskSchedulingPolicy?: TaskSchedulingPolicy;
     taskSlotsPerNode?: number;
+    upgradePolicy?: UpgradePolicy;
     userAccounts?: UserAccount[];
     vmSize?: string;
 }
@@ -1434,6 +1443,17 @@ export interface ResourceFile {
 export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 
 // @public
+export interface RollingUpgradePolicy {
+    enableCrossZoneUpgrade?: boolean;
+    maxBatchInstancePercent?: number;
+    maxUnhealthyInstancePercent?: number;
+    maxUnhealthyUpgradedInstancePercent?: number;
+    pauseTimeBetweenBatches?: string;
+    prioritizeUnhealthyInstances?: boolean;
+    rollbackFailedInstancesOnPolicyBreach?: boolean;
+}
+
+// @public
 export interface ScaleSettings {
     autoScale?: AutoScaleSettings;
     fixedScale?: FixedScaleSettings;
@@ -1473,6 +1493,7 @@ export type StorageAccountType = "Standard_LRS" | "Premium_LRS" | "StandardSSD_L
 
 // @public
 export interface SupportedSku {
+    readonly batchSupportEndOfLife?: Date;
     readonly capabilities?: SkuCapability[];
     readonly familyName?: string;
     readonly name?: string;
@@ -1501,6 +1522,16 @@ export interface TaskSchedulingPolicy {
 export interface UefiSettings {
     secureBootEnabled?: boolean;
     vTpmEnabled?: boolean;
+}
+
+// @public
+export type UpgradeMode = "automatic" | "manual" | "rolling";
+
+// @public
+export interface UpgradePolicy {
+    automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+    mode: UpgradeMode;
+    rollingUpgradePolicy?: RollingUpgradePolicy;
 }
 
 // @public

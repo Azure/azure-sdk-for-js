@@ -32,7 +32,7 @@ async function virtualMachineScaleSetVMRestartMaximumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRestartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }
@@ -55,7 +55,7 @@ async function virtualMachineScaleSetVMRestartMinimumSetGen() {
   const result = await client.virtualMachineScaleSetVMs.beginRestartAndWait(
     resourceGroupName,
     vmScaleSetName,
-    instanceId
+    instanceId,
   );
   console.log(result);
 }

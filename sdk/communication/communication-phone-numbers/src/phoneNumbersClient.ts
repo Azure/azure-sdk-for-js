@@ -13,6 +13,7 @@ import { PollOperationState, PollerLike } from "@azure/core-lro";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
 import {
+  OperatorInformationResult,
   PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
@@ -32,6 +33,7 @@ import {
   PurchasePhoneNumbersResult,
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
+  SearchOperatorInformationOptions,
 } from "./models";
 import {
   BeginPurchasePhoneNumbersOptions,
@@ -526,6 +528,38 @@ export class PhoneNumbersClient {
     try {
       return this.client.phoneNumbers.listOfferings(countryCode, {
         ...updatedOptions,
+      });
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Search for operator information about specified phone numbers.
+   *
+   * @param phoneNumbers - The phone numbers to search.
+   * @param options - Additional request options.
+   */
+  public searchOperatorInformation(
+    phoneNumbers: string[],
+    options: SearchOperatorInformationOptions = { includeAdditionalOperatorDetails: false },
+  ): Promise<OperatorInformationResult> {
+    const { span, updatedOptions } = tracingClient.startSpan(
+      "PhoneNumbersClient-searchOperatorInformation",
+      options,
+    );
+
+    try {
+      return this.client.phoneNumbers.operatorInformationSearch(phoneNumbers, {
+        ...updatedOptions,
+        options: { includeAdditionalOperatorDetails: options.includeAdditionalOperatorDetails },
       });
     } catch (e: any) {
       span.setStatus({

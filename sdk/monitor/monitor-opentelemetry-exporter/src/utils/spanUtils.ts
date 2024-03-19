@@ -127,7 +127,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const remoteDependencyData: RemoteDependencyData = {
     name: span.name, // Default
     id: `${span.spanContext().spanId}`,
-    success: span.status.code !== SpanStatusCode.ERROR,
+    success: span.status?.code !== SpanStatusCode.ERROR,
     resultCode: "0",
     type: "Dependency",
     duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
