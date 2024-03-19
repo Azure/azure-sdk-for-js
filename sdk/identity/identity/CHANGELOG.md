@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- `InteractiveBrowserCredential`: Added support for using the default broker account. [#TODO]()
+- `InteractiveBrowserCredential`: Added support for using the default broker account. [#28979](https://github.com/Azure/azure-sdk-for-js/pull/28979)
 
 ### Breaking Changes
 
