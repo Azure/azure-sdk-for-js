@@ -154,7 +154,7 @@ export class ConfigurationClient {
             );
           }
         } else {
-          key = keyOrSetting.key;
+          key = keyOrSetting.key!;
           const etag = keyOrSetting.etag;
           if (options.onlyIfChanged) {
             ifNoneMatch = quoteETag(etag);

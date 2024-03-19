@@ -52,6 +52,6 @@ export class GeneratedClientContext extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "1.0";
+    this.apiVersion = options.apiVersion || "2023-10-01";
   }
 }
