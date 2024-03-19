@@ -52,7 +52,7 @@ export function getBearerTokenProvider(
   const { abortSignal, tracingOptions } = options || {};
   const pipeline = createEmptyPipeline();
   pipeline.addPolicy(bearerTokenAuthenticationPolicy({ credential, scopes }));
-  async function getRefereshedToken(): Promise<string> {
+  async function getRefreshedToken(): Promise<string> {
     const res = await pipeline.sendRequest(
       {
         sendRequest: (request) =>
@@ -74,5 +74,5 @@ export function getBearerTokenProvider(
     }
     return accessToken;
   }
-  return getRefereshedToken;
+  return getRefreshedToken;
 }

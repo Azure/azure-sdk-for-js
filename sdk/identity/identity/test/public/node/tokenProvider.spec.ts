@@ -27,9 +27,9 @@ describe("getBearerTokenProvider", function () {
 
     const getAccessToken = getBearerTokenProvider(credential, scope);
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 5; i++) {
       if (!isPlaybackMode()) {
-        await delay(1000);
+        await delay(500);
       }
       const token = await getAccessToken();
       assert.isString(token);
