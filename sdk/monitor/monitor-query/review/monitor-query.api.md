@@ -148,10 +148,6 @@ export interface MetricAvailability {
 export type MetricClass = string;
 
 // @public
-export interface MetricClientOptions extends CommonClientOptions {
-}
-
-// @public
 export interface MetricDefinition {
     category?: string;
     description?: string;
@@ -179,7 +175,7 @@ export interface MetricNamespace {
 
 // @public
 export class MetricsClient {
-    constructor(endpoint: string, tokenCredential: TokenCredential, options?: MetricClientOptions);
+    constructor(endpoint: string, tokenCredential: TokenCredential, options?: CommonClientOptions);
     queryResources(resourceIds: string[], metricNames: string[], metricNamespace: string, options?: MetricsQueryResourcesOptions): Promise<MetricsQueryResult[]>;
 }
 
