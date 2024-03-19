@@ -26,8 +26,11 @@ $workingFolder = $webappRoot;
 
 Write-Host "Working directory: $workingFolder"
 
-# az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
-az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+if ($DeploymentOutputs['IDENTITY_CLIENT_SECRET'] -ne $null) {
+  Write-Host "Logging in to service principal"
+  az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
+  az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
+}
 
 # Azure Functions app deployment
 Write-Host "Building the code for functions app"
