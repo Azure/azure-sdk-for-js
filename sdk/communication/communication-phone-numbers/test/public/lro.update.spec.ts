@@ -16,7 +16,6 @@ matrix([[true, false]], async function (useAad) {
     const update: PhoneNumberCapabilitiesRequest = {
       calling: "none",
       sms: "outbound",
-      tenDLCCampaignBriefId: "",
     };
     let recorder: Recorder;
     let client: PhoneNumbersClient;

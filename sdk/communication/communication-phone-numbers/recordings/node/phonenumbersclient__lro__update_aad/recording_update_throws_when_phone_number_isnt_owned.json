@@ -15,8 +15,7 @@
       },
       "RequestBody": {
         "calling": "none",
-        "sms": "outbound",
-        "tenDLCCampaignBriefId": ""
+        "sms": "outbound"
       },
       "StatusCode": 404,
       "ResponseHeaders": {
