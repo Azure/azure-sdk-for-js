@@ -13,10 +13,7 @@ import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
     const purchasedPhoneNumber = getPhoneNumber();
-    const update: PhoneNumberCapabilitiesRequest = {
-      calling: "none",
-      sms: "outbound",
-    };
+    const update: PhoneNumberCapabilitiesRequest = { calling: "none", sms: "outbound" };
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
