@@ -11,7 +11,7 @@ import {
   SubscriptionQuotaItem,
   NetAppResourceQuotaLimitsListOptionalParams,
   NetAppResourceQuotaLimitsGetOptionalParams,
-  NetAppResourceQuotaLimitsGetResponse
+  NetAppResourceQuotaLimitsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -24,7 +24,7 @@ export interface NetAppResourceQuotaLimits {
    */
   list(
     location: string,
-    options?: NetAppResourceQuotaLimitsListOptionalParams
+    options?: NetAppResourceQuotaLimitsListOptionalParams,
   ): PagedAsyncIterableIterator<SubscriptionQuotaItem>;
   /**
    * Get the default and current subscription quota limit
@@ -35,6 +35,6 @@ export interface NetAppResourceQuotaLimits {
   get(
     location: string,
     quotaLimitName: string,
-    options?: NetAppResourceQuotaLimitsGetOptionalParams
+    options?: NetAppResourceQuotaLimitsGetOptionalParams,
   ): Promise<NetAppResourceQuotaLimitsGetResponse>;
 }
