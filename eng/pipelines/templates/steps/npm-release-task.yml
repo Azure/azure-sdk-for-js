@@ -29,7 +29,7 @@ steps:
           ProductStateField: $(Tag)
 
       - pwsh: |
-          Import-Module eng/tools/publish-to-npm.ps1 -Function extractPackage -Force
+          Import-Module $(Build.SourcesDirectory)/eng/tools/publish-to-npm.ps1 -Function extractPackage -Force
           $packageList = @()
           foreach ($p in $(dir $(Package.Archive) -r -i *.tgz)) {
               $packageList += extractPackage $p
