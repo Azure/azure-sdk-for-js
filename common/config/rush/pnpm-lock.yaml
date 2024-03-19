@@ -19256,7 +19256,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-91OA/MNjNutnyQQOJR2JZ0In4bxEfwMmzdyU7QCf1hF5XkfC7CL1oOlY5CNq/4AqmgS+26/BKeACNfIKLA6h6Q==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-mR1epV+BmY9UBQdeY4k3O8HNXZyQVy2iUzkt1Xha8ZECScbRB86B8UkhI6QQFNV/iNglxlbvrZUyNhiYbC99OQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -19274,6 +19274,7 @@ packages:
       '@typescript-eslint/typescript-estree': 5.57.1(typescript@5.3.3)
       '@vitest/coverage-istanbul': 1.4.0(vitest@1.4.0)
       chai: 4.3.10
+      cross-env: 7.0.3
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
