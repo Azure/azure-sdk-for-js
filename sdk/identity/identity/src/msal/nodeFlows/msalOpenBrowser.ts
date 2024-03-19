@@ -42,6 +42,7 @@ export class MsalOpenBrowser extends MsalNode {
   private loginHint?: string;
   private errorTemplate?: string;
   private successTemplate?: string;
+  private useDefaultBrokerAccount?: boolean;
 
   constructor(options: MsalOpenBrowserOptions) {
     super(options);
@@ -49,6 +50,8 @@ export class MsalOpenBrowser extends MsalNode {
     this.errorTemplate = options.browserCustomizationOptions?.errorMessage;
     this.successTemplate = options.browserCustomizationOptions?.successMessage;
     this.logger = credentialLogger("Node.js MSAL Open Browser");
+    this.useDefaultBrokerAccount =
+      options.brokerOptions?.enabled && options.brokerOptions?.useDefaultBrokerAccount;
   }
 
   protected async doGetToken(
@@ -89,6 +92,12 @@ export class MsalOpenBrowser extends MsalNode {
           "Authentication will resume normally without the broker, since it's not enabled",
         );
       }
+
+      if (this.useDefaultBrokerAccount) {
+        this.logger.verbose("Attempting to authenticate using the default broker account");
+        interactiveRequest.prompt = "none";
+      }
+
       const result = await this.getApp("public", options?.enableCae).acquireTokenInteractive(
         interactiveRequest,
       );
@@ -97,6 +106,13 @@ export class MsalOpenBrowser extends MsalNode {
       }
       return this.handleResult(scopes, result || undefined);
     } catch (err: any) {
+      if (this.useDefaultBrokerAccount) {
+        this.logger.info(
+          "Unable to authenticate using the default broker account. Attempting interactive authentication.",
+        );
+        this.useDefaultBrokerAccount = false;
+        return this.doGetToken(scopes, options);
+      }
       throw handleMsalError(scopes, err, options);
     }
   }
