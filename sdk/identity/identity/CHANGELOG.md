@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- `InteractiveBrowserCredential`: Added support for using the default broker account. [#TODO]()
+
 ### Breaking Changes
 
 ### Bugs Fixed

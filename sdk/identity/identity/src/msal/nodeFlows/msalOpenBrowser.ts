@@ -124,9 +124,13 @@ export class MsalOpenBrowser extends MsalNode {
       (interactiveRequest.tokenQueryParameters ??= {})["msal_request_type"] =
         "consumer_passthrough";
     }
+
     if (options.useDefaultBrokerAccount) {
-      this.logger.verbose("Attempting to authenticate using the default broker account");
       interactiveRequest.prompt = "none";
+      this.logger.verbose("Attempting broker authentication using the default broker account");
+    } else {
+      interactiveRequest.prompt = undefined;
+      this.logger.verbose("Attempting broker authentication without the default broker account");
     }
 
     try {
@@ -138,6 +142,7 @@ export class MsalOpenBrowser extends MsalNode {
       }
       return this.handleResult(scopes, result || undefined);
     } catch (e: any) {
+      this.logger.verbose(`Failed to authenticate through the broker: ${e.message}`);
       // If we tried to use the default broker account and failed, fall back to interactive authentication
       if (options.useDefaultBrokerAccount) {
         return this.doGetBrokeredToken(scopes, interactiveRequest, {
