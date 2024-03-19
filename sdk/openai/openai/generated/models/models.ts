@@ -140,18 +140,6 @@ export interface AudioTranslation {
   /** A collection of information about the timing, probabilities, and other detail of each processed audio segment. */
   segments?: AudioTranslationSegment[];
 }
-/**
- * Options for Azure OpenAI chat extensions.
- */
-export interface AzureExtensionsOptions {
-  /**
-   *   The configuration entries for Azure OpenAI chat extensions that use them.
-   *   This additional specification is only compatible with Azure OpenAI.
-   */
-  extensions?: AzureChatExtensionConfiguration[];
-  /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
-  enhancements?: AzureChatEnhancementConfiguration;
-}
 
 /**
  * Extended information about a single segment of translated audio data.
@@ -201,7 +189,7 @@ export interface CompletionsOptions {
    * The sampling temperature to use that controls the apparent creativity of generated completions.
    * Higher values will make output more random while lower values will make results more focused
    * and deterministic.
-   * It is not recommended to modify temperature and topP for the same completions request as the
+   * It is not recommended to modify temperature and top_p for the same completions request as the
    * interaction of these two settings is difficult to predict.
    */
   temperature?: number;
@@ -210,7 +198,7 @@ export interface CompletionsOptions {
    * model to consider the results of tokens with the provided probability mass. As an example, a
    * value of 0.15 will cause only the tokens comprising the top 15% of probability mass to be
    * considered.
-   * It is not recommended to modify temperature and topP for the same completions request as the
+   * It is not recommended to modify temperature and top_p for the same completions request as the
    * interaction of these two settings is difficult to predict.
    */
   topP?: number;
@@ -231,7 +219,7 @@ export interface CompletionsOptions {
    * The number of completions choices that should be generated per provided prompt as part of an
    * overall completions response.
    * Because this setting can generate many completions, it may quickly consume your token quota.
-   * Use carefully and ensure reasonable settings for maxTokens and stop.
+   * Use carefully and ensure reasonable settings for max_tokens and stop.
    */
   n?: number;
   /**
@@ -263,7 +251,7 @@ export interface CompletionsOptions {
   /**
    * A value that controls how many completions will be internally generated prior to response
    * formulation.
-   * When used together with n, bestOf controls the number of candidate completions and must be
+   * When used together with n, best_of controls the number of candidate completions and must be
    * greater than n.
    * Because this setting can generate many completions, it may quickly consume your token quota.
    * Use carefully and ensure reasonable settings for max_tokens and stop.
@@ -296,7 +284,7 @@ export interface Completions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults: ContentFilterResultsForPrompt[];
+  promptFilterResults?: ContentFilterResultsForPrompt[];
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -315,12 +303,8 @@ export interface ContentFilterResultsForPrompt {
   contentFilterResults: ContentFilterResultDetailsForPrompt;
 }
 
-/** Information about the content filtering category, if it has been detected. */
-export type ContentFilterResultDetailsForPrompt =
-  | ContentFilterSuccessResultDetailsForPrompt
-  | ContentFilterErrorResults;
-/** Information about the content filtering success result. */
-export interface ContentFilterSuccessResultDetailsForPrompt {
+/** Information about content filtering evaluated against input data to Azure OpenAI. */
+export interface ContentFilterResultDetailsForPrompt {
   /**
    * Describes language related to anatomical organs and genitals, romantic relationships,
    *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
@@ -346,26 +330,17 @@ export interface ContentFilterSuccessResultDetailsForPrompt {
    * or damage one’s body, or kill oneself.
    */
   selfHarm?: ContentFilterResult;
-  /**
-   * Describes an error returned if the content filtering system is
-   * down or otherwise unable to complete the operation in time.
-   */
-  error?: undefined;
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResult;
   /** Describes detection results against configured custom blocklists. */
   customBlocklists?: ContentFilterBlocklistIdResult[];
-  /** Whether a jailbreak attempt was detected in the prompt. */
-  jailbreak?: ContentFilterDetectionResult;
-}
-
-/** Information about the content filtering error result. */
-export interface ContentFilterErrorResults {
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
    */
-  error: ErrorModel;
+  error?: ErrorModel;
+  /** Whether a jailbreak attempt was detected in the prompt. */
+  jailbreak?: ContentFilterDetectionResult;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -418,13 +393,8 @@ export interface Choice {
   finishReason: CompletionsFinishReason | null;
 }
 
-/** Information about the content filtering results, if it has been detected. */
-export type ContentFilterResultsForChoice =
-  | ContentFilterSuccessResultsForChoice
-  | ContentFilterErrorResults;
-
 /** Information about content filtering evaluated against generated model output. */
-export interface ContentFilterSuccessResultsForChoice {
+export interface ContentFilterResultsForChoice {
   /**
    * Describes language related to anatomical organs and genitals, romantic relationships,
    *  acts portrayed in erotic or affectionate terms, physical sexual acts, including
@@ -458,7 +428,7 @@ export interface ContentFilterSuccessResultsForChoice {
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
    */
-  error?: undefined;
+  error?: ErrorModel;
   /** Information about detection of protected text material. */
   protectedMaterialText?: ContentFilterDetectionResult;
   /** Information about detection of protected code material. */
@@ -608,7 +578,7 @@ export interface ChatCompletionsOptions {
    *   The configuration entries for Azure OpenAI chat extensions that use them.
    *   This additional specification is only compatible with Azure OpenAI.
    */
-  dataSources?: AzureChatExtensionConfiguration[];
+  dataSources?: AzureChatExtensionConfigurationUnion[];
   /** If provided, the configuration options for available Azure OpenAI chat enhancements. */
   enhancements?: AzureChatEnhancementConfiguration;
   /**
@@ -782,7 +752,7 @@ export interface FunctionDefinition {
    */
   description?: string;
   /** The parameters the function accepts, described as a JSON Schema object. */
-  parameters?: Record<string, any>;
+  parameters?: unknown;
 }
 
 /**
@@ -802,15 +772,32 @@ export interface FunctionName {
 }
 
 /**
+ *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
+ *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
+ *   The use of this configuration is compatible only with Azure OpenAI.
+ */
+export interface AzureChatExtensionConfiguration {
+  /** the discriminator possible values: AzureCognitiveSearch, AzureMLIndex, AzureCosmosDB, Elasticsearch, Pinecone */
+  type: AzureChatExtensionType;
+}
+
+/**
  * A specific representation of configurable options for Azure Cognitive Search when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCognitiveSearchChatExtensionConfiguration {
+export interface AzureCognitiveSearchChatExtensionConfiguration
+  extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cognitive Search.
    */
   type: "AzureCognitiveSearch";
+  /** The parameters to use when configuring Azure Cognitive Search. */
+  parameters: AzureCognitiveSearchChatExtensionParameters;
+}
+
+/** Parameters for Azure Cognitive Search when used as an Azure OpenAI chat extension. */
+export interface AzureCognitiveSearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -841,7 +828,7 @@ export interface AzureCognitiveSearchChatExtensionConfiguration {
   semanticConfiguration?: string;
   /** Search filter. */
   filter?: string;
-  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format `https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}`. */
+  /** When using embeddings for search, specifies the resource endpoint URL from which embeddings should be retrieved. It should be in the format of format https://YOUR_RESOURCE_NAME.openai.azure.com/openai/deployments/YOUR_DEPLOYMENT_NAME/embeddings?api-version={api-version}. */
   embeddingEndpoint?: string;
   /** When using embeddings, specifies the API key to use with the provided embeddings endpoint. */
   embeddingKey?: string;
@@ -977,12 +964,19 @@ export type OnYourDataVectorizationSourceType = string;
  * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
  * OpenAI chat extension.
  */
-export interface AzureMachineLearningIndexChatExtensionConfiguration {
+export interface AzureMachineLearningIndexChatExtensionConfiguration
+  extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Machine Learning vector index.
    */
   type: "AzureMLIndex";
+  /** The parameters for the Azure Machine Learning vector index chat extension. */
+  parameters: AzureMachineLearningIndexChatExtensionParameters;
+}
+
+/** Parameters for the Azure Machine Learning vector index chat extension. */
+export interface AzureMachineLearningIndexChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1013,12 +1007,21 @@ export interface AzureMachineLearningIndexChatExtensionConfiguration {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface AzureCosmosDBChatExtensionConfiguration {
+export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cosmos DB.
    */
   type: "AzureCosmosDB";
+  /** The parameters to use when configuring Azure OpenAI CosmosDB chat extensions. */
+  parameters: AzureCosmosDBChatExtensionParameters;
+}
+
+/**
+ * Parameters to use when configuring Azure OpenAI On Your Data chat extensions when using Azure Cosmos DB for
+ * MongoDB vCore.
+ */
+export interface AzureCosmosDBChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1046,6 +1049,7 @@ export interface AzureCosmosDBChatExtensionConfiguration {
   /** The embedding dependency for vector search. */
   embeddingDependency?: OnYourDataVectorizationSourceUnion;
 }
+
 /** Optional settings to control how fields are processed when using a configured Azure Cosmos DB resource. */
 export interface AzureCosmosDBFieldMappingOptions {
   /** The names of fields that represent vector data. */
@@ -1056,12 +1060,18 @@ export interface AzureCosmosDBFieldMappingOptions {
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface ElasticsearchChatExtensionConfiguration {
+export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Elasticsearch®.
    */
   type: "Elasticsearch";
+  /** The parameters to use when configuring Elasticsearch®. */
+  parameters: ElasticsearchChatExtensionParameters;
+}
+
+/** Parameters to use when configuring Elasticsearch® as an Azure OpenAI chat extension. */
+export interface ElasticsearchChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1114,12 +1124,18 @@ export type ElasticsearchQueryType = string;
  * A specific representation of configurable options for Elasticsearch when using it as an Azure OpenAI chat
  * extension.
  */
-export interface PineconeChatExtensionConfiguration {
+export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfiguration {
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Pinecone.
    */
   type: "Pinecone";
+  /** The parameters to use when configuring Azure OpenAI chat extensions. */
+  parameters: PineconeChatExtensionParameters;
+}
+
+/** Parameters for configuring Azure OpenAI Pinecone chat extensions. */
+export interface PineconeChatExtensionParameters {
   /**
    * The authentication method to use when accessing the defined data source.
    * Each data source type supports a specific set of available authentication methods; please see the documentation of
@@ -1127,7 +1143,7 @@ export interface PineconeChatExtensionConfiguration {
    * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
    * authentication.
    */
-  authentication?: OnYourDataAuthenticationOptions;
+  authentication?: OnYourDataAuthenticationOptionsUnion;
   /** The configured top number of documents to feature for the configured query. */
   topNDocuments?: number;
   /** Whether queries should be restricted to use of indexed data. */
@@ -1143,21 +1159,8 @@ export interface PineconeChatExtensionConfiguration {
   /** Customized field mapping behavior to use when interacting with the search index. */
   fieldsMapping: PineconeFieldMappingOptions;
   /** The embedding dependency for vector search. */
-  embeddingDependency?: OnYourDataVectorizationSource;
+  embeddingDependency?: OnYourDataVectorizationSourceUnion;
 }
-
-/**
- *
- *   A representation of configuration data for a single Azure OpenAI chat extension. This will be used by a chat
- *   completions request that should use Azure OpenAI chat extensions to augment the response behavior.
- *   The use of this configuration is compatible only with Azure OpenAI.
- */
-export type AzureChatExtensionConfiguration =
-  | AzureCognitiveSearchChatExtensionConfiguration
-  | AzureMachineLearningIndexChatExtensionConfiguration
-  | AzureCosmosDBChatExtensionConfiguration
-  | ElasticsearchChatExtensionConfiguration
-  | PineconeChatExtensionConfiguration;
 
 /** Optional settings to control how fields are processed when using a configured Pinecone resource. */
 export interface PineconeFieldMappingOptions {
@@ -1285,14 +1288,14 @@ export interface ChatCompletions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults: ContentFilterResultsForPrompt[];
+  promptFilterResults?: ContentFilterResultsForPrompt[];
   /**
    * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
    * might impact determinism.
    */
   systemFingerprint?: string;
   /** Usage information for tokens processed and generated as part of this completions operation. */
-  usage?: CompletionsUsage;
+  usage: CompletionsUsage;
 }
 
 /**
@@ -1338,7 +1341,7 @@ export interface ChatResponseMessage {
    * The tool calls that must be resolved and have their outputs appended to subsequent input messages for the chat
    * completions request to resolve as configured.
    */
-  toolCalls: ChatCompletionsToolCallUnion[];
+  toolCalls?: ChatCompletionsToolCallUnion[];
   /**
    * The function call that must be resolved and have its output appended to subsequent input messages for the chat
    * completions request to resolve as configured.
@@ -1539,7 +1542,7 @@ export interface EmbeddingsOptions {
    * Input texts to get embeddings for, encoded as a an array of strings.
    * Each input must not exceed 2048 tokens in length.
    *
-   * Unless you are embedding code, we suggest replacing newlines (\\n) in your input with a single space,
+   * Unless you are embedding code, we suggest replacing newlines (\n) in your input with a single space,
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
@@ -1593,6 +1596,14 @@ export type ChatMessageContentItemUnion =
 export type ChatCompletionsToolCallUnion =
   | ChatCompletionsFunctionToolCall
   | ChatCompletionsToolCall;
+/** Alias for AzureChatExtensionConfigurationUnion */
+export type AzureChatExtensionConfigurationUnion =
+  | AzureCognitiveSearchChatExtensionConfiguration
+  | AzureMachineLearningIndexChatExtensionConfiguration
+  | AzureCosmosDBChatExtensionConfiguration
+  | ElasticsearchChatExtensionConfiguration
+  | PineconeChatExtensionConfiguration
+  | AzureChatExtensionConfiguration;
 /** Alias for OnYourDataAuthenticationOptionsUnion */
 export type OnYourDataAuthenticationOptionsUnion =
   | OnYourDataApiKeyAuthenticationOptions
@@ -1619,9 +1630,6 @@ export type ChatCompletionsToolDefinitionUnion =
 /** Alias for ChatCompletionsNamedToolSelectionUnion */
 export type ChatCompletionsNamedToolSelectionUnion =
   | ChatCompletionsNamedFunctionToolSelection
-  | ChatCompletionsToolSelectionPreset
   | ChatCompletionsNamedToolSelection;
 /** Alias for ChatFinishDetailsUnion */
 export type ChatFinishDetailsUnion = StopFinishDetails | MaxTokensFinishDetails | ChatFinishDetails;
-/** A readable stream that is iterable and disposable. */
-export interface EventStream<T> extends ReadableStream<T>, AsyncIterable<T> {}

@@ -3,12 +3,13 @@
 
 export { createOpenAI, OpenAIClientOptions, OpenAIContext } from "./OpenAIContext.js";
 export {
-  getAudioTranscription,
-  getAudioTranslation,
+  getAudioTranscriptionAsPlainText,
+  getAudioTranscriptionAsResponseObject,
+  getAudioTranslationAsPlainText,
+  getAudioTranslationAsResponseObject,
   getCompletions,
   getChatCompletions,
-  streamChatCompletions,
-  streamCompletions,
+  getChatCompletionsWithAzureExtensions,
   getImageGenerations,
   getEmbeddings,
 } from "./operations.js";
