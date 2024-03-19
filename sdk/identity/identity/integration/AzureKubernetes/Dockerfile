@@ -14,5 +14,8 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install
-CMD ["node", "index.js"]
+# Install the latest nightly build of identity
+RUN npm install --no-package-lock
+
+# Wait for the test to `exec` into the container and run the script
+CMD ["sleep", "infinity"]

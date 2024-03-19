@@ -10,44 +10,39 @@ const { ManagedIdentityCredential } = require("@azure/identity");
 dotenv.config();
 
 async function main() {
-  const account1 = process.env.IDENTITY_STORAGE_NAME_1;
   const account2 = process.env.IDENTITY_STORAGE_NAME_2;
-  const credentialSystemAssigned = new ManagedIdentityCredential();
-  const credentialUserAssigned = new ManagedIdentityCredential({
-    clientId: process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID,
-  });
-  const client1 = new BlobServiceClient(
-    `https://${account1}.blob.core.windows.net`,
-    credentialSystemAssigned,
-  );
+  if (!account2) {
+    throw new Error("Missing IDENTITY_STORAGE_NAME_2 env var");
+  }
+
+  const clientId = process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID;
+  if (!clientId) {
+    throw new Error("Missing IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID env var");
+  }
+
   const client2 = new BlobServiceClient(
     `https://${account2}.blob.core.windows.net`,
-    credentialUserAssigned,
+    new ManagedIdentityCredential({
+      clientId: process.env.IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID,
+    }),
   );
 
-  let success = true;
   try {
-    console.log("Client with system assigned identity");
-    await client1.getProperties();
-    console.log("Successfully acquired token with system-assigned ManagedIdentityCredential");
-  } catch (e) {
-    success = false;
-    console.error(e);
-  }
-
-  try {
-    console.log("Client with user assigned identity");
+    console.log("Authenticating with storage using user-assigned ManagedIdentityCredential");
     await client2.getProperties();
+    console.log("Successfully acquired token with user-assigned ManagedIdentityCredential");
   } catch (e) {
     console.error(e);
     success = false;
   }
 
-  if (!success) {
-    throw new Error("Unable to authenticate, see console logs for details");
+  if (success) {
+    console.log("Successfully authenticated with storage");
+    return "Successfully authenticated with storage";
+  } else {
+    console.log("unable to authenticate");
+    throw new Error("unable to authenticate");
   }
-
-  return "Successfully authenticated with storage";
 }
 
 main().catch((err) => {

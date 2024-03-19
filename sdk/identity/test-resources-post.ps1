@@ -11,11 +11,12 @@ param (
   [hashtable] $DeploymentOutputs
 )
 
-# If not Linux, skip this script.
-# if ($isLinux -ne "Linux") {
-#   Write-Host "Skipping post-deployment because not running on Linux."
-#   return
-# }
+$MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
+$MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
+$saAccountName = 'workload-identity-sa'
+$podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
+$storageName2 = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
+$userDefinedClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
 
 $ErrorActionPreference = 'Continue'
 $PSNativeCommandUseErrorActionPreference = $true
@@ -25,48 +26,39 @@ $workingFolder = $webappRoot;
 
 Write-Host "Working directory: $workingFolder"
 
-az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
+# az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
 az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 
 # Azure Functions app deployment
-# Write-Host "Building the code for functions app"
-# Push-Location "$webappRoot/AzureFunctions/RunTest"
-# npm install
-# npm run build
-# Pop-Location
-# Write-Host "starting azure functions deployment"
-# Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
-# az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
-# Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+Write-Host "Building the code for functions app"
+Push-Location "$webappRoot/AzureFunctions/RunTest"
+npm install
+npm run build
+Pop-Location
+Write-Host "starting azure functions deployment"
+Compress-Archive -Path "$workingFolder/AzureFunctions/RunTest/*"  -DestinationPath "$workingFolder/AzureFunctions/app.zip" -Force
+az functionapp deployment source config-zip -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] -n $DeploymentOutputs['IDENTITY_FUNCTION_NAME'] --src "$workingFolder/AzureFunctions/app.zip"
+Remove-Item -Force "$workingFolder/AzureFunctions/app.zip"
+Write-Host "Deployed function app"
 
-# Write-Host "Deployed function app"
+Write-Host "Deplying Identity Web App"
+Push-Location "$webappRoot/AzureWebApps"
+npm install
+npm run build
+az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
+Pop-Location
+Write-Host "Deployed Identity Web App"
 
-# Push-Location "$webappRoot/AzureWebApps"
-# npm install
-# npm run build
-# az webapp up --resource-group $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --name $DeploymentOutputs['IDENTITY_WEBAPP_NAME'] --plan $DeploymentOutputs['IDENTITY_WEBAPP_PLAN'] --runtime NODE:18-lts
-# Pop-Location
-
-# Write-Host "Deployed webapp"
-# Write-Host "Sleeping for a bit to ensure logs is ready."
-# Start-Sleep -Seconds 60
-
+Write-Host "Deploying Identity Docker image to ACR"
 az acr login -n $DeploymentOutputs['IDENTITY_ACR_NAME']
 $loginServer = az acr show -n $DeploymentOutputs['IDENTITY_ACR_NAME'] --query loginServer -o tsv
-
 $image = "$loginServer/identity-aks-test-image"
 docker build --no-cache -t $image "$workingFolder/AzureKubernetes"
 docker push $image
-
 Write-Host "Deployed image to ACR"
 
+Write-Host "Configuring kubernetes to use our image"
 az aks update -n $DeploymentOutputs['IDENTITY_AKS_CLUSTER_NAME'] -g $DeploymentOutputs['IDENTITY_RESOURCE_GROUP'] --attach-acr $DeploymentOutputs['IDENTITY_ACR_NAME']
-
-$MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID']
-$MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
-$saAccountName = 'workload-identity-sa'
-$podName = $DeploymentOutputs['IDENTITY_AKS_POD_NAME']
-$storageName = $DeploymentOutputs['IDENTITY_STORAGE_NAME_2']
 
 # Get the aks cluster credentials
 Write-Host "Getting AKS credentials"
@@ -104,17 +96,18 @@ spec:
   - name: $podName
     image: $image
     env:
-    - name: IDENTITY_STORAGE_NAME
-      value: "$StorageName"
+    - name: IDENTITY_STORAGE_NAME_2
+      value: "$storageName2"
+    - name: IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID
+      value: "$userDefinedClientId"
     ports:
     - containerPort: 80
   nodeSelector:
     kubernetes.io/os: linux
 "@
 
-Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
-Write-Host "Created kubeconfig.yaml with contents:"
 Write-Host $kubeConfig
+Set-Content -Path "$workingFolder/kubeconfig.yaml" -Value $kubeConfig
 
 # Apply the config
 kubectl apply -f "$workingFolder/kubeconfig.yaml" --overwrite=true

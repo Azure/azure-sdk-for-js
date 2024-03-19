@@ -6,15 +6,15 @@ import { assert } from "chai";
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe("Azure Kubernetes Integration test", function () {
+describe.only("Azure Kubernetes Integration test", function () {
   it("can fetch a token", async function (this: Context) {
     if (!isLiveMode()) {
       this.skip();
     }
 
-    const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
-    const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
-    const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
+    // const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
+    // const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
+    // const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
@@ -23,10 +23,10 @@ describe("Azure Kubernetes Integration test", function () {
     const azPath = runCommand(`which az`);
     const kubectlPath = runCommand(`which kubectl`);
 
-    runCommand(
-      azPath,
-      `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
-    );
+    // runCommand(
+    //   azPath,
+    //   `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
+    // );
 
     runCommand(azPath, `account set --subscription ${subscriptionId}`);
     runCommand(
@@ -43,7 +43,8 @@ describe("Azure Kubernetes Integration test", function () {
 });
 
 function runCommand(command: string, args: string = ""): string {
-  return execSync(`${command} ${args}`).toString();
+  console.log({ command, args });
+  return execSync(`${command} ${args}`).toString().trim();
 }
 
 function requireEnvVar(name: string): string {

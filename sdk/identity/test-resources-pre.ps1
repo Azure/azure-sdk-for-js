@@ -22,9 +22,9 @@ param (
     [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
     [string] $SubscriptionId,
 
-    [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
+    [Parameter(ParameterSetName = 'Provisioner')]
     [ValidateNotNullOrEmpty()]
-    [string] $TenantId,
+    [string] $TenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47',
 
     [Parameter()]
     [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
@@ -33,13 +33,15 @@ param (
 
 Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
 
-ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
+# Remove-Item $PSScriptRoot/sshKey -Force
+# Remove-Item $PSScriptRoot/sshKey.pub -Force
+# ssh-keygen -t rsa -b 4096 -f $PSScriptRoot/sshKey -N '' -C ''
 $sshKey = Get-Content $PSScriptRoot/sshKey.pub
 
 $templateFileParameters['sshPubKey'] = $sshKey
 
-Write-Host "Sleeping for a bit to ensure service principal is ready."
-Start-Sleep -s 45
+# Write-Host "Sleeping for a bit to ensure service principal is ready."
+# Start-Sleep -s 45
 
 if ($CI) {
   # Install this specific version of the Azure CLI to avoid https://github.com/Azure/azure-cli/issues/28358.
@@ -48,12 +50,12 @@ if ($CI) {
 $az_version = az version
 Write-Host "Azure CLI version: $az_version"
 
-az login --service-principal -u $TestApplicationId -p $TestApplicationSecret --tenant $TenantId
-az account set --subscription $SubscriptionId
-$versions = az aks get-versions -l westus -o json | ConvertFrom-Json
-Write-Host "AKS versions: $($versions | ConvertTo-Json -Depth 100)"
-$patchVersions = $versions.values | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty patchVersions
-Write-Host "AKS patch versions: $($patchVersions | ConvertTo-Json -Depth 100)"
-$latestAksVersion = $patchVersions | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | Sort-Object -Descending | Select-Object -First 1
-Write-Host "Latest AKS version: $latestAksVersion"
-$templateFileParameters['latestAksVersion'] = $latestAksVersion
+# az login --service-principal -u $TestApplicationId -p $TestApplicationSecret --tenant $TenantId
+# az account set --subscription $SubscriptionId
+# $versions = az aks get-versions -l westus -o json | ConvertFrom-Json
+# Write-Host "AKS versions: $($versions | ConvertTo-Json -Depth 100)"
+# $patchVersions = $versions.values | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty patchVersions
+# Write-Host "AKS patch versions: $($patchVersions | ConvertTo-Json -Depth 100)"
+# $latestAksVersion = $patchVersions | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name | Sort-Object -Descending | Select-Object -First 1
+# Write-Host "Latest AKS version: $latestAksVersion"
+# $templateFileParameters['latestAksVersion'] = $latestAksVersion
