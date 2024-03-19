@@ -23,20 +23,24 @@ import { snakeCaseKeys } from "../api/util.js";
 function serializeChatRequestUserMessage(obj: ChatRequestUserMessage): ChatRequestUserMessageRest {
   return {
     role: obj["role"],
-    content: typeof obj["content"] === "string" ? obj["content"] : obj["content"].map(serializeChatRequestContentItemUnion),
+    content:
+      typeof obj["content"] === "string"
+        ? obj["content"]
+        : obj["content"].map(serializeChatRequestContentItemUnion),
     name: obj["name"],
   };
 }
 
 /** serialize function for ChatMessageImageContentItem */
-function serializeChatRequestContentItemUnion(obj: ChatMessageContentItemUnion): ChatMessageContentItemRest {
+function serializeChatRequestContentItemUnion(
+  obj: ChatMessageContentItemUnion,
+): ChatMessageContentItemRest {
   switch (obj.type) {
     case "image_url":
       return serializeChatMessageImageContentItem(obj as ChatMessageImageContentItem);
     default:
       return obj;
   }
-
 }
 /** serialize function for ChatRequestAssistantMessage */
 function serializeChatRequestAssistantMessage(
