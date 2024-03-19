@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `openBrowser` open to `InteractiveBrowserCredentialNodeOptions` to allow overriding the default browser open behavior.
+
 ### Breaking Changes
 
 ### Bugs Fixed
