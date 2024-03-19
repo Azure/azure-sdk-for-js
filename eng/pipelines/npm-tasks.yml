@@ -51,7 +51,7 @@ extends:
   parameters:
     stages:
       - stage:
-        displayName: NPM Tag
+        displayName: NPM Task Execute
 
         jobs:
         - deployment: 'NPM_Admin'
