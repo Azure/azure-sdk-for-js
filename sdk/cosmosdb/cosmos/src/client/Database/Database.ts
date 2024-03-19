@@ -254,10 +254,11 @@ export class Database {
   public async readClientEncryptionKey(id: string): Promise<ClientEncryptionKeyResponse> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
       const path = getPathFromLink(this.url, ResourceType.clientencryptionkey);
+      const resourceid = getIdFromLink(this.url);
       const response = await this.clientContext.read<ClientEncryptionKeyRequest>({
-        path: path,
+        path: path + `/${id}`,
         resourceType: ResourceType.clientencryptionkey,
-        resourceId: id,
+        resourceId: resourceid + `/${ResourceType.clientencryptionkey}/${id}`,
         diagnosticNode,
       });
       const ref = new ClientEncryptionKeyProperties(
