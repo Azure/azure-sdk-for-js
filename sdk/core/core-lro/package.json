@@ -57,10 +57,6 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "browser": {
-    "os": false,
-    "process": false
-  },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
