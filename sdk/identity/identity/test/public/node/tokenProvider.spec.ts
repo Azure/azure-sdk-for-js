@@ -33,7 +33,6 @@ describe("getBearerTokenProvider", function () {
       }
       const token = await getAccessToken();
       assert.isString(token);
-      console.log(token);
     }
   });
 });
