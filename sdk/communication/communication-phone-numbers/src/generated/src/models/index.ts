@@ -195,6 +195,8 @@ export interface PhoneNumberCapabilitiesRequest {
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
   sms?: PhoneNumberCapabilityType;
+  /** Campaign Brief Id to attach to a number. For adding SMS to local numbers */
+  tenDLCCampaignBriefId?: string;
 }
 
 /** Represents a purchased phone number. */
@@ -208,7 +210,7 @@ export interface PurchasedPhoneNumber {
   /** The phone number's type, e.g. geographic, tollFree. */
   phoneNumberType: PhoneNumberType;
   /** Capabilities of a phone number. */
-  capabilities: PhoneNumberCapabilities;
+  capabilities: PurchasedPhoneNumberCapabilities;
   /** The assignment type of the phone number. A phone number can be assigned to a person, or to an application. */
   assignmentType: PhoneNumberAssignmentType;
   /** The date and time that the phone number was purchased. */
@@ -219,6 +221,16 @@ export interface PurchasedPhoneNumber {
   operatorId?: string;
   /** Name of the operator that provided the number */
   operatorName?: string;
+}
+
+/** Capabilities of a phone number. */
+export interface PurchasedPhoneNumberCapabilities {
+  /** Capability value for calling. */
+  calling: PhoneNumberCapabilityType;
+  /** Capability value for SMS. */
+  sms: PhoneNumberCapabilityType;
+  /** Ten DLC campaign brief id attached to the number */
+  tenDLCCampaignBriefId?: string;
 }
 
 /** The list of purchased phone numbers. */
@@ -470,6 +482,8 @@ export interface PhoneNumbersUpdateCapabilitiesOptionalParams
   calling?: PhoneNumberCapabilityType;
   /** Capability value for SMS. */
   sms?: PhoneNumberCapabilityType;
+  /** Campaign Brief Id to attach to a number. For adding SMS to local numbers */
+  tenDLCCampaignBriefId?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */

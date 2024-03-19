@@ -113,12 +113,14 @@ export type PhoneNumberAssignmentType = "person" | "application";
 export interface PhoneNumberCapabilities {
     calling: PhoneNumberCapabilityType;
     sms: PhoneNumberCapabilityType;
+    tenDLCCampaignBriefId?: string;
 }
 
 // @public
 export interface PhoneNumberCapabilitiesRequest {
     calling?: PhoneNumberCapabilityType;
     sms?: PhoneNumberCapabilityType;
+    tenDLCCampaignBriefId?: string;
 }
 
 // @public

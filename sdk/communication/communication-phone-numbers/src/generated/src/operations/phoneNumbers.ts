@@ -1329,7 +1329,11 @@ const updateCapabilitiesOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: {
-    parameterPath: { calling: ["options", "calling"], sms: ["options", "sms"] },
+    parameterPath: {
+      calling: ["options", "calling"],
+      sms: ["options", "sms"],
+      tenDLCCampaignBriefId: ["options", "tenDLCCampaignBriefId"],
+    },
     mapper: Mappers.PhoneNumberCapabilitiesRequest,
   },
   queryParameters: [Parameters.apiVersion],

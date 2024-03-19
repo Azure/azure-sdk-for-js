@@ -1,42 +1,32 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=tollFree\u0026skip=0\u0026maxPageSize=100\u0026assignmentType=application\u0026api-version=2023-10-01-preview",
+      "RequestUri": "https://endpoint/availablePhoneNumbers/countries/US/areaCodes?phoneNumberType=tollFree\u0026skip=0\u0026maxPageSize=100\u0026assignmentType=application\u0026api-version=2024-01-31-preview",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-communication-phone-numbers/1.2.0 core-rest-pipeline/1.11.1 Node/v14.17.5 OS/(x64-Windows_NT-10.0.22621)",
-        "x-ms-client-request-id": "sanitized",
-        "x-ms-useragent": "fake-useragent"
+        "User-Agent": "fake-useragent",
+        "x-ms-client-request-id": "sanitized"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
-        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview",
+        "api-supported-versions": "2021-03-07, 2022-12-01, 2022-12-02-preview2, 2023-05-01-preview, 2023-10-01-preview, 2024-01-31-preview, 2024-03-01",
         "Cache-Control": "max-age=21600, private, stale-while-revalidate=86400",
-        "Content-Length": "182",
+        "Content-Length": "88",
         "Content-Type": "application/json; charset=utf-8",
-        "Date": "Fri, 14 Jul 2023 05:00:35 GMT",
-        "MS-CV": "hQw0LG5StUGxUPMnOZRLeg.0",
+        "Date": "Thu, 01 Feb 2024 20:29:02 GMT",
+        "MS-CV": "cFH6ZGndoUOYdi3rqAI9fQ.0",
         "Strict-Transport-Security": "max-age=2592000",
-        "X-Azure-Ref": "0atawZAAAAAAnQOmh8sdzRpMSaIiu3wH8V1NURURHRTA4MjAAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
+        "X-Azure-Ref": "0Df\u002B7ZQAAAAB6l2EgCQDNTLlvSu4AJtWNU04xRURHRTIxMTgAOWZjN2I1MTktYThjYy00Zjg5LTkzNWUtYzkxNDhhZTA5ZTgx",
         "X-Cache": "CONFIG_NOCACHE",
-        "X-Processing-Time": "9622ms"
+        "X-Processing-Time": "1095ms"
       },
       "ResponseBody": {
         "areaCodes": [
-          {
-            "areaCode": "888"
-          },
-          {
-            "areaCode": "877"
-          },
-          {
-            "areaCode": "866"
-          },
           {
             "areaCode": "855"
           },

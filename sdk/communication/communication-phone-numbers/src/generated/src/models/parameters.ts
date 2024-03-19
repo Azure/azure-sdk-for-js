@@ -121,7 +121,7 @@ export const administrativeDivision: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-01-preview",
+    defaultValue: "2024-01-31-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -239,6 +239,11 @@ export const calling: OperationParameter = {
 
 export const sms: OperationParameter = {
   parameterPath: ["options", "sms"],
+  mapper: PhoneNumberCapabilitiesRequestMapper,
+};
+
+export const tenDLCCampaignBriefId: OperationParameter = {
+  parameterPath: ["options", "tenDLCCampaignBriefId"],
   mapper: PhoneNumberCapabilitiesRequestMapper,
 };
 
