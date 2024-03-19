@@ -14141,7 +14141,7 @@ packages:
     dev: false
 
   file:projects/arm-iotfirmwaredefense.tgz:
-    resolution: {integrity: sha512-WjogQNEjuVkfiAN9gnaphl5L0qQxUQQeHY9TIv1ntiGFcHFuK4X5irE3erwuZa8aBPCE3lBEnFWIGTfk/ix7Jw==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
+    resolution: {integrity: sha512-6L8z9n7SicAg/+uC8iXs4gq7+GkDPfDYGLRTxOPP1+A/+8dkBSuxnbcCZWiNmO6pt9GNuhpWJ7Zv0Brvq3I0pQ==, tarball: file:projects/arm-iotfirmwaredefense.tgz}
     name: '@rush-temp/arm-iotfirmwaredefense'
     version: 0.0.0
     dependencies:
@@ -14153,6 +14153,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
