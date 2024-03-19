@@ -18,7 +18,7 @@ import {
   PhoneNumberCapabilitiesRequest,
   PhoneNumberCountry,
   PhoneNumberLocality,
-  PhoneNumbersOperatorInformationSearchOptionalParams
+  PhoneNumbersOperatorInformationSearchOptionalParams,
 } from "./generated/src/models/";
 import {
   GetPurchasedPhoneNumberOptions,
