@@ -7,7 +7,7 @@ import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 describe("Azure Kubernetes Integration test", function () {
-  it("can fetch a token", async function (this: Context) {
+  it("can authenticate using managed identity", async function (this: Context) {
     if (!isLiveMode()) {
       this.skip();
     }
