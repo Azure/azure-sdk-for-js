@@ -35,7 +35,7 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
 // @public (undocumented)
 export class AzureKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
-    constructor(credentials: TokenCredential, url: string);
+    constructor(credentials: TokenCredential);
     // (undocumented)
     unwrapKey(encryptionKeyId: string, algorithm: string, wrappedKey: Buffer): Promise<Buffer>;
     // (undocumented)
@@ -2038,7 +2038,7 @@ export class ResourceResponse<TResource> {
 // @public (undocumented)
 export enum ResourceType {
     // (undocumented)
-    clientencryptionkey = "clientEncryptionKeys",
+    clientencryptionkey = "clientencryptionkeys",
     // (undocumented)
     conflicts = "conflicts",
     // (undocumented)
