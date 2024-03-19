@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds `deleteMessages` which deletes messages from the queue.
+
 ### Breaking Changes
 
 ### Bugs Fixed

@@ -7,6 +7,7 @@ import {
   MessageHandlers,
   ReceiveMessagesOptions,
   SubscribeOptions,
+  DeleteMessagesOptions,
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ServiceBusReceivedMessage } from "../serviceBusMessage";
@@ -139,6 +140,15 @@ export interface ServiceBusReceiver {
     maxMessageCount: number,
     options?: PeekMessagesOptions,
   ): Promise<ServiceBusReceivedMessage[]>;
+
+  /**
+   * Delete messages. If no option is specified, all messages will be deleted.
+   *
+   * @param options - Options to configure the operation.
+   * @returns number of messages that have been deleted.
+   */
+  deleteMessages(options?: DeleteMessagesOptions): Promise<number>;
+
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -452,6 +462,29 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
       abortSignal: options?.abortSignal,
     };
     return retry<ServiceBusReceivedMessage[]>(config);
+  }
+
+  async deleteMessages(options?: DeleteMessagesOptions): Promise<number> {
+    this._throwIfReceiverOrConnectionClosed();
+
+    const deleteMessagesOperationPromise = (): Promise<number> => {
+      return this._context
+        .getManagementClient(this.entityPath)
+        .deleteMessages(options?.maxMessageCount, options?.beforeEnqueueTimeUtc, undefined, {
+          ...options,
+          associatedLinkName: this._getAssociatedReceiverName(),
+          requestName: "deleteMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs,
+        });
+    };
+    const config: RetryConfig<number> = {
+      operation: deleteMessagesOperationPromise,
+      connectionId: this._context.connectionId,
+      operationType: RetryOperationType.management,
+      retryOptions: this._retryOptions,
+      abortSignal: options?.abortSignal,
+    };
+    return retry<number>(config);
   }
 
   // ManagementClient methods # Begin

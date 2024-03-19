@@ -18,6 +18,7 @@ export { Delivery, WebSocketImpl } from "rhea-promise";
 export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
+  DeleteMessagesOptions as deleteMessagesOptions,
   CreateMessageBatchOptions,
   GetMessageIteratorOptions,
   MessageHandlers,
