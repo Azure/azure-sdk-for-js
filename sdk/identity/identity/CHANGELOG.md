@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Adds support for `getBearerTokenProvider` that returns a callback function to get a token for a given scope. This is useful for scenarios where an explicit Entra token is needed without having to worry about the token refreshing details.
+
 ### Breaking Changes
 
 ### Bugs Fixed

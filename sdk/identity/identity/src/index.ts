@@ -113,3 +113,5 @@ export { AzureAuthorityHosts } from "./constants";
 export function getDefaultAzureCredential(): TokenCredential {
   return new DefaultAzureCredential();
 }
+
+export { getBearerTokenProvider, GetBearerTokenProviderOptions } from "./tokenProvider";
