@@ -42,7 +42,7 @@ export interface PoolUsageMetrics {
 
 /**
  * An interface representing ImageReference.
- * @summary A reference to an Azure Virtual Machines Marketplace Image or a Shared Image Gallery
+ * @summary A reference to an Azure Virtual Machines Marketplace Image or a Azure Compute Gallery
  * Image. To get the list of all Azure Marketplace Image references verified by Azure Batch, see
  * the 'List Supported Images' operation.
  */
@@ -68,16 +68,17 @@ export interface ImageReference {
    */
   version?: string;
   /**
-   * The ARM resource identifier of the Shared Image Gallery Image. Compute Nodes in the Pool will
+   * The ARM resource identifier of the Azure Compute Gallery Image. Compute Nodes in the Pool will
    * be created using this Image Id. This is of the form
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{VersionId}
    * or
    * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}
    * for always defaulting to the latest image version. This property is mutually exclusive with
-   * other ImageReference properties. The Shared Image Gallery Image must have replicas in the same
-   * region and must be in the same subscription as the Azure Batch account. If the image version
-   * is not specified in the imageId, the latest version will be used. For information about the
-   * firewall settings for the Batch Compute Node agent to communicate with the Batch service see
+   * other ImageReference properties. The Azure Compute Gallery Image must have replicas in the
+   * same region and must be in the same subscription as the Azure Batch account. If the image
+   * version is not specified in the imageId, the latest version will be used. For information
+   * about the firewall settings for the Batch Compute Node agent to communicate with the Batch
+   * service see
    * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   virtualMachineImageId?: string;
@@ -1641,7 +1642,7 @@ export interface DataDisk {
   diskSizeGB: number;
   /**
    * The storage Account type to be used for the data disk. If omitted, the default is
-   * "standard_lrs". Possible values include: 'StandardLRS', 'PremiumLRS'
+   * "standard_lrs". Possible values include: 'StandardLRS', 'PremiumLRS', 'StandardSSDLRS'
    */
   storageAccountType?: StorageAccountType;
 }
@@ -1672,7 +1673,7 @@ export interface ContainerConfiguration {
 
 /**
  * The disk encryption configuration applied on compute nodes in the pool. Disk encryption
- * configuration is not supported on Linux pool created with Shared Image Gallery Image.
+ * configuration is not supported on Linux pool created with Azure Compute Gallery Image.
  */
 export interface DiskEncryptionConfiguration {
   /**
@@ -1765,6 +1766,17 @@ export interface DiffDiskSettings {
 }
 
 /**
+ * An interface representing ManagedDisk.
+ */
+export interface ManagedDisk {
+  /**
+   * The storage account type for managed disk. Possible values include: 'StandardLRS',
+   * 'PremiumLRS', 'StandardSSDLRS'
+   */
+  storageAccountType?: StorageAccountType;
+}
+
+/**
  * An interface representing OSDisk.
  * @summary Settings for the operating system disk of the compute node (VM).
  */
@@ -1774,6 +1786,75 @@ export interface OSDisk {
    * (VM).
    */
   ephemeralOSDiskSettings?: DiffDiskSettings;
+  /**
+   * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The
+   * default values are: None for Standard storage. ReadOnly for Premium storage. Possible values
+   * include: 'none', 'readOnly', 'readWrite'
+   */
+  caching?: CachingType;
+  /**
+   * The managed disk parameters.
+   */
+  managedDisk?: ManagedDisk;
+  /**
+   * The initial disk size in GB when creating new OS disk.
+   */
+  diskSizeGB?: number;
+  /**
+   * Specifies whether writeAccelerator should be enabled or disabled on the disk.
+   */
+  writeAcceleratorEnabled?: boolean;
+}
+
+/**
+ * Specifies the security settings like secure boot and vTPM used while creating the virtual
+ * machine.
+ */
+export interface UefiSettings {
+  /**
+   * Specifies whether secure boot should be enabled on the virtual machine.
+   */
+  secureBootEnabled?: boolean;
+  /**
+   * Specifies whether vTPM should be enabled on the virtual machine.
+   */
+  vTpmEnabled?: boolean;
+}
+
+/**
+ * Specifies the security profile settings for the virtual machine or virtual machine scale set.
+ */
+export interface SecurityProfile {
+  /**
+   * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to
+   * enable UefiSettings. Possible values include: 'trustedLaunch'
+   */
+  securityType?: SecurityTypes;
+  /**
+   * This property can be used by user in the request to enable or disable the Host Encryption for
+   * the virtual machine or virtual machine scale set. This will enable the encryption for all the
+   * disks including Resource/Temp disk at host itself.
+   */
+  encryptionAtHost?: boolean;
+  /**
+   * Specifies the security settings like secure boot and vTPM used while creating the virtual
+   * machine. Specifies the security settings like secure boot and vTPM used while creating the
+   * virtual machine.
+   */
+  uefiSettings?: UefiSettings;
+}
+
+/**
+ * Specifies the service artifact reference id used to set same image version for all virtual
+ * machines in the scale set when using 'latest' image version.
+ */
+export interface ServiceArtifactReference {
+  /**
+   * The service artifact reference id of ServiceArtifactReference. The service artifact reference
+   * id in the form of
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}
+   */
+  id: string;
 }
 
 /**
@@ -1850,6 +1931,17 @@ export interface VirtualMachineConfiguration {
    * Settings for the operating system disk of the Virtual Machine.
    */
   osDisk?: OSDisk;
+  /**
+   * Specifies the security profile settings for the virtual machine or virtual machine scale set.
+   */
+  securityProfile?: SecurityProfile;
+  /**
+   * Specifies the service artifact reference id used to set same image version for all virtual
+   * machines in the scale set when using 'latest' image version. The service artifact reference id
+   * in the form of
+   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/serviceArtifacts/{serviceArtifactName}/vmArtifactsProfiles/{vmArtifactsProfilesName}
+   */
+  serviceArtifactReference?: ServiceArtifactReference;
 }
 
 /**
@@ -2173,6 +2265,109 @@ export interface MountConfiguration {
 }
 
 /**
+ * The configuration parameters used for performing automatic OS upgrade.
+ */
+export interface AutomaticOSUpgradePolicy {
+  /**
+   * Whether OS image rollback feature should be disabled.
+   */
+  disableAutomaticRollback?: boolean;
+  /**
+   * Indicates whether OS upgrades should automatically be applied to scale set instances in a
+   * rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this
+   * is set to true for Windows based pools,
+   * [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchservice/pool/add?tabs=HTTP#windowsconfiguration)
+   * cannot be set to true.
+   */
+  enableAutomaticOSUpgrade?: boolean;
+  /**
+   * Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS
+   * Upgrade will fallback to the default policy if no policy is defined on the VMSS.
+   */
+  useRollingUpgradePolicy?: boolean;
+  /**
+   * Defer OS upgrades on the TVMs if they are running tasks.
+   */
+  osRollingUpgradeDeferral?: boolean;
+}
+
+/**
+ * The configuration parameters used while performing a rolling upgrade.
+ */
+export interface RollingUpgradePolicy {
+  /**
+   * Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration
+   * the Update Domain and maxBatchInstancePercent to determine the batch size. This field is able
+   * to be set to true or false only when using NodePlacementConfiguration as Zonal.
+   */
+  enableCrossZoneUpgrade?: boolean;
+  /**
+   * The maximum percent of total virtual machine instances that will be upgraded simultaneously by
+   * the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or
+   * future batches can cause the percentage of instances in a batch to decrease to ensure higher
+   * reliability. The value of this field should be between 5 and 100, inclusive. If both
+   * maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of
+   * maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent.
+   */
+  maxBatchInstancePercent?: number;
+  /**
+   * The maximum percentage of the total virtual machine instances in the scale set that can be
+   * simultaneously unhealthy, either as a result of being upgraded, or by being found in an
+   * unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This
+   * constraint will be checked prior to starting any batch. The value of this field should be
+   * between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent
+   * are assigned with value, the value of maxBatchInstancePercent should not be more than
+   * maxUnhealthyInstancePercent.
+   */
+  maxUnhealthyInstancePercent?: number;
+  /**
+   * The maximum percentage of upgraded virtual machine instances that can be found to be in an
+   * unhealthy state. This check will happen after each batch is upgraded. If this percentage is
+   * ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100,
+   * inclusive.
+   */
+  maxUnhealthyUpgradedInstancePercent?: number;
+  /**
+   * The wait time between completing the update for all virtual machines in one batch and starting
+   * the next batch. The time duration should be specified in ISO 8601 format.
+   */
+  pauseTimeBetweenBatches?: string;
+  /**
+   * Upgrade all unhealthy instances in a scale set before any healthy instances.
+   */
+  prioritizeUnhealthyInstances?: boolean;
+  /**
+   * Rollback failed instances to previous model if the Rolling Upgrade policy is violated.
+   */
+  rollbackFailedInstancesOnPolicyBreach?: boolean;
+}
+
+/**
+ * Describes an upgrade policy - automatic, manual, or rolling.
+ */
+export interface UpgradePolicy {
+  /**
+   * Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible
+   * values are:<br /><br /> **Manual** - You  control the application of updates to virtual
+   * machines in the scale set. You do this by using the manualUpgrade action.<br /><br />
+   * **Automatic** - All virtual machines in the scale set are automatically updated at the same
+   * time.<br /><br /> **Rolling** - Scale set performs updates in batches with an optional pause
+   * time in between. Possible values include: 'automatic', 'manual', 'rolling'
+   */
+  mode: UpgradeMode;
+  /**
+   * Configuration parameters used for performing automatic OS Upgrade. The configuration
+   * parameters used for performing automatic OS upgrade.
+   */
+  automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
+  /**
+   * The configuration parameters used while performing a rolling upgrade. This property is only
+   * supported on Pools with the virtualMachineConfiguration property.
+   */
+  rollingUpgradePolicy?: RollingUpgradePolicy;
+}
+
+/**
  * An interface representing PoolSpecification.
  * @summary Specification for creating a new Pool.
  */
@@ -2325,6 +2520,17 @@ export interface PoolSpecification {
    * Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the pool.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3699,6 +3905,17 @@ export interface CloudPool {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly currentNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -3865,6 +4082,17 @@ export interface PoolAddParameter {
    * Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -4787,6 +5015,11 @@ export interface VirtualMachineInfo {
    * The reference to the Azure Virtual Machine's Marketplace Image.
    */
   imageReference?: ImageReference;
+  /**
+   * The resource ID of the Compute Node's current Virtual Machine Scale Set VM. Only defined if
+   * the Batch Account was created with its poolAllocationMode property set to 'UserSubscription'.
+   */
+  scaleSetVmResourceId?: string;
 }
 
 /**
@@ -4809,7 +5042,7 @@ export interface ComputeNode {
    * Tasks which were running on the Compute Node when it was preempted will be rescheduled when
    * another Compute Node becomes available. Possible values include: 'idle', 'rebooting',
    * 'reimaging', 'running', 'unusable', 'creating', 'starting', 'waitingForStartTask',
-   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted'
+   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted', 'upgradingOS'
    */
   state?: ComputeNodeState;
   /**
@@ -5544,6 +5777,10 @@ export interface NodeCounts {
    */
   waitingForStartTask: number;
   /**
+   * The number of Compute Nodes in the upgradingOS state.
+   */
+  upgradingOS: number;
+  /**
    * The total number of Compute Nodes.
    */
   total: number;
@@ -5579,7 +5816,8 @@ export interface ApplicationListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5604,7 +5842,8 @@ export interface ApplicationListOptions {
 export interface ApplicationGetOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5651,7 +5890,8 @@ export interface PoolListUsageMetricsOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5676,7 +5916,8 @@ export interface PoolListUsageMetricsOptions {
 export interface PoolAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5719,7 +5960,8 @@ export interface PoolListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5744,7 +5986,8 @@ export interface PoolListOptions {
 export interface PoolDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5793,7 +6036,8 @@ export interface PoolDeleteMethodOptions {
 export interface PoolExistsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5850,7 +6094,8 @@ export interface PoolGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5899,7 +6144,8 @@ export interface PoolGetOptions {
 export interface PoolPatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5948,7 +6194,8 @@ export interface PoolPatchOptions {
 export interface PoolDisableAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -5973,7 +6220,8 @@ export interface PoolDisableAutoScaleOptions {
 export interface PoolEnableAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6022,7 +6270,8 @@ export interface PoolEnableAutoScaleOptions {
 export interface PoolEvaluateAutoScaleOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6047,7 +6296,8 @@ export interface PoolEvaluateAutoScaleOptions {
 export interface PoolResizeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6096,7 +6346,8 @@ export interface PoolResizeOptions {
 export interface PoolStopResizeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6145,7 +6396,8 @@ export interface PoolStopResizeOptions {
 export interface PoolUpdatePropertiesOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6170,7 +6422,8 @@ export interface PoolUpdatePropertiesOptions {
 export interface PoolRemoveNodesOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6229,7 +6482,8 @@ export interface AccountListSupportedImagesOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6263,7 +6517,8 @@ export interface AccountListPoolNodeCountsOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6288,7 +6543,8 @@ export interface AccountListPoolNodeCountsOptions {
 export interface CertificateAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6327,7 +6583,8 @@ export interface CertificateListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6352,7 +6609,8 @@ export interface CertificateListOptions {
 export interface CertificateCancelDeletionOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6377,7 +6635,8 @@ export interface CertificateCancelDeletionOptions {
 export interface CertificateDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6406,7 +6665,8 @@ export interface CertificateGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6431,7 +6691,8 @@ export interface CertificateGetOptions {
 export interface FileDeleteFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6456,7 +6717,8 @@ export interface FileDeleteFromTaskOptions {
 export interface FileGetFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6498,7 +6760,8 @@ export interface FileGetFromTaskOptions {
 export interface FileGetPropertiesFromTaskOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6535,7 +6798,8 @@ export interface FileGetPropertiesFromTaskOptions {
 export interface FileDeleteFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6560,7 +6824,8 @@ export interface FileDeleteFromComputeNodeOptions {
 export interface FileGetFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6602,7 +6867,8 @@ export interface FileGetFromComputeNodeOptions {
 export interface FileGetPropertiesFromComputeNodeOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6649,7 +6915,8 @@ export interface FileListFromTaskOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6684,7 +6951,8 @@ export interface FileListFromComputeNodeOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6709,7 +6977,8 @@ export interface FileListFromComputeNodeOptions {
 export interface JobScheduleExistsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6758,7 +7027,8 @@ export interface JobScheduleExistsOptions {
 export interface JobScheduleDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6815,7 +7085,8 @@ export interface JobScheduleGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6864,7 +7135,8 @@ export interface JobScheduleGetOptions {
 export interface JobSchedulePatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6913,7 +7185,8 @@ export interface JobSchedulePatchOptions {
 export interface JobScheduleUpdateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -6962,7 +7235,8 @@ export interface JobScheduleUpdateOptions {
 export interface JobScheduleDisableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7011,7 +7285,8 @@ export interface JobScheduleDisableOptions {
 export interface JobScheduleEnableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7060,7 +7335,8 @@ export interface JobScheduleEnableOptions {
 export interface JobScheduleTerminateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7109,7 +7385,8 @@ export interface JobScheduleTerminateOptions {
 export interface JobScheduleAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7152,7 +7429,8 @@ export interface JobScheduleListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7177,7 +7455,8 @@ export interface JobScheduleListOptions {
 export interface JobDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7234,7 +7513,8 @@ export interface JobGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7283,7 +7563,8 @@ export interface JobGetOptions {
 export interface JobPatchOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7332,7 +7613,8 @@ export interface JobPatchOptions {
 export interface JobUpdateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7381,7 +7663,8 @@ export interface JobUpdateOptions {
 export interface JobDisableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7430,7 +7713,8 @@ export interface JobDisableOptions {
 export interface JobEnableOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7479,7 +7763,8 @@ export interface JobEnableOptions {
 export interface JobTerminateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7528,7 +7813,8 @@ export interface JobTerminateOptions {
 export interface JobAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7571,7 +7857,8 @@ export interface JobListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7614,7 +7901,8 @@ export interface JobListFromJobScheduleOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7653,7 +7941,8 @@ export interface JobListPreparationAndReleaseTaskStatusOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7678,7 +7967,8 @@ export interface JobListPreparationAndReleaseTaskStatusOptions {
 export interface JobGetTaskCountsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7703,7 +7993,8 @@ export interface JobGetTaskCountsOptions {
 export interface TaskAddOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7746,7 +8037,8 @@ export interface TaskListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7771,7 +8063,8 @@ export interface TaskListOptions {
 export interface TaskAddCollectionOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 2 minutes. If the value is larger than 120, the default will be used instead. Default value:
+   * 120.
    */
   timeout?: number;
   /**
@@ -7796,7 +8089,8 @@ export interface TaskAddCollectionOptions {
 export interface TaskDeleteMethodOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7853,7 +8147,8 @@ export interface TaskGetOptions {
   expand?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7902,7 +8197,8 @@ export interface TaskGetOptions {
 export interface TaskUpdateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7955,7 +8251,8 @@ export interface TaskListSubtasksOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -7980,7 +8277,8 @@ export interface TaskListSubtasksOptions {
 export interface TaskTerminateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8029,7 +8327,8 @@ export interface TaskTerminateOptions {
 export interface TaskReactivateOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8078,7 +8377,8 @@ export interface TaskReactivateOptions {
 export interface ComputeNodeAddUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8103,7 +8403,8 @@ export interface ComputeNodeAddUserOptions {
 export interface ComputeNodeDeleteUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8128,7 +8429,8 @@ export interface ComputeNodeDeleteUserOptions {
 export interface ComputeNodeUpdateUserOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8157,7 +8459,8 @@ export interface ComputeNodeGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8182,7 +8485,8 @@ export interface ComputeNodeGetOptions {
 export interface ComputeNodeRebootOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8207,7 +8511,8 @@ export interface ComputeNodeRebootOptions {
 export interface ComputeNodeReimageOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8232,7 +8537,8 @@ export interface ComputeNodeReimageOptions {
 export interface ComputeNodeDisableSchedulingOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8257,7 +8563,8 @@ export interface ComputeNodeDisableSchedulingOptions {
 export interface ComputeNodeEnableSchedulingOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8282,7 +8589,8 @@ export interface ComputeNodeEnableSchedulingOptions {
 export interface ComputeNodeGetRemoteLoginSettingsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8307,7 +8615,8 @@ export interface ComputeNodeGetRemoteLoginSettingsOptions {
 export interface ComputeNodeGetRemoteDesktopOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8332,7 +8641,8 @@ export interface ComputeNodeGetRemoteDesktopOptions {
 export interface ComputeNodeUploadBatchServiceLogsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8371,7 +8681,8 @@ export interface ComputeNodeListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8400,7 +8711,8 @@ export interface ComputeNodeExtensionGetOptions {
   select?: string;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -8434,7 +8746,8 @@ export interface ComputeNodeExtensionListOptions {
   maxResults?: number;
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
-   * 30 seconds. Default value: 30.
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
    */
   timeout?: number;
   /**
@@ -12310,11 +12623,11 @@ export type CachingType = 'none' | 'readonly' | 'readwrite';
 
 /**
  * Defines values for StorageAccountType.
- * Possible values include: 'StandardLRS', 'PremiumLRS'
+ * Possible values include: 'StandardLRS', 'PremiumLRS', 'StandardSSDLRS'
  * @readonly
  * @enum {string}
  */
-export type StorageAccountType = 'standard_lrs' | 'premium_lrs';
+export type StorageAccountType = 'standard_lrs' | 'premium_lrs' | 'standardssd_lrs';
 
 /**
  * Defines values for ContainerType.
@@ -12347,6 +12660,14 @@ export type NodePlacementPolicyType = 'regional' | 'zonal';
  * @enum {string}
  */
 export type DiffDiskPlacement = 'CacheDisk';
+
+/**
+ * Defines values for SecurityTypes.
+ * Possible values include: 'trustedLaunch'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityTypes = 'trustedLaunch';
 
 /**
  * Defines values for DynamicVNetAssignmentScope.
@@ -12387,6 +12708,14 @@ export type IPAddressProvisioningType = 'batchmanaged' | 'usermanaged' | 'nopubl
  * @enum {string}
  */
 export type NodeCommunicationMode = 'default' | 'classic' | 'simplified';
+
+/**
+ * Defines values for UpgradeMode.
+ * Possible values include: 'automatic', 'manual', 'rolling'
+ * @readonly
+ * @enum {string}
+ */
+export type UpgradeMode = 'automatic' | 'manual' | 'rolling';
 
 /**
  * Defines values for PoolLifetimeOption.
@@ -12529,11 +12858,11 @@ export type StartTaskState = 'running' | 'completed';
  * Defines values for ComputeNodeState.
  * Possible values include: 'idle', 'rebooting', 'reimaging', 'running', 'unusable', 'creating',
  * 'starting', 'waitingForStartTask', 'startTaskFailed', 'unknown', 'leavingPool', 'offline',
- * 'preempted'
+ * 'preempted', 'upgradingOS'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted';
+export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted' | 'upgradingos';
 
 /**
  * Defines values for SchedulingState.
