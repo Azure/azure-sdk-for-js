@@ -1,5 +1,11 @@
 # Release History
 
+## 1.1.1 (2024-03-19)
+
+### Bugs Fixed
+
+- Fixed to allow `FcmV1Notification` as part of the `Notification` and `sendNotification` parameters.
+
 ## 1.1.0 (2024-03-01)
 
 ### Features Added
