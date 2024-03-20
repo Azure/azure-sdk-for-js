@@ -285,9 +285,18 @@ function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Err
   if (!errors.length) {
     throw new RangeError("Error array is empty");
   }
-  let i = 0;
-  const str = errors.map((error) => `Error ${i++}: ${error}`).join("\n\n");
-  const lastError = errors[errors.length - 1];
-  lastError.message = str;
+  let message = "";
+  let lastError: MessagingError | Error;
+  for (let i = 0; i < errors.length; i++) {
+    message += `Error ${i}: ${errors[i]}\n\n`;
+    const error = errors[i];
+    // filter out SDK-side errors
+    if ("OperationTimeoutError" !== error.name) {
+      lastError = error;
+    }
+  }
+  message.trimEnd();
+  lastError ??= errors[errors.length - 1];
+  lastError.message = message;
   return lastError;
 }
