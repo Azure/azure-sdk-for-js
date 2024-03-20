@@ -382,6 +382,11 @@ export interface SupportTicketDetails {
   readonly modifiedDate?: Date;
   /** File workspace name. */
   fileWorkspaceName?: string;
+  /**
+   * This property indicates if support ticket is a temporary ticket.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTemporaryTicket?: IsTemporaryTicket;
   /** Additional ticket details associated with a technical support ticket request. */
   technicalTicketDetails?: TechnicalTicketDetails;
   /** Additional ticket details associated with a quota support ticket request. */
@@ -775,6 +780,24 @@ export enum KnownPreferredContactMethod {
  * **phone**
  */
 export type PreferredContactMethod = string;
+
+/** Known values of {@link IsTemporaryTicket} that the service accepts. */
+export enum KnownIsTemporaryTicket {
+  /** Yes */
+  Yes = "Yes",
+  /** No */
+  No = "No",
+}
+
+/**
+ * Defines values for IsTemporaryTicket. \
+ * {@link KnownIsTemporaryTicket} can be used interchangeably with IsTemporaryTicket,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Yes** \
+ * **No**
+ */
+export type IsTemporaryTicket = string;
 
 /** Known values of {@link UserConsent} that the service accepts. */
 export enum KnownUserConsent {

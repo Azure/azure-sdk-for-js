@@ -406,6 +406,9 @@ export type FileWorkspacesNoSubscriptionGetResponse = FileWorkspaceDetails;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export type IsTemporaryTicket = string;
+
+// @public
 export enum KnownCommunicationDirection {
     Inbound = "inbound",
     Outbound = "outbound"
@@ -429,6 +432,12 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownIsTemporaryTicket {
+    No = "No",
+    Yes = "Yes"
 }
 
 // @public
@@ -803,6 +812,7 @@ export interface SupportTicketDetails {
     enrollmentId?: string;
     fileWorkspaceName?: string;
     readonly id?: string;
+    readonly isTemporaryTicket?: IsTemporaryTicket;
     readonly modifiedDate?: Date;
     readonly name?: string;
     readonly problemClassificationDisplayName?: string;

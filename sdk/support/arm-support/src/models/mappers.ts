@@ -821,6 +821,13 @@ export const SupportTicketDetails: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      isTemporaryTicket: {
+        serializedName: "properties.isTemporaryTicket",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       technicalTicketDetails: {
         serializedName: "properties.technicalTicketDetails",
         type: {
