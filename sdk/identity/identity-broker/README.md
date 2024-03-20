@@ -106,7 +106,7 @@ For a complete example of using an Electron app for retrieving a window handle, 
 
 ### Use the default account for sign-in
 
-When this option is specified the credential will attempt to silently use the default broker account. If using the default account fails, the credential will fall back to interactive authentication.
+When the `useDefaultBrokerAccount` option is set to `true`, the credential will attempt to silently use the default broker account. If using the default account fails, the credential will fall back to interactive authentication.
 
 ```typescript
 import { nativeBrokerPlugin } from "@azure/identity-broker";
