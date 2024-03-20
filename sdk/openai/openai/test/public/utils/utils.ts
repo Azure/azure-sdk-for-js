@@ -21,7 +21,7 @@ import {
   isRecordMode,
 } from "@azure-tools/test-recorder";
 import {
-  AzureCognitiveSearchChatExtensionConfiguration,
+  AzureSearchChatExtensionConfiguration,
   OpenAIKeyCredential,
 } from "../../../src/index.js";
 import {
@@ -227,11 +227,10 @@ export async function get(url: string, recorder: Recorder): Promise<PipelineResp
   return sendRequestWithRecorder(request, recorder);
 }
 
-export function createAzureCognitiveSearchExtension(): AzureCognitiveSearchChatExtensionConfiguration {
+export function createAzureSearchExtension(): AzureSearchChatExtensionConfiguration {
   return {
-    type: "AzureCognitiveSearch",
+    type: "azure_search",
     endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
-    key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
     indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
   };
 }

@@ -12,8 +12,6 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetChatCompletionsWithAzureExtensions200Response,
-  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
   GetEmbeddings200Response,
@@ -30,7 +28,6 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/audio/translations": ["200"],
   "POST /deployments/{deploymentId}/completions": ["200"],
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
-  "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/images/generations": ["200"],
   "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
@@ -56,11 +53,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: GetChatCompletions200Response | GetChatCompletionsDefaultResponse,
 ): response is GetChatCompletionsDefaultResponse;
-export function isUnexpected(
-  response:
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse,
-): response is GetChatCompletionsWithAzureExtensionsDefaultResponse;
 export function isUnexpected(
   response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): response is GetImageGenerationsDefaultResponse;
@@ -90,8 +82,6 @@ export function isUnexpected(
     | GetCompletionsDefaultResponse
     | GetChatCompletions200Response
     | GetChatCompletionsDefaultResponse
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
     | GetImageGenerations200Response
     | GetImageGenerationsDefaultResponse
     | GetEmbeddings200Response
@@ -106,7 +96,6 @@ export function isUnexpected(
   | GetAudioTranslationAsPlainTextDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
-  | GetChatCompletionsWithAzureExtensionsDefaultResponse
   | GetImageGenerationsDefaultResponse
   | GetEmbeddingsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse

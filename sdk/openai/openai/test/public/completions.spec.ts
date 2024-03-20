@@ -13,7 +13,7 @@ import {
 } from "./utils/asserts.js";
 import {
   bufferAsyncIterable,
-  createAzureCognitiveSearchExtension,
+  createAzureSearchExtension,
   getDeployments,
   getModels,
   getSucceeded,
@@ -27,6 +27,7 @@ import {
   OpenAIClient,
 } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
+import { RestError } from "@azure/core-rest-pipeline";
 
 describe("OpenAI", function () {
   let recorder: Recorder;
@@ -267,7 +268,7 @@ describe("OpenAI", function () {
                 (deploymentName) =>
                   client.getChatCompletions(deploymentName, byodMessages, {
                     azureExtensionOptions: {
-                      extensions: [createAzureCognitiveSearchExtension()],
+                      extensions: [createAzureSearchExtension()],
                     },
                   }),
                 assertChatCompletions,
@@ -299,7 +300,7 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
-                  assert.isEmpty(res.choices[0].message?.toolCalls);
+                  assert.isUndefined(res.choices[0].message?.toolCalls);
                   assert.isUndefined(res.choices[0].message?.functionCall);
                 },
               ),
@@ -343,9 +344,12 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
-                  assert.isDefined(res.choices[0].message?.toolCalls);
+                  const toolCalls = res.choices[0].message?.toolCalls;
+                  if (!toolCalls) {
+                    throw new RestError("toolCalls should be defined here");
+                  }
                   const argument = (
-                    res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall
+                    toolCalls[0] as ChatCompletionsFunctionToolCall
                   ).function.arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
@@ -445,8 +449,12 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
+                  const toolCalls = res.choices[0].message?.toolCalls;
+                  if (!toolCalls){
+                    throw new RestError("toolCalls should be defined here");
+                  }
                   assert.equal(
-                    (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall)
+                    (toolCalls[0] as ChatCompletionsFunctionToolCall)
                       .function.name,
                     getCurrentWeather.name,
                   );
@@ -576,7 +584,7 @@ describe("OpenAI", function () {
                   bufferAsyncIterable(
                     await client.streamChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {
-                        extensions: [createAzureCognitiveSearchExtension()],
+                        extensions: [createAzureSearchExtension()],
                       },
                     }),
                   ),

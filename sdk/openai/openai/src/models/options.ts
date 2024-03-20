@@ -7,6 +7,7 @@ import {
   ChatCompletionsNamedToolSelectionUnion,
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinitionUnion,
+  EmbeddingEncodingFormat,
   FunctionCallPreset,
   FunctionDefinition,
   FunctionName,
@@ -16,14 +17,20 @@ import {
   ImageSize,
 } from "./models.js";
 
-export interface GetAudioTranscriptionAsPlainTextOptions extends OperationOptions {}
+export interface GetAudioTranscriptionAsPlainTextOptions extends OperationOptions {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
 
 export interface GetAudioTranscriptionAsResponseObjectOptions extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
   contentType?: string;
 }
 
-export interface GetAudioTranslationAsPlainTextOptions extends OperationOptions {}
+export interface GetAudioTranslationAsPlainTextOptions extends OperationOptions {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType?: string;
+}
 
 export interface GetAudioTranslationAsResponseObjectOptions extends OperationOptions {
   /** The content type for the operation. Always multipart/form-data for this operation. */
@@ -31,8 +38,6 @@ export interface GetAudioTranslationAsResponseObjectOptions extends OperationOpt
 }
 
 export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
-
-export interface GetChatCompletionsWithAzureExtensionsOptions extends OperationOptions {}
 
 export interface GetImageGenerationsOptions extends OperationOptions {}
 
@@ -75,6 +80,12 @@ export interface GetEmbeddingsOptions extends OperationOptions {
    * resource URI that's connected to.
    */
   model?: string;
+  /** The response encoding format to use for embedding data. */
+  encodingFormat?: EmbeddingEncodingFormat;
+  /** The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models. */
+  dimensions?: number;
+  /** When using Azure OpenAI, specifies the input type to use for embedding search. */
+  inputType?: string;
 }
 
 /**

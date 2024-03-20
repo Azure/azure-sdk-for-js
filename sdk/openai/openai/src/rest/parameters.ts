@@ -15,8 +15,15 @@ export interface GetAudioTranscriptionAsPlainTextBodyParam {
   body?: AudioTranscriptionOptions;
 }
 
-export type GetAudioTranscriptionAsPlainTextParameters = GetAudioTranscriptionAsPlainTextBodyParam &
-  RequestParameters;
+export interface GetAudioTranscriptionAsPlainTextMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranscriptionAsPlainTextParameters =
+  GetAudioTranscriptionAsPlainTextMediaTypesParam &
+    GetAudioTranscriptionAsPlainTextBodyParam &
+    RequestParameters;
 
 export interface GetAudioTranscriptionAsResponseObjectBodyParam {
   body?: AudioTranscriptionOptions;
@@ -36,8 +43,15 @@ export interface GetAudioTranslationAsPlainTextBodyParam {
   body?: AudioTranslationOptions;
 }
 
-export type GetAudioTranslationAsPlainTextParameters = GetAudioTranslationAsPlainTextBodyParam &
-  RequestParameters;
+export interface GetAudioTranslationAsPlainTextMediaTypesParam {
+  /** The content type for the operation. Always multipart/form-data for this operation. */
+  contentType: "multipart/form-data";
+}
+
+export type GetAudioTranslationAsPlainTextParameters =
+  GetAudioTranslationAsPlainTextMediaTypesParam &
+    GetAudioTranslationAsPlainTextBodyParam &
+    RequestParameters;
 
 export interface GetAudioTranslationAsResponseObjectBodyParam {
   body?: AudioTranslationOptions;
@@ -64,13 +78,6 @@ export interface GetChatCompletionsBodyParam {
 }
 
 export type GetChatCompletionsParameters = GetChatCompletionsBodyParam & RequestParameters;
-
-export interface GetChatCompletionsWithAzureExtensionsBodyParam {
-  body?: ChatCompletionsOptions;
-}
-
-export type GetChatCompletionsWithAzureExtensionsParameters =
-  GetChatCompletionsWithAzureExtensionsBodyParam & RequestParameters;
 
 export interface GetImageGenerationsBodyParam {
   body?: ImageGenerationOptions;

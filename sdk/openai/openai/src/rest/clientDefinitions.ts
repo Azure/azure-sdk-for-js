@@ -8,7 +8,6 @@ import {
   GetAudioTranslationAsResponseObjectParameters,
   GetCompletionsParameters,
   GetChatCompletionsParameters,
-  GetChatCompletionsWithAzureExtensionsParameters,
   GetImageGenerationsParameters,
   GetEmbeddingsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
@@ -27,8 +26,6 @@ import {
   GetCompletionsDefaultResponse,
   GetChatCompletions200Response,
   GetChatCompletionsDefaultResponse,
-  GetChatCompletionsWithAzureExtensions200Response,
-  GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
   GetEmbeddings200Response,
@@ -46,7 +43,7 @@ export interface GetAudioTranscriptionAsPlainText {
    * written language corresponding to the language it was spoken in.
    */
   post(
-    options?: GetAudioTranscriptionAsPlainTextParameters,
+    options: GetAudioTranscriptionAsPlainTextParameters,
   ): StreamableMethod<
     GetAudioTranscriptionAsPlainText200Response | GetAudioTranscriptionAsPlainTextDefaultResponse
   >;
@@ -65,7 +62,7 @@ export interface GetAudioTranscriptionAsPlainText {
 export interface GetAudioTranslationAsPlainText {
   /** Gets English language transcribed text and associated metadata from provided spoken audio data. */
   post(
-    options?: GetAudioTranslationAsPlainTextParameters,
+    options: GetAudioTranslationAsPlainTextParameters,
   ): StreamableMethod<
     GetAudioTranslationAsPlainText200Response | GetAudioTranslationAsPlainTextDefaultResponse
   >;
@@ -98,20 +95,6 @@ export interface GetChatCompletions {
   post(
     options?: GetChatCompletionsParameters,
   ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
-}
-
-export interface GetChatCompletionsWithAzureExtensions {
-  /**
-   * Gets chat completions for the provided chat messages.
-   * This is an Azure-specific version of chat completions that supports integration with configured data sources and
-   * other augmentations to the base chat completions capabilities.
-   */
-  post(
-    options?: GetChatCompletionsWithAzureExtensionsParameters,
-  ): StreamableMethod<
-    | GetChatCompletionsWithAzureExtensions200Response
-    | GetChatCompletionsWithAzureExtensionsDefaultResponse
-  >;
 }
 
 export interface GetImageGenerations {
@@ -162,11 +145,6 @@ export interface Routes {
   (path: "/deployments/{deploymentId}/completions", deploymentId: string): GetCompletions;
   /** Resource for '/deployments/\{deploymentId\}/chat/completions' has methods for the following verbs: post */
   (path: "/deployments/{deploymentId}/chat/completions", deploymentId: string): GetChatCompletions;
-  /** Resource for '/deployments/\{deploymentId\}/extensions/chat/completions' has methods for the following verbs: post */
-  (
-    path: "/deployments/{deploymentId}/extensions/chat/completions",
-    deploymentId: string,
-  ): GetChatCompletionsWithAzureExtensions;
   /** Resource for '/deployments/\{deploymentId\}/images/generations' has methods for the following verbs: post */
   (
     path: "/deployments/{deploymentId}/images/generations",

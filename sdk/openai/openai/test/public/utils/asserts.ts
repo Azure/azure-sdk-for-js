@@ -209,9 +209,12 @@ function assertMessage(
   }
   assertIf(!stream, msg.role, assert.isString);
   ifDefined(msg.functionCall, (item) => assertFunctionCall(item, { stream }));
-  for (const item of msg.toolCalls) {
+  if (msg.toolCalls) {
+      for (const item of msg.toolCalls) {
     assertToolCall(item, { stream });
   }
+  }
+
   ifDefined(msg.context, ({ messages }) => assertNonEmptyArray(messages, assertMessage));
 }
 
