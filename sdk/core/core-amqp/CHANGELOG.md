@@ -10,7 +10,7 @@
 
 ### Other Changes
 
-- Update the error thrown after all retries are exhausted to be the last service error received.
+- Updates the error thrown after all retries are exhausted to be the last service error received.
 
 ## 4.2.1 (2024-03-04)
 
