@@ -31,38 +31,13 @@ async function monitorsCreateOrUpdateMaximumSetGen() {
     process.env["NEWRELICOBSERVABILITY_RESOURCE_GROUP"] || "rgNewRelic";
   const monitorName = "cdlymktqw";
   const resource: NewRelicMonitorResource = {
-    accountCreationSource: "LIFTR",
-    identity: { type: "None", userAssignedIdentities: { key8903: {} } },
-    liftrResourceCategory: "Unknown",
     location: "k",
-    marketplaceSubscriptionStatus: "Active",
-    monitoringStatus: "Enabled",
-    newRelicAccountProperties: {
-      accountInfo: {
-        accountId: "xhqmg",
-        ingestionKey: "wltnimmhqt",
-        region: "ljcf",
-      },
-      organizationInfo: { organizationId: "k" },
-      singleSignOnProperties: {
-        enterpriseAppId: "kwiwfz",
-        provisioningState: "Accepted",
-        singleSignOnState: "Initial",
-        singleSignOnUrl: "kvseueuljsxmfwpqctz",
-      },
-      userId: "vcscxlncofcuduadesd",
-    },
-    orgCreationSource: "LIFTR",
     planData: {
       billingCycle: "YEARLY",
       effectiveDate: new Date("2022-12-05T14:11:37.786Z"),
       planDetails: "tbbiaga",
       usageType: "PAYG",
     },
-    provisioningState: "Accepted",
-    saaSAzureSubscriptionStatus: "Subscribed",
-    subscriptionState: "Suspended",
-    tags: { key6976: "oaxfhf" },
     userInfo: {
       country: "hslqnwdanrconqyekwbnttaetv",
       emailAddress: "%6%@4-g.N1.3F-kI1.Ue-.lJso",

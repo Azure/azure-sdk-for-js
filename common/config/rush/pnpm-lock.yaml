@@ -1236,6 +1236,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/arm-resources@5.2.0:
+    resolution: {integrity: sha512-wQyuhL8WQsLkW/KMdik8bLJIJCz3Z6mg/+AKm0KedgK73SKhicSqYP+ed3t+43tLlRFltcrmGKMcHLQ+Jhv/6A==}
+    engines: {node: '>=14.0.0'}
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-auth': 1.6.0
+      '@azure/core-client': 1.8.0
+      '@azure/core-lro': 2.6.0
+      '@azure/core-paging': 1.5.0
+      '@azure/core-rest-pipeline': 1.14.0
+      tslib: 2.6.2
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/communication-common@2.3.1:
     resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
     engines: {node: '>=18.0.0'}
@@ -15174,11 +15189,12 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-nU+lYjQaU1qP97xu8mTVuJkgzjpQmGaYKjSnMmRypYnBr3CdRzw747+X8jPqmhRx3a10Y8IjRFz5ottEGUoUNw==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-sDE0ETuK2LZjv8OWuDARnKKzoUOjJbvFliX1939Uq0oW0iX0MjGbbnJ2DAdAXzUqGVMGWuf7YSC8bVVaIj8HuA==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
+      '@azure/arm-resources': 5.2.0
       '@azure/identity': 4.0.1
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
