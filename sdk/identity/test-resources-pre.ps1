@@ -9,24 +9,6 @@ param (
     $RemainingArguments,
 
     [Parameter()]
-    [string] $Location = '',
-
-    [Parameter()]
-    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
-    [string] $TestApplicationId,
-
-    [Parameter()]
-    [string] $TestApplicationSecret,
-
-    [Parameter()]
-    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
-    [string] $SubscriptionId,
-
-    [Parameter(ParameterSetName = 'Provisioner')]
-    [ValidateNotNullOrEmpty()]
-    [string] $TenantId = '72f988bf-86f1-41af-91ab-2d7cd011db47',
-
-    [Parameter()]
     [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
     
 )
