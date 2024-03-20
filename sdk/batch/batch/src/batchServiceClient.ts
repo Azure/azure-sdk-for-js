@@ -20,10 +20,10 @@ class BatchServiceClient extends BatchServiceClientContext {
   application: operations.Application;
   pool: operations.Pool;
   account: operations.Account;
-  job: operations.Job;
   certificate: operations.CertificateOperations;
   file: operations.File;
   jobSchedule: operations.JobSchedule;
+  job: operations.Job;
   task: operations.Task;
   computeNode: operations.ComputeNodeOperations;
   computeNodeExtension: operations.ComputeNodeExtension;
@@ -39,10 +39,10 @@ class BatchServiceClient extends BatchServiceClientContext {
     this.application = new operations.Application(this);
     this.pool = new operations.Pool(this);
     this.account = new operations.Account(this);
-    this.job = new operations.Job(this);
     this.certificate = new operations.CertificateOperations(this);
     this.file = new operations.File(this);
     this.jobSchedule = new operations.JobSchedule(this);
+    this.job = new operations.Job(this);
     this.task = new operations.Task(this);
     this.computeNode = new operations.ComputeNodeOperations(this);
     this.computeNodeExtension = new operations.ComputeNodeExtension(this);

@@ -55,6 +55,7 @@
     "rollup-plugin-node-resolve": "^5.2.0",
     "rollup-plugin-sourcemaps": "^0.4.2",
     "source-map-support": "^0.5.19",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^1.1.8",
     "typescript": "^3.9.10",
     "uglify-js": "^3.6.0",
@@ -101,6 +102,7 @@
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "mocha -r esm --require ts-node/register --timeout 1200000 --full-trace \"test/{,!(browser)/**/}/*.spec.ts\"",
+    "test:node12": "cross-env TS_NODE_TRANSPILE_ONLY=1 TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
