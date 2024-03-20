@@ -21,7 +21,6 @@ const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const azureApiKey = process.env["AZURE_API_KEY"] || "<api key>";
 // Your Azure Cognitive Search endpoint, admin key, and index name
 const azureSearchEndpoint = process.env["AZURE_SEARCH_ENDPOINT"] || "<search endpoint>";
-// const azureSearchAdminKey = process.env["AZURE_SEARCH_KEY"] || "<search key>";
 const azureSearchIndexName = process.env["AZURE_SEARCH_INDEX"] || "<search index>";
 
 const messages = [
