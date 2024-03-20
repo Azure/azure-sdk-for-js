@@ -295,8 +295,7 @@ function compileErrors(errors: (MessagingError | Error)[]): MessagingError | Err
       lastError = error;
     }
   }
-  message.trimEnd();
   lastError ??= errors[errors.length - 1];
-  lastError.message = message;
+  lastError.message = message.trimEnd();
   return lastError;
 }
