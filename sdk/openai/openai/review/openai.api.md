@@ -581,16 +581,6 @@ export interface Embeddings {
 }
 
 // @public
-export interface EmbeddingsOptions {
-    dimensions?: number;
-    encodingFormat?: EmbeddingEncodingFormat;
-    input: string[];
-    inputType?: string;
-    model?: string;
-    user?: string;
-}
-
-// @public
 export interface EmbeddingsUsage {
     promptTokens: number;
     totalTokens: number;
