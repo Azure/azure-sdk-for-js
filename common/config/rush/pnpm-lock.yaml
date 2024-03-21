@@ -12538,7 +12538,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-uPS2+p1oI2HYbDoM/nIA24Zp4g4luf44EwFtnc/IcqJbC5WXGUyw5XpP521K/LRjqrhcpvYnJUTXvsihMjAXGg==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-JGhsfwQfWyrFKFWMwmtb8KKlJnLnUSVyoYMkO7hIxS+Lep0fSQAae7zCgrc60enzSi9xC6vzJ7/uB4KAU9XEKQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -15486,7 +15486,7 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-OX7qpyv3z9EQxyDSzQt4K0iwOacNu/o0r58CHC8k5kHRHquAVDia5sE6j0tN5Q+odhvdxZKUooXw4LRQC8FG5g==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-nU+lYjQaU1qP97xu8mTVuJkgzjpQmGaYKjSnMmRypYnBr3CdRzw747+X8jPqmhRx3a10Y8IjRFz5ottEGUoUNw==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
@@ -15499,6 +15499,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
