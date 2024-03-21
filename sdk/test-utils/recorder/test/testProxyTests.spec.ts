@@ -284,8 +284,9 @@ import { env } from "../src/index.js";
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-                }`,
+              path: `/sample_response${
+                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+              }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
