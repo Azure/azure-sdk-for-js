@@ -1,16 +1,6 @@
 # Release History
-
-## 2.2.0-beta.2 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
-## 2.2.0-beta.1 (2023-10-16)
+    
+## 2.2.0-beta.1 (2024-03-21)
     
 **Features**
 
@@ -21,19 +11,27 @@
   - Added operation group FilesNoSubscription
   - Added operation group FileWorkspaces
   - Added operation group FileWorkspacesNoSubscription
-  - Added operation group SupportTicketChatTranscriptsNoSubscription
-  - Added operation group SupportTicketCommunicationsNoSubscription
+  - Added operation group LookUpResourceId
+  - Added operation group ProblemClassificationsNoSubscription
+  - Added operation group ServiceClassifications
+  - Added operation group ServiceClassificationsNoSubscription
   - Added operation group SupportTicketsNoSubscription
+  - Added operation ProblemClassifications.classifyProblems
   - Added Interface ChatTranscriptDetails
   - Added Interface ChatTranscriptsGetOptionalParams
   - Added Interface ChatTranscriptsListNextOptionalParams
   - Added Interface ChatTranscriptsListOptionalParams
   - Added Interface ChatTranscriptsListResult
   - Added Interface ChatTranscriptsNoSubscriptionGetOptionalParams
+  - Added Interface ChatTranscriptsNoSubscriptionListNextOptionalParams
+  - Added Interface ChatTranscriptsNoSubscriptionListOptionalParams
+  - Added Interface ClassificationService
   - Added Interface CommunicationsNoSubscriptionCheckNameAvailabilityOptionalParams
   - Added Interface CommunicationsNoSubscriptionCreateHeaders
   - Added Interface CommunicationsNoSubscriptionCreateOptionalParams
   - Added Interface CommunicationsNoSubscriptionGetOptionalParams
+  - Added Interface CommunicationsNoSubscriptionListNextOptionalParams
+  - Added Interface CommunicationsNoSubscriptionListOptionalParams
   - Added Interface ErrorAdditionalInfo
   - Added Interface ErrorDetail
   - Added Interface ErrorResponse
@@ -54,15 +52,24 @@
   - Added Interface FileWorkspacesGetOptionalParams
   - Added Interface FileWorkspacesNoSubscriptionCreateOptionalParams
   - Added Interface FileWorkspacesNoSubscriptionGetOptionalParams
+  - Added Interface LookUpResourceIdPostOptionalParams
+  - Added Interface LookUpResourceIdRequest
+  - Added Interface LookUpResourceIdResponse
   - Added Interface MessageProperties
+  - Added Interface ProblemClassificationsClassificationInput
+  - Added Interface ProblemClassificationsClassificationOutput
+  - Added Interface ProblemClassificationsClassificationResult
+  - Added Interface ProblemClassificationsClassifyProblemsOptionalParams
+  - Added Interface ProblemClassificationsNoSubscriptionClassifyProblemsOptionalParams
   - Added Interface ProxyResource
   - Added Interface Resource
   - Added Interface SecondaryConsent
   - Added Interface SecondaryConsentEnabled
-  - Added Interface SupportTicketChatTranscriptsNoSubscriptionListNextOptionalParams
-  - Added Interface SupportTicketChatTranscriptsNoSubscriptionListOptionalParams
-  - Added Interface SupportTicketCommunicationsNoSubscriptionListNextOptionalParams
-  - Added Interface SupportTicketCommunicationsNoSubscriptionListOptionalParams
+  - Added Interface ServiceClassificationAnswer
+  - Added Interface ServiceClassificationOutput
+  - Added Interface ServiceClassificationRequest
+  - Added Interface ServiceClassificationsClassifyServicesOptionalParams
+  - Added Interface ServiceClassificationsNoSubscriptionClassifyServicesOptionalParams
   - Added Interface SupportTicketsNoSubscriptionCheckNameAvailabilityOptionalParams
   - Added Interface SupportTicketsNoSubscriptionCreateHeaders
   - Added Interface SupportTicketsNoSubscriptionCreateOptionalParams
@@ -76,9 +83,13 @@
   - Added Type Alias ChatTranscriptsListNextResponse
   - Added Type Alias ChatTranscriptsListResponse
   - Added Type Alias ChatTranscriptsNoSubscriptionGetResponse
+  - Added Type Alias ChatTranscriptsNoSubscriptionListNextResponse
+  - Added Type Alias ChatTranscriptsNoSubscriptionListResponse
   - Added Type Alias CommunicationsNoSubscriptionCheckNameAvailabilityResponse
   - Added Type Alias CommunicationsNoSubscriptionCreateResponse
   - Added Type Alias CommunicationsNoSubscriptionGetResponse
+  - Added Type Alias CommunicationsNoSubscriptionListNextResponse
+  - Added Type Alias CommunicationsNoSubscriptionListResponse
   - Added Type Alias Consent
   - Added Type Alias CreatedByType
   - Added Type Alias FilesCreateResponse
@@ -93,10 +104,12 @@
   - Added Type Alias FileWorkspacesGetResponse
   - Added Type Alias FileWorkspacesNoSubscriptionCreateResponse
   - Added Type Alias FileWorkspacesNoSubscriptionGetResponse
-  - Added Type Alias SupportTicketChatTranscriptsNoSubscriptionListNextResponse
-  - Added Type Alias SupportTicketChatTranscriptsNoSubscriptionListResponse
-  - Added Type Alias SupportTicketCommunicationsNoSubscriptionListNextResponse
-  - Added Type Alias SupportTicketCommunicationsNoSubscriptionListResponse
+  - Added Type Alias IsTemporaryTicket
+  - Added Type Alias LookUpResourceIdPostResponse
+  - Added Type Alias ProblemClassificationsClassifyProblemsResponse
+  - Added Type Alias ProblemClassificationsNoSubscriptionClassifyProblemsResponse
+  - Added Type Alias ServiceClassificationsClassifyServicesResponse
+  - Added Type Alias ServiceClassificationsNoSubscriptionClassifyServicesResponse
   - Added Type Alias SupportTicketsNoSubscriptionCheckNameAvailabilityResponse
   - Added Type Alias SupportTicketsNoSubscriptionCreateResponse
   - Added Type Alias SupportTicketsNoSubscriptionGetResponse
@@ -105,9 +118,13 @@
   - Added Type Alias SupportTicketsNoSubscriptionUpdateResponse
   - Added Type Alias TranscriptContentType
   - Added Type Alias UserConsent
+  - Interface ProblemClassification has a new optional parameter metadata
+  - Interface ProblemClassification has a new optional parameter parentProblemClassification
   - Interface ProblemClassification has a new optional parameter secondaryConsentEnabled
+  - Interface Service has a new optional parameter metadata
   - Interface SupportTicketDetails has a new optional parameter advancedDiagnosticConsent
   - Interface SupportTicketDetails has a new optional parameter fileWorkspaceName
+  - Interface SupportTicketDetails has a new optional parameter isTemporaryTicket
   - Interface SupportTicketDetails has a new optional parameter problemScopingQuestions
   - Interface SupportTicketDetails has a new optional parameter secondaryConsent
   - Interface SupportTicketDetails has a new optional parameter supportPlanDisplayName
@@ -116,6 +133,7 @@
   - Interface UpdateSupportTicket has a new optional parameter secondaryConsent
   - Added Enum KnownConsent
   - Added Enum KnownCreatedByType
+  - Added Enum KnownIsTemporaryTicket
   - Added Enum KnownTranscriptContentType
   - Added Enum KnownUserConsent
   - Class MicrosoftSupport has a new signature
@@ -150,4 +168,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/js-track2-quickstart).

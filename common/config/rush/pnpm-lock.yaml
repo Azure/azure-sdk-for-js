@@ -12536,7 +12536,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-uPS2+p1oI2HYbDoM/nIA24Zp4g4luf44EwFtnc/IcqJbC5WXGUyw5XpP521K/LRjqrhcpvYnJUTXvsihMjAXGg==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-JGhsfwQfWyrFKFWMwmtb8KKlJnLnUSVyoYMkO7hIxS+Lep0fSQAae7zCgrc60enzSi9xC6vzJ7/uB4KAU9XEKQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -12827,7 +12827,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-CgE1+0qzGsKIGBfvZjAaeQ3jI+BkFnyy2s1J2hS/GDxqqS6ONXukQkR+wtq8chLjG5/Rkp3E7vNw8UO/iYLsAw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-P/JhcFM7gKoy0VOzeYkFA7CncQzfqY/F99b4dHql++Iz5byeezuwByd638AUyYegesd6h8y+osg5bdAA9beaBg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -17359,7 +17359,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-3JVcl02aSpUgesD81sxncG7rK0U1nKN1aG2PO76mEizvWZYCtgU7j+UtFaBKr8hQQgnFv5nKUmc2Gg7ixKc/4A==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-nlD7fs9IWaIOe4YHffQVQXOlqAQhqKCPsXH/QtkQdcTq16c3TRk/k9s7eMfP1dneqLOboy1yZ6Hq1smYoxTOQQ==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17372,6 +17372,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
