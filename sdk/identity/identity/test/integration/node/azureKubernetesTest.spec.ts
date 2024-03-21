@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { Context } from "mocha";
 import { assert } from "chai";
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
-describe("Azure Kubernetes Integration test", function () {
-  it("can authenticate using managed identity", async function (this: Context) {
+describe.only("Azure Kubernetes Integration test", function () {
+  let podOutput: string;
+  before(async function () {
     if (!isLiveMode()) {
       this.skip();
     }
-
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
     const subscriptionId = requireEnvVar("IDENTITY_SUBSCRIPTION_ID");
@@ -36,8 +35,31 @@ describe("Azure Kubernetes Integration test", function () {
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
 
-    const podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
-    assert.include(podOutput, "Successfully authenticated with storage");
+    podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
+  });
+
+  it("can authenticate using managed identity", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
+    assert.include(
+      podOutput,
+      "ManagedIdentity: Successfully authenticated with storage",
+      `Expected ${podOutput} to include a ManagedIdentity success message`,
+    );
+  });
+
+  it("can authenticate using workload identity", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+
+    assert.include(
+      podOutput,
+      "WorkloadIdentity: Successfully authenticated with storage",
+      `Expected ${podOutput} to include a WorkloadIdentity success message`,
+    );
   });
 });
 
