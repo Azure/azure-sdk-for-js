@@ -156,7 +156,7 @@ try {
         elseif ($p.Publish -and $publishToNpm) {
             if ($additionalTag -eq "") {
                 write-host "Copy $($p.TarGz) to $packagesToPublishPath"
-                New-Item -ItemType File -Path $packagesToPublishPath -Force
+                New-Item -ItemType Directory -Path $packagesToPublishPath -Force
                 Copy-Item -Path $($p.TarGz) -Destination $packagesToPublishPath -Force
             } elseif ($additionalTag -ne $tag) {
               npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
