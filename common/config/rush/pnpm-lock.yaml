@@ -449,6 +449,9 @@ dependencies:
   '@rush-temp/arm-migrate':
     specifier: file:./projects/arm-migrate.tgz
     version: file:projects/arm-migrate.tgz
+  '@rush-temp/arm-migrationdiscoverysap':
+    specifier: file:./projects/arm-migrationdiscoverysap.tgz
+    version: file:projects/arm-migrationdiscoverysap.tgz
   '@rush-temp/arm-mixedreality':
     specifier: file:./projects/arm-mixedreality.tgz
     version: file:projects/arm-mixedreality.tgz
@@ -15079,6 +15082,34 @@ packages:
       cross-env: 7.0.3
       dotenv: 16.4.5
       mkdirp: 1.0.4
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
+  file:projects/arm-migrationdiscoverysap.tgz:
+    resolution: {integrity: sha512-cmsd0WbUUKDuYJUHMLMXFiPiuAFO1pJ8CySu0T6FmCBARUE6vWz7tNNT+d6PfGET1WEGRO56OeB72F5MfuWXwg==, tarball: file:projects/arm-migrationdiscoverysap.tgz}
+    name: '@rush-temp/arm-migrationdiscoverysap'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
+      '@types/chai': 4.3.12
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.22
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
