@@ -15,7 +15,7 @@ param testApplicationOid string
 param acrName string = 'acr${uniqueString(resourceGroup().id)}'
 
 @description('The latest AKS version available in the region.')
-param latestAksVersion string
+param latestAksVersion string = '1.27.7'
 
 @description('The SSH public key to use for the Linux VMs.')
 param sshPubKey string
@@ -23,9 +23,12 @@ param sshPubKey string
 @description('The admin user name for the Linux VMs.')
 param adminUserName string = 'azureuser'
 
+@description('The user type - ServicePrincipal in CI, User locally')
+param principalUserType string = 'User'
+
 // https://learn.microsoft.com/azure/role-based-access-control/built-in-roles
-// var blobContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe') // Storage Blob Data Contributor
 var blobOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions','b7e6dc6d-f1e8-4753-8033-0f276bb0955b') // Storage Blob Data Owner
+var serviceOwner = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', '17d1049b-9a84-46fb-8f53-869881c3d3ab')
 var websiteContributor = subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'de139f84-1756-47ae-9be6-808fbbe84772') // Website Contributor
 
 // Cluster parameters
@@ -61,7 +64,7 @@ resource blobRoleCluster 'Microsoft.Authorization/roleAssignments@2022-04-01' = 
   name: guid(resourceGroup().id, blobOwner, 'kubernetes')
   properties: {
     principalId: kubernetesCluster.identity.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: serviceOwner
     principalType: 'ServicePrincipal'
   }
 }
@@ -71,7 +74,7 @@ resource blobRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   name: guid(resourceGroup().id, blobOwner, userAssignedIdentity.id)
   properties: {
     principalId: userAssignedIdentity.properties.principalId
-    roleDefinitionId: blobOwner
+    roleDefinitionId: serviceOwner
     principalType: 'ServicePrincipal'
   }
 }
@@ -82,7 +85,7 @@ resource webRole 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   properties: {
     principalId: testApplicationOid
     roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
+    principalType: principalUserType
   }
 }
 
@@ -92,12 +95,12 @@ resource webRole2 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
   properties: {
     principalId: testApplicationOid
     roleDefinitionId: websiteContributor
-    principalType: 'ServicePrincipal'
+    principalType: principalUserType
   }
 }
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
-  name: baseName
+  name: uniqueString(resourceGroup().id)
   location: location
   sku: {
     name: 'Standard_LRS'
@@ -109,7 +112,7 @@ resource storageAccount 'Microsoft.Storage/storageAccounts@2021-08-01' = {
 }
 
 resource storageAccount2 'Microsoft.Storage/storageAccounts@2021-08-01' = {
-  name: '${baseName}2'
+  name: '${uniqueString(resourceGroup().id)}2'
   location: location
   sku: { 
     name: 'Standard_LRS'
@@ -169,7 +172,7 @@ resource web 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount2.name
         }
         {
-          name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
+          name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
           value: userAssignedIdentity.properties.clientId
         }
         {
@@ -210,7 +213,7 @@ resource azureFunction 'Microsoft.Web/sites@2022-09-01' = {
           value: storageAccount2.name
         }
         {
-          name: 'IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID'
+          name: 'IDENTITY_USER_DEFINED_CLIENT_ID'
           value: userAssignedIdentity.properties.clientId
         }
         {
@@ -321,7 +324,7 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
 output IDENTITY_WEBAPP_NAME string = web.name
 output IDENTITY_WEBAPP_PLAN string = farm.name
 output IDENTITY_USER_DEFINED_IDENTITY string = userAssignedIdentity.id
-output IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID string = userAssignedIdentity.properties.clientId
+output IDENTITY_USER_DEFINED_CLIENT_ID string = userAssignedIdentity.properties.clientId
 output IDENTITY_USER_DEFINED_IDENTITY_NAME string = userAssignedIdentity.name
 output IDENTITY_STORAGE_NAME_1 string = storageAccount.name
 output IDENTITY_STORAGE_NAME_2 string = storageAccount2.name
