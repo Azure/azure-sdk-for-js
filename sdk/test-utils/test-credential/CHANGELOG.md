@@ -1,5 +1,11 @@
 # Release History
 
+## 2.0.0 (2024-03-21)
+
+### Features Added
+
+Updates the dependency `@azure-tools/test-recorder` to version `^4.0.0`, needed to support env with the vitest.
+
 ## 1.0.2 (Unreleased)
 
 ### Features Added
