@@ -8,7 +8,8 @@ param (
   $filterArg="",
   $basicDeployment=$false,
   $devopsFeed=$false,
-  $skipDiff=$false
+  $skipDiff=$false,
+  $packagesToPublishPath
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -98,13 +99,12 @@ try {
         }
     }
 
+    $publishToNpm = $false
     if(!$basicDeployment) {
-       if($registry -eq 'https://registry.npmjs.org/'){
-        Write-Host "Choosing AuthToken Deployment"
-        $env:NPM_TOKEN=$npmToken
-        npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
-       }
-       else{
+      if($registry -eq 'https://registry.npmjs.org/'){
+        $publishToNpm = $true
+      }
+      else{
           Write-Host "Choosing Private Devops Feed Deployment"
           $npmReg = $regAuth.replace("registry/","");
           $env:NPM_TOKEN=$npmToken
@@ -114,7 +114,7 @@ try {
           npm config set $npmReg`:username=azure-sdk
           npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
           npm config set $npmReg`:email=not_set
-       }
+      }
     }
     else {
         Write-Host "Choosing BasicAuth Deployment"
@@ -123,16 +123,18 @@ try {
         npm config set $regAuth`:email=not_set
     }
 
+    $publishList = @()
     foreach ($p in $packageList) {
-        if($p.Publish) {
+        if($p.Publish -and !$publishToNpm) {
+            # Publishing to private feed
             if ($tag) {
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true --tag=$tag
             }
             else {
-              Write-Host "Tag is empty"
-              Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
-              npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
+                Write-Host "Tag is empty"
+                Write-Host "npm publish $($p.TarGz) --access=$accessLevel --registry=$registry --always-auth=true"
+                npm publish $p.TarGz --access=$accessLevel --registry=$registry --always-auth=true
             }
             
             if ($LastExitCode -ne 0) {
@@ -150,6 +152,11 @@ try {
                 Write-Host "npm dist-tag add failed with exit code $addTagCheck"
                 exit 1
             }
+        }
+        elseif ($p.Publish -and $publishToNpm) {
+          write-host "Copy $($p.TarGz) to $pipelineWorkspace"
+          New-Item -ItemType File -Path $pipelineWorkspace -Force
+          Copy-Item -Path $($p.TarGz) -Destination $pipelineWorkspace -Force
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
