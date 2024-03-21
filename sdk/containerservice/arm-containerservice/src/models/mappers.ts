@@ -572,6 +572,12 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
             name: "String",
           },
         },
+        podIPAllocationMode: {
+          serializedName: "podIPAllocationMode",
+          type: {
+            name: "String",
+          },
+        },
         maxPods: {
           serializedName: "maxPods",
           type: {
@@ -3703,6 +3709,28 @@ export const ManagedClusterNodeProvisioningProfile: coreClient.CompositeMapper =
     },
   };
 
+export const ManagedClusterBootstrapProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ManagedClusterBootstrapProfile",
+    modelProperties: {
+      artifactSource: {
+        defaultValue: "Direct",
+        serializedName: "artifactSource",
+        type: {
+          name: "String",
+        },
+      },
+      containerRegistryId: {
+        serializedName: "containerRegistryId",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const Resource: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -5924,6 +5952,12 @@ export const AgentPool: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      podIPAllocationMode: {
+        serializedName: "properties.podIPAllocationMode",
+        type: {
+          name: "String",
+        },
+      },
       maxPods: {
         serializedName: "properties.maxPods",
         type: {
@@ -6614,6 +6648,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ManagedClusterNodeProvisioningProfile",
+        },
+      },
+      bootstrapProfile: {
+        serializedName: "properties.bootstrapProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterBootstrapProfile",
         },
       },
     },
