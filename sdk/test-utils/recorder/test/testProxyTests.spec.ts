@@ -33,8 +33,6 @@ import { env } from "../src/index.js";
     });
 
     it("sample_response", async () => {
-      console.log(env.AZURE_APP_TITLE);
-      console.log("vite.. ", env.VITE_APP_TITLE);
       await recorder.start({ envSetupForPlayback: {} });
       await makeRequestAndVerifyResponse(
         client,
@@ -286,9 +284,8 @@ import { env } from "../src/index.js";
           await makeRequestAndVerifyResponse(
             client,
             {
-              path: `/sample_response${
-                isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
-              }`,
+              path: `/sample_response${isPlaybackMode() ? "?first=abc&second=def" : "?second=def&first=abc"
+                }`,
               body: undefined,
               method: "POST",
               headers: [{ headerName: "Content-Type", value: "text/plain" }],
