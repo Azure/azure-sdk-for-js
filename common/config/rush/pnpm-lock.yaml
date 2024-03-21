@@ -10090,8 +10090,8 @@ packages:
     hasBin: true
     dev: false
 
-  /typescript@5.4.2:
-    resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
+  /typescript@5.4.3:
+    resolution: {integrity: sha512-KrPd3PKaCLr78MalgiwJnA25Nm8HAmdwN3mYUYZgG/wizIo9EainNVQI9/yDavtVFRN2h3k8uf3GLHuhDMgEHg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -15483,7 +15483,7 @@ packages:
     dev: false
 
   file:projects/arm-newrelicobservability.tgz:
-    resolution: {integrity: sha512-OX7qpyv3z9EQxyDSzQt4K0iwOacNu/o0r58CHC8k5kHRHquAVDia5sE6j0tN5Q+odhvdxZKUooXw4LRQC8FG5g==, tarball: file:projects/arm-newrelicobservability.tgz}
+    resolution: {integrity: sha512-nU+lYjQaU1qP97xu8mTVuJkgzjpQmGaYKjSnMmRypYnBr3CdRzw747+X8jPqmhRx3a10Y8IjRFz5ottEGUoUNw==, tarball: file:projects/arm-newrelicobservability.tgz}
     name: '@rush-temp/arm-newrelicobservability'
     version: 0.0.0
     dependencies:
@@ -15496,6 +15496,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
@@ -19100,7 +19101,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.4.2
+      '@_ts/max': /typescript@5.4.3
       '@_ts/min': /typescript@4.2.4
       '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@rollup/plugin-commonjs': 25.0.7(rollup@4.12.1)
