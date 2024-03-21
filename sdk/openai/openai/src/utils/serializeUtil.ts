@@ -220,9 +220,7 @@ function serializeAzureCosmosDBChatExtensionConfiguration(
         content_fields_separator: obj.fieldsMapping["contentFieldsSeparator"],
         vector_fields: obj.fieldsMapping["vectorFields"],
       },
-      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(
-        obj.embeddingDependency,
-      ),
+      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
     },
   };
 }
@@ -284,9 +282,7 @@ function serializePineconeChatExtensionConfiguration(
         content_fields: obj.fieldsMapping["contentFields"],
         content_fields_separator: obj.fieldsMapping["contentFieldsSeparator"],
       },
-      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(
-        obj.embeddingDependency,
-      ),
+      embedding_dependency: serializeOnYourDataVectorizationSourceUnion(obj.embeddingDependency),
     },
   };
 }

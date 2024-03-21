@@ -298,7 +298,7 @@ export interface Completions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults: ContentFilterResultsForPrompt[];
+  promptFilterResults?: ContentFilterResultsForPrompt[];
   /**
    * The collection of completions choices associated with this completions response.
    * Generally, `n` choices are generated per provided prompt with a default value of 1.
@@ -726,7 +726,7 @@ export interface ChatCompletionsToolCall {
   type: string;
   /** The ID of the tool call. */
   id: string;
-/** The index of the tool call. */
+  /** The index of the tool call. */
   index?: number;
 }
 
@@ -822,7 +822,6 @@ export interface AzureChatExtensionConfiguration {
  * extension.
  */
 export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensionConfiguration {
-
   /**
    * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
    * default value for Azure Cognitive Search.
@@ -1313,7 +1312,7 @@ export interface ChatCompletions {
    * Content filtering results for zero or more prompts in the request. In a streaming request,
    * results for different prompts may arrive at different times or in different orders.
    */
-  promptFilterResults: ContentFilterResultsForPrompt[];
+  promptFilterResults?: ContentFilterResultsForPrompt[];
   /**
    * Can be used in conjunction with the `seed` request parameter to understand when backend changes have been made that
    * might impact determinism.

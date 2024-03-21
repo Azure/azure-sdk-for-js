@@ -238,7 +238,7 @@ export interface ChatCompletions {
     choices: ChatChoice[];
     created: Date;
     id: string;
-    promptFilterResults: ContentFilterResultsForPrompt[];
+    promptFilterResults?: ContentFilterResultsForPrompt[];
     systemFingerprint?: string;
     usage?: CompletionsUsage;
 }
@@ -436,7 +436,7 @@ export interface Completions {
     choices: Choice[];
     created: Date;
     id: string;
-    promptFilterResults: ContentFilterResultsForPrompt[];
+    promptFilterResults?: ContentFilterResultsForPrompt[];
     usage: CompletionsUsage;
 }
 

@@ -12,7 +12,6 @@ import {
   Embeddings,
   ChatRequestMessageUnion,
   EventStream,
-  ChatResponseMessage,
   ContentFilterResultsForChoice,
   ContentFilterResultDetailsForPrompt,
   ContentFilterResultsForPrompt,
@@ -32,7 +31,6 @@ import {
   GetImageGenerationsDefaultResponse,
   isUnexpected,
   OpenAIContext as Client,
-  ChatResponseMessageOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForPromptOutput,
@@ -241,10 +239,12 @@ export function getCompletionsResult(
   return {
     ...camelCaseKeys(rest),
     created: new Date(created),
-    promptFilterResults: getContentFilterResultsForPrompt({
-      prompt_filter_results,
-      prompt_annotations,
-    }),
+    ...{
+      promptFilterResults: getContentFilterResultsForPrompt({
+        prompt_filter_results,
+        prompt_annotations,
+      }),
+    },
     choices: choices.map(({ content_filter_results, ...choice }) => ({
       ...camelCaseKeys(choice),
       ...(!content_filter_results
@@ -330,15 +330,15 @@ export function _getChatCompletionsSend(
       top_logprobs: body["topLogprobs"],
       response_format: !body.responseFormat ? undefined : { type: body.responseFormat?.["type"] },
       tool_choice: body["toolChoice"],
-      tools: body["tools"], 
+      tools: body["tools"],
       functions:
         body["functions"] === undefined
           ? body["functions"]
           : body["functions"].map((p) => ({
-            name: p["name"],
-            description: p["description"],
-            parameters: p["parameters"],
-          })),
+              name: p["name"],
+              description: p["description"],
+              parameters: p["parameters"],
+            })),
       function_call: body["functionCall"],
       messages: body["messages"].map((p) => serializeChatRequestMessageUnion(p)),
     },
@@ -358,20 +358,29 @@ export async function _getChatCompletionsDeserialize(
 export function getChatCompletionsResult(
   body: ChatCompletionsOutput & ContentFilterResultsForPromptX,
 ): ChatCompletions {
-  const { created, choices, prompt_filter_results, prompt_annotations, ...rest } = body;
+  const { created, choices, prompt_filter_results, prompt_annotations, usage, ...rest } = body;
   return {
     ...camelCaseKeys(rest),
     created: new Date(created),
-    promptFilterResults: getContentFilterResultsForPrompt({
-      prompt_filter_results,
-      prompt_annotations,
-    }),
+    ...{
+      promptFilterResults: getContentFilterResultsForPrompt({
+        prompt_filter_results,
+        prompt_annotations,
+      }),
+    },
+    ...(!usage
+      ? {}
+      : {
+          usage: {
+            completionTokens: usage["completion_tokens"],
+            promptTokens: usage["prompt_tokens"],
+            totalTokens: usage["total_tokens"],
+          },
+        }),
     choices: !choices
       ? []
-      : choices.map(({ content_filter_results, delta, message, ...choice }) => ({
+      : choices.map(({ content_filter_results, ...choice }) => ({
           ...camelCaseKeys(choice),
-          ...(!delta ? {} : { delta: parseMessage(delta) }),
-          ...(!message ? {} : { message: parseMessage(message) }),
           ...(!content_filter_results
             ? {}
             : {
@@ -425,7 +434,12 @@ function _getChatCompletionsSendX(
       ? {}
       : { enhancements: azureExtensionOptions.enhancements }),
   };
-  return _getChatCompletionsSend(context, deploymentName, { messages, ...rest, ...azure }, coreOptions);
+  return _getChatCompletionsSend(
+    context,
+    deploymentName,
+    { messages, ...rest, ...azure },
+    coreOptions,
+  );
 }
 
 export function streamChatCompletions(
@@ -615,14 +629,12 @@ type ContentFilterResultsForPromptX = {
 function getContentFilterResultsForPrompt({
   prompt_annotations,
   prompt_filter_results,
-}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] {
+}: ContentFilterResultsForPromptX): ContentFilterResultsForPrompt[] | undefined {
   const res = prompt_filter_results ?? prompt_annotations;
-  return (
-    res?.map(({ content_filter_results, ...rest }) => ({
-      ...camelCaseKeys(rest),
-      contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
-    })) ?? []
-  );
+  return res?.map(({ content_filter_results, ...rest }) => ({
+    ...camelCaseKeys(rest),
+    contentFilterResults: parseContentFilterResultDetailsForPromptOutput(content_filter_results),
+  }));
 }
 
 function parseContentFilterResultDetailsForPromptOutput({
@@ -653,30 +665,4 @@ function parseContentFilterResultsForChoiceOutput({
         },
       }
     : camelCaseKeys(successResult);
-}
-
-function parseMessage(message: ChatResponseMessageOutput): ChatResponseMessage {
-  const { context, ...rest } = message;
-  return {
-    ...camelCaseKeys(rest),
-    ...(!context
-      ? {}
-      : {
-        context: !context
-          ? undefined
-          : {
-            citations:
-              context?.["citations"] === undefined
-                ? context?.["citations"]
-                : context?.["citations"].map((p) => ({
-                  content: p["content"],
-                  title: p["title"],
-                  url: p["url"],
-                  filepath: p["filepath"],
-                  chunkId: p["chunk_id"],
-                })),
-            intent: context?.["intent"],
-          },
-        }),
-  };
 }

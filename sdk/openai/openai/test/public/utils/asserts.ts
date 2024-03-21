@@ -9,6 +9,8 @@ import {
   AudioResultVerboseJson,
   AudioSegment,
   AzureChatEnhancements,
+  AzureChatExtensionDataSourceResponseCitation,
+  AzureChatExtensionsMessageContext,
   AzureGroundingEnhancement,
   AzureGroundingEnhancementCoordinatePoint,
   AzureGroundingEnhancementLine,
@@ -209,13 +211,23 @@ function assertMessage(
   }
   assertIf(!stream, msg.role, assert.isString);
   ifDefined(msg.functionCall, (item) => assertFunctionCall(item, { stream }));
-  if (msg.toolCalls) {
-      for (const item of msg.toolCalls) {
+  for (const item of msg.toolCalls ?? []) {
     assertToolCall(item, { stream });
   }
-  }
+  ifDefined(msg.context, assertContext);
+}
 
-  ifDefined(msg.context, ({ messages }) => assertNonEmptyArray(messages, assertMessage));
+function assertContext(context: AzureChatExtensionsMessageContext): void {
+  ifDefined(context.intent, assert.isString);
+  ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
+}
+
+function assertCitations(citations: AzureChatExtensionDataSourceResponseCitation): void {
+  assert.isDefined(citations.content);
+  ifDefined(citations.title, assert.isString);
+  ifDefined(citations.url, assert.isString);
+  ifDefined(citations.filepath, assert.isString);
+  ifDefined(citations.chunkId, assert.isString);
 }
 
 function assertChatFinishDetails(val: ChatFinishDetails): void {
@@ -295,7 +307,7 @@ function assertCompletionsNoUsage(
   }
   assert.instanceOf(completions.created, Date);
   assert.isString(completions.id);
-  assertContentFilterResultsForPrompt(completions.promptFilterResults);
+  assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
 }
 
 function assertChatCompletionsNoUsage(
@@ -307,7 +319,7 @@ function assertChatCompletionsNoUsage(
   }
   assert.instanceOf(completions.created, Date);
   ifDefined(completions.id, assert.isString, { defined: !allowEmptyId });
-  assertContentFilterResultsForPrompt(completions.promptFilterResults);
+  assertContentFilterResultsForPrompt(completions.promptFilterResults ?? []);
   ifDefined(completions.systemFingerprint, assert.isString);
 }
 

@@ -20,10 +20,7 @@ import {
   isLiveMode,
   isRecordMode,
 } from "@azure-tools/test-recorder";
-import {
-  AzureSearchChatExtensionConfiguration,
-  OpenAIKeyCredential,
-} from "../../../src/index.js";
+import { AzureSearchChatExtensionConfiguration, OpenAIKeyCredential } from "../../../src/index.js";
 import {
   EnvironmentVariableNamesAzureCommon,
   EnvironmentVariableNamesForAzureSearch,
@@ -232,5 +229,9 @@ export function createAzureSearchExtension(): AzureSearchChatExtensionConfigurat
     type: "azure_search",
     endpoint: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.ENDPOINT_SEARCH),
     indexName: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_SEARCH_INDEX),
+    authentication: {
+      type: "api_key",
+      key: assertEnvironmentVariable(EnvironmentVariableNamesForAzureSearch.AZURE_API_KEY_SEARCH),
+    },
   };
 }

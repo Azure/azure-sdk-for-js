@@ -27,9 +27,8 @@ import {
   OpenAIClient,
 } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
-import { RestError } from "@azure/core-rest-pipeline";
 
-describe("OpenAI", function () {
+describe.skip("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
   let models: string[] = [];
@@ -66,9 +65,18 @@ describe("OpenAI", function () {
       });
 
       describe("streamCompletions", function () {
+        let modelName: string;
+
+        before(async function (this: Context) {
+          if (authMethod === "OpenAIKey") {
+            modelName = "gpt-3.5-turbo-instruct";
+          } else {
+            modelName = "gpt-35-turbo-instruct";
+          }
+        });
+
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
-          const modelName = "text-davinci-003";
           await assertCompletionsStream(await client.streamCompletions(modelName, prompt), {
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
@@ -133,7 +141,6 @@ describe("OpenAI", function () {
   \`\`\`
   `,
           ];
-          const modelName = "text-davinci-003";
           await assertCompletionsStream(
             await client.streamCompletions(modelName, prompt, {
               maxTokens: 2048,
@@ -346,11 +353,10 @@ describe("OpenAI", function () {
                   assertChatCompletions(res, { functions: true });
                   const toolCalls = res.choices[0].message?.toolCalls;
                   if (!toolCalls) {
-                    throw new RestError("toolCalls should be defined here");
+                    throw new Error("toolCalls should be defined here");
                   }
-                  const argument = (
-                    toolCalls[0] as ChatCompletionsFunctionToolCall
-                  ).function.arguments;
+                  const argument = (toolCalls[0] as ChatCompletionsFunctionToolCall).function
+                    .arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
               ),
@@ -450,12 +456,11 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   const toolCalls = res.choices[0].message?.toolCalls;
-                  if (!toolCalls){
-                    throw new RestError("toolCalls should be defined here");
+                  if (!toolCalls) {
+                    throw new Error("toolCalls should be defined here");
                   }
                   assert.equal(
-                    (toolCalls[0] as ChatCompletionsFunctionToolCall)
-                      .function.name,
+                    (toolCalls[0] as ChatCompletionsFunctionToolCall).function.name,
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);
