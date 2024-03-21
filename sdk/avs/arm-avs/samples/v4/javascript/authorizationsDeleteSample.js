@@ -29,7 +29,7 @@ async function authorizationsDelete() {
   const result = await client.authorizations.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    authorizationName
+    authorizationName,
   );
   console.log(result);
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
  *
  * @summary Synchronizes access keys for the auto-storage account configured for the specified Batch account, only if storage key authentication is being used.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountSynchronizeAutoStorageKeys.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountSynchronizeAutoStorageKeys.json
  */
 async function batchAccountSynchronizeAutoStorageKeys() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

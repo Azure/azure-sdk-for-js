@@ -1,10 +1,11 @@
 {
   "name": "@azure/core-rest-pipeline",
-  "version": "1.14.1",
+  "version": "1.15.2",
   "description": "Isomorphic client library for making HTTP requests in node.js and browser.",
   "sdk-type": "client",
   "type": "module",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "exports": {
     "./package.json": "./package.json",

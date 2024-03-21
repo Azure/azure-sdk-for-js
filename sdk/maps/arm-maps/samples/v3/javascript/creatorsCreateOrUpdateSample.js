@@ -35,7 +35,7 @@ async function createCreatorResource() {
     resourceGroupName,
     accountName,
     creatorName,
-    creatorResource
+    creatorResource,
   );
   console.log(result);
 }

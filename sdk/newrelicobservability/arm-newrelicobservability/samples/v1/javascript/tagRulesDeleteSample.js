@@ -28,7 +28,7 @@ async function tagRulesDeleteMaximumSetGen() {
   const result = await client.tagRules.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }
@@ -49,7 +49,7 @@ async function tagRulesDeleteMinimumSetGen() {
   const result = await client.tagRules.beginDeleteAndWait(
     resourceGroupName,
     monitorName,
-    ruleSetName
+    ruleSetName,
   );
   console.log(result);
 }

@@ -37,7 +37,7 @@ async function workloadNetworksCreatePortMirroring() {
     resourceGroupName,
     privateCloudName,
     portMirroringId,
-    workloadNetworkPortMirroring
+    workloadNetworkPortMirroring,
   );
   console.log(result);
 }

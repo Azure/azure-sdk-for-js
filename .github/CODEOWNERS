@@ -148,6 +148,10 @@
 # AzureSdkOwners: @deyaaeldeen @jeremymeng 
 /sdk/eventhub/ @deyaaeldeen @jeremymeng @HarshaNalluru
 
+# ServiceLabel: %Cognitive - Health Insights
+# PRLabel: %Cognitive - Health Insights
+/sdk/healthinsights/ @tomsft @koen-mertens
+
 # PRLabel: %Azure.Identity
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger

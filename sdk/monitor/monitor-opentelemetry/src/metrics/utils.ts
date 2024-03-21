@@ -12,6 +12,7 @@ import {
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
+  StandardMetricIds,
   StandardMetricPropertyNames,
 } from "./types";
 import { LogRecord } from "@opentelemetry/sdk-logs";
@@ -19,7 +20,7 @@ import { Resource } from "@opentelemetry/resources";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "requests/duration";
+  dimensions.metricId = StandardMetricIds.REQUEST_DURATION;
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.requestResultCode = statusCode;
   dimensions.requestSuccess = statusCode === "200" ? "True" : "False";
@@ -31,7 +32,7 @@ export function getRequestDimensions(span: ReadableSpan): Attributes {
 
 export function getDependencyDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricDependencyDimensions = getBaseDimensions(span.resource);
-  dimensions.metricId = "dependencies/duration";
+  dimensions.metricId = StandardMetricIds.DEPENDENCIES_DURATION;
   const statusCode = String(span.attributes["http.status_code"]);
   dimensions.dependencyTarget = getDependencyTarget(span.attributes);
   dimensions.dependencyResultCode = statusCode;
@@ -45,13 +46,13 @@ export function getDependencyDimensions(span: ReadableSpan): Attributes {
 
 export function getExceptionDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "exceptions/count";
+  dimensions.metricId = StandardMetricIds.EXCEPTIONS_COUNT;
   return dimensions as Attributes;
 }
 
 export function getTraceDimensions(resource: Resource): Attributes {
   const dimensions: StandardMetricBaseDimensions = getBaseDimensions(resource);
-  dimensions.metricId = "traces/count";
+  dimensions.metricId = StandardMetricIds.TRACES_COUNT;
   return dimensions as Attributes;
 }
 
