@@ -6,7 +6,12 @@
 
 ### Breaking Changes
 
+- `OnYourDataAuthenticationOptions`, `OnYourDataVectorizationSource`, `OnYourDataVectorizationSourceType`, `ChatCompletionsNamedToolSelection`, `ChatCompletionsToolDefinition`, `ChatCompletionsToolCall`, `ChatMessageContentItem`, `ChatRequestMessage`, `ChatFinishDetails` are renamed with `Union` postfix.
+- `AzureCognitiveSearchQueryType`, `ChatMessageImageDetailLevel`, `ElasticsearchQueryType`, `FunctionCallPreset`, `ImageGenerationQuality`, `ImageGenerationResponseFormat`, `ImageSize`, `ImageGenerationStyle`, `OnYourDataAuthenticationType`, `OnYourDataVectorizationSourceType`  union types no longer have fixed values.
+
 ### Bugs Fixed
+
+- Fix a bug where `ChatCompletionsFunctionToolCall` did not expose the `index` property for the streaming mode.
 
 ### Other Changes
 
