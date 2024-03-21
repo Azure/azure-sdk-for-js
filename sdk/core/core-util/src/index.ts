@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { delay, type DelayOptions } from "./delay.js";
+export { delay, DelayOptions } from "./delay.js";
 export {
-  type AbortOptions,
+  AbortOptions,
   cancelablePromiseRace,
-  type AbortablePromiseBuilder,
+  AbortablePromiseBuilder,
 } from "./aborterUtils.js";
 export {
   createAbortablePromise,
-  type CreateAbortablePromiseOptions,
+  CreateAbortablePromiseOptions,
 } from "./createAbortablePromise.js";
 export { getRandomIntegerInclusive } from "./random.js";
-export { isObject, type UnknownObject } from "./object.js";
+export { isObject, UnknownObject } from "./object.js";
 export { isError, getErrorMessage } from "./error.js";
 export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
