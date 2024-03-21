@@ -15,7 +15,7 @@ import {
   CertificatesGetResponse,
   CertificatesCreateOrUpdateOptionalParams,
   CertificatesCreateOrUpdateResponse,
-  CertificatesDeleteOptionalParams
+  CertificatesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface Certificates {
   list(
     resourceGroupName: string,
     deploymentName: string,
-    options?: CertificatesListOptionalParams
+    options?: CertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<NginxCertificate>;
   /**
    * Get a certificate of given NGINX deployment
@@ -43,7 +43,7 @@ export interface Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesGetOptionalParams
+    options?: CertificatesGetOptionalParams,
   ): Promise<CertificatesGetResponse>;
   /**
    * Create or update the NGINX certificates for given NGINX deployment
@@ -56,7 +56,7 @@ export interface Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CertificatesCreateOrUpdateResponse>,
@@ -74,7 +74,7 @@ export interface Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesCreateOrUpdateOptionalParams
+    options?: CertificatesCreateOrUpdateOptionalParams,
   ): Promise<CertificatesCreateOrUpdateResponse>;
   /**
    * Deletes a certificate from the NGINX deployment
@@ -87,7 +87,7 @@ export interface Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a certificate from the NGINX deployment
@@ -100,6 +100,6 @@ export interface Certificates {
     resourceGroupName: string,
     deploymentName: string,
     certificateName: string,
-    options?: CertificatesDeleteOptionalParams
+    options?: CertificatesDeleteOptionalParams,
   ): Promise<void>;
 }

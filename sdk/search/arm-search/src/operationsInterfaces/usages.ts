@@ -9,19 +9,19 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   QuotaUsageResult,
-  UsagesListBySubscriptionOptionalParams
+  UsagesListBySubscriptionOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a Usages. */
 export interface Usages {
   /**
-   * Gets a list of all Search quota usages in the given subscription.
+   * Get a list of all Azure AI Search quota usages across the subscription.
    * @param location The unique location name for a Microsoft Azure geographic region.
    * @param options The options parameters.
    */
   listBySubscription(
     location: string,
-    options?: UsagesListBySubscriptionOptionalParams
+    options?: UsagesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<QuotaUsageResult>;
 }

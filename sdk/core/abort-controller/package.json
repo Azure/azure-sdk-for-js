@@ -1,7 +1,7 @@
 {
   "name": "@azure/abort-controller",
   "sdk-type": "client",
-  "version": "2.1.0",
+  "version": "2.1.2",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -13,6 +13,7 @@
   "sideEffects": false,
   "type": "module",
   "main": "./dist/commonjs/index.js",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {

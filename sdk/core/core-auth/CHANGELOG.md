@@ -1,5 +1,21 @@
 # Release History
 
+## 1.7.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.7.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
 ## 1.7.0 (2024-03-12)
 
 ### Other Changes
@@ -22,6 +38,7 @@
 ### Features Added
 
 - Added `enableCae` option to `GetTokenOptions` to enable Continuous Access Evaluation in [PR #26614](https://github.com/Azure/azure-sdk-for-js/pull/26614).
+
 ## 1.4.0 (2022-08-04)
 
 ### Features Added

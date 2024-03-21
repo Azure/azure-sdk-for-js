@@ -16,7 +16,7 @@ import { BatchManagementClient } from "../batchManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -34,7 +34,7 @@ import {
   CertificateGetResponse,
   CertificateCancelDeletionOptionalParams,
   CertificateCancelDeletionResponse,
-  CertificateListByBatchAccountNextResponse
+  CertificateListByBatchAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -61,12 +61,12 @@ export class CertificateOperationsImpl implements CertificateOperations {
   public listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CertificateListByBatchAccountOptionalParams
+    options?: CertificateListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<Certificate> {
     const iter = this.listByBatchAccountPagingAll(
       resourceGroupName,
       accountName,
-      options
+      options,
     );
     return {
       next() {
@@ -83,9 +83,9 @@ export class CertificateOperationsImpl implements CertificateOperations {
           resourceGroupName,
           accountName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -93,7 +93,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     options?: CertificateListByBatchAccountOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Certificate[]> {
     let result: CertificateListByBatchAccountResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +101,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
       result = await this._listByBatchAccount(
         resourceGroupName,
         accountName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -113,7 +113,7 @@ export class CertificateOperationsImpl implements CertificateOperations {
         resourceGroupName,
         accountName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -125,12 +125,12 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private async *listByBatchAccountPagingAll(
     resourceGroupName: string,
     accountName: string,
-    options?: CertificateListByBatchAccountOptionalParams
+    options?: CertificateListByBatchAccountOptionalParams,
   ): AsyncIterableIterator<Certificate> {
     for await (const page of this.listByBatchAccountPagingPage(
       resourceGroupName,
       accountName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -147,11 +147,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
   private _listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: CertificateListByBatchAccountOptionalParams
+    options?: CertificateListByBatchAccountOptionalParams,
   ): Promise<CertificateListByBatchAccountResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, options },
-      listByBatchAccountOperationSpec
+      listByBatchAccountOperationSpec,
     );
   }
 
@@ -172,11 +172,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
     accountName: string,
     certificateName: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateCreateOptionalParams
+    options?: CertificateCreateOptionalParams,
   ): Promise<CertificateCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, certificateName, parameters, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
     accountName: string,
     certificateName: string,
     parameters: CertificateCreateOrUpdateParameters,
-    options?: CertificateUpdateOptionalParams
+    options?: CertificateUpdateOptionalParams,
   ): Promise<CertificateUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, certificateName, parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -220,25 +220,24 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -247,8 +246,8 @@ export class CertificateOperationsImpl implements CertificateOperations {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -256,20 +255,20 @@ export class CertificateOperationsImpl implements CertificateOperations {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, accountName, certificateName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -290,13 +289,13 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateDeleteOptionalParams
+    options?: CertificateDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       accountName,
       certificateName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -316,11 +315,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateGetOptionalParams
+    options?: CertificateGetOptionalParams,
   ): Promise<CertificateGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -346,11 +345,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     certificateName: string,
-    options?: CertificateCancelDeletionOptionalParams
+    options?: CertificateCancelDeletionOptionalParams,
   ): Promise<CertificateCancelDeletionResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, certificateName, options },
-      cancelDeletionOperationSpec
+      cancelDeletionOperationSpec,
     );
   }
 
@@ -365,11 +364,11 @@ export class CertificateOperationsImpl implements CertificateOperations {
     resourceGroupName: string,
     accountName: string,
     nextLink: string,
-    options?: CertificateListByBatchAccountNextOptionalParams
+    options?: CertificateListByBatchAccountNextOptionalParams,
   ): Promise<CertificateListByBatchAccountNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, accountName, nextLink, options },
-      listByBatchAccountNextOperationSpec
+      listByBatchAccountNextOperationSpec,
     );
   }
 }
@@ -377,44 +376,42 @@ export class CertificateOperationsImpl implements CertificateOperations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByBatchAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListCertificatesResult
+      bodyMapper: Mappers.ListCertificatesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.maxresults,
     Parameters.filter,
-    Parameters.select
+    Parameters.select,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.accountName1
+    Parameters.accountName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
-      headersMapper: Mappers.CertificateCreateHeaders
+      headersMapper: Mappers.CertificateCreateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -423,29 +420,28 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
-      headersMapper: Mappers.CertificateUpdateHeaders
+      headersMapper: Mappers.CertificateUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -454,19 +450,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -474,8 +469,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -483,23 +478,22 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
-      headersMapper: Mappers.CertificateGetHeaders
+      headersMapper: Mappers.CertificateGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -507,23 +501,22 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelDeletionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}/cancelDelete",
   httpMethod: "POST",
   responses: {
     200: {
       bodyMapper: Mappers.Certificate,
-      headersMapper: Mappers.CertificateCancelDeletionHeaders
+      headersMapper: Mappers.CertificateCancelDeletionHeaders,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -531,29 +524,29 @@ const cancelDeletionOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBatchAccountNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ListCertificatesResult
+      bodyMapper: Mappers.ListCertificatesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
     Parameters.accountName1,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

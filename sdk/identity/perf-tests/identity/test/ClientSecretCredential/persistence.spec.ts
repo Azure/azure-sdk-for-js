@@ -1,4 +1,4 @@
-import { PerfTest, getEnvVar } from "@azure/test-utils-perf";
+import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { useIdentityPlugin, ClientSecretCredential } from "@azure/identity";
 
 import { cachePersistencePlugin } from "@azure/identity-cache-persistence";

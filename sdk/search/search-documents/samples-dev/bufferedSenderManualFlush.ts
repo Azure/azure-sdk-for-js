@@ -6,14 +6,14 @@
  */
 
 import {
-  SearchIndexingBufferedSender,
   AzureKeyCredential,
-  SearchClient,
   GeographyPoint,
+  SearchClient,
   SearchIndexClient,
+  SearchIndexingBufferedSender,
 } from "@azure/search-documents";
-import { createIndex, documentKeyRetriever, WAIT_TIME, delay } from "./setup";
 import { Hotel } from "./interfaces";
+import { createIndex, delay, documentKeyRetriever, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -27,7 +27,7 @@ const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
 const TEST_INDEX_NAME = "example-index-sample-6";
 
-export async function main() {
+export async function main(): Promise<void> {
   if (!endpoint || !apiKey) {
     console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
     return;

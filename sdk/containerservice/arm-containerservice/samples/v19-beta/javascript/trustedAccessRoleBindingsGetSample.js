@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a trusted access role binding.
  *
  * @summary Get a trusted access role binding.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/TrustedAccessRoleBindings_Get.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-01-02-preview/examples/TrustedAccessRoleBindings_Get.json
  */
 async function getATrustedAccessRoleBinding() {
   const subscriptionId =

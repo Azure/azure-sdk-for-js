@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getEnvVar, BatchPerfTest } from "@azure/test-utils-perf";
+import { getEnvVar, BatchPerfTest } from "@azure-tools/test-perf";
 import { ServiceBusAdministrationClient, ServiceBusClient } from "@azure/service-bus";
 
 // Expects the .env file at the same level as the "test" folder

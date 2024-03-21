@@ -1,5 +1,21 @@
 # Release History
 
+## 1.8.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.8.1 (2024-03-20)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
+
 ## 1.8.0 (2024-03-12)
 
 ### Other Changes
