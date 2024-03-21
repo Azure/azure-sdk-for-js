@@ -41,7 +41,7 @@ steps:
             pwsh: true
           condition: succeeded()
       - pwsh: |
-          Remove-Item $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}} -Recurse
+          Remove-Item $(Pipeline.Workspace)/temp/${{parameters.ArtifactName}} -Recurse
         displayName: Remove Temp Packages Publish Directory
 
   - ${{ else }}:
