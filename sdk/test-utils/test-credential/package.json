@@ -34,7 +34,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/src/index.d.ts",
+    "types/latest/src",
     "README.md",
     "LICENSE"
   ],
