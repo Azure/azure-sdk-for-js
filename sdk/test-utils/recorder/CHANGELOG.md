@@ -2,18 +2,8 @@
 
 ## 4.0.0 (Unreleased)
 
-// TODO: make this 4.0.0 instead to avoid any breaking changes w.r.t environment variables.
-
 ### Features Added
 
-- Adds support for vitest
-
-## 3.1.0 (2023-03-14)
-
-### Features Added
-
-- Add support for setting `TLSValidationCert` in the Test Proxy Transport.
-- Add a `testPollingOptions` that allow skip polling wait in playback mode.
 - Enhanced the `addSanitizers` method and `SanitizerOptions` options bag by exposing the following sanitizer types for more flexible usage:
   - `FindReplaceSanitizer`: A sanitizer that finds and replaces specified strings.
   - `RegexSanitizer`: A sanitizer that uses regular expressions for pattern matching and replacement.
@@ -21,7 +11,23 @@
   - `HeaderSanitizer`: A sanitizer specifically designed for handling HTTP headers.
   - `ConnectionStringSanitizer`: A sanitizer that securely handles connection strings.
   - `RemoveHeaderSanitizer`: A sanitizer that removes specified headers from HTTP requests or responses.
-    This update aims to provide users with a more comprehensive and customizable sanitization process.
+  
+  This update aims to provide users with a more comprehensive and customizable sanitization process.
+
+### Breaking Changes
+
+- Removes support for mocha, in favour of vitest.
+
+### Bugs Fixed
+
+### Other Changes
+
+## 3.1.0 (2023-03-14)
+
+### Features Added
+
+- Add support for setting `TLSValidationCert` in the Test Proxy Transport.
+- Add a `testPollingOptions` that allow skip polling wait in playback mode.
 
 ### Bugs Fixed
 

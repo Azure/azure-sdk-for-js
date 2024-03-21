@@ -33,7 +33,7 @@ import { setRecordingOptions } from "./options.js";
 import { isBrowser, isNode } from "@azure/core-util";
 import { decodeBase64 } from "./utils/encoding.js";
 import { AdditionalPolicyConfig } from "@azure/core-client";
-import { isMochaTest, isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
+import { isVitestTestContext, TestInfo, VitestSuite } from "./testInfo.js";
 import { env } from "./utils/env.js";
 
 /**
@@ -42,17 +42,7 @@ import { env } from "./utils/env.js";
  * @internal
  */
 export function calculatePaths(testContext: TestInfo): TestContext {
-  if (isMochaTest(testContext)) {
-    if (!testContext.parent) {
-      throw new RecorderError(
-        `The parent of test '${testContext.title}' is undefined, so a file path for its recording could not be generated. Please place the test inside a describe block.`,
-      );
-    }
-    return {
-      suiteTitle: testContext.parent.fullTitle(),
-      testTitle: testContext.title,
-    };
-  } else if (isVitestTestContext(testContext)) {
+  if (isVitestTestContext(testContext)) {
     if (!testContext.task.name || !testContext.task.suite.name) {
       throw new RecorderError(
         `Unable to determine the recording file path. Unexpected empty Vitest context`,
@@ -274,9 +264,8 @@ export class Recorder {
     logger.info(`[Recorder#start] Starting the recorder in ${getTestMode()} mode`);
     this.stateManager.state = "started";
     if (this.recordingId === undefined) {
-      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.start
-      }`;
+      const startUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.start
+        }`;
 
       const req = createRecordingRequest(
         startUri,
@@ -386,9 +375,8 @@ export class Recorder {
     this.stateManager.state = "stopped";
     if (this.recordingId !== undefined) {
       logger.info("[Recorder#stop] Stopping recording", this.recordingId);
-      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${
-        paths.stop
-      }`;
+      const stopUri = `${Recorder.url}${isPlaybackMode() ? paths.playback : paths.record}${paths.stop
+        }`;
 
       const req = createRecordingRequest(stopUri, undefined, this.recordingId);
       req.headers.set("x-recording-save", "true");
