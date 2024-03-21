@@ -2250,16 +2250,6 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@microsoft/api-extractor-model@7.28.13(@types/node@16.18.87):
-    resolution: {integrity: sha512-39v/JyldX4MS9uzHcdfmjjfS6cYGAoXV+io8B5a338pkHiSt+gy2eXQ0Q7cGFJ7quSa1VqqlMdlPrB6sLR/cAw==}
-    dependencies:
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@16.18.87)
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
   /@microsoft/api-extractor-model@7.28.13(@types/node@18.19.22):
     resolution: {integrity: sha512-39v/JyldX4MS9uzHcdfmjjfS6cYGAoXV+io8B5a338pkHiSt+gy2eXQ0Q7cGFJ7quSa1VqqlMdlPrB6sLR/cAw==}
     dependencies:
@@ -2292,27 +2282,6 @@ packages:
       '@rushstack/ts-command-line': 4.17.1
       colors: 1.2.5
       lodash: 4.17.21
-      resolve: 1.22.8
-      semver: 7.5.4
-      source-map: 0.6.1
-      typescript: 5.3.3
-    transitivePeerDependencies:
-      - '@types/node'
-    dev: false
-
-  /@microsoft/api-extractor@7.42.3(@types/node@16.18.87):
-    resolution: {integrity: sha512-JNLJFpGHz6ekjS6bvYXxUBeRGnSHeCMFNvRbCQ+7XXB/ZFrgLSMPwWtEq40AiWAy+oyG5a4RSNwdJTp0B2USvQ==}
-    hasBin: true
-    dependencies:
-      '@microsoft/api-extractor-model': 7.28.13(@types/node@16.18.87)
-      '@microsoft/tsdoc': 0.14.2
-      '@microsoft/tsdoc-config': 0.16.2
-      '@rushstack/node-core-library': 4.0.2(@types/node@16.18.87)
-      '@rushstack/rig-package': 0.5.2
-      '@rushstack/terminal': 0.10.0(@types/node@16.18.87)
-      '@rushstack/ts-command-line': 4.19.1(@types/node@16.18.87)
-      lodash: 4.17.21
-      minimatch: 3.0.8
       resolve: 1.22.8
       semver: 7.5.4
       source-map: 0.6.1
@@ -3072,23 +3041,6 @@ packages:
       z-schema: 5.0.5
     dev: false
 
-  /@rushstack/node-core-library@4.0.2(@types/node@16.18.87):
-    resolution: {integrity: sha512-hyES82QVpkfQMeBMteQUnrhASL/KHPhd7iJ8euduwNJG4mu2GSOKybf0rOEjOm1Wz7CwJEUm9y0yD7jg2C1bfg==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@types/node': 16.18.87
-      fs-extra: 7.0.1
-      import-lazy: 4.0.0
-      jju: 1.4.0
-      resolve: 1.22.8
-      semver: 7.5.4
-      z-schema: 5.0.5
-    dev: false
-
   /@rushstack/node-core-library@4.0.2(@types/node@18.19.22):
     resolution: {integrity: sha512-hyES82QVpkfQMeBMteQUnrhASL/KHPhd7iJ8euduwNJG4mu2GSOKybf0rOEjOm1Wz7CwJEUm9y0yD7jg2C1bfg==}
     peerDependencies:
@@ -3120,19 +3072,6 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/terminal@0.10.0(@types/node@16.18.87):
-    resolution: {integrity: sha512-UbELbXnUdc7EKwfH2sb8ChqNgapUOdqcCIdQP4NGxBpTZV2sQyeekuK3zmfQSa/MN+/7b4kBogl2wq0vpkpYGw==}
-    peerDependencies:
-      '@types/node': '*'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-    dependencies:
-      '@rushstack/node-core-library': 4.0.2(@types/node@16.18.87)
-      '@types/node': 16.18.87
-      supports-color: 8.1.1
-    dev: false
-
   /@rushstack/terminal@0.10.0(@types/node@18.19.22):
     resolution: {integrity: sha512-UbELbXnUdc7EKwfH2sb8ChqNgapUOdqcCIdQP4NGxBpTZV2sQyeekuK3zmfQSa/MN+/7b4kBogl2wq0vpkpYGw==}
     peerDependencies:
@@ -3153,17 +3092,6 @@ packages:
       argparse: 1.0.10
       colors: 1.2.5
       string-argv: 0.3.2
-    dev: false
-
-  /@rushstack/ts-command-line@4.19.1(@types/node@16.18.87):
-    resolution: {integrity: sha512-J7H768dgcpG60d7skZ5uSSwyCZs/S2HrWP1Ds8d1qYAyaaeJmpmmLr9BVw97RjFzmQPOYnoXcKA4GkqDCkduQg==}
-    dependencies:
-      '@rushstack/terminal': 0.10.0(@types/node@16.18.87)
-      '@types/argparse': 1.0.38
-      argparse: 1.0.10
-      string-argv: 0.3.2
-    transitivePeerDependencies:
-      - '@types/node'
     dev: false
 
   /@rushstack/ts-command-line@4.19.1(@types/node@18.19.22):
@@ -3471,10 +3399,6 @@ packages:
     dependencies:
       '@types/node': 20.10.8
       form-data: 4.0.0
-    dev: false
-
-  /@types/node@16.18.87:
-    resolution: {integrity: sha512-+IzfhNirR/MDbXz6Om5eHV54D9mQlEMGag6AgEzlju0xH3M8baCXYwqQ6RKgGMpn9wSTx6Ltya/0y4Z8eSfdLw==}
     dev: false
 
   /@types/node@18.19.22:
@@ -9790,37 +9714,6 @@ packages:
       code-block-writer: 13.0.1
     dev: false
 
-  /ts-node@10.9.2(@types/node@16.18.87)(typescript@5.3.3):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.9
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 16.18.87
-      acorn: 8.11.3
-      acorn-walk: 8.3.2
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.3.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node@10.9.2(@types/node@18.19.22)(typescript@5.2.2):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -12536,7 +12429,7 @@ packages:
     dev: false
 
   file:projects/arm-communication.tgz:
-    resolution: {integrity: sha512-uPS2+p1oI2HYbDoM/nIA24Zp4g4luf44EwFtnc/IcqJbC5WXGUyw5XpP521K/LRjqrhcpvYnJUTXvsihMjAXGg==, tarball: file:projects/arm-communication.tgz}
+    resolution: {integrity: sha512-JGhsfwQfWyrFKFWMwmtb8KKlJnLnUSVyoYMkO7hIxS+Lep0fSQAae7zCgrc60enzSi9xC6vzJ7/uB4KAU9XEKQ==, tarball: file:projects/arm-communication.tgz}
     name: '@rush-temp/arm-communication'
     version: 0.0.0
     dependencies:
@@ -12827,7 +12720,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-CgE1+0qzGsKIGBfvZjAaeQ3jI+BkFnyy2s1J2hS/GDxqqS6ONXukQkR+wtq8chLjG5/Rkp3E7vNw8UO/iYLsAw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-P/JhcFM7gKoy0VOzeYkFA7CncQzfqY/F99b4dHql++Iz5byeezuwByd638AUyYegesd6h8y+osg5bdAA9beaBg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -15117,16 +15010,16 @@ packages:
     dev: false
 
   file:projects/arm-mobilenetwork.tgz:
-    resolution: {integrity: sha512-vFnMCn9qVBX91fybM9i+Grl1zb9IvgR/SbdqrpsS0K3edmMJVahXhR44CSBI/bD2zrzFlZnCnibVWDIq3Um2fQ==, tarball: file:projects/arm-mobilenetwork.tgz}
+    resolution: {integrity: sha512-gdbMLVxp3GbBxTZumljzLZ00viHBwdp6FSZsmUWBC8KvDl8RoUwBcdSIG8J4PK/2ZTXpnBB6PTP04pTicMppBg==, tarball: file:projects/arm-mobilenetwork.tgz}
     name: '@rush-temp/arm-mobilenetwork'
     version: 0.0.0
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.42.3(@types/node@16.18.87)
+      '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
       '@types/chai': 4.3.12
       '@types/mocha': 10.0.6
-      '@types/node': 16.18.87
+      '@types/node': 18.19.22
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -15134,7 +15027,7 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@16.18.87)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
