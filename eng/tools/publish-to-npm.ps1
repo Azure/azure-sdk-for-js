@@ -154,9 +154,14 @@ try {
             }
         }
         elseif ($p.Publish -and $publishToNpm) {
-          write-host "Copy $($p.TarGz) to $pipelineWorkspace"
-          New-Item -ItemType File -Path $pipelineWorkspace -Force
-          Copy-Item -Path $($p.TarGz) -Destination $pipelineWorkspace -Force
+            if ($additionalTag -eq "") {
+                write-host "Copy $($p.TarGz) to $pipelineWorkspace"
+                New-Item -ItemType File -Path $pipelineWorkspace -Force
+                Copy-Item -Path $($p.TarGz) -Destination $pipelineWorkspace -Force
+            } elseif ($additionalTag -ne $tag) {
+              npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
+              .$(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName $AdditionalTag -npmToken $(azure-sdk-npm-token)
+            }
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"

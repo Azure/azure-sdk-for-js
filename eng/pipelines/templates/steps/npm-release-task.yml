@@ -14,7 +14,7 @@ steps:
         inputs:
           targetType: filePath
           filePath: eng/tools/publish-to-npm.ps1
-          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token) -packagesToPublishPath "$(Pipeline.Workspace)/temp/${{parameters.ArtifactName}}"
+          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token) -packagesToPublishPath "$(Pipeline.Workspace)/temp/${{parameters.ArtifactName}}"
           pwsh: true
         condition: succeeded()
       - task: EsrpRelease@6
@@ -31,20 +31,17 @@ steps:
           DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
           ProductStateField: ${{parameters.Tag}}
 
+      - task: PowerShell@2
+        displayName: Add Additional Tag
+        inputs:
+          targetType: filePath
+          filePath: eng/tools/publish-to-npm.ps1
+          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+          pwsh: true
+        condition: succeeded()
       - pwsh: |
-          Import-Module $(Build.SourcesDirectory)/eng/tools/publish-to-npm.ps1 -Function extractPackage -Force
-          $packageList = @()
-          foreach ($p in $(dir ${{parameters.PathToArtifacts}} -r -i *.tgz)) {
-              $packageList += extractPackage $p
-          }
-          foreach ($p in $packageList) {
-              if($p.Publish && ${{parameters.AdditionalTag}} && ${{parameters.AdditionalTag}} -ne ${{parameters.Tag}}) {
-                  $(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName "${{parameters.AdditionalTag}}" -npmToken "$(azure-sdk-npm-token)"
-              }
-          }
-
           Remove-Item $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}} -Recurse
-        displayName: Add Additional Tags
+        displayName: Remove Temp Packages Publish Directory
 
   - ${{ else }}:
       - task: PowerShell@2
