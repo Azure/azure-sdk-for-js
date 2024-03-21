@@ -9,7 +9,7 @@ param (
   $basicDeployment=$false,
   $devopsFeed=$false,
   $skipDiff=$false,
-  $pipelineWorkspace
+  $packagesToPublishPath
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -154,11 +154,9 @@ try {
             }
         }
         elseif ($p.Publish -and $publishToNpm) {
-          $artifactSubPath = $pathToArtifacts -replace $pipelineWorkspace, ''
-          $destination = "$pipelineWorkspace/temp$artifactSubPath"
-          write-host "Copy $($p.TarGz) to $destination"
-          New-Item -ItemType File -Path $destination -Force
-          Copy-Item -Path $($p.TarGz) -Destination $destination -Force
+          write-host "Copy $($p.TarGz) to $pipelineWorkspace"
+          New-Item -ItemType File -Path $pipelineWorkspace -Force
+          Copy-Item -Path $($p.TarGz) -Destination $pipelineWorkspace -Force
         }
         else{
             Write-Host "Skipping package publish $($p.TarGz)"
