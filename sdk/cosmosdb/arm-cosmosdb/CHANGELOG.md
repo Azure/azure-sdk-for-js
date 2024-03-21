@@ -339,13 +339,13 @@
   - Enum KnownStatus has a new value Failed
   - Enum KnownStatus has a new value Succeeded
   - Enum KnownStatus has a new value Updating
+  - Type of parameter arguments of interface CommandPostBody is changed from {
+        [propertyName: string]: string;
+    } to Record<string, unknown>
 
 **Breaking Changes**
 
   - Interface CommandPostBody no longer has parameter readwrite
-  - Type of parameter arguments of interface CommandPostBody is changed from {
-        [propertyName: string]: string;
-    } to Record<string, unknown>
     
     
 ## 15.6.0 (2023-12-25)
