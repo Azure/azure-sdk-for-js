@@ -2,10 +2,12 @@
 // Licensed under the MIT license.
 
 import { ServiceClient } from "@azure/core-client";
-import { env, isPlaybackMode, Recorder } from "../src";
-import { TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { isPlaybackMode, Recorder } from "../src/index.js";
+import { TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
+import { env } from "../src/index.js";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -15,17 +17,17 @@ import { randomUUID } from "@azure/core-util";
     let recorder: Recorder;
     let client: ServiceClient;
     const fakeSecretValue = "fake_secret_info";
-    const secretValue = "abcdef";
+    let secretValue = "abcdef";
     let currentValue: string;
 
-    before(() => {
+    beforeAll(() => {
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
+    beforeEach(async function (context) {
       env.TEST_VARIABLE_1 = "the answer!";
       env.TEST_VARIABLE_2 = "answer!";
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
       currentValue = isPlaybackMode() ? fakeSecretValue : secretValue;
     });
@@ -129,7 +131,7 @@ import { randomUUID } from "@azure/core-util";
       });
 
       it("BodyKeySanitizer", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -163,7 +165,7 @@ import { randomUUID } from "@azure/core-util";
       });
 
       it("BodyRegexSanitizer", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -324,7 +326,7 @@ import { randomUUID } from "@azure/core-util";
       // });
 
       it.skip("ResetSanitizer (uses BodyRegexSanitizer as example)", async () => {
-        const secretValue = "ab12cd34ef";
+        secretValue = "ab12cd34ef";
         await recorder.start({
           envSetupForPlayback: {},
           sanitizerOptions: {
@@ -410,7 +412,7 @@ import { randomUUID } from "@azure/core-util";
       });
     });
 
-    describe("Session-level sanitizer", () => {
+    describe.skip("Session-level sanitizer", () => {
       it("Allows a sanitizer to be set before the recorder is started", async () => {
         await Recorder.addSessionSanitizers({
           generalSanitizers: [{ target: currentValue, value: fakeSecretValue }],

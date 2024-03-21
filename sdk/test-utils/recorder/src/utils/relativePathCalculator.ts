@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import path from "path";
-import fs from "fs";
-import { RecorderError } from "./utils";
+import path from "node:path";
+import fs from "node:fs";
+import { RecorderError } from "./utils.js";
 
 /**
  * Replace backslashes in a path with forward slashes so they are not treated as escape characters
@@ -18,7 +18,7 @@ function toSafePath(filePath: string): string {
 /**
  * Determines the path of the package being tested relative to the repository root.
  */
-function relativePackagePath() {
+function relativePackagePath(): string {
   const currentPath = process.cwd(); // Gives the current working directory
 
   let rootPath = undefined;

@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { createPipelineRequest, HttpClient } from "@azure/core-rest-pipeline";
-import { logger } from "./log";
-import { paths } from "./utils/paths";
-import { RecorderError } from "./utils/utils";
+import { logger } from "./log.js";
+import { paths } from "./utils/paths.js";
+import { RecorderError } from "./utils/utils.js";
 
 export type Matcher = "HeaderlessMatcher" | "BodilessMatcher" | "CustomDefaultMatcher";
 

@@ -3,11 +3,12 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import assert from "assert";
+import { assert } from "vitest";
 import { expect } from "chai";
-import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src";
-import { isLiveMode, TestMode } from "../src/utils/utils";
-import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils";
+import { CustomMatcherOptions, isPlaybackMode, Recorder } from "../src/index.js";
+import { isLiveMode, TestMode } from "../src/utils/utils.js";
+import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./utils/utils.js";
+import { describe, it, beforeEach, afterEach, beforeAll } from "vitest";
 
 // These tests require the following to be running in parallel
 // - utils/server.ts (to serve requests to act as a service)
@@ -17,16 +18,16 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
     let recorder: Recorder;
     let client: ServiceClient;
 
-    before(() => {
+    beforeAll(() => {
       setTestMode(mode);
     });
 
-    beforeEach(async function () {
-      recorder = new Recorder(this.currentTest);
+    beforeEach(async function (context) {
+      recorder = new Recorder(context);
       client = new ServiceClient(recorder.configureClientOptions({ baseUri: TEST_SERVER_URL }));
     });
 
-    afterEach(async () => {
+    afterEach(async function () {
       await recorder.stop();
     });
 
@@ -39,7 +40,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       );
     });
 
-    it("redirect (redirect location has host)", async function (this: Mocha.Context) {
+    it("redirect (redirect location has host)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(
@@ -49,7 +50,7 @@ import { TEST_SERVER_URL, makeRequestAndVerifyResponse, setTestMode } from "./ut
       );
     });
 
-    it("redirect (redirect location is relative)", async function (this: Mocha.Context) {
+    it("redirect (redirect location is relative)", async function () {
       await recorder.start({ envSetupForPlayback: {} });
 
       await makeRequestAndVerifyResponse(
