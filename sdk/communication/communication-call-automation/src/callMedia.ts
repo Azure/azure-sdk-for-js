@@ -21,6 +21,8 @@ import {
   StartTranscriptionRequest,
   StopTranscriptionRequest,
   UpdateTranscriptionRequest,
+  HoldRequest,
+  UnholdRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -41,6 +43,8 @@ import {
   CallMediaRecognizeSpeechOrDtmfOptions,
   StartTranscriptionOptions,
   StopTranscriptionOptions,
+  HoldOptions,
+  UnholdOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
@@ -599,6 +603,48 @@ export class CallMedia {
       },
     };
     return sendDtmfTonesResult;
+  }
+
+  /**
+   * Put participant on hold while playing audio.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param options - Additional attributes for hold participant.
+   */
+  public async hold(
+    targetParticipant: CommunicationIdentifier,
+    options: HoldOptions = {},
+  ): Promise<void> {
+    const holdRequest: HoldRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      playSourceInfo:
+        options.playSource !== undefined
+          ? this.createPlaySourceInternal(options.playSource)
+          : undefined,
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+      operationCallbackUri:
+        options.operationCallbackUri !== undefined ? options.operationCallbackUri : undefined,
+    };
+    return this.callMedia.hold(this.callConnectionId, holdRequest);
+  }
+
+  /**
+   * Remove participant from hold.
+   *
+   * @param targetParticipant - The targets to play to.
+   * @param options - Additional attributes for unhold participant.
+   */
+  public async unhold(
+    targetParticipant: CommunicationIdentifier,
+    options: UnholdOptions = {},
+  ): Promise<void> {
+    const unholdRequest: UnholdRequest = {
+      targetParticipant: serializeCommunicationIdentifier(targetParticipant),
+      operationContext:
+        options.operationContext !== undefined ? options.operationContext : undefined,
+    };
+    return this.callMedia.unhold(this.callConnectionId, unholdRequest);
   }
 
   /**
