@@ -15,7 +15,7 @@ import { SearchManagementClient } from "../searchManagementClient";
 import {
   PrivateLinkResource,
   PrivateLinkResourcesListSupportedOptionalParams,
-  PrivateLinkResourcesListSupportedResponse
+  PrivateLinkResourcesListSupportedResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -35,19 +35,19 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
    * Gets a list of all supported private link resource types for the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   public listSupported(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateLinkResourcesListSupportedOptionalParams
+    options?: PrivateLinkResourcesListSupportedOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listSupportedPagingAll(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     );
     return {
       next() {
@@ -64,9 +64,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           searchServiceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -74,13 +74,13 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     searchServiceName: string,
     options?: PrivateLinkResourcesListSupportedOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListSupportedResponse;
     result = await this._listSupported(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     );
     yield result.value || [];
   }
@@ -88,12 +88,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listSupportedPagingAll(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateLinkResourcesListSupportedOptionalParams
+    options?: PrivateLinkResourcesListSupportedOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listSupportedPagingPage(
       resourceGroupName,
       searchServiceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -103,18 +103,18 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
    * Gets a list of all supported private link resource types for the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   private _listSupported(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateLinkResourcesListSupportedOptionalParams
+    options?: PrivateLinkResourcesListSupportedOptionalParams,
   ): Promise<PrivateLinkResourcesListSupportedResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, searchServiceName, options },
-      listSupportedOperationSpec
+      listSupportedOperationSpec,
     );
   }
 }
@@ -122,24 +122,23 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listSupportedOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourcesResult
+      bodyMapper: Mappers.PrivateLinkResourcesResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceGroupName,
     Parameters.searchServiceName,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept, Parameters.clientRequestId],
-  serializer
+  serializer,
 };

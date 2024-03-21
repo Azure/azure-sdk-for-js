@@ -133,6 +133,7 @@ export interface BrokerEnabledOptions {
     enabled: true;
     legacyEnableMsaPassthrough?: boolean;
     parentWindowHandle: Uint8Array;
+    useDefaultBrokerAccount?: boolean;
 }
 
 // @public

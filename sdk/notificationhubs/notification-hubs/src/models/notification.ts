@@ -468,6 +468,7 @@ export type Notification =
   | BaiduNotification
   | BrowserNotification
   | FcmLegacyNotification
+  | FcmV1Notification
   | XiaomiNotification
   | WindowsNotification
   | TemplateNotification;

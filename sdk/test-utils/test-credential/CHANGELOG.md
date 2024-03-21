@@ -1,14 +1,12 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.0.2 (2024-03-20)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- The `@azure-tools/test-recorder` dependency has been updated to version `^3.0.0`. This update discontinues the support for `@azure/core-http` in tests.
+- The `@azure/identity` dependency has been upgraded to version `^4.x`.
+- **Additional Updates**: Several other updates have been made to ensure compatibility with the libraries in the Azure SDK for JS repository. These include version updates for `prettier` and `typescript`, as well as an update to the minimum required Node.js version.
 
 ## 1.0.1 (2023-01-23)
 
