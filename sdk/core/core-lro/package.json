@@ -3,7 +3,7 @@
   "author": "Microsoft Corporation",
   "sdk-type": "client",
   "type": "module",
-  "version": "2.7.1",
+  "version": "2.7.2",
   "description": "Isomorphic client library for supporting long-running operations in node.js and browser.",
   "exports": {
     "./package.json": "./package.json",
@@ -33,6 +33,7 @@
   ],
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "tags": [
     "isomorphic",
     "browser",
@@ -55,10 +56,6 @@
   ],
   "engines": {
     "node": ">=18.0.0"
-  },
-  "browser": {
-    "os": false,
-    "process": false
   },
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/README.md",

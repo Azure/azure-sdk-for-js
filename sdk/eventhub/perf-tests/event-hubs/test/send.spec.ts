@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure/test-utils-perf";
+import { getEnvVar, PerfOptionDictionary, BatchPerfTest } from "@azure-tools/test-perf";
 import { EventHubProducerClient, EventData } from "@azure/event-hubs";
 
 // Expects the .env file at the same level as the "test" folder

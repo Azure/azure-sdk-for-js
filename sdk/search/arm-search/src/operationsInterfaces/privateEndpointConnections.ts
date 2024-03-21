@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsGetOptionalParams,
   PrivateEndpointConnectionsGetResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsDeleteResponse
+  PrivateEndpointConnectionsDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -25,23 +25,23 @@ export interface PrivateEndpointConnections {
    * Gets a list of all private endpoint connections in the given service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
    * @param options The options parameters.
    */
   listByService(
     resourceGroupName: string,
     searchServiceName: string,
-    options?: PrivateEndpointConnectionsListByServiceOptionalParams
+    options?: PrivateEndpointConnectionsListByServiceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
-   * Updates a Private Endpoint connection to the search service in the given resource group.
+   * Updates a private endpoint connection to the search service in the given resource group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
-   *                                      Cognitive Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
+   *                                      Search service with the specified resource group.
    * @param privateEndpointConnection The definition of the private endpoint connection to update.
    * @param options The options parameters.
    */
@@ -50,39 +50,39 @@ export interface PrivateEndpointConnections {
     searchServiceName: string,
     privateEndpointConnectionName: string,
     privateEndpointConnection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateOptionalParams
+    options?: PrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateResponse>;
   /**
    * Gets the details of the private endpoint connection to the search service in the given resource
    * group.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
-   *                                      Cognitive Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
+   *                                      Search service with the specified resource group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     searchServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Disconnects the private endpoint connection and deletes it from the search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    *                          obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
-   *                          specified resource group.
-   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure
-   *                                      Cognitive Search service with the specified resource group.
+   * @param searchServiceName The name of the Azure AI Search service associated with the specified
+   *                          resource group.
+   * @param privateEndpointConnectionName The name of the private endpoint connection to the Azure AI
+   *                                      Search service with the specified resource group.
    * @param options The options parameters.
    */
   delete(
     resourceGroupName: string,
     searchServiceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<PrivateEndpointConnectionsDeleteResponse>;
 }

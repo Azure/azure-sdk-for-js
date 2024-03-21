@@ -1,14 +1,10 @@
 # Release History
 
-## 5.11.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 5.11.4 (2024-03-21)
 
 ### Other Changes
+
+- The minimum value of timeout for all operations is no longer 60 seconds. The user can now set the timeout to lower values if needed. The default timeout value is still 60 seconds.
 
 ## 5.11.3 (2023-11-07)
 
