@@ -31,14 +31,15 @@ steps:
           DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
           ProductStateField: ${{parameters.Tag}}
 
-      - task: PowerShell@2
-        displayName: Add Additional Tag
-        inputs:
-          targetType: filePath
-          filePath: eng/tools/publish-to-npm.ps1
-          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
-          pwsh: true
-        condition: succeeded()
+      - ${{if ne(parameters.AdditionalTag, '')}}:
+        - task: PowerShell@2
+          displayName: Add Additional Tag
+          inputs:
+            targetType: filePath
+            filePath: eng/tools/publish-to-npm.ps1
+            arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+            pwsh: true
+          condition: succeeded()
       - pwsh: |
           Remove-Item $(System.DefaultWorkingDirectory)/temp/${{parameters.ArtifactName}} -Recurse
         displayName: Remove Temp Packages Publish Directory
