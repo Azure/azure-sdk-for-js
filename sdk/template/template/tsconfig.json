@@ -1,9 +1,11 @@
 {
   "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "paths": {
+      "@azure/template": ["./src/index"]
+    }
   },
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }

@@ -88,7 +88,7 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "^1.0.1",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/communication-identity": "^1.2.0",
     "@azure/communication-phone-numbers": "^1.2.0",

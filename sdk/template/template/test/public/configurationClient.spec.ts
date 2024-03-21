@@ -2,10 +2,10 @@
 // Licensed under the MIT license.
 
 import { assert } from "@azure/test-utils";
-import { ConfigurationClient } from "../../src/index.js";
+import { Context } from "mocha";
+import { ConfigurationClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, beforeEach, afterEach } from "vitest";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -52,11 +52,11 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function (context) {
+  beforeEach(async function (this: Context) {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    recorder = new Recorder(context);
+    recorder = new Recorder(this.currentTest);
 
     await recorder.start({ envSetupForPlayback: replaceableVariables });
 

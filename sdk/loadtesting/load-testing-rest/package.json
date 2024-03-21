@@ -81,7 +81,7 @@
     "@azure/abort-controller": "^1.1.0"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-credential": "~1.0.0",
     "@azure-tools/test-recorder": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@microsoft/api-extractor": "^7.31.1",
