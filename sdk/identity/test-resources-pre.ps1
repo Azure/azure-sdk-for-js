@@ -45,11 +45,6 @@ Write-Host "##vso[task.setvariable variable=IDENTITY_SP_CERT_PEM;]$pemPath"
 $env:IDENTITY_SP_CERT_PFX = $pfxPath
 $env:IDENTITY_SP_CERT_PEM = $pemPath
 
-if (!$AdditionalParameters['deployMIResources']) {
-    Write-Host "Skipping pre-provisioning script because resources weren't deployed"
-    return
-}
-
 Import-Module -Name $PSScriptRoot/../../eng/common/scripts/X509Certificate2 -Verbose
 
 Remove-Item $PSScriptRoot/sshKey* -Force
