@@ -18,15 +18,15 @@ dotenv.config();
  * This sample demonstrates how to Lists all chat transcripts for a support ticket
  *
  * @summary Lists all chat transcripts for a support ticket
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListChatTranscriptsForSupportTicket.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListChatTranscriptsForSupportTicket.json
  */
-async function listCommunicationsForANoSubscriptionSupportTicket() {
+async function listChatTranscriptsForANoSubscriptionSupportTicket() {
   const supportTicketName = "testticket";
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential);
   const resArray = new Array();
-  for await (let item of client.supportTicketChatTranscriptsNoSubscription.list(
-    supportTicketName
+  for await (let item of client.chatTranscriptsNoSubscription.list(
+    supportTicketName,
   )) {
     resArray.push(item);
   }
@@ -34,7 +34,7 @@ async function listCommunicationsForANoSubscriptionSupportTicket() {
 }
 
 async function main() {
-  listCommunicationsForANoSubscriptionSupportTicket();
+  listChatTranscriptsForANoSubscriptionSupportTicket();
 }
 
 main().catch(console.error);
