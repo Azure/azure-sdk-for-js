@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
+import { assert } from "chai";
 import { Context } from "mocha";
-import { createClient, createRecorder } from "./utils/recordedClient";
 import { AzureHealthInsightsClient, getLongRunningPoller } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient";
 
 const codingData = {
   system: "http://www.nlm.nih.gov/research/umls",
