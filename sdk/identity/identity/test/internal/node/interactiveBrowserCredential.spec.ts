@@ -51,7 +51,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
     const testErrorMessage = "No browsers available on this test.";
     (sandbox.stub(interactiveBrowserMockable, "open") as any).throws(
       "BrowserConfigurationAuthError",
-      testErrorMessage
+      testErrorMessage,
     );
 
     const credential = new InteractiveBrowserCredential(
@@ -59,7 +59,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
         redirectUri: "http://localhost:8081",
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      } as InteractiveBrowserCredentialNodeOptions)
+      } as InteractiveBrowserCredentialNodeOptions),
     );
 
     let error: Error | undefined;

@@ -51,7 +51,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -81,7 +81,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -111,7 +111,7 @@ describe("AzureCliCredential (internal)", function () {
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -126,7 +126,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
         );
       }
     } else {
@@ -139,7 +139,7 @@ describe("AzureCliCredential (internal)", function () {
       } catch (error: any) {
         assert.equal(
           error.message,
-          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+          "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
         );
       }
     }
@@ -155,7 +155,7 @@ describe("AzureCliCredential (internal)", function () {
     } catch (error: any) {
       assert.equal(
         error.message,
-        "Please run 'az login' from a command prompt to authenticate before using this credential."
+        "Please run 'az login' from a command prompt to authenticate before using this credential.",
       );
     }
   });
@@ -219,7 +219,7 @@ az login --scope https://test.windows.net/.default`;
         cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
         shell: azOptions[0].shell,
       },
-      { cwd: true, shell: true }
+      { cwd: true, shell: true },
     );
   });
 
@@ -239,7 +239,7 @@ az login --scope https://test.windows.net/.default`;
         shell: azOptions[0].shell,
         timeout: 50,
       },
-      { cwd: true, shell: true, timeout: 50 }
+      { cwd: true, shell: true, timeout: 50 },
     );
   });
 
@@ -266,7 +266,7 @@ az login --scope https://test.windows.net/.default`;
         credential.getToken("https://service/.default", {
           tenantId: tenantId,
         }),
-        tenantIdErrorMessage
+        tenantIdErrorMessage,
       );
     });
 
@@ -282,13 +282,13 @@ az login --scope https://test.windows.net/.default`;
       inputScope === ""
         ? "empty string"
         : inputScope === "\0"
-        ? "null character"
-        : `"${inputScope}"`;
+          ? "null character"
+          : `"${inputScope}"`;
     it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzureCliCredential();
       await assert.isRejected(
         credential.getToken(inputScope),
-        "Invalid scope was specified by the user or calling client"
+        "Invalid scope was specified by the user or calling client",
       );
     });
   }
@@ -374,7 +374,7 @@ az login --scope https://test.windows.net/.default`;
       const credential = new AzureCliCredential();
       await assert.isRejected(
         credential.getToken("https://service/.default"),
-        /Expected "expiresOn" to be a RFC3339 date string. Got: "not-a-date"$/
+        /Expected "expiresOn" to be a RFC3339 date string. Got: "not-a-date"$/,
       );
     });
   });

@@ -23,14 +23,14 @@ describe("Azure Kubernetes Integration test", function () {
       const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
       runCommand(
         "az",
-        `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`
+        `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
       );
     }
 
     runCommand("az", `account set --subscription ${subscriptionId}`);
     runCommand(
       "az",
-      `aks get-credentials --resource-group ${resourceGroup} --name ${aksClusterName}`
+      `aks get-credentials --resource-group ${resourceGroup} --name ${aksClusterName}`,
     );
     const pods = runCommand("kubectl", `get pods -o jsonpath='{.items[0].metadata.name}'`);
     assert.include(pods, podName);
@@ -46,7 +46,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "ManagedIdentity: Successfully authenticated with storage",
-      `Expected ${podOutput} to include a ManagedIdentity success message`
+      `Expected ${podOutput} to include a ManagedIdentity success message`,
     );
   });
 
@@ -58,7 +58,7 @@ describe("Azure Kubernetes Integration test", function () {
     assert.include(
       podOutput,
       "WorkloadIdentity: Successfully authenticated with storage",
-      `Expected ${podOutput} to include a WorkloadIdentity success message`
+      `Expected ${podOutput} to include a WorkloadIdentity success message`,
     );
   });
 });

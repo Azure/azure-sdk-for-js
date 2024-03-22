@@ -32,7 +32,7 @@ describe("OnBehalfOfCredential", function () {
 
     const newMSALClientLogs = (): number =>
       testContext.logMessages.filter((message) =>
-        message.match("Initialized MSAL's On-Behalf-Of flow")
+        message.match("Initialized MSAL's On-Behalf-Of flow"),
       ).length;
 
     const authDetails = await testContext.sendCredentialRequests({
@@ -66,7 +66,7 @@ describe("OnBehalfOfCredential", function () {
 
     const newMSALClientLogs = (): number =>
       testContext.logMessages.filter((message) =>
-        message.match("Initialized MSAL's On-Behalf-Of flow")
+        message.match("Initialized MSAL's On-Behalf-Of flow"),
       ).length;
 
     const authDetails = await testContext.sendCredentialRequests({
