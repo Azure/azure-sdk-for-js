@@ -15,10 +15,10 @@ import { BatchClient } from "./clientDefinitions";
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  options: ClientOptions = {}
+  options: ClientOptions = {},
 ): BatchClient {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
-  options.apiVersion = options.apiVersion ?? "2023-11-01.18.0";
+  options.apiVersion = options.apiVersion ?? "2024-02-01.19.0";
   const userAgentInfo = `azsdk-js-batch-rest/1.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
@@ -34,10 +34,13 @@ export default function createClient(
     },
     telemetryOptions: {
       clientRequestIdHeaderName:
-        options.telemetryOptions?.clientRequestIdHeaderName ?? "client-request-id",
+        options.telemetryOptions?.clientRequestIdHeaderName ??
+        "client-request-id",
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://batch.core.windows.net//.default"],
+      scopes: options.credentials?.scopes ?? [
+        "https://batch.core.windows.net//.default",
+      ],
     },
   };
 

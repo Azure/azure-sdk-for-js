@@ -4,31 +4,31 @@
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 import {
-  BatchPoolCreateParameters,
-  BatchPoolUpdateParameters,
-  BatchPoolEnableAutoScaleParameters,
-  BatchPoolEvaluateAutoScaleParameters,
-  BatchPoolResizeParameters,
-  BatchPoolReplaceParameters,
-  BatchNodeRemoveParameters,
-  BatchJobUpdateParameters,
+  BatchPoolCreateContent,
+  BatchPoolUpdateContent,
+  BatchPoolEnableAutoScaleContent,
+  BatchPoolEvaluateAutoScaleContent,
+  BatchPoolResizeContent,
+  BatchPoolReplaceContent,
+  BatchNodeRemoveContent,
+  BatchJobUpdateContent,
   BatchJob,
-  BatchJobDisableParameters,
-  BatchJobTerminateParameters,
-  BatchJobCreateParameters,
+  BatchJobDisableContent,
+  BatchJobTerminateContent,
+  BatchJobCreateContent,
   BatchCertificate,
-  BatchJobScheduleUpdateParameters,
+  BatchJobScheduleUpdateContent,
   BatchJobSchedule,
-  BatchJobScheduleCreateParameters,
-  BatchTaskCreateParameters,
-  BatchTaskCollection,
+  BatchJobScheduleCreateContent,
+  BatchTaskCreateContent,
+  BatchTaskGroup,
   BatchTask,
-  BatchNodeUserCreateParameters,
-  BatchNodeUserUpdateParameters,
-  BatchNodeRebootParameters,
-  BatchNodeReimageParameters,
-  BatchNodeDisableSchedulingParameters,
-  UploadBatchServiceLogsParameters,
+  BatchNodeUserCreateContent,
+  BatchNodeUserUpdateContent,
+  BatchNodeRebootContent,
+  BatchNodeReimageContent,
+  BatchNodeDisableSchedulingContent,
+  UploadBatchServiceLogsContent,
 } from "./models";
 
 export interface ListApplicationsHeaders {
@@ -48,10 +48,7 @@ export interface ListApplicationsHeaders {
 }
 
 export interface ListApplicationsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -89,10 +86,7 @@ export interface GetApplicationHeaders {
 }
 
 export interface GetApplicationQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -125,10 +119,7 @@ export interface ListPoolUsageMetricsHeaders {
 }
 
 export interface ListPoolUsageMetricsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -140,7 +131,7 @@ export interface ListPoolUsageMetricsQueryParamProperties {
    * a half hours before the current time. If not specified this defaults to the
    * start time of the last aggregation interval currently available.
    */
-  starttime?: Date | string;
+  startTime?: Date | string;
   /**
    * The latest time from which to include metrics. This must be at least two hours
    * before the current time. If not specified this defaults to the end time of the
@@ -184,14 +175,11 @@ export interface CreatePoolHeaders {
 
 export interface CreatePoolBodyParam {
   /** The Pool to be created. */
-  body: BatchPoolCreateParameters;
+  body: BatchPoolCreateContent;
 }
 
 export interface CreatePoolQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -231,10 +219,7 @@ export interface ListPoolsHeaders {
 }
 
 export interface ListPoolsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -260,7 +245,9 @@ export interface ListPoolsHeaderParam {
   headers?: RawHttpHeadersInput & ListPoolsHeaders;
 }
 
-export type ListPoolsParameters = ListPoolsQueryParam & ListPoolsHeaderParam & RequestParameters;
+export type ListPoolsParameters = ListPoolsQueryParam &
+  ListPoolsHeaderParam &
+  RequestParameters;
 
 export interface DeletePoolHeaders {
   /**
@@ -303,10 +290,7 @@ export interface DeletePoolHeaders {
 }
 
 export interface DeletePoolQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -318,7 +302,9 @@ export interface DeletePoolHeaderParam {
   headers?: RawHttpHeadersInput & DeletePoolHeaders;
 }
 
-export type DeletePoolParameters = DeletePoolQueryParam & DeletePoolHeaderParam & RequestParameters;
+export type DeletePoolParameters = DeletePoolQueryParam &
+  DeletePoolHeaderParam &
+  RequestParameters;
 
 export interface PoolExistsHeaders {
   /**
@@ -361,10 +347,7 @@ export interface PoolExistsHeaders {
 }
 
 export interface PoolExistsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -376,9 +359,24 @@ export interface PoolExistsHeaderParam {
   headers?: RawHttpHeadersInput & PoolExistsHeaders;
 }
 
-export type PoolExistsParameters = PoolExistsQueryParam & PoolExistsHeaderParam & RequestParameters;
+export type PoolExistsParameters = PoolExistsQueryParam &
+  PoolExistsHeaderParam &
+  RequestParameters;
 
 export interface GetPoolHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -403,31 +401,15 @@ export interface GetPoolHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetPoolQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
   /** An OData $expand clause. */
   $expand?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetPoolQueryParam {
@@ -438,9 +420,24 @@ export interface GetPoolHeaderParam {
   headers?: RawHttpHeadersInput & GetPoolHeaders;
 }
 
-export type GetPoolParameters = GetPoolQueryParam & GetPoolHeaderParam & RequestParameters;
+export type GetPoolParameters = GetPoolQueryParam &
+  GetPoolHeaderParam &
+  RequestParameters;
 
 export interface UpdatePoolHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -465,31 +462,15 @@ export interface UpdatePoolHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface UpdatePoolBodyParam {
   /** The pool properties to update. */
-  body: BatchPoolUpdateParameters;
+  body: BatchPoolUpdateContent;
 }
 
 export interface UpdatePoolQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -529,10 +510,7 @@ export interface DisablePoolAutoScaleHeaders {
 }
 
 export interface DisablePoolAutoScaleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -549,6 +527,19 @@ export type DisablePoolAutoScaleParameters = DisablePoolAutoScaleQueryParam &
   RequestParameters;
 
 export interface EnablePoolAutoScaleHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -573,31 +564,15 @@ export interface EnablePoolAutoScaleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface EnablePoolAutoScaleBodyParam {
   /** The options to use for enabling automatic scaling. */
-  body: BatchPoolEnableAutoScaleParameters;
+  body: BatchPoolEnableAutoScaleContent;
 }
 
 export interface EnablePoolAutoScaleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -638,14 +613,11 @@ export interface EvaluatePoolAutoScaleHeaders {
 
 export interface EvaluatePoolAutoScaleBodyParam {
   /** The options to use for evaluating the automatic scaling formula. */
-  body: BatchPoolEvaluateAutoScaleParameters;
+  body: BatchPoolEvaluateAutoScaleContent;
 }
 
 export interface EvaluatePoolAutoScaleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -670,6 +642,19 @@ export type EvaluatePoolAutoScaleParameters = EvaluatePoolAutoScaleQueryParam &
 
 export interface ResizePoolHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -693,31 +678,15 @@ export interface ResizePoolHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface ResizePoolBodyParam {
   /** The options to use for resizing the pool. */
-  body: BatchPoolResizeParameters;
+  body: BatchPoolResizeContent;
 }
 
 export interface ResizePoolQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -742,6 +711,19 @@ export type ResizePoolParameters = ResizePoolQueryParam &
 
 export interface StopPoolResizeHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -765,26 +747,10 @@ export interface StopPoolResizeHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface StopPoolResizeQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -818,14 +784,11 @@ export interface ReplacePoolPropertiesHeaders {
 
 export interface ReplacePoolPropertiesBodyParam {
   /** The options to use for replacing properties on the pool. */
-  body: BatchPoolReplaceParameters;
+  body: BatchPoolReplaceContent;
 }
 
 export interface ReplacePoolPropertiesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -850,6 +813,19 @@ export type ReplacePoolPropertiesParameters = ReplacePoolPropertiesQueryParam &
 
 export interface RemoveNodesHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -873,31 +849,15 @@ export interface RemoveNodesHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface RemoveNodesBodyParam {
   /** The options to use for removing the node. */
-  body: BatchNodeRemoveParameters;
+  body: BatchNodeRemoveContent;
 }
 
 export interface RemoveNodesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -937,10 +897,7 @@ export interface ListSupportedImagesHeaders {
 }
 
 export interface ListSupportedImagesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -983,10 +940,7 @@ export interface ListPoolNodeCountsHeaders {
 }
 
 export interface ListPoolNodeCountsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -1053,10 +1007,7 @@ export interface DeleteJobHeaders {
 }
 
 export interface DeleteJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1068,9 +1019,24 @@ export interface DeleteJobHeaderParam {
   headers?: RawHttpHeadersInput & DeleteJobHeaders;
 }
 
-export type DeleteJobParameters = DeleteJobQueryParam & DeleteJobHeaderParam & RequestParameters;
+export type DeleteJobParameters = DeleteJobQueryParam &
+  DeleteJobHeaderParam &
+  RequestParameters;
 
 export interface GetJobHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -1095,31 +1061,15 @@ export interface GetJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetJobQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
   /** An OData $expand clause. */
   $expand?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetJobQueryParam {
@@ -1130,9 +1080,24 @@ export interface GetJobHeaderParam {
   headers?: RawHttpHeadersInput & GetJobHeaders;
 }
 
-export type GetJobParameters = GetJobQueryParam & GetJobHeaderParam & RequestParameters;
+export type GetJobParameters = GetJobQueryParam &
+  GetJobHeaderParam &
+  RequestParameters;
 
 export interface UpdateJobHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -1157,31 +1122,15 @@ export interface UpdateJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface UpdateJobBodyParam {
   /** The options to use for updating the Job. */
-  body: BatchJobUpdateParameters;
+  body: BatchJobUpdateContent;
 }
 
 export interface UpdateJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1206,6 +1155,19 @@ export type UpdateJobParameters = UpdateJobQueryParam &
 
 export interface ReplaceJobHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -1229,19 +1191,6 @@ export interface ReplaceJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface ReplaceJobBodyParam {
@@ -1250,10 +1199,7 @@ export interface ReplaceJobBodyParam {
 }
 
 export interface ReplaceJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1278,6 +1224,19 @@ export type ReplaceJobParameters = ReplaceJobQueryParam &
 
 export interface DisableJobHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -1301,31 +1260,15 @@ export interface DisableJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface DisableJobBodyParam {
   /** The options to use for disabling the Job. */
-  body: BatchJobDisableParameters;
+  body: BatchJobDisableContent;
 }
 
 export interface DisableJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1350,6 +1293,19 @@ export type DisableJobParameters = DisableJobQueryParam &
 
 export interface EnableJobHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -1373,26 +1329,10 @@ export interface EnableJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface EnableJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1404,9 +1344,24 @@ export interface EnableJobHeaderParam {
   headers?: RawHttpHeadersInput & EnableJobHeaders;
 }
 
-export type EnableJobParameters = EnableJobQueryParam & EnableJobHeaderParam & RequestParameters;
+export type EnableJobParameters = EnableJobQueryParam &
+  EnableJobHeaderParam &
+  RequestParameters;
 
 export interface TerminateJobHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -1431,31 +1386,15 @@ export interface TerminateJobHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface TerminateJobBodyParam {
   /** The options to use for terminating the Job. */
-  body?: BatchJobTerminateParameters;
+  body?: BatchJobTerminateContent;
 }
 
 export interface TerminateJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1496,14 +1435,11 @@ export interface CreateJobHeaders {
 
 export interface CreateJobBodyParam {
   /** The Job to be created. */
-  body: BatchJobCreateParameters;
+  body: BatchJobCreateContent;
 }
 
 export interface CreateJobQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1543,10 +1479,7 @@ export interface ListJobsHeaders {
 }
 
 export interface ListJobsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -1572,7 +1505,9 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam &
+  ListJobsHeaderParam &
+  RequestParameters;
 
 export interface ListJobsFromScheduleHeaders {
   /**
@@ -1591,10 +1526,7 @@ export interface ListJobsFromScheduleHeaders {
 }
 
 export interface ListJobsFromScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -1641,10 +1573,7 @@ export interface ListJobPreparationAndReleaseTaskStatusHeaders {
 }
 
 export interface ListJobPreparationAndReleaseTaskStatusQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -1690,10 +1619,7 @@ export interface GetJobTaskCountsHeaders {
 }
 
 export interface GetJobTaskCountsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1731,10 +1657,7 @@ export interface CreateCertificateBodyParam {
 }
 
 export interface CreateCertificateQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1774,10 +1697,7 @@ export interface ListCertificatesHeaders {
 }
 
 export interface ListCertificatesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -1822,10 +1742,7 @@ export interface CancelCertificateDeletionHeaders {
 }
 
 export interface CancelCertificateDeletionQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1837,9 +1754,10 @@ export interface CancelCertificateDeletionHeaderParam {
   headers?: RawHttpHeadersInput & CancelCertificateDeletionHeaders;
 }
 
-export type CancelCertificateDeletionParameters = CancelCertificateDeletionQueryParam &
-  CancelCertificateDeletionHeaderParam &
-  RequestParameters;
+export type CancelCertificateDeletionParameters =
+  CancelCertificateDeletionQueryParam &
+    CancelCertificateDeletionHeaderParam &
+    RequestParameters;
 
 export interface DeleteCertificateHeaders {
   /**
@@ -1858,10 +1776,7 @@ export interface DeleteCertificateHeaders {
 }
 
 export interface DeleteCertificateQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -1894,13 +1809,10 @@ export interface GetCertificateHeaders {
 }
 
 export interface GetCertificateQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetCertificateQueryParam {
@@ -1956,10 +1868,7 @@ export interface JobScheduleExistsHeaders {
 }
 
 export interface JobScheduleExistsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2016,10 +1925,7 @@ export interface DeleteJobScheduleHeaders {
 }
 
 export interface DeleteJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2037,6 +1943,19 @@ export type DeleteJobScheduleParameters = DeleteJobScheduleQueryParam &
 
 export interface GetJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2060,31 +1979,15 @@ export interface GetJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetJobScheduleQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
   /** An OData $expand clause. */
   $expand?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetJobScheduleQueryParam {
@@ -2101,6 +2004,19 @@ export type GetJobScheduleParameters = GetJobScheduleQueryParam &
 
 export interface UpdateJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2124,31 +2040,15 @@ export interface UpdateJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface UpdateJobScheduleBodyParam {
   /** The options to use for updating the Job Schedule. */
-  body: BatchJobScheduleUpdateParameters;
+  body: BatchJobScheduleUpdateContent;
 }
 
 export interface UpdateJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2173,6 +2073,19 @@ export type UpdateJobScheduleParameters = UpdateJobScheduleQueryParam &
 
 export interface ReplaceJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2196,19 +2109,6 @@ export interface ReplaceJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface ReplaceJobScheduleBodyParam {
@@ -2217,10 +2117,7 @@ export interface ReplaceJobScheduleBodyParam {
 }
 
 export interface ReplaceJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2245,6 +2142,19 @@ export type ReplaceJobScheduleParameters = ReplaceJobScheduleQueryParam &
 
 export interface DisableJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2268,26 +2178,10 @@ export interface DisableJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface DisableJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2305,6 +2199,19 @@ export type DisableJobScheduleParameters = DisableJobScheduleQueryParam &
 
 export interface EnableJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2328,26 +2235,10 @@ export interface EnableJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface EnableJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2365,6 +2256,19 @@ export type EnableJobScheduleParameters = EnableJobScheduleQueryParam &
 
 export interface TerminateJobScheduleHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2388,26 +2292,10 @@ export interface TerminateJobScheduleHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface TerminateJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2441,14 +2329,11 @@ export interface CreateJobScheduleHeaders {
 
 export interface CreateJobScheduleBodyParam {
   /** The Job Schedule to be created. */
-  body: BatchJobScheduleCreateParameters;
+  body: BatchJobScheduleCreateContent;
 }
 
 export interface CreateJobScheduleQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2488,10 +2373,7 @@ export interface ListJobSchedulesHeaders {
 }
 
 export interface ListJobSchedulesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -2539,14 +2421,11 @@ export interface CreateTaskHeaders {
 
 export interface CreateTaskBodyParam {
   /** The Task to be created. */
-  body: BatchTaskCreateParameters;
+  body: BatchTaskCreateContent;
 }
 
 export interface CreateTaskQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2586,10 +2465,7 @@ export interface ListTasksHeaders {
 }
 
 export interface ListTasksQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -2615,7 +2491,9 @@ export interface ListTasksHeaderParam {
   headers?: RawHttpHeadersInput & ListTasksHeaders;
 }
 
-export type ListTasksParameters = ListTasksQueryParam & ListTasksHeaderParam & RequestParameters;
+export type ListTasksParameters = ListTasksQueryParam &
+  ListTasksHeaderParam &
+  RequestParameters;
 
 export interface CreateTaskCollectionHeaders {
   /**
@@ -2635,14 +2513,11 @@ export interface CreateTaskCollectionHeaders {
 
 export interface CreateTaskCollectionBodyParam {
   /** The Tasks to be added. */
-  body: BatchTaskCollection;
+  body: BatchTaskGroup;
 }
 
 export interface CreateTaskCollectionQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2706,10 +2581,7 @@ export interface DeleteTaskHeaders {
 }
 
 export interface DeleteTaskQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2721,9 +2593,24 @@ export interface DeleteTaskHeaderParam {
   headers?: RawHttpHeadersInput & DeleteTaskHeaders;
 }
 
-export type DeleteTaskParameters = DeleteTaskQueryParam & DeleteTaskHeaderParam & RequestParameters;
+export type DeleteTaskParameters = DeleteTaskQueryParam &
+  DeleteTaskHeaderParam &
+  RequestParameters;
 
 export interface GetTaskHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -2748,31 +2635,15 @@ export interface GetTaskHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetTaskQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
   /** An OData $expand clause. */
   $expand?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetTaskQueryParam {
@@ -2783,9 +2654,24 @@ export interface GetTaskHeaderParam {
   headers?: RawHttpHeadersInput & GetTaskHeaders;
 }
 
-export type GetTaskParameters = GetTaskQueryParam & GetTaskHeaderParam & RequestParameters;
+export type GetTaskParameters = GetTaskQueryParam &
+  GetTaskHeaderParam &
+  RequestParameters;
 
 export interface ReplaceTaskHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -2810,19 +2696,6 @@ export interface ReplaceTaskHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface ReplaceTaskBodyParam {
@@ -2831,10 +2704,7 @@ export interface ReplaceTaskBodyParam {
 }
 
 export interface ReplaceTaskQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2874,13 +2744,10 @@ export interface ListSubTasksHeaders {
 }
 
 export interface ListSubTasksQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface ListSubTasksQueryParam {
@@ -2896,6 +2763,19 @@ export type ListSubTasksParameters = ListSubTasksQueryParam &
   RequestParameters;
 
 export interface TerminateTaskHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
   /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
@@ -2920,26 +2800,10 @@ export interface TerminateTaskHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface TerminateTaskQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -2957,6 +2821,19 @@ export type TerminateTaskParameters = TerminateTaskQueryParam &
 
 export interface ReactivateTaskHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -2980,26 +2857,10 @@ export interface ReactivateTaskHeaders {
    * service does not match the value specified by the client.
    */
   "If-None-Match"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface ReactivateTaskQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3032,10 +2893,7 @@ export interface DeleteTaskFileHeaders {
 }
 
 export interface DeleteTaskFileQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * Whether to delete children of a directory. If the filePath parameter represents
@@ -3060,6 +2918,19 @@ export type DeleteTaskFileParameters = DeleteTaskFileQueryParam &
 
 export interface GetTaskFileHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -3076,26 +2947,10 @@ export interface GetTaskFileHeaders {
    * format is bytes=startRange-endRange.
    */
   "ocp-range"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetTaskFileQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3113,18 +2968,6 @@ export type GetTaskFileParameters = GetTaskFileQueryParam &
 
 export interface GetTaskFilePropertiesHeaders {
   /**
-   * A timestamp indicating the last modified time of the resource known to the
-   * client. The operation will be performed only if the resource on the service has
-   * been modified since the specified time.
-   */
-  "If-Modified-Since"?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the
-   * client. The operation will be performed only if the resource on the service has
-   * not been modified since the specified time.
-   */
-  "If-Unmodified-Since"?: string;
-  /**
    * The caller-generated request identity, in the form of a GUID with no decoration
    * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
    */
@@ -3137,13 +2980,22 @@ export interface GetTaskFilePropertiesHeaders {
    * directly.
    */
   "ocp-date"?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the
+   * client. The operation will be performed only if the resource on the service has
+   * been modified since the specified time.
+   */
+  "If-Modified-Since"?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the
+   * client. The operation will be performed only if the resource on the service has
+   * not been modified since the specified time.
+   */
+  "If-Unmodified-Since"?: string;
 }
 
 export interface GetTaskFilePropertiesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3176,10 +3028,7 @@ export interface ListTaskFilesHeaders {
 }
 
 export interface ListTaskFilesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -3228,14 +3077,11 @@ export interface CreateNodeUserHeaders {
 
 export interface CreateNodeUserBodyParam {
   /** The options to use for creating the user. */
-  body: BatchNodeUserCreateParameters;
+  body: BatchNodeUserCreateContent;
 }
 
 export interface CreateNodeUserQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3275,10 +3121,7 @@ export interface DeleteNodeUserHeaders {
 }
 
 export interface DeleteNodeUserQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3312,14 +3155,11 @@ export interface ReplaceNodeUserHeaders {
 
 export interface ReplaceNodeUserBodyParam {
   /** The options to use for updating the user. */
-  body: BatchNodeUserUpdateParameters;
+  body: BatchNodeUserUpdateContent;
 }
 
 export interface ReplaceNodeUserQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3359,13 +3199,10 @@ export interface GetNodeHeaders {
 }
 
 export interface GetNodeQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetNodeQueryParam {
@@ -3376,7 +3213,9 @@ export interface GetNodeHeaderParam {
   headers?: RawHttpHeadersInput & GetNodeHeaders;
 }
 
-export type GetNodeParameters = GetNodeQueryParam & GetNodeHeaderParam & RequestParameters;
+export type GetNodeParameters = GetNodeQueryParam &
+  GetNodeHeaderParam &
+  RequestParameters;
 
 export interface RebootNodeHeaders {
   /**
@@ -3396,14 +3235,11 @@ export interface RebootNodeHeaders {
 
 export interface RebootNodeBodyParam {
   /** The options to use for rebooting the Compute Node. */
-  body?: BatchNodeRebootParameters;
+  body?: BatchNodeRebootContent;
 }
 
 export interface RebootNodeQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3444,14 +3280,11 @@ export interface ReimageNodeHeaders {
 
 export interface ReimageNodeBodyParam {
   /** The options to use for reimaging the Compute Node. */
-  body?: BatchNodeReimageParameters;
+  body?: BatchNodeReimageContent;
 }
 
 export interface ReimageNodeQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3492,14 +3325,11 @@ export interface DisableNodeSchedulingHeaders {
 
 export interface DisableNodeSchedulingBodyParam {
   /** The options to use for disabling scheduling on the Compute Node. */
-  body?: BatchNodeDisableSchedulingParameters;
+  body?: BatchNodeDisableSchedulingContent;
 }
 
 export interface DisableNodeSchedulingQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3539,10 +3369,7 @@ export interface EnableNodeSchedulingHeaders {
 }
 
 export interface EnableNodeSchedulingQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3575,10 +3402,7 @@ export interface GetNodeRemoteLoginSettingsHeaders {
 }
 
 export interface GetNodeRemoteLoginSettingsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3590,9 +3414,10 @@ export interface GetNodeRemoteLoginSettingsHeaderParam {
   headers?: RawHttpHeadersInput & GetNodeRemoteLoginSettingsHeaders;
 }
 
-export type GetNodeRemoteLoginSettingsParameters = GetNodeRemoteLoginSettingsQueryParam &
-  GetNodeRemoteLoginSettingsHeaderParam &
-  RequestParameters;
+export type GetNodeRemoteLoginSettingsParameters =
+  GetNodeRemoteLoginSettingsQueryParam &
+    GetNodeRemoteLoginSettingsHeaderParam &
+    RequestParameters;
 
 export interface GetNodeRemoteDesktopFileHeaders {
   /**
@@ -3611,10 +3436,7 @@ export interface GetNodeRemoteDesktopFileHeaders {
 }
 
 export interface GetNodeRemoteDesktopFileQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3626,9 +3448,10 @@ export interface GetNodeRemoteDesktopFileHeaderParam {
   headers?: RawHttpHeadersInput & GetNodeRemoteDesktopFileHeaders;
 }
 
-export type GetNodeRemoteDesktopFileParameters = GetNodeRemoteDesktopFileQueryParam &
-  GetNodeRemoteDesktopFileHeaderParam &
-  RequestParameters;
+export type GetNodeRemoteDesktopFileParameters =
+  GetNodeRemoteDesktopFileQueryParam &
+    GetNodeRemoteDesktopFileHeaderParam &
+    RequestParameters;
 
 export interface UploadNodeLogsHeaders {
   /**
@@ -3648,14 +3471,11 @@ export interface UploadNodeLogsHeaders {
 
 export interface UploadNodeLogsBodyParam {
   /** The Azure Batch service log files upload options. */
-  body: UploadBatchServiceLogsParameters;
+  body: UploadBatchServiceLogsContent;
 }
 
 export interface UploadNodeLogsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3695,10 +3515,7 @@ export interface ListNodesHeaders {
 }
 
 export interface ListNodesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -3722,7 +3539,9 @@ export interface ListNodesHeaderParam {
   headers?: RawHttpHeadersInput & ListNodesHeaders;
 }
 
-export type ListNodesParameters = ListNodesQueryParam & ListNodesHeaderParam & RequestParameters;
+export type ListNodesParameters = ListNodesQueryParam &
+  ListNodesHeaderParam &
+  RequestParameters;
 
 export interface GetNodeExtensionHeaders {
   /**
@@ -3741,13 +3560,10 @@ export interface GetNodeExtensionHeaders {
 }
 
 export interface GetNodeExtensionQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
   /** An OData $select clause. */
   $select?: string[];
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
-  timeOut?: number;
 }
 
 export interface GetNodeExtensionQueryParam {
@@ -3779,10 +3595,7 @@ export interface ListNodeExtensionsHeaders {
 }
 
 export interface ListNodeExtensionsQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000
@@ -3822,10 +3635,7 @@ export interface DeleteNodeFileHeaders {
 }
 
 export interface DeleteNodeFileQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * Whether to delete children of a directory. If the filePath parameter represents
@@ -3850,6 +3660,19 @@ export type DeleteNodeFileParameters = DeleteNodeFileQueryParam &
 
 export interface GetNodeFileHeaders {
   /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+  /**
    * A timestamp indicating the last modified time of the resource known to the
    * client. The operation will be performed only if the resource on the service has
    * been modified since the specified time.
@@ -3866,26 +3689,10 @@ export interface GetNodeFileHeaders {
    * format is bytes=startRange-endRange.
    */
   "ocp-range"?: string;
-  /**
-   * The caller-generated request identity, in the form of a GUID with no decoration
-   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
-   */
-  "client-request-id"?: string;
-  /** Whether the server should return the client-request-id in the response. */
-  "return-client-request-id"?: boolean;
-  /**
-   * The time the request was issued. Client libraries typically set this to the
-   * current system clock time; set it explicitly if you are calling the REST API
-   * directly.
-   */
-  "ocp-date"?: string;
 }
 
 export interface GetNodeFileQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3903,18 +3710,6 @@ export type GetNodeFileParameters = GetNodeFileQueryParam &
 
 export interface GetNodeFilePropertiesHeaders {
   /**
-   * A timestamp indicating the last modified time of the resource known to the
-   * client. The operation will be performed only if the resource on the service has
-   * been modified since the specified time.
-   */
-  "If-Modified-Since"?: string;
-  /**
-   * A timestamp indicating the last modified time of the resource known to the
-   * client. The operation will be performed only if the resource on the service has
-   * not been modified since the specified time.
-   */
-  "If-Unmodified-Since"?: string;
-  /**
    * The caller-generated request identity, in the form of a GUID with no decoration
    * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
    */
@@ -3927,13 +3722,22 @@ export interface GetNodeFilePropertiesHeaders {
    * directly.
    */
   "ocp-date"?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the
+   * client. The operation will be performed only if the resource on the service has
+   * been modified since the specified time.
+   */
+  "If-Modified-Since"?: string;
+  /**
+   * A timestamp indicating the last modified time of the resource known to the
+   * client. The operation will be performed only if the resource on the service has
+   * not been modified since the specified time.
+   */
+  "If-Unmodified-Since"?: string;
 }
 
 export interface GetNodeFilePropertiesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
 }
 
@@ -3966,10 +3770,7 @@ export interface ListNodeFilesHeaders {
 }
 
 export interface ListNodeFilesQueryParamProperties {
-  /**
-   * Sets the maximum time that the server can spend processing the request,
-   * in seconds. The default is 30 seconds.
-   */
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
   /**
    * The maximum number of items to return in the response. A maximum of 1000

@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export interface BatchApplicationListResultListOutput {}
-
 /** The result of listing the applications available in an Account. */
 export interface BatchApplicationListResultOutput {
   /** The list of applications available in the Account. */
@@ -46,8 +44,6 @@ export interface BatchErrorDetailOutput {
   /** The additional information included with the error response. */
   value?: string;
 }
-
-export interface BatchPoolListUsageMetricsResultListOutput {}
 
 /** The result of a listing the usage metrics for an Account. */
 export interface BatchPoolListUsageMetricsResultOutput {
@@ -167,12 +163,12 @@ export interface WindowsConfigurationOutput {
  * disks from within a VM to use them.
  */
 export interface DataDiskOutput {
-  /** The logical unit number. The lun is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct lun. The value must be between 0 and 63, inclusive. */
+  /** The logical unit number. The logicalUnitNumber is used to uniquely identify each data disk. If attaching multiple disks, each should have a distinct logicalUnitNumber. The value must be between 0 and 63, inclusive. */
   lun: number;
   /**
    * The type of caching to be enabled for the data disks. The default value for caching is readwrite. For information about the caching options see: https://blogs.msdn.microsoft.com/windowsazurestorage/2012/06/27/exploring-windows-azure-drives-disks-and-images/.
    *
-   * Possible values: none, readonly, readwrite
+   * Possible values: "none", "readonly", "readwrite"
    */
   caching?: string;
   /** The initial disk size in gigabytes. */
@@ -180,7 +176,7 @@ export interface DataDiskOutput {
   /**
    * The storage Account type to be used for the data disk. If omitted, the default is "standard_lrs".
    *
-   * Possible values: standard_lrs, premium_lrs, standardssd_lrs
+   * Possible values: "standard_lrs", "premium_lrs", "standardssd_lrs"
    */
   storageAccountType?: string;
 }
@@ -190,7 +186,7 @@ export interface ContainerConfigurationOutput {
   /**
    * The container technology to be used.
    *
-   * Possible values: dockerCompatible, criCompatible
+   * Possible values: "dockerCompatible", "criCompatible"
    */
   type: string;
   /** The collection of container Image names. This is the full Image reference, as would be specified to "docker pull". An Image will be sourced from the default Docker registry unless the Image is fully qualified with an alternative registry. */
@@ -239,7 +235,7 @@ export interface BatchNodePlacementConfigurationOutput {
   /**
    * Node placement Policy type on Batch Pools. Allocation policy used by Batch Service to provision the nodes. If not specified, Batch will use the regional policy.
    *
-   * Possible values: regional, zonal
+   * Possible values: "regional", "zonal"
    */
   policy?: string;
 }
@@ -273,7 +269,7 @@ export interface OSDiskOutput {
   /**
    * Specifies the caching requirements. Possible values are: None, ReadOnly, ReadWrite. The default values are: None for Standard storage. ReadOnly for Premium storage.
    *
-   * Possible values: none, readonly, readwrite
+   * Possible values: "none", "readonly", "readwrite"
    */
   caching?: string;
   /** The initial disk size in GB when creating new OS disk. */
@@ -292,7 +288,7 @@ export interface DiffDiskSettingsOutput {
   /**
    * Specifies the ephemeral disk placement for operating system disk for all VMs in the pool. This property can be used by user in the request to choose the location e.g., cache disk space for Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements, please refer to Ephemeral OS disk size requirements for Windows VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements and Linux VMs at https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    *
-   * Possible values: cachedisk
+   * Possible values: "cachedisk"
    */
   placement?: string;
 }
@@ -302,7 +298,7 @@ export interface ManagedDiskOutput {
   /**
    * The storage account type for managed disk.
    *
-   * Possible values: standard_lrs, premium_lrs, standardssd_lrs
+   * Possible values: "standard_lrs", "premium_lrs", "standardssd_lrs"
    */
   storageAccountType: string;
 }
@@ -314,7 +310,7 @@ export interface SecurityProfileOutput {
   /**
    * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings.
    *
-   * Possible values: trustedLaunch
+   * Possible values: "trustedLaunch"
    */
   securityType: string;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
@@ -345,13 +341,13 @@ export interface NetworkConfigurationOutput {
   /**
    * The scope of dynamic vnet assignment.
    *
-   * Possible values: none, job
+   * Possible values: "none", "job"
    */
   dynamicVNetAssignmentScope?: string;
   /** The configuration for endpoints on Compute Nodes in the Batch Pool. Pool endpoint configuration is only supported on Pools with the virtualMachineConfiguration property. */
   endpointConfiguration?: BatchPoolEndpointConfigurationOutput;
   /** The Public IPAddress configuration for Compute Nodes in the Batch Pool. Public IP configuration property is only supported on Pools with the virtualMachineConfiguration property. */
-  publicIPAddressConfiguration?: PublicIPAddressConfigurationOutput;
+  publicIPAddressConfiguration?: PublicIpAddressConfigurationOutput;
   /** Whether this pool should enable accelerated networking. Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
 }
@@ -372,7 +368,7 @@ export interface InboundNATPoolOutput {
   /**
    * The protocol of the endpoint.
    *
-   * Possible values: tcp, udp
+   * Possible values: "tcp", "udp"
    */
   protocol: string;
   /** The port number on the Compute Node. This must be unique within a Batch Pool. Acceptable values are between 1 and 65535 except for 22, 3389, 29876 and 29877 as these are reserved. If any reserved values are provided the request fails with HTTP status code 400. */
@@ -392,7 +388,7 @@ export interface NetworkSecurityGroupRuleOutput {
   /**
    * The action that should be taken for a specified IP address, subnet range or tag.
    *
-   * Possible values: allow, deny
+   * Possible values: "allow", "deny"
    */
   access: string;
   /** The source address prefix or tag to match for the rule. Valid values are a single IP address (i.e. 10.10.10.10), IP subnet (i.e. 192.168.1.0/24), default tag, or * (for all addresses).  If any other values are provided the request fails with HTTP status code 400. */
@@ -402,11 +398,11 @@ export interface NetworkSecurityGroupRuleOutput {
 }
 
 /** The public IP Address configuration of the networking configuration of a Pool. */
-export interface PublicIPAddressConfigurationOutput {
+export interface PublicIpAddressConfigurationOutput {
   /**
    * The provisioning type for Public IP Addresses for the Pool. The default value is BatchManaged.
    *
-   * Possible values: batchmanaged, usermanaged, nopublicipaddresses
+   * Possible values: "batchmanaged", "usermanaged", "nopublicipaddresses"
    */
   provision?: string;
   /** The list of public IPs which the Batch service will use when provisioning Compute Nodes. The number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/Low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}. */
@@ -456,7 +452,7 @@ export interface BatchTaskContainerSettingsOutput {
   /**
    * The location of the container Task working directory. The default is 'taskWorkingDirectory'.
    *
-   * Possible values: taskWorkingDirectory, containerImageDefault
+   * Possible values: "taskWorkingDirectory", "containerImageDefault"
    */
   workingDirectory?: string;
 }
@@ -500,13 +496,13 @@ export interface AutoUserSpecificationOutput {
   /**
    * The scope for the auto user. The default value is pool. If the pool is running Windows a value of Task should be specified if stricter isolation between tasks is required. For example, if the task mutates the registry in a way which could impact other tasks, or if certificates have been specified on the pool which should not be accessible by normal tasks but should be accessible by StartTasks.
    *
-   * Possible values: task, pool
+   * Possible values: "task", "pool"
    */
   scope?: string;
   /**
    * The elevation level of the auto user. The default value is nonAdmin.
    *
-   * Possible values: nonadmin, admin
+   * Possible values: "nonadmin", "admin"
    */
   elevationLevel?: string;
 }
@@ -520,7 +516,7 @@ export interface BatchCertificateReferenceOutput {
   /**
    * The location of the Certificate store on the Compute Node into which to install the Certificate. The default value is currentuser. This property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). For Linux Compute Nodes, the Certificates are stored in a directory inside the Task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that directory.
    *
-   * Possible values: currentuser, localmachine
+   * Possible values: "currentuser", "localmachine"
    */
   storeLocation?: string;
   /** The name of the Certificate store on the Compute Node into which to install the Certificate. This property is applicable only for Pools configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows Image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
@@ -542,7 +538,7 @@ export interface BatchTaskSchedulingPolicyOutput {
   /**
    * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is spread.
    *
-   * Possible values: spread, pack
+   * Possible values: "spread", "pack"
    */
   nodeFillType: string;
 }
@@ -559,7 +555,7 @@ export interface UserAccountOutput {
   /**
    * The elevation level of the user Account. The default value is nonAdmin.
    *
-   * Possible values: nonadmin, admin
+   * Possible values: "nonadmin", "admin"
    */
   elevationLevel?: string;
   /** The Linux-specific user configuration for the user Account. This property is ignored if specified on a Windows Pool. If not specified, the user is created with the default options. */
@@ -583,7 +579,7 @@ export interface WindowsUserConfigurationOutput {
   /**
    * The login mode for the user. The default value for VirtualMachineConfiguration Pools is 'batch' and for CloudServiceConfiguration Pools is 'interactive'.
    *
-   * Possible values: batch, interactive
+   * Possible values: "batch", "interactive"
    */
   loginMode?: string;
 }
@@ -604,7 +600,7 @@ export interface MountConfigurationOutput {
   /** The Azure Storage Container to mount using blob FUSE on each node. This property is mutually exclusive with all other properties. */
   azureBlobFileSystemConfiguration?: AzureBlobFileSystemConfigurationOutput;
   /** The NFS file system to mount on each node. This property is mutually exclusive with all other properties. */
-  nfsMountConfiguration?: NFSMountConfigurationOutput;
+  nfsMountConfiguration?: NfsMountConfigurationOutput;
   /** The CIFS/SMB file system to mount on each node. This property is mutually exclusive with all other properties. */
   cifsMountConfiguration?: CifsMountConfigurationOutput;
   /** The Azure File Share to mount on each node. This property is mutually exclusive with all other properties. */
@@ -630,7 +626,7 @@ export interface AzureBlobFileSystemConfigurationOutput {
 }
 
 /** Information used to connect to an NFS file system. */
-export interface NFSMountConfigurationOutput {
+export interface NfsMountConfigurationOutput {
   /** The URI of the file system to mount. */
   source: string;
   /** The relative path on the compute node where the file system will be mounted. All file systems are mounted relative to the Batch mounts directory, accessible via the AZ_BATCH_NODE_MOUNTS_DIR environment variable. */
@@ -667,7 +663,49 @@ export interface AzureFileShareConfigurationOutput {
   mountOptions?: string;
 }
 
-export interface BatchPoolListResultListOutput {}
+/** Describes an upgrade policy - automatic, manual, or rolling. */
+export interface UpgradePolicyOutput {
+  /**
+   * Specifies the mode of an upgrade to virtual machines in the scale set.<br /><br /> Possible values are:<br /><br /> **Manual** - You  control the application of updates to virtual machines in the scale set. You do this by using the manualUpgrade action.<br /><br /> **Automatic** - All virtual machines in the scale set are automatically updated at the same time.<br /><br /> **Rolling** - Scale set performs updates in batches with an optional pause time in between.
+   *
+   * Possible values: "automatic", "manual", "rolling"
+   */
+  mode: string;
+  /** Configuration parameters used for performing automatic OS Upgrade. The configuration parameters used for performing automatic OS upgrade. */
+  automaticOsUpgradePolicy?: AutomaticOsUpgradePolicyOutput;
+  /** The configuration parameters used while performing a rolling upgrade. This property is only supported on Pools with the virtualMachineConfiguration property. */
+  rollingUpgradePolicy?: RollingUpgradePolicyOutput;
+}
+
+/** The configuration parameters used for performing automatic OS upgrade. */
+export interface AutomaticOsUpgradePolicyOutput {
+  /** Whether OS image rollback feature should be disabled. */
+  disableAutomaticRollback?: boolean;
+  /** Indicates whether OS upgrades should automatically be applied to scale set instances in a rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this is set to true for Windows based pools, [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchservice/pool/add?tabs=HTTP#windowsconfiguration) cannot be set to true. */
+  enableAutomaticOsUpgrade?: boolean;
+  /** Indicates whether rolling upgrade policy should be used during Auto OS Upgrade. Auto OS Upgrade will fallback to the default policy if no policy is defined on the VMSS. */
+  useRollingUpgradePolicy?: boolean;
+  /** Defer OS upgrades on the TVMs if they are running tasks. */
+  osRollingUpgradeDeferral?: boolean;
+}
+
+/** The configuration parameters used while performing a rolling upgrade. */
+export interface RollingUpgradePolicyOutput {
+  /** Allow VMSS to ignore AZ boundaries when constructing upgrade batches. Take into consideration the Update Domain and maxBatchInstancePercent to determine the batch size. This field is able to be set to true or false only when using NodePlacementConfiguration as Zonal. */
+  enableCrossZoneUpgrade?: boolean;
+  /** The maximum percent of total virtual machine instances that will be upgraded simultaneously by the rolling upgrade in one batch. As this is a maximum, unhealthy instances in previous or future batches can cause the percentage of instances in a batch to decrease to ensure higher reliability. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
+  maxBatchInstancePercent?: number;
+  /** The maximum percentage of the total virtual machine instances in the scale set that can be simultaneously unhealthy, either as a result of being upgraded, or by being found in an unhealthy state by the virtual machine health checks before the rolling upgrade aborts. This constraint will be checked prior to starting any batch. The value of this field should be between 5 and 100, inclusive. If both maxBatchInstancePercent and maxUnhealthyInstancePercent are assigned with value, the value of maxBatchInstancePercent should not be more than maxUnhealthyInstancePercent. */
+  maxUnhealthyInstancePercent?: number;
+  /** The maximum percentage of upgraded virtual machine instances that can be found to be in an unhealthy state. This check will happen after each batch is upgraded. If this percentage is ever exceeded, the rolling update aborts. The value of this field should be between 0 and 100, inclusive. */
+  maxUnhealthyUpgradedInstancePercent?: number;
+  /** The wait time between completing the update for all virtual machines in one batch and starting the next batch. The time duration should be specified in ISO 8601 format.. */
+  pauseTimeBetweenBatches?: string;
+  /** Upgrade all unhealthy instances in a scale set before any healthy instances. */
+  prioritizeUnhealthyInstances?: boolean;
+  /** Rollback failed instances to previous model if the Rolling Upgrade policy is violated. */
+  rollbackFailedInstancesOnPolicyBreach?: boolean;
+}
 
 /** The result of listing the Pools in an Account. */
 export interface BatchPoolListResultOutput {
@@ -694,7 +732,7 @@ export interface BatchPoolOutput {
   /**
    * The current state of the Pool.
    *
-   * Possible values: active, deleting
+   * Possible values: "active", "deleting"
    */
   readonly state?: string;
   /** The time at which the Pool entered its current state. */
@@ -702,7 +740,7 @@ export interface BatchPoolOutput {
   /**
    * Whether the Pool is resizing.
    *
-   * Possible values: steady, resizing, stopping
+   * Possible values: "steady", "resizing", "stopping"
    */
   readonly allocationState?: string;
   /** The time at which the Pool entered its current allocation state. */
@@ -769,15 +807,17 @@ export interface BatchPoolOutput {
   /**
    * The desired node communication mode for the pool. If omitted, the default value is Default.
    *
-   * Possible values: default, classic, simplified
+   * Possible values: "default", "classic", "simplified"
    */
   targetNodeCommunicationMode?: string;
   /**
    * The current state of the pool communication mode.
    *
-   * Possible values: default, classic, simplified
+   * Possible values: "default", "classic", "simplified"
    */
   readonly currentNodeCommunicationMode?: string;
+  /** The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling. */
+  upgradePolicy?: UpgradePolicyOutput;
 }
 
 /** An error that occurred when resizing a Pool. */
@@ -877,7 +917,7 @@ export interface BatchPoolIdentityOutput {
   /**
    * The identity of the Batch pool, if configured. The list of user identities associated with the Batch pool. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
    *
-   * Possible values: UserAssigned, None
+   * Possible values: "UserAssigned", "None"
    */
   type: string;
   /** The list of user identities associated with the Batch account. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
@@ -895,12 +935,10 @@ export interface UserAssignedIdentityOutput {
 }
 
 /** Parameters for evaluating an automatic scaling formula on an Azure Batch Pool. */
-export interface BatchPoolEvaluateAutoScaleParametersOutput {
+export interface BatchPoolEvaluateAutoScaleContentOutput {
   /** The formula for the desired number of Compute Nodes in the Pool. The formula is validated and its results calculated, but it is not applied to the Pool. To apply the formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying this formula, see Automatically scale Compute Nodes in an Azure Batch Pool (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling). */
   autoScaleFormula: string;
 }
-
-export interface BatchAccountListSupportedImagesResultListOutput {}
 
 /** The result of listing the supported Virtual Machine Images. */
 export interface BatchAccountListSupportedImagesResultOutput {
@@ -922,7 +960,7 @@ export interface ImageInfoOutput {
   /**
    * The type of operating system (e.g. Windows or Linux) of the Image.
    *
-   * Possible values: linux, windows
+   * Possible values: "linux", "windows"
    */
   osType: string;
   /** The capabilities or features which the Image supports. Not every capability of the Image is listed. Capabilities in this list are considered of special interest and are generally related to integration with other features in the Azure Batch service. */
@@ -932,12 +970,10 @@ export interface ImageInfoOutput {
   /**
    * Whether the Azure Batch service actively verifies that the Image is compatible with the associated Compute Node agent SKU.
    *
-   * Possible values: verified, unverified
+   * Possible values: "verified", "unverified"
    */
   verificationType: string;
 }
-
-export interface BatchPoolNodeCountsListResultListOutput {}
 
 /** The result of listing the Compute Node counts in the Account. */
 export interface BatchPoolNodeCountsListResultOutput {
@@ -987,6 +1023,8 @@ export interface BatchNodeCountsOutput {
   waitingForStartTask: number;
   /** The total number of Compute Nodes. */
   total: number;
+  /** The number of Compute Nodes in the upgradingOS state. */
+  upgradingOs: number;
 }
 
 /** An Azure Batch Job. */
@@ -1008,7 +1046,7 @@ export interface BatchJobOutput {
   /**
    * The current state of the Job.
    *
-   * Possible values: active, disabling, disabled, enabling, terminating, completed, deleting
+   * Possible values: "active", "disabling", "disabled", "enabling", "terminating", "completed", "deleting"
    */
   readonly state?: string;
   /** The time at which the Job entered its current state. */
@@ -1016,7 +1054,7 @@ export interface BatchJobOutput {
   /**
    * The previous state of the Job. This property is not set if the Job is in its initial Active state.
    *
-   * Possible values: active, disabling, disabled, enabling, terminating, completed, deleting
+   * Possible values: "active", "disabling", "disabled", "enabling", "terminating", "completed", "deleting"
    */
   readonly previousState?: string;
   /** The time at which the Job entered its previous state. This property is not set if the Job is in its initial Active state. */
@@ -1042,13 +1080,13 @@ export interface BatchJobOutput {
   /**
    * The action the Batch service should take when all Tasks in the Job are in the completed state. The default is noaction.
    *
-   * Possible values: noaction, terminatejob
+   * Possible values: "noaction", "terminatejob"
    */
   onAllTasksComplete?: string;
   /**
    * The action the Batch service should take when any Task in the Job fails. A Task is considered to have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
-   * Possible values: noaction, performexitoptionsjobaction
+   * Possible values: "noaction", "performexitoptionsjobaction"
    */
   readonly onTaskFailure?: string;
   /** The network configuration for the Job. */
@@ -1143,7 +1181,7 @@ export interface OutputFileOutput {
   /** The destination for the output file(s). */
   destination: OutputFileDestinationOutput;
   /** Additional options for the upload operation, including under what conditions to perform the upload. */
-  uploadOptions: OutputFileUploadOptionsOutput;
+  uploadOptions: OutputFileUploadConfigOutput;
 }
 
 /** The destination to which a file should be uploaded. */
@@ -1176,11 +1214,11 @@ export interface HttpHeaderOutput {
  * Options for an output file upload operation, including under what conditions
  * to perform the upload.
  */
-export interface OutputFileUploadOptionsOutput {
+export interface OutputFileUploadConfigOutput {
   /**
    * The conditions under which the Task output file or set of files should be uploaded. The default is taskcompletion.
    *
-   * Possible values: tasksuccess, taskfailure, taskcompletion
+   * Possible values: "tasksuccess", "taskfailure", "taskcompletion"
    */
   uploadCondition: string;
 }
@@ -1308,7 +1346,7 @@ export interface BatchAutoPoolSpecificationOutput {
   /**
    * The minimum lifetime of created auto Pools, and how multiple Jobs on a schedule are assigned to Pools.
    *
-   * Possible values: jobschedule, job
+   * Possible values: "jobschedule", "job"
    */
   poolLifetimeOption: string;
   /** Whether to keep an auto Pool alive after its lifetime expires. If false, the Batch service deletes the Pool once its lifetime (as determined by the poolLifetimeOption setting) expires; that is, when the Job or Job Schedule completes. If true, the Batch service does not delete the Pool automatically. It is up to the user to delete auto Pools created with this option. */
@@ -1370,9 +1408,11 @@ export interface BatchPoolSpecificationOutput {
   /**
    * The desired node communication mode for the pool. If omitted, the default value is Default.
    *
-   * Possible values: default, classic, simplified
+   * Possible values: "default", "classic", "simplified"
    */
   targetNodeCommunicationMode?: string;
+  /** The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or rolling. */
+  upgradePolicy?: UpgradePolicyOutput;
 }
 
 /** The network configuration for the Job. */
@@ -1400,7 +1440,7 @@ export interface BatchJobSchedulingErrorOutput {
   /**
    * The category of the Job scheduling error.
    *
-   * Possible values: usererror, servererror
+   * Possible values: "usererror", "servererror"
    */
   category: string;
   /** An identifier for the Job scheduling error. Codes are invariant and are intended to be consumed programmatically. */
@@ -1443,8 +1483,6 @@ export interface BatchJobStatisticsOutput {
   waitTime: string;
 }
 
-export interface BatchJobListResultListOutput {}
-
 /** The result of listing the Jobs in an Account. */
 export interface BatchJobListResultOutput {
   /** The list of Jobs. */
@@ -1452,8 +1490,6 @@ export interface BatchJobListResultOutput {
   /** The URL to get the next set of results. */
   "odata.nextLink"?: string;
 }
-
-export interface BatchJobPreparationAndReleaseTaskStatusListResultListOutput {}
 
 /**
  * The result of listing the status of the Job Preparation and Job Release Tasks
@@ -1492,7 +1528,7 @@ export interface BatchJobPreparationTaskExecutionInfoOutput {
   /**
    * The current state of the Job Preparation Task on the Compute Node.
    *
-   * Possible values: running, completed
+   * Possible values: "running", "completed"
    */
   state: string;
   /** The root directory of the Job Preparation Task on the Compute Node. You can use this path to retrieve files created by the Task, such as log files. */
@@ -1512,7 +1548,7 @@ export interface BatchJobPreparationTaskExecutionInfoOutput {
   /**
    * The result of the Task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.
    *
-   * Possible values: success, failure
+   * Possible values: "success", "failure"
    */
   result?: string;
 }
@@ -1532,7 +1568,7 @@ export interface BatchTaskFailureInfoOutput {
   /**
    * The category of the Task error.
    *
-   * Possible values: usererror, servererror
+   * Possible values: "usererror", "servererror"
    */
   category: string;
   /** An identifier for the Task error. Codes are invariant and are intended to be consumed programmatically. */
@@ -1555,7 +1591,7 @@ export interface BatchJobReleaseTaskExecutionInfoOutput {
   /**
    * The current state of the Job Release Task on the Compute Node.
    *
-   * Possible values: running, completed
+   * Possible values: "running", "completed"
    */
   state: string;
   /** The root directory of the Job Release Task on the Compute Node. You can use this path to retrieve files created by the Task, such as log files. */
@@ -1571,7 +1607,7 @@ export interface BatchJobReleaseTaskExecutionInfoOutput {
   /**
    * The result of the Task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.
    *
-   * Possible values: success, failure
+   * Possible values: "success", "failure"
    */
   result?: string;
 }
@@ -1626,7 +1662,7 @@ export interface BatchCertificateOutput {
   /**
    * The state of the Certificate.
    *
-   * Possible values: active, deleting, deletefailed
+   * Possible values: "active", "deleting", "deletefailed"
    */
   readonly state?: string;
   /** The time at which the Certificate entered its current state. */
@@ -1634,7 +1670,7 @@ export interface BatchCertificateOutput {
   /**
    * The previous state of the Certificate. This property is not set if the Certificate is in its initial active state.
    *
-   * Possible values: active, deleting, deletefailed
+   * Possible values: "active", "deleting", "deletefailed"
    */
   readonly previousState?: string;
   /** The time at which the Certificate entered its previous state. This property is not set if the Certificate is in its initial Active state. */
@@ -1648,7 +1684,7 @@ export interface BatchCertificateOutput {
   /**
    * The format of the Certificate data.
    *
-   * Possible values: pfx, cer
+   * Possible values: "pfx", "cer"
    */
   certificateFormat?: string;
   /** The password to access the Certificate's private key. This must be omitted if the Certificate format is cer. */
@@ -1664,8 +1700,6 @@ export interface DeleteBatchCertificateErrorOutput {
   /** A list of additional error details related to the Certificate deletion error. This list includes details such as the active Pools and Compute Nodes referencing this Certificate. However, if a large number of resources reference the Certificate, the list contains only about the first hundred. */
   values?: Array<NameValuePairOutput>;
 }
-
-export interface BatchCertificateListResultListOutput {}
 
 /** The result of listing the Certificates in the Account. */
 export interface BatchCertificateListResultOutput {
@@ -1695,7 +1729,7 @@ export interface BatchJobScheduleOutput {
   /**
    * The current state of the Job Schedule.
    *
-   * Possible values: active, completed, disabled, terminating, deleting
+   * Possible values: "active", "completed", "disabled", "terminating", "deleting"
    */
   readonly state?: string;
   /** The time at which the Job Schedule entered the current state. */
@@ -1703,13 +1737,13 @@ export interface BatchJobScheduleOutput {
   /**
    * The previous state of the Job Schedule. This property is not present if the Job Schedule is in its initial active state.
    *
-   * Possible values: active, completed, disabled, terminating, deleting
+   * Possible values: "active", "completed", "disabled", "terminating", "deleting"
    */
   readonly previousState?: string;
   /** The time at which the Job Schedule entered its previous state. This property is not present if the Job Schedule is in its initial active state. */
   readonly previousStateTransitionTime?: string;
   /** The schedule according to which Jobs will be created. All times are fixed respective to UTC and are not impacted by daylight saving time. */
-  schedule?: ScheduleOutput;
+  schedule?: BatchJobScheduleConfigurationOutput;
   /** The details of the Jobs to be created on this schedule. */
   jobSpecification: BatchJobSpecificationOutput;
   /** Information about Jobs that have been and will be run under this schedule. */
@@ -1724,7 +1758,7 @@ export interface BatchJobScheduleOutput {
  * The schedule according to which Jobs will be created. All times are fixed
  * respective to UTC and are not impacted by daylight saving time.
  */
-export interface ScheduleOutput {
+export interface BatchJobScheduleConfigurationOutput {
   /** The earliest time at which any Job may be created under this Job Schedule. If you do not specify a doNotRunUntil time, the schedule becomes ready to create Jobs immediately. */
   doNotRunUntil?: string;
   /** A time after which no Job will be created under this Job Schedule. The schedule will move to the completed state as soon as this deadline is past and there is no active Job under this Job Schedule. If you do not specify a doNotRunAfter time, and you are creating a recurring Job Schedule, the Job Schedule will remain active until you explicitly terminate it. */
@@ -1750,13 +1784,13 @@ export interface BatchJobSpecificationOutput {
   /**
    * The action the Batch service should take when all Tasks in a Job created under this schedule are in the completed state. Note that if a Job contains no Tasks, then all Tasks are considered complete. This option is therefore most commonly used with a Job Manager task; if you want to use automatic Job termination without a Job Manager, you should initially set onAllTasksComplete to noaction and update the Job properties to set onAllTasksComplete to terminatejob once you have finished adding Tasks. The default is noaction.
    *
-   * Possible values: noaction, terminatejob
+   * Possible values: "noaction", "terminatejob"
    */
   onAllTasksComplete?: string;
   /**
    * The action the Batch service should take when any Task fails in a Job created under this schedule. A Task is considered to have failed if it have failed if has a failureInfo. A failureInfo is set if the Task completes with a non-zero exit code after exhausting its retry count, or if there was an error starting the Task, for example due to a resource file download error. The default is noaction.
    *
-   * Possible values: noaction, performexitoptionsjobaction
+   * Possible values: "noaction", "performexitoptionsjobaction"
    */
   onTaskFailure?: string;
   /** The network configuration for the Job. */
@@ -1830,8 +1864,6 @@ export interface BatchJobScheduleStatisticsOutput {
   waitTime: string;
 }
 
-export interface BatchJobScheduleListResultListOutput {}
-
 /** The result of listing the Job Schedules in an Account. */
 export interface BatchJobScheduleListResultOutput {
   /** The list of Job Schedules. */
@@ -1841,7 +1873,7 @@ export interface BatchJobScheduleListResultOutput {
 }
 
 /** Parameters for creating an Azure Batch Task. */
-export interface BatchTaskCreateParametersOutput {
+export interface BatchTaskCreateContentOutput {
   /** A string that uniquely identifies the Task within the Job. The ID can contain any combination of alphanumeric characters including hyphens and underscores, and cannot contain more than 64 characters. The ID is case-preserving and case-insensitive (that is, you may not have two IDs within a Job that differ only by case). */
   id: string;
   /** A display name for the Task. The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
@@ -1906,13 +1938,13 @@ export interface ExitOptionsOutput {
   /**
    * An action to take on the Job containing the Task, if the Task completes with the given exit condition and the Job's onTaskFailed property is 'performExitOptionsJobAction'. The default is none for exit code 0 and terminate for all other exit conditions. If the Job's onTaskFailed property is noaction, then specifying this property returns an error and the add Task request fails with an invalid property value error; if you are calling the REST API directly, the HTTP status code is 400 (Bad Request).
    *
-   * Possible values: none, disable, terminate
+   * Possible values: "none", "disable", "terminate"
    */
   jobAction?: string;
   /**
    * An action that the Batch service performs on Tasks that depend on this Task. Possible values are 'satisfy' (allowing dependent tasks to progress) and 'block' (dependent tasks continue to wait). Batch does not yet support cancellation of dependent tasks.
    *
-   * Possible values: satisfy, block
+   * Possible values: "satisfy", "block"
    */
   dependencyAction?: string;
 }
@@ -1977,8 +2009,6 @@ export interface BatchTaskIdRangeOutput {
   end: number;
 }
 
-export interface BatchTaskListResultListOutput {}
-
 /** The result of listing the Tasks in a Job. */
 export interface BatchTaskListResultOutput {
   /** The list of Tasks. */
@@ -2016,7 +2046,7 @@ export interface BatchTaskOutput {
   /**
    * The current state of the Task.
    *
-   * Possible values: active, preparing, running, completed
+   * Possible values: "active", "preparing", "running", "completed"
    */
   readonly state?: string;
   /** The time at which the Task entered its current state. */
@@ -2024,7 +2054,7 @@ export interface BatchTaskOutput {
   /**
    * The previous state of the Task. This property is not set if the Task is in its initial Active state.
    *
-   * Possible values: active, preparing, running, completed
+   * Possible values: "active", "preparing", "running", "completed"
    */
   readonly previousState?: string;
   /** The time at which the Task entered its previous state. This property is not set if the Task is in its initial Active state. */
@@ -2086,7 +2116,7 @@ export interface BatchTaskExecutionInfoOutput {
   /**
    * The result of the Task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.
    *
-   * Possible values: success, failure
+   * Possible values: "success", "failure"
    */
   result?: string;
 }
@@ -2134,9 +2164,9 @@ export interface BatchTaskStatisticsOutput {
 }
 
 /** A collection of Azure Batch Tasks to add. */
-export interface BatchTaskCollectionOutput {
+export interface BatchTaskGroupOutput {
   /** The collection of Tasks to add. The maximum count of Tasks is 100. The total serialized size of this collection must be less than 1MB. If it is greater than 1MB (for example if each Task has 100's of resource files or environment variables), the request will fail with code 'RequestBodyTooLarge' and should be retried again with fewer Tasks. */
-  value: Array<BatchTaskCreateParametersOutput>;
+  value: Array<BatchTaskCreateContentOutput>;
 }
 
 /** The result of adding a collection of Tasks to a Job. */
@@ -2150,7 +2180,7 @@ export interface BatchTaskAddResultOutput {
   /**
    * The status of the add Task request.
    *
-   * Possible values: success, clienterror, servererror
+   * Possible values: "success", "clienterror", "servererror"
    */
   status: string;
   /** The ID of the Task for which this is the result. */
@@ -2164,8 +2194,6 @@ export interface BatchTaskAddResultOutput {
   /** The error encountered while attempting to add the Task. */
   error?: BatchErrorOutput;
 }
-
-export interface BatchTaskListSubtasksResultListOutput {}
 
 /** The result of listing the subtasks of a Task. */
 export interface BatchTaskListSubtasksResultOutput {
@@ -2194,7 +2222,7 @@ export interface BatchSubtaskOutput {
   /**
    * The current state of the subtask.
    *
-   * Possible values: preparing, running, completed
+   * Possible values: "preparing", "running", "completed"
    */
   state?: string;
   /** The time at which the subtask entered its current state. */
@@ -2202,7 +2230,7 @@ export interface BatchSubtaskOutput {
   /**
    * The previous state of the subtask. This property is not set if the subtask is in its initial running state.
    *
-   * Possible values: preparing, running, completed
+   * Possible values: "preparing", "running", "completed"
    */
   previousState?: string;
   /** The time at which the subtask entered its previous state. This property is not set if the subtask is in its initial running state. */
@@ -2210,12 +2238,10 @@ export interface BatchSubtaskOutput {
   /**
    * The result of the Task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.
    *
-   * Possible values: success, failure
+   * Possible values: "success", "failure"
    */
   result?: string;
 }
-
-export interface BatchNodeFileListResultListOutput {}
 
 /**
  * The result of listing the files on a Compute Node, or the files associated with
@@ -2263,13 +2289,13 @@ export interface BatchNodeOutput {
   /**
    * The current state of the Compute Node. The Spot/Low-priority Compute Node has been preempted. Tasks which were running on the Compute Node when it was preempted will be rescheduled when another Compute Node becomes available.
    *
-   * Possible values: idle, rebooting, reimaging, running, unusable, creating, starting, waitingforstarttask, starttaskfailed, unknown, leavingpool, offline, preempted
+   * Possible values: "idle", "rebooting", "reimaging", "running", "unusable", "creating", "starting", "waitingforstarttask", "starttaskfailed", "unknown", "leavingpool", "offline", "preempted", "upgradingos"
    */
   state?: string;
   /**
    * Whether the Compute Node is available for Task scheduling.
    *
-   * Possible values: enabled, disabled
+   * Possible values: "enabled", "disabled"
    */
   schedulingState?: string;
   /** The time at which the Compute Node entered its current state. */
@@ -2330,7 +2356,7 @@ export interface BatchTaskInfoOutput {
   /**
    * The current state of the Task.
    *
-   * Possible values: active, preparing, running, completed
+   * Possible values: "active", "preparing", "running", "completed"
    */
   taskState: string;
   /** Information about the execution of the Task. */
@@ -2342,7 +2368,7 @@ export interface BatchStartTaskInfoOutput {
   /**
    * The state of the StartTask on the Compute Node.
    *
-   * Possible values: running, completed
+   * Possible values: "running", "completed"
    */
   state: string;
   /** The time at which the StartTask started running. This value is reset every time the Task is restarted or retried (that is, this is the most recent time at which the StartTask started running). */
@@ -2362,7 +2388,7 @@ export interface BatchStartTaskInfoOutput {
   /**
    * The result of the Task execution. If the value is 'failed', then the details of the failure can be found in the failureInfo property.
    *
-   * Possible values: success, failure
+   * Possible values: "success", "failure"
    */
   result?: string;
 }
@@ -2390,7 +2416,7 @@ export interface InboundEndpointOutput {
   /**
    * The protocol of the endpoint.
    *
-   * Possible values: tcp, udp
+   * Possible values: "tcp", "udp"
    */
   protocol: string;
   /** The public IP address of the Compute Node. */
@@ -2431,7 +2457,7 @@ export interface BatchNodeRemoteLoginSettingsOutput {
 }
 
 /** The Azure Batch service log files upload parameters for a Compute Node. */
-export interface UploadBatchServiceLogsParametersOutput {
+export interface UploadBatchServiceLogsContentOutput {
   /** The URL of the container within Azure Blob Storage to which to upload the Batch Service log file(s). If a user assigned managed identity is not being used, the URL must include a Shared Access Signature (SAS) granting write permissions to the container. The SAS duration must allow enough time for the upload to finish. The start time for SAS is optional and recommended to not be specified. */
   containerUrl: string;
   /** The start of the time range from which to upload Batch Service log file(s). Any log file containing a log message in the time range will be uploaded. This means that the operation might retrieve more logs than have been requested since the entire log file is always uploaded, but the operation should not retrieve fewer logs than have been requested. */
@@ -2449,8 +2475,6 @@ export interface UploadBatchServiceLogsResultOutput {
   /** The number of log files which will be uploaded. */
   numberOfFilesUploaded: number;
 }
-
-export interface BatchNodeListResultListOutput {}
 
 /** The result of listing the Compute Nodes in a Pool. */
 export interface BatchNodeListResultOutput {
@@ -2489,7 +2513,7 @@ export interface InstanceViewStatusOutput {
   /**
    * Level code.
    *
-   * Possible values: Error, Info, Warning
+   * Possible values: "Error", "Info", "Warning"
    */
   level?: string;
   /** The detailed status message. */
@@ -2497,8 +2521,6 @@ export interface InstanceViewStatusOutput {
   /** The time of the status. */
   time?: string;
 }
-
-export interface BatchNodeVMExtensionListResultListOutput {}
 
 /** The result of listing the Compute Node extensions in a Node. */
 export interface BatchNodeVMExtensionListResultOutput {
