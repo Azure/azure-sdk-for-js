@@ -671,6 +671,9 @@ dependencies:
   '@rush-temp/arm-storage-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-storage-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-storage-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-storageactions':
+    specifier: file:./projects/arm-storageactions.tgz
+    version: file:projects/arm-storageactions.tgz
   '@rush-temp/arm-storagecache':
     specifier: file:./projects/arm-storagecache.tgz
     version: file:projects/arm-storagecache.tgz
@@ -3566,7 +3569,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.26
+      '@types/node': 20.10.8
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3613,7 +3616,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.26
+      '@types/node': 20.10.8
     dev: false
 
   /@types/jsonwebtoken@9.0.6:
@@ -3735,7 +3738,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.26
+      '@types/node': 20.10.8
     dev: false
 
   /@types/resolve@1.20.2:
@@ -8952,6 +8955,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -17233,6 +17237,34 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-storageactions.tgz:
+    resolution: {integrity: sha512-cb+CLfW2LY79o+VK93D8Ty9ZZzcsvt4wZyn6vW0/2V3N+yOLphrIcF+JKrqZWdxsH0MXw+JUgl5nlUh6EhQliw==, tarball: file:projects/arm-storageactions.tgz}
+    name: '@rush-temp/arm-storageactions'
+    version: 0.0.0
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/identity': 4.0.1
+      '@microsoft/api-extractor': 7.43.0(@types/node@18.19.26)
+      '@types/chai': 4.3.14
+      '@types/mocha': 10.0.6
+      '@types/node': 18.19.26
+      chai: 4.3.10
+      cross-env: 7.0.3
+      dotenv: 16.4.5
+      esm: 3.2.25
+      mkdirp: 2.1.6
+      mocha: 10.3.0
+      rimraf: 5.0.5
+      ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
+      tslib: 2.6.2
+      typescript: 5.3.3
+      uglify-js: 3.17.4
+    transitivePeerDependencies:
+      - '@swc/core'
+      - '@swc/wasm'
+      - supports-color
+    dev: false
+
   file:projects/arm-storagecache.tgz:
     resolution: {integrity: sha512-BmqN6ugeFzb49BkhF1bWQ6xJ8CD5y0mfAg+d+ZweVu0kjPTKCbhF8+Mh/mLpJ0zp2ha7S0EEE7ePWhTk0CAVpw==, tarball: file:projects/arm-storagecache.tgz}
     name: '@rush-temp/arm-storagecache'
@@ -19833,7 +19865,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-pEzSuEC+bJbFJ/bJ0uWL98hxzLq3DrXEkDOnBhOkgXIqsZ/N2i5MkwCpmF1uUtd6c/Jj7GeoBalZRKDp9rb92g==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-qY6zvput4lQHqhzPdsjjnl+Mu2xsNP5BDuTPK9EqyNthY++uxe+6KFNy1eKt5s2eiVlHLahFpSOaQsvsmf8AHg==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
