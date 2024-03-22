@@ -17470,7 +17470,7 @@ packages:
     dev: false
 
   file:projects/arm-support.tgz:
-    resolution: {integrity: sha512-3JVcl02aSpUgesD81sxncG7rK0U1nKN1aG2PO76mEizvWZYCtgU7j+UtFaBKr8hQQgnFv5nKUmc2Gg7ixKc/4A==, tarball: file:projects/arm-support.tgz}
+    resolution: {integrity: sha512-nlD7fs9IWaIOe4YHffQVQXOlqAQhqKCPsXH/QtkQdcTq16c3TRk/k9s7eMfP1dneqLOboy1yZ6Hq1smYoxTOQQ==, tarball: file:projects/arm-support.tgz}
     name: '@rush-temp/arm-support'
     version: 0.0.0
     dependencies:
@@ -17483,6 +17483,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
