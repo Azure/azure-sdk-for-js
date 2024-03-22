@@ -19,10 +19,12 @@ export interface AzureMonitorOpenTelemetryOptions {
   resource?: Resource;
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
-  /** Enable Live Metrics feature */
+  /** Enable Live Metrics feature (Default false)*/
   enableLiveMetrics?: boolean;
-  /** Enable Standard Metrics feature */
+  /** Enable Standard Metrics feature (Default true)*/
   enableStandardMetrics?: boolean;
+  /** Enable log sampling based on trace (Default true) */
+  enableTraceBasedSamplingForLogs?: boolean;
   /** OpenTelemetry Instrumentations options included as part of Azure Monitor (azureSdk, http, mongoDb, mySql, postgreSql, redis, redis4) */
   instrumentationOptions?: InstrumentationOptions;
   /** Application Insights Web Instrumentation options (enabled, connectionString, src, config)*/

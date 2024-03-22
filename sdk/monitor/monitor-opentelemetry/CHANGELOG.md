@@ -2,6 +2,10 @@
 
 ## Unreleased ()
 
+### Features Added
+
+- Add support for Trace based sampling for logs.
+
 ## 1.3.0 (2024-02-13)
 
 ### Features Added
