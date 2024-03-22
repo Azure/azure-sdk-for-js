@@ -3825,10 +3825,6 @@ packages:
       '@types/node': 18.19.26
     dev: false
 
-  /@types/wtfnode@0.7.2:
-    resolution: {integrity: sha512-pJXFIeY+nSK+vgijyNcIt4stSxpOujYhom9kVFnSn9p21xiKn8pGf4uXzXc/RnwKTXE9i9QdGIb01XyJeDvsSg==}
-    dev: false
-
   /@types/yargs-parser@21.0.3:
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
     dev: false
@@ -4583,8 +4579,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001599
-      electron-to-chromium: 1.4.714
+      caniuse-lite: 1.0.30001600
+      electron-to-chromium: 1.4.715
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.23.0)
     dev: false
@@ -4723,8 +4719,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001599:
-    resolution: {integrity: sha512-LRAQHZ4yT1+f9LemSMeqdMpMxZcc4RMWdj4tiFe3G8tNkWK+E58g+/tzotb5cU6TbcVJLr4fySiAW7XmxQvZQA==}
+  /caniuse-lite@1.0.30001600:
+    resolution: {integrity: sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==}
     dev: false
 
   /catharsis@0.9.0:
@@ -5439,8 +5435,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.4.714:
-    resolution: {integrity: sha512-OfnVHt+nMRH9Ua5koH/2gKlCAXbG+u1yXwLKyBVqNboBV34ZTwb846RUe8K5mtE1uhz0BXoMarZ13JCQr+sBtQ==}
+  /electron-to-chromium@1.4.715:
+    resolution: {integrity: sha512-XzWNH4ZSa9BwVUQSDorPWAUQ5WGuYz7zJUNpNif40zFCiCl20t8zgylmreNmn26h5kiyw2lg7RfTmeMBsDklqg==}
     dev: false
 
   /emitter-component@1.1.2:
@@ -5557,7 +5553,7 @@ packages:
       typed-array-buffer: 1.0.2
       typed-array-byte-length: 1.0.1
       typed-array-byte-offset: 1.0.2
-      typed-array-length: 1.0.5
+      typed-array-length: 1.0.6
       unbox-primitive: 1.0.2
       which-typed-array: 1.1.15
     dev: false
@@ -10235,8 +10231,8 @@ packages:
       is-typed-array: 1.1.13
     dev: false
 
-  /typed-array-length@1.0.5:
-    resolution: {integrity: sha512-yMi0PlwuznKHxKmcpoOdeLwxBoVPkqZxd7q2FgMkmD3bNwvF5VW0+UlUQ1k1vmktTu4Yu13Q0RIxEP8+B+wloA==}
+  /typed-array-length@1.0.6:
+    resolution: {integrity: sha512-/OxDN6OtAk5KBpGb28T+HZc2M+ADtvRxXrKKbUwtsLgdoxgX13hyy7ek6bFRl5+aBs2yZzB0c4CnQfAtVypW/g==}
     engines: {node: '>= 0.4'}
     dependencies:
       call-bind: 1.0.7
@@ -10728,11 +10724,6 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
-    dev: false
-
-  /wtfnode@0.9.1:
-    resolution: {integrity: sha512-Ip6C2KeQPl/F3aP1EfOnPoQk14Udd9lffpoqWDNH3Xt78svxPbv53ngtmtfI0q2Te3oTq79XKTnRNXVIn/GsPA==}
-    hasBin: true
     dev: false
 
   /xml2js@0.5.0:
@@ -17772,10 +17763,10 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
-      '@types/chai': 4.3.12
+      '@microsoft/api-extractor': 7.43.0(@types/node@18.19.26)
+      '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.22
+      '@types/node': 18.19.26
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -17783,7 +17774,7 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
@@ -19833,7 +19824,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-pEzSuEC+bJbFJ/bJ0uWL98hxzLq3DrXEkDOnBhOkgXIqsZ/N2i5MkwCpmF1uUtd6c/Jj7GeoBalZRKDp9rb92g==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-qY6zvput4lQHqhzPdsjjnl+Mu2xsNP5BDuTPK9EqyNthY++uxe+6KFNy1eKt5s2eiVlHLahFpSOaQsvsmf8AHg==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -19845,7 +19836,6 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.26
       '@types/sinon': 17.0.3
-      '@types/wtfnode': 0.7.2
       cross-env: 7.0.3
       eslint: 8.57.0
       mocha: 10.3.0
@@ -19854,7 +19844,6 @@ packages:
       sinon: 17.0.1
       tslib: 2.6.2
       typescript: 5.3.3
-      wtfnode: 0.9.1
     transitivePeerDependencies:
       - bufferutil
       - supports-color
