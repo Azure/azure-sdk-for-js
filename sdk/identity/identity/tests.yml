@@ -19,6 +19,9 @@ extends:
           Path: sdk/identity/identity/managed-identity-matrix.json
           Selection: sparse
           GenerateVMJobs: true
+      MatrixReplace:
+        - Pool=.*LINUXNEXTPOOL.*/azsdk-pool-mms-ubuntu-2204-identitymsi
+        - OSVmImage=.*LINUXNEXTVMIMAGE.*/azsdk-pool-mms-ubuntu-2204-1espt
       EnvVars:
         AZURE_CLIENT_ID: $(IDENTITY_CLIENT_ID)
         AZURE_CLIENT_SECRET: $(IDENTITY_CLIENT_SECRET)

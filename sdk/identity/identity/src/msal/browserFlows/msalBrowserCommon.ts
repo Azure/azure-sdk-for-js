@@ -59,7 +59,7 @@ export interface MsalBrowserFlow extends MsalFlow {
  * @internal
  */
 export function defaultBrowserMsalConfig(
-  options: MsalBrowserFlowOptions,
+  options: MsalBrowserFlowOptions
 ): msalBrowser.Configuration {
   const tenantId = options.tenantId || DefaultTenantId;
   const authority = getAuthority(tenantId, options.authorityHost);
@@ -105,7 +105,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
     }
     this.clientId = options.clientId;
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.tokenCredentialOptions?.additionallyAllowedTenants,
+      options?.tokenCredentialOptions?.additionallyAllowedTenants
     );
     this.tenantId = resolveTenantId(this.logger, options.tenantId, options.clientId);
     this.authorityHost = options.authorityHost;
@@ -164,7 +164,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
    */
   public async getToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {},
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     const tenantId =
       processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
@@ -193,7 +193,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
         });
       }
       this.logger.info(
-        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`,
+        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       return this.doGetToken(scopes);
     });
@@ -207,7 +207,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
   protected handleResult(
     scopes: string | string[],
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions,
+    getTokenOptions?: GetTokenOptions
   ): AccessToken {
     if (result?.account) {
       this.account = msalToPublic(this.clientId, result.account);

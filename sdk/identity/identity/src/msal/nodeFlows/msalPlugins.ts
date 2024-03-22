@@ -99,7 +99,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
 
@@ -121,7 +121,7 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" "),
+        ].join(" ")
       );
     }
 

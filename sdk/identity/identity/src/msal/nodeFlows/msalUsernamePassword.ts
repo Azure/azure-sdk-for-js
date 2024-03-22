@@ -34,7 +34,7 @@ export class MsalUsernamePassword extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     try {
       const requestOptions: msalNode.UsernamePasswordRequest = {
@@ -46,7 +46,7 @@ export class MsalUsernamePassword extends MsalNode {
         claims: options?.claims,
       };
       const result = await this.getApp("public", options?.enableCae).acquireTokenByUsernamePassword(
-        requestOptions,
+        requestOptions
       );
       return this.handleResult(scopes, result || undefined);
     } catch (error: any) {

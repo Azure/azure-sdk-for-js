@@ -41,7 +41,7 @@ describe("#generatePluginConfiguration", function () {
       options.tokenCachePersistenceOptions = { enabled: true };
       assert.throws(
         () => msalPlugins.generatePluginConfiguration(options),
-        /Persistent token caching was requested/,
+        /Persistent token caching was requested/
       );
     });
 
@@ -87,7 +87,7 @@ describe("#generatePluginConfiguration", function () {
       options.brokerOptions = { enabled: true, parentWindowHandle };
       assert.throws(
         () => msalPlugins.generatePluginConfiguration(options),
-        /Broker for WAM was requested to be enabled/,
+        /Broker for WAM was requested to be enabled/
       );
     });
 

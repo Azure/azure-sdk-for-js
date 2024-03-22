@@ -28,7 +28,7 @@ describe("ClientAssertionCredential (internal)", function () {
     getTokenSilentSpy = setup.sandbox.spy(MsalNode.prototype, "getTokenSilent");
     doGetTokenSpy = Sinon.spy(
       ConfidentialClientApplication.prototype,
-      "acquireTokenByClientCredential",
+      "acquireTokenByClientCredential"
     );
   });
   afterEach(async function () {
@@ -42,7 +42,7 @@ describe("ClientAssertionCredential (internal)", function () {
       new ClientAssertionCredential(
         undefined as any,
         env.AZURE_CLIENT_ID ?? "client",
-        async () => "assertion",
+        async () => "assertion"
       );
     } catch (e: any) {
       errors.push(e);
@@ -51,7 +51,7 @@ describe("ClientAssertionCredential (internal)", function () {
       new ClientAssertionCredential(
         env.AZURE_TENANT_ID ?? "tenant",
         undefined as any,
-        async () => "assertion",
+        async () => "assertion"
       );
     } catch (e: any) {
       errors.push(e);
@@ -60,7 +60,7 @@ describe("ClientAssertionCredential (internal)", function () {
       new ClientAssertionCredential(
         env.AZURE_TENANT_ID ?? "tenant",
         env.AZURE_CLIENT_ID ?? "client",
-        undefined as any,
+        undefined as any
       );
     } catch (e: any) {
       errors.push(e);
@@ -74,7 +74,7 @@ describe("ClientAssertionCredential (internal)", function () {
     errors.forEach((e) => {
       assert.equal(
         e.message,
-        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.",
+        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters."
       );
     });
   });

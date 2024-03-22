@@ -1,20 +1,19 @@
 {
-    "displayNames": {
+  "displayNames": {
     "**/test-results.xml": ""
-    },
-    "include": [
-      {
-        "Agent": {
-          "msi_image": {
-            "OSVmImage": "ubuntu-22.04",
-            "Pool": "azsdk-pool-mms-ubuntu-2204-identitymsi"
-          }
-        },
-        "ArmTemplateParameters": "@{deployMIResources = $true}",
-        "TestType": "msi",
-        "NodeTestVersion": "18.x",
-        "TestResultsFiles": "**/test-results.xml"
-      }
-    ]
-  }
-  
+  },
+  "include": [
+    {
+      "Agent": {
+        "msi_image": {
+          "OSVmImage": "env:LINUXNEXTVMIMAGE",
+          "Pool": "env:LINUXNEXTPOOL"
+        }
+      },
+      "ArmTemplateParameters": "@{deployMIResources = $true}",
+      "TestType": "msi",
+      "NodeTestVersion": "18.x",
+      "TestResultsFiles": "**/test-results.xml"
+    }
+  ]
+}

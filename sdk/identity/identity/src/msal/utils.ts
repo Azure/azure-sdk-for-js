@@ -34,7 +34,7 @@ const LatestAuthenticationRecordVersion = "1.0";
 export function ensureValidMsalToken(
   scopes: string | string[],
   msalToken?: MsalToken | null,
-  getTokenOptions?: GetTokenOptions,
+  getTokenOptions?: GetTokenOptions
 ): asserts msalToken is ValidMsalToken {
   const error = (message: string): Error => {
     logger.getToken.info(message);
@@ -83,7 +83,7 @@ export function getAuthority(tenantId: string, host?: string): string {
 export function getKnownAuthorities(
   tenantId: string,
   authorityHost: string,
-  disableInstanceDiscovery?: boolean,
+  disableInstanceDiscovery?: boolean
 ): string[] {
   if ((tenantId === "adfs" && authorityHost) || disableInstanceDiscovery) {
     return [authorityHost];
@@ -98,7 +98,7 @@ export function getKnownAuthorities(
  */
 export const defaultLoggerCallback: (
   logger: CredentialLogger,
-  platform?: "Node" | "Browser",
+  platform?: "Node" | "Browser"
 ) => ILoggerCallback =
   (credLogger: CredentialLogger, platform: "Node" | "Browser" = isNode ? "Node" : "Browser") =>
   (level, message, containsPii): void => {
@@ -157,7 +157,7 @@ export function randomUUID(): string {
 export function handleMsalError(
   scopes: string[],
   error: Error,
-  getTokenOptions?: GetTokenOptions,
+  getTokenOptions?: GetTokenOptions
 ): Error {
   if (
     error.name === "AuthError" ||
@@ -175,7 +175,7 @@ export function handleMsalError(
       case "interaction_required":
       case "login_required":
         logger.info(
-          formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`),
+          formatError(scopes, `Authentication returned errorCode ${msalError.errorCode}`)
         );
         break;
       default:
@@ -196,8 +196,8 @@ export function handleMsalError(
         scopes,
         `Error from the native broker: ${error.message} with status code: ${
           (error as any).statusCode
-        }`,
-      ),
+        }`
+      )
     );
     return error;
   }

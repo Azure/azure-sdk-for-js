@@ -99,7 +99,7 @@ describe("MsalClient", function () {
         const loggerCall = logSpy.getCalls().find((c) => c.lastArg.includes(testCorrelationId));
         assert.exists(
           loggerCall,
-          `Unable to find logger call with correlation id ${testCorrelationId}`,
+          `Unable to find logger call with correlation id ${testCorrelationId}`
         );
       });
     });
@@ -108,7 +108,7 @@ describe("MsalClient", function () {
       it("throws when tenantId is invalid", function () {
         assert.throws(
           () => msalClient.generateMsalConfiguration("client-id", "invalid-tenant-id$%*^@#(;"),
-          /Invalid tenant id provided/,
+          /Invalid tenant id provided/
         );
       });
     });
@@ -162,7 +162,7 @@ describe("MsalClient", function () {
           await subject.getTokenByClientSecret(
             ["https://vault.azure.net/.default"],
             "client-secret",
-            { enableCae },
+            { enableCae }
           );
         } catch (e) {
           // ignore errors
@@ -205,7 +205,7 @@ describe("MsalClient", function () {
           await subject.getTokenByClientSecret(
             ["https://vault.azure.net/.default"],
             "client-secret",
-            { enableCae },
+            { enableCae }
           );
         } catch (e) {
           // ignore errors
@@ -298,12 +298,12 @@ describe("MsalClient", function () {
         assert.equal(
           clientCredentialAuthStub.callCount,
           1,
-          "expected acquireTokenByClientCredential to have been called once",
+          "expected acquireTokenByClientCredential to have been called once"
         );
         assert.equal(
           silentAuthStub.callCount,
           1,
-          "expected acquireTokenSilent to have been called once",
+          "expected acquireTokenSilent to have been called once"
         );
       });
 
@@ -328,7 +328,7 @@ describe("MsalClient", function () {
 
         await assert.isRejected(
           client.getTokenByClientSecret(scopes, clientSecret),
-          "operation has been aborted",
+          "operation has been aborted"
         );
       });
 
@@ -354,7 +354,7 @@ describe("MsalClient", function () {
 
         await assert.isRejected(
           client.getTokenByClientSecret(scopes, clientSecret),
-          /Automatic authentication has been disabled/,
+          /Automatic authentication has been disabled/
         );
       });
     });

@@ -24,7 +24,7 @@ describe("AzureFunctions Integration test", function () {
     assert.equal(
       response.bodyAsText,
       "Successfully authenticated with storage",
-      `Expected message: "Successfully authenticated with storage". Received message: ${response.bodyAsText}`,
+      `Expected message: "Successfully authenticated with storage". Received message: ${response.bodyAsText}`
     );
   });
 });

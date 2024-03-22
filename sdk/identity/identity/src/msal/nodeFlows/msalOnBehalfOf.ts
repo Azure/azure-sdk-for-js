@@ -59,7 +59,7 @@ export class MsalOnBehalfOf extends MsalNode {
       try {
         const parts = await parseCertificate(
           { certificatePath: this.certificatePath },
-          this.sendCertificateChain,
+          this.sendCertificateChain
         );
         this.msalConfig.auth.clientCertificate = {
           thumbprint: parts.thumbprint,
@@ -78,7 +78,7 @@ export class MsalOnBehalfOf extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {},
+    options: CredentialFlowGetTokenOptions = {}
   ): Promise<AccessToken> {
     try {
       const result = await this.getApp("confidential", options.enableCae).acquireTokenOnBehalfOf({

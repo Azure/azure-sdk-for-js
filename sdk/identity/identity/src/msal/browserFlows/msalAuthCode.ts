@@ -63,7 +63,7 @@ export class MSALAuthCode extends MsalBrowser {
     if (!this.app) {
       // Prepare the MSAL application
       this.app = await msalBrowser.PublicClientApplication.createPublicClientApplication(
-        this.msalConfig as msalBrowser.Configuration,
+        this.msalConfig as msalBrowser.Configuration
       );
 
       // setting the account right after the app is created.
@@ -81,7 +81,7 @@ export class MSALAuthCode extends MsalBrowser {
    * @param result - Result object received from MSAL.
    */
   private async handleBrowserResult(
-    result?: msalBrowser.AuthenticationResult,
+    result?: msalBrowser.AuthenticationResult
   ): Promise<AuthenticationRecord | undefined> {
     try {
       const app = await this.getApp();
@@ -109,7 +109,7 @@ export class MSALAuthCode extends MsalBrowser {
 However, no "authenticationRecord" has been provided for this credential,
 therefore we're unable to pick between these accounts.
 A new login attempt will be requested, to ensure the correct account is picked.
-To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing "InteractiveBrowserCredential".`,
+To work with multiple accounts for the same Client ID and Tenant ID, please provide an "authenticationRecord" when initializing "InteractiveBrowserCredential".`
         );
         // To safely trigger a new login, we're also ensuring the local cache is cleared up for this MSAL object.
         // However, we want to avoid kicking the user out of their authentication on the Azure side.
@@ -179,7 +179,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async getTokenSilent(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {
@@ -215,7 +215,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   protected async doGetToken(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions,
+    options?: CredentialFlowGetTokenOptions
   ): Promise<AccessToken> {
     const account = await this.getActiveAccount();
     if (!account) {

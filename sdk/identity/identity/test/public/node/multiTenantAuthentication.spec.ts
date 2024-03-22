@@ -41,7 +41,7 @@ describe("MultiTenantAuthentication", function () {
       tenantId,
       clientId,
       clientSecret,
-      recorder.configureClientOptions({}),
+      recorder.configureClientOptions({})
     );
 
     const token = await credential.getToken("https://graph.microsoft.com/.default");
