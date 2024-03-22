@@ -1,6 +1,6 @@
 # Release History
 
-## 1.15.1 (Unreleased)
+## 1.15.2 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,16 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.15.1 (2024-03-20)
+
+### Bugs Fixed
+
+- Fixed an issue where `proxyPolicy` was ignoring a custom port setting. [PR #28974](https://github.com/Azure/azure-sdk-for-js/pull/28974)
+
+### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
 
 ## 1.15.0 (2024-03-12)
 

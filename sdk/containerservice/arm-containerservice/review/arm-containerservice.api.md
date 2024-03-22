@@ -57,6 +57,7 @@ export interface AgentPool extends SubResource {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -283,6 +284,9 @@ export interface AgentPoolUpgradeSettings {
 export interface AgentPoolWindowsProfile {
     disableOutboundNat?: boolean;
 }
+
+// @public
+export type ArtifactSource = string;
 
 // @public
 export interface AzureKeyVaultKms {
@@ -619,6 +623,12 @@ export enum KnownAgentPoolType {
 }
 
 // @public
+export enum KnownArtifactSource {
+    Cache = "Cache",
+    Direct = "Direct"
+}
+
+// @public
 export enum KnownBackendPoolType {
     NodeIP = "NodeIP",
     NodeIPConfiguration = "NodeIPConfiguration"
@@ -838,6 +848,12 @@ export enum KnownOutboundType {
     ManagedNATGateway = "managedNATGateway",
     UserAssignedNATGateway = "userAssignedNATGateway",
     UserDefinedRouting = "userDefinedRouting"
+}
+
+// @public
+export enum KnownPodIPAllocationMode {
+    DynamicIndividual = "DynamicIndividual",
+    StaticBlock = "StaticBlock"
 }
 
 // @public
@@ -1145,6 +1161,7 @@ export interface ManagedCluster extends TrackedResource {
     autoUpgradeProfile?: ManagedClusterAutoUpgradeProfile;
     azureMonitorProfile?: ManagedClusterAzureMonitorProfile;
     readonly azurePortalFqdn?: string;
+    bootstrapProfile?: ManagedClusterBootstrapProfile;
     creationData?: CreationData;
     readonly currentKubernetesVersion?: string;
     disableLocalAccounts?: boolean;
@@ -1262,6 +1279,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     osDiskType?: OSDiskType;
     osSKU?: Ossku;
     osType?: OSType;
+    podIPAllocationMode?: PodIPAllocationMode;
     podSubnetID?: string;
     powerState?: PowerState;
     readonly provisioningState?: string;
@@ -1351,6 +1369,12 @@ export interface ManagedClusterAzureMonitorProfileMetrics {
 // @public
 export interface ManagedClusterAzureMonitorProfileWindowsHostLogs {
     enabled?: boolean;
+}
+
+// @public
+export interface ManagedClusterBootstrapProfile {
+    artifactSource?: ArtifactSource;
+    containerRegistryId?: string;
 }
 
 // @public
@@ -2347,6 +2371,9 @@ export interface OutboundEnvironmentEndpointCollection {
 
 // @public
 export type OutboundType = string;
+
+// @public
+export type PodIPAllocationMode = string;
 
 // @public
 export interface PortRange {

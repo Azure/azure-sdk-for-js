@@ -22,7 +22,7 @@ import {
   ManagedEnvironmentsUpdateOptionalParams,
   ManagedEnvironmentsUpdateResponse,
   ManagedEnvironmentsGetAuthTokenOptionalParams,
-  ManagedEnvironmentsGetAuthTokenResponse
+  ManagedEnvironmentsGetAuthTokenResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ManagedEnvironments {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ManagedEnvironmentsListBySubscriptionOptionalParams
+    options?: ManagedEnvironmentsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ManagedEnvironment>;
   /**
    * Get all the Managed Environments in a resource group.
@@ -42,7 +42,7 @@ export interface ManagedEnvironments {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ManagedEnvironmentsListByResourceGroupOptionalParams
+    options?: ManagedEnvironmentsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ManagedEnvironment>;
   /**
    * Get all workload Profile States for a Managed Environment.
@@ -53,7 +53,7 @@ export interface ManagedEnvironments {
   listWorkloadProfileStates(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams
+    options?: ManagedEnvironmentsListWorkloadProfileStatesOptionalParams,
   ): PagedAsyncIterableIterator<WorkloadProfileStates>;
   /**
    * Get the properties of a Managed Environment used to host container apps.
@@ -64,7 +64,7 @@ export interface ManagedEnvironments {
   get(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsGetOptionalParams
+    options?: ManagedEnvironmentsGetOptionalParams,
   ): Promise<ManagedEnvironmentsGetResponse>;
   /**
    * Creates or updates a Managed Environment used to host container apps.
@@ -77,7 +77,7 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
-    options?: ManagedEnvironmentsCreateOrUpdateOptionalParams
+    options?: ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedEnvironmentsCreateOrUpdateResponse>,
@@ -95,7 +95,7 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
-    options?: ManagedEnvironmentsCreateOrUpdateOptionalParams
+    options?: ManagedEnvironmentsCreateOrUpdateOptionalParams,
   ): Promise<ManagedEnvironmentsCreateOrUpdateResponse>;
   /**
    * Delete a Managed Environment if it does not have any container apps.
@@ -106,7 +106,7 @@ export interface ManagedEnvironments {
   beginDelete(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsDeleteOptionalParams
+    options?: ManagedEnvironmentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Managed Environment if it does not have any container apps.
@@ -117,7 +117,7 @@ export interface ManagedEnvironments {
   beginDeleteAndWait(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsDeleteOptionalParams
+    options?: ManagedEnvironmentsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Patches a Managed Environment using JSON Merge Patch
@@ -130,7 +130,7 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
-    options?: ManagedEnvironmentsUpdateOptionalParams
+    options?: ManagedEnvironmentsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ManagedEnvironmentsUpdateResponse>,
@@ -148,7 +148,7 @@ export interface ManagedEnvironments {
     resourceGroupName: string,
     environmentName: string,
     environmentEnvelope: ManagedEnvironment,
-    options?: ManagedEnvironmentsUpdateOptionalParams
+    options?: ManagedEnvironmentsUpdateOptionalParams,
   ): Promise<ManagedEnvironmentsUpdateResponse>;
   /**
    * Checks if resource name is available.
@@ -159,6 +159,6 @@ export interface ManagedEnvironments {
   getAuthToken(
     resourceGroupName: string,
     environmentName: string,
-    options?: ManagedEnvironmentsGetAuthTokenOptionalParams
+    options?: ManagedEnvironmentsGetAuthTokenOptionalParams,
   ): Promise<ManagedEnvironmentsGetAuthTokenResponse>;
 }

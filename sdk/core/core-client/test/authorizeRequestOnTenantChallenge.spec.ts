@@ -45,7 +45,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
 
         return {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_uri=https://storage.azure.com`,
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
           }),
           request: req,
           status: 200,
@@ -113,7 +113,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           assert.equal(req.headers.get("authorization"), "Bearer originalToken");
           return {
             headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_uri=https://storage.azure.com`,
+              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
             }),
             request: req,
             status: 401,
@@ -158,7 +158,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
           assert.equal(req.headers.get("authorization"), "Bearer originalToken");
           return {
             headers: createHttpHeaders({
-              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_uri=https://storage.azure.com`,
+              "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
             }),
             request: req,
             status: 401,
@@ -245,7 +245,7 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
         assert.equal(req.headers.get("authorization"), "Bearer originalToken");
         return {
           headers: createHttpHeaders({
-            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_uri=https://storage.azure.com`,
+            "WWW-Authenticate": `Bearer authorization_uri=https://login.microsoftonline.com/${fakeGuid}/oauth2/authorize resource_id=https://storage.azure.com`,
           }),
           request: req,
           status: 401,

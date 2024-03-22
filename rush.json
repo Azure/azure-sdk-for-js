@@ -859,7 +859,7 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/test-utils-perf",
+      "packageName": "@azure-tools/test-perf",
       "projectFolder": "sdk/test-utils/perf",
       "versionPolicyName": "utility"
     },
