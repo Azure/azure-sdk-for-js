@@ -51,6 +51,11 @@ stages:
               copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
             displayName: 'Copy static file'
 
+          - pwsh: |
+              azcopy login --identity
+              $Env:AZCOPY_AUTO_LOGIN_TYPE = "MSI"
+            displayName: 'Login to azcopy'
+
           - task: AzureFileCopy@4
             displayName: 'Upload Dependency Report'
             inputs:
