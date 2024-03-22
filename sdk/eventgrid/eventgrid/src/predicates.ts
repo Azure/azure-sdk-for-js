@@ -206,6 +206,9 @@ import {
   AvsClusterFailedEventData,
   ApiCenterApiDefinitionAddedEventData,
   ApiCenterApiDefinitionUpdatedEventData,
+  AcsAdvancedMessageDeliveryStatusUpdatedEventData,
+  AcsAdvancedMessageReceivedEventData,
+  AcsRouterWorkerUpdatedEventData,
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -628,6 +631,12 @@ export interface SystemEventNameToEventData {
   "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
   /** An interface for the event data of a "Microsoft.ApiCenter.ApiDefinitionUpdated" event. */
   "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated" event. */
+  "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsAdvancedMessageDeliveryStatusUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.AdvancedMessageReceived" event. */
+  "Microsoft.Communication.AdvancedMessageReceived": AcsAdvancedMessageReceivedEventData;
+  /** An interface for the event data of a "Microsoft.Communication.RouterWorkerUpdated" event. */
+  "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
 }
 
 /**

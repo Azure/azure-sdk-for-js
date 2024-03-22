@@ -2067,8 +2067,10 @@ export interface AcsIncomingCallEventData {
   correlationId: string;
 }
 
-/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set. */
+/** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
 export interface CommunicationIdentifierModel {
+  /** The identifier kind. Only required in responses. */
+  kind?: CommunicationIdentifierModelKind;
   /** Raw Id of the identifier. Optional in requests, required in responses. */
   rawId: string;
   /** The communication user. */
@@ -2077,6 +2079,8 @@ export interface CommunicationIdentifierModel {
   phoneNumber?: PhoneNumberIdentifierModel;
   /** The Microsoft Teams user. */
   microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
+  /** The Microsoft Teams application. */
+  microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
 }
 
 /** A user that got created with an Azure Communication Services resource. */
@@ -2098,6 +2102,14 @@ export interface MicrosoftTeamsUserIdentifierModel {
   /** True if the Microsoft Teams user is anonymous. By default false if missing. */
   isAnonymous?: boolean;
   /** The cloud that the Microsoft Teams user belongs to. By default 'public' if missing. */
+  cloud?: CommunicationCloudEnvironmentModel;
+}
+
+/** A Microsoft Teams application. */
+export interface MicrosoftTeamsAppIdentifierModel {
+  /** The Id of the Microsoft Teams application. */
+  appId: string;
+  /** The cloud that the Microsoft Teams application belongs to. By default 'public' if missing. */
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
@@ -2195,6 +2207,24 @@ export interface AcsRouterChannelConfiguration {
   capacityCostPerJob: number;
   /** Max Number of Jobs for Router Job */
   maxNumberOfJobs: number;
+}
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.RouterWorkerUpdated event */
+export interface AcsRouterWorkerUpdatedEventData {
+  /** Router Worker Updated Worker Id */
+  workerId: string;
+  /** Router Worker Updated Queue Info */
+  queueAssignments: AcsRouterQueueDetails[];
+  /** Router Worker Updated Channel Configuration */
+  channelConfigurations: AcsRouterChannelConfiguration[];
+  /** Router Worker Updated Total Capacity */
+  totalCapacity: number;
+  /** Router Worker Updated Labels */
+  labels: { [propertyName: string]: string };
+  /** Router Worker Updated Tags */
+  tags: { [propertyName: string]: string };
+  /** Router Worker Properties Updated */
+  updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
 }
 
 /** Schema of common properties of all chat events */
@@ -2323,6 +2353,82 @@ export interface AcsEmailEngagementTrackingReportReceivedEventData {
   userAgent: string;
   /** The type of engagement user have with email */
   engagement: AcsUserEngagement;
+}
+
+/** Advanced Message Media Content */
+export interface AcsAdvancedMessageMediaContent {
+  /** The MIME type of the file this media represents */
+  mimeType: string;
+  /** The media identifier */
+  id: string;
+  /** The filename of the underlying media file as specified when uploaded */
+  fileName: string;
+  /** The caption for the media object, if supported and provided */
+  caption: string;
+}
+
+/** Advanced Message Context */
+export interface AcsAdvancedMessageContext {
+  /** The WhatsApp ID for the customer who replied to an inbound message. */
+  from: string;
+  /** The message ID for the sent message for an inbound reply */
+  id: string;
+}
+
+/** Advanced Message Button Content */
+export interface AcsAdvancedMessageButtonContent {
+  /** The Text of the button */
+  text: string;
+  /** The Payload of the button which was clicked by the user, setup by the business */
+  payload: string;
+}
+
+/** Advanced Message Interactive Content */
+export interface AcsAdvancedMessageInteractiveContent {
+  /** The Message interactive reply type */
+  type: AcsInteractiveReplyType;
+  /** The Message Sent when a customer clicks a button */
+  buttonReply: AcsAdvancedMessageInteractiveButtonReplyContent;
+  /** The Message Sent when a customer selects an item from a list */
+  listReply: AcsAdvancedMessageInteractiveListReplyContent;
+}
+
+/** Advanced Message Interactive button reply content for a user to business message */
+export interface AcsAdvancedMessageInteractiveButtonReplyContent {
+  /** The ID of the button */
+  id: string;
+  /** The title of the button */
+  title: string;
+}
+
+/** Advanced Message Interactive list reply content for a user to business message */
+export interface AcsAdvancedMessageInteractiveListReplyContent {
+  /** The ID of the selected list item */
+  id: string;
+  /** The title of the selected list item */
+  title: string;
+  /** The sescription of the selected row */
+  description: string;
+}
+
+/** Schema of common properties of all chat thread events */
+export interface AcsAdvancedMessageEventData {
+  /** The message sender */
+  from: string;
+  /** The message recipient */
+  to: string;
+  /** The time message was received */
+  receivedTimestamp: string;
+  /** The channel event error */
+  error: AcsAdvancedMessageChannelEventError;
+}
+
+/** Advanced Message Channel Event Error */
+export interface AcsAdvancedMessageChannelEventError {
+  /** The channel error code */
+  channelCode: string;
+  /** The channel error message */
+  channelMessage: string;
 }
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.PolicyInsights.PolicyStateCreated event. */
@@ -2987,6 +3093,32 @@ export type AcsSmsReceivedEventData = AcsSmsEventBase & {
   receivedTimestamp: string;
 };
 
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageReceived event. */
+export type AcsAdvancedMessageReceivedEventData = AcsAdvancedMessageEventData & {
+  /** The The messaged received content */
+  content: string;
+  /** The The messaged received channel type */
+  channelType: AcsMessageChannelType;
+  /** The messaged received media content */
+  media: AcsAdvancedMessageMediaContent;
+  /** The The messaged received context */
+  context: AcsAdvancedMessageContext;
+  /** The The messaged received button content */
+  button: AcsAdvancedMessageButtonContent;
+  /** The The messaged received interactive content */
+  interactive: AcsAdvancedMessageInteractiveContent;
+};
+
+/** Schema of the Data property of an EventGridEvent for a Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated event. */
+export type AcsAdvancedMessageDeliveryStatusUpdatedEventData = AcsAdvancedMessageEventData & {
+  /** The message id */
+  messageId: string;
+  /** The updated message status */
+  status: string;
+  /** The updated message channel type */
+  channelType: AcsMessageChannelType;
+};
+
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ContainerService.ClusterSupportEnded event */
 export type ContainerServiceClusterSupportEndedEventData = ContainerServiceClusterSupportEventData & {};
 
@@ -3591,6 +3723,28 @@ export const enum KnownAsyncStatus {
  */
 export type AsyncStatus = string;
 
+/** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
+export const enum KnownCommunicationIdentifierModelKind {
+  Unknown = "unknown",
+  CommunicationUser = "communicationUser",
+  PhoneNumber = "phoneNumber",
+  MicrosoftTeamsUser = "microsoftTeamsUser",
+  MicrosoftTeamsApp = "microsoftTeamsApp"
+}
+
+/**
+ * Defines values for CommunicationIdentifierModelKind. \
+ * {@link KnownCommunicationIdentifierModelKind} can be used interchangeably with CommunicationIdentifierModelKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown** \
+ * **communicationUser** \
+ * **phoneNumber** \
+ * **microsoftTeamsUser** \
+ * **microsoftTeamsApp**
+ */
+export type CommunicationIdentifierModelKind = string;
+
 /** Known values of {@link CommunicationCloudEnvironmentModel} that the service accepts. */
 export const enum KnownCommunicationCloudEnvironmentModel {
   Public = "public",
@@ -3693,6 +3847,32 @@ export const enum KnownAcsRouterJobStatus {
  */
 export type AcsRouterJobStatus = string;
 
+/** Known values of {@link AcsRouterUpdatedWorkerProperty} that the service accepts. */
+export const enum KnownAcsRouterUpdatedWorkerProperty {
+  AvailableForOffers = "AvailableForOffers",
+  TotalCapacity = "TotalCapacity",
+  QueueAssignments = "QueueAssignments",
+  Labels = "Labels",
+  Tags = "Tags",
+  ChannelConfigurations = "ChannelConfigurations",
+  MaxConcurrentOffers = "MaxConcurrentOffers"
+}
+
+/**
+ * Defines values for AcsRouterUpdatedWorkerProperty. \
+ * {@link KnownAcsRouterUpdatedWorkerProperty} can be used interchangeably with AcsRouterUpdatedWorkerProperty,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AvailableForOffers** \
+ * **TotalCapacity** \
+ * **QueueAssignments** \
+ * **Labels** \
+ * **Tags** \
+ * **ChannelConfigurations** \
+ * **MaxConcurrentOffers**
+ */
+export type AcsRouterUpdatedWorkerProperty = string;
+
 /** Known values of {@link RecordingContentType} that the service accepts. */
 export const enum KnownRecordingContentType {
   AudioVideo = "AudioVideo",
@@ -3788,6 +3968,42 @@ export const enum KnownAcsUserEngagement {
  * **click**
  */
 export type AcsUserEngagement = string;
+
+/** Known values of {@link AcsMessageChannelType} that the service accepts. */
+export const enum KnownAcsMessageChannelType {
+  /** Updated messaged channel type is Whatsapp */
+  Whatsapp = "whatsapp"
+}
+
+/**
+ * Defines values for AcsMessageChannelType. \
+ * {@link KnownAcsMessageChannelType} can be used interchangeably with AcsMessageChannelType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **whatsapp**: Updated messaged channel type is Whatsapp
+ */
+export type AcsMessageChannelType = string;
+
+/** Known values of {@link AcsInteractiveReplyType} that the service accepts. */
+export const enum KnownAcsInteractiveReplyType {
+  /** Messaged interactive reply type is ButtonReply */
+  ButtonReply = "buttonReply",
+  /** Messaged interactive reply type is ListReply */
+  ListReply = "listReply",
+  /** Messaged interactive reply type is Unknown */
+  Unknown = "unknown"
+}
+
+/**
+ * Defines values for AcsInteractiveReplyType. \
+ * {@link KnownAcsInteractiveReplyType} can be used interchangeably with AcsInteractiveReplyType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **buttonReply**: Messaged interactive reply type is ButtonReply \
+ * **listReply**: Messaged interactive reply type is ListReply \
+ * **unknown**: Messaged interactive reply type is Unknown
+ */
+export type AcsInteractiveReplyType = string;
 
 /** Known values of {@link HealthcareFhirResourceType} that the service accepts. */
 export const enum KnownHealthcareFhirResourceType {
