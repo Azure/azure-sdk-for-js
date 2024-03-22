@@ -12,27 +12,6 @@ param (
     [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
 
     [Parameter()]
-    [string] $Location = '',
-
-    [Parameter()]
-    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
-    [string] $TestApplicationId,
-
-    [Parameter()]
-    [string] $TestApplicationSecret,
-
-    [Parameter()]
-    [ValidatePattern('^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$')]
-    [string] $SubscriptionId,
-
-    [Parameter(ParameterSetName = 'Provisioner', Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
-    [string] $TenantId,
-
-    [Parameter()]
-    [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
-
-    [Parameter()]
     [hashtable] $AdditionalParameters = @{}
     
 )
