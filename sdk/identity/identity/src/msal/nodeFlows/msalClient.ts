@@ -43,7 +43,7 @@ export interface MsalClient {
   getTokenByClientSecret(
     scopes: string[],
     clientSecret: string,
-    options?: GetTokenOptions
+    options?: GetTokenOptions,
   ): Promise<AccessToken>;
 }
 
@@ -63,14 +63,14 @@ export type MsalClientOptions = Partial<Omit<MsalNodeOptions, "clientId" | "tena
 export function generateMsalConfiguration(
   clientId: string,
   tenantId: string,
-  msalClientOptions: MsalClientOptions = {}
+  msalClientOptions: MsalClientOptions = {},
 ): msal.Configuration {
   const resolvedTenant = resolveTenantId(msalLogger, tenantId, clientId);
 
   // TODO: move and reuse getIdentityClientAuthorityHost
   const authority = getAuthority(
     resolvedTenant,
-    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST
+    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
   );
 
   const httpClient = new IdentityClient({
@@ -86,7 +86,7 @@ export function generateMsalConfiguration(
       knownAuthorities: getKnownAuthorities(
         resolvedTenant,
         authority,
-        msalClientOptions.disableInstanceDiscovery
+        msalClientOptions.disableInstanceDiscovery,
       ),
     },
     system: {
@@ -134,7 +134,7 @@ interface MsalClientState {
 export function createMsalClient(
   clientId: string,
   tenantId: string,
-  createMsalClientOptions: MsalClientOptions = {}
+  createMsalClientOptions: MsalClientOptions = {},
 ): MsalClient {
   const state: MsalClientState = {
     msalConfig: generateMsalConfiguration(clientId, tenantId, createMsalClientOptions),
@@ -146,7 +146,7 @@ export function createMsalClient(
 
   const confidentialApps: Map<string, msal.ConfidentialClientApplication> = new Map();
   async function getConfidentialApp(
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<msal.ConfidentialClientApplication> {
     const appKey = options.enableCae ? "CAE" : "default";
 
@@ -176,7 +176,7 @@ export function createMsalClient(
   async function getTokenSilent(
     app: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<msal.AuthenticationResult> {
     if (state.cachedAccount === null) {
       const cache = app.getTokenCache();
@@ -227,7 +227,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     msalApp: msal.ConfidentialClientApplication | msal.PublicClientApplication,
     scopes: Array<string>,
     options: GetTokenOptions,
-    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>
+    onAuthenticationRequired: () => Promise<msal.AuthenticationResult | null>,
   ): Promise<AccessToken> {
     let response: msal.AuthenticationResult | null = null;
     try {
@@ -281,7 +281,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           scopes,
           authority: state.msalConfig.auth.authority,
           claims: options?.claims,
-        })
+        }),
       );
     },
   };

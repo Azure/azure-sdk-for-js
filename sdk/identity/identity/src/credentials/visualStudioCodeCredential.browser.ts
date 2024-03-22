@@ -5,14 +5,14 @@ import { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
-  "VisualStudioCodeCredential is not supported in the browser."
+  "VisualStudioCodeCredential is not supported in the browser.",
 );
 const logger = credentialLogger("VisualStudioCodeCredential");
 
 export const vsCodeCredentialControl = {
   set vsCodeCredentialFinder(_finder: never) {
     throw new Error(
-      "Attempted to register a VisualStudioCodeCredential provider plugin in the browser. This environment is not supported by VisualStudioCodeCredential."
+      "Attempted to register a VisualStudioCodeCredential provider plugin in the browser. This environment is not supported by VisualStudioCodeCredential.",
     );
   },
 };

@@ -64,7 +64,7 @@ interface CertificateParts {
  */
 export async function parseCertificate(
   configuration: ClientCertificateCredentialPEMConfiguration,
-  sendCertificateChain?: boolean
+  sendCertificateChain?: boolean,
 ): Promise<CertificateParts> {
   const certificateParts: Partial<CertificateParts> = {};
 
@@ -155,7 +155,7 @@ export class MsalClientCertificate extends MsalNode {
 
   protected async doGetToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {}
+    options: CredentialFlowGetTokenOptions = {},
   ): Promise<AccessToken> {
     try {
       const clientCredReq: ClientCredentialRequest = {
@@ -167,7 +167,7 @@ export class MsalClientCertificate extends MsalNode {
       };
       const result = await this.getApp(
         "confidential",
-        options.enableCae
+        options.enableCae,
       ).acquireTokenByClientCredential(clientCredReq);
       // Even though we're providing the same default in memory persistence cache that we use for DeviceCodeCredential,
       // The Client Credential flow does not return the account information from the authentication service,

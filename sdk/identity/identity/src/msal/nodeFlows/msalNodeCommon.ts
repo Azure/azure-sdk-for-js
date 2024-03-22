@@ -114,7 +114,7 @@ export abstract class MsalNode implements MsalFlow {
     this.msalConfig = this.defaultNodeMsalConfig(options);
     this.tenantId = resolveTenantId(options.logger, options.tenantId, options.clientId);
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.tokenCredentialOptions?.additionallyAllowedTenants
+      options?.tokenCredentialOptions?.additionallyAllowedTenants,
     );
     this.clientId = this.msalConfig.auth.clientId;
     if (options?.getAssertion) {
@@ -143,7 +143,7 @@ export abstract class MsalNode implements MsalFlow {
           "You must install the identity-cache-persistence plugin package (`npm install --save @azure/identity-cache-persistence`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(cachePersistencePlugin)` before using `tokenCachePersistenceOptions`.",
-        ].join(" ")
+        ].join(" "),
       );
     }
 
@@ -155,7 +155,7 @@ export abstract class MsalNode implements MsalFlow {
           "You must install the identity-broker plugin package (`npm install --save @azure/identity-broker`)",
           "and enable it by importing `useIdentityPlugin` from `@azure/identity` and calling",
           "`useIdentityPlugin(createNativeBrokerPlugin())` before using `enableBroker`.",
-        ].join(" ")
+        ].join(" "),
       );
     }
 
@@ -190,7 +190,7 @@ export abstract class MsalNode implements MsalFlow {
         knownAuthorities: getKnownAuthorities(
           tenantId,
           authority,
-          options.disableInstanceDiscovery
+          options.disableInstanceDiscovery,
         ),
         clientCapabilities,
       },
@@ -207,18 +207,18 @@ export abstract class MsalNode implements MsalFlow {
   }
   protected getApp(
     appType: "publicFirst" | "confidentialFirst",
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication;
   protected getApp(appType: "public", enableCae?: boolean): msalNode.PublicClientApplication;
 
   protected getApp(
     appType: "confidential",
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication;
 
   protected getApp(
     appType: AppType,
-    enableCae?: boolean
+    enableCae?: boolean,
   ): msalNode.ConfidentialClientApplication | msalNode.PublicClientApplication {
     const app = enableCae ? this.caeApp : this.app;
     if (appType === "publicFirst") {
@@ -269,7 +269,7 @@ export abstract class MsalNode implements MsalFlow {
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
         );
       }
     }
@@ -297,7 +297,7 @@ export abstract class MsalNode implements MsalFlow {
     } else {
       if (this.requiresConfidential) {
         throw new Error(
-          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion."
+          "Unable to generate the MSAL confidential client. Missing either the client's secret, certificate or assertion.",
         );
       }
     }
@@ -309,7 +309,7 @@ export abstract class MsalNode implements MsalFlow {
   protected withCancellation(
     promise: Promise<msalNode.AuthenticationResult | null>,
     abortSignal?: AbortSignalLike,
-    onCancel?: () => void
+    onCancel?: () => void,
   ): Promise<msalNode.AuthenticationResult | null> {
     return new Promise((resolve, reject) => {
       promise
@@ -359,7 +359,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   async getTokenSilent(
     scopes: string[],
-    options?: CredentialFlowGetTokenOptions
+    options?: CredentialFlowGetTokenOptions,
   ): Promise<AccessToken> {
     await this.getActiveAccount(options?.enableCae);
     if (!this.account) {
@@ -387,7 +387,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (!this.parentWindowHandle) {
         // error should have been thrown from within the constructor of InteractiveBrowserCredential
         this.logger.warning(
-          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle."
+          "Parent window handle is not specified for the broker. This may cause unexpected behavior. Please provide the parentWindowHandle.",
         );
       }
       if (this.enableMsaPassthrough) {
@@ -406,7 +406,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       await this.getApp("publicFirst", options?.enableCae)?.getTokenCache().getAllAccounts();
       const response =
         (await this.getApp("confidential", options?.enableCae)?.acquireTokenSilent(
-          silentRequest
+          silentRequest,
         )) ?? (await this.getApp("public", options?.enableCae).acquireTokenSilent(silentRequest));
       return this.handleResult(scopes, response || undefined);
     } catch (err: any) {
@@ -425,7 +425,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   public async getToken(
     scopes: string[],
-    options: CredentialFlowGetTokenOptions = {}
+    options: CredentialFlowGetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId =
       processMultiTenantRequest(this.tenantId, options, this.additionallyAllowedTenantIds) ||
@@ -474,7 +474,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
   protected handleResult(
     scopes: string | string[],
     result?: MsalResult,
-    getTokenOptions?: GetTokenOptions
+    getTokenOptions?: GetTokenOptions,
   ): AccessToken {
     if (result?.account) {
       this.account = msalToPublic(this.clientId, result.account);

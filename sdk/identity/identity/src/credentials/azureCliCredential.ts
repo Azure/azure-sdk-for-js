@@ -42,7 +42,7 @@ export const cliCredentialInternals = {
   async getAzureCliAccessToken(
     resource: string,
     tenantId?: string,
-    timeout?: number
+    timeout?: number,
   ): Promise<{ stdout: string; stderr: string; error: Error | null }> {
     let tenantSection: string[] = [];
     if (tenantId) {
@@ -64,7 +64,7 @@ export const cliCredentialInternals = {
           { cwd: cliCredentialInternals.getSafeWorkingDir(), shell: true, timeout },
           (error, stdout, stderr) => {
             resolve({ stdout: stdout, stderr: stderr, error });
-          }
+          },
         );
       } catch (err: any) {
         reject(err);
@@ -100,7 +100,7 @@ export class AzureCliCredential implements TokenCredential {
       this.tenantId = options?.tenantId;
     }
     this.additionallyAllowedTenantIds = resolveAdditionallyAllowedTenantIds(
-      options?.additionallyAllowedTenants
+      options?.additionallyAllowedTenants,
     );
     this.timeout = options?.processTimeoutInMs;
   }
@@ -115,12 +115,12 @@ export class AzureCliCredential implements TokenCredential {
    */
   public async getToken(
     scopes: string | string[],
-    options: GetTokenOptions = {}
+    options: GetTokenOptions = {},
   ): Promise<AccessToken> {
     const tenantId = processMultiTenantRequest(
       this.tenantId,
       options,
-      this.additionallyAllowedTenantIds
+      this.additionallyAllowedTenantIds,
     );
 
     if (tenantId) {
@@ -136,7 +136,7 @@ export class AzureCliCredential implements TokenCredential {
         const obj = await cliCredentialInternals.getAzureCliAccessToken(
           resource,
           tenantId,
-          this.timeout
+          this.timeout,
         );
         const specificScope = obj.stderr?.match("(.*)az login --scope(.*)");
         const isLoginError = obj.stderr?.match("(.*)az login(.*)") && !specificScope;
@@ -145,14 +145,14 @@ export class AzureCliCredential implements TokenCredential {
 
         if (isNotInstallError) {
           const error = new CredentialUnavailableError(
-            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
+            "Azure CLI could not be found. Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
         }
         if (isLoginError) {
           const error = new CredentialUnavailableError(
-            "Please run 'az login' from a command prompt to authenticate before using this credential."
+            "Please run 'az login' from a command prompt to authenticate before using this credential.",
           );
           logger.getToken.info(formatError(scopes, error));
           throw error;
@@ -173,7 +173,7 @@ export class AzureCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-                (err as Error).message || "Unknown error while trying to retrieve the access token"
+                (err as Error).message || "Unknown error while trying to retrieve the access token",
               );
         logger.getToken.info(formatError(scopes, error));
         throw error;
@@ -211,7 +211,7 @@ export class AzureCliCredential implements TokenCredential {
     // ensure expiresOn is well-formatted
     if (isNaN(expiresOnTimestamp)) {
       throw new CredentialUnavailableError(
-        `Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got: "${response.expiresOn}"`
+        `Unexpected response from Azure CLI when getting token. Expected "expiresOn" to be a RFC3339 date string. Got: "${response.expiresOn}"`,
       );
     }
 
