@@ -141,6 +141,7 @@ describe("Batch Service", function () {
               publisher: "Microsoft.Azure.Geneva",
               typeHandlerVersion: "2.0",
               autoUpgradeMinorVersion: true,
+              enableAutomaticUpgrade: true,
             },
           ],
         },
