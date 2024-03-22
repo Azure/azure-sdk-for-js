@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.3 (2024-03-21)
+
+### Features Added
+
+- Add types for the package.
+
 ## 1.0.2 (2024-03-20)
 
 ### Features Added

@@ -450,7 +450,7 @@ describe("HttpSender", () => {
         trackStatsbeat: false,
         exporterOptions: {
           proxyOptions: {
-            host: "https://proxy.example.com",
+            host: "http://www.testproxy.com",
             port: 123,
           },
         },
