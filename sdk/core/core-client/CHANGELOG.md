@@ -1,6 +1,6 @@
 # Release History
 
-## 1.9.1 (Unreleased)
+## 1.9.2 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,17 @@
 
 ### Bugs Fixed
 
+### Other Changes
+
+## 1.9.1 (2024-03-20)
+
+### Bugs Fixed
+
 - Addressed an issue with `authorizeRequestOnTenantChallenge` not correctly parsing challenges. [PR #28967](https://github.com/Azure/azure-sdk-for-js/pull/28967)
 
 ### Other Changes
+
+- Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
 
 ## 1.9.0 (2024-03-12)
 

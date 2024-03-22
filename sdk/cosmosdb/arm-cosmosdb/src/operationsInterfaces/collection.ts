@@ -13,7 +13,7 @@ import {
   Usage,
   CollectionListUsagesOptionalParams,
   MetricDefinition,
-  CollectionListMetricDefinitionsOptionalParams
+  CollectionListMetricDefinitionsOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface Collection {
     databaseRid: string,
     collectionRid: string,
     filter: string,
-    options?: CollectionListMetricsOptionalParams
+    options?: CollectionListMetricsOptionalParams,
   ): PagedAsyncIterableIterator<Metric>;
   /**
    * Retrieves the usages (most recent storage data) for the given collection.
@@ -51,7 +51,7 @@ export interface Collection {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionListUsagesOptionalParams
+    options?: CollectionListUsagesOptionalParams,
   ): PagedAsyncIterableIterator<Usage>;
   /**
    * Retrieves metric definitions for the given collection.
@@ -66,6 +66,6 @@ export interface Collection {
     accountName: string,
     databaseRid: string,
     collectionRid: string,
-    options?: CollectionListMetricDefinitionsOptionalParams
+    options?: CollectionListMetricDefinitionsOptionalParams,
   ): PagedAsyncIterableIterator<MetricDefinition>;
 }

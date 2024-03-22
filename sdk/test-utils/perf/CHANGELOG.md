@@ -1,6 +1,16 @@
 # Release History
 
-## 1.0.0 (2024-03-14)
+## 1.0.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0 (2024-03-20)
 
 This marks the initial release of the `@azure-tools/test-perf` library to npm, providing a robust test utility framework that assists with the performance testing of Azure SDKs for JS/TS.
 

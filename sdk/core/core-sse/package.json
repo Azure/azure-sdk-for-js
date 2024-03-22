@@ -1,11 +1,12 @@
 {
   "name": "@azure/core-sse",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Implementation of the Server-sent events protocol for Node.js and browsers.",
   "sdk-type": "client",
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {

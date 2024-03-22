@@ -18,29 +18,29 @@ dotenv.config();
  * This sample demonstrates how to Creates a new file under a workspace for the specified subscription.
  *
  * @summary Creates a new file under a workspace for the specified subscription.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/CreateFileForSubscription.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/CreateFileForSubscription.json
  */
-async function createAFileWorkspace() {
+async function createASubscriptionScopedFile() {
   const subscriptionId = process.env["SUPPORT_SUBSCRIPTION_ID"] || "subid";
   const fileWorkspaceName = "testworkspace";
   const fileName = "test.txt";
   const createFileParameters: FileDetails = {
     chunkSize: 41423,
     fileSize: 41423,
-    numberOfChunks: 1
+    numberOfChunks: 1,
   };
   const credential = new DefaultAzureCredential();
   const client = new MicrosoftSupport(credential, subscriptionId);
   const result = await client.files.create(
     fileWorkspaceName,
     fileName,
-    createFileParameters
+    createFileParameters,
   );
   console.log(result);
 }
 
 async function main() {
-  createAFileWorkspace();
+  createASubscriptionScopedFile();
 }
 
 main().catch(console.error);
