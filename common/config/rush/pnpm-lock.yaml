@@ -10883,7 +10883,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-4RFMxeQv1SvqJCIIXuHWetqcaZypgMXBD4y5KRpyYJTn5IqgypkpxQDlU5Fzau51QjuGovlngIFGYhUK6ChHZw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-/TPIR7AnFn14n6kH5b1jVMMkViHug2sqOTjodv+02wNJ+v2wERWELrbc3vbgj8bG0qrRQxtu02oLu8KJvcv49A==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -10893,7 +10893,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.26
       autorest: 3.7.1
-      c8: 8.0.1
+      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       csv-parse: 5.5.5
@@ -11535,7 +11535,7 @@ packages:
     dev: false
 
   file:projects/app-configuration.tgz:
-    resolution: {integrity: sha512-yZ5eoxFyedjpLHPzgkwFAv2HhPvIWNHm1yn/sa8fqSp+SLfb/D2gOciNlANeEiiUgy9xldH4WXfTONmn+Wsf4w==, tarball: file:projects/app-configuration.tgz}
+    resolution: {integrity: sha512-pFjUxuGjyVie6Y1V5P/fxRAZDDOTtd9wgxQMd9p1eNkC+o/nvImwXcQ3Shxa+l0T78FYNszunQinz/x5wp+vOw==, tarball: file:projects/app-configuration.tgz}
     name: '@rush-temp/app-configuration'
     version: 0.0.0
     dependencies:
@@ -11546,7 +11546,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.26
       '@types/sinon': 17.0.3
-      c8: 8.0.1
+      c8: 9.1.0
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 8.57.0
@@ -12937,7 +12937,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-ZLOw/zxspfcaDH8PvlS0yHmTEUeyQZ4JAW3tBxOgiAoLllY0qXvrfYEYH/WY8bq8dL5elf1Krb9WuKe0IH3PxQ==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-CRO4jMl+9zlfZMXItjDEMsk+IB24Fn1GNlPWejgdTcJJQWa6NT+m6AD5cR67z3h/AF9jy0AOTaK7M110UV2F/Q==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -17697,10 +17697,10 @@ packages:
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/identity': 4.0.1
-      '@microsoft/api-extractor': 7.42.3(@types/node@18.19.22)
-      '@types/chai': 4.3.12
+      '@microsoft/api-extractor': 7.43.0(@types/node@18.19.26)
+      '@types/chai': 4.3.14
       '@types/mocha': 10.0.6
-      '@types/node': 18.19.22
+      '@types/node': 18.19.26
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -17708,7 +17708,7 @@ packages:
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
-      ts-node: 10.9.2(@types/node@18.19.22)(typescript@5.3.3)
+      ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
       tslib: 2.6.2
       typescript: 5.3.3
       uglify-js: 3.17.4
@@ -18621,7 +18621,7 @@ packages:
     dev: false
 
   file:projects/core-amqp.tgz:
-    resolution: {integrity: sha512-h6a/mCt2qYR/JfmGNeige8PDCTT3/8Vpkj9FypbqmH3opXycLtaN5Dro1f3ejlV9t3F19A17GrSMW+WD77waLA==, tarball: file:projects/core-amqp.tgz}
+    resolution: {integrity: sha512-CA7shWTzs/QwzgJn1qBvHhHAg5iy2hfAGzUPNZren/bUkP+UzNJ44BO0Vex5G+mmqNhQIi7mDlrodCM7E6X59w==, tarball: file:projects/core-amqp.tgz}
     name: '@rush-temp/core-amqp'
     version: 0.0.0
     dependencies:
@@ -18633,7 +18633,7 @@ packages:
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
       buffer: 6.0.3
-      c8: 8.0.1
+      c8: 9.1.0
       chai: 4.3.10
       cross-env: 7.0.3
       debug: 4.3.4(supports-color@8.1.1)
@@ -20151,7 +20151,7 @@ packages:
     dev: false
 
   file:projects/keyvault-secrets.tgz:
-    resolution: {integrity: sha512-PDO+E1zM3OC6ky8klGdxzc18kSgJon5yW616l0ZwUHEtCtrf+tpb4Spe1jO4+Wj5x9CRSPmkh0hk3dyT78sr8Q==, tarball: file:projects/keyvault-secrets.tgz}
+    resolution: {integrity: sha512-hF2SvKHbFykVdDom+8z/N2PJjSSP/voViU2JWK1qwhsSfOwSmSehzz1l3n9nIWEAultEZhqnsozvD/H8TNlLxg==, tarball: file:projects/keyvault-secrets.tgz}
     name: '@rush-temp/keyvault-secrets'
     version: 0.0.0
     dependencies:
@@ -20161,7 +20161,7 @@ packages:
       '@types/mocha': 10.0.6
       '@types/node': 18.19.26
       '@types/sinon': 17.0.3
-      c8: 8.0.1
+      c8: 9.1.0
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 8.57.0
