@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?maxResults=1\u0026api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/pools?maxResults=1\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -84,7 +84,7 @@
             "currentNodeCommunicationMode": "classic"
           }
         ],
-        "odata.nextLink": "https://endpoint/pools?maxResults=1\u0026api-version=2023-11-01.18.0\u0026$skiptoken=WATV2:P1atOmaokc1f7Ii8p5t2MsaxbDB24hh8WxrdPxhaajAMWjkRFaLteovsiAy65Tj1zyhr6I2k2PG4mXqzr4LIntM1HQpoych89zOg9kSJzrR2Idlcdvq^o079Chkxx/I5gIWc5iaI4EcpseWYuSry5GRO2m8vjcWvYOar5TDT//dEJvfbb5PorkPe/d6xYivCWI0SxxyXVBPMU4qBwpVJpXCpEu/Z7W3ZbEcl2NbUjcQFPDQ7bYaG/kXCVGZn/xP3GyY3hCVjoTOzpxTvGKcg9wolXggzLxxtDKi2AOmFPWWXlxosyYPfSg52ceZ2RY0a:1$1"
+        "odata.nextLink": "https://endpoint/pools?maxResults=1\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:P1atOmaokc1f7Ii8p5t2MsaxbDB24hh8WxrdPxhaajAMWjkRFaLteovsiAy65Tj1zyhr6I2k2PG4mXqzr4LIntM1HQpoych89zOg9kSJzrR2Idlcdvq^o079Chkxx/I5gIWc5iaI4EcpseWYuSry5GRO2m8vjcWvYOar5TDT//dEJvfbb5PorkPe/d6xYivCWI0SxxyXVBPMU4qBwpVJpXCpEu/Z7W3ZbEcl2NbUjcQFPDQ7bYaG/kXCVGZn/xP3GyY3hCVjoTOzpxTvGKcg9wolXggzLxxtDKi2AOmFPWWXlxosyYPfSg52ceZ2RY0a:1$1"
       }
     }
   ],

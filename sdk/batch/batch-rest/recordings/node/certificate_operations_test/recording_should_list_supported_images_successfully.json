@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -52,7 +52,7 @@
             "osType": "linux"
           }
         ],
-        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2023-11-01.18.0\u0026$skiptoken=WATV2:dC2Zw0OCOECJStP4LBh4CA6yxeZKUghorz20jwxzQJUXPP2E5AKF4evXQUqhT5E56ogXB0KQvqEp3h1eDSc59miz6IfUHPLZlKt4eeZwoRBt/pxGSDAQ2UgLaYPjZS6YpOkGIHXw84k/dMNwrBiDEJnHejOETFwy7jMSKWFaogAESzGBWo4dfA8q^Lb5hnW0:1$1"
+        "odata.nextLink": "https://endpoint/supportedimages?maxresults=2\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:dC2Zw0OCOECJStP4LBh4CA6yxeZKUghorz20jwxzQJUXPP2E5AKF4evXQUqhT5E56ogXB0KQvqEp3h1eDSc59miz6IfUHPLZlKt4eeZwoRBt/pxGSDAQ2UgLaYPjZS6YpOkGIHXw84k/dMNwrBiDEJnHejOETFwy7jMSKWFaogAESzGBWo4dfA8q^Lb5hnW0:1$1"
       }
     }
   ],

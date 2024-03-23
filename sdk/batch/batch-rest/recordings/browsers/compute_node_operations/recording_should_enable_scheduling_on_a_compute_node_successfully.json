@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_8b53af4548a096331717032a968d1f52032ec6ccb9e130b76ff0a7918835ade0_d/enablescheduling?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_8b53af4548a096331717032a968d1f52032ec6ccb9e130b76ff0a7918835ade0_d/enablescheduling?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",

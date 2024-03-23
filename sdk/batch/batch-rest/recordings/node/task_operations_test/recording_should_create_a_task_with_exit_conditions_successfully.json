@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/jobs?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/jobs?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -39,7 +39,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -87,7 +87,7 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete/tasks/TaskWithAutoComplete?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -155,7 +155,7 @@
       }
     },
     {
-      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/jobs/JobWithAutoComplete?api-version=2024-02-01.19.0",
       "RequestMethod": "DELETE",
       "RequestHeaders": {
         "Accept": "application/json",

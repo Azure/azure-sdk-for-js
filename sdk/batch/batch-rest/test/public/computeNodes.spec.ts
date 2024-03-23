@@ -11,7 +11,7 @@ import {
   CreatePoolParameters,
   CreateNodeUserParameters,
   ReplaceNodeUserParameters,
-  UploadBatchServiceLogsParameters,
+  UploadBatchServiceLogsContent,
   UploadNodeLogsParameters,
 } from "../../src";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets";
@@ -251,9 +251,9 @@ describe("Compute node operations", async () => {
 
   it("should upload pool node logs at paas pool", async () => {
     const container = "https://teststorage.blob.core.windows.net/fakecontainer";
-    const config: UploadBatchServiceLogsParameters = {
+    const config: UploadBatchServiceLogsContent = {
       containerUrl: container,
-      startTime: new Date("2018-02-25T00:00:00.00"),
+      startTime: new Date("2018-02-25T00:00:00.000Z"),
     };
 
     const uploadLogBody: UploadNodeLogsParameters = {

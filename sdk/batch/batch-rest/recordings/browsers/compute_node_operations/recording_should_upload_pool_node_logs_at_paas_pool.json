@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_b86027fc58a6b8cfdfd7af5ec5047f9be5b79185ec1365596d0ac9c832149cc9_d/uploadbatchservicelogs?api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-d0af/nodes/tvmps_b86027fc58a6b8cfdfd7af5ec5047f9be5b79185ec1365596d0ac9c832149cc9_d/uploadbatchservicelogs?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
@@ -24,7 +24,7 @@
       },
       "RequestBody": {
         "containerUrl": "https://teststorage.blob.core.windows.net/fakecontainer",
-        "startTime": "2018-02-24T16:00:00.000Z"
+        "startTime": "2018-02-25T00:00:00.000Z"
       },
       "StatusCode": 200,
       "ResponseHeaders": {

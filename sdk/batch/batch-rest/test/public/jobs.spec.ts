@@ -7,7 +7,7 @@ import { createBatchClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
   BatchClient,
-  BatchJobCreateParameters,
+  BatchJobCreateContent,
   CreateJobParameters,
   CreatePoolParameters,
   UpdateJobParameters,
@@ -116,7 +116,7 @@ describe("Job Operations Test", () => {
   });
 
   it("should update a job successfully", async () => {
-    const options: BatchJobCreateParameters = {
+    const options: BatchJobCreateContent = {
       id: recorder.variable("JOB_NAME", JOB_NAME),
       priority: 500,
       constraints: { maxTaskRetryCount: 3 },

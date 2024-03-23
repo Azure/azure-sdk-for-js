@@ -7,8 +7,8 @@ import { createBatchClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
   BatchClient,
-  BatchPoolResizeParameters,
-  BatchPoolUpdateParameters,
+  BatchPoolResizeContent,
+  BatchPoolUpdateContent,
   CreatePoolParameters,
   GetPoolParameters,
   ListPoolsParameters,
@@ -122,7 +122,7 @@ describe("Pool Operations Test", () => {
   });
 
   it("should patch pool parameters successfully", async () => {
-    const options: BatchPoolUpdateParameters = {
+    const options: BatchPoolUpdateContent = {
       metadata: [
         {
           name: "foo2",
@@ -539,7 +539,7 @@ describe("Pool Operations Test", () => {
     };
     await waitForNotNull(getSteadyPool);
 
-    const options: BatchPoolResizeParameters = {
+    const options: BatchPoolResizeContent = {
       targetDedicatedNodes: 3,
       targetLowPriorityNodes: 2,
     };

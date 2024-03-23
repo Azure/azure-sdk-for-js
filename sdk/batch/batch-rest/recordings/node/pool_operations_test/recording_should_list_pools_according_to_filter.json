@@ -1,7 +1,7 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools?%24filter=startswith%28id%2C%27JSSDKTest-Pool-Basic-8197%27%29\u0026%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2023-11-01.18.0",
+      "RequestUri": "https://endpoint/pools?%24filter=startswith%28id%2C%27JSSDKTest-Pool-Basic-8197%27%29\u0026%24select=id%2Cstate\u0026%24expand=stats\u0026api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
