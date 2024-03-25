@@ -43,8 +43,8 @@ module managedIdentityModule 'test-resources-msi.bicep' = if(deployMIResources) 
     }
 }
 
-output IDENTITY_WEBAPP_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityWebappName : ''
-output IDENTITY_WEBAPP_PLAN string = deployMIResources? managedIdentityModule.outputs.IdentityWebappPlan : ''
+output IDENTITY_WEBAPP_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityWebAppName : ''
+output IDENTITY_WEBAPP_PLAN string = deployMIResources? managedIdentityModule.outputs.IdentityWebAppPlan : ''
 output IDENTITY_USER_DEFINED_IDENTITY string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentity: ''
 output IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedClientId : ''
 output IDENTITY_USER_DEFINED_IDENTITY_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentityName : ''
