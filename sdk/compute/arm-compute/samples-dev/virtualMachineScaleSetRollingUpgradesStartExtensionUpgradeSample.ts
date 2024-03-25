@@ -28,10 +28,11 @@ async function startAnExtensionRollingUpgrade() {
   const vmScaleSetName = "{vmss-name}";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetRollingUpgrades.beginStartExtensionUpgradeAndWait(
-    resourceGroupName,
-    vmScaleSetName
-  );
+  const result =
+    await client.virtualMachineScaleSetRollingUpgrades.beginStartExtensionUpgradeAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+    );
   console.log(result);
 }
 

@@ -30,7 +30,7 @@ async function simulateEvictionAVirtualMachine() {
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.simulateEviction(
     resourceGroupName,
-    vmName
+    vmName,
   );
   console.log(result);
 }

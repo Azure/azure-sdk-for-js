@@ -2,8 +2,8 @@
 
 The Azure Monitor Query client library is used to execute read-only queries against [Azure Monitor][azure_monitor_overview]'s two data platforms:
 
-- [Logs](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-and-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
-- [Metrics](https://docs.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them particularly useful for alerting and fast detection of issues.
+- [Logs](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs) - Collects and organizes log and performance data from monitored resources. Data from different sources such as platform logs from Azure services, log and performance data from virtual machines agents, and usage and performance data from apps can be consolidated into a single [Azure Log Analytics workspace](https://learn.microsoft.com/azure/azure-monitor/logs/data-platform-logs#log-analytics-and-workspaces). The various data types can be analyzed together using the [Kusto Query Language][kusto_query_language].
+- [Metrics](https://learn.microsoft.com/azure/azure-monitor/essentials/data-platform-metrics) - Collects numeric data from monitored resources into a time series database. Metrics are numerical values that are collected at regular intervals and describe some aspect of a system at a particular time. Metrics are lightweight and capable of supporting near real-time scenarios, making them useful for alerting and fast detection of issues.
 
 **Resources:**
 
@@ -19,14 +19,14 @@ The Azure Monitor Query client library is used to execute read-only queries agai
 ### Supported environments
 
 - [LTS versions of Node.js](https://github.com/nodejs/release#release-schedule)
-- Latest versions of Safari, Chrome, Edge, and Firefox
+- Latest versions of Safari, Chrome, Microsoft Edge, and Firefox
 
-For more details, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
+For more information, see our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md).
 
 ### Prerequisites
 
 - An [Azure subscription][azure_subscription]
-- A [TokenCredential](https://docs.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) implementation, such as an [Azure Identity library credential type](https://docs.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credential-classes).
+- A [TokenCredential](https://learn.microsoft.com/javascript/api/@azure/core-auth/tokencredential?view=azure-node-latest) implementation, such as an [Azure Identity library credential type](https://learn.microsoft.com/javascript/api/overview/azure/identity-readme?view=azure-node-latest#credential-classes).
 - To query Logs, you need one of the following things:
   - An [Azure Log Analytics workspace][azure_monitor_create_using_portal]
   - An Azure resource of any kind (Storage Account, Key Vault, Cosmos DB, etc.)
@@ -62,9 +62,9 @@ const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryCl
 );
 ```
 
-#### Configure clients for non-public Azure clouds
+#### Configure client for Azure sovereign cloud
 
-By default, `LogsQueryClient` and `MetricsQueryClient` are configured to connect to the public Azure cloud. These can be configured to connect to non-public Azure clouds by passing in the correct `endpoint` argument. For example:
+By default, `LogsQueryClient` and `MetricsQueryClient` are configured to use the Azure Public Cloud. To use a sovereign cloud instead, provide the correct `endpoint` argument. For example:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -82,7 +82,7 @@ const metricsQueryClient = new MetricsQueryClient(credential{
 });
 ```
 
-**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics, so you will need the corresponding management endpoint for your cloud when using this client. This is subject to change in the future.
+**Note**: Currently, `MetricsQueryClient` uses the Azure Resource Manager (ARM) endpoint for querying metrics. You need the corresponding management endpoint for your cloud when using this client. This detail is subject to change in the future.
 
 ### Execute the query
 
@@ -103,7 +103,7 @@ Each set of metric values is a time series with the following characteristics:
 - A namespace that acts like a category for the metric
 - A metric name
 - The value itself
-- Some metrics may have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
+- Some metrics have multiple dimensions as described in multi-dimensional metrics. Custom metrics can have up to 10 dimensions.
 
 ## Examples
 
@@ -119,7 +119,7 @@ Each set of metric values is a time series with the following characteristics:
 - [Metrics query](#metrics-query)
   - [Handle metrics query response](#handle-metrics-query-response)
   - [Example of handling response](#example-of-handling-response)
-- [Batch metrics query](#batch-metrics-query)
+  - [Query metrics for multiple resources](#query-metrics-for-multiple-resources)
 
 ### Logs query
 
@@ -181,7 +181,7 @@ run().catch((err) => console.log("ERROR:", err));
 
 #### Resource-centric logs query
 
-The following example demonstrates how to query logs directly from an Azure resource. Here, the `queryResource` method is used and an Azure resource ID is passed in (e.g. /subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}).
+The following example demonstrates how to query logs directly from an Azure resource. Here, the `queryResource` method is used and an Azure resource ID is passed in. For example, `/subscriptions/{subscription-id}/resourceGroups/{resource-group-name}/providers/{resource-provider}/{resource-type}/{resource-name}`.
 
 To find the resource ID:
 
@@ -537,7 +537,7 @@ const tablesFromResult = result.tables;
 The same logs query can be executed across multiple Log Analytics workspaces. In addition to the Kusto query, the following parameters are required:
 
 - `workspaceId` - The first (primary) workspace ID.
-- `additionalWorkspaces` - A list of workspaces, excluding the workspace provided in the `workspaceId` parameter. The parameter's list items may consist of the following identifier formats:
+- `additionalWorkspaces` - A list of workspaces, excluding the workspace provided in the `workspaceId` parameter. The parameter's list items can consist of the following identifier formats:
   - Qualified workspace names
   - Workspace IDs
   - Azure resource IDs
@@ -622,7 +622,7 @@ Because the structure of the `statistics` payload varies by query, a `Record<str
 
 #### Include visualization
 
-To get visualization data for logs queries using the [render operator](https://docs.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
+To get visualization data for logs queries using the [render operator](https://learn.microsoft.com/azure/data-explorer/kusto/query/renderoperator?pivots=azuremonitor):
 
 1. Set the `LogsQueryOptions.includeVisualization` property to `true`.
 1. Access the `visualization` field inside the `LogsQueryResult` object.
@@ -674,7 +674,7 @@ Because the structure of the `visualization` payload varies by query, a `Record<
 
 ### Metrics query
 
-The following example gets metrics for an [Azure Metrics Advisor](https://docs.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
+The following example gets metrics for an [Azure Metrics Advisor](https://learn.microsoft.com/azure/applied-ai-services/metrics-advisor/overview) subscription.
 The resource URI must be that of the resource for which metrics are being queried. It's normally of the format `/subscriptions/<id>/resourceGroups/<rg-name>/providers/<source>/topics/<resource-name>`.
 
 To find the resource URI:
@@ -831,9 +831,19 @@ main().catch((err) => {
 
 A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/samples/v1/typescript/src/metricsQuery.ts).
 
-### Batch metrics query
+#### Query metrics for multiple resources
 
-The following example executes multiple metrics queries in a single request using the `MetricsBatchQueryClient.queryBatch` method:
+To query metrics for multiple Azure resources in a single request, use the `MetricsBatchQueryClient.queryBatch` method. This method:
+
+- Calls a different API than the `MetricsQueryClient` methods.
+- Requires a regional endpoint when creating the client. For example, "https://westus3.metrics.monitor.azure.com".
+
+Each Azure resource must reside in:
+
+- The same region as the endpoint specified when creating the client.
+- The same Azure subscription.
+
+Furthermore, the metric namespace containing the metrics to be queried must be provided. For a list of metric namespaces, see [Supported metrics and log categories by resource type][metric_namespaces].
 
 ```ts
 let resourceIds: string[] = [
@@ -856,6 +866,8 @@ const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.
   metricNames
 );
 ```
+
+For an inventory of metrics and dimensions available for each Azure resource type, see [Supported metrics with Azure Monitor](https://learn.microsoft.com/azure/azure-monitor/essentials/metrics-supported).
 
 ## Troubleshooting
 
@@ -887,12 +899,13 @@ For more details, view our [tests](https://github.com/Azure/azure-sdk-for-js/blo
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmonitor%2Fmonitor-query%2FREADME.png)
 
-[azure_monitor_create_using_portal]: https://docs.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
-[azure_monitor_overview]: https://docs.microsoft.com/azure/azure-monitor/overview
+[azure_monitor_create_using_portal]: https://learn.microsoft.com/azure/azure-monitor/logs/quick-create-workspace
+[azure_monitor_overview]: https://learn.microsoft.com/azure/azure-monitor/overview
 [azure_subscription]: https://azure.microsoft.com/free/
 [changelog]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/CHANGELOG.md
-[kusto_query_language]: https://docs.microsoft.com/azure/data-explorer/kusto/query/
-[msdocs_apiref]: https://docs.microsoft.com/javascript/api/@azure/monitor-query
+[kusto_query_language]: https://learn.microsoft.com/azure/data-explorer/kusto/query/
+[metric_namespaces]: https://learn.microsoft.com/azure/azure-monitor/reference/supported-metrics/metrics-index#supported-metrics-and-log-categories-by-resource-type
+[msdocs_apiref]: https://learn.microsoft.com/javascript/api/@azure/monitor-query
 [package]: https://www.npmjs.com/package/@azure/monitor-query
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-query/samples
 [source]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/monitor/monitor-query/

@@ -15,7 +15,8 @@ import {
   AzureGroundingEnhancementLineSpan,
   ChatChoice,
   ChatCompletions,
-  ChatCompletionsToolCall,
+  ChatCompletionsFunctionToolCall,
+  ChatCompletionsToolCallUnion,
   ChatFinishDetails,
   ChatResponseMessage,
   Choice,
@@ -32,6 +33,7 @@ import {
   ContentFilterResultsForPrompt,
   FunctionCall,
   ImageGenerations,
+  StopFinishDetails,
 } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { get } from "./utils.js";
@@ -175,14 +177,15 @@ function assertFunctionCall(
 }
 
 function assertToolCall(
-  functionCall: ChatCompletionsToolCall,
+  functionCall: ChatCompletionsToolCallUnion,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, functionCall.type, assert.isString);
   assertIf(!stream, functionCall.id, assert.isString);
+  assertIf(Boolean(stream), functionCall.index, assert.isNumber);
   switch (functionCall.type) {
     case "function":
-      assertFunctionCall(functionCall.function, { stream });
+      assertFunctionCall((functionCall as ChatCompletionsFunctionToolCall).function, { stream });
       break;
   }
 }
@@ -217,7 +220,7 @@ function assertChatFinishDetails(val: ChatFinishDetails): void {
     case "max_tokens":
       break;
     case "stop": {
-      assert.isString(val.stop);
+      assert.isString((val as StopFinishDetails).stop);
       break;
     }
   }

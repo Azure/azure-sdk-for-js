@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CapacityReservation,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,7 +34,7 @@ async function createOrUpdateACapacityReservation() {
     location: "westus",
     sku: { name: "Standard_DS1_v2", capacity: 4 },
     tags: { department: "HR" },
-    zones: ["1"]
+    zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -42,7 +42,7 @@ async function createOrUpdateACapacityReservation() {
     resourceGroupName,
     capacityReservationGroupName,
     capacityReservationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   RestorePointCollectionUpdate,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,17 +31,16 @@ async function restorePointCollectionUpdateMaximumSetGen() {
   const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
   const parameters: RestorePointCollectionUpdate = {
     source: {
-      id:
-        "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+      id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
     },
-    tags: { key8536: "aaaaaaaaaaaaaaaaaaa" }
+    tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.restorePointCollections.update(
     resourceGroupName,
     restorePointCollectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -64,7 +63,7 @@ async function restorePointCollectionUpdateMinimumSetGen() {
   const result = await client.restorePointCollections.update(
     resourceGroupName,
     restorePointCollectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

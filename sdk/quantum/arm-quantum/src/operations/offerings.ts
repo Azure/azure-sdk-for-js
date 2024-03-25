@@ -18,7 +18,7 @@ import {
   OfferingsListNextOptionalParams,
   OfferingsListOptionalParams,
   OfferingsListResponse,
-  OfferingsListNextResponse
+  OfferingsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class OfferingsImpl implements Offerings {
    */
   public list(
     locationName: string,
-    options?: OfferingsListOptionalParams
+    options?: OfferingsListOptionalParams,
   ): PagedAsyncIterableIterator<ProviderDescription> {
     const iter = this.listPagingAll(locationName, options);
     return {
@@ -56,14 +56,14 @@ export class OfferingsImpl implements Offerings {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(locationName, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     locationName: string,
     options?: OfferingsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ProviderDescription[]> {
     let result: OfferingsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class OfferingsImpl implements Offerings {
 
   private async *listPagingAll(
     locationName: string,
-    options?: OfferingsListOptionalParams
+    options?: OfferingsListOptionalParams,
   ): AsyncIterableIterator<ProviderDescription> {
     for await (const page of this.listPagingPage(locationName, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class OfferingsImpl implements Offerings {
    */
   private _list(
     locationName: string,
-    options?: OfferingsListOptionalParams
+    options?: OfferingsListOptionalParams,
   ): Promise<OfferingsListResponse> {
     return this.client.sendOperationRequest(
       { locationName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -116,11 +116,11 @@ export class OfferingsImpl implements Offerings {
   private _listNext(
     locationName: string,
     nextLink: string,
-    options?: OfferingsListNextOptionalParams
+    options?: OfferingsListNextOptionalParams,
   ): Promise<OfferingsListNextResponse> {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -128,43 +128,42 @@ export class OfferingsImpl implements Offerings {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/offerings",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/offerings",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfferingsListResult
+      bodyMapper: Mappers.OfferingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OfferingsListResult
+      bodyMapper: Mappers.OfferingsListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.locationName
+    Parameters.locationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

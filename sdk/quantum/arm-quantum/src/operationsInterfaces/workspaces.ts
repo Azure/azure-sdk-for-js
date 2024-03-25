@@ -19,7 +19,7 @@ import {
   TagsObject,
   WorkspacesUpdateTagsOptionalParams,
   WorkspacesUpdateTagsResponse,
-  WorkspacesDeleteOptionalParams
+  WorkspacesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,31 +30,31 @@ export interface Workspaces {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WorkspacesListBySubscriptionOptionalParams
+    options?: WorkspacesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<QuantumWorkspace>;
   /**
    * Gets the list of Workspaces within a resource group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WorkspacesListByResourceGroupOptionalParams
+    options?: WorkspacesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<QuantumWorkspace>;
   /**
    * Returns the Workspace resource associated with the given name.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesGetOptionalParams
+    options?: WorkspacesGetOptionalParams,
   ): Promise<WorkspacesGetResponse>;
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -63,7 +63,7 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     quantumWorkspace: QuantumWorkspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WorkspacesCreateOrUpdateResponse>,
@@ -72,7 +72,7 @@ export interface Workspaces {
   >;
   /**
    * Creates or updates a workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param quantumWorkspace Workspace details.
    * @param options The options parameters.
@@ -81,11 +81,11 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     quantumWorkspace: QuantumWorkspace,
-    options?: WorkspacesCreateOrUpdateOptionalParams
+    options?: WorkspacesCreateOrUpdateOptionalParams,
   ): Promise<WorkspacesCreateOrUpdateResponse>;
   /**
    * Updates an existing workspace's tags.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param workspaceTags Parameters supplied to update tags.
    * @param options The options parameters.
@@ -94,28 +94,28 @@ export interface Workspaces {
     resourceGroupName: string,
     workspaceName: string,
     workspaceTags: TagsObject,
-    options?: WorkspacesUpdateTagsOptionalParams
+    options?: WorkspacesUpdateTagsOptionalParams,
   ): Promise<WorkspacesUpdateTagsResponse>;
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Workspace resource.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the quantum workspace resource.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     workspaceName: string,
-    options?: WorkspacesDeleteOptionalParams
+    options?: WorkspacesDeleteOptionalParams,
   ): Promise<void>;
 }
