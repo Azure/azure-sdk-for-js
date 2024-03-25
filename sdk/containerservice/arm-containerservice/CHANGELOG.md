@@ -1,5 +1,14 @@
 # Release History
     
+## 19.8.0 (2024-03-22)
+    
+**Features**
+
+  - Added Interface ManagedClusterIngressProfile
+  - Added Interface ManagedClusterIngressProfileWebAppRouting
+  - Interface ManagedCluster has a new optional parameter ingressProfile
+    
+    
 ## 19.8.0-beta.2 (2024-03-08)
     
 **Features**
@@ -351,7 +360,7 @@
   - Enum KnownSnapshotType has a new value ManagedCluster
   - Enum KnownWorkloadRuntime has a new value KataMshvVmIsolation
     
-      
+   
 ## 19.7.0 (2024-01-18)
     
 **Features**
