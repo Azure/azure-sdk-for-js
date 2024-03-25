@@ -16,10 +16,11 @@ require("dotenv").config();
  * This sample demonstrates how to List plans data
  *
  * @summary List plans data
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Plans_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Plans_List_MaximumSet_Gen.json
  */
 async function plansListMaximumSetGen() {
-  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "hfmjmpyqgezxkp";
+  const subscriptionId =
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const accountId = "pwuxgvrmkk";
   const organizationId = "hilawwjz";
   const options = { accountId, organizationId };
@@ -36,14 +37,17 @@ async function plansListMaximumSetGen() {
  * This sample demonstrates how to List plans data
  *
  * @summary List plans data
- * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2022-07-01/examples/Plans_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/newrelic/resource-manager/NewRelic.Observability/stable/2024-01-01/examples/Plans_List_MinimumSet_Gen.json
  */
 async function plansListMinimumSetGen() {
-  const subscriptionId = process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "nqmcgifgaqlf";
+  const subscriptionId =
+    process.env["NEWRELICOBSERVABILITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
+  const organizationId = "hilawwjz";
+  const options = { organizationId };
   const credential = new DefaultAzureCredential();
   const client = new NewRelicObservability(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.plans.list()) {
+  for await (let item of client.plans.list(options)) {
     resArray.push(item);
   }
   console.log(resArray);

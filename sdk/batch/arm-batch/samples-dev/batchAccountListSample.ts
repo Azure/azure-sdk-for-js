@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets information about the Batch accounts associated with the subscription.
  *
  * @summary Gets information about the Batch accounts associated with the subscription.
- * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2023-11-01/examples/BatchAccountList.json
+ * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2024-02-01/examples/BatchAccountList.json
  */
 async function batchAccountList() {
   const subscriptionId = process.env["BATCH_SUBSCRIPTION_ID"] || "subid";

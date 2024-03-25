@@ -11,7 +11,7 @@
 import {
   RoleInstances,
   CloudServicesReimageOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -31,7 +31,7 @@ async function reimageCloudServiceRoleInstancesInACloudService() {
     process.env["COMPUTE_RESOURCE_GROUP"] || "ConstosoRG";
   const cloudServiceName = "{cs-name}";
   const parameters: RoleInstances = {
-    roleInstances: ["ContosoFrontend_IN_0", "ContosoBackend_IN_1"]
+    roleInstances: ["ContosoFrontend_IN_0", "ContosoBackend_IN_1"],
   };
   const options: CloudServicesReimageOptionalParams = { parameters };
   const credential = new DefaultAzureCredential();
@@ -39,7 +39,7 @@ async function reimageCloudServiceRoleInstancesInACloudService() {
   const result = await client.cloudServices.beginReimageAndWait(
     resourceGroupName,
     cloudServiceName,
-    options
+    options,
   );
   console.log(result);
 }

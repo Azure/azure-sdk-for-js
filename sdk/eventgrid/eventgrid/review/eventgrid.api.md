@@ -515,6 +515,26 @@ export interface AcsUserDisconnectedEventData {
 export type AcsUserEngagement = string;
 
 // @public
+export interface ApiCenterApiDefinitionAddedEventData {
+    description: string;
+    specification: ApiCenterApiSpecification;
+    title: string;
+}
+
+// @public
+export interface ApiCenterApiDefinitionUpdatedEventData {
+    description: string;
+    specification: ApiCenterApiSpecification;
+    title: string;
+}
+
+// @public
+export interface ApiCenterApiSpecification {
+    name: string;
+    version: string;
+}
+
+// @public
 export interface ApiManagementApiCreatedEventData {
     resourceUri: string;
 }
@@ -2448,6 +2468,8 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
+    "Microsoft.ApiCenter.ApiDefinitionAdded": ApiCenterApiDefinitionAddedEventData;
+    "Microsoft.ApiCenter.ApiDefinitionUpdated": ApiCenterApiDefinitionUpdatedEventData;
     "Microsoft.ApiManagement.APICreated": ApiManagementApiCreatedEventData;
     "Microsoft.ApiManagement.APIDeleted": ApiManagementApiDeletedEventData;
     "Microsoft.ApiManagement.APIReleaseCreated": ApiManagementApiReleaseCreatedEventData;

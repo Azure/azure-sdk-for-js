@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a shared gallery image version by subscription id or tenant id.
  *
  * @summary Get a shared gallery image version by subscription id or tenant id.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/sharedGalleryExamples/SharedGalleryImageVersion_Get.json
  */
 async function getASharedGalleryImageVersion() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getASharedGalleryImageVersion() {
     location,
     galleryUniqueName,
     galleryImageName,
-    galleryImageVersionName
+    galleryImageVersionName,
   );
   console.log(result);
 }

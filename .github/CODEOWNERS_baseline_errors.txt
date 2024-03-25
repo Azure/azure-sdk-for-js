@@ -20,6 +20,7 @@ EmmaZhu is not a public member of Azure.
 RamonArguelles is not a public member of Azure.
 MaryGao is not a public member of Azure.
 JacksonWeber is not a public member of Azure.
+Aviv-Yaniv is not a public member of Azure.
 adamedx is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.
 Azure/aks-pm is an invalid team. Ensure the team exists and has write permissions.
 liadtal is an invalid user. Ensure the user exists, is public member of Azure and has write permissions.

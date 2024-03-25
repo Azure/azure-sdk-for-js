@@ -3,7 +3,7 @@
 
 import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
+import { SEMATTRS_NET_PEER_NAME } from "@opentelemetry/semantic-conventions";
 import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import { RemoteDependencyData, RequestData } from "../generated";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
@@ -44,7 +44,7 @@ export const parseEventHubSpan = (
 ): void => {
   const namespace = span.attributes[AzNamespace] as typeof MicrosoftEventHub;
   const peerAddress = (
-    (span.attributes[SemanticAttributes.NET_PEER_NAME] ||
+    (span.attributes[SEMATTRS_NET_PEER_NAME] ||
       span.attributes["peer.address"] ||
       "unknown") as string
   ).replace(/\/$/g, ""); // remove trailing "/"
