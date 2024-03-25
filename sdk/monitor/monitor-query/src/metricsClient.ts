@@ -77,24 +77,20 @@ export class MetricsClient {
       throw new Error("Resource IDs can not be empty");
     }
 
-    return tracingClient.withSpan(
-      "MetricsBatchQueryClient.batch",
-      options,
-      async (updatedOptions) => {
-        const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
+    return tracingClient.withSpan("MetricsQueryClient.batch", options, async (updatedOptions) => {
+      const subscriptionId = getSubscriptionFromResourceId(resourceIds[0]);
 
-        const response = await this._metricBatchClient.metricsBatch.batch(
-          subscriptionId,
-          metricNamespace,
-          metricNames,
-          {
-            resourceids: resourceIds,
-          },
-          convertRequestForMetricsBatchQuery(updatedOptions),
-        );
+      const response = await this._metricBatchClient.metricsBatch.batch(
+        subscriptionId,
+        metricNamespace,
+        metricNames,
+        {
+          resourceids: resourceIds,
+        },
+        convertRequestForMetricsBatchQuery(updatedOptions),
+      );
 
-        return convertResponseForMetricBatch(response);
-      },
-    );
+      return convertResponseForMetricBatch(response);
+    });
   }
 }

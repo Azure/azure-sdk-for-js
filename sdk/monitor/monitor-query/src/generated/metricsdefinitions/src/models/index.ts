@@ -145,20 +145,20 @@ export interface MetricDefinition {
   dimensions?: LocalizableString[];
 }
 
-/** Known values of {@link ApiVersion20231001} that the service accepts. */
-export enum KnownApiVersion20231001 {
-  /** Api Version '2023-10-01' */
-  TwoThousandTwentyThree1001 = "2023-10-01"
+/** Known values of {@link ApiVersion20240201} that the service accepts. */
+export enum KnownApiVersion20240201 {
+  /** Api Version '2024-02-01' */
+  TwoThousandTwentyFour0201 = "2024-02-01"
 }
 
 /**
- * Defines values for ApiVersion20231001. \
- * {@link KnownApiVersion20231001} can be used interchangeably with ApiVersion20231001,
+ * Defines values for ApiVersion20240201. \
+ * {@link KnownApiVersion20240201} can be used interchangeably with ApiVersion20240201,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2023-10-01**: Api Version '2023-10-01'
+ * **2024-02-01**: Api Version '2024-02-01'
  */
-export type ApiVersion20231001 = string;
+export type ApiVersion20240201 = string;
 
 /** Known values of {@link MetricClass} that the service accepts. */
 export enum KnownMetricClass {
