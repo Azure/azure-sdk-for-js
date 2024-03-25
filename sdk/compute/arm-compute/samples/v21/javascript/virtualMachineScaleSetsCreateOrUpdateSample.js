@@ -2772,7 +2772,10 @@ async function createAScaleSetWithTerminateScheduledEventsEnabled() {
         computerNamePrefix: "{vmss-name}",
       },
       scheduledEventsProfile: {
-        terminateNotificationProfile: { enable: true, notBeforeTimeout: "PT5M" },
+        terminateNotificationProfile: {
+          enable: true,
+          notBeforeTimeout: "PT5M",
+        },
       },
       storageProfile: {
         imageReference: {

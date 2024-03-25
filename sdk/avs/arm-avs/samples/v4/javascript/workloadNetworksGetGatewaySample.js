@@ -29,7 +29,7 @@ async function workloadNetworksGetGateway() {
   const result = await client.workloadNetworks.getGateway(
     resourceGroupName,
     privateCloudName,
-    gatewayId
+    gatewayId,
   );
   console.log(result);
 }

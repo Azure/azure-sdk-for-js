@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualMachineScaleSetVMsDeleteOptionalParams,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -32,7 +32,7 @@ async function forceDeleteAVirtualMachineFromAVMScaleSet() {
   const instanceId = "0";
   const forceDeletion = true;
   const options: VirtualMachineScaleSetVMsDeleteOptionalParams = {
-    forceDeletion
+    forceDeletion,
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
@@ -40,7 +40,7 @@ async function forceDeleteAVirtualMachineFromAVMScaleSet() {
     resourceGroupName,
     vmScaleSetName,
     instanceId,
-    options
+    options,
   );
   console.log(result);
 }

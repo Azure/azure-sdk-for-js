@@ -18,7 +18,7 @@ import {
   CapacityPoolPatch,
   PoolsUpdateOptionalParams,
   PoolsUpdateResponse,
-  PoolsDeleteOptionalParams
+  PoolsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface Pools {
   list(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolsListOptionalParams
+    options?: PoolsListOptionalParams,
   ): PagedAsyncIterableIterator<CapacityPool>;
   /**
    * Get details of the specified capacity pool
@@ -46,7 +46,7 @@ export interface Pools {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolsGetOptionalParams
+    options?: PoolsGetOptionalParams,
   ): Promise<PoolsGetResponse>;
   /**
    * Create or Update a capacity pool
@@ -61,7 +61,7 @@ export interface Pools {
     accountName: string,
     poolName: string,
     body: CapacityPool,
-    options?: PoolsCreateOrUpdateOptionalParams
+    options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PoolsCreateOrUpdateResponse>,
@@ -81,7 +81,7 @@ export interface Pools {
     accountName: string,
     poolName: string,
     body: CapacityPool,
-    options?: PoolsCreateOrUpdateOptionalParams
+    options?: PoolsCreateOrUpdateOptionalParams,
   ): Promise<PoolsCreateOrUpdateResponse>;
   /**
    * Patch the specified capacity pool
@@ -96,7 +96,7 @@ export interface Pools {
     accountName: string,
     poolName: string,
     body: CapacityPoolPatch,
-    options?: PoolsUpdateOptionalParams
+    options?: PoolsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<OperationState<PoolsUpdateResponse>, PoolsUpdateResponse>
   >;
@@ -113,7 +113,7 @@ export interface Pools {
     accountName: string,
     poolName: string,
     body: CapacityPoolPatch,
-    options?: PoolsUpdateOptionalParams
+    options?: PoolsUpdateOptionalParams,
   ): Promise<PoolsUpdateResponse>;
   /**
    * Delete the specified capacity pool
@@ -126,7 +126,7 @@ export interface Pools {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolsDeleteOptionalParams
+    options?: PoolsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified capacity pool
@@ -139,6 +139,6 @@ export interface Pools {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolsDeleteOptionalParams
+    options?: PoolsDeleteOptionalParams,
   ): Promise<void>;
 }

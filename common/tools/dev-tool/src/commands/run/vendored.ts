@@ -7,9 +7,8 @@
  */
 
 import fs from "fs-extra";
-import path from "path";
-import { spawn } from "child_process";
-
+import path from "node:path";
+import { spawn } from "node:child_process";
 import { makeCommandInfo, subCommand } from "../../framework/command";
 import { CommandOptions } from "../../framework/CommandInfo";
 import { CommandModule } from "../../framework/CommandModule";

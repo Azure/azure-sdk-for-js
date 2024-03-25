@@ -29,11 +29,12 @@ async function virtualMachineScaleSetExtensionDeleteMaximumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+    );
   console.log(result);
 }
 
@@ -52,11 +53,12 @@ async function virtualMachineScaleSetExtensionDeleteMinimumSetGen() {
   const vmssExtensionName = "aaaaaaaaaaaaaaaaaaaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
-    resourceGroupName,
-    vmScaleSetName,
-    vmssExtensionName
-  );
+  const result =
+    await client.virtualMachineScaleSetExtensions.beginDeleteAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+      vmssExtensionName,
+    );
   console.log(result);
 }
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Contains list of Safeguards version along with its support info and whether it is a default version.
  *
  * @summary Contains list of Safeguards version along with its support info and whether it is a default version.
- * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2023-11-02-preview/examples/ListSafeguardsVersions.json
+ * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/aks/preview/2024-01-02-preview/examples/ListSafeguardsVersions.json
  */
 async function listSafeguardsVersions() {
   const subscriptionId =

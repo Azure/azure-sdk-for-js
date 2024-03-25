@@ -37,7 +37,7 @@ async function addonsCreateOrUpdateArc() {
     resourceGroupName,
     privateCloudName,
     addonName,
-    addon
+    addon,
   );
   console.log(result);
 }
@@ -66,7 +66,7 @@ async function addonsCreateOrUpdateHcx() {
     resourceGroupName,
     privateCloudName,
     addonName,
-    addon
+    addon,
   );
   console.log(result);
 }
@@ -95,7 +95,7 @@ async function addonsCreateOrUpdateSrm() {
     resourceGroupName,
     privateCloudName,
     addonName,
-    addon
+    addon,
   );
   console.log(result);
 }
@@ -119,7 +119,7 @@ async function addonsCreateOrUpdateVr() {
     resourceGroupName,
     privateCloudName,
     addonName,
-    addon
+    addon,
   );
   console.log(result);
 }

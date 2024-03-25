@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AttachDetachDataDisksRequest,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,33 +34,33 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
       {
         diskId:
           "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
-        lun: 1
+        lun: 1,
       },
       {
         diskId:
           "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_2_disk3_7d5e664bdafa49baa780eb2d128ff38e",
-        lun: 2
-      }
+        lun: 2,
+      },
     ],
     dataDisksToDetach: [
       {
         detachOption: "ForceDetach",
         diskId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_1_disk1_1a4e784bdafa49baa780eb2d128ff65x"
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_1_disk1_1a4e784bdafa49baa780eb2d128ff65x",
       },
       {
         detachOption: "ForceDetach",
         diskId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_4_disk4_4d4e784bdafa49baa780eb2d256ff41z"
-      }
-    ]
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_4_disk4_4d4e784bdafa49baa780eb2d256ff41z",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginAttachDetachDataDisksAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -81,22 +81,22 @@ async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
     dataDisksToAttach: [
       {
         diskId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d"
-      }
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_0_disk2_6c4f554bdafa49baa780eb2d128ff39d",
+      },
     ],
     dataDisksToDetach: [
       {
         diskId:
-          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_1_disk1_1a4e784bdafa49baa780eb2d128ff65x"
-      }
-    ]
+          "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/vmss3176_vmss3176_1_disk1_1a4e784bdafa49baa780eb2d128ff65x",
+      },
+    ],
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.virtualMachines.beginAttachDetachDataDisksAndWait(
     resourceGroupName,
     vmName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

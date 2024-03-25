@@ -10,8 +10,11 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   ProblemClassification,
   ProblemClassificationsListOptionalParams,
+  ProblemClassificationsClassificationInput,
+  ProblemClassificationsClassifyProblemsOptionalParams,
+  ProblemClassificationsClassifyProblemsResponse,
   ProblemClassificationsGetOptionalParams,
-  ProblemClassificationsGetResponse
+  ProblemClassificationsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,17 +30,30 @@ export interface ProblemClassifications {
    */
   list(
     serviceName: string,
-    options?: ProblemClassificationsListOptionalParams
+    options?: ProblemClassificationsListOptionalParams,
   ): PagedAsyncIterableIterator<ProblemClassification>;
   /**
+   * Classify the right problem classifications (categories) available for a specific Azure service.
+   * @param problemServiceName Name of the Azure service for which the problem classifications need to be
+   *                           retrieved.
+   * @param problemClassificationsClassificationInput Input to check.
+   * @param options The options parameters.
+   */
+  classifyProblems(
+    problemServiceName: string,
+    problemClassificationsClassificationInput: ProblemClassificationsClassificationInput,
+    options?: ProblemClassificationsClassifyProblemsOptionalParams,
+  ): Promise<ProblemClassificationsClassifyProblemsResponse>;
+  /**
    * Get problem classification details for a specific Azure service.
-   * @param serviceName Name of the Azure service available for support.
+   * @param serviceName Name of the Azure service for which the problem classifications need to be
+   *                    retrieved.
    * @param problemClassificationName Name of problem classification.
    * @param options The options parameters.
    */
   get(
     serviceName: string,
     problemClassificationName: string,
-    options?: ProblemClassificationsGetOptionalParams
+    options?: ProblemClassificationsGetOptionalParams,
   ): Promise<ProblemClassificationsGetResponse>;
 }

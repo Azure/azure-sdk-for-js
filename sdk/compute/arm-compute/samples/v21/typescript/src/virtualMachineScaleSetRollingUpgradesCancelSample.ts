@@ -28,10 +28,11 @@ async function virtualMachineScaleSetRollingUpgradeCancelMaximumSetGen() {
   const vmScaleSetName = "aaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetRollingUpgrades.beginCancelAndWait(
-    resourceGroupName,
-    vmScaleSetName
-  );
+  const result =
+    await client.virtualMachineScaleSetRollingUpgrades.beginCancelAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+    );
   console.log(result);
 }
 
@@ -49,10 +50,11 @@ async function virtualMachineScaleSetRollingUpgradeCancelMinimumSetGen() {
   const vmScaleSetName = "aaaaaa";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const result = await client.virtualMachineScaleSetRollingUpgrades.beginCancelAndWait(
-    resourceGroupName,
-    vmScaleSetName
-  );
+  const result =
+    await client.virtualMachineScaleSetRollingUpgrades.beginCancelAndWait(
+      resourceGroupName,
+      vmScaleSetName,
+    );
   console.log(result);
 }
 
