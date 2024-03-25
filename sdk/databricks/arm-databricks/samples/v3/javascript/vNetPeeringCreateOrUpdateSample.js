@@ -38,7 +38,7 @@ async function createVNetPeeringForWorkspace() {
     resourceGroupName,
     workspaceName,
     peeringName,
-    virtualNetworkPeeringParameters
+    virtualNetworkPeeringParameters,
   );
   console.log(result);
 }

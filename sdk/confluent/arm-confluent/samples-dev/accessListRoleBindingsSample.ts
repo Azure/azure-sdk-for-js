@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ListAccessRequestModel,
-  ConfluentManagementClient
+  ConfluentManagementClient,
 } from "@azure/arm-confluent";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Organization role bindings
  *
  * @summary Organization role bindings
- * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2023-08-22/examples/Access_RoleBindingList.json
+ * x-ms-original-file: specification/confluent/resource-manager/Microsoft.Confluent/stable/2024-02-13/examples/Access_RoleBindingList.json
  */
 async function accessRoleBindingList() {
   const subscriptionId =
@@ -31,14 +31,14 @@ async function accessRoleBindingList() {
     process.env["CONFLUENT_RESOURCE_GROUP"] || "myResourceGroup";
   const organizationName = "myOrganization";
   const body: ListAccessRequestModel = {
-    searchFilters: { pageSize: "10", pageToken: "asc4fts4ft" }
+    searchFilters: { pageSize: "10", pageToken: "asc4fts4ft" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ConfluentManagementClient(credential, subscriptionId);
   const result = await client.access.listRoleBindings(
     resourceGroupName,
     organizationName,
-    body
+    body,
   );
   console.log(result);
 }

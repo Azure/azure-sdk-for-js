@@ -28,7 +28,7 @@ async function containerAttach() {
   const result = await client.containers.attach(
     resourceGroupName,
     containerGroupName,
-    containerName
+    containerName,
   );
   console.log(result);
 }

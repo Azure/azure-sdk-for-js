@@ -20,7 +20,12 @@ import {
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
-import { ChatRequestMessage, OpenAIClient } from "../../src/index.js";
+import {
+  ChatCompletionsFunctionToolCall,
+  ChatRequestMessage,
+  ChatRequestMessageUnion,
+  OpenAIClient,
+} from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
 describe("OpenAI", function () {
@@ -213,7 +218,7 @@ describe("OpenAI", function () {
                   chatCompletionModels,
                 ),
                 async (deploymentName) => {
-                  const weatherMessages: ChatRequestMessage[] = [
+                  const weatherMessages: ChatRequestMessageUnion[] = [
                     { role: "user", content: "What's the weather like in Boston?" },
                   ];
                   const result = await client.getChatCompletions(deploymentName, weatherMessages, {
@@ -304,6 +309,53 @@ describe("OpenAI", function () {
             );
           });
 
+          it("ensure schema name is not transformed with snake case", async function () {
+            const getAssetInfo = {
+              name: "getAssetInfo",
+              description: "Returns information about an asset",
+              parameters: {
+                type: "object",
+                properties: {
+                  assetName: {
+                    type: "string",
+                    description: "The asset name. This is a required parameter.",
+                  },
+                },
+                required: ["assetName"],
+              },
+            };
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                (deploymentName) =>
+                  client.getChatCompletions(
+                    deploymentName,
+                    [{ role: "user", content: "Give me information about Asset No1" }],
+                    {
+                      tools: [{ type: "function", function: getAssetInfo }],
+                    },
+                  ),
+                (res) => {
+                  assertChatCompletions(res, { functions: true });
+                  assert.isDefined(res.choices[0].message?.toolCalls);
+                  const argument = (
+                    res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall
+                  ).function.arguments;
+                  assert.isTrue(argument?.includes("assetName"));
+                },
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
           it("respects json_object responseFormat", async function () {
             if (authMethod !== "OpenAIKey") {
               this.skip();
@@ -361,7 +413,10 @@ describe("OpenAI", function () {
                     deploymentName,
                     [{ role: "user", content: "What's the weather like in Boston?" }],
                     {
-                      toolChoice: { type: "function", function: { name: getCurrentWeather.name } },
+                      toolChoice: {
+                        type: "function",
+                        function: { name: getCurrentWeather.name },
+                      } as any,
                       tools: [
                         { type: "function", function: getCurrentWeather },
                         {
@@ -391,7 +446,8 @@ describe("OpenAI", function () {
                 (res) => {
                   assertChatCompletions(res, { functions: true });
                   assert.equal(
-                    res.choices[0].message?.toolCalls[0].function.name,
+                    (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall)
+                      .function.name,
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);
@@ -452,6 +508,40 @@ describe("OpenAI", function () {
                       [{ role: "user", content: "What's the weather like in Boston?" }],
                       {
                         functions: [getCurrentWeather],
+                      },
+                    ),
+                  ),
+                (res) =>
+                  assertChatCompletionsList(res, {
+                    functions: true,
+                    // The API returns an empty choice in the first event for some
+                    // reason. This should be fixed in the API.
+                    allowEmptyChoices: true,
+                  }),
+              ),
+              chatCompletionDeployments,
+              chatCompletionModels,
+              authMethod,
+            );
+          });
+
+          it("calls toolCalls", async function () {
+            updateWithSucceeded(
+              await withDeployments(
+                getSucceeded(
+                  authMethod,
+                  deployments,
+                  models,
+                  chatCompletionDeployments,
+                  chatCompletionModels,
+                ),
+                async (deploymentName) =>
+                  bufferAsyncIterable(
+                    await client.streamChatCompletions(
+                      deploymentName,
+                      [{ role: "user", content: "What's the weather like in Boston?" }],
+                      {
+                        tools: [{ type: "function", function: getCurrentWeather }],
                       },
                     ),
                   ),

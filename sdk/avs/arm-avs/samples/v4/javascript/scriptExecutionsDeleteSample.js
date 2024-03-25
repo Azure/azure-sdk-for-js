@@ -29,7 +29,7 @@ async function scriptExecutionsDelete() {
   const result = await client.scriptExecutions.beginDeleteAndWait(
     resourceGroupName,
     privateCloudName,
-    scriptExecutionName
+    scriptExecutionName,
   );
   console.log(result);
 }

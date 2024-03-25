@@ -18,7 +18,7 @@ import {
   TransformationsUpdateOptionalParams,
   TransformationsUpdateResponse,
   TransformationsGetOptionalParams,
-  TransformationsGetResponse
+  TransformationsGetResponse,
 } from "../models";
 
 /** Class containing Transformations operations. */
@@ -48,7 +48,7 @@ export class TransformationsImpl implements Transformations {
     jobName: string,
     transformationName: string,
     transformation: Transformation,
-    options?: TransformationsCreateOrReplaceOptionalParams
+    options?: TransformationsCreateOrReplaceOptionalParams,
   ): Promise<TransformationsCreateOrReplaceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -56,9 +56,9 @@ export class TransformationsImpl implements Transformations {
         jobName,
         transformationName,
         transformation,
-        options
+        options,
       },
-      createOrReplaceOperationSpec
+      createOrReplaceOperationSpec,
     );
   }
 
@@ -80,7 +80,7 @@ export class TransformationsImpl implements Transformations {
     jobName: string,
     transformationName: string,
     transformation: Transformation,
-    options?: TransformationsUpdateOptionalParams
+    options?: TransformationsUpdateOptionalParams,
   ): Promise<TransformationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -88,9 +88,9 @@ export class TransformationsImpl implements Transformations {
         jobName,
         transformationName,
         transformation,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -105,11 +105,11 @@ export class TransformationsImpl implements Transformations {
     resourceGroupName: string,
     jobName: string,
     transformationName: string,
-    options?: TransformationsGetOptionalParams
+    options?: TransformationsGetOptionalParams,
   ): Promise<TransformationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, jobName, transformationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 }
@@ -117,21 +117,20 @@ export class TransformationsImpl implements Transformations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrReplaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: Mappers.Transformation,
-      headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
+      headersMapper: Mappers.TransformationsCreateOrReplaceHeaders,
     },
     201: {
       bodyMapper: Mappers.Transformation,
-      headersMapper: Mappers.TransformationsCreateOrReplaceHeaders
+      headersMapper: Mappers.TransformationsCreateOrReplaceHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.transformation,
   queryParameters: [Parameters.apiVersion],
@@ -140,29 +139,28 @@ const createOrReplaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
-    Parameters.transformationName
+    Parameters.transformationName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
+    Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
       bodyMapper: Mappers.Transformation,
-      headersMapper: Mappers.TransformationsUpdateHeaders
+      headersMapper: Mappers.TransformationsUpdateHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   requestBody: Parameters.transformation,
   queryParameters: [Parameters.apiVersion],
@@ -171,28 +169,27 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
-    Parameters.transformationName
+    Parameters.transformationName,
   ],
   headerParameters: [
-    Parameters.accept,
     Parameters.contentType,
-    Parameters.ifMatch
+    Parameters.accept,
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StreamAnalytics/streamingjobs/{jobName}/transformations/{transformationName}",
   httpMethod: "GET",
   responses: {
     200: {
       bodyMapper: Mappers.Transformation,
-      headersMapper: Mappers.TransformationsGetHeaders
+      headersMapper: Mappers.TransformationsGetHeaders,
     },
     default: {
-      bodyMapper: Mappers.ErrorModel
-    }
+      bodyMapper: Mappers.ErrorModel,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -200,8 +197,8 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.jobName,
-    Parameters.transformationName
+    Parameters.transformationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

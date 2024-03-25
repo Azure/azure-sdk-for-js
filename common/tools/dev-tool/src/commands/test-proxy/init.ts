@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { cwd } from "process";
+import { cwd } from "node:process";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { resolveProject } from "../../util/resolveProject";
 import { createAssetsJson } from "../../util/testProxyUtils";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a community gallery image version.
  *
  * @summary Get a community gallery image version.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-08-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2023-07-03/examples/communityGalleryExamples/CommunityGalleryImageVersion_Get.json
  */
 async function getACommunityGalleryImageVersion() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function getACommunityGalleryImageVersion() {
     location,
     publicGalleryName,
     galleryImageName,
-    galleryImageVersionName
+    galleryImageVersionName,
   );
   console.log(result);
 }

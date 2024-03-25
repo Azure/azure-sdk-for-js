@@ -15,7 +15,8 @@ import {
   AzureGroundingEnhancementLineSpan,
   ChatChoice,
   ChatCompletions,
-  ChatCompletionsToolCall,
+  ChatCompletionsFunctionToolCall,
+  ChatCompletionsToolCallUnion,
   ChatFinishDetails,
   ChatResponseMessage,
   Choice,
@@ -32,6 +33,7 @@ import {
   ContentFilterResultsForPrompt,
   FunctionCall,
   ImageGenerations,
+  StopFinishDetails,
 } from "../../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { get } from "./utils.js";
@@ -53,6 +55,13 @@ function ifDefined(
 function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   assert.isArray(val);
   assert.isNotEmpty(val);
+  for (const x of val) {
+    validate(x);
+  }
+}
+
+function assertArray<T>(val: T[], validate: (x: T) => void): void {
+  assert.isArray(val);
   for (const x of val) {
     validate(x);
   }
@@ -121,9 +130,11 @@ function assertContentFilterResultDetailsForPrompt(cfr: ContentFilterResultDetai
     ifDefined(cfr.selfHarm, assertContentFilterResult);
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
-    ifDefined(cfr.profanity, assertContentFilterResult);
+    ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.customBlocklists, assertContentFilterBlocklistIdResult);
+    ifDefined(cfr.customBlocklists, (arr) =>
+      assertArray(arr, assertContentFilterBlocklistIdResult),
+    );
   }
 }
 
@@ -166,14 +177,15 @@ function assertFunctionCall(
 }
 
 function assertToolCall(
-  functionCall: ChatCompletionsToolCall,
+  functionCall: ChatCompletionsToolCallUnion,
   { stream }: ChatCompletionTestOptions,
 ): void {
   assertIf(!stream, functionCall.type, assert.isString);
   assertIf(!stream, functionCall.id, assert.isString);
+  assertIf(Boolean(stream), functionCall.index, assert.isNumber);
   switch (functionCall.type) {
     case "function":
-      assertFunctionCall(functionCall.function, { stream });
+      assertFunctionCall((functionCall as ChatCompletionsFunctionToolCall).function, { stream });
       break;
   }
 }
@@ -208,7 +220,7 @@ function assertChatFinishDetails(val: ChatFinishDetails): void {
     case "max_tokens":
       break;
     case "stop": {
-      assert.isString(val.stop);
+      assert.isString((val as StopFinishDetails).stop);
       break;
     }
   }
