@@ -103,13 +103,13 @@ function generatePluginConfiguration(options: MsalClientOptions): PluginConfigur
       );
     }
 
-    const cacheName = options.tokenCachePersistenceOptions.name ?? DEFAULT_TOKEN_CACHE_NAME;
+    const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
     config.cache.cachePlugin = persistenceProvider({
-      name: `${cacheName}.${CACHE_NON_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
     config.cache.cachePluginCae = persistenceProvider({
-      name: `${cacheName}.${CACHE_CAE_SUFFIX}`,
+      name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
       ...options.tokenCachePersistenceOptions,
     });
   }
