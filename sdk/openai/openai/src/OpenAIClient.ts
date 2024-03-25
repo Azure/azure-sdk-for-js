@@ -16,7 +16,7 @@ import {
   GetChatCompletionsOptions,
   GetEmbeddingsOptions,
   GetImagesOptions,
-  GenerateSpeechFromText,
+  GenerateSpeechFromTextOptions,
 } from "./models/options.js";
 import { createOpenAI, OpenAIClientOptions, OpenAIContext } from "./api/index.js";
 import {
@@ -342,7 +342,7 @@ export class OpenAIClient {
     deploymentName: string,
     input: string,
     voice: SpeechVoice,
-    options: GenerateSpeechFromText = { requestOptions: {} },
+    options: GenerateSpeechFromTextOptions = { requestOptions: {} },
   ): Promise<Uint8Array> {
     this.setModel(deploymentName, options);
     const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;

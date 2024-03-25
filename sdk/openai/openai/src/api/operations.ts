@@ -576,7 +576,7 @@ export async function _generateSpeechFromTextDeserialize(
   result: GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse,
 ): Promise<Uint8Array> {
   if (isUnexpected(result)) {
-    throw Error("error")
+    throw result.body.error;
   }
 
   return result.body;

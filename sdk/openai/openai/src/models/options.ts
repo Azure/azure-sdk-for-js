@@ -65,7 +65,7 @@ export interface GetImagesOptions extends OperationOptions {
   user?: string;
 }
 
-export interface GenerateSpeechFromText extends OperationOptions {
+export interface GenerateSpeechFromTextOptions extends OperationOptions {
     /** The audio output format for the spoken text. By default, the MP3 format will be used. */
     responseFormat?: SpeechGenerationResponseFormat;
     /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */

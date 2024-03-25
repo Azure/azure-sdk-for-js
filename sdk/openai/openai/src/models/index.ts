@@ -116,6 +116,7 @@ export {
   ChatCompletionsToolDefinitionUnion,
   ChatCompletionsNamedToolSelectionUnion,
   ChatFinishDetailsUnion,
+  SpeechVoice,
 } from "./models.js";
 export {
   GetAudioTranscriptionAsPlainTextOptions,
