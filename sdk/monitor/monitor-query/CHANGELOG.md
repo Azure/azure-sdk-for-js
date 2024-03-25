@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added a new `MetricsClient` batch client.
+- Added a new `MetricsClient` to query metrics for multiple resources.
 - Added `autoAdjustTimegrain`, `rollUpBy` and `validateDimensions` properties to the `MetricsQueryOptions` object.
 - Added `resourceId` property to the `MetricsQueryResult` object.
 
