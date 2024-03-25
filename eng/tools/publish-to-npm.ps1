@@ -86,6 +86,9 @@ function containsProductCodeDiff($currentDevPackage,$lastDevPackage) {
     return $false
 }
 
+$ErrorActionPreference = "Stop"
+$PSNativeCommandUseErrorActionPreference = $true
+
 try {
     $regAuth=$registry.replace("https:","")
     $filterPackageList= $filterArg -split "," | % { return $_.trim() }
