@@ -150,6 +150,24 @@ export interface GetImageGenerationsDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
+export interface GenerateSpeechFromText200Response extends HttpResponse {
+  status: "200";
+  /** Value may contain any sequence of octets */
+  body: Uint8Array;
+}
+
+export interface GenerateSpeechFromTextDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GenerateSpeechFromTextDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GenerateSpeechFromTextDefaultHeaders;
+}
+
+/** The request has succeeded. */
 export interface GetEmbeddings200Response extends HttpResponse {
   status: "200";
   body: EmbeddingsOutput;

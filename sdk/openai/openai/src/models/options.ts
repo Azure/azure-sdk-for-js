@@ -14,6 +14,7 @@ import {
   ImageGenerationResponseFormat,
   ImageGenerationStyle,
   ImageSize,
+  SpeechGenerationResponseFormat,
 } from "./models.js";
 
 export interface GetAudioTranscriptionAsPlainTextOptions extends OperationOptions {}
@@ -35,6 +36,8 @@ export interface GeneratedGetChatCompletionsOptions extends OperationOptions {}
 export interface GetChatCompletionsWithAzureExtensionsOptions extends OperationOptions {}
 
 export interface GetImageGenerationsOptions extends OperationOptions {}
+
+export interface GenerateSpeechFromTextOptions extends OperationOptions{}
 
 /** Represents the request data used to generate images. */
 export interface GetImagesOptions extends OperationOptions {
@@ -60,6 +63,15 @@ export interface GetImagesOptions extends OperationOptions {
   style?: ImageGenerationStyle;
   /** A unique identifier representing your end-user, which can help to monitor and detect abuse. */
   user?: string;
+}
+
+export interface GenerateSpeechFromText extends OperationOptions {
+    /** The audio output format for the spoken text. By default, the MP3 format will be used. */
+    responseFormat?: SpeechGenerationResponseFormat;
+    /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
+    speed?: number;
+    /** The model to use for this text-to-speech request. */
+    model?: string;
 }
 
 /** Options for to custom embeddings request */

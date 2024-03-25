@@ -9,12 +9,14 @@ import {
   Embeddings,
   ChatRequestMessageUnion,
   EventStream,
+  SpeechVoice,
 } from "./models/models.js";
 import {
   GetCompletionsOptions,
   GetChatCompletionsOptions,
   GetEmbeddingsOptions,
   GetImagesOptions,
+  GenerateSpeechFromText,
 } from "./models/options.js";
 import { createOpenAI, OpenAIClientOptions, OpenAIContext } from "./api/index.js";
 import {
@@ -24,6 +26,7 @@ import {
   getEmbeddings,
   getAudioTranscription,
   getAudioTranslation,
+  generateSpeechFromText,
 } from "./api/operations.js";
 import { nonAzurePolicy } from "./api/policies/nonAzure.js";
 import { streamChatCompletions, streamCompletions } from "./api/operations.js";
@@ -330,6 +333,23 @@ export class OpenAIClient {
       this._client,
       deploymentName,
       { prompt, ...rest },
+      { abortSignal, onResponse, requestOptions, tracingOptions },
+    );
+  }
+
+  /** Generate speech from an input text */
+  generateSpeechFromText(
+    deploymentName: string,
+    input: string,
+    voice: SpeechVoice,
+    options: GenerateSpeechFromText = { requestOptions: {} },
+  ): Promise<Uint8Array> {
+    this.setModel(deploymentName, options);
+    const { abortSignal, onResponse, requestOptions, tracingOptions, ...rest } = options;
+    return generateSpeechFromText(
+      this._client,
+      deploymentName,
+      { input, voice, ...rest },
       { abortSignal, onResponse, requestOptions, tracingOptions },
     );
   }

@@ -939,6 +939,28 @@ export interface ImageGenerationOptions {
   user?: string;
 }
 
+/** A representation of the request options that control the behavior of a text-to-speech operation. */
+export interface SpeechGenerationOptions {
+  /** The text to generate audio for. The maximum length is 4096 characters. */
+  input: string;
+  /**
+   * The voice to use for text-to-speech.
+   *
+   * Possible values: "alloy", "echo", "fable", "onyx", "nova", "shimmer"
+   */
+  voice: string;
+  /**
+   * The audio output format for the spoken text. By default, the MP3 format will be used.
+   *
+   * Possible values: "mp3", "opus", "aac", "flac"
+   */
+  response_format?: string;
+  /** The speed of speech for generated audio. Values are valid in the range from 0.25 to 4.0, with 1.0 the default and higher values corresponding to faster speech. */
+  speed?: number;
+  /** The model to use for this text-to-speech request. */
+  model?: string;
+}
+
 /**
  * The configuration information for an embeddings request.
  * Embeddings measure the relatedness of text strings and are commonly used for search, clustering,

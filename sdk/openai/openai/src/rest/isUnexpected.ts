@@ -16,6 +16,8 @@ import {
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
@@ -32,6 +34,7 @@ const responseMap: Record<string, string[]> = {
   "POST /deployments/{deploymentId}/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/extensions/chat/completions": ["200"],
   "POST /deployments/{deploymentId}/images/generations": ["200"],
+  "POST /deployments/{deploymentId}/audio/speech": ["200"],
   "POST /deployments/{deploymentId}/embeddings": ["200"],
   "GET /operations/images/{operationId}": ["200"],
   "POST /images/generations:submit": ["202"],
@@ -65,6 +68,9 @@ export function isUnexpected(
   response: GetImageGenerations200Response | GetImageGenerationsDefaultResponse,
 ): response is GetImageGenerationsDefaultResponse;
 export function isUnexpected(
+  response: GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse,
+): response is GenerateSpeechFromTextDefaultResponse;
+export function isUnexpected(
   response: GetEmbeddings200Response | GetEmbeddingsDefaultResponse,
 ): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
@@ -94,6 +100,8 @@ export function isUnexpected(
     | GetChatCompletionsWithAzureExtensionsDefaultResponse
     | GetImageGenerations200Response
     | GetImageGenerationsDefaultResponse
+    | GenerateSpeechFromText200Response
+    | GenerateSpeechFromTextDefaultResponse
     | GetEmbeddings200Response
     | GetEmbeddingsDefaultResponse
     | GetAzureBatchImageGenerationOperationStatus200Response
@@ -108,6 +116,7 @@ export function isUnexpected(
   | GetChatCompletionsDefaultResponse
   | GetChatCompletionsWithAzureExtensionsDefaultResponse
   | GetImageGenerationsDefaultResponse
+  | GenerateSpeechFromTextDefaultResponse
   | GetEmbeddingsDefaultResponse
   | GetAzureBatchImageGenerationOperationStatusDefaultResponse
   | BeginAzureBatchImageGenerationDefaultResponse {

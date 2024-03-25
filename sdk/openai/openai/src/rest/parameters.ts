@@ -9,6 +9,7 @@ import {
   ChatCompletionsOptions,
   ImageGenerationOptions,
   EmbeddingsOptions,
+  SpeechGenerationOptions,
 } from "./models.js";
 
 export interface GetAudioTranscriptionAsPlainTextBodyParam {
@@ -77,6 +78,12 @@ export interface GetImageGenerationsBodyParam {
 }
 
 export type GetImageGenerationsParameters = GetImageGenerationsBodyParam & RequestParameters;
+
+export interface GenerateSpeechFromTextBodyParam {
+  body?: SpeechGenerationOptions;
+}
+
+export type GenerateSpeechFromTextParameters = GenerateSpeechFromTextBodyParam & RequestParameters;
 
 export interface GetEmbeddingsBodyParam {
   body?: EmbeddingsOptions;

@@ -16,6 +16,7 @@ import {
   ContentFilterResultsForChoice,
   ContentFilterResultDetailsForPrompt,
   ContentFilterResultsForPrompt,
+  SpeechGenerationOptions,
 } from "../models/models.js";
 import { serializeChatRequestMessageUnion } from "../utils/serializeUtil.js";
 import {
@@ -38,6 +39,8 @@ import {
   ContentFilterResultsForPromptOutput,
   ChatCompletionsOutput,
   CompletionsOutput,
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
 } from "../rest/index.js";
 import {
   StreamableMethod,
@@ -52,6 +55,7 @@ import {
   GetImagesOptions,
   GetImageGenerationsOptions,
   GeneratedGetChatCompletionsOptions,
+  GenerateSpeechFromTextOptions,
 } from "../models/options.js";
 import { getOaiSSEs } from "./oaiSse.js";
 import { createFile } from "@azure/core-rest-pipeline";
@@ -548,6 +552,45 @@ export async function getImageGenerations(
 ): Promise<ImageGenerations> {
   const result = await _getImageGenerationsSend(context, deploymentId, body, options);
   return _getImageGenerationsDeserialize(result);
+}
+
+export function _generateSpeechFromTextSend(
+  context: Client,
+  deploymentId: string,
+  body: SpeechGenerationOptions,
+  options: GenerateSpeechFromTextOptions = { requestOptions: {} },
+): StreamableMethod<GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse> {
+  return context.path("/deployments/{deploymentId}/audio/speech", deploymentId).post({
+    ...operationOptionsToRequestParameters(options),
+    body: {
+      input: body["input"],
+      voice: body["voice"],
+      response_format: body["responseFormat"],
+      speed: body["speed"],
+      model: body["model"],
+    },
+  });
+}
+
+export async function _generateSpeechFromTextDeserialize(
+  result: GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse,
+): Promise<Uint8Array> {
+  if (isUnexpected(result)) {
+    throw Error("error")
+  }
+
+  return result.body;
+}
+
+/** Generates text-to-speech audio from the input text. */
+export async function generateSpeechFromText(
+  context: Client,
+  deploymentId: string,
+  body: SpeechGenerationOptions,
+  options: GenerateSpeechFromTextOptions = { requestOptions: {} },
+): Promise<Uint8Array> {
+  const result = await _generateSpeechFromTextSend(context, deploymentId, body, options);
+  return _generateSpeechFromTextDeserialize(result);
 }
 
 export function _getEmbeddingsSend(

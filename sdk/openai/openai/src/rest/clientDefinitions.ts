@@ -10,6 +10,7 @@ import {
   GetChatCompletionsParameters,
   GetChatCompletionsWithAzureExtensionsParameters,
   GetImageGenerationsParameters,
+  GenerateSpeechFromTextParameters,
   GetEmbeddingsParameters,
   GetAzureBatchImageGenerationOperationStatusParameters,
   BeginAzureBatchImageGenerationParameters,
@@ -31,6 +32,8 @@ import {
   GetChatCompletionsWithAzureExtensionsDefaultResponse,
   GetImageGenerations200Response,
   GetImageGenerationsDefaultResponse,
+  GenerateSpeechFromText200Response,
+  GenerateSpeechFromTextDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
   GetAzureBatchImageGenerationOperationStatus200Response,
@@ -121,6 +124,13 @@ export interface GetImageGenerations {
   ): StreamableMethod<GetImageGenerations200Response | GetImageGenerationsDefaultResponse>;
 }
 
+export interface GenerateSpeechFromText {
+  /** Generates text-to-speech audio from the input text. */
+  post(
+    options?: GenerateSpeechFromTextParameters,
+  ): StreamableMethod<GenerateSpeechFromText200Response | GenerateSpeechFromTextDefaultResponse>;
+}
+
 export interface GetEmbeddings {
   /** Return the embeddings for a given prompt. */
   post(
@@ -172,6 +182,8 @@ export interface Routes {
     path: "/deployments/{deploymentId}/images/generations",
     deploymentId: string,
   ): GetImageGenerations;
+  /** Resource for '/deployments/\{deploymentId\}/audio/speech' has methods for the following verbs: post */
+  (path: "/deployments/{deploymentId}/audio/speech", deploymentId: string): GenerateSpeechFromText;
   /** Resource for '/deployments/\{deploymentId\}/embeddings' has methods for the following verbs: post */
   (path: "/deployments/{deploymentId}/embeddings", deploymentId: string): GetEmbeddings;
   /** Resource for '/operations/images/\{operationId\}' has methods for the following verbs: get */
