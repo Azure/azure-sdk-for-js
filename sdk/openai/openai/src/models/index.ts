@@ -129,13 +129,8 @@ export {
   ChatFinishDetailsUnion,
 } from "./models.js";
 export {
-  GetAudioTranscriptionAsPlainTextOptions,
-  GetAudioTranscriptionAsResponseObjectOptions,
-  GetAudioTranslationAsPlainTextOptions,
-  GetAudioTranslationAsResponseObjectOptions,
   GetCompletionsOptions,
   GetImagesOptions,
-  GetImageGenerationsOptions,
   GetChatCompletionsOptions,
   GetEmbeddingsOptions,
 } from "./options.js";

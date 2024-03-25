@@ -28,7 +28,7 @@ import {
 } from "../../src/index.js";
 import { AuthMethod } from "./types.js";
 
-describe.skip("OpenAI", function () {
+describe("OpenAI", function () {
   let recorder: Recorder;
   let deployments: string[] = [];
   let models: string[] = [];
