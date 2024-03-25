@@ -4,7 +4,7 @@ import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
 import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
 import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
 import { GeospatialType } from "../../documents/GeospatialType";
-
+import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
 export interface ContainerDefinition {
   /** The id of the container. */
   id?: string;
@@ -22,4 +22,5 @@ export interface ContainerDefinition {
   geospatialConfig?: {
     type: GeospatialType;
   };
+  changeFeedPolicy?: ChangeFeedPolicy;
 }

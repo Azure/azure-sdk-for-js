@@ -7,7 +7,6 @@ import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
-import { ChangeFeedStartFromNow } from "./ChangeFeedStartFromNow";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
 import { QueryRange } from "../../routing";
@@ -98,14 +97,19 @@ export function buildInternalChangeFeedOptions(
   options: ChangeFeedIteratorOptions,
   continuationToken?: string,
   startTime?: Date,
+  startFromNow?: boolean,
 ): InternalChangeFeedIteratorOptions {
   const internalCfOptions = {} as InternalChangeFeedIteratorOptions;
   internalCfOptions.maxItemCount = options?.maxItemCount;
   internalCfOptions.sessionToken = options?.sessionToken;
   internalCfOptions.continuationToken = continuationToken;
-
+  internalCfOptions.changeFeedMode = options?.changeFeedMode;
   // Default option of changefeed is to start from now.
-  internalCfOptions.startTime = startTime;
+  if (startFromNow) {
+    internalCfOptions.startFromNow = true;
+  } else {
+    internalCfOptions.startTime = startTime;
+  }
   return internalCfOptions;
 }
 /**
@@ -114,8 +118,6 @@ export function buildInternalChangeFeedOptions(
 export function fetchStartTime(changeFeedStartFrom: ChangeFeedStartFrom): Date | undefined {
   if (changeFeedStartFrom instanceof ChangeFeedStartFromBeginning) {
     return undefined;
-  } else if (changeFeedStartFrom instanceof ChangeFeedStartFromNow) {
-    return new Date();
   } else if (changeFeedStartFrom instanceof ChangeFeedStartFromTime) {
     return changeFeedStartFrom.getStartTime();
   }
