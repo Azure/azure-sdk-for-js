@@ -321,15 +321,15 @@ resource kubernetesCluster 'Microsoft.ContainerService/managedClusters@2023-06-0
   }
 }
 
-output identityWebAppName string = web.name
-output identityWebAppPlan string = farm.name
+output IdentityWebAppName string = web.name
+output IdentityWebAppPlan string = farm.name
 output IdentityUserDefinedIdentity string = userAssignedIdentity.id
 output IdentityUserDefinedClientId string = userAssignedIdentity.properties.clientId
 output IdentityUserDefinedIdentityName string = userAssignedIdentity.name
 output IdentityStorageName1 string = storageAccount.name
 output IdentityStorageName2 string = storageAccount2.name
 output IdentityFunctionName string = azureFunction.name
-output IdentityAKSClusterName string = kubernetesCluster.name
-output IdentityAKSPodName string = 'javascript-test-app'
-output IdentityACRName string = acrResource.name
-output IdentityACRLoginServer string = acrResource.properties.loginServer
+output IdentityAksClusterName string = kubernetesCluster.name
+output IdentityAksPodName string = 'javascript-test-app'
+output IdentityAcrName string = acrResource.name
+output IdentityAcrLoginServer string = acrResource.properties.loginServer
