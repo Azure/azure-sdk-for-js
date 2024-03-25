@@ -10,6 +10,8 @@
 
 ### Bugs Fixed
 
+- msal cache files are properly named when the user does not pass in a custom file name [#29039](https://github.com/Azure/azure-sdk-for-js/pull/29039)
+
 ### Other Changes
 
 ## 4.1.0-beta.1 (2024-02-06)
