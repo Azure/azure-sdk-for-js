@@ -103,20 +103,20 @@ try {
     }
 
     $publishToNpm = $false
-    if(!$basicDeployment) {
-      if($registry -eq 'https://registry.npmjs.org/'){
-        $publishToNpm = $true
-      }
-      else{
-          Write-Host "Choosing Private Devops Feed Deployment"
-          $npmReg = $regAuth.replace("registry/","");
-          $env:NPM_TOKEN=$npmToken
-          npm config set $regAuth`:username=azure-sdk
-          npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
-          npm config set $regAuth`:email=not_set
-          npm config set $npmReg`:username=azure-sdk
-          npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
-          npm config set $npmReg`:email=not_set
+    if (!$basicDeployment) {
+        if ($registry -eq 'https://registry.npmjs.org/') {
+            $publishToNpm = $true
+        }
+        else {
+            Write-Host "Choosing Private Devops Feed Deployment"
+            $npmReg = $regAuth.replace("registry/","");
+            $env:NPM_TOKEN=$npmToken
+            npm config set $regAuth`:username=azure-sdk
+            npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
+            npm config set $regAuth`:email=not_set
+            npm config set $npmReg`:username=azure-sdk
+            npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
+            npm config set $npmReg`:email=not_set
       }
     }
     else {
@@ -145,7 +145,7 @@ try {
                 exit 1
             }
             $addTagCheck = 0
-            if(($additionalTag) -and ($additionalTag -ne $tag)) {
+            if (($additionalTag) -and ($additionalTag -ne $tag)) {
                 $nameAndVersion = $p.Project.name + "@" + $p.Project.version
                 Write-Host "npm dist-tag add $($nameAndVersion) $additionalTag"
                 npm dist-tag add $nameAndVersion $additionalTag
@@ -161,12 +161,13 @@ try {
                 write-host "Copy $($p.TarGz) to $packagesToPublishPath"
                 New-Item -ItemType Directory -Path $packagesToPublishPath -Force
                 Copy-Item -Path $($p.TarGz) -Destination $packagesToPublishPath -Force
-            } elseif ($additionalTag -ne $tag) {
+            }
+            elseif ($additionalTag -ne $tag) {
                 npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
                 . $(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName $AdditionalTag -npmToken $(azure-sdk-npm-token)
             }
         }
-        else{
+        else {
             Write-Host "Skipping package publish $($p.TarGz)"
         }
     }
