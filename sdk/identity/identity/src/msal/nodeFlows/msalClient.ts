@@ -32,6 +32,11 @@ const msalLogger = credentialLogger("MsalClient");
  * This client is used to interact with Microsoft's identity platform.
  */
 export interface MsalClient {
+  getTokenByClientAssertion(
+    arrayScopes: string[],
+    clientAssertion: string,
+    newOptions: GetTokenOptions,
+  ): Promise<AccessToken>;
   /**
    * Retrieves an access token by using a client secret.
    *
@@ -267,22 +272,49 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     };
   }
 
+  async function getTokenByClientSecret(
+    scopes: string[],
+    clientSecret: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client secret`);
+
+    state.msalConfig.auth.clientSecret = clientSecret;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      }),
+    );
+  }
+
+  async function getTokenByClientAssertion(
+    scopes: string[],
+    clientAssertion: string,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client assertion`);
+
+    state.msalConfig.auth.clientAssertion = clientAssertion;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+        clientAssertion,
+      }),
+    );
+  }
+
   return {
-    async getTokenByClientSecret(scopes, clientSecret, options = {}) {
-      msalLogger.getToken.info(`Attempting to acquire token using client secret`);
-
-      // TODO: understand and implement processMultiTenantRequest
-      state.msalConfig.auth.clientSecret = clientSecret;
-
-      const msalApp = await getConfidentialApp(options);
-
-      return withSilentAuthentication(msalApp, scopes, options, () =>
-        msalApp.acquireTokenByClientCredential({
-          scopes,
-          authority: state.msalConfig.auth.authority,
-          claims: options?.claims,
-        }),
-      );
-    },
+    getTokenByClientSecret,
+    getTokenByClientAssertion,
   };
 }
