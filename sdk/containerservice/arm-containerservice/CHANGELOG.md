@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 19.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 19.8.0 (2024-03-22)
     
 **Features**
