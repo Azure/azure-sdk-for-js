@@ -53,7 +53,7 @@ export interface TranslateHeaders {
 }
 
 export interface TranslateBodyParam {
-  /** Array of the text to be translated. */
+  /** Defines the content of the request */
   body: Array<InputTextItem>;
 }
 
@@ -78,7 +78,7 @@ export interface TranslateQueryParamProperties {
    * Defines whether the text being translated is plain text or HTML text. Any HTML needs to be a well-formed,
    * complete element. Possible values are: plain (default) or html.
    */
-  textType?: "plain" | "html";
+  textType?: string;
   /**
    * A string specifying the category (domain) of the translation. This parameter is used to get translations
    * from a customized system built with Custom Translator. Add the Category ID from your Custom Translator
@@ -89,12 +89,12 @@ export interface TranslateQueryParamProperties {
    * Specifies how profanities should be treated in translations.
    * Possible values are: NoAction (default), Marked or Deleted.
    */
-  profanityAction?: "NoAction" | "Marked" | "Deleted";
+  profanityAction?: string;
   /**
    * Specifies how profanities should be marked in translations.
    * Possible values are: Asterisk (default) or Tag.
    */
-  profanityMarker?: "Asterisk" | "Tag";
+  profanityMarker?: string;
   /**
    * Specifies whether to include alignment projection from source text to translated text.
    * Possible values are: true or false (default).
@@ -147,7 +147,7 @@ export interface TransliterateHeaders {
 }
 
 export interface TransliterateBodyParam {
-  /** Array of the text to be transliterated. */
+  /** Defines the content of the request */
   body: Array<InputTextItem>;
 }
 
@@ -189,7 +189,7 @@ export interface FindSentenceBoundariesHeaders {
 }
 
 export interface FindSentenceBoundariesBodyParam {
-  /** Array of the text for which values the sentence boundaries will be calculated. */
+  /** Defines the content of the request */
   body: Array<InputTextItem>;
 }
 
@@ -214,11 +214,10 @@ export interface FindSentenceBoundariesHeaderParam {
   headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type FindSentenceBoundariesParameters =
-  FindSentenceBoundariesQueryParam &
-    FindSentenceBoundariesHeaderParam &
-    FindSentenceBoundariesBodyParam &
-    RequestParameters;
+export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
+  FindSentenceBoundariesHeaderParam &
+  FindSentenceBoundariesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -226,7 +225,7 @@ export interface LookupDictionaryEntriesHeaders {
 }
 
 export interface LookupDictionaryEntriesBodyParam {
-  /** Array of the text to be sent to dictionary. */
+  /** Defines the content of the request */
   body: Array<InputTextItem>;
 }
 
@@ -251,11 +250,10 @@ export interface LookupDictionaryEntriesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type LookupDictionaryEntriesParameters =
-  LookupDictionaryEntriesQueryParam &
-    LookupDictionaryEntriesHeaderParam &
-    LookupDictionaryEntriesBodyParam &
-    RequestParameters;
+export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
+  LookupDictionaryEntriesHeaderParam &
+  LookupDictionaryEntriesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -263,7 +261,7 @@ export interface LookupDictionaryExamplesHeaders {
 }
 
 export interface LookupDictionaryExamplesBodyParam {
-  /** Array of the text to be sent to dictionary. */
+  /** Defines the content of the request */
   body: Array<DictionaryExampleTextItem>;
 }
 
@@ -288,8 +286,7 @@ export interface LookupDictionaryExamplesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type LookupDictionaryExamplesParameters =
-  LookupDictionaryExamplesQueryParam &
-    LookupDictionaryExamplesHeaderParam &
-    LookupDictionaryExamplesBodyParam &
-    RequestParameters;
+export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
+  LookupDictionaryExamplesHeaderParam &
+  LookupDictionaryExamplesBodyParam &
+  RequestParameters;

@@ -28,49 +28,44 @@ import { Client, StreamableMethod } from "@azure-rest/core-client";
 export interface GetLanguages {
   /** Gets the set of languages currently supported by other operations of the Translator. */
   get(
-    options?: GetLanguagesParameters
+    options?: GetLanguagesParameters,
   ): StreamableMethod<GetLanguages200Response | GetLanguagesDefaultResponse>;
 }
 
 export interface Translate {
   /** Translate Text */
   post(
-    options: TranslateParameters
+    options: TranslateParameters,
   ): StreamableMethod<Translate200Response | TranslateDefaultResponse>;
 }
 
 export interface Transliterate {
   /** Transliterate Text */
   post(
-    options: TransliterateParameters
+    options: TransliterateParameters,
   ): StreamableMethod<Transliterate200Response | TransliterateDefaultResponse>;
 }
 
 export interface FindSentenceBoundaries {
   /** Find Sentence Boundaries */
   post(
-    options: FindSentenceBoundariesParameters
-  ): StreamableMethod<
-    FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse
-  >;
+    options: FindSentenceBoundariesParameters,
+  ): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
 }
 
 export interface LookupDictionaryEntries {
   /** Lookup Dictionary Entries */
   post(
-    options: LookupDictionaryEntriesParameters
-  ): StreamableMethod<
-    LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse
-  >;
+    options: LookupDictionaryEntriesParameters,
+  ): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
 }
 
 export interface LookupDictionaryExamples {
   /** Lookup Dictionary Examples */
   post(
-    options: LookupDictionaryExamplesParameters
+    options: LookupDictionaryExamplesParameters,
   ): StreamableMethod<
-    | LookupDictionaryExamples200Response
-    | LookupDictionaryExamplesDefaultResponse
+    LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse
   >;
 }
 
