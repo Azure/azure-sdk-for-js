@@ -8,14 +8,14 @@
 
 import * as coreClient from "@azure/core-client";
 import {
-  ApiVersion20231001,
+  ApiVersion20240201,
   AzureMonitorMetricBatchOptionalParams
 } from "./models";
 
 /** @internal */
 export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
   endpoint: string;
-  apiVersion: ApiVersion20231001;
+  apiVersion: ApiVersion20240201;
 
   /**
    * Initializes a new instance of the AzureMonitorMetricBatchContext class.
@@ -27,7 +27,7 @@ export class AzureMonitorMetricBatchContext extends coreClient.ServiceClient {
    */
   constructor(
     endpoint: string,
-    apiVersion: ApiVersion20231001,
+    apiVersion: ApiVersion20240201,
     options?: AzureMonitorMetricBatchOptionalParams
   ) {
     if (endpoint === undefined) {

@@ -5,7 +5,7 @@ import { CommonClientOptions } from "@azure/core-client";
 import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricClient,
-  KnownApiVersion20231001 as MonitorMetricBatchApiVersion,
+  KnownApiVersion20240201 as MonitorMetricBatchApiVersion,
 } from "./generated/metricBatch/src";
 import {
   convertResponseForMetricBatch,
@@ -59,7 +59,7 @@ export class MetricsClient {
 
     this._metricBatchClient = new GeneratedMonitorMetricClient(
       this._baseUrl,
-      MonitorMetricBatchApiVersion.TwoThousandTwentyThree1001,
+      MonitorMetricBatchApiVersion.TwoThousandTwentyFour0201,
       serviceClientOptions,
     );
   }
