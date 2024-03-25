@@ -26,7 +26,10 @@ param adminUserName string = 'azureuser'
 @description('The user type - ServicePrincipal in CI, User locally')
 param principalUserType string = 'User'
 
-module managedIdentityModule 'test-resources-msi.bicep' = {
+@description('Whether to deploy resources for Managed Identity. When set to false, this file deploys nothing.')
+param deployMIResources bool = false
+
+module managedIdentityModule 'test-resources-msi.bicep' = if(deployMIResources) {
     name: 'managedIdentityModule'
     params: {
         baseName: baseName
@@ -40,16 +43,15 @@ module managedIdentityModule 'test-resources-msi.bicep' = {
     }
 }
 
-
-output IDENTITY_WEBAPP_NAME string = web.name
-output IDENTITY_WEBAPP_PLAN string = farm.name
-output IDENTITY_USER_DEFINED_IDENTITY string = userAssignedIdentity.id
-output IDENTITY_USER_DEFINED_CLIENT_ID string = userAssignedIdentity.properties.clientId
-output IDENTITY_USER_DEFINED_IDENTITY_NAME string = userAssignedIdentity.name
-output IDENTITY_STORAGE_NAME_1 string = storageAccount.name
-output IDENTITY_STORAGE_NAME_2 string = storageAccount2.name
-output IDENTITY_FUNCTION_NAME string = azureFunction.name
-output IDENTITY_AKS_CLUSTER_NAME string = kubernetesCluster.name
-output IDENTITY_AKS_POD_NAME string = 'javascript-test-app'
-output IDENTITY_ACR_NAME string = acrResource.name
-output IDENTITY_ACR_LOGIN_SERVER string = acrResource.properties.loginServer
+output IDENTITY_WEBAPP_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityWebappName : ''
+output IDENTITY_WEBAPP_PLAN string = deployMIResources? managedIdentityModule.outputs.IdentityWebappPlan : ''
+output IDENTITY_USER_DEFINED_IDENTITY string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentity: ''
+output IDENTITY_USER_DEFINED_IDENTITY_CLIENT_ID string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentityClientId : ''
+output IDENTITY_USER_DEFINED_IDENTITY_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityUserDefinedIdentityName : ''
+output IDENTITY_STORAGE_NAME_1 string = deployMIResources? managedIdentityModule.outputs.IdentityStorageName1 : ''
+output IDENTITY_STORAGE_NAME_2 string = deployMIResources? managedIdentityModule.outputs.IdentityStorageName2 : ''
+output IDENTITY_FUNCTION_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityFunctionName : ''
+output IDENTITY_AKS_CLUSTER_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAksClusterName : ''
+output IDENTITY_AKS_POD_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAksPodName : ''
+output IDENTITY_ACR_NAME string = deployMIResources? managedIdentityModule.outputs.IdentityAcrName : ''
+output IDENTITY_ACR_LOGIN_SERVER string = deployMIResources? managedIdentityModule.outputs.IdentityAcrLoginServer : ''
