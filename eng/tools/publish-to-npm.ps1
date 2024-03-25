@@ -159,8 +159,8 @@ try {
                 New-Item -ItemType Directory -Path $packagesToPublishPath -Force
                 Copy-Item -Path $($p.TarGz) -Destination $packagesToPublishPath -Force
             } elseif ($additionalTag -ne $tag) {
-              npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
-              .$(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName $AdditionalTag -npmToken $(azure-sdk-npm-token)
+                npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
+                . $(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName $AdditionalTag -npmToken $(azure-sdk-npm-token)
             }
         }
         else{
