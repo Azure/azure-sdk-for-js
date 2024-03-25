@@ -11,7 +11,6 @@
 ### Other Changes
 
 ## 3.0.0-beta.1 (2024-02-25)
-## 2.7.1 (2024-03-20)
 
 Initial implementation of next-generation for Long Running Operations (LROs) in which we deprecate the `LroEngine` support and change poller creation to a synchronized way.
 
@@ -23,6 +22,9 @@ Initial implementation of next-generation for Long Running Operations (LROs) in 
 - Added a new function `serialize` to help serialize the poller
 - Added a new function `submitted` to help wait for the poller submitted succesffully
 - Added a new parameter `TRequest` for `OperationResponse` to accept the raw request
+
+## 2.7.1 (2024-03-20)
+
 - Add top-level `browser` field to `package.json` as fallback for legacy bundlers that do not support the `exports` field.
 
 ## 2.7.0 (2024-03-12)
