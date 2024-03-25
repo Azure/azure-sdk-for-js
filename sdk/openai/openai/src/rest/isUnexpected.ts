@@ -16,11 +16,6 @@ import {
   GetImageGenerationsDefaultResponse,
   GetEmbeddings200Response,
   GetEmbeddingsDefaultResponse,
-  GetAzureBatchImageGenerationOperationStatus200Response,
-  GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-  BeginAzureBatchImageGeneration202Response,
-  BeginAzureBatchImageGenerationLogicalResponse,
-  BeginAzureBatchImageGenerationDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -61,17 +56,6 @@ export function isUnexpected(
 ): response is GetEmbeddingsDefaultResponse;
 export function isUnexpected(
   response:
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse,
-): response is GetAzureBatchImageGenerationOperationStatusDefaultResponse;
-export function isUnexpected(
-  response:
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse,
-): response is BeginAzureBatchImageGenerationDefaultResponse;
-export function isUnexpected(
-  response:
     | GetAudioTranscriptionAsPlainText200Response
     | GetAudioTranscriptionAsResponseObject200Response
     | GetAudioTranscriptionAsPlainTextDefaultResponse
@@ -86,20 +70,13 @@ export function isUnexpected(
     | GetImageGenerationsDefaultResponse
     | GetEmbeddings200Response
     | GetEmbeddingsDefaultResponse
-    | GetAzureBatchImageGenerationOperationStatus200Response
-    | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-    | BeginAzureBatchImageGeneration202Response
-    | BeginAzureBatchImageGenerationLogicalResponse
-    | BeginAzureBatchImageGenerationDefaultResponse,
 ): response is
   | GetAudioTranscriptionAsPlainTextDefaultResponse
   | GetAudioTranslationAsPlainTextDefaultResponse
   | GetCompletionsDefaultResponse
   | GetChatCompletionsDefaultResponse
   | GetImageGenerationsDefaultResponse
-  | GetEmbeddingsDefaultResponse
-  | GetAzureBatchImageGenerationOperationStatusDefaultResponse
-  | BeginAzureBatchImageGenerationDefaultResponse {
+  | GetEmbeddingsDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

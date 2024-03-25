@@ -737,22 +737,6 @@ export interface EmbeddingsUsageOutput {
   total_tokens: number;
 }
 
-/** A polling status update or final response payload for an image operation. */
-export interface BatchImageGenerationOperationResponseOutput {
-  /** The ID of the operation. */
-  id: string;
-  /** A timestamp when this job or item was created (in unix epochs). */
-  created: number;
-  /** A timestamp when this operation and its associated images expire and will be deleted (in unix epochs). */
-  expires?: number;
-  /** The result of the operation if the operation succeeded. */
-  result?: ImageGenerationsOutput;
-  /** The status of the operation */
-  status: AzureOpenAIOperationStateOutput;
-  /** The error if the operation failed. */
-  error?: ErrorModel;
-}
-
 /**
  * An abstract representation of a tool call that must be resolved in a subsequent request to perform the requested
  * chat completion.

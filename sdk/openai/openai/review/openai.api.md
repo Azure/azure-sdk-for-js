@@ -229,11 +229,6 @@ export interface ChatChoiceLogProbabilityInfo {
 }
 
 // @public
-export interface ChatChoiceLogProbabilityInfo {
-    content: ChatTokenLogProbabilityResult[] | null;
-}
-
-// @public
 export interface ChatCompletions {
     choices: ChatChoice[];
     created: Date;

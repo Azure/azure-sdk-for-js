@@ -1421,12 +1421,6 @@ export interface ChatChoiceLogProbabilityInfo {
   content: ChatTokenLogProbabilityResult[] | null;
 }
 
-/** Log probability information for a choice, as requested via 'logprobs' and 'top_logprobs'. */
-export interface ChatChoiceLogProbabilityInfo {
-  /** The list of log probability information entries for the choice's message content tokens, as requested via the 'logprobs' option. */
-  content: ChatTokenLogProbabilityResult[] | null;
-}
-
 /** A representation of the log probability information for a single content token, including a list of most likely tokens if 'top_logprobs' were requested. */
 export interface ChatTokenLogProbabilityResult {
   /** The message content token. */
