@@ -132,13 +132,31 @@ export interface BaiduNotification extends JsonNotification {
 }
 
 /**
+ * Represents a Baidu notification that can be sent to devices.
+ */
+export interface BaiduNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Creates a notification to send to a Baidu registered device.
  * @param notification - A partial message used to create a message for Baidu.
  * @returns A newly created Baidu.
  */
-export function createBaiduNotification(notification: NotificationCommon): BaiduNotification {
+export function createBaiduNotification(notification: BaiduNotificationParams): BaiduNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "baidu",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -155,13 +173,33 @@ export interface BrowserNotification extends JsonNotification {
 }
 
 /**
+ * Represents a Web Push notification that can be sent to devices.
+ */
+export interface BrowserNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Creates a notification to send to a browser.
  * @param notification - A partial message used to create a message for a browser.
  * @returns A newly created Web Push browser.
  */
-export function createBrowserNotification(notification: NotificationCommon): BrowserNotification {
+export function createBrowserNotification(
+  notification: BrowserNotificationParams,
+): BrowserNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "browser",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -221,7 +259,7 @@ export interface FcmV1Notification extends JsonNotification {
 }
 
 /**
- * Represents an Firebase Legacy notification that can be sent to a device.
+ * Represents an Firebase V1 notification that can be sent to a device.
  */
 export interface FcmV1NotificationParams {
   /**
@@ -262,13 +300,33 @@ export interface XiaomiNotification extends JsonNotification {
 }
 
 /**
+ * Represents a Xiaomi notification that can be sent to devices.
+ */
+export interface XiaomiNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Creates a notification to send to Xiaomi.
  * @param notification - A partial message used to create a message for Xiaomi.
  * @returns A newly created Xiaomi notification.
  */
-export function createXiaomiNotification(notification: NotificationCommon): XiaomiNotification {
+export function createXiaomiNotification(
+  notification: XiaomiNotificationParams,
+): XiaomiNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "xiaomi",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
@@ -285,13 +343,33 @@ export interface TemplateNotification extends JsonNotification {
 }
 
 /**
- * Creates a notification to send to Firebase.
- * @param notification - A partial message used to create a message for Firebase.
+ * Represents a template notification that can be sent to devices.
+ */
+export interface TemplateNotificationParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
+ * Creates a template notification.
+ * @param notification - A partial message used to be used for a template notification.
  * @returns A newly created Firebase.
  */
-export function createTemplateNotification(notification: NotificationCommon): TemplateNotification {
+export function createTemplateNotification(
+  notification: TemplateNotificationParams,
+): TemplateNotification {
+  const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
+
   return {
     ...notification,
+    body,
     platform: "template",
     contentType: Constants.JSON_CONTENT_TYPE,
   };
