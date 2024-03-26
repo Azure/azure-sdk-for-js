@@ -17,6 +17,7 @@ import {
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
+import { CertificateParts } from "../types";
 import { IdentityClient } from "../../client/identityClient";
 import { MsalNodeOptions } from "./msalNodeCommon";
 import { getLogLevel } from "@azure/logger";
@@ -28,22 +29,44 @@ import { resolveTenantId } from "../../util/tenantIdUtils";
 const msalLogger = credentialLogger("MsalClient");
 
 /**
- * Interface for the MSAL (Microsoft Authentication Library) client.
- * This client is used to interact with Microsoft's identity platform.
+ * Represents a client for interacting with the Microsoft Authentication Library (MSAL).
  */
 export interface MsalClient {
+  /**
+   * Retrieves an access token by using a client certificate.
+   *
+   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param certificate - The client certificate used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
+  getTokenByClientCertificate(
+    arrayScopes: string[],
+    certificate: CertificateParts,
+    options?: GetTokenOptions,
+  ): Promise<AccessToken>;
+
+  /**
+   * Retrieves an access token by using a client assertion.
+   *
+   * @param arrayScopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
+   * @param clientAssertion - The client assertion used for authentication.
+   * @param options - Additional options that may be provided to the method.
+   * @returns An access token.
+   */
   getTokenByClientAssertion(
     arrayScopes: string[],
     clientAssertion: string,
-    newOptions: GetTokenOptions,
+    options?: GetTokenOptions,
   ): Promise<AccessToken>;
+
   /**
    * Retrieves an access token by using a client secret.
    *
    * @param scopes - The scopes for which the access token is requested. These represent the resources that the application wants to access.
    * @param clientSecret - The client secret of the application. This is a credential that the application can use to authenticate itself.
    * @param options - Additional options that may be provided to the method.
-   * @returns An access token
+   * @returns An access token.
    */
   getTokenByClientSecret(
     scopes: string[],
@@ -313,8 +336,29 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     );
   }
 
+  async function getTokenByClientCertificate(
+    scopes: string[],
+    certificate: CertificateParts,
+    options: GetTokenOptions = {},
+  ): Promise<AccessToken> {
+    msalLogger.getToken.info(`Attempting to acquire token using client assertion`);
+
+    state.msalConfig.auth.clientCertificate = certificate;
+
+    const msalApp = await getConfidentialApp(options);
+
+    return withSilentAuthentication(msalApp, scopes, options, () =>
+      msalApp.acquireTokenByClientCredential({
+        scopes,
+        authority: state.msalConfig.auth.authority,
+        claims: options?.claims,
+      }),
+    );
+  }
+
   return {
     getTokenByClientSecret,
     getTokenByClientAssertion,
+    getTokenByClientCertificate,
   };
 }
