@@ -16939,7 +16939,7 @@ packages:
     dev: false
 
   file:projects/arm-sphere.tgz:
-    resolution: {integrity: sha512-FecbO1rrKc54C8B70FYQblM9IMZu3xp+MYvqp1u+9VUoSGFsmkw47mZap9ApSqr2fbzXDFUVwl5faMAOl9iDCw==, tarball: file:projects/arm-sphere.tgz}
+    resolution: {integrity: sha512-RjN8UEWyO5DPLAKAQ6Zcj17wGS0hHpoQiu3HTV3z38mwZtBR3HqueljBoAkn0zGTxh239COn7wTgcoQgea/gYw==, tarball: file:projects/arm-sphere.tgz}
     name: '@rush-temp/arm-sphere'
     version: 0.0.0
     dependencies:
@@ -16952,6 +16952,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
