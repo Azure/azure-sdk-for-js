@@ -30,6 +30,21 @@ export interface NotificationCommon {
 }
 
 /**
+ * The common notification parameters to accept a string body or JSON body.
+ */
+export interface NotificationCommonParams {
+  /**
+   * The body for the push notification.
+   */
+  body: string | unknown;
+
+  /**
+   * The headers to include for the push notification.
+   */
+  headers?: Record<string, string | undefined>;
+}
+
+/**
  * Represents a JSON notification hub.
  */
 export interface JsonNotification extends NotificationCommon {
@@ -132,26 +147,11 @@ export interface BaiduNotification extends JsonNotification {
 }
 
 /**
- * Represents a Baidu notification that can be sent to devices.
- */
-export interface BaiduNotificationParams {
-  /**
-   * The body for the push notification.
-   */
-  body: string | unknown;
-
-  /**
-   * The headers to include for the push notification.
-   */
-  headers?: Record<string, string | undefined>;
-}
-
-/**
  * Creates a notification to send to a Baidu registered device.
  * @param notification - A partial message used to create a message for Baidu.
  * @returns A newly created Baidu.
  */
-export function createBaiduNotification(notification: BaiduNotificationParams): BaiduNotification {
+export function createBaiduNotification(notification: NotificationCommonParams): BaiduNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
   return {
@@ -173,27 +173,12 @@ export interface BrowserNotification extends JsonNotification {
 }
 
 /**
- * Represents a Web Push notification that can be sent to devices.
- */
-export interface BrowserNotificationParams {
-  /**
-   * The body for the push notification.
-   */
-  body: string | unknown;
-
-  /**
-   * The headers to include for the push notification.
-   */
-  headers?: Record<string, string | undefined>;
-}
-
-/**
  * Creates a notification to send to a browser.
  * @param notification - A partial message used to create a message for a browser.
  * @returns A newly created Web Push browser.
  */
 export function createBrowserNotification(
-  notification: BrowserNotificationParams,
+  notification: NotificationCommonParams,
 ): BrowserNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
@@ -300,27 +285,12 @@ export interface XiaomiNotification extends JsonNotification {
 }
 
 /**
- * Represents a Xiaomi notification that can be sent to devices.
- */
-export interface XiaomiNotificationParams {
-  /**
-   * The body for the push notification.
-   */
-  body: string | unknown;
-
-  /**
-   * The headers to include for the push notification.
-   */
-  headers?: Record<string, string | undefined>;
-}
-
-/**
  * Creates a notification to send to Xiaomi.
  * @param notification - A partial message used to create a message for Xiaomi.
  * @returns A newly created Xiaomi notification.
  */
 export function createXiaomiNotification(
-  notification: XiaomiNotificationParams,
+  notification: NotificationCommonParams,
 ): XiaomiNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 
@@ -343,27 +313,12 @@ export interface TemplateNotification extends JsonNotification {
 }
 
 /**
- * Represents a template notification that can be sent to devices.
- */
-export interface TemplateNotificationParams {
-  /**
-   * The body for the push notification.
-   */
-  body: string | unknown;
-
-  /**
-   * The headers to include for the push notification.
-   */
-  headers?: Record<string, string | undefined>;
-}
-
-/**
  * Creates a template notification.
  * @param notification - A partial message used to be used for a template notification.
  * @returns A newly created Firebase.
  */
 export function createTemplateNotification(
-  notification: TemplateNotificationParams,
+  notification: NotificationCommonParams,
 ): TemplateNotification {
   const body = isString(notification.body) ? notification.body : JSON.stringify(notification.body);
 

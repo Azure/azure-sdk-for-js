@@ -223,12 +223,6 @@ export interface BaiduNotification extends JsonNotification {
 }
 
 // @public
-export interface BaiduNotificationParams {
-    body: string | unknown;
-    headers?: Record<string, string | undefined>;
-}
-
-// @public
 export interface BaiduRegistrationChannel {
     baiduChannelId: string;
     baiduUserId: string;
@@ -268,12 +262,6 @@ export interface BrowserInstallationCommon extends InstallationCommon {
 // @public
 export interface BrowserNotification extends JsonNotification {
     platform: "browser";
-}
-
-// @public
-export interface BrowserNotificationParams {
-    body: string | unknown;
-    headers?: Record<string, string | undefined>;
 }
 
 // @public
@@ -346,7 +334,7 @@ export function createAppleTemplateRegistrationDescription(description: AppleTem
 export function createBaiduInstallation(installation: DeviceTokenInstallation): BaiduInstallation;
 
 // @public
-export function createBaiduNotification(notification: BaiduNotificationParams): BaiduNotification;
+export function createBaiduNotification(notification: NotificationCommonParams): BaiduNotification;
 
 // @public
 export function createBaiduNotificationBody(nativeMessage: BaiduNativeMessage): string;
@@ -361,7 +349,7 @@ export function createBaiduTemplateRegistrationDescription(description: BaiduTem
 export function createBrowserInstallation(installation: BrowserInstallationCommon): BrowserInstallation;
 
 // @public
-export function createBrowserNotification(notification: BrowserNotificationParams): BrowserNotification;
+export function createBrowserNotification(notification: NotificationCommonParams): BrowserNotification;
 
 // @public
 export function createBrowserRegistrationDescription(description: BrowserRegistrationDescriptionCommon): BrowserRegistrationDescription;
@@ -403,7 +391,7 @@ export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1Native
 export function createTagExpression(tags: string[]): string;
 
 // @public
-export function createTemplateNotification(notification: TemplateNotificationParams): TemplateNotification;
+export function createTemplateNotification(notification: NotificationCommonParams): TemplateNotification;
 
 // @public
 export function createWindowsBadgeNotification(notification: WnsNotificationParams): WindowsNotification;
@@ -436,7 +424,7 @@ export function createWindowsToastNotification(notification: WnsNotificationPara
 export function createXiaomiInstallation(installation: DeviceTokenInstallation): XiaomiInstallation;
 
 // @public
-export function createXiaomiNotification(notification: XiaomiNotificationParams): XiaomiNotification;
+export function createXiaomiNotification(notification: NotificationCommonParams): XiaomiNotification;
 
 // @public
 export function createXiaomiRegistrationDescription(description: XiaomiRegistrationDescriptionCommon): XiaomiRegistrationDescription;
@@ -796,6 +784,12 @@ export interface NotificationCommon {
 }
 
 // @public
+export interface NotificationCommonParams {
+    body: string | unknown;
+    headers?: Record<string, string | undefined>;
+}
+
+// @public
 export interface NotificationDetails {
     admOutcomeCounts?: NotificationOutcome[];
     apnsOutcomeCounts?: NotificationOutcome[];
@@ -1003,12 +997,6 @@ export interface TemplateNotification extends JsonNotification {
 }
 
 // @public
-export interface TemplateNotificationParams {
-    body: string | unknown;
-    headers?: Record<string, string | undefined>;
-}
-
-// @public
 export interface TemplateRegistrationDescription {
     bodyTemplate: string;
     templateName?: string;
@@ -1084,12 +1072,6 @@ export interface XiaomiInstallation extends DeviceTokenInstallation {
 // @public
 export interface XiaomiNotification extends JsonNotification {
     platform: "xiaomi";
-}
-
-// @public
-export interface XiaomiNotificationParams {
-    body: string | unknown;
-    headers?: Record<string, string | undefined>;
 }
 
 // @public
