@@ -54,10 +54,10 @@ const logsQueryClient: LogsQueryClient = new LogsQueryClient(credential);
 // or
 const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(credential);
 // or
-const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
+const endPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
-const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
-  batchEndPoint,
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(
+  endPoint,
   credential
 );
 ```
@@ -833,7 +833,7 @@ A full sample can be found [here](https://github.com/Azure/azure-sdk-for-js/blob
 
 #### Query metrics for multiple resources
 
-To query metrics for multiple Azure resources in a single request, use the `MetricsBatchQueryClient.queryBatch` method. This method:
+To query metrics for multiple Azure resources in a single request, use the `MetricsQueryClient.queryResources` method. This method:
 
 - Calls a different API than the `MetricsQueryClient` methods.
 - Requires a regional endpoint when creating the client. For example, "https://westus3.metrics.monitor.azure.com".
@@ -855,12 +855,12 @@ let metricNames: string[] = ["requests", "count"];
 const batchEndPoint: string = "<YOUR_METRICS_ENDPOINT>"; //for example, https://eastus.metrics.monitor.azure.com/
 
 const credential = new DefaultAzureCredential();
-const metricsBatchQueryClient: MetricsBatchQueryClient = new MetricsBatchQueryClient(
+const metricsQueryClient: MetricsQueryClient = new MetricsQueryClient(
   batchEndPoint,
   credential
 );
 
-const result: MetricResultsResponseValuesItem[] = await metricsBatchQueryClient.queryBatch(
+const result: : MetricsQueryResult[] = await metricsQueryClient.queryResources(
   resourceIds,
   metricsNamespace,
   metricNames
