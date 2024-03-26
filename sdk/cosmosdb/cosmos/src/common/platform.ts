@@ -14,9 +14,6 @@ export function getUserAgent(suffix?: string): string {
   return ua;
 }
 
-/**
- * @hidden
- */
 // TODO: Standardize across other platforms from @azure/core-util
 function userAgentDetails(): string {
   if (globalThis.navigator && globalThis.navigator.userAgent) {
