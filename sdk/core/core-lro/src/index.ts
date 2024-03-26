@@ -7,6 +7,7 @@ export {
   OperationState,
   OperationStatus,
   PollerLike,
+  SimplePollerLike,
   RestorableOperationState,
   OperationConfig,
 } from "./poller/models.js";

@@ -10,6 +10,7 @@ import {
   RestorableOperationState,
   PollerLike,
   StateProxy,
+  SimplePollerLike,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
@@ -44,11 +45,12 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
+  type: "Poller" | "SimplePoller",
   inputs: BuildCreatePollerOptions<TResponse, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>,
-) => PollerLike<TState, TResult> {
+) => SimplePollerLike<TState, TResult> | PollerLike<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -73,13 +75,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-          let called = false;
-          return (operationLocation: string, isUpdated: boolean) => {
-            if (isUpdated) withOperationLocationCallback(operationLocation);
-            else if (!called) withOperationLocationCallback(operationLocation);
-            called = true;
-          };
-        })()
+        let called = false;
+        return (operationLocation: string, isUpdated: boolean) => {
+          if (isUpdated) withOperationLocationCallback(operationLocation);
+          else if (!called) withOperationLocationCallback(operationLocation);
+          called = true;
+        };
+      })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState>;
@@ -105,7 +107,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    const poller: PollerLike<TState, TResult> = {
+    let poller: SimplePollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
         return state;
       },
@@ -229,6 +231,12 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 
         return state;
       },
+    };
+    if (type === "SimplePoller") {
+      return poller;
+    }
+    poller = {
+      ...poller,
       then<TResult1 = TResult, TResult2 = never>(
         onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
         onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
@@ -244,7 +252,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
         return poller.pollUntilDone().finally(onfinally);
       },
       [Symbol.toStringTag]: "Poller",
-    };
+    } as PollerLike<TState, TResult>;
     return poller;
   };
 }

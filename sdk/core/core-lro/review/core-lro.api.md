@@ -10,7 +10,10 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(type: "Poller", lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+
+// @public (undocumented)
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(type: "SimplePoller", lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): SimplePollerLike<TState, TResult>;
 
 // @public
 export interface CreateHttpPollerOptions<TResult, TState> {
@@ -60,20 +63,7 @@ export interface OperationState<TResult> {
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled" | "failed";
 
 // @public
-export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
-    readonly isDone: boolean;
-    readonly isStopped: boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
-    readonly operationState: TState | undefined;
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TState>;
-    pollUntilDone(pollOptions?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
-    readonly result: TResult | undefined;
-    serialize(): Promise<string>;
-    submitted(): Promise<void>;
+export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult>, SimplePollerLike<TState, TResult> {
 }
 
 // @public
@@ -100,6 +90,23 @@ export type ResourceLocationConfig = "azure-async-operation" | "location" | "ori
 export type RestorableOperationState<T> = T & {
     config: OperationConfig;
 };
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    readonly isDone: boolean;
+    readonly isStopped: boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    readonly operationState: TState | undefined;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    readonly result: TResult | undefined;
+    serialize(): Promise<string>;
+    submitted(): Promise<void>;
+}
 
 // (No @packageDocumentation comment for this package)
 
