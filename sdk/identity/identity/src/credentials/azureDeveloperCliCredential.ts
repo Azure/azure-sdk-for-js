@@ -209,8 +209,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           err.name === "CredentialUnavailableError"
             ? err
             : new CredentialUnavailableError(
-              (err as Error).message || "Unknown error while trying to retrieve the access token",
-            );
+                (err as Error).message || "Unknown error while trying to retrieve the access token",
+              );
         logger.getToken.info(formatError(scopes, error));
         throw error;
       }
