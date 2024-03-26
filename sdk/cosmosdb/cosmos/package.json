@@ -83,17 +83,16 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.3.0",
-    "@azure/core-rest-pipeline": "^1.2.0",
-    "@azure/core-tracing": "^1.0.0",
-    "@azure/core-util": "^1.6.1",
-    "debug": "^4.1.1",
+    "@azure/abort-controller": "^2.0.0",
+    "@azure/core-auth": "^1.7.1",
+    "@azure/core-rest-pipeline": "^1.15.1",
+    "@azure/core-tracing": "^1.1.1",
+    "@azure/core-util": "^1.8.1",
+    "debug": "^4.3.4",
     "fast-json-stable-stringify": "^2.1.0",
     "jsbi": "^3.1.3",
-    "node-abort-controller": "^3.0.0",
     "priorityqueuejs": "^2.0.0",
-    "semaphore": "^1.0.5",
+    "semaphore": "^1.1.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
