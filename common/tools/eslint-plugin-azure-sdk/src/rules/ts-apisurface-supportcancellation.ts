@@ -7,7 +7,7 @@
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { Symbol as TSSymbol, Type, TypeChecker, TypeFlags } from "typescript";
 import { getPublicMethods, getRuleMetaData } from "../utils";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
@@ -111,7 +111,11 @@ export = {
     ) {
       return {};
     }
-    const typeChecker = parserServices.program.getTypeChecker();
+    const typeChecker = parserServices?.program?.getTypeChecker();
+    if (!typeChecker) {
+      console.log("typeChecker is undefined");
+      return {};
+    }
     const converter = parserServices.esTreeNodeToTSNodeMap;
     return {
       // callback functions

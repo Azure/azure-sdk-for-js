@@ -6,7 +6,7 @@
  * @author Arpan Laha
  */
 
-import { ParserServices } from "@typescript-eslint/experimental-utils";
+import { ParserServices } from "@typescript-eslint/utils";
 import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 import { isExternalModule } from "typescript";
@@ -25,7 +25,11 @@ export = {
     ) {
       return {};
     }
-    const typeChecker = parserServices.program.getTypeChecker();
+    const typeChecker = parserServices?.program?.getTypeChecker();
+    if (!typeChecker) {
+      console.log("typeChecker is undefined");
+      return {};
+    }
     const converter = parserServices.esTreeNodeToTSNodeMap;
     return {
       ":function[returnType.typeAnnotation.typeName.name='Promise']": (node: any): void => {

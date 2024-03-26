@@ -29,7 +29,7 @@ import {
   MethodDefinition,
   Pattern,
 } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import {
   ParserWeakMap,
   ParserWeakMapESTreeToTSNode,
@@ -252,7 +252,11 @@ export = {
     ) {
       return {};
     }
-    const typeChecker = parserServices.program.getTypeChecker();
+    const typeChecker = parserServices?.program?.getTypeChecker();
+    if (!typeChecker) {
+      console.log("typeChecker is undefined");
+      return {};
+    }
     const converter = parserServices.esTreeNodeToTSNodeMap;
     const reverter: ParserWeakMap<TSNode, TSESTree.Node> = parserServices.tsNodeToESTreeNodeMap;
 

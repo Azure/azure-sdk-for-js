@@ -7,7 +7,7 @@
  */
 
 import { ClassDeclaration, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { SourceFile, Symbol as TSSymbol } from "typescript";
 import { Rule } from "eslint";
 
@@ -18,11 +18,12 @@ import { Rule } from "eslint";
  */
 const getExports = (context: Rule.RuleContext): TSSymbol[] | undefined => {
   const parserServices = context.sourceCode.parserServices as ParserServices;
-  if (parserServices.program === undefined) {
+  if (!parserServices.program) {
     return undefined;
   }
 
   const program = parserServices.program;
+
   const typeChecker = program.getTypeChecker();
   const sourceFile = program.getSourceFile(context.settings.main);
   if (sourceFile === undefined) {

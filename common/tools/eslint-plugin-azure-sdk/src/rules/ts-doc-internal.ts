@@ -6,7 +6,7 @@
  * @author Arpan Laha
  */
 
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { getLocalExports, getRuleMetaData } from "../utils";
 import { Node } from "estree";
 import { ParserWeakMapESTreeToTSNode } from "@typescript-eslint/typescript-estree/dist/parser-options";
@@ -119,7 +119,11 @@ export = {
       return {};
     }
 
-    const typeChecker = parserServices.program.getTypeChecker();
+    const typeChecker = parserServices?.program?.getTypeChecker();
+    if (!typeChecker) {
+      console.log("typeChecker is undefined");
+      return {};
+    }
     const converter = parserServices.esTreeNodeToTSNodeMap;
 
     return shouldExamineFile(fileName, exclude)

@@ -7,7 +7,7 @@
  */
 
 import { ClassDeclaration, Identifier, MethodDefinition } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { getPublicMethods, getRuleMetaData } from "../utils";
 import { Rule } from "eslint";
 
