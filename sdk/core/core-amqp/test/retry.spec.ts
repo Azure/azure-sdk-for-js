@@ -201,6 +201,35 @@ const should = chai.should();
       }
     });
 
+    it("should fail with last service-side error", async function () {
+      let counter = 0;
+      const errors = [
+        {
+          name: "OperationTimeoutError",
+          message: "library error",
+          retryable: true,
+        },
+        new MessagingError("service error"),
+      ];
+      const maxRetries = errors.length - 1;
+      try {
+        const config: RetryConfig<any> = {
+          operation: async () => {
+            debug("counter: %d", ++counter);
+            throw errors.pop();
+          },
+          connectionId: "connection-1",
+          operationType: RetryOperationType.session,
+          retryOptions: { maxRetries, retryDelayInMs: 0, mode },
+        };
+        await retry(config);
+      } catch (err) {
+        should.exist(err);
+        should.equal(true, (err as any).name === "MessagingError");
+        counter.should.equal(maxRetries + 1);
+      }
+    });
+
     it("should not sleep after final failure if all attempts return a retryable error (no retries)", async function () {
       let counter = 0;
       // Create an abort controller so we can clean up the delay's setTimeout ASAP after the race.
