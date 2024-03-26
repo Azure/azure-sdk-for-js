@@ -38,6 +38,30 @@ describe("createAppleNotification", () => {
     assert.equal(notification.platform, "apple");
     assert.equal(notification.body, `{"aps":{"alert":"Hello"}}`);
   });
+
+  it("should create an apple message with Apple Headers", () => {
+    const notification = createAppleNotification({
+      body: `{"aps":{"alert":"Hello"}}`,
+      headers: {
+        "apns-push-type": "alert",
+        "apns-id": "1234",
+        "apns-expiration": "100",
+        "apns-priority": "10",
+        "apns-topic": "com.example.myapp",
+        "apns-collapse-id": "1234",
+      },
+    });
+
+    assert.equal(notification.contentType, Constants.JSON_CONTENT_TYPE);
+    assert.equal(notification.platform, "apple");
+    assert.equal(notification.body, `{"aps":{"alert":"Hello"}}`);
+    assert.equal(notification.headers!["apns-push-type"], "alert");
+    assert.equal(notification.headers!["apns-id"], "1234");
+    assert.equal(notification.headers!["apns-expiration"], "100");
+    assert.equal(notification.headers!["apns-priority"], "10");
+    assert.equal(notification.headers!["apns-topic"], "com.example.myapp");
+    assert.equal(notification.headers!["apns-collapse-id"], "1234");
+  });
 });
 
 describe("createAdmNotification", () => {

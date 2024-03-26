@@ -58,7 +58,7 @@ export interface AdmNotification extends JsonNotification {
 // @public
 export interface AdmNotificationParams {
     body: string | AdmNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -131,7 +131,7 @@ export interface AppleCriticalSound {
 }
 
 // @public
-export interface AppleHeaders extends Record<string, string | undefined> {
+export interface AppleHeaders extends Record<string, unknown> {
     "apns-collapse-id"?: string;
     "apns-expiration"?: string;
     "apns-id"?: string;
@@ -460,7 +460,7 @@ export interface FcmLegacyNotification extends JsonNotification {
 // @public
 export interface FcmLegacyNotificationParams {
     body: string | FirebaseLegacyNativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -476,7 +476,7 @@ export interface FcmV1Notification extends JsonNotification {
 // @public
 export interface FcmV1NotificationParams {
     body: string | FirebaseV1NativeMessage;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, string>;
 }
 
 // @public
@@ -780,13 +780,13 @@ export type Notification = AppleNotification | AdmNotification | BaiduNotificati
 // @public
 export interface NotificationCommon {
     body: string;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, unknown>;
 }
 
 // @public
 export interface NotificationCommonParams {
     body: string | unknown;
-    headers?: Record<string, string | undefined>;
+    headers?: Record<string, unknown>;
 }
 
 // @public
@@ -1014,7 +1014,7 @@ export interface WindowsBadgeNativeMessage {
 export type WindowsContentType = "application/xml" | "application/octet-stream";
 
 // @public
-export interface WindowsHeaders extends Record<string, string | undefined> {
+export interface WindowsHeaders extends Record<string, unknown> {
     "X-WNS-Type"?: WnsTypes;
 }
 

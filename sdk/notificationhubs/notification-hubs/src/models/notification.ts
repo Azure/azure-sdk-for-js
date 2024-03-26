@@ -26,7 +26,7 @@ export interface NotificationCommon {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, unknown>;
 }
 
 /**
@@ -41,7 +41,7 @@ export interface NotificationCommonParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, unknown>;
 }
 
 /**
@@ -117,7 +117,7 @@ export interface AdmNotificationParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, string>;
 }
 
 /**
@@ -212,7 +212,7 @@ export interface FcmLegacyNotificationParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, string>;
 }
 
 /**
@@ -255,7 +255,7 @@ export interface FcmV1NotificationParams {
   /**
    * The headers to include for the push notification.
    */
-  headers?: Record<string, string | undefined>;
+  headers?: Record<string, string>;
 }
 
 /**
