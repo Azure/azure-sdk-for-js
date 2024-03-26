@@ -1,17 +1,17 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197/updateproperties?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0/updateproperties?api-version=2024-02-01.19.0",
       "RequestMethod": "POST",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "e7e7a0d0-e1cb-4c24-82ef-a58f85661ad0",
+        "client-request-id": "ab6731fa-70b0-4e13-a29a-3191e749894a",
         "Connection": "keep-alive",
         "Content-Length": "164",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
         "metadata": [
@@ -29,12 +29,12 @@
       "StatusCode": 204,
       "ResponseHeaders": {
         "Content-Length": "0",
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197/updateproperties",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0/updateproperties",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:28 GMT",
-        "ETag": "0x8DC0DB40A30B6EA",
-        "Last-Modified": "Fri, 05 Jan 2024 06:03:29 GMT",
-        "request-id": "d8a46ef1-6fd1-47d1-a58b-0babac6e4a49",
+        "Date": "Tue, 26 Mar 2024 02:02:13 GMT",
+        "ETag": "0x8DC4D38C14F261E",
+        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
+        "request-id": "f81cf8e7-5c71-4f4b-bb9d-fb61ae37e321",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -42,25 +42,25 @@
       "ResponseBody": null
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "244dc72f-9d8a-4d73-aed1-4a7d76d487b4",
+        "client-request-id": "1e796210-9c41-4754-8618-5eeab8626265",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:28 GMT",
-        "ETag": "0x8DC0DB40A30B6EA",
-        "Last-Modified": "Fri, 05 Jan 2024 06:03:29 GMT",
-        "request-id": "cd532b9a-965d-41c5-850c-71edb9614c8f",
+        "Date": "Tue, 26 Mar 2024 02:02:13 GMT",
+        "ETag": "0x8DC4D38C14F261E",
+        "Last-Modified": "Tue, 26 Mar 2024 02:02:13 GMT",
+        "request-id": "812e19ec-8999-445f-8048-fc11d51055b6",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -68,15 +68,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB40A30B6EA",
-        "lastModified": "2024-01-05T06:03:29.600689Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
+        "id": "JSSDKTest-Pool-Basic-28c0",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+        "eTag": "0x8DC4D38C14F261E",
+        "lastModified": "2024-03-26T02:02:13.6464926Z",
+        "creationTime": "2024-03-26T02:01:36.4635408Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
+        "stateTransitionTime": "2024-03-26T02:01:36.4635408Z",
         "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-01-05T06:03:23.8779245Z",
+        "allocationStateTransitionTime": "2024-03-26T02:02:08.1651258Z",
         "vmSize": "standard_d1_v2",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 4,
@@ -101,7 +101,7 @@
             "name": "nonAdminUser",
             "elevationLevel": "nonadmin",
             "windowsUserConfiguration": {
-              "loginMode": "interactive"
+              "loginMode": "batch"
             }
           }
         ],
@@ -116,9 +116,28 @@
         "taskSchedulingPolicy": {
           "nodeFillType": "Spread"
         },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter",
+            "version": "latest"
+          },
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "extensions": [
+            {
+              "name": "batchextension1",
+              "publisher": "Microsoft.Azure.Geneva",
+              "type": "GenevaMonitoring",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "enableAutomaticUpgrade": true
+            }
+          ]
+        },
+        "networkConfiguration": {
+          "dynamicVNetAssignmentScope": "none",
+          "enableAcceleratedNetworking": true
         },
         "targetNodeCommunicationMode": "default",
         "currentNodeCommunicationMode": "classic"
@@ -126,6 +145,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-8197"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
   }
 }

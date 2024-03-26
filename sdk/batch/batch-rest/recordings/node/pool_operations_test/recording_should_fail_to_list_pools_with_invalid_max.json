@@ -7,9 +7,9 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "f8ca973f-df3a-4c4f-95ec-963c66683c1d",
+        "client-request-id": "6c997c8d-a77f-4e16-aad3-4b3f761135ae",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 400,
@@ -17,8 +17,8 @@
         "Content-Length": "580",
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:31 GMT",
-        "request-id": "4d2769e7-6ae1-4a32-a058-3f77d3ae7a5f",
+        "Date": "Tue, 26 Mar 2024 02:02:15 GMT",
+        "request-id": "c3bc82de-01cf-4f50-9be8-36b641a45bc5",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "X-Content-Type-Options": "nosniff"
@@ -28,7 +28,7 @@
         "code": "InvalidQueryParameterValue",
         "message": {
           "lang": "en-US",
-          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:4d2769e7-6ae1-4a32-a058-3f77d3ae7a5f\nTime:2024-01-05T06:03:32.1903979Z"
+          "value": "Value for one of the query parameters specified in the request URI is invalid.\nRequestId:c3bc82de-01cf-4f50-9be8-36b641a45bc5\nTime:2024-03-26T02:02:15.6333594Z"
         },
         "values": [
           {

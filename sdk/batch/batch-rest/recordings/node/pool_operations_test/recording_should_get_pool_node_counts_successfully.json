@@ -7,17 +7,17 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "6fb370f2-2efc-43d4-bfa0-8576111ba8f6",
+        "client-request-id": "1c5a46a5-582c-4dc3-b3e8-445cfd4e0b6b",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:39 GMT",
-        "request-id": "503348f6-adfb-4c97-867f-83180ecb314b",
+        "Date": "Tue, 26 Mar 2024 02:03:20 GMT",
+        "request-id": "bc2d6e18-fca3-435e-ad59-9210077419d4",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,20 +27,21 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-8197",
+            "poolId": "JSSDKTest-Pool-Basic-28c0",
             "dedicated": {
               "creating": 0,
-              "idle": 4,
+              "idle": 0,
               "leavingPool": 0,
               "offline": 0,
               "preempted": 0,
               "rebooting": 0,
               "reimaging": 0,
               "running": 0,
-              "starting": 0,
+              "starting": 4,
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 4
             },
@@ -57,12 +58,13 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-aa03",
+            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -76,6 +78,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 1
             },
@@ -92,6 +95,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
@@ -106,17 +110,17 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "68ff86c2-790c-41ec-8ec1-bf52437d34c3",
+        "client-request-id": "e5a3a48a-be12-4017-95a7-6d8435653606",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:39 GMT",
-        "request-id": "deff6de5-44e9-44df-8728-5ae0a42f5f77",
+        "Date": "Tue, 26 Mar 2024 02:04:21 GMT",
+        "request-id": "b97b670a-6727-4f91-84a5-dce1af7f2b58",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -126,20 +130,21 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-8197",
+            "poolId": "JSSDKTest-Pool-Basic-28c0",
             "dedicated": {
               "creating": 0,
-              "idle": 4,
+              "idle": 0,
               "leavingPool": 0,
               "offline": 0,
               "preempted": 0,
               "rebooting": 0,
               "reimaging": 0,
               "running": 0,
-              "starting": 0,
+              "starting": 4,
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 4
             },
@@ -156,12 +161,13 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-aa03",
+            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
             "dedicated": {
               "creating": 0,
               "idle": 0,
@@ -175,6 +181,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 1
             },
@@ -191,6 +198,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
@@ -205,17 +213,17 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "f3d9e314-d351-42c0-836d-501879978f7e",
+        "client-request-id": "aa12ceaa-2f5c-4470-a190-91b33b6aa4ea",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:40 GMT",
-        "request-id": "5bbdac29-4a4e-4e23-b834-0b49c5d9e7c2",
+        "Date": "Tue, 26 Mar 2024 02:05:21 GMT",
+        "request-id": "abfdc43a-6abe-41d0-8579-2fa219681d5c",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -225,20 +233,21 @@
         "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
         "value": [
           {
-            "poolId": "JSSDKTest-Pool-Basic-8197",
+            "poolId": "JSSDKTest-Pool-Basic-28c0",
             "dedicated": {
               "creating": 0,
-              "idle": 4,
+              "idle": 0,
               "leavingPool": 0,
               "offline": 0,
               "preempted": 0,
               "rebooting": 0,
               "reimaging": 0,
               "running": 0,
-              "starting": 0,
+              "starting": 4,
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 4
             },
@@ -255,210 +264,13 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
           },
           {
-            "poolId": "JSSDKTest-Pool-Endpoint-aa03",
-            "dedicated": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 1,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 1
-            },
-            "lowPriority": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 0
-            }
-          }
-        ]
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/nodecounts?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "3ff60aed-e0d6-4e34-944f-7c64643e0791",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:40 GMT",
-        "request-id": "5f417d87-e798-467d-8aad-fdea00122a5d",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
-        "value": [
-          {
-            "poolId": "JSSDKTest-Pool-Basic-8197",
-            "dedicated": {
-              "creating": 0,
-              "idle": 4,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 4
-            },
-            "lowPriority": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 0
-            }
-          },
-          {
-            "poolId": "JSSDKTest-Pool-Endpoint-aa03",
-            "dedicated": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 1,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 1
-            },
-            "lowPriority": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 0
-            }
-          }
-        ]
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/nodecounts?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "49d384de-5fb4-4d82-b7e6-a92c0b14a730",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:40 GMT",
-        "request-id": "d91e7383-5df6-4ac1-8038-7e70225ff661",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#poolnodecounts",
-        "value": [
-          {
-            "poolId": "JSSDKTest-Pool-Basic-8197",
-            "dedicated": {
-              "creating": 0,
-              "idle": 4,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 4
-            },
-            "lowPriority": {
-              "creating": 0,
-              "idle": 0,
-              "leavingPool": 0,
-              "offline": 0,
-              "preempted": 0,
-              "rebooting": 0,
-              "reimaging": 0,
-              "running": 0,
-              "starting": 0,
-              "startTaskFailed": 0,
-              "unusable": 0,
-              "unknown": 0,
-              "waitingForStartTask": 0,
-              "total": 0
-            }
-          },
-          {
-            "poolId": "JSSDKTest-Pool-Endpoint-aa03",
+            "poolId": "JSSDKTest-Pool-Endpoint-bd08",
             "dedicated": {
               "creating": 0,
               "idle": 1,
@@ -472,6 +284,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 1
             },
@@ -488,6 +301,7 @@
               "startTaskFailed": 0,
               "unusable": 0,
               "unknown": 0,
+              "upgradingOS": 0,
               "waitingForStartTask": 0,
               "total": 0
             }
@@ -497,6 +311,6 @@
     }
   ],
   "Variables": {
-    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-aa03"
+    "ENDPOINT_POOL": "JSSDKTest-Pool-Endpoint-bd08"
   }
 }

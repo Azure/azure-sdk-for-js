@@ -1,25 +1,25 @@
 {
   "Entries": [
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "555d1e5b-a149-4cc2-aec7-627ba81133d7",
+        "client-request-id": "9c886424-f902-4c9a-b2a8-662cedf97cf8",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:02:38 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "e0b63dfb-931b-421a-a951-4afbfa0e9c90",
+        "Date": "Tue, 26 Mar 2024 02:01:57 GMT",
+        "ETag": "0x8DC4D38B79A49AA",
+        "Last-Modified": "Tue, 26 Mar 2024 02:01:57 GMT",
+        "request-id": "fccac410-f320-4bbd-b380-e59e0c8ee48e",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,15 +27,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
+        "id": "JSSDKTest-Pool-Basic-28c0",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+        "eTag": "0x8DC4D38B79A49AA",
+        "lastModified": "2024-03-26T02:01:57.3617066Z",
+        "creationTime": "2024-03-26T02:01:36.4635408Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
+        "stateTransitionTime": "2024-03-26T02:01:36.4635408Z",
         "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-01-05T06:02:16.8022473Z",
+        "allocationStateTransitionTime": "2024-03-26T02:01:36.4635426Z",
         "vmSize": "standard_d1_v2",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 0,
@@ -60,7 +60,7 @@
             "name": "nonAdminUser",
             "elevationLevel": "nonadmin",
             "windowsUserConfiguration": {
-              "loginMode": "interactive"
+              "loginMode": "batch"
             }
           }
         ],
@@ -74,112 +74,51 @@
         "taskSchedulingPolicy": {
           "nodeFillType": "Spread"
         },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "adabb38f-e80f-47ce-b4d2-d8027484e099",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:02:48 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "d6881e78-960e-43be-bce4-7324d50f1a2f",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
-        "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "vmSize": "standard_d1_v2",
-        "resizeTimeout": "PT15M",
-        "currentDedicatedNodes": 0,
-        "targetDedicatedNodes": 4,
-        "currentLowPriorityNodes": 0,
-        "targetLowPriorityNodes": 0,
-        "enableAutoScale": false,
-        "enableInterNodeCommunication": false,
-        "startTask": {
-          "commandLine": "cmd /c echo hello \u003E hello.txt",
-          "userIdentity": {
-            "autoUser": {
-              "scope": "pool",
-              "elevationLevel": "nonadmin"
-            }
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter",
+            "version": "latest"
           },
-          "maxTaskRetryCount": 0,
-          "waitForSuccess": true
-        },
-        "userAccounts": [
-          {
-            "name": "nonAdminUser",
-            "elevationLevel": "nonadmin",
-            "windowsUserConfiguration": {
-              "loginMode": "interactive"
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "extensions": [
+            {
+              "name": "batchextension1",
+              "publisher": "Microsoft.Azure.Geneva",
+              "type": "GenevaMonitoring",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "enableAutomaticUpgrade": true
             }
-          }
-        ],
-        "metadata": [
-          {
-            "name": "foo2",
-            "value": "bar2"
-          }
-        ],
-        "taskSlotsPerNode": 1,
-        "taskSchedulingPolicy": {
-          "nodeFillType": "Spread"
+          ]
         },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
+        "networkConfiguration": {
+          "dynamicVNetAssignmentScope": "none",
+          "enableAcceleratedNetworking": true
         }
       }
     },
     {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0?api-version=2024-02-01.19.0",
       "RequestMethod": "GET",
       "RequestHeaders": {
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "c93ab6f0-620d-4929-bb31-319fb5b6c2ee",
+        "client-request-id": "4e6d88fc-8c00-4bf7-92aa-0101cbad5b6c",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:02:57 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "a55ad74c-e004-485e-978a-f780bb248d4e",
+        "Date": "Tue, 26 Mar 2024 02:02:12 GMT",
+        "ETag": "0x8DC4D38B79A49AA",
+        "Last-Modified": "Tue, 26 Mar 2024 02:01:57 GMT",
+        "request-id": "f79181d2-201b-48fa-aa6e-88a83147caf9",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -187,255 +126,15 @@
       },
       "ResponseBody": {
         "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
+        "id": "JSSDKTest-Pool-Basic-28c0",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+        "eTag": "0x8DC4D38B79A49AA",
+        "lastModified": "2024-03-26T02:01:57.3617066Z",
+        "creationTime": "2024-03-26T02:01:36.4635408Z",
         "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "vmSize": "standard_d1_v2",
-        "resizeTimeout": "PT15M",
-        "currentDedicatedNodes": 0,
-        "targetDedicatedNodes": 4,
-        "currentLowPriorityNodes": 0,
-        "targetLowPriorityNodes": 0,
-        "enableAutoScale": false,
-        "enableInterNodeCommunication": false,
-        "startTask": {
-          "commandLine": "cmd /c echo hello \u003E hello.txt",
-          "userIdentity": {
-            "autoUser": {
-              "scope": "pool",
-              "elevationLevel": "nonadmin"
-            }
-          },
-          "maxTaskRetryCount": 0,
-          "waitForSuccess": true
-        },
-        "userAccounts": [
-          {
-            "name": "nonAdminUser",
-            "elevationLevel": "nonadmin",
-            "windowsUserConfiguration": {
-              "loginMode": "interactive"
-            }
-          }
-        ],
-        "metadata": [
-          {
-            "name": "foo2",
-            "value": "bar2"
-          }
-        ],
-        "taskSlotsPerNode": 1,
-        "taskSchedulingPolicy": {
-          "nodeFillType": "Spread"
-        },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "36ea302c-96bf-4d51-b576-269d0591d844",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:07 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "384cd8f8-5f99-44e6-a0c2-c0d8b42c7bb7",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
-        "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "vmSize": "standard_d1_v2",
-        "resizeTimeout": "PT15M",
-        "currentDedicatedNodes": 0,
-        "targetDedicatedNodes": 4,
-        "currentLowPriorityNodes": 0,
-        "targetLowPriorityNodes": 0,
-        "enableAutoScale": false,
-        "enableInterNodeCommunication": false,
-        "startTask": {
-          "commandLine": "cmd /c echo hello \u003E hello.txt",
-          "userIdentity": {
-            "autoUser": {
-              "scope": "pool",
-              "elevationLevel": "nonadmin"
-            }
-          },
-          "maxTaskRetryCount": 0,
-          "waitForSuccess": true
-        },
-        "userAccounts": [
-          {
-            "name": "nonAdminUser",
-            "elevationLevel": "nonadmin",
-            "windowsUserConfiguration": {
-              "loginMode": "interactive"
-            }
-          }
-        ],
-        "metadata": [
-          {
-            "name": "foo2",
-            "value": "bar2"
-          }
-        ],
-        "taskSlotsPerNode": 1,
-        "taskSchedulingPolicy": {
-          "nodeFillType": "Spread"
-        },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "81a1470e-d1e9-48da-b5d2-5985b9f2826a",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:17 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "1f63ab9d-1038-442f-a952-ab6f254c00d9",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
-        "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "allocationState": "resizing",
-        "allocationStateTransitionTime": "2024-01-05T06:02:16.8022473Z",
-        "vmSize": "standard_d1_v2",
-        "resizeTimeout": "PT15M",
-        "currentDedicatedNodes": 0,
-        "targetDedicatedNodes": 4,
-        "currentLowPriorityNodes": 0,
-        "targetLowPriorityNodes": 0,
-        "enableAutoScale": false,
-        "enableInterNodeCommunication": false,
-        "startTask": {
-          "commandLine": "cmd /c echo hello \u003E hello.txt",
-          "userIdentity": {
-            "autoUser": {
-              "scope": "pool",
-              "elevationLevel": "nonadmin"
-            }
-          },
-          "maxTaskRetryCount": 0,
-          "waitForSuccess": true
-        },
-        "userAccounts": [
-          {
-            "name": "nonAdminUser",
-            "elevationLevel": "nonadmin",
-            "windowsUserConfiguration": {
-              "loginMode": "interactive"
-            }
-          }
-        ],
-        "metadata": [
-          {
-            "name": "foo2",
-            "value": "bar2"
-          }
-        ],
-        "taskSlotsPerNode": 1,
-        "taskSchedulingPolicy": {
-          "nodeFillType": "Spread"
-        },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
-        }
-      }
-    },
-    {
-      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197?api-version=2024-02-01.19.0",
-      "RequestMethod": "GET",
-      "RequestHeaders": {
-        "Accept": "application/json",
-        "Accept-Encoding": "gzip,deflate",
-        "Authorization": "Sanitized",
-        "client-request-id": "f8572a64-82ea-45fc-8055-144ee20d0e5b",
-        "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
-      },
-      "RequestBody": null,
-      "StatusCode": 200,
-      "ResponseHeaders": {
-        "Content-Type": "application/json; odata=minimalmetadata",
-        "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:28 GMT",
-        "ETag": "0x8DC0DB3EB3300DF",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:37 GMT",
-        "request-id": "9e6b8cc8-e6d0-4f27-929b-5c53d008bb38",
-        "Server": "Microsoft-HTTPAPI/2.0",
-        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-        "Transfer-Encoding": "chunked",
-        "X-Content-Type-Options": "nosniff"
-      },
-      "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
-        "id": "JSSDKTest-Pool-Basic-8197",
-        "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "eTag": "0x8DC0DB3EB3300DF",
-        "lastModified": "2024-01-05T06:02:37.6063199Z",
-        "creationTime": "2024-01-05T06:02:16.8022473Z",
-        "state": "active",
-        "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
+        "stateTransitionTime": "2024-03-26T02:01:36.4635408Z",
         "allocationState": "steady",
-        "allocationStateTransitionTime": "2024-01-05T06:03:23.8779245Z",
+        "allocationStateTransitionTime": "2024-03-26T02:02:08.1651258Z",
         "vmSize": "standard_d1_v2",
         "resizeTimeout": "PT15M",
         "currentDedicatedNodes": 4,
@@ -460,7 +159,7 @@
             "name": "nonAdminUser",
             "elevationLevel": "nonadmin",
             "windowsUserConfiguration": {
-              "loginMode": "interactive"
+              "loginMode": "batch"
             }
           }
         ],
@@ -474,15 +173,34 @@
         "taskSchedulingPolicy": {
           "nodeFillType": "Spread"
         },
-        "cloudServiceConfiguration": {
-          "osFamily": "4",
-          "osVersion": "*"
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter",
+            "version": "latest"
+          },
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "extensions": [
+            {
+              "name": "batchextension1",
+              "publisher": "Microsoft.Azure.Geneva",
+              "type": "GenevaMonitoring",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "enableAutomaticUpgrade": true
+            }
+          ]
+        },
+        "networkConfiguration": {
+          "dynamicVNetAssignmentScope": "none",
+          "enableAcceleratedNetworking": true
         },
         "currentNodeCommunicationMode": "classic"
       }
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-8197"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
   }
 }

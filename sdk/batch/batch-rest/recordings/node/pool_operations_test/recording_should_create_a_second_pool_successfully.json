@@ -7,28 +7,33 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "ab574d91-7218-44dd-ba35-26b642d7089d",
+        "client-request-id": "3fc195da-331d-4ebf-b243-6019ee2ba519",
         "Connection": "keep-alive",
-        "Content-Length": "92",
+        "Content-Length": "236",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-3-56b5",
-        "vmSize": "small",
-        "cloudServiceConfiguration": {
-          "osFamily": "4"
+        "id": "JSSDKTest-Pool-3-0da3",
+        "vmSize": "Standard_A1_v2",
+        "virtualMachineConfiguration": {
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter"
+          }
         }
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-56b5",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-3-0da3",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:05:41 GMT",
-        "ETag": "0x8DC0DB459261D44",
-        "Last-Modified": "Fri, 05 Jan 2024 06:05:42 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-3-56b5",
-        "request-id": "f0d41f51-995a-4b46-abd7-306717998e54",
+        "Date": "Tue, 26 Mar 2024 02:05:21 GMT",
+        "ETag": "0x8DC4D3932023A82",
+        "Last-Modified": "Tue, 26 Mar 2024 02:05:22 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-3-0da3",
+        "request-id": "5fe63d8a-5ea5-414f-baad-1435a3cb362f",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -38,6 +43,6 @@
     }
   ],
   "Variables": {
-    "TEST_POOL3": "JSSDKTest-Pool-3-56b5"
+    "TEST_POOL3": "JSSDKTest-Pool-3-0da3"
   }
 }

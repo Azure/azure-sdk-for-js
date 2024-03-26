@@ -7,17 +7,17 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "b68d1c2e-8501-4e54-8d53-1ebedbfc2f6f",
+        "client-request-id": "61897891-8ec0-4317-8ed2-d10969b7f688",
         "Connection": "keep-alive",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": null,
       "StatusCode": 200,
       "ResponseHeaders": {
         "Content-Type": "application/json; odata=minimalmetadata",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:03:31 GMT",
-        "request-id": "db415f82-7f95-4a07-b966-18beccd96d98",
+        "Date": "Tue, 26 Mar 2024 02:02:14 GMT",
+        "request-id": "4fd9df87-1f4c-49b5-9d96-96b192503765",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -27,15 +27,15 @@
         "odata.metadata": "https://endpoint/$metadata#pools",
         "value": [
           {
-            "id": "JSSDKTest-Pool-Basic-8197",
-            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-            "eTag": "0x8DC0DB40A30B6EA",
-            "lastModified": "2024-01-05T06:03:29.600689Z",
-            "creationTime": "2024-01-05T06:02:16.8022473Z",
+            "id": "JSSDKTest-Pool-Basic-28c0",
+            "url": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+            "eTag": "0x8DC4D38C14F261E",
+            "lastModified": "2024-03-26T02:02:13.6464926Z",
+            "creationTime": "2024-03-26T02:01:36.4635408Z",
             "state": "active",
-            "stateTransitionTime": "2024-01-05T06:02:16.8022473Z",
+            "stateTransitionTime": "2024-03-26T02:01:36.4635408Z",
             "allocationState": "steady",
-            "allocationStateTransitionTime": "2024-01-05T06:03:23.8779245Z",
+            "allocationStateTransitionTime": "2024-03-26T02:02:08.1651258Z",
             "vmSize": "standard_d1_v2",
             "resizeTimeout": "PT15M",
             "currentDedicatedNodes": 4,
@@ -60,7 +60,7 @@
                 "name": "nonAdminUser",
                 "elevationLevel": "nonadmin",
                 "windowsUserConfiguration": {
-                  "loginMode": "interactive"
+                  "loginMode": "batch"
                 }
               }
             ],
@@ -75,14 +75,34 @@
             "taskSchedulingPolicy": {
               "nodeFillType": "Spread"
             },
-            "cloudServiceConfiguration": {
-              "osFamily": "4",
-              "osVersion": "*"
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "microsoftwindowsserver",
+                "offer": "windowsserver",
+                "sku": "2022-datacenter",
+                "version": "latest"
+              },
+              "nodeAgentSKUId": "batch.node.windows amd64",
+              "extensions": [
+                {
+                  "name": "batchextension1",
+                  "publisher": "Microsoft.Azure.Geneva",
+                  "type": "GenevaMonitoring",
+                  "typeHandlerVersion": "2.0",
+                  "autoUpgradeMinorVersion": true,
+                  "enableAutomaticUpgrade": true
+                }
+              ]
+            },
+            "networkConfiguration": {
+              "dynamicVNetAssignmentScope": "none",
+              "enableAcceleratedNetworking": true
             },
             "targetNodeCommunicationMode": "default",
             "currentNodeCommunicationMode": "classic"
           }
-        ]
+        ],
+        "odata.nextLink": "https://endpoint/pools?maxResults=1\u0026api-version=2024-02-01.19.0\u0026$skiptoken=WATV2:yNJA84793ClQkCKobg9yPAhT1UBxwKEfO0eou3bqpkOmpQrCKsvmplJDtWKojJYSq0ys0eqxS0tUcdbotJXOasuYRcjWBN/WeoEc/AA7IqhZeGWNT/GZUBzkmgR0Pkyru5FFOEYHgwwAmL20S/LwNMZMSBDF1CbhiAUIPMbXTY/imqLRAs1^5wAOrTnRn5Tvzb6pamDCOgmkKm5jCH1EwlLKmz6yjLHf5JFxJcdGTuVzB^MKmJYkXCoHtLCAYIl1z7oLU^Otu1zqOdwHtTp8d3elPqp8eNWkQh8C^42IYwx5cd6GYbe1VvFkGi5wF72U:1$1"
       }
     }
   ],

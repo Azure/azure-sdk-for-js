@@ -7,17 +7,35 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "15616aa3-f1e1-4fd4-9824-73d53fd9437d",
+        "client-request-id": "cba36915-90cc-4706-b46b-27a3a8a3198a",
         "Connection": "keep-alive",
-        "Content-Length": "290",
+        "Content-Length": "678",
         "Content-Type": "application/json; odata=minimalmetadata",
-        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.13.1 Node/v18.16.0 OS/(x64-Windows_NT-10.0.22621)"
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-Basic-8197",
+        "id": "JSSDKTest-Pool-Basic-28c0",
         "vmSize": "Standard_D1_v2",
-        "cloudServiceConfiguration": {
-          "osFamily": "4"
+        "virtualMachineConfiguration": {
+          "nodeAgentSKUId": "batch.node.windows amd64",
+          "imageReference": {
+            "publisher": "microsoftwindowsserver",
+            "offer": "windowsserver",
+            "sku": "2022-datacenter"
+          },
+          "extensions": [
+            {
+              "name": "batchextension1",
+              "type": "GenevaMonitoring",
+              "publisher": "Microsoft.Azure.Geneva",
+              "typeHandlerVersion": "2.0",
+              "autoUpgradeMinorVersion": true,
+              "enableAutomaticUpgrade": true
+            }
+          ]
+        },
+        "networkConfiguration": {
+          "enableAcceleratedNetworking": true
         },
         "targetDedicatedNodes": 4,
         "startTask": {
@@ -33,13 +51,13 @@
       },
       "StatusCode": 201,
       "ResponseHeaders": {
-        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
         "DataServiceVersion": "3.0",
-        "Date": "Fri, 05 Jan 2024 06:02:16 GMT",
-        "ETag": "0x8DC0DB3DECC8DC9",
-        "Last-Modified": "Fri, 05 Jan 2024 06:02:16 GMT",
-        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-8197",
-        "request-id": "54e927f2-92bf-4d56-adb2-e355a74ceddd",
+        "Date": "Tue, 26 Mar 2024 02:01:36 GMT",
+        "ETag": "0x8DC4D38AB257B22",
+        "Last-Modified": "Tue, 26 Mar 2024 02:01:36 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-Basic-28c0",
+        "request-id": "90ee997f-75e3-42a8-a1b6-d2585aad44e7",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
         "Transfer-Encoding": "chunked",
@@ -49,6 +67,6 @@
     }
   ],
   "Variables": {
-    "BASIC_POOL": "JSSDKTest-Pool-Basic-8197"
+    "BASIC_POOL": "JSSDKTest-Pool-Basic-28c0"
   }
 }

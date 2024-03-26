@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-unused-expressions */
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { assert, expect } from "chai";
 import { createBatchClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import {
@@ -30,11 +31,14 @@ import {
 const BASIC_POOL = getResourceName("Pool-Basic");
 const VMSIZE_D1 = "Standard_D1_v2";
 const VMSIZE_A1 = "Standard_A1_v2";
+const VMSIZE_D2s = "Standard_D2s_v3";
 const BASIC_POOL_NUM_VMS = 4;
 const DISK_POOL = getResourceName("Pool-Datadisk");
 const ENDPOINT_POOL = getResourceName("Pool-Endpoint");
 const TEST_POOL3 = getResourceName("Pool-3");
-const VMSIZE_SMALL = "small";
+const SECURITY_PROFILE_POOL = getResourceName("Pool-SecurityProfile");
+const AUTO_OS_UPGRADE_POOL = getResourceName("Pool-AutoOSUpgrade");
+// const VMSIZE_SMALL = "small";
 // const certThumb = "cff2ab63c8c955aaf71989efa641b906558d9fb7";
 // const certAlgorithm = "sha1";
 
@@ -99,7 +103,27 @@ describe("Pool Operations Test", () => {
       body: {
         id: recorder.variable("BASIC_POOL", BASIC_POOL),
         vmSize: VMSIZE_D1,
-        cloudServiceConfiguration: { osFamily: "4" },
+        virtualMachineConfiguration: {
+          nodeAgentSKUId: "batch.node.windows amd64",
+          imageReference: {
+            publisher: "microsoftwindowsserver",
+            offer: "windowsserver",
+            sku: "2022-datacenter",
+          },
+          extensions: [
+            {
+              name: "batchextension1",
+              type: "GenevaMonitoring",
+              publisher: "Microsoft.Azure.Geneva",
+              typeHandlerVersion: "2.0",
+              autoUpgradeMinorVersion: true,
+              enableAutomaticUpgrade: true,
+            },
+          ],
+        },
+        networkConfiguration: {
+          enableAcceleratedNetworking: true,
+        },
         targetDedicatedNodes: BASIC_POOL_NUM_VMS,
         // Ensures there's a compute node file we can reference later
         startTask: { commandLine: "cmd /c echo hello > hello.txt" },
@@ -174,8 +198,11 @@ describe("Pool Operations Test", () => {
     assert.equal(getResult.body.id, poolId);
     assert.equal(getResult.body.state, "active");
     assert.equal(getResult.body.allocationState, "steady");
-    assert.isDefined(getResult.body.cloudServiceConfiguration);
-    assert.equal(getResult.body.cloudServiceConfiguration!.osFamily, "4");
+    assert.isDefined(getResult.body.virtualMachineConfiguration);
+    assert.equal(
+      getResult.body.virtualMachineConfiguration!.imageReference!.sku,
+      "2022-datacenter"
+    );
     assert.equal(getResult.body.vmSize?.toLowerCase(), VMSIZE_D1.toLowerCase());
     assert.equal(getResult.body.targetDedicatedNodes, BASIC_POOL_NUM_VMS);
     assert.isFalse(getResult.body.enableAutoScale);
@@ -189,6 +216,12 @@ describe("Pool Operations Test", () => {
     assert.lengthOf(getResult.body.userAccounts!, 1);
     assert.equal(getResult.body.userAccounts![0].name, nonAdminPoolUser);
     assert.equal(getResult.body.userAccounts![0].elevationLevel, "nonadmin");
+    expect(getResult.body.networkConfiguration?.enableAcceleratedNetworking).to.be.true;
+    expect(getResult.body.virtualMachineConfiguration?.extensions?.[0].enableAutomaticUpgrade).to.be
+      .true;
+    expect(getResult.body.virtualMachineConfiguration?.extensions?.[0].name).to.equal(
+      "batchextension1"
+    );
   }).timeout(LONG_TEST_TIMEOUT);
 
   it("should update pool parameters successfully", async function () {
@@ -514,8 +547,15 @@ describe("Pool Operations Test", () => {
     const poolAddParams: CreatePoolParameters = {
       body: {
         id: recorder.variable("TEST_POOL3", TEST_POOL3),
-        vmSize: VMSIZE_SMALL,
-        cloudServiceConfiguration: { osFamily: "4" },
+        vmSize: VMSIZE_A1,
+        virtualMachineConfiguration: {
+          nodeAgentSKUId: "batch.node.windows amd64",
+          imageReference: {
+            publisher: "microsoftwindowsserver",
+            offer: "windowsserver",
+            sku: "2022-datacenter",
+          },
+        },
       },
       contentType: "application/json; odata=minimalmetadata",
     };
@@ -590,5 +630,142 @@ describe("Pool Operations Test", () => {
       .path("/pools/{poolId}", recorder.variable("TEST_POOL3", TEST_POOL3))
       .delete();
     assert.equal(deleteResult.status, "202");
+  });
+
+  it("should create a pool with SecurityProfile & OS Disk", async () => {
+    const poolId = recorder.variable("SECURITY_PROFILE_POOL", SECURITY_PROFILE_POOL);
+    const poolParams: CreatePoolParameters = {
+      body: {
+        id: recorder.variable("SECURITY_PROFILE_POOL", SECURITY_PROFILE_POOL),
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          securityProfile: {
+            securityType: "trustedLaunch",
+            encryptionAtHost: true,
+            uefiSettings: {
+              secureBootEnabled: true,
+              vTpmEnabled: true,
+            },
+          },
+          osDisk: {
+            caching: "readwrite",
+            managedDisk: {
+              storageAccountType: "standard_lrs",
+            },
+            diskSizeGB: 50,
+            writeAcceleratorEnabled: true,
+          },
+        },
+        targetDedicatedNodes: 0,
+      },
+      contentType: "application/json; odata=minimalmetadata",
+    };
+
+    const result = await batchClient.path("/pools").post(poolParams);
+
+    if (isUnexpected(result)) {
+      fail(`Received unexpected status code from creating pool: ${result.status}`);
+    }
+
+    try {
+      const res = await batchClient.path("/pools/{poolId}", poolId).get();
+
+      if (isUnexpected(res)) {
+        fail(`Received unexpected status code from getting pool: ${res.status}`);
+      }
+      const securityProfile = res.body.virtualMachineConfiguration!.securityProfile!;
+      assert.equal(securityProfile.securityType?.toLocaleLowerCase(), "trustedlaunch");
+      assert.equal(securityProfile.encryptionAtHost, true);
+      assert.equal(securityProfile.uefiSettings!.secureBootEnabled, true);
+      assert.equal(securityProfile.uefiSettings!.vTpmEnabled, true);
+
+      const osDisk = res.body.virtualMachineConfiguration!.osDisk!;
+      assert.equal(osDisk.caching?.toLocaleLowerCase(), "readwrite");
+      assert.equal(osDisk.managedDisk!.storageAccountType?.toLocaleLowerCase(), "standard_lrs");
+      assert.equal(osDisk.diskSizeGB, 50);
+      assert.equal(osDisk.writeAcceleratorEnabled, true);
+    } finally {
+      await batchClient.path("/pools/{poolId}", poolId).delete();
+    }
+  });
+
+  it("should create a pool with Auto OS Upgrade", async () => {
+    const poolId = recorder.variable("AUTO_OS_UPGRADE_POOL", AUTO_OS_UPGRADE_POOL);
+    const poolParams: CreatePoolParameters = {
+      body: {
+        id: poolId,
+        vmSize: VMSIZE_D2s,
+        virtualMachineConfiguration: {
+          imageReference: {
+            publisher: "Canonical",
+            offer: "0001-com-ubuntu-server-jammy",
+            sku: "22_04-lts",
+          },
+          nodeAgentSKUId: "batch.node.ubuntu 22.04",
+          nodePlacementConfiguration: {
+            policy: "zonal",
+          },
+        },
+        upgradePolicy: {
+          mode: "automatic",
+          automaticOsUpgradePolicy: {
+            disableAutomaticRollback: true,
+            enableAutomaticOsUpgrade: true,
+            useRollingUpgradePolicy: true,
+            osRollingUpgradeDeferral: true,
+          },
+          rollingUpgradePolicy: {
+            enableCrossZoneUpgrade: true,
+            maxBatchInstancePercent: 20,
+            maxUnhealthyInstancePercent: 20,
+            maxUnhealthyUpgradedInstancePercent: 20,
+            pauseTimeBetweenBatches: "PT0S",
+            prioritizeUnhealthyInstances: false,
+            rollbackFailedInstancesOnPolicyBreach: false,
+          },
+        },
+        targetDedicatedNodes: 0,
+      },
+      contentType: "application/json; odata=minimalmetadata",
+    };
+
+    const result = await batchClient.path("/pools").post(poolParams);
+
+    if (isUnexpected(result)) {
+      fail(`Received unexpected status code from creating pool: ${result.status}`);
+    }
+
+    try {
+      const res = await batchClient.path("/pools/{poolId}", poolId).get();
+
+      if (isUnexpected(res)) {
+        fail(`Received unexpected status code from getting pool: ${res.status}`);
+      }
+      const upgradePolicy = res.body.upgradePolicy!;
+      assert.equal(upgradePolicy.mode, "automatic");
+      assert.deepEqual(upgradePolicy.automaticOsUpgradePolicy!, {
+        disableAutomaticRollback: true,
+        enableAutomaticOsUpgrade: true,
+        useRollingUpgradePolicy: true,
+        osRollingUpgradeDeferral: true,
+      });
+      assert.deepEqual(upgradePolicy.rollingUpgradePolicy!, {
+        enableCrossZoneUpgrade: true,
+        maxBatchInstancePercent: 20,
+        maxUnhealthyInstancePercent: 20,
+        maxUnhealthyUpgradedInstancePercent: 20,
+        pauseTimeBetweenBatches: "PT0S",
+        prioritizeUnhealthyInstances: false,
+        rollbackFailedInstancesOnPolicyBreach: false,
+      });
+    } finally {
+      await batchClient.path("/pools/{poolId}", poolId).delete();
+    }
   });
 });

@@ -1,0 +1,80 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://endpoint/pools?api-version=2024-02-01.19.0",
+      "RequestMethod": "POST",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "8508a96c-6f09-475a-9acc-17fa79f9fa56",
+        "Connection": "keep-alive",
+        "Content-Length": "784",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": {
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-9b27",
+        "vmSize": "Standard_D2s_v3",
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts"
+          },
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "nodePlacementConfiguration": {
+            "policy": "zonal"
+          }
+        },
+        "upgradePolicy": {
+          "mode": "automatic",
+          "automaticOsUpgradePolicy": {
+            "disableAutomaticRollback": true,
+            "enableAutomaticOsUpgrade": true,
+            "useRollingUpgradePolicy": true,
+            "osRollingUpgradeDeferral": true
+          },
+          "rollingUpgradePolicy": {
+            "enableCrossZoneUpgrade": true,
+            "maxBatchInstancePercent": 20,
+            "maxUnhealthyInstancePercent": 20,
+            "maxUnhealthyUpgradedInstancePercent": 20,
+            "pauseTimeBetweenBatches": "PT0S",
+            "prioritizeUnhealthyInstances": false,
+            "rollbackFailedInstancesOnPolicyBreach": false
+          }
+        },
+        "targetDedicatedNodes": 0
+      },
+      "StatusCode": 400,
+      "ResponseHeaders": {
+        "Content-Length": "581",
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Tue, 26 Mar 2024 02:05:44 GMT",
+        "request-id": "e2cd15dd-2448-476b-9010-672de1bc6580",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": {
+        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
+        "code": "InvalidRequestBody",
+        "message": {
+          "lang": "en-US",
+          "value": "The specified Request Body is not syntactically valid.\nRequestId:e2cd15dd-2448-476b-9010-672de1bc6580\nTime:2024-03-26T02:05:44.2232965Z"
+        },
+        "values": [
+          {
+            "key": "Reason",
+            "value": "The property \u0027automaticOsUpgradePolicy\u0027 does not exist on type \u0027Microsoft.Azure.Batch.Protocol.Entities.UpgradePolicy\u0027. Make sure to only use property names that are defined by the type."
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {
+    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-9b27"
+  }
+}
