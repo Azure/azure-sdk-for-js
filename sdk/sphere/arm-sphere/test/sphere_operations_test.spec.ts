@@ -51,7 +51,6 @@ describe("Sphere test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";
-
   });
 
   afterEach(async function () {
