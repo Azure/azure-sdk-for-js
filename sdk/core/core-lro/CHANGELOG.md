@@ -5,6 +5,7 @@
 ### Features Added
 
 - Add interface `SimplePollerLike` for poller interface without promise
+- Add a builder function `createInitializedHttpPoller` to create an initialized poller
 
 ### Breaking Changes
 
