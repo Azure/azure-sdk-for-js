@@ -83,6 +83,7 @@
     "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.2.0",
     "@azure/core-tracing": "^1.0.0",
@@ -93,10 +94,7 @@
     "node-abort-controller": "^3.0.0",
     "priorityqueuejs": "^2.0.0",
     "semaphore": "^1.0.5",
-    "tslib": "^2.2.0",
-    "universal-user-agent": "^6.0.0",
-    "uuid": "^8.3.0",
-    "@azure/abort-controller": "^1.0.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -104,31 +102,30 @@
     "@azure/identity": "^4.0.1",
     "@azure/logger": "^1.0.0",
     "@microsoft/api-extractor": "^7.31.1",
+    "@sinonjs/fake-timers": "^11.0.0",
+    "@types/chai": "~4.3.6",
     "@types/debug": "^4.1.4",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "@types/priorityqueuejs": "^1.0.1",
     "@types/semaphore": "^1.1.0",
     "@types/sinon": "^17.0.0",
+    "@types/sinonjs__fake-timers": "~8.1.2",
     "@types/underscore": "^1.8.8",
-    "@types/uuid": "^8.0.0",
+    "chai": "~4.3.8",
     "cross-env": "~7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^8.0.0",
     "esm": "^3.2.18",
     "execa": "^5.0.0",
     "mocha": "^10.0.0",
+    "nock": "^12.0.3",
     "requirejs": "^2.3.5",
     "rimraf": "^5.0.5",
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.3.3",
-    "nock": "^12.0.3",
-    "@types/sinonjs__fake-timers": "~8.1.2",
-    "@sinonjs/fake-timers": "^11.0.0",
-    "chai": "~4.3.8",
-    "@types/chai": "~4.3.6"
+    "typescript": "~5.3.3"
   },
   "//sampleConfiguration": {
     "skip": [
