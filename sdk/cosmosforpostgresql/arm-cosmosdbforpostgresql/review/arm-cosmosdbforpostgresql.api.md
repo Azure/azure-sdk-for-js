@@ -11,15 +11,29 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export type ActiveDirectoryAuth = string;
+
+// @public
+export interface AuthConfig {
+    // (undocumented)
+    activeDirectoryAuth?: ActiveDirectoryAuth;
+    // (undocumented)
+    passwordAuth?: PasswordAuth;
+}
+
+// @public
 export interface Cluster extends TrackedResource {
     readonly administratorLogin?: string;
     administratorLoginPassword?: string;
+    authConfig?: AuthConfig;
     citusVersion?: string;
     coordinatorEnablePublicIpAccess?: boolean;
     coordinatorServerEdition?: string;
     coordinatorStorageQuotaInMb?: number;
     coordinatorVCores?: number;
+    databaseName?: string;
     readonly earliestRestoreTime?: Date;
+    enableGeoBackup?: boolean;
     enableHa?: boolean;
     enableShardsOnCoordinator?: boolean;
     maintenanceWindow?: MaintenanceWindow;
@@ -214,6 +228,7 @@ export interface ClustersPromoteReadReplicaHeaders {
 
 // @public
 export interface ClustersPromoteReadReplicaOptionalParams extends coreClient.OperationOptions {
+    promoteRequest?: PromoteRequest;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -523,6 +538,12 @@ export type FirewallRulesListByClusterResponse = FirewallRuleListResult;
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
+export enum KnownActiveDirectoryAuth {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
 export enum KnownConfigurationDataType {
     Boolean = "Boolean",
     Enumeration = "Enumeration",
@@ -542,6 +563,19 @@ export enum KnownCreatedByType {
 export enum KnownOperationOrigin {
     NotSpecified = "NotSpecified",
     System = "system",
+    User = "user"
+}
+
+// @public
+export enum KnownPasswordAuth {
+    Disabled = "disabled",
+    Enabled = "enabled"
+}
+
+// @public
+export enum KnownPrincipalType {
+    Group = "group",
+    ServicePrincipal = "servicePrincipal",
     User = "user"
 }
 
@@ -566,6 +600,12 @@ export enum KnownProvisioningState {
     Failed = "Failed",
     InProgress = "InProgress",
     Succeeded = "Succeeded"
+}
+
+// @public
+export enum KnownRoleType {
+    Admin = "admin",
+    User = "user"
 }
 
 // @public
@@ -635,6 +675,12 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 
 // @public
 export type OperationsListResponse = OperationListResult;
+
+// @public
+export type PasswordAuth = string;
+
+// @public
+export type PrincipalType = string;
 
 // @public
 export interface PrivateEndpoint {
@@ -763,6 +809,11 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export interface PromoteRequest {
+    enableGeoBackup?: boolean;
+}
+
+// @public
 export type ProvisioningState = string;
 
 // @public
@@ -779,8 +830,16 @@ export interface Resource {
 
 // @public
 export interface Role extends ProxyResource {
-    password: string;
+    // (undocumented)
+    objectId?: string;
+    password?: string;
+    // (undocumented)
+    principalType?: PrincipalType;
     readonly provisioningState?: ProvisioningState;
+    // (undocumented)
+    roleType?: RoleType;
+    // (undocumented)
+    tenantId?: string;
 }
 
 // @public
@@ -845,6 +904,9 @@ export interface RolesListByClusterOptionalParams extends coreClient.OperationOp
 
 // @public
 export type RolesListByClusterResponse = RoleListResult;
+
+// @public
+export type RoleType = string;
 
 // @public
 export interface ServerConfiguration extends ProxyResource {

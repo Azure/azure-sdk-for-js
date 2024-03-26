@@ -98,6 +98,12 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** Authentication configuration of a cluster. */
+export interface AuthConfig {
+  activeDirectoryAuth?: ActiveDirectoryAuth;
+  passwordAuth?: PasswordAuth;
+}
+
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ErrorResponse {
   /** The error object. */
@@ -274,6 +280,12 @@ export interface FirewallRuleListResult {
 export interface RoleListResult {
   /** The list of roles in a cluster. */
   value?: Role[];
+}
+
+/** Request from client to promote geo-redundant replica */
+export interface PromoteRequest {
+  /** Cluster name to verify. */
+  enableGeoBackup?: boolean;
 }
 
 /** Request from client to check cluster name availability. */
@@ -595,16 +607,20 @@ export interface FirewallRule extends ProxyResource {
 
 /** Represents a cluster role. */
 export interface Role extends ProxyResource {
+  roleType?: RoleType;
   /**
-   * The password of the cluster role.
+   * The password of the cluster role. If an identity is used, password will not be required.
    * This value contains a credential. Consider obscuring before showing to users
    */
-  password: string;
+  password?: string;
   /**
    * Provisioning state of the role
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
+  objectId?: string;
+  principalType?: PrincipalType;
+  tenantId?: string;
 }
 
 /** Represents a cluster. */
@@ -685,6 +701,12 @@ export interface Cluster extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: SimplePrivateEndpointConnection[];
+  /** The database name of the cluster. Only one database per cluster is supported. */
+  databaseName?: string;
+  /** If cluster backup is stored in another Azure region in addition to the copy of the backup stored in the cluster's region. Enabled only at the time of cluster creation. */
+  enableGeoBackup?: boolean;
+  /** Authentication configuration of a cluster. */
+  authConfig?: AuthConfig;
 }
 
 /** Defines headers for Clusters_create operation. */
@@ -784,7 +806,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -807,7 +829,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -822,12 +844,48 @@ export enum KnownCreatedByType {
  */
 export type CreatedByType = string;
 
+/** Known values of {@link ActiveDirectoryAuth} that the service accepts. */
+export enum KnownActiveDirectoryAuth {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for ActiveDirectoryAuth. \
+ * {@link KnownActiveDirectoryAuth} can be used interchangeably with ActiveDirectoryAuth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type ActiveDirectoryAuth = string;
+
+/** Known values of {@link PasswordAuth} that the service accepts. */
+export enum KnownPasswordAuth {
+  /** Enabled */
+  Enabled = "enabled",
+  /** Disabled */
+  Disabled = "disabled",
+}
+
+/**
+ * Defines values for PasswordAuth. \
+ * {@link KnownPasswordAuth} can be used interchangeably with PasswordAuth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **enabled** \
+ * **disabled**
+ */
+export type PasswordAuth = string;
+
 /** Known values of {@link ServerRole} that the service accepts. */
 export enum KnownServerRole {
   /** Coordinator */
   Coordinator = "Coordinator",
   /** Worker */
-  Worker = "Worker"
+  Worker = "Worker",
 }
 
 /**
@@ -849,7 +907,7 @@ export enum KnownConfigurationDataType {
   /** Integer */
   Integer = "Integer",
   /** Enumeration */
-  Enumeration = "Enumeration"
+  Enumeration = "Enumeration",
 }
 
 /**
@@ -873,7 +931,7 @@ export enum KnownProvisioningState {
   /** InProgress */
   InProgress = "InProgress",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -888,6 +946,45 @@ export enum KnownProvisioningState {
  */
 export type ProvisioningState = string;
 
+/** Known values of {@link RoleType} that the service accepts. */
+export enum KnownRoleType {
+  /** User */
+  User = "user",
+  /** Admin */
+  Admin = "admin",
+}
+
+/**
+ * Defines values for RoleType. \
+ * {@link KnownRoleType} can be used interchangeably with RoleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **admin**
+ */
+export type RoleType = string;
+
+/** Known values of {@link PrincipalType} that the service accepts. */
+export enum KnownPrincipalType {
+  /** User */
+  User = "user",
+  /** ServicePrincipal */
+  ServicePrincipal = "servicePrincipal",
+  /** Group */
+  Group = "group",
+}
+
+/**
+ * Defines values for PrincipalType. \
+ * {@link KnownPrincipalType} can be used interchangeably with PrincipalType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **user** \
+ * **servicePrincipal** \
+ * **group**
+ */
+export type PrincipalType = string;
+
 /** Known values of {@link OperationOrigin} that the service accepts. */
 export enum KnownOperationOrigin {
   /** NotSpecified */
@@ -895,7 +992,7 @@ export enum KnownOperationOrigin {
   /** User */
   User = "user",
   /** System */
-  System = "system"
+  System = "system",
 }
 
 /**
@@ -918,7 +1015,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -1020,6 +1117,8 @@ export interface ClustersStopOptionalParams
 /** Optional parameters. */
 export interface ClustersPromoteReadReplicaOptionalParams
   extends coreClient.OperationOptions {
+  /** The parameter for enabling geo-redundant backup while promoting read replica. */
+  promoteRequest?: PromoteRequest;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -1027,7 +1126,8 @@ export interface ClustersPromoteReadReplicaOptionalParams
 }
 
 /** Contains response data for the promoteReadReplica operation. */
-export type ClustersPromoteReadReplicaResponse = ClustersPromoteReadReplicaHeaders;
+export type ClustersPromoteReadReplicaResponse =
+  ClustersPromoteReadReplicaHeaders;
 
 /** Optional parameters. */
 export interface ClustersCheckNameAvailabilityOptionalParams
@@ -1075,7 +1175,8 @@ export interface ConfigurationsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type ConfigurationsListByClusterResponse = ClusterConfigurationListResult;
+export type ConfigurationsListByClusterResponse =
+  ClusterConfigurationListResult;
 
 /** Optional parameters. */
 export interface ConfigurationsGetOptionalParams
@@ -1127,14 +1228,16 @@ export interface ConfigurationsListByServerNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByServerNext operation. */
-export type ConfigurationsListByServerNextResponse = ServerConfigurationListResult;
+export type ConfigurationsListByServerNextResponse =
+  ServerConfigurationListResult;
 
 /** Optional parameters. */
 export interface ConfigurationsListByClusterNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByClusterNext operation. */
-export type ConfigurationsListByClusterNextResponse = ClusterConfigurationListResult;
+export type ConfigurationsListByClusterNextResponse =
+  ClusterConfigurationListResult;
 
 /** Optional parameters. */
 export interface FirewallRulesCreateOrUpdateOptionalParams
@@ -1221,7 +1324,8 @@ export interface PrivateEndpointConnectionsListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateEndpointConnectionsListByClusterResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByClusterResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1240,7 +1344,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -1252,14 +1357,16 @@ export interface PrivateEndpointConnectionsDeleteOptionalParams
 }
 
 /** Contains response data for the delete operation. */
-export type PrivateEndpointConnectionsDeleteResponse = PrivateEndpointConnectionsDeleteHeaders;
+export type PrivateEndpointConnectionsDeleteResponse =
+  PrivateEndpointConnectionsDeleteHeaders;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByClusterOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByCluster operation. */
-export type PrivateLinkResourcesListByClusterResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByClusterResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams

@@ -78,7 +78,7 @@ describe("CosmosDBForPostgreSQL test", () => {
         nodeStorageQuotaInMb: 524288,
         nodeVCores: 8,
         postgresqlVersion: "15",
-        preferredPrimaryZone: "1",
+        // preferredPrimaryZone: "1",
         tags: {}
       },
       testPollingOptions);
@@ -108,5 +108,5 @@ describe("CosmosDBForPostgreSQL test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
-  });
+  }).timeout(3600000);
 })

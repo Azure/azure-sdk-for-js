@@ -28,7 +28,7 @@ import {
   ClustersPromoteReadReplicaResponse,
   NameAvailabilityRequest,
   ClustersCheckNameAvailabilityOptionalParams,
-  ClustersCheckNameAvailabilityResponse
+  ClustersCheckNameAvailabilityResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,7 +39,7 @@ export interface Clusters {
    * @param options The options parameters.
    */
   list(
-    options?: ClustersListOptionalParams
+    options?: ClustersListOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Lists all clusters in a resource group.
@@ -48,7 +48,7 @@ export interface Clusters {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClustersListByResourceGroupOptionalParams
+    options?: ClustersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Cluster>;
   /**
    * Creates a new cluster with servers.
@@ -61,7 +61,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersCreateResponse>,
@@ -79,7 +79,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: Cluster,
-    options?: ClustersCreateOptionalParams
+    options?: ClustersCreateOptionalParams,
   ): Promise<ClustersCreateResponse>;
   /**
    * Gets information about a cluster such as compute and storage configuration and cluster lifecycle
@@ -91,7 +91,7 @@ export interface Clusters {
   get(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersGetOptionalParams
+    options?: ClustersGetOptionalParams,
   ): Promise<ClustersGetResponse>;
   /**
    * Deletes a cluster together with servers in it.
@@ -102,7 +102,7 @@ export interface Clusters {
   beginDelete(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a cluster together with servers in it.
@@ -113,7 +113,7 @@ export interface Clusters {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersDeleteOptionalParams
+    options?: ClustersDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Updates an existing cluster. The request body can contain one or several properties from the cluster
@@ -127,7 +127,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterForUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersUpdateResponse>,
@@ -146,7 +146,7 @@ export interface Clusters {
     resourceGroupName: string,
     clusterName: string,
     parameters: ClusterForUpdate,
-    options?: ClustersUpdateOptionalParams
+    options?: ClustersUpdateOptionalParams,
   ): Promise<ClustersUpdateResponse>;
   /**
    * Restarts all nodes in the cluster.
@@ -157,7 +157,7 @@ export interface Clusters {
   beginRestart(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersRestartOptionalParams
+    options?: ClustersRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersRestartResponse>,
@@ -173,7 +173,7 @@ export interface Clusters {
   beginRestartAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersRestartOptionalParams
+    options?: ClustersRestartOptionalParams,
   ): Promise<ClustersRestartResponse>;
   /**
    * Starts stopped compute on all cluster nodes.
@@ -184,7 +184,7 @@ export interface Clusters {
   beginStart(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
+    options?: ClustersStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts stopped compute on all cluster nodes.
@@ -195,7 +195,7 @@ export interface Clusters {
   beginStartAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStartOptionalParams
+    options?: ClustersStartOptionalParams,
   ): Promise<void>;
   /**
    * Stops compute on all cluster nodes.
@@ -206,7 +206,7 @@ export interface Clusters {
   beginStop(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
+    options?: ClustersStopOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Stops compute on all cluster nodes.
@@ -217,7 +217,7 @@ export interface Clusters {
   beginStopAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersStopOptionalParams
+    options?: ClustersStopOptionalParams,
   ): Promise<void>;
   /**
    * Promotes read replica cluster to an independent read-write cluster.
@@ -228,7 +228,7 @@ export interface Clusters {
   beginPromoteReadReplica(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersPromoteReadReplicaOptionalParams
+    options?: ClustersPromoteReadReplicaOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClustersPromoteReadReplicaResponse>,
@@ -244,7 +244,7 @@ export interface Clusters {
   beginPromoteReadReplicaAndWait(
     resourceGroupName: string,
     clusterName: string,
-    options?: ClustersPromoteReadReplicaOptionalParams
+    options?: ClustersPromoteReadReplicaOptionalParams,
   ): Promise<ClustersPromoteReadReplicaResponse>;
   /**
    * Checks availability of a cluster name. Cluster names should be globally unique; at least 3
@@ -255,6 +255,6 @@ export interface Clusters {
    */
   checkNameAvailability(
     nameAvailabilityRequest: NameAvailabilityRequest,
-    options?: ClustersCheckNameAvailabilityOptionalParams
+    options?: ClustersCheckNameAvailabilityOptionalParams,
   ): Promise<ClustersCheckNameAvailabilityResponse>;
 }

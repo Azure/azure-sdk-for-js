@@ -11,7 +11,7 @@ import {
   ClusterServer,
   ServersListByClusterOptionalParams,
   ServersGetOptionalParams,
-  ServersGetResponse
+  ServersGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -26,7 +26,7 @@ export interface Servers {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ServersListByClusterOptionalParams
+    options?: ServersListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<ClusterServer>;
   /**
    * Gets information about a server in cluster.
@@ -39,6 +39,6 @@ export interface Servers {
     resourceGroupName: string,
     clusterName: string,
     serverName: string,
-    options?: ServersGetOptionalParams
+    options?: ServersGetOptionalParams,
   ): Promise<ServersGetResponse>;
 }
