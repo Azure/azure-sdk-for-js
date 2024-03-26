@@ -10,6 +10,7 @@ import {
   RestorableOperationState,
   PollerLike,
   StateProxy,
+  SimplePollerLike,
 } from "./models.js";
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
@@ -44,11 +45,12 @@ const createStateProxy: <TResult, TState extends OperationState<TResult>>() => S
  * Returns a poller factory.
  */
 export function buildCreatePoller<TResponse, TResult, TState extends OperationState<TResult>>(
+  type: "Poller" | "SimplePoller",
   inputs: BuildCreatePollerOptions<TResponse, TState>,
 ): (
   lro: Operation<TResponse, { abortSignal?: AbortSignalLike }>,
   options?: CreatePollerOptions<TResponse, TResult, TState>,
-) => PollerLike<TState, TResult> {
+) => SimplePollerLike<TState, TResult> | PollerLike<TState, TResult> {
   const {
     getOperationLocation,
     getStatusFromInitialResponse,
@@ -105,7 +107,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    const poller: PollerLike<TState, TResult> = {
+    const poller: SimplePollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
         return state;
       },
@@ -229,22 +231,28 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 
         return state;
       },
-      then<TResult1 = TResult, TResult2 = never>(
-        onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
-        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
-      ): Promise<TResult1 | TResult2> {
-        return poller.pollUntilDone().then(onfulfilled, onrejected);
-      },
-      catch<TResult2 = never>(
-        onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
-      ): Promise<TResult | TResult2> {
-        return poller.pollUntilDone().catch(onrejected);
-      },
-      finally(onfinally?: (() => void) | undefined | null): Promise<TResult> {
-        return poller.pollUntilDone().finally(onfinally);
-      },
-      [Symbol.toStringTag]: "Poller",
+      // [Symbol.toStringTag]: "Poller"
     };
-    return poller;
+    if (type === "SimplePoller") {
+      return poller;
+    }
+    (poller as PollerLike<TState, TResult>).then = <TResult1 = TResult, TResult2 = never>(
+      onfulfilled?: ((value: TResult) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+    ): Promise<TResult1 | TResult2> => {
+      return poller.pollUntilDone().then(onfulfilled, onrejected);
+    };
+    (poller as PollerLike<TState, TResult>).catch = <TResult2 = never>(
+      onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null,
+    ): Promise<TResult | TResult2> => {
+      return poller.pollUntilDone().catch(onrejected);
+    };
+    (poller as PollerLike<TState, TResult>).finally = (
+      onfinally?: (() => void) | undefined | null,
+    ): Promise<TResult> => {
+      return poller.pollUntilDone().finally(onfinally);
+    };
+    // (poller as PollerLike<TState, TResult>)[Symbol.toStringTag] = "Poller";
+    return poller as PollerLike<TState, TResult>;
   };
 }

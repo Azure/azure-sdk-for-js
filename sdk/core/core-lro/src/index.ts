@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { createHttpPoller } from "./http/poller.js";
+export { createHttpPoller, createInitializedHttpPoller } from "./http/poller.js";
 export {
   CancelOnProgress,
   OperationState,
   OperationStatus,
   PollerLike,
+  SimplePollerLike,
   RestorableOperationState,
   OperationConfig,
 } from "./poller/models.js";

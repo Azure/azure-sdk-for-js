@@ -13,6 +13,12 @@ export type CancelOnProgress = () => void;
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
 
 // @public
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "Poller", options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+
+// @public
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "SimplePoller", options?: CreateHttpPollerOptions<TResult, TState>): SimplePollerLike<TState, TResult>;
+
+// @public
 export interface CreateHttpPollerOptions<TResult, TState> {
     intervalInMs?: number;
     processResult?: (result: unknown, state: TState) => TResult | Promise<TResult>;
@@ -22,6 +28,15 @@ export interface CreateHttpPollerOptions<TResult, TState> {
     updateState?: (state: TState, response: OperationResponse) => void;
     withOperationLocation?: (operationLocation: string) => void;
 }
+
+// @public
+export function createInitializedHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): Promise<PollerLike<TState, TResult>>;
+
+// @public
+export function createInitializedHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "Poller", options?: CreateHttpPollerOptions<TResult, TState>): Promise<PollerLike<TState, TResult>>;
+
+// @public
+export function createInitializedHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "SimplePoller", options?: CreateHttpPollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
 
 // @public
 export function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
@@ -60,20 +75,7 @@ export interface OperationState<TResult> {
 export type OperationStatus = "notStarted" | "running" | "succeeded" | "canceled" | "failed";
 
 // @public
-export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult> {
-    readonly isDone: boolean;
-    readonly isStopped: boolean;
-    onProgress(callback: (state: TState) => void): CancelOnProgress;
-    readonly operationState: TState | undefined;
-    poll(options?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TState>;
-    pollUntilDone(pollOptions?: {
-        abortSignal?: AbortSignalLike;
-    }): Promise<TResult>;
-    readonly result: TResult | undefined;
-    serialize(): Promise<string>;
-    submitted(): Promise<void>;
+export interface PollerLike<TState extends OperationState<TResult>, TResult> extends Promise<TResult>, SimplePollerLike<TState, TResult> {
 }
 
 // @public
@@ -100,6 +102,23 @@ export type ResourceLocationConfig = "azure-async-operation" | "location" | "ori
 export type RestorableOperationState<T> = T & {
     config: OperationConfig;
 };
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    readonly isDone: boolean;
+    readonly isStopped: boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    readonly operationState: TState | undefined;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    readonly result: TResult | undefined;
+    serialize(): Promise<string>;
+    submitted(): Promise<void>;
+}
 
 // (No @packageDocumentation comment for this package)
 
