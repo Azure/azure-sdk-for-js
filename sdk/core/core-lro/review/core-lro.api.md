@@ -10,10 +10,13 @@ import { AbortSignalLike } from '@azure/abort-controller';
 export type CancelOnProgress = () => void;
 
 // @public
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(type: "Poller", lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
 
-// @public (undocumented)
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(type: "SimplePoller", lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): SimplePollerLike<TState, TResult>;
+// @public
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "Poller", options?: CreateHttpPollerOptions<TResult, TState>): PollerLike<TState, TResult>;
+
+// @public
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, type: "SimplePoller", options?: CreateHttpPollerOptions<TResult, TState>): SimplePollerLike<TState, TResult>;
 
 // @public
 export interface CreateHttpPollerOptions<TResult, TState> {

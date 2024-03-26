@@ -170,7 +170,7 @@ export function createTestPoller(settings: {
   });
   switch (implName) {
     case "createPoller": {
-      return createHttpPoller("Poller", lro, {
+      return createHttpPoller(lro, {
         intervalInMs: 0,
         resourceLocationConfig: resourceLocationConfig,
         processResult,

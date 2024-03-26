@@ -20,27 +20,42 @@ import { CreateHttpPollerOptions } from "./models.js";
 import { buildCreatePoller } from "../poller/poller.js";
 
 /**
+ * The default creation function in which returns poller extending promise interface
+ */
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  options?: CreateHttpPollerOptions<TResult, TState>,
+): PollerLike<TState, TResult>;
+/**
+ * Explicitly specify the type of poller as "Poller" to create
+ */
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  type: "Poller",
+  options?: CreateHttpPollerOptions<TResult, TState>,
+): PollerLike<TState, TResult>;
+/**
+ * Explicitly specify the type of poller as "SimplePoller" to create
+ */
+export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  type: "SimplePoller",
+  options?: CreateHttpPollerOptions<TResult, TState>,
+): SimplePollerLike<TState, TResult>;
+/**
  * Creates a poller that can be used to poll a long-running operation.
- * @param type - the type of poller to create, limited to Poller or SimplePoller
  * @param lro - Description of the long-running operation
+ * @param typeOrOptions - the type of poller or options, type would be limited to Poller or SimplePoller
  * @param options - options to configure the poller
  * @returns an initialized poller
  */
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
-  type: "Poller",
   lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>,
-): PollerLike<TState, TResult>;
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
-  type: "SimplePoller",
-  lro: LongRunningOperation,
-  options?: CreateHttpPollerOptions<TResult, TState>,
-): SimplePollerLike<TState, TResult>;
-export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
-  type: "Poller" | "SimplePoller",
-  lro: LongRunningOperation,
+  typeOrOptions: "Poller" | "SimplePoller" | CreateHttpPollerOptions<TResult, TState> = "Poller",
   options?: CreateHttpPollerOptions<TResult, TState>,
 ): SimplePollerLike<TState, TResult> | PollerLike<TState, TResult> {
+  const type = typeof typeOrOptions === "string" ? typeOrOptions : "Poller";
+  options = typeof typeOrOptions === "string" ? options : typeOrOptions;
   const {
     resourceLocationConfig,
     intervalInMs,
