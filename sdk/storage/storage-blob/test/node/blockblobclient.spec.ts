@@ -5,6 +5,7 @@ import { assert } from "chai";
 import * as zlib from "zlib";
 
 import {
+  SimpleTokenCredential,
   base64encode,
   bodyToString,
   configureBlobStorageClient,
@@ -26,6 +27,7 @@ import {
   BlobServiceClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
+  getBlobServiceAccountAudience,
 } from "../../src";
 import { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
@@ -34,6 +36,7 @@ import { streamToBuffer3 } from "../../src/utils/utils.node";
 import * as crypto from "crypto";
 import { BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES } from "../../src/utils/constants";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("BlockBlobClient Node.js only", () => {
   let containerName: string;
@@ -63,7 +66,60 @@ describe("BlockBlobClient Node.js only", () => {
     await recorder.stop();
   });
 
-  it("upload with Readable stream body and default parameters", async function () {
+  it("Default audience should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      new DefaultAzureCredential()
+    );
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: [getBlobServiceAccountAudience(blobServiceClient.accountName)],
+      }
+    );
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bearer token challenge should work", async () => {
+    await blockBlobClient.upload("Hello", 5);
+
+    // Validate that bad audience should fail first.
+    const authToken = await new DefaultAzureCredential().getToken(
+      "https://badaudience.blob.core.windows.net/.default"
+    );
+    const blockBlobClientWithPlainOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      new SimpleTokenCredential(authToken.token)
+    );
+
+    try {
+      await blockBlobClientWithPlainOAuthToken.exists();
+      assert.fail("Should fail with 401");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 401);
+    }
+
+    const blockBlobClientWithOAuthToken = new BlockBlobClient(
+      blockBlobClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: ["https://badaudience.blob.core.windows.net/.default"],
+      }
+    );
+    const exist = await blockBlobClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("upload with Readable stream body and default parameters", async () => {
     const body: string = recorder.variable("randomstring", getUniqueName("randomstring"));
     const bodyBuffer = Buffer.from(body);
 

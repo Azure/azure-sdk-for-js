@@ -13,6 +13,11 @@
     "./src/**/*.ts",
     "./test/**/*.ts",
     "./samples-dev/**/*.ts",
-    "../storage-common/**/*.ts"
+    "../storage-common/**/*.ts",
+    "../storage-blob/src/credentials/*.ts",
+    "../storage-blob/src/policies/*.ts",
+    "../storage-blob/src/StorageRetryPolicyFactory.ts",
+    "../storage-blob/src/StorageBrowserPolicyFactory.ts",
+    "../storage-blob/src/utils/cache.ts",
   ]
 }

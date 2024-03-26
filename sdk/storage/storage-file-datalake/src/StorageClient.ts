@@ -4,16 +4,24 @@ import { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient";
 import { StorageClient as StorageClientContext } from "./generated/src";
 import {
-  AnonymousCredential,
   Pipeline,
   StoragePipelineOptions,
-  BlobServiceClient,
-} from "@azure/storage-blob";
+} from "./Pipeline";
+import { BlobServiceClient } from "@azure/storage-blob";
+import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
 import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
 import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import { OperationTracingOptions } from "@azure/core-tracing";
+
+/**
+ * An interface for options common to every remote operation.
+ */
+export interface CommonOptions {
+  tracingOptions?: OperationTracingOptions;
+}
 
 // This function relies on the Pipeline already being initialized by a storage-blob client
 function getCoreClientOptions(pipeline: Pipeline): ExtendedServiceClientOptions {
@@ -111,7 +119,7 @@ export abstract class StorageClient {
 
     this.isHttps = iEqual(getURLScheme(this.url) || "", "https");
 
-    this.credential = blobClient.credential;
+    this.credential = (blobClient as any).credential;
 
     // Override protocol layer's default content-type
     const storageClientContext = this.storageClientContext as any;

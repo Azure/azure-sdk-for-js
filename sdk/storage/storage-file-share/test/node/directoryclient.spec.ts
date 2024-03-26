@@ -4,6 +4,7 @@
 import { assert } from "chai";
 import {
   configureStorageClient,
+  getAccountName,
   getBSU,
   getUniqueName,
   recorderEnvSetup,
@@ -14,9 +15,11 @@ import {
   ShareDirectoryClient,
   StorageSharedKeyCredential,
   ShareClient,
+  getFileServiceAccountAudience,
 } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
+import { DefaultAzureCredential } from "@azure/identity";
 
 describe("DirectoryClient Node.js only", () => {
   let shareName: string;
@@ -44,6 +47,46 @@ describe("DirectoryClient Node.js only", () => {
     await dirClient.delete();
     await shareClient.delete();
     await recorder.stop();
+  });
+
+  it("Default audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new DefaultAzureCredential(),
+      { fileRequestIntent: "backup" }
+    );
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Customized audience should work", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: getFileServiceAccountAudience(getAccountName()),
+        fileRequestIntent: "backup",
+      }
+    );
+    const exist = await dirClientWithOAuthToken.exists();
+    assert.equal(exist, true);
+  });
+
+  it("Bad audience should fail", async () => {
+    const dirClientWithOAuthToken = new ShareDirectoryClient(
+      dirClient.url,
+      new DefaultAzureCredential(),
+      {
+        audience: "https://badaudience.file.core.windows.net/.default",
+        fileRequestIntent: "backup",
+      }
+    );
+    try {
+      await dirClientWithOAuthToken.exists();
+      assert.fail("Should fail with 403");
+    } catch (err) {
+      assert.strictEqual((err as any).statusCode, 403);
+    }
   });
 
   it("can be created with a url and a credential", async () => {

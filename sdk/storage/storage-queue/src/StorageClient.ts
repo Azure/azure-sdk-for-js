@@ -8,7 +8,7 @@ import {
   StoragePipelineOptions,
   getCoreClientOptions,
   getCredentialFromPipeline,
-} from "../../storage-blob/src/Pipeline";
+} from "./Pipeline";
 import { getAccountNameFromUrl } from "./utils/utils.common";
 import { OperationTracingOptions } from "@azure/core-tracing";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";

@@ -4,7 +4,7 @@ import { FileSystemAttributes } from "./FileSystemAttributes";
 import { truncatedISO8061Date } from "./utils/utils.common";
 import { logger } from "./log";
 import { ShareTokenIntent } from "./generatedModels";
-import { StoragePipelineOptions } from "../../storage-blob/src/Pipeline";
+import { StoragePipelineOptions } from "./Pipeline";
 
 export interface Metadata {
   [propertyName: string]: string;
@@ -358,4 +358,18 @@ export interface HttpAuthorization {
    * the credentials containing the authentication information of the user agent for the resource being requested.
    */
   value: string;
+}
+
+/**
+ * Defines the known cloud audiences for Storage.
+ */
+export enum StorageFileAudience {
+  /**
+   * The OAuth scope to use to retrieve an AAD token for Azure Storage.
+   */
+  StorageOAuthScopes = "https://storage.azure.com/.default",
+}
+
+export function getFileServiceAccountAudience(storageAccountName: string): string {
+  return `https://${storageAccountName}.file.core.windows.net/.default`;
 }

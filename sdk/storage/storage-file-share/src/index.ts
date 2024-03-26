@@ -29,6 +29,8 @@ export {
   CloseHandlesInfo,
   ShareProtocols,
   HttpAuthorization,
+  StorageFileAudience,
+  getFileServiceAccountAudience,
 } from "./models";
 export * from "./FileSystemAttributes";
 export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy";
@@ -49,10 +51,10 @@ export {
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
-} from "../../storage-blob/src/Pipeline";
+} from "./Pipeline";
 export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
 export * from "../../storage-blob/src/policies/CredentialPolicy";
-export * from "../../storage-blob/src/StorageRetryPolicyFactory";
+export * from "./StorageRetryPolicyFactory";
 export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy";
 export * from "../../storage-blob/src/StorageBrowserPolicyFactory";
 export * from "./ShareServiceClient";

@@ -29,13 +29,13 @@ export {
   IHttpClient,
   StorageOAuthScopes,
   ServiceClientOptions,
-} from "../../storage-blob/src/Pipeline";
+} from "./Pipeline";
 export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
 export * from "../../storage-blob/src/policies/CredentialPolicy";
 export * from "../../storage-blob/src/StorageRetryPolicyFactory";
 export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy";
 export * from "../../storage-blob/src/StorageBrowserPolicyFactory";
-export { Metadata } from "./models";
+export { Metadata, StorageQueueAudience, getQueueServiceAccountAudience } from "./models";
 export * from "./QueueClient";
 export * from "./QueueSASPermissions";
 export * from "./QueueSASSignatureValues";

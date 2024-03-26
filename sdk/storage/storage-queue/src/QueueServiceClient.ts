@@ -21,7 +21,7 @@ import {
 } from "./generatedModels";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { Service } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "../../storage-blob/src/Pipeline";
+import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { StorageClient, CommonOptions } from "./StorageClient";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {

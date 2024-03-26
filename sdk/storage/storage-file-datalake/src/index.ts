@@ -14,36 +14,20 @@ export * from "./sas/FileSystemSASPermissions";
 export * from "./sas/SASQueryParameters";
 export * from "./models";
 export * from "./utils/DataLakeAclChangeFailedError";
-
-export {
+export * from "./Pipeline";
+export * from "../../storage-blob/src/credentials/AnonymousCredential";
+export * from "../../storage-blob/src/credentials/Credential";
+export * from "./credentials/StorageSharedKeyCredential";
+export { 
   BlobServiceProperties as DataLakeServiceProperties,
-  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse,
-  Pipeline,
-  newPipeline,
-  CommonOptions,
-  StoragePipelineOptions,
-  BaseRequestPolicy,
-  RequestPolicyFactory,
-  RequestPolicy,
-  RequestPolicyOptions,
-  WebResource,
-  HttpOperationResponse,
-  HttpHeaders,
-  HttpRequestBody,
-  IHttpClient,
-  StorageOAuthScopes,
-  AnonymousCredential,
-  Credential,
-  StorageSharedKeyCredential,
-  AnonymousCredentialPolicy,
-  CredentialPolicy,
-  StorageBrowserPolicy,
-  StorageBrowserPolicyFactory,
-  StorageRetryOptions,
-  StorageRetryPolicy,
-  StorageRetryPolicyFactory,
-  StorageSharedKeyCredentialPolicy,
-} from "@azure/storage-blob";
+  ServiceGetPropertiesResponse as DataLakeServiceGetPropertiesResponse, } from '@azure/storage-blob';
+export { BaseRequestPolicy } from "../../storage-blob/src/policies/RequestPolicy";
+export * from "../../storage-blob/src/policies/AnonymousCredentialPolicy";
+export * from "../../storage-blob/src/policies/CredentialPolicy";
+export * from "../../storage-blob/src/StorageRetryPolicyFactory";
+export * from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicy";
+export * from "../../storage-blob/src/StorageBrowserPolicyFactory";
+export { CommonOptions } from "./StorageClient";
 
 export { SasIPRange } from "./sas/SasIPRange";
 export { ToBlobEndpointHostMappings, ToDfsEndpointHostMappings } from "./utils/constants";
