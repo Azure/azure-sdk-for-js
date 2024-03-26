@@ -45,7 +45,7 @@ export interface PartDescriptor {
   headers?: Record<string, string>;
 
   /**
-   * The body of this part of the multipart request. The Co
+   * The body of this part of the multipart request.
    */
   body?: unknown;
 }
