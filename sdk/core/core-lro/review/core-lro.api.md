@@ -30,6 +30,9 @@ export interface CreateHttpPollerOptions<TResult, TState> {
 }
 
 // @public
+export function createHttpSimplePoller<TResult, TState extends OperationState<TResult>>(lro: LongRunningOperation, options?: CreateHttpPollerOptions<TResult, TState>): Promise<SimplePollerLike<TState, TResult>>;
+
+// @public
 export function deserializeState<TState>(serializedState: string): RestorableOperationState<TState>;
 
 // @public

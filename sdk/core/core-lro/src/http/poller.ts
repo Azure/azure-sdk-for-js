@@ -20,6 +20,20 @@ import { CreateHttpPollerOptions } from "./models.js";
 import { buildCreatePoller } from "../poller/poller.js";
 
 /**
+ * Create a SimplePoller that will poll the LRO until it is done
+ * Awaitting this would return an initialized poller
+ */
+export async function createHttpSimplePoller<TResult, TState extends OperationState<TResult>>(
+  lro: LongRunningOperation,
+  options?: CreateHttpPollerOptions<TResult, TState>,
+): Promise<SimplePollerLike<TState, TResult>> {
+  const poller = createHttpPoller(lro, "SimplePoller", options);
+  // return the poller after it has been initialized
+  await poller.submitted();
+  return poller;
+}
+
+/**
  * The default creation function in which returns poller extending promise interface
  */
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
