@@ -1,14 +1,10 @@
 # Release History
 
-## 1.3.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 1.3.1 (2024-03-26)
 
 ### Other Changes
+
+- Updated to `@azure/communication-common` 2.3.1.
 
 ## 1.3.0 (2023-11-30)
 
