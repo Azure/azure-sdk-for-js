@@ -69,7 +69,7 @@ export function isUnexpected(
     | GetImageGenerations200Response
     | GetImageGenerationsDefaultResponse
     | GetEmbeddings200Response
-    | GetEmbeddingsDefaultResponse
+    | GetEmbeddingsDefaultResponse,
 ): response is
   | GetAudioTranscriptionAsPlainTextDefaultResponse
   | GetAudioTranslationAsPlainTextDefaultResponse
