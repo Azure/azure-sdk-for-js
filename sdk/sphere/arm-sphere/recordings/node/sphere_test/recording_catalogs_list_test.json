@@ -1,0 +1,60 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs?api-version=2024-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere-rest/1.0.0-beta.1 core-rest-pipeline/1.15.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "5786d402-df74-4c28-84fd-806ee6b55fd6"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "550",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Mar 2024 05:54:21 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "040d0490-5bd8-42c7-8829-47b383afced8",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "5741395b-c605-415c-b4d4-23fa863a8166",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11998",
+        "x-ms-request-id": "f080de54-b886-4217-9ddd-62d4f41765a1",
+        "x-ms-routing-request-id": "JAPANEAST:20240326T055422Z:5741395b-c605-415c-b4d4-23fa863a8166",
+        "X-MSEdge-Ref": "Ref A: 6C8C9A24B7914138BB557A70EC394A52 Ref B: TYO201100116035 Ref C: 2024-03-26T05:54:21Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest",
+            "name": "resourcetest",
+            "type": "microsoft.azuresphere/catalogs",
+            "location": "global",
+            "systemData": {
+              "createdBy": "azure_client_id",
+              "createdByType": "Application",
+              "createdAt": "2024-03-26T05:54:10.3489868Z",
+              "lastModifiedBy": "azure_client_id",
+              "lastModifiedByType": "Application",
+              "lastModifiedAt": "2024-03-26T05:54:10.3489868Z"
+            },
+            "properties": {
+              "tenantId": "d9ecfbea-3c4d-4de3-b842-9bb898d9c9fa",
+              "provisioningState": "Succeeded"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

@@ -1,0 +1,57 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest?api-version=2024-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere-rest/1.0.0-beta.1 core-rest-pipeline/1.15.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "d9190423-2208-4230-9e8e-e6998245db10"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "538",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Mar 2024 05:54:20 GMT",
+        "ETag": "\u00229d00b0ea-0000-0400-0000-660263090000\u0022",
+        "Expires": "-1",
+        "mise-correlation-id": "e5b956cc-4a67-45d8-964c-8b4648ab96f1",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "efeac62f-d6a3-4153-aeea-e5c1262a0f20",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "85d60bb4-407f-45da-88ec-c7d0e3922d9e",
+        "x-ms-routing-request-id": "JAPANWEST:20240326T055420Z:efeac62f-d6a3-4153-aeea-e5c1262a0f20",
+        "X-MSEdge-Ref": "Ref A: 7DF021AC648B463DBEA71512C3F88E67 Ref B: TYO201100116035 Ref C: 2024-03-26T05:54:18Z"
+      },
+      "ResponseBody": {
+        "id": "/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest",
+        "name": "resourcetest",
+        "type": "microsoft.azuresphere/catalogs",
+        "location": "global",
+        "systemData": {
+          "createdBy": "azure_client_id",
+          "createdByType": "Application",
+          "createdAt": "2024-03-26T05:54:10.3489868Z",
+          "lastModifiedBy": "azure_client_id",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2024-03-26T05:54:10.3489868Z"
+        },
+        "properties": {
+          "tenantId": "d9ecfbea-3c4d-4de3-b842-9bb898d9c9fa",
+          "provisioningState": "Succeeded"
+        }
+      }
+    }
+  ],
+  "Variables": {}
+}

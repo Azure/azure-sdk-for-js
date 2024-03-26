@@ -1,0 +1,1120 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/providers/Microsoft.AzureSphere/operations?api-version=2024-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere-rest/1.0.0-beta.1 core-rest-pipeline/1.15.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "c87f0599-d48d-4df0-a136-2c6b38ab8aed"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "34751",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Mar 2024 05:54:22 GMT",
+        "Expires": "-1",
+        "Pragma": "no-cache",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "1d54bb9b-28f0-462a-a489-7221088ab474",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-tenant-reads": "11999",
+        "x-ms-request-id": "f0a6835d-7f54-43e4-8e5e-eda04ea00d11",
+        "x-ms-routing-request-id": "JAPANEAST:20240326T055422Z:1d54bb9b-28f0-462a-a489-7221088ab474",
+        "X-MSEdge-Ref": "Ref A: 6A5E274628504A3782ABFA3853CF231F Ref B: TYO201100116035 Ref C: 2024-03-26T05:54:22Z"
+      },
+      "ResponseBody": {
+        "value": [
+          {
+            "name": "Microsoft.AzureSphere/catalogs/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/countDevices",
+              "operation": "Catalogs_CountDevices",
+              "description": "Counts devices in catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeployments/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeployments",
+              "operation": "Catalogs_ListDeployments",
+              "description": "Lists deployments for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceGroups",
+              "operation": "Catalogs_ListDeviceGroups",
+              "description": "List the device groups for the catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceInsights/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceInsights",
+              "operation": "Catalogs_ListDeviceInsights",
+              "description": "Lists device insights for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDevices",
+              "operation": "Catalogs_ListDevices",
+              "description": "Lists devices for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/uploadImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/uploadImage",
+              "operation": "Catalogs_UploadImage",
+              "description": "Creates an image. Use this action when the image ID is unknown."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/register/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "Microsoft.AzureSphere",
+              "operation": "Register the Microsoft.AzureSphere",
+              "description": "Register the subscription for Microsoft.AzureSphere"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/unregister/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "Microsoft.AzureSphere",
+              "operation": "Unregister the Microsoft.AzureSphere",
+              "description": "Unregister the subscription for Microsoft.AzureSphere"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/countDevices",
+              "operation": "Catalogs_CountDevices",
+              "description": "Counts devices in catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeployments/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeployments",
+              "operation": "Catalogs_ListDeployments",
+              "description": "Lists deployments for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceGroups",
+              "operation": "Catalogs_ListDeviceGroups",
+              "description": "List the device groups for the catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceInsights/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceInsights",
+              "operation": "Catalogs_ListDeviceInsights",
+              "description": "Lists device insights for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDevices",
+              "operation": "Catalogs_ListDevices",
+              "description": "Lists devices for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/uploadImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/uploadImage",
+              "operation": "Catalogs_UploadImage",
+              "description": "Creates an image. Use this action when the image ID is unknown."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/countDevices",
+              "operation": "Catalogs_CountDevices",
+              "description": "Counts devices in catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeployments/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeployments",
+              "operation": "Catalogs_ListDeployments",
+              "description": "Lists deployments for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceGroups",
+              "operation": "Catalogs_ListDeviceGroups",
+              "description": "List the device groups for the catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceInsights/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceInsights",
+              "operation": "Catalogs_ListDeviceInsights",
+              "description": "Lists device insights for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDevices",
+              "operation": "Catalogs_ListDevices",
+              "description": "Lists devices for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/uploadImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/uploadImage",
+              "operation": "Catalogs_UploadImage",
+              "description": "Creates an image. Use this action when the image ID is unknown."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/countDevices",
+              "operation": "Catalogs_CountDevices",
+              "description": "Counts devices in catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeployments/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeployments",
+              "operation": "Catalogs_ListDeployments",
+              "description": "Lists deployments for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceGroups",
+              "operation": "Catalogs_ListDeviceGroups",
+              "description": "List the device groups for the catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceInsights/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceInsights",
+              "operation": "Catalogs_ListDeviceInsights",
+              "description": "Lists device insights for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDevices",
+              "operation": "Catalogs_ListDevices",
+              "description": "Lists devices for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/uploadImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/uploadImage",
+              "operation": "Catalogs_UploadImage",
+              "description": "Creates an image. Use this action when the image ID is unknown."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/operations/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "operations",
+              "operation": "read_operations",
+              "description": "read operations"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/locations/operationStatuses/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "locations/operationStatuses",
+              "operation": "read_operationStatuses",
+              "description": "read operationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/locations/operationStatuses/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "locations/operationStatuses",
+              "operation": "write_operationStatuses",
+              "description": "write operationStatuses"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_ListBySubscription",
+              "description": "List Catalog resources by subscription ID"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_ListByResourceGroup",
+              "description": "List Catalog resources by resource group"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_Get",
+              "description": "Get a Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_CreateOrUpdate",
+              "description": "Create a Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_Delete",
+              "description": "Delete a Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs",
+              "operation": "Catalogs_Update",
+              "description": "Update a Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/countDevices",
+              "operation": "Catalogs_CountDevices",
+              "description": "Counts devices in catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeployments/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeployments",
+              "operation": "Catalogs_ListDeployments",
+              "description": "Lists deployments for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceGroups",
+              "operation": "Catalogs_ListDeviceGroups",
+              "description": "List the device groups for the catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDeviceInsights/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDeviceInsights",
+              "operation": "Catalogs_ListDeviceInsights",
+              "description": "Lists device insights for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/listDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/listDevices",
+              "operation": "Catalogs_ListDevices",
+              "description": "Lists devices for catalog."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/uploadImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/uploadImage",
+              "operation": "Catalogs_UploadImage",
+              "description": "Creates an image. Use this action when the image ID is unknown."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products",
+              "operation": "Products_ListByCatalog",
+              "description": "List Product resources by Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products",
+              "operation": "Products_Get",
+              "description": "Get a Product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products",
+              "operation": "Products_CreateOrUpdate",
+              "description": "Create a Product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products",
+              "operation": "Products_Delete",
+              "description": "Delete a Product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name\u0027"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products",
+              "operation": "Products_Update",
+              "description": "Update a Product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/countDevices",
+              "operation": "Products_CountDevices",
+              "description": "Counts devices in product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/generateDefaultDeviceGroups/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/generateDefaultDeviceGroups",
+              "operation": "Products_GenerateDefaultDeviceGroups",
+              "description": "Generates default device groups for the product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates",
+              "operation": "Certificates_ListByCatalog",
+              "description": "List Certificate resources by Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates",
+              "operation": "Certificates_Get",
+              "description": "Get a Certificate"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveCertChain/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveCertChain",
+              "operation": "Certificates_RetrieveCertChain",
+              "description": "Retrieves cert chain."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/certificates/retrieveProofOfPossessionNonce/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/certificates/retrieveProofOfPossessionNonce",
+              "operation": "Certificates_RetrieveProofOfPossessionNonce",
+              "description": "Gets the proof of possession nonce."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/images/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/images",
+              "operation": "Images_ListByCatalog",
+              "description": "List Image resources by Catalog"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/images/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/images",
+              "operation": "Images_Get",
+              "description": "Get a Image"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/images/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/images",
+              "operation": "Images_CreateOrUpdate",
+              "description": "Create a Image"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/images/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/images",
+              "operation": "Images_Delete",
+              "description": "Delete a Image"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups",
+              "operation": "DeviceGroups_ListByProduct",
+              "description": "List DeviceGroup resources by Product. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups",
+              "operation": "DeviceGroups_Get",
+              "description": "Get a DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups",
+              "operation": "DeviceGroups_CreateOrUpdate",
+              "description": "Create a DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups",
+              "operation": "DeviceGroups_Delete",
+              "description": "Delete a DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups",
+              "operation": "DeviceGroups_Update",
+              "description": "Update a DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/claimDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/claimDevices",
+              "operation": "DeviceGroups_ClaimDevices",
+              "description": "Bulk claims the devices. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when bulk claiming devices to a catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/countDevices/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/countDevices",
+              "operation": "DeviceGroups_CountDevices",
+              "description": "Counts devices in device group. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices",
+              "operation": "Devices_ListByDeviceGroup",
+              "description": "List Device resources by DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices",
+              "operation": "Devices_Get",
+              "description": "Get a Device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names when a device does not belong to a device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices",
+              "operation": "Devices_CreateOrUpdate",
+              "description": "Create a Device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to claim a device to the catalog only."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices",
+              "operation": "Devices_Delete",
+              "description": "Delete a Device"
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices",
+              "operation": "Devices_Update",
+              "description": "Update a Device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to move a device to the catalog level."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/devices/generateCapabilityImage/action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/devices/generateCapabilityImage",
+              "operation": "Devices_GenerateCapabilityImage",
+              "description": "Generates the capability image for the device. Use \u0027.unassigned\u0027 or \u0027.default\u0027 for the device group and product names to generate the image for a device that does not belong to a specific device group and product."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/deployments/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/deployments",
+              "operation": "Deployments_ListByDeviceGroup",
+              "description": "List Deployment resources by DeviceGroup. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/deployments/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/deployments",
+              "operation": "Deployments_Get",
+              "description": "Get a Deployment. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/deployments/write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/deployments",
+              "operation": "Deployments_CreateOrUpdate",
+              "description": "Create a Deployment. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          },
+          {
+            "name": "Microsoft.AzureSphere/catalogs/products/deviceGroups/deployments/delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureSphere",
+              "resource": "catalogs/products/deviceGroups/deployments",
+              "operation": "Deployments_Delete",
+              "description": "Delete a Deployment. \u0027.default\u0027 and \u0027.unassigned\u0027 are system defined values and cannot be used for product or device group name."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "Variables": {}
+}

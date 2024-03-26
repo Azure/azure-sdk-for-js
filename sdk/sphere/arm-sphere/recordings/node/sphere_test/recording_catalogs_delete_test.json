@@ -1,0 +1,74 @@
+{
+  "Entries": [
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs/resourcetest?api-version=2024-04-01",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere-rest/1.0.0-beta.1 core-rest-pipeline/1.15.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "17caecd5-42ff-4092-ab59-f4f6d935ed1f"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "0",
+        "Date": "Tue, 26 Mar 2024 05:54:30 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "2e9d4897-3435-46ab-95ba-1c78995f0657",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ba662ae7-c90a-454f-a5d0-1d11c4bee7eb",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-deletes": "14999",
+        "x-ms-request-id": "00000000-0000-0000-0000-000000000000",
+        "x-ms-routing-request-id": "JAPANEAST:20240326T055430Z:ba662ae7-c90a-454f-a5d0-1d11c4bee7eb",
+        "X-MSEdge-Ref": "Ref A: EA4DD99E20084704A37D6DC17104B210 Ref B: TYO201100116035 Ref C: 2024-03-26T05:54:23Z"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://management.azure.com/subscriptions/azure_subscription_id/resourceGroups/myjstest/providers/Microsoft.AzureSphere/catalogs?api-version=2024-04-01",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-arm-sphere-rest/1.0.0-beta.1 core-rest-pipeline/1.15.1 Node/18.19.0 OS/(x64-Windows_NT-10.0.22631)",
+        "x-ms-client-request-id": "bbcce9a6-bf23-43fd-afd5-fa63dee7009c"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Cache-Control": "no-cache",
+        "Content-Length": "12",
+        "Content-Type": "application/json; charset=utf-8",
+        "Date": "Tue, 26 Mar 2024 05:54:31 GMT",
+        "Expires": "-1",
+        "mise-correlation-id": "2327766d-e4a7-4e9a-aa6f-3fa9e84697db",
+        "Pragma": "no-cache",
+        "Request-Context": "appId=",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Cache": "CONFIG_NOCACHE",
+        "X-Content-Type-Options": "nosniff",
+        "x-ms-correlation-request-id": "ccf1f6c4-e1a3-4803-8f1a-5264272d7a79",
+        "x-ms-providerhub-traffic": "True",
+        "x-ms-ratelimit-remaining-subscription-reads": "11999",
+        "x-ms-request-id": "de3f86f9-6a15-4c42-956d-044e15fe3c36",
+        "x-ms-routing-request-id": "JAPANEAST:20240326T055431Z:ccf1f6c4-e1a3-4803-8f1a-5264272d7a79",
+        "X-MSEdge-Ref": "Ref A: 6B05CB3CBED546DBB51E993DCA5B699A Ref B: TYO201100116035 Ref C: 2024-03-26T05:54:30Z"
+      },
+      "ResponseBody": {
+        "value": []
+      }
+    }
+  ],
+  "Variables": {}
+}
