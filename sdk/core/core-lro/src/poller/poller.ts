@@ -15,7 +15,6 @@ import {
 import { deserializeState, initOperation, pollOperation } from "./operation.js";
 import { POLL_INTERVAL_IN_MS } from "./constants.js";
 import { delay } from "@azure/core-util";
-import { P } from "vitest/dist/reporters-P7C2ytIv.js";
 
 const createStateProxy: <TResult, TState extends OperationState<TResult>>() => StateProxy<
   TState,
@@ -76,13 +75,13 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const stateProxy = createStateProxy<TResult, TState>();
     const withOperationLocation = withOperationLocationCallback
       ? (() => {
-        let called = false;
-        return (operationLocation: string, isUpdated: boolean) => {
-          if (isUpdated) withOperationLocationCallback(operationLocation);
-          else if (!called) withOperationLocationCallback(operationLocation);
-          called = true;
-        };
-      })()
+          let called = false;
+          return (operationLocation: string, isUpdated: boolean) => {
+            if (isUpdated) withOperationLocationCallback(operationLocation);
+            else if (!called) withOperationLocationCallback(operationLocation);
+            called = true;
+          };
+        })()
       : undefined;
     let statePromise: Promise<TState>;
     let state: RestorableOperationState<TState>;
@@ -108,7 +107,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     const cancelErrMsg = "Operation was canceled";
     let currentPollIntervalInMs = intervalInMs;
 
-    let poller: SimplePollerLike<TState, TResult> = {
+    const poller: SimplePollerLike<TState, TResult> = {
       get operationState(): TState | undefined {
         return state;
       },
