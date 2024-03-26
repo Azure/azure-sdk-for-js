@@ -18,7 +18,6 @@ describe("AzureVM UserAssigned Integration test", function () {
     }
     const credential = new ManagedIdentityCredential({ clientId: userAssignedVM });
     const accessToken = await credential.getToken("https://management.azure.com//.default");
-    assert.isNotNull(accessToken.token);
-    assert.isDefined(accessToken.token);
+    assert.exists(accessToken.token);
   });
 });
