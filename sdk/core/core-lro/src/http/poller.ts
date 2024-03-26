@@ -50,8 +50,7 @@ export function createHttpPoller<TResult, TState extends OperationState<TResult>
     withOperationLocation,
     resolveOnUnsuccessful = false,
   } = options || {};
-  return buildCreatePoller<OperationResponse, TResult, TState>(
-    type, {
+  return buildCreatePoller<OperationResponse, TResult, TState>(type, {
     getStatusFromInitialResponse,
     getStatusFromPollResponse: getOperationStatus,
     isOperationError,

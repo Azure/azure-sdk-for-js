@@ -229,7 +229,8 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
  * A poller interface.
  */
 export interface PollerLike<TState extends OperationState<TResult>, TResult>
-  extends Promise<TResult>, SimplePollerLike<TState, TResult> { }
+  extends Promise<TResult>,
+    SimplePollerLike<TState, TResult> {}
 
 /**
  * A state proxy that allows poller implementation to abstract away the operation
