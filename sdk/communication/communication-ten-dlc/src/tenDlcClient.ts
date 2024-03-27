@@ -268,7 +268,7 @@ export class TenDlcClient {
 
   public cancelUSBrand(
     brandId: string,
-    options?: TenDlcCancelUSBrandOptionalParams,
+    options?: TenDlcCancelUSBrandOptionalParams
   ): Promise<TenDlcCancelUSBrandResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSBrand", options);
     try {
@@ -286,7 +286,7 @@ export class TenDlcClient {
 
   public cancelUSCampaign(
     campaignId: string,
-    options?: TenDlcCancelUSCampaignOptionalParams,
+    options?: TenDlcCancelUSCampaignOptionalParams
   ): Promise<TenDlcCancelUSCampaignResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSCampaign", options);
     try {
