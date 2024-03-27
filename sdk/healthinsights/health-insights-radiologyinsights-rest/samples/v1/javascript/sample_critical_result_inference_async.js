@@ -13,11 +13,11 @@ const { AzureKeyCredential } = require("@azure/core-auth");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the critical result inferences
  */
 
 function printResults(radiologyInsightsResult) {
@@ -183,9 +183,9 @@ function createRequestBody() {
 
   return {
     body: radiologyInsightsData
-  } 
+  }
 
-}  
+}
 
 async function main() {
   const credential = new AzureKeyCredential(apiKey);
@@ -203,7 +203,7 @@ async function main() {
   const RadiologyInsightsResult = await poller.pollUntilDone();
   if (isUnexpected(RadiologyInsightsResult)) {
     throw RadiologyInsightsResult;
-  }  
+  }
   const resultBody = RadiologyInsightsResult.body;
   printResults(resultBody);
 }

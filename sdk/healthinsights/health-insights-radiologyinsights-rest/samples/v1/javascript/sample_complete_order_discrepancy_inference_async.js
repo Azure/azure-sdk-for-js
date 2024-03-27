@@ -2,54 +2,72 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the complete orders of the Radiology Insights request.
  */
-import { AzureKeyCredential } from "@azure/core-auth";
 
-import * as dotenv from "dotenv";
-import AzureHealthInsightsClient, {
-  CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
-  RadiologyInsightsResultOutput,
-} from "@azure-rest/health-insights-radiologyinsights";
+const dotenv = require("dotenv");
+const AzureHealthInsightsClient = require("@azure-rest/health-insights-radiologyinsights").default,
+  { getLongRunningPoller, isUnexpected } = require("@azure-rest/health-insights-radiologyinsights");
+const { AzureKeyCredential } = require("@azure/core-auth");
 
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
-const apiKey = process.env["AZURE_HEALTH_INSIGHTS_KEY"] || "";
-const endpoint = process.env["AZURE_HEALTH_INSIGHTS_ENDPOINT"] || "";
+const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
+const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the complete order discrepancy inferences
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
+function printResults(radiologyInsightsResult) {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
+      results.patientResults.forEach((patientResult) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+            if (inference.kind === "completeOrderDiscrepancy") {
+              console.log("Complete Order Discrepancy Inference found: ");
+              if ("orderType" in inference) {
+                console.log("   Ordertype: ");
+                displayCodes({ codableConcept: inference.orderType });
+              };
+
+              inference.missingBodyParts?.forEach((bodyparts) => {
+                console.log("   Missing Body Parts: ");
+                displayCodes(bodyparts);
+              });
+
+              inference.missingBodyPartMeasurements?.forEach((bodymeasure) => {
+                console.log("   Missing Body Part Measurements: ");
+                displayCodes(bodymeasure);
+              });
             }
           });
         }
       });
     }
   } else {
-    const error = radiologyInsightsResult.error;
-    if (error) {
-      console.log(error.code, ":", error.message);
+    const errors = radiologyInsightsResult.errors;
+    if (errors) {
+      for (const error of errors) {
+        console.log(error.code, ":", error.message);
+      }
     }
   }
 }
 
+function displayCodes(codableConcept) {
+  codableConcept.coding?.forEach((coding) => {
+    if ("code" in coding && "display" in coding && "system" in coding) {
+      console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+    }
+  });
+}
+
 // Create request body for radiology insights
-function createRequestBody(): CreateJobParameters {
+function createRequestBody() {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
@@ -179,15 +197,19 @@ function createRequestBody(): CreateJobParameters {
     configuration: configuration
   };
 
+  const radiologyInsightsParameter = {
+    body: radiologyInsightsData
+  };
+
   return {
     body: radiologyInsightsData
   }
 
 }
 
-export async function main() {
+async function main() {
   const credential = new AzureKeyCredential(apiKey);
-  const client = AzureHealthInsightsClient(endpoint, credential);
+  const client = new AzureHealthInsightsClient(endpoint, credential);
 
   // Create request body
   const radiologyInsightsParameter = createRequestBody();
@@ -207,5 +229,7 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The complete order discrepancy encountered an error:", err);
 });
+
+module.exports = { main };
