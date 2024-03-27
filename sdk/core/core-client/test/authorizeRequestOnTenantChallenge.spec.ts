@@ -426,5 +426,4 @@ describe("storageBearerTokenChallengeAuthenticationPolicy", function () {
     const lastGetTokenCall = getTokenStub.mock.calls[0];
     assert.equal(lastGetTokenCall[0], quirkScope);
   });
-  //
 });
