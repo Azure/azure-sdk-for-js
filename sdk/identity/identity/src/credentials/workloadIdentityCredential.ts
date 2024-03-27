@@ -42,13 +42,15 @@ export class WorkloadIdentityCredential implements TokenCredential {
   private azureFederatedTokenFileContent: string | undefined = undefined;
   private cacheDate: number | undefined = undefined;
   private federatedTokenFilePath: string | undefined;
+  private serviceConnectionId: string | undefined;
 
   /**
    * WorkloadIdentityCredential supports Microsoft Entra Workload ID on Kubernetes.
    *
    * @param options - The identity client options to use for authentication.
    */
-  constructor(options?: WorkloadIdentityCredentialOptions) {
+  constructor(options?: WorkloadIdentityCredentialOptions)
+  {
     // Logging environment variables for error details
     const assignedEnv = processEnvVars(SupportedWorkloadEnvironmentVariables).assigned.join(", ");
     logger.info(`Found the following environment variables: ${assignedEnv}`);
@@ -58,6 +60,9 @@ export class WorkloadIdentityCredential implements TokenCredential {
     const clientId = workloadIdentityCredentialOptions.clientId || process.env.AZURE_CLIENT_ID;
     this.federatedTokenFilePath =
       workloadIdentityCredentialOptions.tokenFilePath || process.env.AZURE_FEDERATED_TOKEN_FILE;
+    // Qs - Do we want to detect the env var of the pattern "ENDPOINT_AUTH_[0-9a-zA-Z]+" AND EXTRACT THE ID OR LET THE USERS PROVIDE?
+    this.serviceConnectionId = workloadIdentityCredentialOptions.serviceConnectionId;
+
     if (tenantId) {
       checkTenantId(logger, tenantId);
     }
@@ -71,6 +76,29 @@ export class WorkloadIdentityCredential implements TokenCredential {
         this.readFileContents.bind(this),
         options,
       );
+    }
+    else{
+      if(clientId && tenantId && this.serviceConnectionId){
+        //Ensure other env vars are there to form the request uri for OIDC token
+        if(process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI && process.env.SYSTEM_TEAMPROJECTID && process.env.SYSTEM_PLANID && process.env.SYSTEM_JOBID){
+          
+          if(process.env.SECRET_SYSTEM_ACCESSTOKEN){
+            const oidcRequestUrl = `${process.env.SYSTEM_TEAMFOUNDATIONCOLLECTIONURI}${process.env.SYSTEM_TEAMPROJECTID}/_apis/distributedtask/hubs/build/plans/${process.env.SYSTEM_PLANID}/jobs/${process.env.SYSTEM_JOBID}/oidctoken?api-version=7.1-preview.1&serviceConnectionId=${this.serviceConnectionId}`
+            const systemAccessToken = process.env.SECRET_SYSTEM_ACCESSTOKEN
+            logger.info(
+              `Invoking ClientAssertionCredential with tenant ID: ${tenantId}, clientId: ${workloadIdentityCredentialOptions.clientId} and service connection id: ${workloadIdentityCredentialOptions.serviceConnectionId}`,
+            );
+            this.client = new ClientAssertionCredential(
+              tenantId,
+              clientId,
+              this.requestOidcToken.bind(this,oidcRequestUrl,systemAccessToken),
+              options,
+            );
+          }
+        }
+        
+
+      }
     }
   }
 
@@ -87,6 +115,7 @@ export class WorkloadIdentityCredential implements TokenCredential {
     options?: GetTokenOptions,
   ): Promise<AccessToken | null> {
     if (!this.client) {
+      //ToDo: Add another error message here depending on which WI it was - AKS Or Azure Devops??
       const errorMessage = `${credentialName}: is unavailable. tenantId, clientId, and federatedTokenFilePath are required parameters. 
       In DefaultAzureCredential and ManagedIdentityCredential, these can be provided as environment variables - 
       "AZURE_TENANT_ID",
@@ -122,5 +151,22 @@ export class WorkloadIdentityCredential implements TokenCredential {
       }
     }
     return this.azureFederatedTokenFileContent;
+  }
+
+  private async requestOidcToken(oidcRequestUrl: string, systemAccessToken: string): Promise<string> {
+    console.log("Requesting OIDC token from Azure DevOps...");
+    console.debug(oidcRequestUrl);
+  
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${systemAccessToken}`,
+      },
+    };
+  
+    const response = await fetch(oidcRequestUrl, requestOptions);
+    const result = await response.json();
+    return result;
   }
 }
