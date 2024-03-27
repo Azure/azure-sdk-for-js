@@ -6,7 +6,7 @@
 
 - Adds a new property `logprobs` in `ChatChoice` to support log probabilities for this chat choice
 - Adds new properties `logprobs` and `topLogprobs` in `ChatCompletionsOptions` class to support log probabilities for chat completions
-- Adds a new property `inputType`, `encodingFormat`, `dimensions` in `GetEmbeddingsOptions` for more embeddings options
+- Adds `dimensions` in `GetEmbeddingsOptions`.
 when using Azure OpenAI, specifies the input type to use for embedding search.
 - Updates the default service API version to `2024-03-01-preview`
 - Returns content filter results and prompt filter results for image generations through `contentFilterResults` and `promptFilterResults` properties
