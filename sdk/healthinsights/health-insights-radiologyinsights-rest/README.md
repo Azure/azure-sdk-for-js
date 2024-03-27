@@ -7,11 +7,7 @@
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
-- [Source code]
-- [Package (NPM)]
-- [API reference documentation]
-- [Product Information]
-- [Samples]
+[Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
 
 ## Getting started
 
@@ -35,11 +31,6 @@ npm install @azure-rest/health-insights-radiologyinsights
 ```
 
 ### Create and authenticate a `RadiologyInsightsClient`
-
-|SDK version|Supported API version of service |
-|-------------|---------------|
-|1.0.0-beta.1 | 2024-01-19-preview|
-|1.0.0 | 2024-05-01-ga|
 
 To use an [Azure Active Directory (AAD) token credential][token_credential],
 provide an instance of the desired credential type obtained from the [Azure Identity library][azure_identity].
