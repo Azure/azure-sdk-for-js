@@ -47,7 +47,7 @@ import {
   TenDlcCancelUSCampaignResponse,
   TenDlcGetUSBrandsNextResponse,
   TenDlcGetUSCampaignsNextResponse,
-  TenDlcGetCostsNextResponse
+  TenDlcGetCostsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,7 +65,7 @@ export class TenDlcImpl implements TenDlc {
 
   /** @param options The options parameters. */
   public listUSBrands(
-    options?: TenDlcGetUSBrandsOptionalParams
+    options?: TenDlcGetUSBrandsOptionalParams,
   ): PagedAsyncIterableIterator<USBrand> {
     const iter = this.getUSBrandsPagingAll(options);
     return {
@@ -80,13 +80,13 @@ export class TenDlcImpl implements TenDlc {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getUSBrandsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getUSBrandsPagingPage(
     options?: TenDlcGetUSBrandsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<USBrand[]> {
     let result: TenDlcGetUSBrandsResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class TenDlcImpl implements TenDlc {
   }
 
   private async *getUSBrandsPagingAll(
-    options?: TenDlcGetUSBrandsOptionalParams
+    options?: TenDlcGetUSBrandsOptionalParams,
   ): AsyncIterableIterator<USBrand> {
     for await (const page of this.getUSBrandsPagingPage(options)) {
       yield* page;
@@ -116,7 +116,7 @@ export class TenDlcImpl implements TenDlc {
 
   /** @param options The options parameters. */
   public listUSCampaigns(
-    options?: TenDlcGetUSCampaignsOptionalParams
+    options?: TenDlcGetUSCampaignsOptionalParams,
   ): PagedAsyncIterableIterator<USCampaign> {
     const iter = this.getUSCampaignsPagingAll(options);
     return {
@@ -131,13 +131,13 @@ export class TenDlcImpl implements TenDlc {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getUSCampaignsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getUSCampaignsPagingPage(
     options?: TenDlcGetUSCampaignsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<USCampaign[]> {
     let result: TenDlcGetUSCampaignsResponse;
     let continuationToken = settings?.continuationToken;
@@ -158,7 +158,7 @@ export class TenDlcImpl implements TenDlc {
   }
 
   private async *getUSCampaignsPagingAll(
-    options?: TenDlcGetUSCampaignsOptionalParams
+    options?: TenDlcGetUSCampaignsOptionalParams,
   ): AsyncIterableIterator<USCampaign> {
     for await (const page of this.getUSCampaignsPagingPage(options)) {
       yield* page;
@@ -170,7 +170,7 @@ export class TenDlcImpl implements TenDlc {
    * @param options The options parameters.
    */
   public listCosts(
-    options?: TenDlcGetCostsOptionalParams
+    options?: TenDlcGetCostsOptionalParams,
   ): PagedAsyncIterableIterator<TenDlcCost> {
     const iter = this.getCostsPagingAll(options);
     return {
@@ -185,13 +185,13 @@ export class TenDlcImpl implements TenDlc {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.getCostsPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *getCostsPagingPage(
     options?: TenDlcGetCostsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TenDlcCost[]> {
     let result: TenDlcGetCostsResponse;
     let continuationToken = settings?.continuationToken;
@@ -212,7 +212,7 @@ export class TenDlcImpl implements TenDlc {
   }
 
   private async *getCostsPagingAll(
-    options?: TenDlcGetCostsOptionalParams
+    options?: TenDlcGetCostsOptionalParams,
   ): AsyncIterableIterator<TenDlcCost> {
     for await (const page of this.getCostsPagingPage(options)) {
       yield* page;
@@ -227,7 +227,7 @@ export class TenDlcImpl implements TenDlc {
   async upsertUSBrand(
     brandId: string,
     id: string,
-    options?: TenDlcUpsertUSBrandOptionalParams
+    options?: TenDlcUpsertUSBrandOptionalParams,
   ): Promise<TenDlcUpsertUSBrandResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.upsertUSBrand",
@@ -235,9 +235,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { brandId, id, options },
-          upsertUSBrandOperationSpec
+          upsertUSBrandOperationSpec,
         ) as Promise<TenDlcUpsertUSBrandResponse>;
-      }
+      },
     );
   }
 
@@ -247,7 +247,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async deleteUSBrand(
     brandId: string,
-    options?: TenDlcDeleteUSBrandOptionalParams
+    options?: TenDlcDeleteUSBrandOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "TenDLCClient.deleteUSBrand",
@@ -255,9 +255,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { brandId, options },
-          deleteUSBrandOperationSpec
+          deleteUSBrandOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -267,7 +267,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async getUSBrand(
     brandId: string,
-    options?: TenDlcGetUSBrandOptionalParams
+    options?: TenDlcGetUSBrandOptionalParams,
   ): Promise<TenDlcGetUSBrandResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.getUSBrand",
@@ -275,9 +275,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { brandId, options },
-          getUSBrandOperationSpec
+          getUSBrandOperationSpec,
         ) as Promise<TenDlcGetUSBrandResponse>;
-      }
+      },
     );
   }
 
@@ -287,7 +287,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async submitUSBrand(
     brandId: string,
-    options?: TenDlcSubmitUSBrandOptionalParams
+    options?: TenDlcSubmitUSBrandOptionalParams,
   ): Promise<TenDlcSubmitUSBrandResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.submitUSBrand",
@@ -295,15 +295,15 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { brandId, options },
-          submitUSBrandOperationSpec
+          submitUSBrandOperationSpec,
         ) as Promise<TenDlcSubmitUSBrandResponse>;
-      }
+      },
     );
   }
 
   /** @param options The options parameters. */
   private async _getUSBrands(
-    options?: TenDlcGetUSBrandsOptionalParams
+    options?: TenDlcGetUSBrandsOptionalParams,
   ): Promise<TenDlcGetUSBrandsResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getUSBrands",
@@ -311,9 +311,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getUSBrandsOperationSpec
+          getUSBrandsOperationSpec,
         ) as Promise<TenDlcGetUSBrandsResponse>;
-      }
+      },
     );
   }
 
@@ -323,7 +323,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async cancelUSBrand(
     brandId: string,
-    options?: TenDlcCancelUSBrandOptionalParams
+    options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.cancelUSBrand",
@@ -331,9 +331,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { brandId, options },
-          cancelUSBrandOperationSpec
+          cancelUSBrandOperationSpec,
         ) as Promise<TenDlcCancelUSBrandResponse>;
-      }
+      },
     );
   }
 
@@ -345,7 +345,7 @@ export class TenDlcImpl implements TenDlc {
   async upsertUSCampaign(
     campaignId: string,
     id: string,
-    options?: TenDlcUpsertUSCampaignOptionalParams
+    options?: TenDlcUpsertUSCampaignOptionalParams,
   ): Promise<TenDlcUpsertUSCampaignResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.upsertUSCampaign",
@@ -353,9 +353,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { campaignId, id, options },
-          upsertUSCampaignOperationSpec
+          upsertUSCampaignOperationSpec,
         ) as Promise<TenDlcUpsertUSCampaignResponse>;
-      }
+      },
     );
   }
 
@@ -365,7 +365,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async deleteUSCampaign(
     campaignId: string,
-    options?: TenDlcDeleteUSCampaignOptionalParams
+    options?: TenDlcDeleteUSCampaignOptionalParams,
   ): Promise<void> {
     return tracingClient.withSpan(
       "TenDLCClient.deleteUSCampaign",
@@ -373,9 +373,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { campaignId, options },
-          deleteUSCampaignOperationSpec
+          deleteUSCampaignOperationSpec,
         ) as Promise<void>;
-      }
+      },
     );
   }
 
@@ -385,7 +385,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async getUSCampaign(
     campaignId: string,
-    options?: TenDlcGetUSCampaignOptionalParams
+    options?: TenDlcGetUSCampaignOptionalParams,
   ): Promise<TenDlcGetUSCampaignResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.getUSCampaign",
@@ -393,9 +393,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { campaignId, options },
-          getUSCampaignOperationSpec
+          getUSCampaignOperationSpec,
         ) as Promise<TenDlcGetUSCampaignResponse>;
-      }
+      },
     );
   }
 
@@ -405,7 +405,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async submitUSCampaign(
     campaignId: string,
-    options?: TenDlcSubmitUSCampaignOptionalParams
+    options?: TenDlcSubmitUSCampaignOptionalParams,
   ): Promise<TenDlcSubmitUSCampaignResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.submitUSCampaign",
@@ -413,15 +413,15 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { campaignId, options },
-          submitUSCampaignOperationSpec
+          submitUSCampaignOperationSpec,
         ) as Promise<TenDlcSubmitUSCampaignResponse>;
-      }
+      },
     );
   }
 
   /** @param options The options parameters. */
   private async _getUSCampaigns(
-    options?: TenDlcGetUSCampaignsOptionalParams
+    options?: TenDlcGetUSCampaignsOptionalParams,
   ): Promise<TenDlcGetUSCampaignsResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getUSCampaigns",
@@ -429,9 +429,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getUSCampaignsOperationSpec
+          getUSCampaignsOperationSpec,
         ) as Promise<TenDlcGetUSCampaignsResponse>;
-      }
+      },
     );
   }
 
@@ -441,7 +441,7 @@ export class TenDlcImpl implements TenDlc {
    */
   async cancelUSCampaign(
     campaignId: string,
-    options?: TenDlcCancelUSCampaignOptionalParams
+    options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse> {
     return tracingClient.withSpan(
       "TenDLCClient.cancelUSCampaign",
@@ -449,9 +449,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { campaignId, options },
-          cancelUSCampaignOperationSpec
+          cancelUSCampaignOperationSpec,
         ) as Promise<TenDlcCancelUSCampaignResponse>;
-      }
+      },
     );
   }
 
@@ -460,7 +460,7 @@ export class TenDlcImpl implements TenDlc {
    * @param options The options parameters.
    */
   private async _getCosts(
-    options?: TenDlcGetCostsOptionalParams
+    options?: TenDlcGetCostsOptionalParams,
   ): Promise<TenDlcGetCostsResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getCosts",
@@ -468,9 +468,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { options },
-          getCostsOperationSpec
+          getCostsOperationSpec,
         ) as Promise<TenDlcGetCostsResponse>;
-      }
+      },
     );
   }
 
@@ -481,7 +481,7 @@ export class TenDlcImpl implements TenDlc {
    */
   private async _getUSBrandsNext(
     nextLink: string,
-    options?: TenDlcGetUSBrandsNextOptionalParams
+    options?: TenDlcGetUSBrandsNextOptionalParams,
   ): Promise<TenDlcGetUSBrandsNextResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getUSBrandsNext",
@@ -489,9 +489,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getUSBrandsNextOperationSpec
+          getUSBrandsNextOperationSpec,
         ) as Promise<TenDlcGetUSBrandsNextResponse>;
-      }
+      },
     );
   }
 
@@ -502,7 +502,7 @@ export class TenDlcImpl implements TenDlc {
    */
   private async _getUSCampaignsNext(
     nextLink: string,
-    options?: TenDlcGetUSCampaignsNextOptionalParams
+    options?: TenDlcGetUSCampaignsNextOptionalParams,
   ): Promise<TenDlcGetUSCampaignsNextResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getUSCampaignsNext",
@@ -510,9 +510,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getUSCampaignsNextOperationSpec
+          getUSCampaignsNextOperationSpec,
         ) as Promise<TenDlcGetUSCampaignsNextResponse>;
-      }
+      },
     );
   }
 
@@ -523,7 +523,7 @@ export class TenDlcImpl implements TenDlc {
    */
   private async _getCostsNext(
     nextLink: string,
-    options?: TenDlcGetCostsNextOptionalParams
+    options?: TenDlcGetCostsNextOptionalParams,
   ): Promise<TenDlcGetCostsNextResponse> {
     return tracingClient.withSpan(
       "TenDLCClient._getCostsNext",
@@ -531,9 +531,9 @@ export class TenDlcImpl implements TenDlc {
       async (options) => {
         return this.client.sendOperationRequest(
           { nextLink, options },
-          getCostsNextOperationSpec
+          getCostsNextOperationSpec,
         ) as Promise<TenDlcGetCostsNextResponse>;
-      }
+      },
     );
   }
 }
@@ -545,14 +545,14 @@ const upsertUSBrandOperationSpec: coreClient.OperationSpec = {
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrand
+      bodyMapper: Mappers.USBrand,
     },
     201: {
-      bodyMapper: Mappers.USBrand
+      bodyMapper: Mappers.USBrand,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
@@ -562,15 +562,15 @@ const upsertUSBrandOperationSpec: coreClient.OperationSpec = {
       costs: ["options", "costs"],
       submissionDate: ["options", "submissionDate"],
       reviewNotes: ["options", "reviewNotes"],
-      brandDetails: ["options", "brandDetails"]
+      brandDetails: ["options", "brandDetails"],
     },
-    mapper: { ...Mappers.USBrand, required: true }
+    mapper: { ...Mappers.USBrand, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.brandId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteUSBrandOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands/{brandId}",
@@ -578,96 +578,96 @@ const deleteUSBrandOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.brandId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSBrandOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands/{brandId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrand
+      bodyMapper: Mappers.USBrand,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.brandId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const submitUSBrandOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands/{brandId}:submit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrand
+      bodyMapper: Mappers.USBrand,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.brandId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSBrandsOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrands
+      bodyMapper: Mappers.USBrands,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.top,
-    Parameters.filter
+    Parameters.filter,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelUSBrandOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/brands/{brandId}:cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrand
+      bodyMapper: Mappers.USBrand,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.brandId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const upsertUSCampaignOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns/{campaignId}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaign
+      bodyMapper: Mappers.USCampaign,
     },
     201: {
-      bodyMapper: Mappers.USCampaign
+      bodyMapper: Mappers.USCampaign,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   requestBody: {
     parameterPath: {
@@ -680,15 +680,15 @@ const upsertUSCampaignOperationSpec: coreClient.OperationSpec = {
       reviewNotes: ["options", "reviewNotes"],
       phoneNumberCount: ["options", "phoneNumberCount"],
       campaignDetails: ["options", "campaignDetails"],
-      messageDetails: ["options", "messageDetails"]
+      messageDetails: ["options", "messageDetails"],
     },
-    mapper: { ...Mappers.USCampaign, required: true }
+    mapper: { ...Mappers.USCampaign, required: true },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteUSCampaignOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns/{campaignId}",
@@ -696,141 +696,141 @@ const deleteUSCampaignOperationSpec: coreClient.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSCampaignOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns/{campaignId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaign
+      bodyMapper: Mappers.USCampaign,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const submitUSCampaignOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns/{campaignId}:submit",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaign
+      bodyMapper: Mappers.USCampaign,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSCampaignsOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaigns
+      bodyMapper: Mappers.USCampaigns,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.skip,
     Parameters.top,
-    Parameters.filter
+    Parameters.filter,
   ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const cancelUSCampaignOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/countries/US/campaigns/{campaignId}:cancel",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaign
+      bodyMapper: Mappers.USCampaign,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.campaignId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCostsOperationSpec: coreClient.OperationSpec = {
   path: "/tendlc/costs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenDlcCosts
+      bodyMapper: Mappers.TenDlcCosts,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSBrandsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USBrands
+      bodyMapper: Mappers.USBrands,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getUSCampaignsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.USCampaigns
+      bodyMapper: Mappers.USCampaigns,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getCostsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TenDlcCosts
+      bodyMapper: Mappers.TenDlcCosts,
     },
     default: {
-      bodyMapper: Mappers.CommunicationErrorResponse
-    }
+      bodyMapper: Mappers.CommunicationErrorResponse,
+    },
   },
   urlParameters: [Parameters.endpoint, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -17,20 +17,20 @@ export const USBrand: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       statusUpdatedDate: {
         serializedName: "statusUpdatedDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       costs: {
         serializedName: "costs",
@@ -39,16 +39,16 @@ export const USBrand: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TenDlcCost"
-            }
-          }
-        }
+              className: "TenDlcCost",
+            },
+          },
+        },
       },
       submissionDate: {
         serializedName: "submissionDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       reviewNotes: {
         serializedName: "reviewNotes",
@@ -57,20 +57,20 @@ export const USBrand: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReviewNote"
-            }
-          }
-        }
+              className: "ReviewNote",
+            },
+          },
+        },
       },
       brandDetails: {
         serializedName: "brandDetails",
         type: {
           name: "Composite",
-          className: "BrandDetails"
-        }
-      }
-    }
-  }
+          className: "BrandDetails",
+        },
+      },
+    },
+  },
 };
 
 export const TenDlcCost: coreClient.CompositeMapper = {
@@ -81,35 +81,35 @@ export const TenDlcCost: coreClient.CompositeMapper = {
       type: {
         serializedName: "type",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       amount: {
         serializedName: "amount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       currencyCode: {
         serializedName: "currencyCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       countryCode: {
         serializedName: "countryCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       billingFrequency: {
         serializedName: "billingFrequency",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ReviewNote: coreClient.CompositeMapper = {
@@ -120,17 +120,17 @@ export const ReviewNote: coreClient.CompositeMapper = {
       message: {
         serializedName: "message",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       date: {
         serializedName: "date",
         type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
+          name: "DateTime",
+        },
+      },
+    },
+  },
 };
 
 export const BrandDetails: coreClient.CompositeMapper = {
@@ -141,85 +141,85 @@ export const BrandDetails: coreClient.CompositeMapper = {
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       companyName: {
         serializedName: "companyName",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       companyVertical: {
         serializedName: "companyVertical",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       contactInformation: {
         serializedName: "contactInformation",
         type: {
           name: "Composite",
-          className: "ContactInformation"
-        }
+          className: "ContactInformation",
+        },
       },
       address: {
         serializedName: "address",
         type: {
           name: "Composite",
-          className: "Address"
-        }
+          className: "Address",
+        },
       },
       entityType: {
         serializedName: "entityType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       stockExchange: {
         serializedName: "stockExchange",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       stockSymbol: {
         serializedName: "stockSymbol",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       alternateBusinessIdType: {
         serializedName: "alternateBusinessIdType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       alternateBusinessId: {
         serializedName: "alternateBusinessId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       taxNumber: {
         serializedName: "taxNumber",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       taxNumberIssuingCountry: {
         serializedName: "taxNumberIssuingCountry",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       url: {
         serializedName: "url",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ContactInformation: coreClient.CompositeMapper = {
@@ -230,17 +230,17 @@ export const ContactInformation: coreClient.CompositeMapper = {
       phone: {
         serializedName: "phone",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       email: {
         serializedName: "email",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const Address: coreClient.CompositeMapper = {
@@ -251,41 +251,41 @@ export const Address: coreClient.CompositeMapper = {
       line1: {
         serializedName: "line1",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       line2: {
         serializedName: "line2",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       city: {
         serializedName: "city",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       state: {
         serializedName: "state",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       postalCode: {
         serializedName: "postalCode",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       country: {
         serializedName: "country",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const CommunicationErrorResponse: coreClient.CompositeMapper = {
@@ -297,11 +297,11 @@ export const CommunicationErrorResponse: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
+          className: "CommunicationError",
+        },
+      },
+    },
+  },
 };
 
 export const CommunicationError: coreClient.CompositeMapper = {
@@ -313,22 +313,22 @@ export const CommunicationError: coreClient.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -338,20 +338,20 @@ export const CommunicationError: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CommunicationError"
-            }
-          }
-        }
+              className: "CommunicationError",
+            },
+          },
+        },
       },
       innerError: {
         serializedName: "innererror",
         type: {
           name: "Composite",
-          className: "CommunicationError"
-        }
-      }
-    }
-  }
+          className: "CommunicationError",
+        },
+      },
+    },
+  },
 };
 
 export const USBrands: coreClient.CompositeMapper = {
@@ -366,19 +366,19 @@ export const USBrands: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "USBrand"
-            }
-          }
-        }
+              className: "USBrand",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const USCampaign: coreClient.CompositeMapper = {
@@ -390,26 +390,26 @@ export const USCampaign: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       brandId: {
         serializedName: "brandId",
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       status: {
         serializedName: "status",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       statusUpdatedDate: {
         serializedName: "statusUpdatedDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       costs: {
         serializedName: "costs",
@@ -418,16 +418,16 @@ export const USCampaign: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TenDlcCost"
-            }
-          }
-        }
+              className: "TenDlcCost",
+            },
+          },
+        },
       },
       submissionDate: {
         serializedName: "submissionDate",
         type: {
-          name: "DateTime"
-        }
+          name: "DateTime",
+        },
       },
       reviewNotes: {
         serializedName: "reviewNotes",
@@ -436,33 +436,33 @@ export const USCampaign: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ReviewNote"
-            }
-          }
-        }
+              className: "ReviewNote",
+            },
+          },
+        },
       },
       phoneNumberCount: {
         serializedName: "phoneNumberCount",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       campaignDetails: {
         serializedName: "campaignDetails",
         type: {
           name: "Composite",
-          className: "CampaignDetails"
-        }
+          className: "CampaignDetails",
+        },
       },
       messageDetails: {
         serializedName: "messageDetails",
         type: {
           name: "Composite",
-          className: "MessageDetails"
-        }
-      }
-    }
-  }
+          className: "MessageDetails",
+        },
+      },
+    },
+  },
 };
 
 export const CampaignDetails: coreClient.CompositeMapper = {
@@ -473,17 +473,17 @@ export const CampaignDetails: coreClient.CompositeMapper = {
       callToAction: {
         serializedName: "callToAction",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const MessageDetails: coreClient.CompositeMapper = {
@@ -495,77 +495,77 @@ export const MessageDetails: coreClient.CompositeMapper = {
         serializedName: "useCase",
         type: {
           name: "Composite",
-          className: "UseCase"
-        }
+          className: "UseCase",
+        },
       },
       helpAnswerToUserRequired: {
         serializedName: "helpAnswerToUserRequired",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       helpAnswerToUser: {
         serializedName: "helpAnswerToUser",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       optOutAnswerToUserRequired: {
         serializedName: "optOutAnswerToUserRequired",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       optOutAnswerToUser: {
         serializedName: "optOutAnswerToUser",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       optInMessageToUserRequired: {
         serializedName: "optInMessageToUserRequired",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       optInMessageToUser: {
         serializedName: "optInMessageToUser",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       hasEmbeddedLink: {
         serializedName: "hasEmbeddedLink",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       hasEmbeddedPhone: {
         serializedName: "hasEmbeddedPhone",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       termsAndConditionsAccepted: {
         serializedName: "termsAndConditionsAccepted",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       hasAgeGatedContent: {
         serializedName: "hasAgeGatedContent",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       hasDirectLending: {
         serializedName: "hasDirectLending",
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const UseCase: coreClient.CompositeMapper = {
@@ -576,8 +576,8 @@ export const UseCase: coreClient.CompositeMapper = {
       contentType: {
         serializedName: "contentType",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       subContentTypes: {
         serializedName: "subContentTypes",
@@ -587,20 +587,20 @@ export const UseCase: coreClient.CompositeMapper = {
             type: {
               name: "Enum",
               allowedValues: [
-                "twoFactorAuthentication",
-                "accountNotification",
-                "customerCare",
-                "deliveryNotification",
-                "fraudAlert",
-                "higherEducation",
-                "marketing",
-                "pollingVoting",
-                "publicServiceAnnouncement",
-                "securityAlert"
-              ]
-            }
-          }
-        }
+                "TwoFactorAuthentication",
+                "AccountNotification",
+                "CustomerCare",
+                "DeliveryNotification",
+                "FraudAlert",
+                "HigherEducation",
+                "Marketing",
+                "PollingVoting",
+                "PublicServiceAnnouncement",
+                "SecurityAlert",
+              ],
+            },
+          },
+        },
       },
       sampleMessages: {
         serializedName: "sampleMessages",
@@ -608,13 +608,13 @@ export const UseCase: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const USCampaigns: coreClient.CompositeMapper = {
@@ -629,19 +629,19 @@ export const USCampaigns: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "USCampaign"
-            }
-          }
-        }
+              className: "USCampaign",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const TenDlcCosts: coreClient.CompositeMapper = {
@@ -656,17 +656,17 @@ export const TenDlcCosts: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "TenDlcCost"
-            }
-          }
-        }
+              className: "TenDlcCost",
+            },
+          },
+        },
       },
       nextLink: {
         serializedName: "nextLink",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

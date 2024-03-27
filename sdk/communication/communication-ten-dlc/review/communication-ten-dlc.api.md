@@ -21,10 +21,10 @@ export interface Address {
 }
 
 // @public
-export type AlternateBusinessIdType = "DUNS" | "LEI" | "GIIN";
+export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
 
 // @public
-export type BillingFrequency = "monthly" | "once";
+export type BillingFrequency = "Monthly" | "Once";
 
 // @public (undocumented)
 export interface BrandDetails {
@@ -141,7 +141,7 @@ export interface ReviewNote {
 export type StockExchange = "Nasdaq" | "Nyse" | "Amex" | "Amx" | "Asx" | "B3" | "Bme" | "Bse" | "Fra" | "Icex" | "Jpx" | "Jse" | "Krx" | "Lon" | "Nse" | "Omx" | "Sehk" | "Sgx" | "Sse" | "Sto" | "Swx" | "Szse" | "Tsx" | "Twse" | "Vse" | "Other";
 
 // @public
-export type SubContentType = "twoFactorAuthentication" | "accountNotification" | "customerCare" | "deliveryNotification" | "fraudAlert" | "higherEducation" | "marketing" | "pollingVoting" | "publicServiceAnnouncement" | "securityAlert";
+export type SubContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "Marketing" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
 
 // @public
 export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalParams {
@@ -151,11 +151,29 @@ export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalPa
 export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {
 }
 
+// @public
+export interface TenDlcCancelUSBrandOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenDlcCancelUSBrandResponse = USBrand;
+
+// @public
+export interface TenDlcCancelUSCampaignOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenDlcCancelUSCampaignResponse = USCampaign;
+
 // @public (undocumented)
 export class TenDlcClient {
     constructor(connectionString: string, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TenDlcClientOptions);
+    // (undocumented)
+    cancelUSBrand(brandId: string, options?: TenDlcCancelUSBrandOptionalParams): Promise<TenDlcCancelUSBrandResponse>;
+    // (undocumented)
+    cancelUSCampaign(campaignId: string, options?: TenDlcCancelUSCampaignOptionalParams): Promise<TenDlcCancelUSCampaignResponse>;
     // (undocumented)
     deleteUSBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
     // (undocumented)
@@ -200,7 +218,7 @@ export interface TenDlcCosts {
 }
 
 // @public
-export type TenDlcCostType = "brand" | "standardCampaign";
+export type TenDlcCostType = "Brand" | "StandardCampaign";
 
 // @public
 export interface TenDlcDeleteUSBrandOptionalParams extends coreClient.OperationOptions {
