@@ -4,13 +4,14 @@
 import { Context } from "mocha";
 import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
 import { ClientOptions } from "@azure-rest/core-client";
-import { createTestCredential } from "@azure-tools/test-credential";
+// import { createTestCredential } from "@azure-tools/test-credential";
 import BatchServiceClient, { BatchClient } from "../../../src";
 import {
   fakeTestPasswordPlaceholder1,
   fakeAzureBatchAccount,
   fakeAzureBatchEndpoint,
 } from "./fakeTestSecrets";
+import { DefaultAzureCredential } from "@azure/identity";
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: {
@@ -63,10 +64,10 @@ export function createBatchClient(
   recorder?: Recorder,
   options: ClientOptions = {}
 ): BatchClient {
-  let credential;
+  // let credential;
   switch (authMethod) {
     case "AAD": {
-      credential = createTestCredential();
+      // credential = createTestCredential();
       break;
     }
     // case "DummyAPIKey": {
@@ -84,7 +85,7 @@ export function createBatchClient(
 
   return BatchServiceClient(
     env.AZURE_BATCH_ENDPOINT! || "https://dummy.eastus.batch.azure.com",
-    credential,
+    new DefaultAzureCredential(),
     recorder ? recorder.configureClientOptions({ ...options }) : options
   );
 }

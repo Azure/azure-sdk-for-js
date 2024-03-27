@@ -7,14 +7,14 @@
         "Accept": "application/json",
         "Accept-Encoding": "gzip,deflate",
         "Authorization": "Sanitized",
-        "client-request-id": "8508a96c-6f09-475a-9acc-17fa79f9fa56",
+        "client-request-id": "2576f127-9f48-422a-9f3e-3ed93545241c",
         "Connection": "keep-alive",
         "Content-Length": "784",
         "Content-Type": "application/json; odata=minimalmetadata",
         "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
       },
       "RequestBody": {
-        "id": "JSSDKTest-Pool-AutoOSUpgrade-9b27",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-3457",
         "vmSize": "Standard_D2s_v3",
         "virtualMachineConfiguration": {
           "imageReference": {
@@ -29,9 +29,9 @@
         },
         "upgradePolicy": {
           "mode": "automatic",
-          "automaticOsUpgradePolicy": {
+          "automaticOSUpgradePolicy": {
             "disableAutomaticRollback": true,
-            "enableAutomaticOsUpgrade": true,
+            "enableAutomaticOSUpgrade": true,
             "useRollingUpgradePolicy": true,
             "osRollingUpgradeDeferral": true
           },
@@ -47,34 +47,128 @@
         },
         "targetDedicatedNodes": 0
       },
-      "StatusCode": 400,
+      "StatusCode": 201,
       "ResponseHeaders": {
-        "Content-Length": "581",
-        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceId": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
         "DataServiceVersion": "3.0",
-        "Date": "Tue, 26 Mar 2024 02:05:44 GMT",
-        "request-id": "e2cd15dd-2448-476b-9010-672de1bc6580",
+        "Date": "Wed, 27 Mar 2024 19:51:25 GMT",
+        "ETag": "0x8DC4E97494ED9EE",
+        "Last-Modified": "Wed, 27 Mar 2024 19:51:25 GMT",
+        "Location": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
+        "request-id": "dd7e8f34-46db-494a-9a8e-5905f817e2de",
         "Server": "Microsoft-HTTPAPI/2.0",
         "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457?api-version=2024-02-01.19.0",
+      "RequestMethod": "GET",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "5e784dd3-31e0-427c-80ba-e8dc72f3b19d",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": null,
+      "StatusCode": 200,
+      "ResponseHeaders": {
+        "Content-Type": "application/json; odata=minimalmetadata",
+        "DataServiceVersion": "3.0",
+        "Date": "Wed, 27 Mar 2024 19:51:26 GMT",
+        "ETag": "0x8DC4E97494ED9EE",
+        "Last-Modified": "Wed, 27 Mar 2024 19:51:25 GMT",
+        "request-id": "f3f632bc-82a6-45c8-aa8e-efc77c4fcc28",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
         "X-Content-Type-Options": "nosniff"
       },
       "ResponseBody": {
-        "odata.metadata": "https://endpoint/$metadata#Microsoft.Azure.Batch.Protocol.Entities.Container.errors/@Element",
-        "code": "InvalidRequestBody",
-        "message": {
-          "lang": "en-US",
-          "value": "The specified Request Body is not syntactically valid.\nRequestId:e2cd15dd-2448-476b-9010-672de1bc6580\nTime:2024-03-26T02:05:44.2232965Z"
+        "odata.metadata": "https://endpoint/$metadata#pools/@Element",
+        "id": "JSSDKTest-Pool-AutoOSUpgrade-3457",
+        "url": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457",
+        "eTag": "0x8DC4E97494ED9EE",
+        "lastModified": "2024-03-27T19:51:25.6700398Z",
+        "creationTime": "2024-03-27T19:51:25.6700383Z",
+        "state": "active",
+        "stateTransitionTime": "2024-03-27T19:51:25.6700383Z",
+        "allocationState": "resizing",
+        "allocationStateTransitionTime": "2024-03-27T19:51:25.6700398Z",
+        "vmSize": "standard_d2s_v3",
+        "resizeTimeout": "PT15M",
+        "currentDedicatedNodes": 0,
+        "targetDedicatedNodes": 0,
+        "currentLowPriorityNodes": 0,
+        "targetLowPriorityNodes": 0,
+        "enableAutoScale": false,
+        "enableInterNodeCommunication": false,
+        "taskSlotsPerNode": 1,
+        "taskSchedulingPolicy": {
+          "nodeFillType": "Spread"
         },
-        "values": [
-          {
-            "key": "Reason",
-            "value": "The property \u0027automaticOsUpgradePolicy\u0027 does not exist on type \u0027Microsoft.Azure.Batch.Protocol.Entities.UpgradePolicy\u0027. Make sure to only use property names that are defined by the type."
+        "virtualMachineConfiguration": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "0001-com-ubuntu-server-jammy",
+            "sku": "22_04-lts",
+            "version": "latest"
+          },
+          "nodeAgentSKUId": "batch.node.ubuntu 22.04",
+          "nodePlacementConfiguration": {
+            "policy": "Zonal"
           }
-        ]
+        },
+        "upgradePolicy": {
+          "mode": "automatic",
+          "automaticOSUpgradePolicy": {
+            "disableAutomaticRollback": true,
+            "enableAutomaticOSUpgrade": true,
+            "useRollingUpgradePolicy": true,
+            "osRollingUpgradeDeferral": true
+          },
+          "rollingUpgradePolicy": {
+            "enableCrossZoneUpgrade": true,
+            "maxBatchInstancePercent": 20,
+            "maxUnhealthyInstancePercent": 20,
+            "maxUnhealthyUpgradedInstancePercent": 20,
+            "pauseTimeBetweenBatches": "PT0S",
+            "prioritizeUnhealthyInstances": false,
+            "rollbackFailedInstancesOnPolicyBreach": false
+          }
+        }
       }
+    },
+    {
+      "RequestUri": "https://endpoint/pools/JSSDKTest-Pool-AutoOSUpgrade-3457?api-version=2024-02-01.19.0",
+      "RequestMethod": "DELETE",
+      "RequestHeaders": {
+        "Accept": "application/json",
+        "Accept-Encoding": "gzip,deflate",
+        "Authorization": "Sanitized",
+        "client-request-id": "586004db-87f5-499c-9614-89e61fc7d5a7",
+        "Connection": "keep-alive",
+        "User-Agent": "azsdk-js-batch-rest/1.0.0-beta.1 core-rest-pipeline/1.15.2 Node/20.11.0 OS/(x64-Darwin-23.4.0)"
+      },
+      "RequestBody": null,
+      "StatusCode": 202,
+      "ResponseHeaders": {
+        "DataServiceVersion": "3.0",
+        "Date": "Wed, 27 Mar 2024 19:51:27 GMT",
+        "request-id": "dfbda47c-65bb-4ec8-8692-bf4cd2fbcd62",
+        "Server": "Microsoft-HTTPAPI/2.0",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "Transfer-Encoding": "chunked",
+        "X-Content-Type-Options": "nosniff"
+      },
+      "ResponseBody": null
     }
   ],
   "Variables": {
-    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-9b27"
+    "AUTO_OS_UPGRADE_POOL": "JSSDKTest-Pool-AutoOSUpgrade-3457"
   }
 }

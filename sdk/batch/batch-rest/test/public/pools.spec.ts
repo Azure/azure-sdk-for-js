@@ -714,9 +714,9 @@ describe("Pool Operations Test", () => {
         },
         upgradePolicy: {
           mode: "automatic",
-          automaticOsUpgradePolicy: {
+          automaticOSUpgradePolicy: {
             disableAutomaticRollback: true,
-            enableAutomaticOsUpgrade: true,
+            enableAutomaticOSUpgrade: true,
             useRollingUpgradePolicy: true,
             osRollingUpgradeDeferral: true,
           },
@@ -749,9 +749,9 @@ describe("Pool Operations Test", () => {
       }
       const upgradePolicy = res.body.upgradePolicy!;
       assert.equal(upgradePolicy.mode, "automatic");
-      assert.deepEqual(upgradePolicy.automaticOsUpgradePolicy!, {
+      assert.deepEqual(upgradePolicy.automaticOSUpgradePolicy!, {
         disableAutomaticRollback: true,
-        enableAutomaticOsUpgrade: true,
+        enableAutomaticOSUpgrade: true,
         useRollingUpgradePolicy: true,
         osRollingUpgradeDeferral: true,
       });
