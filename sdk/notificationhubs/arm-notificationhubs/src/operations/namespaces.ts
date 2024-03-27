@@ -13,16 +13,20 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { NotificationHubsManagementClient } from "../notificationHubsManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   NamespaceResource,
-  NamespacesListNextOptionalParams,
-  NamespacesListOptionalParams,
-  NamespacesListResponse,
   NamespacesListAllNextOptionalParams,
   NamespacesListAllOptionalParams,
   NamespacesListAllResponse,
+  NamespacesListNextOptionalParams,
+  NamespacesListOptionalParams,
+  NamespacesListResponse,
   SharedAccessAuthorizationRuleResource,
   NamespacesListAuthorizationRulesNextOptionalParams,
   NamespacesListAuthorizationRulesOptionalParams,
@@ -30,16 +34,14 @@ import {
   CheckAvailabilityParameters,
   NamespacesCheckAvailabilityOptionalParams,
   NamespacesCheckAvailabilityResponse,
-  NamespaceCreateOrUpdateParameters,
+  NamespacesGetOptionalParams,
+  NamespacesGetResponse,
   NamespacesCreateOrUpdateOptionalParams,
   NamespacesCreateOrUpdateResponse,
   NamespacePatchParameters,
-  NamespacesPatchOptionalParams,
-  NamespacesPatchResponse,
+  NamespacesUpdateOptionalParams,
+  NamespacesUpdateResponse,
   NamespacesDeleteOptionalParams,
-  NamespacesGetOptionalParams,
-  NamespacesGetResponse,
-  SharedAccessAuthorizationRuleCreateOrUpdateParameters,
   NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   NamespacesCreateOrUpdateAuthorizationRuleResponse,
   NamespacesDeleteAuthorizationRuleOptionalParams,
@@ -47,12 +49,14 @@ import {
   NamespacesGetAuthorizationRuleResponse,
   NamespacesListKeysOptionalParams,
   NamespacesListKeysResponse,
-  PolicykeyResource,
+  PolicyKeyResource,
   NamespacesRegenerateKeysOptionalParams,
   NamespacesRegenerateKeysResponse,
-  NamespacesListNextResponse,
+  NamespacesGetPnsCredentialsOptionalParams,
+  NamespacesGetPnsCredentialsResponse,
   NamespacesListAllNextResponse,
-  NamespacesListAuthorizationRulesNextResponse
+  NamespacesListNextResponse,
+  NamespacesListAuthorizationRulesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -69,74 +73,11 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
-   * Lists the available namespaces within a resourceGroup.
-   * @param resourceGroupName The name of the resource group. If resourceGroupName value is null the
-   *                          method lists all the namespaces within subscription
-   * @param options The options parameters.
-   */
-  public list(
-    resourceGroupName: string,
-    options?: NamespacesListOptionalParams
-  ): PagedAsyncIterableIterator<NamespaceResource> {
-    const iter = this.listPagingAll(resourceGroupName, options);
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listPagingPage(resourceGroupName, options, settings);
-      }
-    };
-  }
-
-  private async *listPagingPage(
-    resourceGroupName: string,
-    options?: NamespacesListOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<NamespaceResource[]> {
-    let result: NamespacesListResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._list(resourceGroupName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listNext(
-        resourceGroupName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listPagingAll(
-    resourceGroupName: string,
-    options?: NamespacesListOptionalParams
-  ): AsyncIterableIterator<NamespaceResource> {
-    for await (const page of this.listPagingPage(resourceGroupName, options)) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists all the available namespaces within the subscription irrespective of the resourceGroups.
+   * Lists all the available namespaces within the subscription.
    * @param options The options parameters.
    */
   public listAll(
-    options?: NamespacesListAllOptionalParams
+    options?: NamespacesListAllOptionalParams,
   ): PagedAsyncIterableIterator<NamespaceResource> {
     const iter = this.listAllPagingAll(options);
     return {
@@ -151,13 +92,13 @@ export class NamespacesImpl implements Namespaces {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listAllPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listAllPagingPage(
     options?: NamespacesListAllOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<NamespaceResource[]> {
     let result: NamespacesListAllResponse;
     let continuationToken = settings?.continuationToken;
@@ -178,7 +119,7 @@ export class NamespacesImpl implements Namespaces {
   }
 
   private async *listAllPagingAll(
-    options?: NamespacesListAllOptionalParams
+    options?: NamespacesListAllOptionalParams,
   ): AsyncIterableIterator<NamespaceResource> {
     for await (const page of this.listAllPagingPage(options)) {
       yield* page;
@@ -186,20 +127,82 @@ export class NamespacesImpl implements Namespaces {
   }
 
   /**
+   * Lists the available namespaces within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  public list(
+    resourceGroupName: string,
+    options?: NamespacesListOptionalParams,
+  ): PagedAsyncIterableIterator<NamespaceResource> {
+    const iter = this.listPagingAll(resourceGroupName, options);
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listPagingPage(resourceGroupName, options, settings);
+      },
+    };
+  }
+
+  private async *listPagingPage(
+    resourceGroupName: string,
+    options?: NamespacesListOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<NamespaceResource[]> {
+    let result: NamespacesListResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._list(resourceGroupName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listNext(
+        resourceGroupName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listPagingAll(
+    resourceGroupName: string,
+    options?: NamespacesListOptionalParams,
+  ): AsyncIterableIterator<NamespaceResource> {
+    for await (const page of this.listPagingPage(resourceGroupName, options)) {
+      yield* page;
+    }
+  }
+
+  /**
    * Gets the authorization rules for a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   public listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<SharedAccessAuthorizationRuleResource> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -216,9 +219,9 @@ export class NamespacesImpl implements Namespaces {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -226,7 +229,7 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     options?: NamespacesListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SharedAccessAuthorizationRuleResource[]> {
     let result: NamespacesListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -234,7 +237,7 @@ export class NamespacesImpl implements Namespaces {
       result = await this._listAuthorizationRules(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -246,7 +249,7 @@ export class NamespacesImpl implements Namespaces {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -258,12 +261,12 @@ export class NamespacesImpl implements Namespaces {
   private async *listAuthorizationRulesPagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<SharedAccessAuthorizationRuleResource> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -272,87 +275,70 @@ export class NamespacesImpl implements Namespaces {
   /**
    * Checks the availability of the given service namespace across all Azure subscriptions. This is
    * useful because the domain name is created based on the service namespace name.
-   * @param parameters The namespace name.
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   checkAvailability(
     parameters: CheckAvailabilityParameters,
-    options?: NamespacesCheckAvailabilityOptionalParams
+    options?: NamespacesCheckAvailabilityOptionalParams,
   ): Promise<NamespacesCheckAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      checkAvailabilityOperationSpec
+      checkAvailabilityOperationSpec,
     );
   }
 
   /**
-   * Creates/Updates a service namespace. Once created, this namespace's resource manifest is immutable.
-   * This operation is idempotent.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters Parameters supplied to create a Namespace Resource.
+   * Returns the given namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
-  createOrUpdate(
+  get(
     resourceGroupName: string,
     namespaceName: string,
-    parameters: NamespaceCreateOrUpdateParameters,
-    options?: NamespacesCreateOrUpdateOptionalParams
-  ): Promise<NamespacesCreateOrUpdateResponse> {
+    options?: NamespacesGetOptionalParams,
+  ): Promise<NamespacesGetResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, parameters, options },
-      createOrUpdateOperationSpec
+      { resourceGroupName, namespaceName, options },
+      getOperationSpec,
     );
   }
 
   /**
-   * Patches the existing namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param parameters Parameters supplied to patch a Namespace Resource.
+   * Creates / Updates a Notification Hub namespace. This operation is idempotent.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
-  patch(
+  async beginCreateOrUpdate(
     resourceGroupName: string,
     namespaceName: string,
-    parameters: NamespacePatchParameters,
-    options?: NamespacesPatchOptionalParams
-  ): Promise<NamespacesPatchResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, namespaceName, parameters, options },
-      patchOperationSpec
-    );
-  }
-
-  /**
-   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
-   * namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param options The options parameters.
-   */
-  async beginDelete(
-    resourceGroupName: string,
-    namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<NamespacesCreateOrUpdateResponse>,
+      NamespacesCreateOrUpdateResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<NamespacesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -361,8 +347,8 @@ export class NamespacesImpl implements Namespaces {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -370,75 +356,126 @@ export class NamespacesImpl implements Namespaces {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, namespaceName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, namespaceName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      NamespacesCreateOrUpdateResponse,
+      OperationState<NamespacesCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
-   * namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * Creates / Updates a Notification Hub namespace. This operation is idempotent.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
-  async beginDeleteAndWait(
+  async beginCreateOrUpdateAndWait(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesDeleteOptionalParams
-  ): Promise<void> {
-    const poller = await this.beginDelete(
+    parameters: NamespaceResource,
+    options?: NamespacesCreateOrUpdateOptionalParams,
+  ): Promise<NamespacesCreateOrUpdateResponse> {
+    const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       namespaceName,
-      options
+      parameters,
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Returns the description for the specified namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
+   * Patches the existing namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
-  get(
+  update(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesGetOptionalParams
-  ): Promise<NamespacesGetResponse> {
+    parameters: NamespacePatchParameters,
+    options?: NamespacesUpdateOptionalParams,
+  ): Promise<NamespacesUpdateResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, namespaceName, parameters, options },
+      updateOperationSpec,
+    );
+  }
+
+  /**
+   * Deletes an existing namespace. This operation also removes all associated notificationHubs under the
+   * namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param options The options parameters.
+   */
+  delete(
+    resourceGroupName: string,
+    namespaceName: string,
+    options?: NamespacesDeleteOptionalParams,
+  ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      getOperationSpec
+      deleteOperationSpec,
+    );
+  }
+
+  /**
+   * Lists all the available namespaces within the subscription.
+   * @param options The options parameters.
+   */
+  private _listAll(
+    options?: NamespacesListAllOptionalParams,
+  ): Promise<NamespacesListAllResponse> {
+    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
+  }
+
+  /**
+   * Lists the available namespaces within a resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param options The options parameters.
+   */
+  private _list(
+    resourceGroupName: string,
+    options?: NamespacesListOptionalParams,
+  ): Promise<NamespacesListResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, options },
+      listOperationSpec,
     );
   }
 
   /**
    * Creates an authorization rule for a namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName Authorization Rule Name.
-   * @param parameters The shared access authorization rule.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   createOrUpdateAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    parameters: SharedAccessAuthorizationRuleCreateOrUpdateParameters,
-    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams
+    parameters: SharedAccessAuthorizationRuleResource,
+    options?: NamespacesCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<NamespacesCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -446,128 +483,100 @@ export class NamespacesImpl implements Namespaces {
         namespaceName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Deletes a namespace authorization rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName Authorization Rule Name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   deleteAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesDeleteAuthorizationRuleOptionalParams
+    options?: NamespacesDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, authorizationRuleName, options },
-      deleteAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
   /**
    * Gets an authorization rule for a namespace by name.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
-   * @param authorizationRuleName Authorization rule name.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   getAuthorizationRule(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesGetAuthorizationRuleOptionalParams
+    options?: NamespacesGetAuthorizationRuleOptionalParams,
   ): Promise<NamespacesGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, authorizationRuleName, options },
-      getAuthorizationRuleOperationSpec
+      getAuthorizationRuleOperationSpec,
     );
-  }
-
-  /**
-   * Lists the available namespaces within a resourceGroup.
-   * @param resourceGroupName The name of the resource group. If resourceGroupName value is null the
-   *                          method lists all the namespaces within subscription
-   * @param options The options parameters.
-   */
-  private _list(
-    resourceGroupName: string,
-    options?: NamespacesListOptionalParams
-  ): Promise<NamespacesListResponse> {
-    return this.client.sendOperationRequest(
-      { resourceGroupName, options },
-      listOperationSpec
-    );
-  }
-
-  /**
-   * Lists all the available namespaces within the subscription irrespective of the resourceGroups.
-   * @param options The options parameters.
-   */
-  private _listAll(
-    options?: NamespacesListAllOptionalParams
-  ): Promise<NamespacesListAllResponse> {
-    return this.client.sendOperationRequest({ options }, listAllOperationSpec);
   }
 
   /**
    * Gets the authorization rules for a namespace.
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
   private _listAuthorizationRules(
     resourceGroupName: string,
     namespaceName: string,
-    options?: NamespacesListAuthorizationRulesOptionalParams
+    options?: NamespacesListAuthorizationRulesOptionalParams,
   ): Promise<NamespacesListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
     );
   }
 
   /**
-   * Gets the Primary and Secondary ConnectionStrings to the namespace
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName The connection string of the namespace for the specified
-   *                              authorizationRule.
+   * Gets the Primary and Secondary ConnectionStrings to the namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
    * @param options The options parameters.
    */
   listKeys(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    options?: NamespacesListKeysOptionalParams
+    options?: NamespacesListKeysOptionalParams,
   ): Promise<NamespacesListKeysResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, authorizationRuleName, options },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
   /**
    * Regenerates the Primary/Secondary Keys to the Namespace Authorization Rule
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name.
-   * @param authorizationRuleName The connection string of the namespace for the specified
-   *                              authorizationRule.
-   * @param parameters Parameters supplied to regenerate the Namespace Authorization Rule Key.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
+   * @param authorizationRuleName Authorization Rule Name
+   * @param parameters Request content.
    * @param options The options parameters.
    */
   regenerateKeys(
     resourceGroupName: string,
     namespaceName: string,
     authorizationRuleName: string,
-    parameters: PolicykeyResource,
-    options?: NamespacesRegenerateKeysOptionalParams
+    parameters: PolicyKeyResource,
+    options?: NamespacesRegenerateKeysOptionalParams,
   ): Promise<NamespacesRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -575,27 +584,26 @@ export class NamespacesImpl implements Namespaces {
         namespaceName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
   /**
-   * ListNext
-   * @param resourceGroupName The name of the resource group. If resourceGroupName value is null the
-   *                          method lists all the namespaces within subscription
-   * @param nextLink The nextLink from the previous successful call to the List method.
+   * Lists the PNS credentials associated with a namespace.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param options The options parameters.
    */
-  private _listNext(
+  getPnsCredentials(
     resourceGroupName: string,
-    nextLink: string,
-    options?: NamespacesListNextOptionalParams
-  ): Promise<NamespacesListNextResponse> {
+    namespaceName: string,
+    options?: NamespacesGetPnsCredentialsOptionalParams,
+  ): Promise<NamespacesGetPnsCredentialsResponse> {
     return this.client.sendOperationRequest(
-      { resourceGroupName, nextLink, options },
-      listNextOperationSpec
+      { resourceGroupName, namespaceName, options },
+      getPnsCredentialsOperationSpec,
     );
   }
 
@@ -606,18 +614,35 @@ export class NamespacesImpl implements Namespaces {
    */
   private _listAllNext(
     nextLink: string,
-    options?: NamespacesListAllNextOptionalParams
+    options?: NamespacesListAllNextOptionalParams,
   ): Promise<NamespacesListAllNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listAllNextOperationSpec
+      listAllNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListNext
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param nextLink The nextLink from the previous successful call to the List method.
+   * @param options The options parameters.
+   */
+  private _listNext(
+    resourceGroupName: string,
+    nextLink: string,
+    options?: NamespacesListNextOptionalParams,
+  ): Promise<NamespacesListNextResponse> {
+    return this.client.sendOperationRequest(
+      { resourceGroupName, nextLink, options },
+      listNextOperationSpec,
     );
   }
 
   /**
    * ListAuthorizationRulesNext
-   * @param resourceGroupName The name of the resource group.
-   * @param namespaceName The namespace name
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param namespaceName Namespace name
    * @param nextLink The nextLink from the previous successful call to the ListAuthorizationRules method.
    * @param options The options parameters.
    */
@@ -625,11 +650,11 @@ export class NamespacesImpl implements Namespaces {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: NamespacesListAuthorizationRulesNextOptionalParams
+    options?: NamespacesListAuthorizationRulesNextOptionalParams,
   ): Promise<NamespacesListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 }
@@ -637,107 +662,176 @@ export class NamespacesImpl implements Namespaces {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/checkNamespaceAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/checkNamespaceAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.CheckAvailabilityResult
-    }
+      bodyMapper: Mappers.CheckAvailabilityResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
-};
-const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
-  httpMethod: "PUT",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NamespaceResource
-    },
-    201: {
-      bodyMapper: Mappers.NamespaceResource
-    }
-  },
-  requestBody: Parameters.parameters1,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const patchOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
-  httpMethod: "PATCH",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NamespaceResource
-    }
-  },
-  requestBody: Parameters.parameters2,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
-  httpMethod: "DELETE",
-  responses: { 200: {}, 201: {}, 202: {}, 204: {} },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceResource
-    }
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+const createOrUpdateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
-    }
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    201: {
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    202: {
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    204: {
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters5,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const updateOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
+  httpMethod: "PATCH",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NamespaceResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters6,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.contentType, Parameters.accept],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listAllOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/namespaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NamespaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipToken,
+    Parameters.top,
+  ],
+  urlParameters: [Parameters.$host, Parameters.subscriptionId],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NamespaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.skipToken,
+    Parameters.top,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  httpMethod: "PUT",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource,
+    },
+    201: {
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -746,35 +840,43 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName
+    Parameters.authorizationRuleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "DELETE",
-  responses: { 200: {}, 204: {} },
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName
+    Parameters.authorizationRuleName,
   ],
-  serializer
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource
-    }
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -782,70 +884,21 @@ const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName
+    Parameters.authorizationRuleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NamespaceListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listAllOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NotificationHubs/namespaces",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.NamespaceListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.subscriptionId],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.namespaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/listKeys",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ResourceListKeys
-    }
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -853,19 +906,42 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
+const listKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceListKeys
-    }
+      bodyMapper: Mappers.ResourceListKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const regenerateKeysOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceListKeys,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -874,63 +950,90 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName
+    Parameters.authorizationRuleName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const listNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
-  httpMethod: "GET",
+const getPnsCredentialsOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NotificationHubs/namespaces/{namespaceName}/pnsCredentials",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceListResult
-    }
+      bodyMapper: Mappers.PnsCredentialsResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAllNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.NamespaceListResult
-    }
+      bodyMapper: Mappers.NamespaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.NamespaceListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult
-    }
+      bodyMapper: Mappers.SharedAccessAuthorizationRuleListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

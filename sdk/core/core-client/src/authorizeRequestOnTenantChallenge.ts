@@ -79,11 +79,11 @@ function buildScopes(
   challengeOptions: AuthorizeRequestOnChallengeOptions,
   challengeInfo: Challenge,
 ): string[] {
-  if (!challengeInfo.resource_uri) {
+  if (!challengeInfo.resource_id) {
     return challengeOptions.scopes;
   }
 
-  const challengeScopes = new URL(challengeInfo.resource_uri);
+  const challengeScopes = new URL(challengeInfo.resource_id);
   challengeScopes.pathname = Constants.DefaultScope;
   return [challengeScopes.toString()];
 }
@@ -105,7 +105,7 @@ function getChallenge(response: PipelineResponse): string | undefined {
  */
 interface Challenge {
   authorization_uri: string;
-  resource_uri?: string;
+  resource_id?: string;
 }
 
 /**

@@ -1,11 +1,12 @@
 {
   "name": "@azure/core-xml",
-  "version": "1.4.0",
+  "version": "1.4.2",
   "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "type": "module",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {

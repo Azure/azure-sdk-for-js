@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns details of a specific file in a work space.
  *
  * @summary Returns details of a specific file in a work space.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/GetFileDetails.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/GetFileDetails.json
  */
 async function getDetailsOfASubscriptionFile() {
   const fileWorkspaceName = "testworkspace";
@@ -27,7 +27,7 @@ async function getDetailsOfASubscriptionFile() {
   const client = new MicrosoftSupport(credential);
   const result = await client.filesNoSubscription.get(
     fileWorkspaceName,
-    fileName
+    fileName,
   );
   console.log(result);
 }

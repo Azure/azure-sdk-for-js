@@ -12,11 +12,11 @@ export const commandInfo = makeCommandInfo(
   "test:vitest",
   "runs tests using vitest with the default and the provided options; starts the proxy-tool in record and playback modes",
   {
-    "no-test-proxy": {
-      shortName: "ntp",
+    "test-proxy": {
+      shortName: "tp",
       kind: "boolean",
-      default: false,
-      description: "whether to disable launching test-proxy",
+      default: true,
+      description: "whether to enable launching test-proxy",
     },
     browser: {
       shortName: "br",
@@ -54,7 +54,7 @@ export default leafCommand(commandInfo, async (options) => {
     name: "vitest",
   };
 
-  if (!options["no-test-proxy"]) {
+  if (options["test-proxy"]) {
     return runTestsWithProxyTool(command);
   }
 

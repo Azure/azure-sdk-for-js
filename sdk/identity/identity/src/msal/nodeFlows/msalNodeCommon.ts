@@ -5,7 +5,12 @@ import * as msalNode from "@azure/msal-node";
 
 import { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AppType, AuthenticationRecord, MsalResult } from "../types";
-import { CACHE_CAE_SUFFIX, CACHE_NON_CAE_SUFFIX, DeveloperSignOnClientId } from "../../constants";
+import {
+  CACHE_CAE_SUFFIX,
+  CACHE_NON_CAE_SUFFIX,
+  DEFAULT_TOKEN_CACHE_NAME,
+  DeveloperSignOnClientId,
+} from "../../constants";
 import { CredentialLogger, formatSuccess } from "../../util/logging";
 import { MsalFlow, MsalFlowOptions } from "../flows";
 import {
@@ -126,12 +131,13 @@ export abstract class MsalNode implements MsalFlow {
 
     // If persistence has been configured
     if (persistenceProvider !== undefined && options.tokenCachePersistenceOptions?.enabled) {
+      const cacheBaseName = options.tokenCachePersistenceOptions.name || DEFAULT_TOKEN_CACHE_NAME;
       const nonCaeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_NON_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_NON_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       const caeOptions = {
-        name: `${options.tokenCachePersistenceOptions.name}.${CACHE_CAE_SUFFIX}`,
+        name: `${cacheBaseName}.${CACHE_CAE_SUFFIX}`,
         ...options.tokenCachePersistenceOptions,
       };
       this.createCachePlugin = () => persistenceProvider!(nonCaeOptions);

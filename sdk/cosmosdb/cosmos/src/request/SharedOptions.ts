@@ -3,7 +3,6 @@
 /// <reference lib="dom" />
 import { PriorityLevel } from "../documents/PriorityLevel";
 import { CosmosHeaders } from "../index";
-import { AbortSignal } from "node-abort-controller";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { AbortController } from "node-abort-controller";
+
 import {
   createPipelineRequest,
   createHttpHeaders,

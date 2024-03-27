@@ -23,7 +23,7 @@ import {
   SenderUsernamesCreateOrUpdateOptionalParams,
   SenderUsernamesCreateOrUpdateResponse,
   SenderUsernamesDeleteOptionalParams,
-  SenderUsernamesListByDomainsNextResponse
+  SenderUsernamesListByDomainsNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,13 +50,13 @@ export class SenderUsernamesImpl implements SenderUsernames {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SenderUsernamesListByDomainsOptionalParams
+    options?: SenderUsernamesListByDomainsOptionalParams,
   ): PagedAsyncIterableIterator<SenderUsernameResource> {
     const iter = this.listByDomainsPagingAll(
       resourceGroupName,
       emailServiceName,
       domainName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class SenderUsernamesImpl implements SenderUsernames {
           emailServiceName,
           domainName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +85,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
     emailServiceName: string,
     domainName: string,
     options?: SenderUsernamesListByDomainsOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SenderUsernameResource[]> {
     let result: SenderUsernamesListByDomainsResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
         resourceGroupName,
         emailServiceName,
         domainName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -107,7 +107,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
         emailServiceName,
         domainName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,13 +120,13 @@ export class SenderUsernamesImpl implements SenderUsernames {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SenderUsernamesListByDomainsOptionalParams
+    options?: SenderUsernamesListByDomainsOptionalParams,
   ): AsyncIterableIterator<SenderUsernameResource> {
     for await (const page of this.listByDomainsPagingPage(
       resourceGroupName,
       emailServiceName,
       domainName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,11 +143,11 @@ export class SenderUsernamesImpl implements SenderUsernames {
     resourceGroupName: string,
     emailServiceName: string,
     domainName: string,
-    options?: SenderUsernamesListByDomainsOptionalParams
+    options?: SenderUsernamesListByDomainsOptionalParams,
   ): Promise<SenderUsernamesListByDomainsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, emailServiceName, domainName, options },
-      listByDomainsOperationSpec
+      listByDomainsOperationSpec,
     );
   }
 
@@ -164,7 +164,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
     emailServiceName: string,
     domainName: string,
     senderUsername: string,
-    options?: SenderUsernamesGetOptionalParams
+    options?: SenderUsernamesGetOptionalParams,
   ): Promise<SenderUsernamesGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -172,9 +172,9 @@ export class SenderUsernamesImpl implements SenderUsernames {
         emailServiceName,
         domainName,
         senderUsername,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -194,7 +194,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
     domainName: string,
     senderUsername: string,
     parameters: SenderUsernameResource,
-    options?: SenderUsernamesCreateOrUpdateOptionalParams
+    options?: SenderUsernamesCreateOrUpdateOptionalParams,
   ): Promise<SenderUsernamesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -203,9 +203,9 @@ export class SenderUsernamesImpl implements SenderUsernames {
         domainName,
         senderUsername,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -222,7 +222,7 @@ export class SenderUsernamesImpl implements SenderUsernames {
     emailServiceName: string,
     domainName: string,
     senderUsername: string,
-    options?: SenderUsernamesDeleteOptionalParams
+    options?: SenderUsernamesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -230,9 +230,9 @@ export class SenderUsernamesImpl implements SenderUsernames {
         emailServiceName,
         domainName,
         senderUsername,
-        options
+        options,
       },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -249,11 +249,11 @@ export class SenderUsernamesImpl implements SenderUsernames {
     emailServiceName: string,
     domainName: string,
     nextLink: string,
-    options?: SenderUsernamesListByDomainsNextOptionalParams
+    options?: SenderUsernamesListByDomainsNextOptionalParams,
   ): Promise<SenderUsernamesListByDomainsNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, emailServiceName, domainName, nextLink, options },
-      listByDomainsNextOperationSpec
+      listByDomainsNextOperationSpec,
     );
   }
 }
@@ -261,39 +261,15 @@ export class SenderUsernamesImpl implements SenderUsernames {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDomainsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SenderUsernameResourceCollection
+      bodyMapper: Mappers.SenderUsernameResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.emailServiceName,
-    Parameters.domainName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SenderUsernameResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -302,25 +278,46 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName,
-    Parameters.senderUsername
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SenderUsernameResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.emailServiceName,
+    Parameters.domainName,
+    Parameters.senderUsername,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.SenderUsernameResource
+      bodyMapper: Mappers.SenderUsernameResource,
     },
     201: {
-      bodyMapper: Mappers.SenderUsernameResource
+      bodyMapper: Mappers.SenderUsernameResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters8,
   queryParameters: [Parameters.apiVersion],
@@ -330,22 +327,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName,
-    Parameters.senderUsername
+    Parameters.senderUsername,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Communication/emailServices/{emailServiceName}/domains/{domainName}/senderUsernames/{senderUsername}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -354,21 +350,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
     Parameters.domainName,
-    Parameters.senderUsername
+    Parameters.senderUsername,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDomainsNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SenderUsernameResourceCollection
+      bodyMapper: Mappers.SenderUsernameResourceCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -376,8 +372,8 @@ const listByDomainsNextOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.emailServiceName,
-    Parameters.domainName
+    Parameters.domainName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
