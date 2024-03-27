@@ -4,7 +4,7 @@
 import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
 import { AbortController } from "@azure/abort-controller";
-import { isNode } from "@azure/core-util";
+import { isNodeCompatible } from "@azure/core-util";
 import { assert } from "@azure/test-utils";
 import {
   bodyToString,
@@ -311,7 +311,7 @@ describe("BlobClient", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeCompatible ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers);
@@ -706,7 +706,7 @@ describe("BlobClient", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNode ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeCompatible ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers, { customerProvidedKey: Test_CPK_INFO });
@@ -744,7 +744,7 @@ describe("BlobClient", () => {
   });
 
   it("beginCopyFromURL with rehydrate priority", async function () {
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
     const newBlobURL = containerClient.getBlobClient(
@@ -1551,7 +1551,7 @@ describe("BlobClient - Object Replication", () => {
   });
 
   it("download to file", async function (this: Context) {
-    if (!isNode || !isLiveMode()) {
+    if (!isNodeCompatible || !isLiveMode()) {
       this.skip();
     }
     const srcDownloadedFilePath = recorder.variable(

@@ -4,8 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { TokenCredential } from "@azure/core-auth";
 import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
-
+import { isNodeCompatible } from "@azure/core-util";
 import {
   BlobQueryArrowConfiguration,
   BlobQueryCsvTextConfiguration,
@@ -461,7 +460,7 @@ export function truncatedISO8061Date(date: Date, withMilliseconds: boolean = tru
  * @param content -
  */
 export function base64encode(content: string): string {
-  return !isNode ? btoa(content) : Buffer.from(content).toString("base64");
+  return !isNodeCompatible ? btoa(content) : Buffer.from(content).toString("base64");
 }
 
 /**
@@ -470,7 +469,7 @@ export function base64encode(content: string): string {
  * @param encodedString -
  */
 export function base64decode(encodedString: string): string {
-  return !isNode ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
+  return !isNodeCompatible ? atob(encodedString) : Buffer.from(encodedString, "base64").toString();
 }
 
 /**

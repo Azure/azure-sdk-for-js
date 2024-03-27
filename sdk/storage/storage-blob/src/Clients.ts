@@ -8,11 +8,10 @@ import {
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
+import { isNodeCompatible } from "@azure/core-util";
 import { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
 import { Readable } from "stream";
-
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -996,7 +995,8 @@ export class BlobClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeCompatible &&
+        credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -1027,7 +1027,7 @@ export class BlobClient extends StorageClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeCompatible) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -1210,7 +1210,7 @@ export class BlobClient extends StorageClient {
             ifTags: options.conditions?.tagConditions,
           },
           requestOptions: {
-            onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
+            onDownloadProgress: isNodeCompatible ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
           },
           range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
           rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1228,7 +1228,7 @@ export class BlobClient extends StorageClient {
         objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules),
       };
       // Return browser response immediately
-      if (!isNode) {
+      if (!isNodeCompatible) {
         return wrappedRes;
       }
 
@@ -2533,7 +2533,8 @@ export class AppendBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeCompatible &&
+        credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -2561,7 +2562,7 @@ export class AppendBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeCompatible) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3517,7 +3518,8 @@ export class BlockBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeCompatible &&
+        credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -3548,7 +3550,7 @@ export class BlockBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeCompatible) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,
@@ -3642,7 +3644,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobQueryOptions = {},
   ): Promise<BlobDownloadResponseModel> {
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-    if (!isNode) {
+    if (!isNodeCompatible) {
       throw new Error("This operation currently is only supported in Node.js.");
     }
 
@@ -3994,7 +3996,7 @@ export class BlockBlobClient extends BlobClient {
     options: BlockBlobParallelUploadOptions = {},
   ): Promise<BlobUploadCommonResponse> {
     return tracingClient.withSpan("BlockBlobClient-uploadData", options, async (updatedOptions) => {
-      if (isNode) {
+      if (isNodeCompatible) {
         let buffer: Buffer;
         if (data instanceof Buffer) {
           buffer = data;
@@ -4783,7 +4785,8 @@ export class PageBlobClient extends BlobClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNode && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeCompatible &&
+        credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -4811,7 +4814,7 @@ export class PageBlobClient extends BlobClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNode) {
+        if (isNodeCompatible) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,

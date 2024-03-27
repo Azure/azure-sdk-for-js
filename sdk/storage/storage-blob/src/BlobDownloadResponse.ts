@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { isNode } from "@azure/core-util";
-import { BlobImmutabilityPolicyMode } from "./generatedModels";
 
+import { isNodeCompatible } from "@azure/core-util";
+import { BlobImmutabilityPolicyMode } from "./generatedModels";
 import {
   BlobDownloadHeaders,
   BlobType,
@@ -500,7 +500,8 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    * @readonly
    */
   public get readableStreamBody(): NodeJS.ReadableStream | undefined {
-    return isNode ? this.blobDownloadStream : undefined;
+    // TODO: Replace with isNodeCompatible once it's available
+    return isNodeCompatible ? this.blobDownloadStream : undefined;
   }
 
   /**

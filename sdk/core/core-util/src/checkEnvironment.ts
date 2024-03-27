@@ -75,6 +75,11 @@ export const isNode =
   !isBun;
 
 /**
+ * A constant that indicates whether the environment the code is running is a Node.JS compatible environment.
+ */
+export const isNodeCompatible = isNode || isDeno || isBun;
+
+/**
  * A constant that indicates whether the environment the code is running is in React-Native.
  */
 // https://github.com/facebook/react-native/blob/main/packages/react-native/Libraries/Core/setUpNavigator.js

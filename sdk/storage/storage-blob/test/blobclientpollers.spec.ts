@@ -13,7 +13,7 @@ import {
 } from "./utils/testutils.common";
 import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/test-utils";
+import { isNodeCompatible } from "@azure/core-util";
 
 describe("BlobClient beginCopyFromURL Poller", () => {
   let containerName: string;
@@ -56,7 +56,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports automatic polling via pollUntilDone", async function () {
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
@@ -92,7 +92,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports manual polling via poll", async function () {
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
     const newBlobClient = destinationContainerClient.getBlobClient(
@@ -139,7 +139,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       // these tests will only run with the unit tests with pre-recorded service responses.
       this.skip();
     }
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
 
@@ -166,7 +166,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
       // these tests will only run with the unit tests with pre-recorded service responses.
       this.skip();
     }
-    if (!isNode) {
+    if (!isNodeCompatible) {
       this.skip();
     }
 
@@ -188,7 +188,7 @@ describe("BlobClient beginCopyFromURL Poller", () => {
   });
 
   it("supports restoring poller state from another poller", async function () {
-    if (!isNode && !isLiveMode()) {
+    if (!isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
 

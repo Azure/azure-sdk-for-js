@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeCompatible } from "@azure/core-util";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   ServiceGetUserDelegationKeyHeaders,
@@ -360,7 +360,7 @@ export class BlobServiceClient extends StorageClient {
     options = options || {};
     const extractedCreds = extractConnectionStringParts(connectionString);
     if (extractedCreds.kind === "AccountConnString") {
-      if (isNode) {
+      if (isNodeCompatible) {
         const sharedKeyCredential = new StorageSharedKeyCredential(
           extractedCreds.accountName!,
           extractedCreds.accountKey,
@@ -451,7 +451,7 @@ export class BlobServiceClient extends StorageClient {
     if (isPipelineLike(credentialOrPipeline)) {
       pipeline = credentialOrPipeline;
     } else if (
-      (isNode && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
+      (isNodeCompatible && credentialOrPipeline instanceof StorageSharedKeyCredential) ||
       credentialOrPipeline instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipeline)
     ) {

@@ -7,7 +7,7 @@ import {
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
-import { isNode } from "@azure/core-util";
+import { isNodeCompatible } from "@azure/core-util";
 import { HeaderConstants, URLConstants } from "../utils/constants";
 import { setURLParameter } from "../utils/utils.common";
 
@@ -24,7 +24,7 @@ export function storageBrowserPolicy(): PipelinePolicy {
   return {
     name: storageBrowserPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (isNode) {
+      if (isNodeCompatible) {
         return next(request);
       }
 

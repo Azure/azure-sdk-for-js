@@ -18,7 +18,7 @@ import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
 import { Context } from "mocha";
-import { isNode } from "@azure/core-util";
+import { isNodeCompatible } from "@azure/core-util";
 
 describe("BlockBlobClient", () => {
   let containerName: string;
@@ -143,7 +143,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeCompatible) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -164,7 +164,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeCompatible) {
       await containerClient.setAccessPolicy("container");
     }
 
@@ -277,7 +277,7 @@ describe("BlockBlobClient", () => {
   });
 
   it("can be created with a sas connection string", async function () {
-    if (isNode && !isLiveMode()) {
+    if (isNodeCompatible && !isLiveMode()) {
       this.skip();
     }
     const newClient = new BlockBlobClient(
@@ -357,7 +357,7 @@ describe("BlockBlobClient", () => {
 
     // When in browsers testing with SAS tokens, setAccessPolicy won't work.
     // so only test setAccessPolicy in Node.js environment.
-    if (isNode) {
+    if (isNodeCompatible) {
       await containerClient.setAccessPolicy("container");
     }
 

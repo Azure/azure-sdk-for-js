@@ -21,6 +21,7 @@ export {
   isBrowser,
   isBun,
   isNode,
+  isNodeCompatible,
   isDeno,
   isReactNative,
   isWebWorker,
