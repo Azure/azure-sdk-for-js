@@ -46,13 +46,13 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "tslib": "^2.2.0"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "eslint": "^8.50.0",
+    "eslint": "^8.57.0",
     "prettier": "^3.2.5",
-    "rimraf": "^3.0.0",
+    "rimraf": "^5.0.5",
     "typescript": "~5.3.3"
   }
 }

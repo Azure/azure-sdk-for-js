@@ -7,7 +7,7 @@
  */
 
 import { Identifier, NewExpression, ThrowStatement } from "estree";
-import { ParserServices, TSESTree } from "@typescript-eslint/experimental-utils";
+import { ParserServices, TSESTree } from "@typescript-eslint/utils";
 import { Rule } from "eslint";
 import { getRuleMetaData } from "../utils";
 
@@ -43,7 +43,11 @@ export = {
             ) {
               return;
             }
-            const typeChecker = parserServices.program.getTypeChecker();
+            const typeChecker = parserServices?.program?.getTypeChecker();
+            if (!typeChecker) {
+              console.log("typeChecker is undefined");
+              return;
+            }
             const TSNode = parserServices.esTreeNodeToTSNodeMap.get(thrown as TSESTree.Node);
             const type = typeChecker.typeToString(typeChecker.getTypeAtLocation(TSNode));
 
