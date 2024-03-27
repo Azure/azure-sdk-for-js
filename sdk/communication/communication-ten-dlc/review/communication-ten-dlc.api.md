@@ -151,11 +151,29 @@ export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalPa
 export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {
 }
 
+// @public
+export interface TenDlcCancelUSBrandOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenDlcCancelUSBrandResponse = USBrand;
+
+// @public
+export interface TenDlcCancelUSCampaignOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type TenDlcCancelUSCampaignResponse = USCampaign;
+
 // @public (undocumented)
 export class TenDlcClient {
     constructor(connectionString: string, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TenDlcClientOptions);
+    // (undocumented)
+    cancelUSBrand(brandId: string, options?: TenDlcCancelUSBrandOptionalParams): Promise<TenDlcCancelUSBrandResponse>;
+    // (undocumented)
+    cancelUSCampaign(campaignId: string, options?: TenDlcCancelUSCampaignOptionalParams): Promise<TenDlcCancelUSCampaignResponse>;
     // (undocumented)
     deleteUSBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
     // (undocumented)

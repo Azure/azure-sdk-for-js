@@ -14,7 +14,9 @@ import { tracingClient } from "./generated/src/tracing";
 import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
 import {
+  TenDlcCancelUSBrandOptionalParams,
   TenDlcCancelUSBrandResponse,
+  TenDlcCancelUSCampaignOptionalParams,
   TenDlcCancelUSCampaignResponse,
   TenDlcCost,
   TenDlcSubmitUSBrandOptionalParams,
@@ -23,8 +25,6 @@ import {
   USCampaign,
 } from "./generated/src/models";
 import {
-  CancelUSBrandOptionalParams,
-  CancelUSCampaignOptionalParams,
   CreateOrUpdateBrandOptions,
   CreateOrUpdateCampaignOptions,
   DeleteBrandOptionalParams,
@@ -268,7 +268,7 @@ export class TenDlcClient {
 
   public cancelUSBrand(
     brandId: string,
-    options?: CancelUSBrandOptionalParams,
+    options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSBrand", options);
     try {
@@ -286,7 +286,7 @@ export class TenDlcClient {
 
   public cancelUSCampaign(
     campaignId: string,
-    options?: CancelUSCampaignOptionalParams,
+    options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse> {
     const { span } = tracingClient.startSpan("TenDLCClient.cancelUSCampaign", options);
     try {
