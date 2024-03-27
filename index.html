@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<!--[if IE]><![endif]-->
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Azure SDK for JavaScript | Azure SDK for JavaScript </title>
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Azure SDK for JavaScript | Azure SDK for JavaScript ">
+    <meta name="generator" content="docfx 2.43.2.0">
+    
+    <link rel="shortcut icon" href="https://c.s-microsoft.com/favicon.ico?v2">
+    <link rel="stylesheet" href="styles/docfx.vendor.css">
+    <link rel="stylesheet" href="styles/docfx.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <meta property="docfx:navrel" content="navtoc.html">
+    <meta property="docfx:tocrel" content="toc.html">
+    
+    
+    <meta property="docfx:newtab" content="true">
+  
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-62780441-43"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+  
+      gtag('config', 'UA-62780441-43');
+    </script>
+  </head>
+  <body data-spy="scroll" data-target="#affix" data-offset="120">
+    <div id="wrapper">
+      <header>
+        
+        <nav id="autocollapse" class="navbar navbar-inverse ng-scope" role="navigation">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              
+              <a class="navbar-brand" href="index.html">
+                <img id="logo" class="svg" src="logo.svg" alt="">
+              </a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar">
+              <form class="navbar-form navbar-right" role="search" id="search">
+                <div class="form-group">
+                  <input type="text" class="form-control" id="search-query" placeholder="Search" autocomplete="off">
+                </div>
+              </form>
+            </div>
+          </div>
+        </nav>
+        
+        <div class="subnav navbar navbar-default">
+          <div class="container hide-when-search" id="breadcrumb">
+            <ul class="breadcrumb">
+              <li></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <div role="main" class="container body-content hide-when-search">
+        
+        <div class="sidenav hide-when-search">
+          <a class="btn toc-toggle collapse" data-toggle="collapse" href="#sidetoggle" aria-expanded="false" aria-controls="sidetoggle">Show / Hide Table of Contents</a>
+          <div class="sidetoggle collapse" id="sidetoggle">
+            <div id="sidetoc"></div>
+          </div>
+        </div>
+        <div class="article row grid-right">
+          <div class="col-md-10">
+            <article class="content wrap" id="_content" data-uid="">
+<h1 id="azure-sdk-for-javascript">Azure SDK for JavaScript</h1>
+
+<p><a href="https://azure.github.io/azure-sdk/releases/latest/js.html"><img src="https://img.shields.io/badge/packages-latest-blue.svg" alt="Packages"></a> <a href="https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencies.html"><img src="https://img.shields.io/badge/dependency-report-blue.svg" alt="Dependencies"></a> <a href="https://azuresdkartifacts.blob.core.windows.net/azure-sdk-for-js/dependencies/dependencyGraph/dagre.html"><img src="https://img.shields.io/badge/dependency-graph-blue.svg" alt="DependencyGraph"></a></p>
+<p>This repository is for the Azure SDK for JavaScript (Node.js &amp; Browser). It contains libraries for the breadth of Azure services. Management libraries are packages that you would use to provision and manage Azure resources. Client libraries are packages that you would use to consume these resources and interact with them.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>A few helpful resources to get started are:</p>
+<ul>
+<li>The readme for each package contains code samples and package information. This readme can be found in the corresponding package folder under the folder of the service of your choice in the <code>/sdk</code> folder of this repository. The same readme file can be found on the landing page for the package in <a href="https://www.npmjs.com/">npm</a>.</li>
+<li>The API reference documentation of the latest versions of these packages, can be found at our <a href="https://docs.microsoft.com/javascript/azure/">public developer docs</a>.</li>
+<li>The API reference documentation of older versions, can be found in our <a href="https://azure.github.io/azure-sdk-for-js">versioned developer docs</a>.</li>
+</ul>
+<p>Each service might have a number of libraries available from each of the following categories:</p>
+<ul>
+<li><a href="#client">Client</a></li>
+<li><a href="#management">Management</a></li>
+</ul>
+<blockquote>
+<p>NOTE: Some of these packages have beta versions. If you need to ensure your code is ready for production, use one of the stable, non-beta packages.</p>
+</blockquote>
+<h3 id="client">Client</h3>
+<p>Given an Azure resource already exists, you would use the client libraries to consume it and interact with it.
+Most of these libraries follow the <a href="https://azure.github.io/azure-sdk/typescript_introduction.html">Azure SDK Design Guidelines for JavaScript &amp; TypeScript</a> and share a number of core functionalities such as retries, logging, transport protocols, authentication protocols, etc. Others will be updated in the near future to follow the guidelines as well.</p>
+<p>To get a list of all client libraries that follow the new guidelines, please visit our <a href="https://azure.github.io/azure-sdk/releases/latest/js.html">Azure SDK releases page</a>.</p>
+<h3 id="management">Management</h3>
+<p>Management libraries enable you to provision and manage Azure resources via the <a href="https://docs.microsoft.com/azure/azure-resource-manager/management/overview">Azure Resource Manager i.e. ARM</a>. You can recognize these libraries by <code>@azure/arm-</code> in their package names. These are purely auto-generated based on the swagger files that represent the APIs for resource management.</p>
+<p>Newer versions of these libraries follow the <a href="https://azure.github.io/azure-sdk/typescript_introduction.html">Azure SDK Design Guidelines for TypeScript</a>. These new versions provide a number of core capabilities that are shared amongst all Azure SDKs, including the intuitive Azure Identity library, an HTTP Pipeline with custom policies, error-handling, distributed tracing, and much more. A few helpful resources to get started with these are:</p>
+<ul>
+<li><a href="https://azure.github.io/azure-sdk/releases/latest/mgmt/js.html">List of management libraries that follow the new guidelines</a></li>
+<li><a href="https://aka.ms/azsdk/js/mgmt">Documentation and code samples</a>.</li>
+<li><a href="https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/MIGRATION-guide-for-next-generation-management-libraries.md">Migration guide</a> that shows how to transition from older versions of libraries.</li>
+</ul>
+<blockquote>
+<p>NOTE: If you are experiencing authentication issues with the management libraries after upgrading certain packages, it's possible that you upgraded to the new versions of SDK without changing the authentication code, please refer to the migration guide mentioned above for proper instructions.</p>
+</blockquote>
+<h2 id="need-help">Need help?</h2>
+<ul>
+<li>For detailed documentation visit our <a href="https://aka.ms/js-docs">Azure SDK for JavaScript documentation</a></li>
+<li>File an issue via <a href="https://github.com/Azure/azure-sdk-for-js/issues">GitHub Issues</a></li>
+<li>Check <a href="https://stackoverflow.com/questions/tagged/azure-sdk-js">previous questions</a> or ask new ones on StackOverflow using <code>azure-sdk-js</code> tag.</li>
+<li>Read our <a href="https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md">Support documentation</a>.</li>
+</ul>
+<h3 id="community">Community</h3>
+<p>Try our <a href="https://github.com/Azure/azure-sdk-for-js/blob/main/SUPPORT.md#community-resources">community resources</a>.</p>
+<h3 id="reporting-security-issues-and-security-bugs">Reporting security issues and security bugs</h3>
+<p>Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) <a href="mailto:secure@microsoft.com">secure@microsoft.com</a>. You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the MSRC PGP key, can be found in the <a href="https://www.microsoft.com/msrc/faqs-report-an-issue">Security TechCenter</a>.</p>
+<h2 id="contributing">Contributing</h2>
+<p>For details on contributing to this repository, see the <a href="https://github.com/Azure/azure-sdk-for-js/blob/main/CONTRIBUTING.md">contributing guide</a>.</p>
+<p>This project welcomes contributions and suggestions. Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution. For details, visit
+<a href="https://cla.microsoft.com">https://cla.microsoft.com</a>.</p>
+<p>When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment). Simply follow the instructions provided by the bot. You will only need to do this once across all repositories using our CLA.</p>
+<p>This project has adopted the <a href="https://opensource.microsoft.com/codeofconduct/">Microsoft Open Source Code of Conduct</a>. For more information see the <a href="https://opensource.microsoft.com/codeofconduct/faq/">Code of Conduct FAQ</a> or contact <a href="mailto:opencode@microsoft.com">opencode@microsoft.com</a> with any additional questions or comments.</p>
+<p><img src="https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2FREADME.png" alt="Impressions"></p>
+</article>
+          </div>
+          
+          <div class="hidden-sm col-md-2" role="complementary">
+            <div class="sideaffix">
+              <nav class="bs-docs-sidebar hidden-print hidden-xs hidden-sm affix" id="affix">
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <footer>
+        <div class="grad-bottom"></div>
+        <div class="footer">
+          <div class="container">
+            <span class="pull-right">
+              <a href="#top">Back to top</a>
+            </span>
+            Azure SDK for JavaScript
+            
+          </div>
+        </div>
+      </footer>
+    </div>
+    
+    <script type="text/javascript" src="styles/docfx.vendor.js"></script>
+    <script type="text/javascript" src="styles/docfx.js"></script>
+    <script type="text/javascript" src="styles/main.js"></script>
+  </body>
+</html>
