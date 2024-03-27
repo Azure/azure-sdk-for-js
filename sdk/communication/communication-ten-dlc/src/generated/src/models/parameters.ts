@@ -9,11 +9,11 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   USBrand as USBrandMapper,
-  USCampaign as USCampaignMapper
+  USCampaign as USCampaignMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -23,9 +23,9 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const accept: OperationParameter = {
@@ -35,44 +35,44 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const id: OperationParameter = {
   parameterPath: "id",
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const statusUpdatedDate: OperationParameter = {
   parameterPath: ["options", "statusUpdatedDate"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const status: OperationParameter = {
   parameterPath: ["options", "status"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const costs: OperationParameter = {
   parameterPath: ["options", "costs"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const submissionDate: OperationParameter = {
   parameterPath: ["options", "submissionDate"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const reviewNotes: OperationParameter = {
   parameterPath: ["options", "reviewNotes"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const brandDetails: OperationParameter = {
   parameterPath: ["options", "brandDetails"],
-  mapper: USBrandMapper
+  mapper: USBrandMapper,
 };
 
 export const endpoint: OperationURLParameter = {
@@ -81,10 +81,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const brandId: OperationURLParameter = {
@@ -93,21 +93,21 @@ export const brandId: OperationURLParameter = {
     serializedName: "brandId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-01-31-preview",
+    defaultValue: "2024-05-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -116,9 +116,9 @@ export const skip: OperationQueryParameter = {
     defaultValue: 0,
     serializedName: "skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -127,9 +127,9 @@ export const top: OperationQueryParameter = {
     defaultValue: 100,
     serializedName: "top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const filter: OperationQueryParameter = {
@@ -137,59 +137,59 @@ export const filter: OperationQueryParameter = {
   mapper: {
     serializedName: "filter",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const id1: OperationParameter = {
   parameterPath: "id",
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const brandId1: OperationParameter = {
   parameterPath: ["options", "brandId"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const status1: OperationParameter = {
   parameterPath: ["options", "status"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const statusUpdatedDate1: OperationParameter = {
   parameterPath: ["options", "statusUpdatedDate"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const costs1: OperationParameter = {
   parameterPath: ["options", "costs"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const submissionDate1: OperationParameter = {
   parameterPath: ["options", "submissionDate"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const reviewNotes1: OperationParameter = {
   parameterPath: ["options", "reviewNotes"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const phoneNumberCount: OperationParameter = {
   parameterPath: ["options", "phoneNumberCount"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const campaignDetails: OperationParameter = {
   parameterPath: ["options", "campaignDetails"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const messageDetails: OperationParameter = {
   parameterPath: ["options", "messageDetails"],
-  mapper: USCampaignMapper
+  mapper: USCampaignMapper,
 };
 
 export const campaignId: OperationURLParameter = {
@@ -198,9 +198,9 @@ export const campaignId: OperationURLParameter = {
     serializedName: "campaignId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -209,8 +209,8 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };

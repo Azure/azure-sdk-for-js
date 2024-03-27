@@ -31,7 +31,7 @@ import {
   TenDlcSubmitUSCampaignOptionalParams,
   TenDlcSubmitUSCampaignResponse,
   TenDlcCancelUSCampaignOptionalParams,
-  TenDlcCancelUSCampaignResponse
+  TenDlcCancelUSCampaignResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -39,18 +39,18 @@ import {
 export interface TenDlc {
   /** @param options The options parameters. */
   listUSBrands(
-    options?: TenDlcGetUSBrandsOptionalParams
+    options?: TenDlcGetUSBrandsOptionalParams,
   ): PagedAsyncIterableIterator<USBrand>;
   /** @param options The options parameters. */
   listUSCampaigns(
-    options?: TenDlcGetUSCampaignsOptionalParams
+    options?: TenDlcGetUSCampaignsOptionalParams,
   ): PagedAsyncIterableIterator<USCampaign>;
   /**
    * This method supports pagination via the "skip" and "top" query parameters.
    * @param options The options parameters.
    */
   listCosts(
-    options?: TenDlcGetCostsOptionalParams
+    options?: TenDlcGetCostsOptionalParams,
   ): PagedAsyncIterableIterator<TenDlcCost>;
   /**
    * @param brandId
@@ -60,7 +60,7 @@ export interface TenDlc {
   upsertUSBrand(
     brandId: string,
     id: string,
-    options?: TenDlcUpsertUSBrandOptionalParams
+    options?: TenDlcUpsertUSBrandOptionalParams,
   ): Promise<TenDlcUpsertUSBrandResponse>;
   /**
    * @param brandId
@@ -68,7 +68,7 @@ export interface TenDlc {
    */
   deleteUSBrand(
     brandId: string,
-    options?: TenDlcDeleteUSBrandOptionalParams
+    options?: TenDlcDeleteUSBrandOptionalParams,
   ): Promise<void>;
   /**
    * @param brandId
@@ -76,7 +76,7 @@ export interface TenDlc {
    */
   getUSBrand(
     brandId: string,
-    options?: TenDlcGetUSBrandOptionalParams
+    options?: TenDlcGetUSBrandOptionalParams,
   ): Promise<TenDlcGetUSBrandResponse>;
   /**
    * @param brandId
@@ -84,7 +84,7 @@ export interface TenDlc {
    */
   submitUSBrand(
     brandId: string,
-    options?: TenDlcSubmitUSBrandOptionalParams
+    options?: TenDlcSubmitUSBrandOptionalParams,
   ): Promise<TenDlcSubmitUSBrandResponse>;
   /**
    * @param brandId
@@ -92,7 +92,7 @@ export interface TenDlc {
    */
   cancelUSBrand(
     brandId: string,
-    options?: TenDlcCancelUSBrandOptionalParams
+    options?: TenDlcCancelUSBrandOptionalParams,
   ): Promise<TenDlcCancelUSBrandResponse>;
   /**
    * @param campaignId
@@ -102,7 +102,7 @@ export interface TenDlc {
   upsertUSCampaign(
     campaignId: string,
     id: string,
-    options?: TenDlcUpsertUSCampaignOptionalParams
+    options?: TenDlcUpsertUSCampaignOptionalParams,
   ): Promise<TenDlcUpsertUSCampaignResponse>;
   /**
    * @param campaignId
@@ -110,7 +110,7 @@ export interface TenDlc {
    */
   deleteUSCampaign(
     campaignId: string,
-    options?: TenDlcDeleteUSCampaignOptionalParams
+    options?: TenDlcDeleteUSCampaignOptionalParams,
   ): Promise<void>;
   /**
    * @param campaignId
@@ -118,7 +118,7 @@ export interface TenDlc {
    */
   getUSCampaign(
     campaignId: string,
-    options?: TenDlcGetUSCampaignOptionalParams
+    options?: TenDlcGetUSCampaignOptionalParams,
   ): Promise<TenDlcGetUSCampaignResponse>;
   /**
    * @param campaignId
@@ -126,7 +126,7 @@ export interface TenDlc {
    */
   submitUSCampaign(
     campaignId: string,
-    options?: TenDlcSubmitUSCampaignOptionalParams
+    options?: TenDlcSubmitUSCampaignOptionalParams,
   ): Promise<TenDlcSubmitUSCampaignResponse>;
   /**
    * @param campaignId
@@ -134,6 +134,6 @@ export interface TenDlc {
    */
   cancelUSCampaign(
     campaignId: string,
-    options?: TenDlcCancelUSCampaignOptionalParams
+    options?: TenDlcCancelUSCampaignOptionalParams,
   ): Promise<TenDlcCancelUSCampaignResponse>;
 }

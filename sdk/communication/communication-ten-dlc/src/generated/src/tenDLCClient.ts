@@ -10,7 +10,7 @@ import * as coreClient from "@azure/core-client";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import { TenDlcImpl } from "./operations";
 import { TenDlc } from "./operationsInterfaces";
@@ -35,7 +35,7 @@ export class TenDLCClient extends coreClient.ServiceClient {
       options = {};
     }
     const defaults: TenDLCClientOptionalParams = {
-      requestContentType: "application/json; charset=utf-8"
+      requestContentType: "application/json; charset=utf-8",
     };
 
     const packageDetails = `azsdk-js-communication-ten-dlc/1.0.0-beta.1`;
@@ -48,16 +48,16 @@ export class TenDLCClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
-      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}"
+      endpoint: options.endpoint ?? options.baseUri ?? "{endpoint}",
     };
     super(optionsWithDefaults);
     // Parameter assignments
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2024-01-31-preview";
+    this.apiVersion = options.apiVersion || "2024-05-01-preview";
     this.tenDlc = new TenDlcImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
@@ -71,7 +71,7 @@ export class TenDLCClient extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -85,7 +85,7 @@ export class TenDLCClient extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }

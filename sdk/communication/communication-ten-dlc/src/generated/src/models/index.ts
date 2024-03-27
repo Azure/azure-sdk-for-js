@@ -11,7 +11,7 @@ import * as coreClient from "@azure/core-client";
 export interface USBrand {
   /** Unique identifier that corresponds to a brand */
   id: string;
-  /** Last date and time when the 10Dlc status was updated */
+  /** Last date and time when the 10DLC status was updated */
   statusUpdatedDate?: Date;
   /** 10 Dlc status e.g. 'submitted', 'approved', etc */
   status?: BrandStatus;
@@ -226,9 +226,9 @@ export type BrandStatus =
   | "Denied"
   | "Approved";
 /** Defines values for TenDlcCostType. */
-export type TenDlcCostType = "brand" | "standardCampaign";
+export type TenDlcCostType = "Brand" | "StandardCampaign";
 /** Defines values for BillingFrequency. */
-export type BillingFrequency = "monthly" | "once";
+export type BillingFrequency = "Monthly" | "Once";
 /** Defines values for CompanyVertical. */
 export type CompanyVertical =
   | "Agriculture"
@@ -289,7 +289,7 @@ export type StockExchange =
   | "Vse"
   | "Other";
 /** Defines values for AlternateBusinessIdType. */
-export type AlternateBusinessIdType = "DUNS" | "LEI" | "GIIN";
+export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
 /** Defines values for CampaignStatus. */
 export type CampaignStatus =
   | "Draft"
@@ -314,21 +314,21 @@ export type ContentType =
   | "SecurityAlert";
 /** Defines values for SubContentType. */
 export type SubContentType =
-  | "twoFactorAuthentication"
-  | "accountNotification"
-  | "customerCare"
-  | "deliveryNotification"
-  | "fraudAlert"
-  | "higherEducation"
-  | "marketing"
-  | "pollingVoting"
-  | "publicServiceAnnouncement"
-  | "securityAlert";
+  | "TwoFactorAuthentication"
+  | "AccountNotification"
+  | "CustomerCare"
+  | "DeliveryNotification"
+  | "FraudAlert"
+  | "HigherEducation"
+  | "Marketing"
+  | "PollingVoting"
+  | "PublicServiceAnnouncement"
+  | "SecurityAlert";
 
 /** Optional parameters. */
 export interface TenDlcUpsertUSBrandOptionalParams
   extends coreClient.OperationOptions {
-  /** Last date and time when the 10Dlc status was updated */
+  /** Last date and time when the 10DLC status was updated */
   statusUpdatedDate?: Date;
   /** 10 Dlc status e.g. 'submitted', 'approved', etc */
   status?: BrandStatus;

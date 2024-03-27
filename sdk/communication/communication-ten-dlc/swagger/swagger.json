@@ -3,7 +3,7 @@
   "info": {
     "title": "TenDLC Client",
     "description": "The TenDLC program enables A2P SMS messaging for Local numbers.",
-    "version": "2024-01-31-preview"
+    "version": "2024-05-01-preview"
   },
   "paths": {
     "/tendlc/countries/US/brands/{brandId}": {
@@ -755,9 +755,9 @@
         "alternateBusinessIdType": {
           "description": "Alternate Business Id Type",
           "enum": [
-            "DUNS",
-            "LEI",
-            "GIIN"
+            "Duns",
+            "Lei",
+            "Giin"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -880,8 +880,8 @@
         "type": {
           "description": "The type of cost.",
           "enum": [
-            "brand",
-            "standardCampaign"
+            "Brand",
+            "StandardCampaign"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -905,8 +905,8 @@
         "billingFrequency": {
           "description": "The frequency with which the cost gets billed.",
           "enum": [
-            "monthly",
-            "once"
+            "Monthly",
+            "Once"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -946,7 +946,7 @@
         },
         "statusUpdatedDate": {
           "format": "date-time",
-          "description": "Last date and time when the 10Dlc status was updated",
+          "description": "Last date and time when the 10DLC status was updated",
           "type": "string"
         },
         "status": {
@@ -986,23 +986,6 @@
         },
         "brandDetails": {
           "$ref": "#/definitions/BrandDetails"
-        }
-      }
-    },
-    "USBrands": {
-      "description": "A wrapper for a list of USBrands.",
-      "type": "object",
-      "properties": {
-        "brands": {
-          "description": "List of USBrands",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/USBrand"
-          }
-        },
-        "nextLink": {
-          "description": "Represents the URL link to the next page",
-          "type": "string"
         }
       }
     },
@@ -1075,23 +1058,6 @@
         }
       }
     },
-    "USCampaigns": {
-      "description": "A wrapper for a list of USCampaigns",
-      "type": "object",
-      "properties": {
-        "campaigns": {
-          "description": "List of USCampaigns",
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/USCampaign"
-          }
-        },
-        "nextLink": {
-          "description": "Represents the URL link to the next page",
-          "type": "string"
-        }
-      }
-    },
     "UseCase": {
       "type": "object",
       "properties": {
@@ -1122,16 +1088,16 @@
           "type": "array",
           "items": {
             "enum": [
-              "twoFactorAuthentication",
-              "accountNotification",
-              "customerCare",
-              "deliveryNotification",
-              "fraudAlert",
-              "higherEducation",
-              "marketing",
-              "pollingVoting",
-              "publicServiceAnnouncement",
-              "securityAlert"
+              "TwoFactorAuthentication",
+              "AccountNotification",
+              "CustomerCare",
+              "DeliveryNotification",
+              "FraudAlert",
+              "HigherEducation",
+              "Marketing",
+              "PollingVoting",
+              "PublicServiceAnnouncement",
+              "SecurityAlert"
             ],
             "type": "string",
             "x-ms-enum": {
@@ -1146,6 +1112,40 @@
           "items": {
             "type": "string"
           }
+        }
+      }
+    },
+    "USBrands": {
+      "description": "A wrapper for a list of USBrands.",
+      "type": "object",
+      "properties": {
+        "brands": {
+          "description": "List of USBrands",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/USBrand"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page",
+          "type": "string"
+        }
+      }
+    },
+    "USCampaigns": {
+      "description": "A wrapper for a list of USCampaigns",
+      "type": "object",
+      "properties": {
+        "campaigns": {
+          "description": "List of USCampaigns",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/USCampaign"
+          }
+        },
+        "nextLink": {
+          "description": "Represents the URL link to the next page",
+          "type": "string"
         }
       }
     },
