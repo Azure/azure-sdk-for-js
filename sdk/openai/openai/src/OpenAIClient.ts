@@ -349,7 +349,7 @@ export class OpenAIClient {
     return generateSpeechFromText(
       this._client,
       deploymentName,
-      { input, voice, ...rest },
+      { model: deploymentName, input, voice, ...rest },
       { abortSignal, onResponse, requestOptions, tracingOptions },
     );
   }
