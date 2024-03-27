@@ -77,7 +77,7 @@ export const isNode =
 /**
  * A constant that indicates whether the environment the code is running is a Node.JS compatible environment.
  */
-export const isNodeCompatible = isNode || isDeno || isBun;
+export const isNodeLike = isNode || isDeno || isBun;
 
 /**
  * A constant that indicates whether the environment the code is running is in React-Native.

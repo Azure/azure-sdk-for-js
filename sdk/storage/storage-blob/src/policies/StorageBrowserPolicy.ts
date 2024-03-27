@@ -8,7 +8,7 @@ import {
   CompatResponse as HttpOperationResponse,
 } from "@azure/core-http-compat";
 import { BaseRequestPolicy } from "./RequestPolicy";
-import { isNodeCompatible } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { HeaderConstants, URLConstants } from "../utils/constants";
 import { setURLParameter } from "../utils/utils.common";
 
@@ -41,7 +41,7 @@ export class StorageBrowserPolicy extends BaseRequestPolicy {
    * @param request -
    */
   public async sendRequest(request: WebResource): Promise<HttpOperationResponse> {
-    if (isNodeCompatible) {
+    if (isNodeLike) {
       return this._nextPolicy.sendRequest(request);
     }
 

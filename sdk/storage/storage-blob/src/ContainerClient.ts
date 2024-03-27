@@ -5,7 +5,7 @@ import {
   getDefaultProxySettings,
   RequestBodyType as HttpRequestBody,
 } from "@azure/core-rest-pipeline";
-import { isNodeCompatible } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -659,8 +659,7 @@ export class ContainerClient extends StorageClient {
       url = urlOrConnectionString;
       pipeline = credentialOrPipelineOrContainerName;
     } else if (
-      (isNodeCompatible &&
-        credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
+      (isNodeLike && credentialOrPipelineOrContainerName instanceof StorageSharedKeyCredential) ||
       credentialOrPipelineOrContainerName instanceof AnonymousCredential ||
       isTokenCredential(credentialOrPipelineOrContainerName)
     ) {
@@ -684,7 +683,7 @@ export class ContainerClient extends StorageClient {
 
       const extractedCreds = extractConnectionStringParts(urlOrConnectionString);
       if (extractedCreds.kind === "AccountConnString") {
-        if (isNodeCompatible) {
+        if (isNodeLike) {
           const sharedKeyCredential = new StorageSharedKeyCredential(
             extractedCreds.accountName!,
             extractedCreds.accountKey,

@@ -6,7 +6,7 @@ import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { AbortController } from "@azure/abort-controller";
 import { TokenCredential } from "@azure/core-auth";
-import { isNodeCompatible } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import {
   BlobClient,
@@ -143,7 +143,7 @@ describe("BlobClient Node.js only", () => {
       blobContentDisposition: "blobContentDisposition",
       blobContentEncoding: "blobContentEncoding",
       blobContentLanguage: "blobContentLanguage",
-      blobContentMD5: isNodeCompatible ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
+      blobContentMD5: isNodeLike ? Buffer.from([1, 2, 3, 4]) : new Uint8Array([1, 2, 3, 4]),
       blobContentType: "blobContentType",
     };
     await blobClient.setHTTPHeaders(headers);

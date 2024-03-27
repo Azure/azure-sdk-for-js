@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import * as fs from "fs";
-import { isNodeCompatible, delay } from "@azure/core-util";
+import { isNodeLike, delay } from "@azure/core-util";
 import {
   getBSU,
   recorderEnvSetup,
@@ -99,14 +99,14 @@ describe("Blob versioning", () => {
     assert.deepStrictEqual(await bodyToString(downloadRes2), "");
     assert.deepStrictEqual(downloadRes2.versionId, uploadRes2.versionId);
 
-    if (isNodeCompatible) {
+    if (isNodeLike) {
       const downloadToBufferRes = await blobVersionClient.downloadToBuffer();
       assert.ok(downloadToBufferRes.equals(Buffer.from(content)));
     }
   });
 
   it("download a version to file", async function (this: Context) {
-    if (!isNodeCompatible || !isLiveMode()) {
+    if (!isNodeLike || !isLiveMode()) {
       // downloadToFile only available in Node.js
       this.skip();
     }
@@ -352,7 +352,7 @@ describe("Blob versioning", () => {
     );
     assert.ok(containerUploadRes.response.versionId);
 
-    if (!isNodeCompatible) {
+    if (!isNodeLike) {
       const uploadBrowserDataRes = await blockBlobClient.uploadBrowserData(new Blob([content]));
       assert.ok(uploadBrowserDataRes.versionId);
     }

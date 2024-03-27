@@ -12,7 +12,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { isNodeCompatible } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { BlobClient, BlobDeleteOptions, BlobSetTierOptions } from "./Clients";
 import { AccessTier } from "./generatedModels";
@@ -161,7 +161,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNodeCompatible && credentialOrOptions instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrOptions instanceof StorageSharedKeyCredential) ||
         credentialOrOptions instanceof AnonymousCredential ||
         isTokenCredential(credentialOrOptions))
     ) {
@@ -265,7 +265,7 @@ export class BlobBatch {
 
     if (
       typeof urlOrBlobClient === "string" &&
-      ((isNodeCompatible && credentialOrTier instanceof StorageSharedKeyCredential) ||
+      ((isNodeLike && credentialOrTier instanceof StorageSharedKeyCredential) ||
         credentialOrTier instanceof AnonymousCredential ||
         isTokenCredential(credentialOrTier))
     ) {

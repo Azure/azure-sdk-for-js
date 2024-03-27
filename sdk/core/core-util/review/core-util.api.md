@@ -71,7 +71,7 @@ export function isError(e: unknown): e is Error;
 export const isNode: boolean;
 
 // @public
-export const isNodeCompatible: boolean;
+export const isNodeLike: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
