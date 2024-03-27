@@ -966,16 +966,8 @@ export interface EmbeddingsOptions {
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
-  /**
-   * The response encoding format to use for embedding data.
-   *
-   * Possible values: "float", "base64"
-   */
-  encoding_format?: string;
   /** The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models. */
   dimensions?: number;
-  /** When using Azure OpenAI, specifies the input type to use for embedding search. */
-  input_type?: string;
 }
 
 /** An abstract representation of a chat message as provided in a request. */

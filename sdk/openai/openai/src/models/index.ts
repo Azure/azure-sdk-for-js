@@ -113,7 +113,6 @@ export {
   ImageGenerationContentFilterResults,
   ImageGenerationPromptFilterResults,
   EmbeddingsOptions,
-  EmbeddingEncodingFormat,
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,

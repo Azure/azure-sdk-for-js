@@ -1693,17 +1693,9 @@ export interface EmbeddingsOptions {
    * as we have observed inferior results when newlines are present.
    */
   input: string[];
-  /** The response encoding format to use for embedding data. */
-  encodingFormat?: EmbeddingEncodingFormat;
   /** The number of dimensions the resulting output embeddings should have. Only supported in `text-embedding-3` and later models. */
   dimensions?: number;
-  /** When using Azure OpenAI, specifies the input type to use for embedding search. */
-  inputType?: string;
 }
-
-/** Represents the available formats for embeddings data on responses. */
-/** "float", "base64" */
-export type EmbeddingEncodingFormat = string;
 
 /**
  * Representation of the response data from an embeddings request.

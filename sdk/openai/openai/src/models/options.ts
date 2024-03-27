@@ -7,7 +7,6 @@ import {
   ChatCompletionsNamedToolSelectionUnion,
   ChatCompletionsResponseFormat,
   ChatCompletionsToolDefinitionUnion,
-  EmbeddingEncodingFormat,
   FunctionCallPreset,
   FunctionDefinition,
   FunctionName,

@@ -584,9 +584,7 @@ export function _getEmbeddingsSend(
       user: body["user"],
       model: body["model"],
       input: body["input"],
-      encoding_format: body["encodingFormat"],
       dimensions: body["dimensions"],
-      input_type: body["inputType"],
     },
   });
 }

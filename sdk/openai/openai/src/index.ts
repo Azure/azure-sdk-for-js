@@ -116,7 +116,6 @@ export {
   ImageGenerationData,
   ImageGenerationContentFilterResults,
   ImageGenerationPromptFilterResults,
-  EmbeddingEncodingFormat,
   Embeddings,
   EmbeddingItem,
   EmbeddingsUsage,

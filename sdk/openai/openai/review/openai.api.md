@@ -561,9 +561,6 @@ export interface ElasticsearchIndexFieldMappingOptions {
 export type ElasticsearchQueryType = string;
 
 // @public
-export type EmbeddingEncodingFormat = string;
-
-// @public
 export interface EmbeddingItem {
     embedding: number[];
     index: number;
@@ -658,8 +655,6 @@ export interface GetCompletionsOptions extends OperationOptions {
 // @public
 export interface GetEmbeddingsOptions extends OperationOptions {
     dimensions?: number;
-    encodingFormat?: EmbeddingEncodingFormat;
-    inputType?: string;
     model?: string;
     user?: string;
 }
