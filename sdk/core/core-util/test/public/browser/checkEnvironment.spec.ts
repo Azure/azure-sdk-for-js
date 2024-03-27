@@ -45,13 +45,13 @@ describe("checkEnvironment (browser)", function () {
   });
 
   describe("isNodeLike (browser)", function () {
-    it("should return true", async function () {
+    it("should return false", async function () {
       assert.isFalse(isNodeLike);
     });
   });
 
   describe("isNodeRuntime (browser)", function () {
-    it("should return true", async function () {
+    it("should return false", async function () {
       assert.isFalse(isNodeRuntime);
     });
   });
