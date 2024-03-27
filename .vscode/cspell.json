@@ -186,7 +186,9 @@
         "playsourcecacheid",
         "sipuui",
         "sipx",
-        "ssml"
+        "ssml",
+        "unhold",
+		    "Unhold"
       ]
     },
     {
