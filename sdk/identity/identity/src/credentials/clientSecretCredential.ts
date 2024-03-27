@@ -21,7 +21,7 @@ const logger = credentialLogger("ClientSecretCredential");
  * that was generated for an App Registration. More information on how
  * to configure a client secret can be found here:
  *
- * https://learn.microsoft.com/azure/active-directory/develop/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
+ * https://learn.microsoft.com/entra/identity-platform/quickstart-configure-app-access-web-apis#add-credentials-to-your-web-application
  *
  */
 export class ClientSecretCredential implements TokenCredential {

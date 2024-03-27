@@ -36,10 +36,10 @@ Authenticating your application, users, and principals is an integral part of wo
 
 For client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience. It's the only credential type that we support in the browser. To get started, register your application in the Microsoft Identity platform and set the proper permissions.
 
-- [Register a single page application](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration) in the Microsoft identity platform
+- [Register a single page application](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration) in the Microsoft identity platform
 - Configure the app registration with a redirect URI to specify where the Microsoft identity platform should redirect the client along with any security tokens.
-  - If using v1 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 1.0 with implicit flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-10-with-implicit-flow) to set the redirect URI.
-  - If using v2 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 2.0 with auth code flow](https://docs.microsoft.com/azure/active-directory/develop/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow)
+  - If using v1 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 1.0 with implicit flow](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration#redirect-uri-msaljs-10-with-implicit-flow) to set the redirect URI.
+  - If using v2 of `@azure/identity` package, follow the instructions at [Redirect URI: MSAL.js 2.0 with auth code flow](https://learn.microsoft.com/entra/identity-platform/scenario-spa-app-registration#redirect-uri-msaljs-20-with-auth-code-flow)
 - Ensure that your application has the correct permission for the APIs it intends to use.
   - In your app registration in the Azure portal, go to `API Permissions`
   - Click on `Add a permission`
@@ -70,7 +70,7 @@ For server-side applications, we provide options that vary from a minimal config
 
 - To get started, you can always rely on interactive authentication of your user account, which requires minimal setup.
 - As you develop your application, you may want to sign in using the developer tools like Azure CLI or Azure PowerShell, to avoid signing in interactively every time you run your application.
-- As you deploy your application to Azure App Service or run it in a virtual machine, you may want to use [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview).
+- As you deploy your application to Azure App Service or run it in a virtual machine, you may want to use [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview).
 
 We also provide a way to chain multiple credentials so that they try to authenticate sequentially until one of them succeeds. Chaining credentials will allow your code to work in multiple environments, including your local development tools. For more information, go to the section: [Chaining credentials](#chaining-credentials).
 
@@ -117,11 +117,11 @@ To learn more, read [Application and service principal objects in Microsoft Entr
 
 ### Authenticating Azure Hosted Applications
 
-If your application is hosted in Azure, you can make use of [Managed Identity](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview) for hassle free authentication in your production environments.
+If your application is hosted in Azure, you can make use of [Managed Identity](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview) for hassle free authentication in your production environments.
 
 | Credential with example                                                     | Usage                                                                                                                                                                                                                                                                                                                                                                        |
 | --------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-|[WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity) | Authenticate in Azure Kubernetes environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/azure/active-directory/workload-identities/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers. |
+|[WorkloadIdentityCredential](#authenticating-in-azure-with-workload-identity) | Authenticate in Azure Kubernetes environment with [Microsoft Entra Workload ID](https://learn.microsoft.com/entra/workload-id/workload-identities-overview), which [integrates with the Kubernetes native capabilities](https://learn.microsoft.com/azure/aks/workload-identity-overview) to federate with any external identity providers. |
 | [ManagedIdentityCredential](#authenticating-in-azure-with-managed-identity) | Authenticate in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned managed identity, user-assigned managed identity, or app registration (when working with AKS pod identity).    |
 | [DefaultAzureCredential](#authenticating-with-defaultazurecredential)       | Tries `EnvironmentCredential`, `ManagedIdentityCredential`, `AzureCliCredential`, `AzurePowerShellCredential`, and other credentials sequentially until one of them succeeds. Use this to have your application authenticate using developer tools, service principals or managed identity based on what is available in the current environment without changing your code. |
 
@@ -166,7 +166,7 @@ function withDefaultAzureCredential() {
 
 For clients with a default browser available and client-side applications running in the browser, the `InteractiveBrowserCredential` provides the most direct user authentication experience. In the sample below, an application authenticates a `SecretClient` from the [@azure/service-bus][service_bus_client_library] using the `InteractiveBrowserCredential`.
 
-For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/azure/active-directory/develop/scenario-desktop-app-registration#redirect-uris).
+For Node.js, if a `clientId` is provided, the Microsoft Entra application will need to be configured to have a "Mobile and desktop applications" redirect endpoint. Follow our guide on [setting up Redirect URIs for Desktop apps that calls to web APIs](https://learn.microsoft.com/entra/identity-platform/scenario-desktop-app-registration#redirect-uris).
 
 For client-side applications running in the browser, the `InteractiveBrowserCredential` is the only credential type that is supported. For more information, see [Authenticating client-side browser applications](#authenticating-client-side-browser-applications).
 
@@ -399,11 +399,11 @@ This example demonstrates authenticating the `SecretClient` from the [@azure/key
 
 First, [register your application][quickstart-register-app] and get your client ID, tenant ID and redirect URL.
 
-Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow#request-an-authorization-code). You'll need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
+Next, prompt the user to login at the URL documented at [Microsoft identity platform and OAuth 2.0 authorization code flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-auth-code-flow#request-an-authorization-code). You'll need the client ID, tenant ID, redirect URL, and the scopes your application plans to access.
 
 Then create an API at the redirect URL with the following code to access the Key Vault service.
 
-To learn more about scopes and permissions, see [Scopes and permissions](https://docs.microsoft.com/azure/active-directory/develop/v2-permissions-and-consent#scopes-and-permissions).
+To learn more about scopes and permissions, see [Scopes and permissions](https://learn.microsoft.com/entra/identity-platform/permissions-consent-overview#scopes-and-permissions).
 
 For a complete example using the authorization code flow in Electron, please refer to [our electron sample](https://github.com/Azure/azure-sdk-for-js/blob/main/samples/frameworks/electron/ts/src/authProvider.ts)
 
@@ -583,7 +583,7 @@ function withDefaultAzureCredential() {
 
 This example demonstrates authenticating the `SecretClient` from the [@azure/keyvault-secrets][secrets_client_library] using the `ManagedIdentityCredential` in a virtual machine, App Service, Functions app, Cloud Shell, or AKS environment on Azure, with system-assigned or user-assigned managed identity enabled.
 
-For more information about configuring your Azure resource for managed identity, see [Configure managed identities for Azure resources](https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/qs-configure-cli-windows-vm).
+For more information about configuring your Azure resource for managed identity, see [Configure managed identities for Azure resources](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/qs-configure-cli-windows-vm).
 
 ```ts
 /**
@@ -1028,7 +1028,7 @@ In this example, the custom credential type `RotatingCertificateCredential` agai
 
 ### Authenticate on behalf of
 
-Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would otherwise be unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
+Many multi-user apps use the [On-Behalf-Of (OBO) flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow) to make authenticated requests between two services that would otherwise be unreachable. The Identity SDK provides an `OnBehalfOfCredential` that supports this form of authentication.
 
 Two accounts participate in the OBO flow:
 
@@ -1320,23 +1320,23 @@ The following table shows common values provided through the `AzureAuthorityHost
 | Microsoft Entra ID China operated by 21Vianet | https://login.chinacloudapi.cn    | `AzureAuthorityHosts.AzureChina`       |
 | Microsoft Entra ID (global service)           | https://login.microsoftonline.com | `AzureAuthorityHosts.AzurePublicCloud` |
 
-To learn more about Azure Authentication for National Clouds, see [National clouds](https://docs.microsoft.com/azure/active-directory/develop/authentication-national-cloud).
+To learn more about Azure Authentication for National Clouds, see [National clouds](https://learn.microsoft.com/entra/identity-platform/authentication-national-cloud).
 
 <!-- LINKS -->
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [secrets_client_library]: https://www.npmjs.com/package/@azure/keyvault-secrets
 [service_bus_client_library]: https://www.npmjs.com/package/@azure/service-bus
-[azure_managed_identities]: https://docs.microsoft.com/azure/active-directory/managed-identities-azure-resources/overview
+[azure_managed_identities]: https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview
 [service_principal_azure_cli]: https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli
 [device_code_flow]: https://github.com/Azure/azure-sdk-for-java/wiki/Set-up-Your-Environment-for-Authentication#enable-applications-for-device-code-flow
-[quickstart-register-app]: https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app
-[app-register-service-principal]: https://docs.microsoft.com/azure/active-directory/develop/app-objects-and-service-principals
+[quickstart-register-app]: https://learn.microsoft.com/entra/identity-platform/quickstart-register-app
+[app-register-service-principal]: https://learn.microsoft.com/entra/identity-platform/app-objects-and-service-principals
 [service_principal_azure_powershell]: https://docs.microsoft.com/powershell/azure/create-azure-service-principal-azureps
 [msal_node_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-node
 [msal_node_npm]: https://www.npmjs.com/package/@azure/msal-node
 [msal_browser_readme]: https://github.com/sadasant/microsoft-authentication-library-for-js/tree/master/lib/msal-browser
 [msal_browser_npm]: https://www.npmjs.com/package/@azure/msal-browser
 [core_auth]: https://www.npmjs.com/package/@azure/core-auth
-[register_certificate_app_registration]: https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials#register-your-certificate-with-microsoft-identity-platform
-[client_assertion_jwt]: https://docs.microsoft.com/azure/active-directory/develop/active-directory-certificate-credentials
+[register_certificate_app_registration]: https://learn.microsoft.com/entra/identity-platform/certificate-credentials#register-your-certificate-with-microsoft-identity-platform
+[client_assertion_jwt]: https://learn.microsoft.com/entra/identity-platform/certificate-credentials
