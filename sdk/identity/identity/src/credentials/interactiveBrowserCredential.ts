@@ -12,6 +12,7 @@ import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
+
 import { AuthenticationRecord } from "../msal/types";
 import { MsalFlow } from "../msal/flows";
 import { MsalOpenBrowser } from "../msal/nodeFlows/msalOpenBrowser";
@@ -73,6 +74,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
             enabled: true,
             parentWindowHandle: ibcNodeOptions.brokerOptions.parentWindowHandle,
             legacyEnableMsaPassthrough: ibcNodeOptions.brokerOptions?.legacyEnableMsaPassthrough,
+            useDefaultBrokerAccount: ibcNodeOptions.brokerOptions?.useDefaultBrokerAccount,
           },
         });
       }

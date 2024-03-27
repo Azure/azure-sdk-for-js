@@ -21,7 +21,7 @@ import {
   PoolDisableAutoScaleOptionalParams,
   PoolDisableAutoScaleResponse,
   PoolStopResizeOptionalParams,
-  PoolStopResizeResponse
+  PoolStopResizeResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,7 +36,7 @@ export interface PoolOperations {
   listByBatchAccount(
     resourceGroupName: string,
     accountName: string,
-    options?: PoolListByBatchAccountOptionalParams
+    options?: PoolListByBatchAccountOptionalParams,
   ): PagedAsyncIterableIterator<Pool>;
   /**
    * Creates a new pool inside the specified account.
@@ -51,7 +51,7 @@ export interface PoolOperations {
     accountName: string,
     poolName: string,
     parameters: Pool,
-    options?: PoolCreateOptionalParams
+    options?: PoolCreateOptionalParams,
   ): Promise<PoolCreateResponse>;
   /**
    * Updates the properties of an existing pool.
@@ -67,7 +67,7 @@ export interface PoolOperations {
     accountName: string,
     poolName: string,
     parameters: Pool,
-    options?: PoolUpdateOptionalParams
+    options?: PoolUpdateOptionalParams,
   ): Promise<PoolUpdateResponse>;
   /**
    * Deletes the specified pool.
@@ -80,7 +80,7 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDeleteOptionalParams
+    options?: PoolDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified pool.
@@ -93,7 +93,7 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDeleteOptionalParams
+    options?: PoolDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets information about the specified pool.
@@ -106,7 +106,7 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolGetOptionalParams
+    options?: PoolGetOptionalParams,
   ): Promise<PoolGetResponse>;
   /**
    * Disables automatic scaling for a pool.
@@ -119,7 +119,7 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolDisableAutoScaleOptionalParams
+    options?: PoolDisableAutoScaleOptionalParams,
   ): Promise<PoolDisableAutoScaleResponse>;
   /**
    * This does not restore the pool to its previous state before the resize operation: it only stops any
@@ -137,6 +137,6 @@ export interface PoolOperations {
     resourceGroupName: string,
     accountName: string,
     poolName: string,
-    options?: PoolStopResizeOptionalParams
+    options?: PoolStopResizeOptionalParams,
   ): Promise<PoolStopResizeResponse>;
 }

@@ -5,13 +5,13 @@
  * @summary Demonstrates the SynonymMap Operations.
  */
 
-const { SearchIndexClient, AzureKeyCredential } = require("@azure/search-documents");
+const { AzureKeyCredential, SearchIndexClient } = require("@azure/search-documents");
 
 require("dotenv").config();
 
 const endpoint = process.env.ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_ADMIN_KEY || "";
-const synonymMapName = "example-synonymmap-sample-1";
+const TEST_SYNONYM_MAP_NAME = "example-synonymmap-sample-1";
 
 async function createSynonymMap(synonymMapName, client) {
   console.log(`Creating SynonymMap Operation`);
@@ -36,10 +36,10 @@ async function listSynonymMaps(client) {
 
   console.log(`List of SynonymMaps`);
   console.log(`*******************`);
-  for (let sm of listOfSynonymMaps) {
+  for (const sm of listOfSynonymMaps) {
     console.log(`Name: ${sm.name}`);
     console.log(`Synonyms`);
-    for (let synonym of sm.synonyms) {
+    for (const synonym of sm.synonyms) {
       console.log(synonym);
     }
   }
@@ -58,11 +58,11 @@ async function main() {
   }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   try {
-    await createSynonymMap(synonymMapName, client);
-    await getAndUpdateSynonymMap(synonymMapName, client);
+    await createSynonymMap(TEST_SYNONYM_MAP_NAME, client);
+    await getAndUpdateSynonymMap(TEST_SYNONYM_MAP_NAME, client);
     await listSynonymMaps(client);
   } finally {
-    await deleteSynonymMap(synonymMapName, client);
+    await deleteSynonymMap(TEST_SYNONYM_MAP_NAME, client);
   }
 }
 

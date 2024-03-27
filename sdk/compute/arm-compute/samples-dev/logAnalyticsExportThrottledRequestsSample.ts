@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ThrottledRequestsInput,
-  ComputeManagementClient
+  ComputeManagementClient,
 } from "@azure/arm-compute";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,13 +34,13 @@ async function exportLogsWhichContainAllThrottledApiRequestsMadeToComputeResourc
     groupByOperationName: true,
     groupByResourceName: false,
     groupByUserAgent: false,
-    toTime: new Date("2018-01-23T01:54:06.862601Z")
+    toTime: new Date("2018-01-23T01:54:06.862601Z"),
   };
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
   const result = await client.logAnalytics.beginExportThrottledRequestsAndWait(
     location,
-    parameters
+    parameters,
   );
   console.log(result);
 }
