@@ -228,5 +228,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The limited order encountered an error:", err);
 });

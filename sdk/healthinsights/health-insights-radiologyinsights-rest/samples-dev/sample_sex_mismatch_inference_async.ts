@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the radiology procedure of the Radiology Insights request.
+ * Displays the sex mismatch of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -21,7 +21,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the radiology procedure inference
+    * Print the sex mismatch inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
@@ -217,5 +217,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The sex mismatch encountered an error:", err);
 });

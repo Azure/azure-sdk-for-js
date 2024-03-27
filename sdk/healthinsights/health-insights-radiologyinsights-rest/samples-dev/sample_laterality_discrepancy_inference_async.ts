@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the follow up recommendation of the Radiology Insights request.
+ * Displays the laterality discrepancy of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -21,7 +21,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the follow up recommendation inference
+    * Print the laterality discrepancy recommendation inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
@@ -198,5 +198,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The follow up recommendation encountered an error:", err);
+  console.error("The laterality discrepancy encountered an error:", err);
 });

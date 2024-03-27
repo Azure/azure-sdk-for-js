@@ -255,5 +255,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The radiology procedure encountered an error:", err);
 });
