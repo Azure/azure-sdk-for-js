@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up communication of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
   RadiologyInsightsResultOutput,
+  getLongRunningPoller,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 import * as dotenv from "dotenv";
 
@@ -21,23 +21,26 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the follow up communication inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+      results.patientResults.forEach((patientResult: any) => {
+        patientResult.inferences.forEach((inference: { kind: string; dateTime: any[]; recipient: any[]; wasAcknowledged: string; }) => {
+          if (inference.kind === "followupCommunication") {
+            console.log("Followup Communication Inference found");
+            if ("dateTime" in inference) {
+              console.log("Date Time: " + inference.dateTime.join(" "));
             }
-          });
-        }
+            if ("recipient" in inference) {
+              console.log("Recipient: " + inference.recipient.join(" "));
+            }
+            console.log("   Aknowledged: " + inference.wasAcknowledged);
+          }
+        });
       });
     }
   } else {
@@ -46,7 +49,9 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
 }
+
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
@@ -207,5 +212,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The follow up communication encountered an error:", err);
 });

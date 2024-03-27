@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the complete order discrepancy of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
   RadiologyInsightsResultOutput,
+  getLongRunningPoller,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 import * as dotenv from "dotenv";
 
@@ -21,20 +21,32 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the complete order discrepancy inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
+      results.patientResults.forEach((patientResult: any) => {
         if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+          patientResult.inferences.forEach((inference: any) => {
+            if (inference.kind === "completeOrderDiscrepancy") {
+              console.log("Complete Order Discrepancy Inference found: ");
+              if ("orderType" in inference) {
+                console.log("   Ordertype: ");
+                displayCodes({ codableConcept: inference.orderType });
+              };
+
+              inference.missingBodyParts?.forEach((bodyparts: any) => {
+                console.log("   Missing Body Parts: ");
+                displayCodes({ codableConcept: bodyparts });
+              });
+
+              inference.missingBodyPartMeasurements?.forEach((bodymeasure: any) => {
+                console.log("   Missing Body Part Measurements: ");
+                displayCodes({ codableConcept: bodymeasure });
+              });
             }
           });
         }
@@ -46,6 +58,15 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes({ codableConcept }: { codableConcept: any; }): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
 }
 
 // Create request body for radiology insights
@@ -207,5 +228,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The complete order encountered an error:", err);
 });

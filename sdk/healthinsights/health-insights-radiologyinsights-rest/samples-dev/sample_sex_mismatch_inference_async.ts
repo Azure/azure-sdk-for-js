@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the radiology procedure of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -21,7 +21,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the radiology procedure inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
@@ -31,9 +31,10 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
+            if (inference.kind === "sexMismatch") {
+              console.log("Sex Mismatch Inference found: ");
+              if ("sexIndication" in inference) {
+                displayCodes(inference.sexIndication)
               }
             }
           });
@@ -46,6 +47,15 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codableConcept: any): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
 }
 
 // Create request body for radiology insights

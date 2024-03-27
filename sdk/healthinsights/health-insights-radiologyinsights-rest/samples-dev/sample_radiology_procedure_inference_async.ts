@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the radiology procedure of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -21,7 +21,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the radiology procedure inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
@@ -31,9 +31,29 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
+            if (inference.kind === "radiologyProcedure") {
+              console.log("Radiology Procedure Inference found");
+              inference.procedureCodes?.forEach((procedureCode: any) => {
+                console.log("   Procedure Codes: ");
+                displayCodes(procedureCode);
+              });
+
+              if ("imagingProcedures" in inference) {
+                inference.imagingProcedures.forEach((imagingProcedure: any) => {
+                  console.log("   Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
+              }
+
+              if ("orderedProcedure" in inference) {
+                console.log("   Ordered procedures: ");
+                if ("code" in inference.orderedProcedure) {
+                  displayCodes(inference.orderedProcedure.code);
+                }
+              }
+
+              if ("description" in inference.orderedProcedure) {
+                console.log("   Description: " + inference.orderedProcedure.description);
               }
             }
           });
@@ -46,6 +66,34 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codableConcept: any): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
+  function displayImaging(images: any): void {
+    console.log("   Modality Codes: ");
+    displayCodes(images.modality.coding);
+    console.log("   Anatomy Codes: ");
+    displayCodes(images.anatomy.coding);
+    if ("laterality" in images) {
+      console.log("   Laterality Codes: ");
+      displayCodes(images.laterality.coding);
+    }
+    if ("contrast" in images) {
+      console.log("   Contrast Codes: ");
+      displayCodes(images.contrast.code.coding);
+    }
+    if ("view" in images) {
+      console.log("   View Codes: ");
+      displayCodes(images.view.code.coding);
+    }
+  }
+
 }
 
 // Create request body for radiology insights

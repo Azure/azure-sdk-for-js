@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the age mismatch of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
   RadiologyInsightsResultOutput,
+  getLongRunningPoller,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 import * as dotenv from "dotenv";
 
@@ -21,20 +21,20 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the age mismatch inference
  */
 
-function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
+function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput, content: string): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
+      results.patientResults.forEach((patientResult: any) => {
         if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+          patientResult.inferences.forEach((inference: any) => {
+            if (inference.kind === "ageMismatch") {
+              console.log("Age Mismatch Inference found: ");
+              const evidence = findAgeEvidence(inference.extension, content);
+              console.log("   Evidence: " + evidence);
             }
           });
         }
@@ -46,6 +46,29 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function findAgeEvidence(extensions: any, content: string) {
+    let offset = -1;
+    let length = -1;
+    let piece = "";
+    let evidence = "";
+    // for loop needed for traversing from top to bottom of the array
+    for (const first of extensions) {
+      for (const ext of first.extension) {
+        if (ext.url === "offset") {
+          offset = ext.valueInteger;
+        } else if (ext.url === "length") {
+          length = ext.valueInteger;
+        }
+        if (offset > 0 && length > 0) {
+          piece = content.substring(offset, offset + length);
+        }
+      }
+      evidence += `${piece} `;
+    }
+    return evidence;
+  }
+
 }
 
 // Create request body for radiology insights
@@ -203,9 +226,10 @@ export async function main() {
     throw RadiologyInsightsResult;
   }
   const resultBody = RadiologyInsightsResult.body;
-  printResults(resultBody);
+  const content = radiologyInsightsParameter?.body?.patients?.[0]?.patientDocuments?.[0]?.content?.value ?? '';
+  printResults(resultBody, content);
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The age mismatch encountered an error:", err);
 });

@@ -137,7 +137,7 @@ function findLateralityDiscrepancy(res: any): void {
         patientResult.inferences.forEach((inference: any) => {
           if (inference.kind === "lateralityDiscrepancy") {
             console.log("Laterality Discrepancy Inference found: ");
-            displayCodes({ codableConcept: inference.lateralityIndication });
+            displayCodes(inference.lateralityIndication);
           }
         });
       }

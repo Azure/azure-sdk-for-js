@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the limited order discrepancy of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -21,7 +21,7 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the limited order discrepancy inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
@@ -31,10 +31,22 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
         if (patientResult.inferences) {
           patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
+            if (inference.kind === "limitedOrderDiscrepancy") {
+              console.log("Limited Order Discrepancy Inference found: ");
+              if ("orderType" in inference) {
+                console.log("   Ordertype: ");
+                displayCodes(inference.orderType);
+              };
+
+              inference.presentBodyParts?.forEach((bodyparts: any) => {
+                console.log("   Present Body Parts: ");
+                displayCodes(bodyparts);
+              });
+
+              inference.presentBodyPartMeasurements?.forEach((bodymeasure: any) => {
+                console.log("   Present Body Part Measurements: ");
+                displayCodes(bodymeasure);
+              });
             }
           });
         }
@@ -46,6 +58,15 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codableConcept: any): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
 }
 
 // Create request body for radiology insights

@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up recommendation of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
   RadiologyInsightsResultOutput,
+  getLongRunningPoller,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 import * as dotenv from "dotenv";
 
@@ -21,23 +21,45 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the follow up recommendation inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
+      results.patientResults.forEach((patientResult: any) => {
+        patientResult.inferences.forEach((inference: { kind: string; isConditional: any; isGuideline: any; isHedging: any; isOption: any; recommendedProcedure: any; }) => {
+          if (inference.kind === "followupRecommendation") {
+            console.log("Follow Up Recommendation Inference found");
+            console.log("   Is conditional: ", inference.isConditional);
+            console.log("   Is guidline: ", inference.isGuideline);
+            console.log("   Is hedging: ", inference.isHedging);
+            console.log("   Is option: ", inference.isOption);
+
+            var procedure = inference.recommendedProcedure;
+            if ("kind" in procedure && procedure.kind === "genericProcedureRecommendation") {
+              if ("code" in procedure) {
+                console.log("   Recommended Generic Procedure: ", procedure.code);
+              }
+              if ("description" in procedure) {
+                console.log("   Description: ", procedure.description);
+              }
+            } else if ("kind" in procedure && procedure.kind === "imagingProcedureRecommendation") {
+              procedure.procedureCodes?.forEach((procedureCode: any) => {
+                console.log("   Recommended Procedure Codes: ");
+                displayCodes(procedureCode);
+              });
+
+              if ("imagingProcedures" in procedure) {
+                procedure.imagingProcedures?.forEach((imagingProcedure: any) => {
+                  console.log("   Recommended Imaging Procedure Codes: ");
+                  displayImaging(imagingProcedure);
+                });
               }
             }
-          });
-        }
+          }
+        });
       });
     }
   } else {
@@ -46,7 +68,36 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codableConcept: any): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("      Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
+      }
+    });
+  }
+
+  function displayImaging(images: { modality: { coding: any[]; }; anatomy: { coding: any[]; }; laterality: { coding: any[]; }; contrast: { code: { coding: any[]; }; }; view: { code: { coding: any[]; }; }; }) {
+    console.log("   Modality Codes: ");
+    displayCodes(images.modality);
+    console.log("   Anatomy Codes: ");
+    displayCodes(images.anatomy);
+    if ("laterality" in images) {
+      console.log("   Laterality Codes: ");
+      displayCodes(images.laterality);
+    }
+    if ("contrast" in images) {
+      console.log("   Contrast Codes: ");
+      displayCodes(images.contrast.code);
+    }
+    if ("view" in images) {
+      console.log("   View Codes: ");
+      displayCodes(images.view.code);
+    }
+  }
+
 }
+
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
@@ -207,5 +258,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The follow up recommendation encountered an error:", err);
 });

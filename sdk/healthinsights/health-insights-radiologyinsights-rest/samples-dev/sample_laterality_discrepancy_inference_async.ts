@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the critical results of the Radiology Insights request.
+ * Displays the follow up recommendation of the Radiology Insights request.
  */
 import { AzureKeyCredential } from "@azure/core-auth";
 
 import AzureHealthInsightsClient, {
   CreateJobParameters,
-  getLongRunningPoller,
-  isUnexpected,
   RadiologyInsightsResultOutput,
+  getLongRunningPoller,
+  isUnexpected
 } from "@azure-rest/health-insights-radiologyinsights";
 import * as dotenv from "dotenv";
 
@@ -21,23 +21,20 @@ const apiKey = process.env["HEALTH_INSIGHTS_KEY"] || "";
 const endpoint = process.env["HEALTH_INSIGHTS_ENDPOINT"] || "";
 
 /**
-    * Print the critical result inference
+    * Print the follow up recommendation inference
  */
 
 function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): void {
   if (radiologyInsightsResult.status === "succeeded") {
     const results = radiologyInsightsResult.result;
     if (results !== undefined) {
-      results.patientResults.forEach((patientResult: { inferences: any[]; }) => {
-        if (patientResult.inferences) {
-          patientResult.inferences.forEach((inference) => {
-            if (inference.kind === "criticalResult") {
-              if ("result" in inference) {
-                console.log("Critical Result Inference found: " + inference.result.description);
-              }
-            }
-          });
-        }
+      results.patientResults.forEach((patientResult: any) => {
+        patientResult.inferences.forEach((inference: { kind: string; dateTime: any[]; recipient: any[]; wasAcknowledged: string; lateralityIndication: any }) => {
+          if (inference.kind === "lateralityDiscrepancy") {
+            console.log("Laterality Discrepancy Inference found: ");
+            displayCodes(inference.lateralityIndication);
+          }
+        });
       });
     }
   } else {
@@ -46,16 +43,27 @@ function printResults(radiologyInsightsResult: RadiologyInsightsResultOutput): v
       console.log(error.code, ":", error.message);
     }
   }
+
+  function displayCodes(codableConcept: any): void {
+    codableConcept.coding?.forEach((coding: any) => {
+      if ("code" in coding) {
+        console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + "), type: " + coding.type);
+      }
+    });
+  }
+
 }
+
 
 // Create request body for radiology insights
 function createRequestBody(): CreateJobParameters {
 
   const codingData = {
     system: "Http://hl7.org/fhir/ValueSet/cpt-all",
-    code: "USPELVIS",
-    display: "US PELVIS COMPLETE"
+    code: "26688-1",
+    display: "US BREAST - LEFT LIMITED"
   };
+
 
   const code = {
     coding: [codingData]
@@ -82,7 +90,7 @@ function createRequestBody(): CreateJobParameters {
 
   const orderedProceduresData = {
     code: code,
-    description: "US PELVIS COMPLETE"
+    description: "US BREAST - LEFT LIMITED"
   };
 
   const administrativeMetadata = {
@@ -92,29 +100,12 @@ function createRequestBody(): CreateJobParameters {
 
   const content = {
     sourceType: "inline",
-    value: "CLINICAL HISTORY:   "
-      + "\r\n20-year-old female presenting with abdominal pain. Surgical history significant for appendectomy."
-      + "\r\n "
-      + "\r\nCOMPARISON:   "
-      + "\r\nRight upper quadrant sonographic performed 1 day prior."
-      + "\r\n "
-      + "\r\nTECHNIQUE:   "
-      + "\r\nTransabdominal grayscale pelvic sonography with duplex color Doppler "
-      + "\r\nand spectral waveform analysis of the ovaries."
-      + "\r\n "
-      + "\r\nFINDINGS:   "
-      + "\r\nThe uterus is unremarkable given the transabdominal technique with "
-      + "\r\nendometrial echo complex within physiologic normal limits. The "
-      + "\r\novaries are symmetric in size, measuring 2.5 x 1.2 x 3.0 cm and the "
-      + "\r\nleft measuring 2.8 x 1.5 x 1.9 cm.\n \r\nOn duplex imaging, Doppler signal is symmetric."
-      + "\r\n "
-      + "\r\nIMPRESSION:   "
-      + "\r\n1. Normal pelvic sonography. Findings of testicular torsion."
-      + "\r\n\nA new US pelvis within the next 6 months is recommended."
-      + "\n\nThese results have been discussed with Dr. Jones at 3 PM on November 5 2020.\n "
+    value: "Exam:   US LT BREAST TARGETED"
+      + "\r\n\r\nTechnique:  Targeted imaging of the  right breast  is performed."
+      + "\r\n\r\nFindings:\\r\\n\\r\\nTargeted imaging of the left breast is performed from the 6:00 to the 9:00 position.  "
+      + "\r\n\r\nAt the 6:00 position, 5 cm from the nipple, there is a 3 x 2 x 4 mm minimally hypoechoic mass with a peripheral calcification. This may correspond to the mammographic finding. No other cystic or solid masses visualized."
       + "\r\n"
   };
-
   const patientDocumentData = {
     type: "note",
     clinicalType: "radiologyReport",
@@ -125,7 +116,7 @@ function createRequestBody(): CreateJobParameters {
     administrativeMetadata: administrativeMetadata,
     content: content,
     createdDateTime: new Date("2021-06-01T00:00:00.000"),
-    orderedProceduresAsCsv: "US PELVIS COMPLETE"
+    orderedProceduresAsCsv: "US BREAST - LEFT LIMITED"
   };
 
 
@@ -207,5 +198,5 @@ export async function main() {
 }
 
 main().catch((err) => {
-  console.error("The critical result encountered an error:", err);
+  console.error("The follow up recommendation encountered an error:", err);
 });

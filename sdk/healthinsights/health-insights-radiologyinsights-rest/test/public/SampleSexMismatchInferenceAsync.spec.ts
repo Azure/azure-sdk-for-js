@@ -153,7 +153,7 @@ function findSexMismatch(res: any): void {
           if (inference.kind === "sexMismatch") {
             console.log("Sex Mismatch Inference found: ");
             if ("sexIndication" in inference) {
-              displayCodes({ codableConcept: inference.sexIndication })
+              displayCodes(inference.sexIndication)
             }
           }
         });
@@ -161,7 +161,7 @@ function findSexMismatch(res: any): void {
     });
   }
 
-  function displayCodes({ codableConcept }: { codableConcept: any; }): void {
+  function displayCodes(codableConcept: any): void {
     codableConcept.coding?.forEach((coding: any) => {
       if ("code" in coding) {
         console.log("   Coding: " + coding.code + ", " + coding.display + " (" + coding.system + ")");
