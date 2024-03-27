@@ -14,6 +14,8 @@ import { tracingClient } from "./generated/src/tracing";
 import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
 import {
+  TenDlcCancelUSBrandResponse,
+  TenDlcCancelUSCampaignResponse,
   TenDlcCost,
   TenDlcSubmitUSBrandOptionalParams,
   TenDlcSubmitUSCampaignOptionalParams,
@@ -21,6 +23,8 @@ import {
   USCampaign,
 } from "./generated/src/models";
 import {
+  CancelUSBrandOptionalParams,
+  CancelUSCampaignOptionalParams,
   CreateOrUpdateBrandOptions,
   CreateOrUpdateCampaignOptions,
   DeleteBrandOptionalParams,
@@ -260,5 +264,41 @@ export class TenDlcClient {
         return this.client.tenDlc.submitUSCampaign(campaignId, submitOptions);
       }
     );
+  }
+
+  public cancelUSBrand(
+    brandId: string,
+    options?: CancelUSBrandOptionalParams,
+  ): Promise<TenDlcCancelUSBrandResponse> {
+    const { span } = tracingClient.startSpan("TenDLCClient.cancelUSBrand", options);
+    try {
+      return this.client.tenDlc.cancelUSBrand(brandId, options);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  public cancelUSCampaign(
+    campaignId: string,
+    options?: CancelUSCampaignOptionalParams,
+  ): Promise<TenDlcCancelUSCampaignResponse> {
+    const { span } = tracingClient.startSpan("TenDLCClient.cancelUSCampaign", options);
+    try {
+      return this.client.tenDlc.cancelUSCampaign(campaignId, options);
+    } catch (e: any) {
+      span.setStatus({
+        status: "error",
+        error: e,
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

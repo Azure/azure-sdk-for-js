@@ -2,6 +2,8 @@
 // Licensed under the MIT license.
 
 import {
+  TenDlcCancelUSBrandOptionalParams,
+  TenDlcCancelUSCampaignOptionalParams,
   TenDlcDeleteUSBrandOptionalParams,
   TenDlcDeleteUSCampaignOptionalParams,
   TenDlcGetUSBrandOptionalParams,
@@ -67,6 +69,17 @@ export interface SubmitBrandOptionalParams extends TenDlcSubmitUSBrandOptionalPa
  * Additional options for the Submit campaign request.
  */
 export interface SubmitCampaignOptionalParams extends TenDlcSubmitUSCampaignOptionalParams {}
+
+/**
+ * Additional options for the Cancel brand request.
+ */
+export interface CancelUSBrandOptionalParams extends TenDlcCancelUSBrandOptionalParams {}
+
+/**
+ * Additional options for the Cancel campaign request.
+ */
+export interface CancelUSCampaignOptionalParams extends TenDlcCancelUSCampaignOptionalParams {}
+
 
 export {
   Address,
