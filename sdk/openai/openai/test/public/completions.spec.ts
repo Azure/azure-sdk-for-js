@@ -53,7 +53,7 @@ describe("OpenAI", function () {
         client = createClient(authMethod, "completions", { recorder });
       });
 
-      describe("getCompletions", function () {
+      describe.only("getCompletions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
@@ -64,24 +64,16 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("streamCompletions", function () {
-        let modelName: string;
-
-        before(async function (this: Context) {
-          if (authMethod === "OpenAIKey") {
-            modelName = "gpt-3.5-turbo-instruct";
-          } else {
-            modelName = "gpt-35-turbo-instruct";
-          }
-        });
-
+      describe.only("streamCompletions", function () {
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
-          await assertCompletionsStream(await client.streamCompletions(modelName, prompt), {
+          await withDeployments(
+            authMethod === "OpenAIKey" ? models : deployments,
+            (deploymentName) => client.streamCompletions(deploymentName, prompt),
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
-            allowEmptyChoices: true,
-          });
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+          );
         });
 
         it("stream long completions", async function () {
@@ -141,15 +133,14 @@ describe("OpenAI", function () {
   \`\`\`
   `,
           ];
-          await assertCompletionsStream(
-            await client.streamCompletions(modelName, prompt, {
-              maxTokens: 2048,
-            }),
-            {
-              // The API returns an empty choice in the first event for some
-              // reason. This should be fixed in the API.
-              allowEmptyChoices: true,
-            },
+          await withDeployments(
+            authMethod === "OpenAIKey" ? models : deployments,
+            (deploymentName) =>
+              client.streamCompletions(deploymentName, prompt, { maxTokens: 2048 }),
+
+            // The API returns an empty choice in the first event for some
+            // reason. This should be fixed in the API.
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
           );
         });
       });

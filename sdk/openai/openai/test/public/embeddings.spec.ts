@@ -60,7 +60,7 @@ describe("OpenAI", function () {
         it("embeddings request with dimensions", async function () {
           const prompt = ["This is text to be embedded"];
           modelName = "text-embedding-3-small";
-          const embeddings = await client.getEmbeddings(modelName, prompt, {dimensions: 512});
+          const embeddings = await client.getEmbeddings(modelName, prompt, { dimensions: 512 });
           assert.isNotNull(embeddings.data);
           assert.equal(embeddings.data.length > 0, true);
           assert.isNotNull(embeddings.data[0].embedding);
