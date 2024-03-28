@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to This lists all the available Microsoft Support REST API operations.
  *
  * @summary This lists all the available Microsoft Support REST API operations.
- * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2022-09-01-preview/examples/ListOperations.json
+ * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/preview/2023-06-01-preview/examples/ListOperations.json
  */
 async function getAllOperations() {
   const subscriptionId =

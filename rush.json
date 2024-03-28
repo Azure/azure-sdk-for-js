@@ -1,7 +1,7 @@
 /**
  * This is the main configuration file for Rush.
  * For full documentation, please see https://rushjs.io
- */ {
+ */{
   "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
   /**
    * (Required) This specifies the version of the Rush engine to be used in this repo.
@@ -2189,6 +2189,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-workloadssapvirtualinstance",
+      "projectFolder": "sdk/workloads/arm-workloadssapvirtualinstance",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-astro",
       "projectFolder": "sdk/astro/arm-astro",
       "versionPolicyName": "management"
@@ -2201,6 +2206,11 @@
     {
       "packageName": "@azure/arm-springappdiscovery",
       "projectFolder": "sdk/springappdiscovery/arm-springappdiscovery",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-storageactions",
+      "projectFolder": "sdk/storageactions/arm-storageactions",
       "versionPolicyName": "management"
     }
   ]

@@ -16,7 +16,7 @@ import { AzureSphereManagementClient } from "../azureSphereManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,7 +29,7 @@ import {
   DeploymentsCreateOrUpdateOptionalParams,
   DeploymentsCreateOrUpdateResponse,
   DeploymentsDeleteOptionalParams,
-  DeploymentsListByDeviceGroupNextResponse
+  DeploymentsListByDeviceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -59,14 +59,14 @@ export class DeploymentsImpl implements Deployments {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeploymentsListByDeviceGroupOptionalParams
+    options?: DeploymentsListByDeviceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Deployment> {
     const iter = this.listByDeviceGroupPagingAll(
       resourceGroupName,
       catalogName,
       productName,
       deviceGroupName,
-      options
+      options,
     );
     return {
       next() {
@@ -85,9 +85,9 @@ export class DeploymentsImpl implements Deployments {
           productName,
           deviceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -97,7 +97,7 @@ export class DeploymentsImpl implements Deployments {
     productName: string,
     deviceGroupName: string,
     options?: DeploymentsListByDeviceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Deployment[]> {
     let result: DeploymentsListByDeviceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -107,7 +107,7 @@ export class DeploymentsImpl implements Deployments {
         catalogName,
         productName,
         deviceGroupName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -121,7 +121,7 @@ export class DeploymentsImpl implements Deployments {
         productName,
         deviceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,14 +135,14 @@ export class DeploymentsImpl implements Deployments {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeploymentsListByDeviceGroupOptionalParams
+    options?: DeploymentsListByDeviceGroupOptionalParams,
   ): AsyncIterableIterator<Deployment> {
     for await (const page of this.listByDeviceGroupPagingPage(
       resourceGroupName,
       catalogName,
       productName,
       deviceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -162,11 +162,11 @@ export class DeploymentsImpl implements Deployments {
     catalogName: string,
     productName: string,
     deviceGroupName: string,
-    options?: DeploymentsListByDeviceGroupOptionalParams
+    options?: DeploymentsListByDeviceGroupOptionalParams,
   ): Promise<DeploymentsListByDeviceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, catalogName, productName, deviceGroupName, options },
-      listByDeviceGroupOperationSpec
+      listByDeviceGroupOperationSpec,
     );
   }
 
@@ -187,7 +187,7 @@ export class DeploymentsImpl implements Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsGetOptionalParams
+    options?: DeploymentsGetOptionalParams,
   ): Promise<DeploymentsGetResponse> {
     return this.client.sendOperationRequest(
       {
@@ -196,9 +196,9 @@ export class DeploymentsImpl implements Deployments {
         productName,
         deviceGroupName,
         deploymentName,
-        options
+        options,
       },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -221,7 +221,7 @@ export class DeploymentsImpl implements Deployments {
     deviceGroupName: string,
     deploymentName: string,
     resource: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<DeploymentsCreateOrUpdateResponse>,
@@ -230,21 +230,20 @@ export class DeploymentsImpl implements Deployments {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DeploymentsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -253,8 +252,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -262,8 +261,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -276,9 +275,9 @@ export class DeploymentsImpl implements Deployments {
         deviceGroupName,
         deploymentName,
         resource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       DeploymentsCreateOrUpdateResponse,
@@ -286,7 +285,7 @@ export class DeploymentsImpl implements Deployments {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -311,7 +310,7 @@ export class DeploymentsImpl implements Deployments {
     deviceGroupName: string,
     deploymentName: string,
     resource: Deployment,
-    options?: DeploymentsCreateOrUpdateOptionalParams
+    options?: DeploymentsCreateOrUpdateOptionalParams,
   ): Promise<DeploymentsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
@@ -320,7 +319,7 @@ export class DeploymentsImpl implements Deployments {
       deviceGroupName,
       deploymentName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -342,25 +341,24 @@ export class DeploymentsImpl implements Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -369,8 +367,8 @@ export class DeploymentsImpl implements Deployments {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -378,8 +376,8 @@ export class DeploymentsImpl implements Deployments {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -391,14 +389,14 @@ export class DeploymentsImpl implements Deployments {
         productName,
         deviceGroupName,
         deploymentName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -421,7 +419,7 @@ export class DeploymentsImpl implements Deployments {
     productName: string,
     deviceGroupName: string,
     deploymentName: string,
-    options?: DeploymentsDeleteOptionalParams
+    options?: DeploymentsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
@@ -429,7 +427,7 @@ export class DeploymentsImpl implements Deployments {
       productName,
       deviceGroupName,
       deploymentName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -449,7 +447,7 @@ export class DeploymentsImpl implements Deployments {
     productName: string,
     deviceGroupName: string,
     nextLink: string,
-    options?: DeploymentsListByDeviceGroupNextOptionalParams
+    options?: DeploymentsListByDeviceGroupNextOptionalParams,
   ): Promise<DeploymentsListByDeviceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -458,9 +456,9 @@ export class DeploymentsImpl implements Deployments {
         productName,
         deviceGroupName,
         nextLink,
-        options
+        options,
       },
-      listByDeviceGroupNextOperationSpec
+      listByDeviceGroupNextOperationSpec,
     );
   }
 }
@@ -468,23 +466,22 @@ export class DeploymentsImpl implements Deployments {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByDeviceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.filter,
     Parameters.top,
     Parameters.skip,
-    Parameters.maxpagesize
+    Parameters.maxpagesize,
   ],
   urlParameters: [
     Parameters.$host,
@@ -492,22 +489,21 @@ const listByDeviceGroupOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.catalogName,
     Parameters.productName,
-    Parameters.deviceGroupName
+    Parameters.deviceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -517,31 +513,30 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.catalogName,
     Parameters.productName,
     Parameters.deviceGroupName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     201: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     202: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     204: {
-      bodyMapper: Mappers.Deployment
+      bodyMapper: Mappers.Deployment,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource4,
   queryParameters: [Parameters.apiVersion],
@@ -552,15 +547,14 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.catalogName,
     Parameters.productName,
     Parameters.deviceGroupName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureSphere/catalogs/{catalogName}/products/{productName}/deviceGroups/{deviceGroupName}/deployments/{deploymentName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -568,8 +562,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -579,21 +573,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.catalogName,
     Parameters.productName,
     Parameters.deviceGroupName,
-    Parameters.deploymentName
+    Parameters.deploymentName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByDeviceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentListResult
+      bodyMapper: Mappers.DeploymentListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -602,8 +596,8 @@ const listByDeviceGroupNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.catalogName,
     Parameters.productName,
-    Parameters.deviceGroupName
+    Parameters.deviceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

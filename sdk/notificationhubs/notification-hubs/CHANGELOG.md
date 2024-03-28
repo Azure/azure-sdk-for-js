@@ -1,14 +1,14 @@
 # Release History
 
-## 1.1.2 (Unreleased)
+## 1.2.0 (2024-03-28)
 
 ### Features Added
 
-### Breaking Changes
+- Added overloads to create notifications for ADM, Baidu, Template, Xiaomi and WebPush accepting either a string or a custom object that is transformed into the JSON notification body.
 
 ### Bugs Fixed
 
-### Other Changes
+- Fix ordering of XML `BrowserRegistrationDescription` properties.
 
 ## 1.1.1 (2024-03-19)
 

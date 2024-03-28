@@ -75,7 +75,6 @@ export interface AnswerCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
     mediaStreamingConfiguration?: MediaStreamingConfiguration;
     operationContext?: string;
-    sourceCallIdNumber?: PhoneNumberIdentifier;
     transcriptionConfiguration?: TranscriptionConfiguration;
 }
 
@@ -1027,6 +1026,7 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
     customCallingContext?: CustomCallingContext;
     operationCallbackUrl?: string;
     operationContext?: string;
+    sourceCallIdNumber?: PhoneNumberIdentifier;
     transferee?: CommunicationIdentifier;
 }
 

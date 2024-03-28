@@ -550,13 +550,6 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
           className: "CommunicationUserIdentifierModel",
         },
       },
-      sourceCallerIdNumber: {
-        serializedName: "sourceCallerIdNumber",
-        type: {
-          name: "Composite",
-          className: "PhoneNumberIdentifierModel",
-        },
-      },
     },
   },
 };
@@ -649,6 +642,13 @@ export const TransferToParticipantRequest: coreClient.CompositeMapper = {
         serializedName: "operationCallbackUri",
         type: {
           name: "String",
+        },
+      },
+      sourceCallerIdNumber: {
+        serializedName: "sourceCallerIdNumber",
+        type: {
+          name: "Composite",
+          className: "PhoneNumberIdentifierModel",
         },
       },
     },

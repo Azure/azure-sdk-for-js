@@ -15,12 +15,13 @@ import {
   FileWorkspacesNoSubscriptionGetOptionalParams,
   FileWorkspacesNoSubscriptionGetResponse,
   FileWorkspacesNoSubscriptionCreateOptionalParams,
-  FileWorkspacesNoSubscriptionCreateResponse
+  FileWorkspacesNoSubscriptionCreateResponse,
 } from "../models";
 
 /** Class containing FileWorkspacesNoSubscription operations. */
 export class FileWorkspacesNoSubscriptionImpl
-  implements FileWorkspacesNoSubscription {
+  implements FileWorkspacesNoSubscription
+{
   private readonly client: MicrosoftSupport;
 
   /**
@@ -38,11 +39,11 @@ export class FileWorkspacesNoSubscriptionImpl
    */
   get(
     fileWorkspaceName: string,
-    options?: FileWorkspacesNoSubscriptionGetOptionalParams
+    options?: FileWorkspacesNoSubscriptionGetOptionalParams,
   ): Promise<FileWorkspacesNoSubscriptionGetResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -53,11 +54,11 @@ export class FileWorkspacesNoSubscriptionImpl
    */
   create(
     fileWorkspaceName: string,
-    options?: FileWorkspacesNoSubscriptionCreateOptionalParams
+    options?: FileWorkspacesNoSubscriptionCreateOptionalParams,
   ): Promise<FileWorkspacesNoSubscriptionCreateResponse> {
     return this.client.sendOperationRequest(
       { fileWorkspaceName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 }
@@ -69,30 +70,30 @@ const getOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.FileWorkspaceDetails
+      bodyMapper: Mappers.FileWorkspaceDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.fileWorkspaceName],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.Support/fileWorkspaces/{fileWorkspaceName}",
   httpMethod: "PUT",
   responses: {
     201: {
-      bodyMapper: Mappers.FileWorkspaceDetails
+      bodyMapper: Mappers.FileWorkspaceDetails,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.fileWorkspaceName1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

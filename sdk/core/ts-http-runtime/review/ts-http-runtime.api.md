@@ -375,8 +375,14 @@ export function isError(e: unknown): e is Error;
 // @public
 export function isKeyCredential(credential: unknown): credential is KeyCredential;
 
-// @public
+// @public @deprecated
 export const isNode: boolean;
+
+// @public
+export const isNodeLike: boolean;
+
+// @public
+export const isNodeRuntime: boolean;
 
 // @public
 export function isObject(input: unknown): input is UnknownObject;
