@@ -4,10 +4,15 @@
 
 ```ts
 
+/// <reference types="node" />
+
 import { ClientOptions } from '@azure-rest/core-client';
+import { HttpHeaders } from '@azure/core-rest-pipeline';
 import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineRequest } from '@azure/core-rest-pipeline';
+import { PipelineResponse } from '@azure/core-rest-pipeline';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
@@ -85,6 +90,36 @@ export interface AdmTemplateRegistrationDescription extends AdmTemplateRegistrat
 // @public
 export interface AdmTemplateRegistrationDescriptionCommon extends AdmRegistrationDescriptionCommon, TemplateRegistrationDescription {
 }
+
+declare namespace api {
+    export {
+        createClientContext,
+        NotificationHubsClientContext,
+        beginSubmitNotificationHubJob,
+        cancelScheduledNotification,
+        createOrUpdateInstallation,
+        createOrUpdateRegistration,
+        createRegistration,
+        createRegistrationId,
+        deleteInstallation,
+        deleteRegistration,
+        getFeedbackContainerUrl,
+        getInstallation,
+        getNotificationHubJob,
+        getNotificationOutcomeDetails,
+        getRegistration,
+        listNotificationHubJobs,
+        listRegistrations,
+        listRegistrationsByChannel,
+        listRegistrationsByTag,
+        scheduleNotification,
+        sendNotification,
+        submitNotificationHubJob,
+        updateInstallation,
+        updateRegistration
+    }
+}
+export { api }
 
 // @public
 export type ApnsPushTypes = "alert" | "background" | "voip" | "complication" | "fileprovider" | "mdm" | "location" | "liveactivity" | "pushtotalk";
@@ -250,6 +285,9 @@ export interface BaiduTemplateRegistrationDescriptionCommon extends BaiduRegistr
 }
 
 // @public
+function beginSubmitNotificationHubJob(context: NotificationHubsClientContext, notificationHubJob: NotificationHubJob, polledOperationOptions?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
+
+// @public
 export interface BrowserInstallation extends BrowserInstallationCommon {
     platform: "browser";
 }
@@ -299,6 +337,9 @@ export interface BrowserTemplateRegistrationDescription extends BrowserTemplateR
 // @public
 export interface BrowserTemplateRegistrationDescriptionCommon extends BrowserRegistrationDescriptionCommon, TemplateRegistrationDescription {
 }
+
+// @public
+function cancelScheduledNotification(context: NotificationHubsClientContext, notificationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
 
 // @public
 export function createAdmInstallation(installation: DeviceTokenInstallation): AdmInstallation;
@@ -358,6 +399,9 @@ export function createBrowserRegistrationDescription(description: BrowserRegistr
 export function createBrowserTemplateRegistrationDescription(description: BrowserTemplateRegistrationDescriptionCommon): BrowserTemplateRegistrationDescription;
 
 // @public
+function createClientContext(connectionString: string, hubName: string, options?: NotificationHubsClientOptions): NotificationHubsClientContext;
+
+// @public
 export function createFcmLegacyInstallation(installation: DeviceTokenInstallation): FcmLegacyInstallation;
 
 // @public
@@ -386,6 +430,18 @@ export function createFirebaseLegacyNotificationBody(nativeMessage: FirebaseLega
 
 // @public
 export function createFirebaseV1NotificationBody(nativeMessage: FirebaseV1NativeMessage): string;
+
+// @public
+function createOrUpdateInstallation(context: NotificationHubsClientContext, installation: Installation, options?: OperationOptions): Promise<NotificationHubsResponse>;
+
+// @public
+function createOrUpdateRegistration(context: NotificationHubsClientContext, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
+function createRegistration(context: NotificationHubsClientContext, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
+function createRegistrationId(context: NotificationHubsClientContext, options?: OperationOptions): Promise<string>;
 
 // @public
 export function createTagExpression(tags: string[]): string;
@@ -431,6 +487,12 @@ export function createXiaomiRegistrationDescription(description: XiaomiRegistrat
 
 // @public
 export function createXiaomiTemplateRegistrationDescription(description: XiaomiTemplateRegistrationDescriptionCommon): XiaomiTemplateRegistrationDescription;
+
+// @public
+function deleteInstallation(context: NotificationHubsClientContext, installationId: string, options?: OperationOptions): Promise<NotificationHubsResponse>;
+
+// @public
+function deleteRegistration(context: NotificationHubsClientContext, registrationId: string, options?: EntityOperationOptions): Promise<NotificationHubsResponse>;
 
 // @public
 export interface DeviceTokenInstallation extends InstallationCommon {
@@ -714,6 +776,21 @@ export interface GcmTemplateRegistrationDescriptionCommon extends GcmRegistratio
 }
 
 // @public
+function getFeedbackContainerUrl(context: NotificationHubsClientContext, options?: OperationOptions): Promise<string>;
+
+// @public
+function getInstallation(context: NotificationHubsClientContext, installationId: string, options?: OperationOptions): Promise<Installation>;
+
+// @public
+function getNotificationHubJob(context: NotificationHubsClientContext, jobId: string, options?: OperationOptions): Promise<NotificationHubJob>;
+
+// @public
+function getNotificationOutcomeDetails(context: NotificationHubsClientContext, notificationId: string, options?: OperationOptions): Promise<NotificationDetails>;
+
+// @public
+function getRegistration(context: NotificationHubsClientContext, registrationId: string, options?: OperationOptions): Promise<RegistrationDescription>;
+
+// @public
 export type Installation = AppleInstallation | AdmInstallation | BaiduInstallation | BrowserInstallation | FcmLegacyInstallation | FcmV1Installation | XiaomiInstallation | WindowsInstallation;
 
 // @public
@@ -747,6 +824,201 @@ export interface JsonPatch {
 
 // @public
 export type JsonPatchOperation = "add" | "remove" | "replace";
+
+// @public
+function listNotificationHubJobs(context: NotificationHubsClientContext, options?: OperationOptions): Promise<NotificationHubJob[]>;
+
+// @public
+function listRegistrations(context: NotificationHubsClientContext, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+
+// @public
+function listRegistrationsByChannel(context: NotificationHubsClientContext, channel: RegistrationChannel, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+
+// @public
+function listRegistrationsByTag(context: NotificationHubsClientContext, tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
+
+declare namespace models {
+    export {
+        createAppleInstallation,
+        createAdmInstallation,
+        createBaiduInstallation,
+        createFcmLegacyInstallation,
+        createFcmV1Installation,
+        createXiaomiInstallation,
+        createWindowsInstallation,
+        createBrowserInstallation,
+        InstallationCommon,
+        DeviceTokenInstallation,
+        AppleInstallation,
+        AdmInstallation,
+        BaiduInstallation,
+        FcmLegacyInstallation,
+        FcmV1Installation,
+        XiaomiInstallation,
+        WindowsInstallation,
+        BrowserPushChannel,
+        BrowserInstallationCommon,
+        BrowserInstallation,
+        Installation,
+        InstallationTemplate,
+        JsonPatchOperation,
+        JsonPatch,
+        PushHandle,
+        createAppleNotification,
+        createAdmNotification,
+        createBaiduNotification,
+        createBrowserNotification,
+        createFcmLegacyNotification,
+        createFcmV1Notification,
+        createXiaomiNotification,
+        createTemplateNotification,
+        createWindowsNotification,
+        createWindowsBadgeNotification,
+        createWindowsTileNotification,
+        createWindowsToastNotification,
+        createWindowsRawNotification,
+        NotificationCommon,
+        NotificationCommonParams,
+        JsonNotification,
+        AppleNotification,
+        AppleNotificationParams,
+        AdmNotification,
+        AdmNotificationParams,
+        BaiduNotification,
+        BrowserNotification,
+        FcmLegacyNotification,
+        FcmLegacyNotificationParams,
+        FcmV1Notification,
+        FcmV1NotificationParams,
+        XiaomiNotification,
+        TemplateNotification,
+        WindowsContentType,
+        WindowsNotification,
+        WnsNotificationParams,
+        Notification,
+        createAppleNotificationBody,
+        createFirebaseLegacyNotificationBody,
+        createFirebaseV1NotificationBody,
+        createAdmNotificationBody,
+        createBaiduNotificationBody,
+        createWindowsBadgeNotificationBody,
+        AppleAlert,
+        AppleCriticalSound,
+        AppleNativeMessage,
+        AppleApsNativeMessage,
+        FirebaseLegacyNativeMessage,
+        FirebaseLegacyAppleNativePayload,
+        FirebaseLegacyAndroidNativePayload,
+        FirebaseLegacyWebNativePayload,
+        FirebaseV1NativeMessage,
+        FirebaseV1NativeNotification,
+        FirebaseV1AndroidConfig,
+        FirebaseV1AndroidNotification,
+        FirebaseV1AndroidFcmOptions,
+        FirebaseV1WebPushConfig,
+        FirebaseV1WebPushNotification,
+        FirebaseV1WebPushFcmOptions,
+        FirebaseV1ApnsConfig,
+        FirebaseV1ApnsFcmOptions,
+        FirebaseV1FcmOptions,
+        AdmNativeNotification,
+        AdmNativeMessage,
+        BaiduAppleNativePayload,
+        BaiduNativeMessage,
+        WindowsBadgeGlyphType,
+        WindowsBadgeNativeMessage,
+        ApnsPushTypes,
+        AppleHeaders,
+        WnsTypes,
+        WindowsHeaders,
+        NotificationOutcomeState,
+        NotificationOutcome,
+        NotificationDetails,
+        NotificationHubsResponse,
+        RegistrationResult,
+        NotificationHubsMessageResponse,
+        NotificationHubJobType,
+        NotificationHubJobStatus,
+        NotificationHubJob,
+        NotificationHubJobPoller,
+        NotificationHubsClientOptions,
+        PolledOperationOptions,
+        ScheduleNotificationOptions,
+        SendNotificationOptions,
+        DirectSendNotificationOptions,
+        EntityOperationOptions,
+        RegistrationQueryLimitOptions,
+        RegistrationQueryOptions,
+        createAdmRegistrationDescription,
+        createAdmTemplateRegistrationDescription,
+        createAppleRegistrationDescription,
+        createAppleTemplateRegistrationDescription,
+        createBaiduRegistrationDescription,
+        createBaiduTemplateRegistrationDescription,
+        createBrowserRegistrationDescription,
+        createBrowserTemplateRegistrationDescription,
+        createFcmLegacyRegistrationDescription,
+        createFcmLegacyTemplateRegistrationDescription,
+        createFcmV1RegistrationDescription,
+        createFcmV1TemplateRegistrationDescription,
+        createWindowsRegistrationDescription,
+        createWindowsTemplateRegistrationDescription,
+        createXiaomiRegistrationDescription,
+        createXiaomiTemplateRegistrationDescription,
+        RegistrationType,
+        RegistrationDescriptionCommon,
+        TemplateRegistrationDescription,
+        AdmRegistrationDescriptionCommon,
+        AdmRegistrationDescription,
+        AdmTemplateRegistrationDescriptionCommon,
+        AdmTemplateRegistrationDescription,
+        AppleRegistrationDescriptionCommon,
+        AppleRegistrationDescription,
+        AppleTemplateRegistrationDescriptionCommon,
+        AppleTemplateRegistrationDescription,
+        BaiduRegistrationDescriptionCommon,
+        BaiduRegistrationDescription,
+        BaiduTemplateRegistrationDescriptionCommon,
+        BaiduTemplateRegistrationDescription,
+        BrowserRegistrationDescriptionCommon,
+        BrowserRegistrationDescription,
+        BrowserTemplateRegistrationDescriptionCommon,
+        BrowserTemplateRegistrationDescription,
+        GcmRegistrationDescriptionCommon,
+        GcmRegistrationDescription,
+        GcmTemplateRegistrationDescriptionCommon,
+        GcmTemplateRegistrationDescription,
+        FcmV1RegistrationDescriptionCommon,
+        FcmV1RegistrationDescription,
+        FcmV1TemplateRegistrationDescriptionCommon,
+        FcmV1TemplateRegistrationDescription,
+        MpnsRegistrationDescriptionCommon,
+        MpnsRegistrationDescription,
+        MpnsTemplateRegistrationDescription,
+        MpnsTemplateRegistrationDescriptionCommon,
+        WindowsRegistrationDescriptionCommon,
+        WindowsRegistrationDescription,
+        WindowsTemplateRegistrationDescriptionCommon,
+        WindowsTemplateRegistrationDescription,
+        XiaomiRegistrationDescriptionCommon,
+        XiaomiRegistrationDescription,
+        XiaomiTemplateRegistrationDescriptionCommon,
+        XiaomiTemplateRegistrationDescription,
+        RegistrationDescription,
+        AdmRegistrationChannel,
+        AppleRegistrationChannel,
+        BaiduRegistrationChannel,
+        BrowserRegistrationChannel,
+        FirebaseLegacyRegistrationChannel,
+        FirebaseV1RegistrationChannel,
+        WindowsRegistrationChannel,
+        XiaomiRegistrationChannel,
+        RegistrationChannel,
+        RegistrationQueryResponse,
+        createTagExpression
+    }
+}
+export { models }
 
 // @public @deprecated
 export interface MpnsRegistrationDescription extends MpnsRegistrationDescriptionCommon {
@@ -902,6 +1174,16 @@ export class NotificationHubsClient {
 }
 
 // @public
+interface NotificationHubsClientContext {
+    // @internal (undocumented)
+    createHeaders(operationName: string, rawHeaders?: Record<string, string>): Promise<HttpHeaders>;
+    // @internal (undocumented)
+    requestUrl(): URL;
+    // @internal (undocumented)
+    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+}
+
+// @public
 export interface NotificationHubsClientOptions extends ClientOptions {
 }
 
@@ -981,15 +1263,24 @@ export interface RegistrationResult {
 export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate" | "Baidu" | "BaiduTemplate" | "Browser" | "BrowserTemplate" | "Gcm" | "GcmTemplate" | "FcmV1" | "FcmV1Template" | "Mpns" | "MpnsTemplate" | "Xiaomi" | "XiaomiTemplate" | "Windows" | "WindowsTemplate";
 
 // @public
+function scheduleNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+
+// @public
 export interface ScheduleNotificationOptions extends OperationOptions {
     tagExpression?: string;
 }
+
+// @public
+function sendNotification(context: NotificationHubsClientContext, notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
 export interface SendNotificationOptions extends OperationOptions {
     enableTestSend?: boolean;
     tagExpression?: string;
 }
+
+// @public
+function submitNotificationHubJob(context: NotificationHubsClientContext, job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
 
 // @public
 export interface TemplateNotification extends JsonNotification {
@@ -1001,6 +1292,12 @@ export interface TemplateRegistrationDescription {
     bodyTemplate: string;
     templateName?: string;
 }
+
+// @public
+function updateInstallation(context: NotificationHubsClientContext, installationId: string, installationPatches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
+
+// @public
+function updateRegistration(context: NotificationHubsClientContext, registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
 
 // @public
 export type WindowsBadgeGlyphType = "none" | "activity" | "alarm" | "alert" | "attention" | "available" | "away" | "busy" | "error" | "newMessage" | "paused" | "playing" | "unavailable";
