@@ -119,7 +119,7 @@ export class OpenAIClient {
     let cred: KeyCredential | TokenCredential;
     if (isCred(credOrOptions)) {
       endpoint = endpointOrOpenAiKey as string;
-      this._isAzure = /azure\.com[/]?$/.test(endpoint);
+      this._isAzure = /(azure\.com|endpoint)[/]?$/.test(endpoint);
       if (this._isAzure) {
         cred = credOrOptions;
         opts = options;
