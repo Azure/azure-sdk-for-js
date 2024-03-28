@@ -113,7 +113,7 @@ export enum RegionalAuthority {
   GovernmentUSDodCentral = "usdodcentral",
 }
 
-export function getAzureRegion(regionalAuthority: string | undefined): string | undefined {
+export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
   let azureRegion = regionalAuthority;
 
   if (azureRegion === undefined && typeof process !== "undefined") {
