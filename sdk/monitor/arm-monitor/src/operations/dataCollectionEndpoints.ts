@@ -29,7 +29,7 @@ import {
   DataCollectionEndpointsUpdateResponse,
   DataCollectionEndpointsDeleteOptionalParams,
   DataCollectionEndpointsListByResourceGroupNextResponse,
-  DataCollectionEndpointsListBySubscriptionNextResponse
+  DataCollectionEndpointsListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,7 +52,7 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
+    options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -69,16 +69,16 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataCollectionEndpointResource[]> {
     let result: DataCollectionEndpointsListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -93,7 +93,7 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -104,11 +104,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
+    options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DataCollectionEndpointResource> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -119,7 +119,7 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
+    options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionEndpointResource> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -134,13 +134,13 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DataCollectionEndpointResource[]> {
     let result: DataCollectionEndpointsListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -161,7 +161,7 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
+    options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<DataCollectionEndpointResource> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -175,11 +175,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionEndpointsListByResourceGroupOptionalParams
+    options?: DataCollectionEndpointsListByResourceGroupOptionalParams,
   ): Promise<DataCollectionEndpointsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -188,11 +188,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: DataCollectionEndpointsListBySubscriptionOptionalParams
+    options?: DataCollectionEndpointsListBySubscriptionOptionalParams,
   ): Promise<DataCollectionEndpointsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -206,11 +206,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   get(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsGetOptionalParams
+    options?: DataCollectionEndpointsGetOptionalParams,
   ): Promise<DataCollectionEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -224,11 +224,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   create(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsCreateOptionalParams
+    options?: DataCollectionEndpointsCreateOptionalParams,
   ): Promise<DataCollectionEndpointsCreateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, options },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -242,11 +242,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   update(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsUpdateOptionalParams
+    options?: DataCollectionEndpointsUpdateOptionalParams,
   ): Promise<DataCollectionEndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -260,11 +260,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   delete(
     resourceGroupName: string,
     dataCollectionEndpointName: string,
-    options?: DataCollectionEndpointsDeleteOptionalParams
+    options?: DataCollectionEndpointsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dataCollectionEndpointName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -277,11 +277,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DataCollectionEndpointsListByResourceGroupNextOptionalParams
+    options?: DataCollectionEndpointsListByResourceGroupNextOptionalParams,
   ): Promise<DataCollectionEndpointsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -292,11 +292,11 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: DataCollectionEndpointsListBySubscriptionNextOptionalParams
+    options?: DataCollectionEndpointsListBySubscriptionNextOptionalParams,
   ): Promise<DataCollectionEndpointsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -304,173 +304,167 @@ export class DataCollectionEndpointsImpl implements DataCollectionEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.DataCollectionEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.subscriptionId
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/dataCollectionEndpoints",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Insights/dataCollectionEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.DataCollectionEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.DataCollectionEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.DataCollectionEndpointResource,
     },
     201: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.DataCollectionEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  requestBody: Parameters.body,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.body1,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResource
+      bodyMapper: Mappers.DataCollectionEndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  requestBody: Parameters.body1,
-  queryParameters: [Parameters.apiVersion13],
+  requestBody: Parameters.body2,
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
-  queryParameters: [Parameters.apiVersion13],
+  queryParameters: [Parameters.apiVersion14],
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.dataCollectionEndpointName
+    Parameters.resourceGroupName,
+    Parameters.dataCollectionEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.DataCollectionEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.resourceGroupName,
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DataCollectionEndpointResourceListResult
+      bodyMapper: Mappers.DataCollectionEndpointResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponseCommonV2
-    }
+      bodyMapper: Mappers.ErrorResponseCommonV2,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -18,21 +18,27 @@ dotenv.config();
  * This sample demonstrates how to Get the test notifications by the notification id
  *
  * @summary Get the test notifications by the notification id
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/getTestNotifications.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/getTestNotificationsAtTenantActionGroupResourceLevel.json
  */
-async function getNotificationDetailsAtSubscriptionLevel() {
-  const subscriptionId =
-    process.env["MONITOR_SUBSCRIPTION_ID"] ||
-    "187f412d-1758-44d9-b052-169e2564721d";
+async function getNotificationDetailsAtTenantActionGroupLevel() {
+  const managementGroupId = "11111111-1111-1111-1111-111111111111";
+  const tenantActionGroupName = "testTenantActionGroup";
+  const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const notificationId = "11000222191287";
   const credential = new DefaultAzureCredential();
-  const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.actionGroups.getTestNotifications(notificationId);
+  const client = new MonitorClient(credential);
+  const result =
+    await client.getTestNotificationsAtTenantActionGroupResourceLevel(
+      managementGroupId,
+      tenantActionGroupName,
+      xMsClientTenantId,
+      notificationId,
+    );
   console.log(result);
 }
 
 async function main() {
-  getNotificationDetailsAtSubscriptionLevel();
+  getNotificationDetailsAtTenantActionGroupLevel();
 }
 
 main().catch(console.error);

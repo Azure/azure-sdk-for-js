@@ -14,7 +14,7 @@ import {
   DiagnosticSettingsGetResponse,
   DiagnosticSettingsCreateOrUpdateOptionalParams,
   DiagnosticSettingsCreateOrUpdateResponse,
-  DiagnosticSettingsDeleteOptionalParams
+  DiagnosticSettingsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface DiagnosticSettings {
    */
   list(
     resourceUri: string,
-    options?: DiagnosticSettingsListOptionalParams
+    options?: DiagnosticSettingsListOptionalParams,
   ): PagedAsyncIterableIterator<DiagnosticSettingsResource>;
   /**
    * Gets the active diagnostic settings for the specified resource.
@@ -38,7 +38,7 @@ export interface DiagnosticSettings {
   get(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsGetOptionalParams
+    options?: DiagnosticSettingsGetOptionalParams,
   ): Promise<DiagnosticSettingsGetResponse>;
   /**
    * Creates or updates diagnostic settings for the specified resource.
@@ -51,7 +51,7 @@ export interface DiagnosticSettings {
     resourceUri: string,
     name: string,
     parameters: DiagnosticSettingsResource,
-    options?: DiagnosticSettingsCreateOrUpdateOptionalParams
+    options?: DiagnosticSettingsCreateOrUpdateOptionalParams,
   ): Promise<DiagnosticSettingsCreateOrUpdateResponse>;
   /**
    * Deletes existing diagnostic settings for the specified resource.
@@ -62,6 +62,6 @@ export interface DiagnosticSettings {
   delete(
     resourceUri: string,
     name: string,
-    options?: DiagnosticSettingsDeleteOptionalParams
+    options?: DiagnosticSettingsDeleteOptionalParams,
   ): Promise<void>;
 }

@@ -31,7 +31,7 @@ async function deleteAnAutoscaleSetting() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.autoscaleSettings.delete(
     resourceGroupName,
-    autoscaleSettingName
+    autoscaleSettingName,
   );
   console.log(result);
 }

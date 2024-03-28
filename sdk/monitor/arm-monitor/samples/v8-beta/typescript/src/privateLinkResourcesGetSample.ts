@@ -33,7 +33,7 @@ async function getsPrivateEndpointConnection() {
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     scopeName,
-    groupName
+    groupName,
   );
   console.log(result);
 }

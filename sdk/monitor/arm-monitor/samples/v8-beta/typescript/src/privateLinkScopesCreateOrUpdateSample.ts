@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   AzureMonitorPrivateLinkScope,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -34,16 +34,16 @@ async function privateLinkScopeCreate() {
     accessModeSettings: {
       exclusions: [],
       ingestionAccessMode: "Open",
-      queryAccessMode: "Open"
+      queryAccessMode: "Open",
     },
-    location: "Global"
+    location: "Global",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.createOrUpdate(
     resourceGroupName,
     scopeName,
-    azureMonitorPrivateLinkScopePayload
+    azureMonitorPrivateLinkScopePayload,
   );
   console.log(result);
 }
@@ -65,17 +65,17 @@ async function privateLinkScopeUpdate() {
     accessModeSettings: {
       exclusions: [],
       ingestionAccessMode: "Open",
-      queryAccessMode: "Open"
+      queryAccessMode: "Open",
     },
     location: "Global",
-    tags: { tag1: "Value1" }
+    tags: { tag1: "Value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.privateLinkScopes.createOrUpdate(
     resourceGroupName,
     scopeName,
-    azureMonitorPrivateLinkScopePayload
+    azureMonitorPrivateLinkScopePayload,
   );
   console.log(result);
 }

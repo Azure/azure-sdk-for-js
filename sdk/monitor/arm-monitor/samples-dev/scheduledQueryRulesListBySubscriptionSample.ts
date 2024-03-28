@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Retrieve a scheduled query rule definitions in a subscription.
  *
  * @summary Retrieve a scheduled query rule definitions in a subscription.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/listScheduledQueryRulesBySubscription.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/listScheduledQueryRulesBySubscription.json
  */
 async function listScheduledQueryRulesBySubscription() {
   const subscriptionId =

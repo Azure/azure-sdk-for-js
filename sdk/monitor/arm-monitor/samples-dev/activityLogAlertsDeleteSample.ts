@@ -31,7 +31,7 @@ async function deleteAnActivityLogAlertRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.activityLogAlerts.delete(
     resourceGroupName,
-    activityLogAlertName
+    activityLogAlertName,
   );
   console.log(result);
 }

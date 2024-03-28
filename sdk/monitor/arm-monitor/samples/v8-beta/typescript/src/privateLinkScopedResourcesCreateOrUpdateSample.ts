@@ -30,16 +30,17 @@ async function updateAScopedResourceInAPrivateLinkScope() {
   const name = "scoped-resource-name";
   const parameters: ScopedResource = {
     linkedResourceId:
-      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/components/my-component"
+      "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/components/my-component",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.privateLinkScopedResources.beginCreateOrUpdateAndWait(
-    resourceGroupName,
-    scopeName,
-    name,
-    parameters
-  );
+  const result =
+    await client.privateLinkScopedResources.beginCreateOrUpdateAndWait(
+      resourceGroupName,
+      scopeName,
+      name,
+      parameters,
+    );
   console.log(result);
 }
 

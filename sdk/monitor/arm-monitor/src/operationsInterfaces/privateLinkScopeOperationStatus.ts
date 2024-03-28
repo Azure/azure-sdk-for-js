@@ -8,7 +8,7 @@
 
 import {
   PrivateLinkScopeOperationStatusGetOptionalParams,
-  PrivateLinkScopeOperationStatusGetResponse
+  PrivateLinkScopeOperationStatusGetResponse,
 } from "../models";
 
 /** Interface representing a PrivateLinkScopeOperationStatus. */
@@ -22,6 +22,6 @@ export interface PrivateLinkScopeOperationStatus {
   get(
     asyncOperationId: string,
     resourceGroupName: string,
-    options?: PrivateLinkScopeOperationStatusGetOptionalParams
+    options?: PrivateLinkScopeOperationStatusGetOptionalParams,
   ): Promise<PrivateLinkScopeOperationStatusGetResponse>;
 }

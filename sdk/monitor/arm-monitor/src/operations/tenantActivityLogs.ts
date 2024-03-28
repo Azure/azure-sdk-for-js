@@ -18,7 +18,7 @@ import {
   TenantActivityLogsListNextOptionalParams,
   TenantActivityLogsListOptionalParams,
   TenantActivityLogsListResponse,
-  TenantActivityLogsListNextResponse
+  TenantActivityLogsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -42,7 +42,7 @@ export class TenantActivityLogsImpl implements TenantActivityLogs {
    * @param options The options parameters.
    */
   public list(
-    options?: TenantActivityLogsListOptionalParams
+    options?: TenantActivityLogsListOptionalParams,
   ): PagedAsyncIterableIterator<EventData> {
     const iter = this.listPagingAll(options);
     return {
@@ -57,13 +57,13 @@ export class TenantActivityLogsImpl implements TenantActivityLogs {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: TenantActivityLogsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EventData[]> {
     let result: TenantActivityLogsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -84,7 +84,7 @@ export class TenantActivityLogsImpl implements TenantActivityLogs {
   }
 
   private async *listPagingAll(
-    options?: TenantActivityLogsListOptionalParams
+    options?: TenantActivityLogsListOptionalParams,
   ): AsyncIterableIterator<EventData> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -99,7 +99,7 @@ export class TenantActivityLogsImpl implements TenantActivityLogs {
    * @param options The options parameters.
    */
   private _list(
-    options?: TenantActivityLogsListOptionalParams
+    options?: TenantActivityLogsListOptionalParams,
   ): Promise<TenantActivityLogsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -111,11 +111,11 @@ export class TenantActivityLogsImpl implements TenantActivityLogs {
    */
   private _listNext(
     nextLink: string,
-    options?: TenantActivityLogsListNextOptionalParams
+    options?: TenantActivityLogsListNextOptionalParams,
   ): Promise<TenantActivityLogsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -127,33 +127,33 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventDataCollection
+      bodyMapper: Mappers.EventDataCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.apiVersion3,
     Parameters.select,
-    Parameters.filter1
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventDataCollection
+      bodyMapper: Mappers.EventDataCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

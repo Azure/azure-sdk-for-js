@@ -18,7 +18,7 @@ import {
   ScheduledQueryRuleResourcePatch,
   ScheduledQueryRulesUpdateOptionalParams,
   ScheduledQueryRulesUpdateResponse,
-  ScheduledQueryRulesDeleteOptionalParams
+  ScheduledQueryRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface ScheduledQueryRules {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ScheduledQueryRulesListBySubscriptionOptionalParams
+    options?: ScheduledQueryRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
   /**
    * Retrieve scheduled query rule definitions in a resource group.
@@ -38,7 +38,7 @@ export interface ScheduledQueryRules {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ScheduledQueryRulesListByResourceGroupOptionalParams
+    options?: ScheduledQueryRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ScheduledQueryRuleResource>;
   /**
    * Retrieve an scheduled query rule definition.
@@ -49,7 +49,7 @@ export interface ScheduledQueryRules {
   get(
     resourceGroupName: string,
     ruleName: string,
-    options?: ScheduledQueryRulesGetOptionalParams
+    options?: ScheduledQueryRulesGetOptionalParams,
   ): Promise<ScheduledQueryRulesGetResponse>;
   /**
    * Creates or updates a scheduled query rule.
@@ -62,7 +62,7 @@ export interface ScheduledQueryRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: ScheduledQueryRuleResource,
-    options?: ScheduledQueryRulesCreateOrUpdateOptionalParams
+    options?: ScheduledQueryRulesCreateOrUpdateOptionalParams,
   ): Promise<ScheduledQueryRulesCreateOrUpdateResponse>;
   /**
    * Update a scheduled query rule.
@@ -75,7 +75,7 @@ export interface ScheduledQueryRules {
     resourceGroupName: string,
     ruleName: string,
     parameters: ScheduledQueryRuleResourcePatch,
-    options?: ScheduledQueryRulesUpdateOptionalParams
+    options?: ScheduledQueryRulesUpdateOptionalParams,
   ): Promise<ScheduledQueryRulesUpdateResponse>;
   /**
    * Deletes a scheduled query rule.
@@ -86,6 +86,6 @@ export interface ScheduledQueryRules {
   delete(
     resourceGroupName: string,
     ruleName: string,
-    options?: ScheduledQueryRulesDeleteOptionalParams
+    options?: ScheduledQueryRulesDeleteOptionalParams,
   ): Promise<void>;
 }

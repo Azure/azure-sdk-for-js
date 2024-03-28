@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScheduledQueryRuleResourcePatch,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update a scheduled query rule.
  *
  * @summary Update a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/patchScheduledQueryRule.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/patchScheduledQueryRule.json
  */
 async function createOrUpdateAScheduledQueryRule() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function createOrUpdateAScheduledQueryRule() {
   const result = await client.scheduledQueryRules.update(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

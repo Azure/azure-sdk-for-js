@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the test notifications by the notification id
  *
  * @summary Get the test notifications by the notification id
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/getTestNotificationsAtActionGroupResourceLevel.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/getTestNotificationsAtActionGroupResourceLevel.json
  */
 async function getNotificationDetailsAtResourceGroupLevel() {
   const subscriptionId =
@@ -30,11 +30,12 @@ async function getNotificationDetailsAtResourceGroupLevel() {
   const notificationId = "11000222191287";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.actionGroups.getTestNotificationsAtActionGroupResourceLevel(
-    resourceGroupName,
-    actionGroupName,
-    notificationId
-  );
+  const result =
+    await client.actionGroups.getTestNotificationsAtActionGroupResourceLevel(
+      resourceGroupName,
+      actionGroupName,
+      notificationId,
+    );
   console.log(result);
 }
 

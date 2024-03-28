@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a scheduled query rule.
  *
  * @summary Deletes a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/deleteScheduledQueryRule.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/deleteScheduledQueryRule.json
  */
 async function deleteAScheduledQueryRule() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteAScheduledQueryRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.delete(
     resourceGroupName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

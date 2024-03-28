@@ -15,7 +15,7 @@ import { MonitorClient } from "../monitorClient";
 import {
   SingleMetricBaseline,
   BaselinesListOptionalParams,
-  BaselinesListResponse
+  BaselinesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,7 +38,7 @@ export class BaselinesImpl implements Baselines {
    */
   public list(
     resourceUri: string,
-    options?: BaselinesListOptionalParams
+    options?: BaselinesListOptionalParams,
   ): PagedAsyncIterableIterator<SingleMetricBaseline> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -53,14 +53,14 @@ export class BaselinesImpl implements Baselines {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: BaselinesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<SingleMetricBaseline[]> {
     let result: BaselinesListResponse;
     result = await this._list(resourceUri, options);
@@ -69,7 +69,7 @@ export class BaselinesImpl implements Baselines {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: BaselinesListOptionalParams
+    options?: BaselinesListOptionalParams,
   ): AsyncIterableIterator<SingleMetricBaseline> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -83,11 +83,11 @@ export class BaselinesImpl implements Baselines {
    */
   private _list(
     resourceUri: string,
-    options?: BaselinesListOptionalParams
+    options?: BaselinesListOptionalParams,
   ): Promise<BaselinesListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -99,24 +99,24 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MetricBaselinesResponse
+      bodyMapper: Mappers.MetricBaselinesResponse,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [
-    Parameters.filter1,
     Parameters.metricnamespace,
-    Parameters.timespan1,
-    Parameters.interval1,
+    Parameters.timespan,
     Parameters.metricnames,
-    Parameters.aggregation1,
-    Parameters.resultType,
+    Parameters.aggregation,
+    Parameters.filter,
+    Parameters.resultType1,
+    Parameters.interval2,
     Parameters.sensitivities,
-    Parameters.apiVersion6
+    Parameters.apiVersion8,
   ],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

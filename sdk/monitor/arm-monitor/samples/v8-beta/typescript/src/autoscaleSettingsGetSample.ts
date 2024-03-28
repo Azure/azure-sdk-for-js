@@ -31,7 +31,7 @@ async function getAnAutoscaleSetting() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.autoscaleSettings.get(
     resourceGroupName,
-    autoscaleSettingName
+    autoscaleSettingName,
   );
   console.log(result);
 }

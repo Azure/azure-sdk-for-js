@@ -33,7 +33,7 @@ async function getsPrivateLinkScopedResource() {
   const result = await client.privateLinkScopedResources.get(
     resourceGroupName,
     scopeName,
-    name
+    name,
   );
   console.log(result);
 }

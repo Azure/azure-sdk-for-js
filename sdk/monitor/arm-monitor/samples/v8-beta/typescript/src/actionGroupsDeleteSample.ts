@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an action group.
  *
  * @summary Delete an action group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/deleteActionGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-01-01/examples/deleteActionGroup.json
  */
 async function deleteAnActionGroup() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function deleteAnActionGroup() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.actionGroups.delete(
     resourceGroupName,
-    actionGroupName
+    actionGroupName,
   );
   console.log(result);
 }

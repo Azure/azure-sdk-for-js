@@ -17,7 +17,7 @@ import {
   DataCollectionRulesCreateResponse,
   DataCollectionRulesUpdateOptionalParams,
   DataCollectionRulesUpdateResponse,
-  DataCollectionRulesDeleteOptionalParams
+  DataCollectionRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,14 +30,14 @@ export interface DataCollectionRules {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DataCollectionRulesListByResourceGroupOptionalParams
+    options?: DataCollectionRulesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /**
    * Lists all data collection rules in the specified subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: DataCollectionRulesListBySubscriptionOptionalParams
+    options?: DataCollectionRulesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<DataCollectionRuleResource>;
   /**
    * Returns the specified data collection rule.
@@ -48,7 +48,7 @@ export interface DataCollectionRules {
   get(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRulesGetOptionalParams
+    options?: DataCollectionRulesGetOptionalParams,
   ): Promise<DataCollectionRulesGetResponse>;
   /**
    * Creates or updates a data collection rule.
@@ -59,7 +59,7 @@ export interface DataCollectionRules {
   create(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRulesCreateOptionalParams
+    options?: DataCollectionRulesCreateOptionalParams,
   ): Promise<DataCollectionRulesCreateResponse>;
   /**
    * Updates part of a data collection rule.
@@ -70,7 +70,7 @@ export interface DataCollectionRules {
   update(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRulesUpdateOptionalParams
+    options?: DataCollectionRulesUpdateOptionalParams,
   ): Promise<DataCollectionRulesUpdateResponse>;
   /**
    * Deletes a data collection rule.
@@ -81,6 +81,6 @@ export interface DataCollectionRules {
   delete(
     resourceGroupName: string,
     dataCollectionRuleName: string,
-    options?: DataCollectionRulesDeleteOptionalParams
+    options?: DataCollectionRulesDeleteOptionalParams,
   ): Promise<void>;
 }

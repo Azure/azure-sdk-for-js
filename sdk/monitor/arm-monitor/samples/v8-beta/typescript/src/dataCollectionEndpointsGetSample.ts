@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Returns the specified data collection endpoint.
  *
  * @summary Returns the specified data collection endpoint.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsGet.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionEndpointsGet.json
  */
 async function getDataCollectionEndpoint() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getDataCollectionEndpoint() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionEndpoints.get(
     resourceGroupName,
-    dataCollectionEndpointName
+    dataCollectionEndpointName,
   );
   console.log(result);
 }
