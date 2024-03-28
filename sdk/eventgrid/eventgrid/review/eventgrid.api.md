@@ -13,6 +13,77 @@ import { SASCredential } from '@azure/core-auth';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
+export interface AcsAdvancedMessageButtonContent {
+    payload: string;
+    text: string;
+}
+
+// @public
+export interface AcsAdvancedMessageChannelEventError {
+    channelCode: string;
+    channelMessage: string;
+}
+
+// @public
+export interface AcsAdvancedMessageContext {
+    from: string;
+    id: string;
+}
+
+// @public
+export type AcsAdvancedMessageDeliveryStatusUpdatedEventData = AcsAdvancedMessageEventData & {
+    messageId: string;
+    status: string;
+    channelType: AcsMessageChannelType;
+};
+
+// @public
+export interface AcsAdvancedMessageEventData {
+    error: AcsAdvancedMessageChannelEventError;
+    from: string;
+    receivedTimestamp: string;
+    to: string;
+}
+
+// @public
+export interface AcsAdvancedMessageInteractiveButtonReplyContent {
+    id: string;
+    title: string;
+}
+
+// @public
+export interface AcsAdvancedMessageInteractiveContent {
+    buttonReply: AcsAdvancedMessageInteractiveButtonReplyContent;
+    listReply: AcsAdvancedMessageInteractiveListReplyContent;
+    type: AcsInteractiveReplyType;
+}
+
+// @public
+export interface AcsAdvancedMessageInteractiveListReplyContent {
+    description: string;
+    id: string;
+    title: string;
+}
+
+// @public
+export interface AcsAdvancedMessageMediaContent {
+    caption: string;
+    fileName: string;
+    id: string;
+    mimeType: string;
+}
+
+// @public
+export type AcsAdvancedMessageReceivedEventData = AcsAdvancedMessageEventData & {
+    content: string;
+    channelType: AcsMessageChannelType;
+    media: AcsAdvancedMessageMediaContent;
+    context: AcsAdvancedMessageContext;
+    button: AcsAdvancedMessageButtonContent;
+    interactive: AcsAdvancedMessageInteractiveContent;
+};
+
+// @public
 export interface AcsChatEventBase {
     recipientCommunicationIdentifier: CommunicationIdentifierModel;
     threadId: string;
@@ -215,6 +286,12 @@ export interface AcsIncomingCallEventData {
 }
 
 // @public
+export type AcsInteractiveReplyType = string;
+
+// @public
+export type AcsMessageChannelType = string;
+
+// @public
 export interface AcsRecordingChunkInfo {
     contentLocation: string;
     deleteLocation: string;
@@ -379,6 +456,9 @@ export interface AcsRouterQueueDetails {
 }
 
 // @public
+export type AcsRouterUpdatedWorkerProperty = string;
+
+// @public
 export type AcsRouterWorkerDeletedEventData = AcsRouterWorkerEventData & {};
 
 // @public
@@ -476,6 +556,21 @@ export interface AcsRouterWorkerSelector {
 
 // @public
 export type AcsRouterWorkerSelectorState = string;
+
+// @public
+export interface AcsRouterWorkerUpdatedEventData {
+    channelConfigurations: AcsRouterChannelConfiguration[];
+    labels: {
+        [propertyName: string]: string;
+    };
+    queueAssignments: AcsRouterQueueDetails[];
+    tags: {
+        [propertyName: string]: string;
+    };
+    totalCapacity: number;
+    updatedWorkerProperties: AcsRouterUpdatedWorkerProperty[];
+    workerId: string;
+}
 
 // @public
 export interface AcsSmsDeliveryAttempt {
@@ -808,10 +903,15 @@ export type CommunicationCloudEnvironmentModel = string;
 // @public
 export interface CommunicationIdentifierModel {
     communicationUser?: CommunicationUserIdentifierModel;
+    kind?: CommunicationIdentifierModelKind;
+    microsoftTeamsApp?: MicrosoftTeamsAppIdentifierModel;
     microsoftTeamsUser?: MicrosoftTeamsUserIdentifierModel;
     phoneNumber?: PhoneNumberIdentifierModel;
     rawId: string;
 }
+
+// @public
+export type CommunicationIdentifierModelKind = string;
 
 // @public
 export interface CommunicationUserIdentifierModel {
@@ -1332,6 +1432,18 @@ export const enum KnownAcsEmailDeliveryReportStatus {
 }
 
 // @public
+export const enum KnownAcsInteractiveReplyType {
+    ButtonReply = "buttonReply",
+    ListReply = "listReply",
+    Unknown = "unknown"
+}
+
+// @public
+export const enum KnownAcsMessageChannelType {
+    Whatsapp = "whatsapp"
+}
+
+// @public
 export const enum KnownAcsRouterJobStatus {
     // (undocumented)
     Assigned = "Assigned",
@@ -1372,6 +1484,24 @@ export const enum KnownAcsRouterLabelOperator {
     // (undocumented)
     LessThanOrEqual = "LessThanOrEqual",
     NotEqual = "NotEqual"
+}
+
+// @public
+export const enum KnownAcsRouterUpdatedWorkerProperty {
+    // (undocumented)
+    AvailableForOffers = "AvailableForOffers",
+    // (undocumented)
+    ChannelConfigurations = "ChannelConfigurations",
+    // (undocumented)
+    Labels = "Labels",
+    // (undocumented)
+    MaxConcurrentOffers = "MaxConcurrentOffers",
+    // (undocumented)
+    QueueAssignments = "QueueAssignments",
+    // (undocumented)
+    Tags = "Tags",
+    // (undocumented)
+    TotalCapacity = "TotalCapacity"
 }
 
 // @public
@@ -1418,6 +1548,20 @@ export const enum KnownCommunicationCloudEnvironmentModel {
     Gcch = "gcch",
     // (undocumented)
     Public = "public"
+}
+
+// @public
+export const enum KnownCommunicationIdentifierModelKind {
+    // (undocumented)
+    CommunicationUser = "communicationUser",
+    // (undocumented)
+    MicrosoftTeamsApp = "microsoftTeamsApp",
+    // (undocumented)
+    MicrosoftTeamsUser = "microsoftTeamsUser",
+    // (undocumented)
+    PhoneNumber = "phoneNumber",
+    // (undocumented)
+    Unknown = "unknown"
 }
 
 // @public
@@ -1961,6 +2105,12 @@ export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
     readonly timescale: string;
     readonly trackName: string;
     readonly trackType: string;
+}
+
+// @public
+export interface MicrosoftTeamsAppIdentifierModel {
+    appId: string;
+    cloud?: CommunicationCloudEnvironmentModel;
 }
 
 // @public
@@ -2512,6 +2662,8 @@ export interface SystemEventNameToEventData {
     "Microsoft.AVS.ScriptExecutionFailed": AvsScriptExecutionFailedEventData;
     "Microsoft.AVS.ScriptExecutionFinished": AvsScriptExecutionFinishedEventData;
     "Microsoft.AVS.ScriptExecutionStarted": AvsScriptExecutionStartedEventData;
+    "Microsoft.Communication.AdvancedMessageDeliveryStatusUpdated": AcsAdvancedMessageDeliveryStatusUpdatedEventData;
+    "Microsoft.Communication.AdvancedMessageReceived": AcsAdvancedMessageReceivedEventData;
     "Microsoft.Communication.ChatMessageDeleted": AcsChatMessageDeletedEventData;
     "Microsoft.Communication.ChatMessageDeletedInThread": AcsChatMessageDeletedInThreadEventData;
     "Microsoft.Communication.ChatMessageEdited": AcsChatMessageEditedEventData;
@@ -2550,6 +2702,7 @@ export interface SystemEventNameToEventData {
     "Microsoft.Communication.RouterWorkerOfferIssued": AcsRouterWorkerOfferIssuedEventData;
     "Microsoft.Communication.RouterWorkerOfferRevoked": AcsRouterWorkerOfferRevokedEventData;
     "Microsoft.Communication.RouterWorkerRegistered": AcsRouterWorkerRegisteredEventData;
+    "Microsoft.Communication.RouterWorkerUpdated": AcsRouterWorkerUpdatedEventData;
     "Microsoft.Communication.SMSDeliveryReportReceived": AcsSmsDeliveryReportReceivedEventData;
     "Microsoft.Communication.SMSReceived": AcsSmsReceivedEventData;
     "Microsoft.Communication.UserDisconnected": AcsUserDisconnectedEventData;
