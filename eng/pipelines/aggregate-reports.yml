@@ -51,12 +51,7 @@ stages:
               copy eng/common/InterdependencyGraph.html $(Build.ArtifactStagingDirectory)
             displayName: 'Copy static file'
 
-          - pwsh: |
-              azcopy login --identity
-              $Env:AZCOPY_AUTO_LOGIN_TYPE = "MSI"
-            displayName: 'Login to azcopy'
-
-          - task: AzureFileCopy@4
+          - task: AzureFileCopy@6
             displayName: 'Upload Dependency Report'
             inputs:
               sourcePath: '$(Build.ArtifactStagingDirectory)/*'
@@ -67,7 +62,7 @@ stages:
               blobPrefix: dependencies
               AdditionalArgumentsForBlobCopy: '--exclude-pattern=*data.js*'
 
-          - task: AzureFileCopy@4
+          - task: AzureFileCopy@6
             displayName: 'Upload Dependency Graph'
             inputs:
               sourcePath: '$(Build.ArtifactStagingDirectory)/*'
