@@ -19,7 +19,7 @@ export const assertData = (actual: MonitorBase, expected: MonitorBase): void => 
   assert.ok(actual.baseData);
   for (const [key, value] of Object.entries(expected.baseData!)) {
     const serializedKey = (EnvelopeMapper.type as any).modelProperties![key]?.serializedName ?? key;
-    if (typeof(value) === "object") {
+    if (typeof value === "object") {
       for (const [nestedKey, nestedValue] of Object.entries(value)) {
         assert.deepStrictEqual(
           expected.baseData![serializedKey][nestedKey],
