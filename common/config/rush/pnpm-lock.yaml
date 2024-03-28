@@ -8856,6 +8856,7 @@ packages:
 
   /queue-tick@1.0.1:
     resolution: {integrity: sha512-kJt5qhMxoszgU/62PLP1CJytzd2NKetjSRnyuj31fDd3Rlcz3fzlFdFLD1SItunPwyqEOkca6GbV612BWfaBag==}
+    requiresBuild: true
     dev: false
 
   /randombytes@2.1.0:
@@ -9977,8 +9978,8 @@ packages:
       strip-bom: 3.0.0
     dev: false
 
-  /tshy@1.12.0:
-    resolution: {integrity: sha512-WooNSTc+uyjLseTdzUFa4Lx3KYMcwxdrJMsWacl39BlfKZKhr30gLjAJkTQWHFkmAO+dj0L4P2jxiIrOo81V3w==}
+  /tshy@1.13.0:
+    resolution: {integrity: sha512-o+Huw5SehCw/9qFv4T33I59AMUA0kSvscppTRJJkGvUUntFyUF7yjr8atbY2ttzI++l6ziZA0FZ6MIkc31T9ig==}
     engines: {node: 16 >=16.17 || 18 >=18.15.0 || >=20.6.1}
     hasBin: true
     dependencies:
@@ -10777,7 +10778,7 @@ packages:
     dev: false
 
   file:projects/abort-controller.tgz:
-    resolution: {integrity: sha512-6KmwcmAc6Zw8aAD3MJMfxMFu/eU1by4j5WCbNbMnTh+SAEBmhRppxYLE57CHk/4zJEAr+ssjbLGmiSDO9XWAqg==, tarball: file:projects/abort-controller.tgz}
+    resolution: {integrity: sha512-O8YTskEW5isvzVaRXY5QnTJqgqzdLAoaPL2jFLH0Yx/sI8Xs+XjkvFqRF4guFxDSyjGsM2YnqnJxVJtTdOinjg==, tarball: file:projects/abort-controller.tgz}
     name: '@rush-temp/abort-controller'
     version: 0.0.0
     dependencies:
@@ -10789,7 +10790,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18635,7 +18636,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-1LK36hxl/yFX4MHmS5CUf58rso7ZrsDtta31EihcL2mIW0rMVX4dlwG4iu2NvRvl4W1q475ps748uDNjE5Z21w==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-EMvT5vS/uc19Hzb6+jw1hmIF3vgoX+4vyD6iOW9q2VzY+hqK4hpOdUy38JZnMuqaRxwS+V478wzxQIJa2v/Seg==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -18647,7 +18648,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18668,7 +18669,7 @@ packages:
     dev: false
 
   file:projects/core-client-1.tgz:
-    resolution: {integrity: sha512-OLJyHTL0U4vLGSMZ1Uwm/cbaCSnQpJWNwZxfuqyuHvtF6GoyCXBb9RdB6KZgMhJJgBvEZr3BhxTqM57nciV7lg==, tarball: file:projects/core-client-1.tgz}
+    resolution: {integrity: sha512-Z3h+vQL5PHTycZWhPQg21spt7xNacqRXRwGmFTjicKdNevkW0Tr+nfwxY8aqh6mvPvd1pqHm1OOww/Vh/R1pKQ==, tarball: file:projects/core-client-1.tgz}
     name: '@rush-temp/core-client-1'
     version: 0.0.0
     dependencies:
@@ -18680,7 +18681,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18701,7 +18702,7 @@ packages:
     dev: false
 
   file:projects/core-client.tgz:
-    resolution: {integrity: sha512-J+mQDVAxm/CPhw9yQFUrQt3TLclaYwfzkmNDWVcG3wYLZPyNF6m6Oz5ZyzQpwtQgA1GrZFMtJ6ALGyXqdOYGww==, tarball: file:projects/core-client.tgz}
+    resolution: {integrity: sha512-aKWPRV4QLBK2kl3nnh2jiVI/FWFRIdsIGSX4Fa+/moOiF/fkEzWym1xpd59SJnEZRwBd82whp5jTHgPf+RYN+w==, tarball: file:projects/core-client.tgz}
     name: '@rush-temp/core-client'
     version: 0.0.0
     dependencies:
@@ -18713,7 +18714,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18734,7 +18735,7 @@ packages:
     dev: false
 
   file:projects/core-http-compat.tgz:
-    resolution: {integrity: sha512-o4+VSa/YjxAuW8meTMp04lfhMav4XhxI2mQBUsgLm6qrsG+UInoYc1XjeoG9dxsSbtoDT8iNguuNKzCXTdAEnA==, tarball: file:projects/core-http-compat.tgz}
+    resolution: {integrity: sha512-gZ2hSW4xspOouq+hB7PWhgD4mgvxAbhBUTZ2RwqSqgHgS1zWM5cTbKjELtetVccm+/W8795Me/Th6EO+M6GoWQ==, tarball: file:projects/core-http-compat.tgz}
     name: '@rush-temp/core-http-compat'
     version: 0.0.0
     dependencies:
@@ -18746,7 +18747,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
     transitivePeerDependencies:
@@ -18766,7 +18767,7 @@ packages:
     dev: false
 
   file:projects/core-lro.tgz:
-    resolution: {integrity: sha512-4z+td5KBrB4E4AC1W8sIikhPFggJTtbjtzYitU01rvQe6H97SnwxgSX95X3VYJuuz6FTtaTu8Ygodk7U9AvdUA==, tarball: file:projects/core-lro.tgz}
+    resolution: {integrity: sha512-CoSBDLPNO8JoLIcbtkYWbqFRd7TgRzIaeK6HTbslkET7xT7MsP2vShd7gQLQi2P49BZBsKson5uzDiLMJgYipw==, tarball: file:projects/core-lro.tgz}
     name: '@rush-temp/core-lro'
     version: 0.0.0
     dependencies:
@@ -18778,7 +18779,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18799,7 +18800,7 @@ packages:
     dev: false
 
   file:projects/core-paging.tgz:
-    resolution: {integrity: sha512-ZSI0Vg4yD2/EK/sq4+YxdzQy9YGswtLd5DeTD397iaMoy0vyp/6BKURyIPiSoBTofFUIV3j7MwaO9tfkyHbT8Q==, tarball: file:projects/core-paging.tgz}
+    resolution: {integrity: sha512-xOkdnewn13VbgQvQk2FqAH2aI1yoLb6kk7PWTDFBAkoSNcEZs2vVvGdW9X9Gk+oXrCznPGZFyEH5FkP1EEmtxg==, tarball: file:projects/core-paging.tgz}
     name: '@rush-temp/core-paging'
     version: 0.0.0
     dependencies:
@@ -18811,7 +18812,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18832,7 +18833,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-SxZK8Sn3iHsCf4SUWs631chCquZR4EoAnGCZIBAN53fzEx7zu7Fn5kMgthrV7k6sZqNh3Gr+2UoTzrdfd96aKA==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-5O2FHy4jRgdAoofoSg2kzTpwQ2TTRGY+X1+RYLhoQ6SGyjjdm3RcZms0s3jPOu8B0zYSgJi/JS1vgd90DqWIKA==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -18846,7 +18847,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18867,7 +18868,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-SQ12AH5WYq1DSw8s4W2KBK4lI0JqidtDTYrSBid8ji11C+5EG6brZOmlEsstwrE4/ou2BRGQZjYOiFhCQASPOw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-nY9Bqa/75yzB+e5uV9bswzfytqWKGk3FR93UEeChpnxtpZZhz8DoOeNXXvL/3KOeZIuRnh/6z1kD7h9uV+/x2Q==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -18880,7 +18881,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.2.2
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18901,7 +18902,7 @@ packages:
     dev: false
 
   file:projects/core-tracing.tgz:
-    resolution: {integrity: sha512-OiN48Pr2CrhzGy/wuAmQKNxNq/JVEDsgVVIbSTMLBh09mRgHVAt1dDP2RiazPOUoVgO+a8sg0lUlT9UuJkbLQA==, tarball: file:projects/core-tracing.tgz}
+    resolution: {integrity: sha512-eesVNX3WyWZjXCsD6HeXRix26Frc1oFRr+nC32Z26rZq+Cy+mNeSIfYA5dSNTx4gSEQu0Y8E8zYdX61+FBlfIw==, tarball: file:projects/core-tracing.tgz}
     name: '@rush-temp/core-tracing'
     version: 0.0.0
     dependencies:
@@ -18913,7 +18914,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18934,7 +18935,7 @@ packages:
     dev: false
 
   file:projects/core-util.tgz:
-    resolution: {integrity: sha512-m6EGouRXU6ZC5lviRF/UxOy9EcUOR0s05AMbEYkhx9w71Ohu4X8eWea8RiX5kplEaCvQj/Pxpjpk+FqIMiq6tw==, tarball: file:projects/core-util.tgz}
+    resolution: {integrity: sha512-LZg5PyjCeJtP58qwT/5LSu409zelMMx8sDVajEO/7Uu/aUgzJu9zRFV7MAMKve/SOy+jsbd3dlO2QabSxJkifQ==, tarball: file:projects/core-util.tgz}
     name: '@rush-temp/core-util'
     version: 0.0.0
     dependencies:
@@ -18946,7 +18947,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -18967,7 +18968,7 @@ packages:
     dev: false
 
   file:projects/core-xml.tgz:
-    resolution: {integrity: sha512-nHFQ7K/R0RCToo50zrD/m7qx1IwTGRhgSD2sa/u5eP323N1Ekv9SolsTKReAM3bqD1PPirvytI8pP9WC2dvkpg==, tarball: file:projects/core-xml.tgz}
+    resolution: {integrity: sha512-IvtRJ/8+HwBN9gvHr5egr9Ty9ClvvT0eEYAYkSgSSCNHXc9Gi6LN+0smQfABuuxT1ch05rOtExMdaXvwHn2oAw==, tarball: file:projects/core-xml.tgz}
     name: '@rush-temp/core-xml'
     version: 0.0.0
     dependencies:
@@ -18981,7 +18982,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -20209,7 +20210,7 @@ packages:
     dev: false
 
   file:projects/logger.tgz:
-    resolution: {integrity: sha512-+9REBcc8JqvPZtrlasULq44Rf/SZCr0g9nSSc62oxWhgQPsk/YBYMbcsfim7y562Vno8uYTFfqAH3xEjznwgnA==, tarball: file:projects/logger.tgz}
+    resolution: {integrity: sha512-Uz2QAi+q3lduBmnVpOusq50H1Wqzy5IRRHVPftrh/SPY/n6v/jOVTh0iD4vlvw1z9ZpiwHdEO1NE7i4w34MFoQ==, tarball: file:projects/logger.tgz}
     name: '@rush-temp/logger'
     version: 0.0.0
     dependencies:
@@ -20222,7 +20223,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
@@ -22652,7 +22653,7 @@ packages:
     dev: false
 
   file:projects/ts-http-runtime.tgz:
-    resolution: {integrity: sha512-HyGi6Yahjy4aNreOcQN4NWv7LGcax0E/7Rpg+HuM3U022EdzNwaNQ3szWW0F/RMNw8Rph1gDvG41R0SsyELwuQ==, tarball: file:projects/ts-http-runtime.tgz}
+    resolution: {integrity: sha512-mgYnEo3Po/jE3/DNJAXPS2HObrkhpmCNqueO2JK3DtwzeFly8RMra3zqDx5PUyMj11UnUeYxqXcAZy+K1LE7iw==, tarball: file:projects/ts-http-runtime.tgz}
     name: '@rush-temp/ts-http-runtime'
     version: 0.0.0
     dependencies:
@@ -22667,7 +22668,7 @@ packages:
       playwright: 1.42.1
       prettier: 3.2.5
       rimraf: 5.0.5
-      tshy: 1.12.0
+      tshy: 1.13.0
       tslib: 2.6.2
       typescript: 5.3.3
       vitest: 1.4.0(@types/node@18.19.26)(@vitest/browser@1.4.0)
