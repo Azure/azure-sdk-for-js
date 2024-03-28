@@ -7,12 +7,7 @@
 **Please rely heavily on our [REST client docs](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) to use this library**
 
 Key links:
-
-- [Source code]
-- [Package (NPM)]
-- [API reference documentation]
-- [Product Information]
-- [Samples]
+[Source code] | [Package (NPM)] | [API reference documentation] | [Product Information] | [Samples]
 
 ## Getting started
 
@@ -36,10 +31,6 @@ npm install @azure-rest/health-insights-radiologyinsights
 ```
 
 ### Create and authenticate a `RadiologyInsightsClient`
-
-|SDK version|Supported API version of service |
-|-------------|---------------|
-|1.0.0-beta.1 | 2024-01-19-preview|
 
 To use an [Azure Active Directory (AAD) token credential][token_credential],
 provide an instance of the desired credential type obtained from the [Azure Identity library][azure_identity].
@@ -267,8 +258,9 @@ For more detailed instructions on how to enable logs, you can look at the [@azur
 [radiology_insights_docs]: https://learn.microsoft.com/azure/azure-health-insights/radiology-insights/
 [Source code]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest
 [Package (NPM)]: https://www.npmjs.com/package/@azure-rest/health-insights-radiologyinsights
-[Product Information]:https://learn.microsoft.com/en-us/azure/azure-health-insights/radiology-insights/
-[Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1-beta
+[API reference documentation]: https://learn.microsoft.com/en-us/rest/api/cognitiveservices/healthinsights/operation-groups?view=rest-cognitiveservices-healthinsights-2023-03-01-preview
+[Product Information]: https://learn.microsoft.com/en-us/java/api/com.azure.health.insights.radiologyinsights
+[Samples]:https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthinsights/health-insights-radiologyinsights-rest/samples/v1
 [azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
 [identity]: https://www.npmjs.com/package/@azure/identity
 [token_credential]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token
