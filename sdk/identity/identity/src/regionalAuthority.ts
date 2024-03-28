@@ -112,3 +112,17 @@ export enum RegionalAuthority {
   /** Uses the {@link RegionalAuthority} for the Azure 'usdodcentral' region. */
   GovernmentUSDodCentral = "usdodcentral",
 }
+
+export function getAzureRegion(regionalAuthority: string | undefined): string | undefined {
+  let azureRegion = regionalAuthority;
+
+  if (azureRegion === undefined && typeof process !== "undefined") {
+    azureRegion = process.env.AZURE_REGIONAL_AUTHORITY_NAME;
+  }
+
+  if (azureRegion === RegionalAuthority.AutoDiscoverRegion) {
+    return "AUTO_DISCOVER";
+  }
+
+  return azureRegion;
+}
