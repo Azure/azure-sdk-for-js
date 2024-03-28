@@ -125,7 +125,10 @@ export enum RegionalAuthority {
 export function calculateRegionalAuthority(regionalAuthority?: string): string | undefined {
   let azureRegion = regionalAuthority;
 
-  if (azureRegion === undefined && typeof process !== "undefined") {
+  if (
+    azureRegion === undefined &&
+    globalThis.process?.env?.AZURE_REGIONAL_AUTHORITY_NAME !== undefined
+  ) {
     azureRegion = process.env.AZURE_REGIONAL_AUTHORITY_NAME;
   }
 
