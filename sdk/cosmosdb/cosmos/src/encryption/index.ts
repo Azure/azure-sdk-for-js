@@ -13,4 +13,4 @@ export { EncryptionSettings } from "./EncryptionSettings";
 export { KeyEncryptionKey } from "./KeyEncryptionKey";
 export { EncryptionSettingForProperty } from "./EncryptionSettingForProperty";
 export { ProtectedDataEncryptionKey } from "./EncryptionKey";
-// export { EncryptionProcessor } from "./EncryptionProcessor";
+export { EncryptionProcessor } from "./EncryptionProcessor";

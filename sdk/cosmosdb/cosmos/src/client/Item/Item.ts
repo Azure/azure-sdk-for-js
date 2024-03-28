@@ -20,6 +20,7 @@ import { Resource } from "../Resource";
 import { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
+import { EncryptionProcessor } from "../../encryption";
 
 /**
  * Used to perform operations on a specific item.
@@ -87,8 +88,15 @@ export class Item {
         this.partitionKey = undefinedPartitionKey(partitionKeyDefinition);
       }
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
+        id = await this.getEncryptedIdIfEncrypted(id);
+        path = await this.getEncryptedIdIfEncrypted(path);
+      }
+
       let response: Response<T & Resource>;
       try {
         response = await this.clientContext.read<T>({
@@ -104,6 +112,10 @@ export class Item {
           throw error;
         }
         response = error;
+      }
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.decryptItem(response.result);
       }
 
       return new ItemResponse(
@@ -162,8 +174,15 @@ export class Item {
         throw err;
       }
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        body = await this.encryptItem(body);
+        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
+        id = await this.getEncryptedIdIfEncrypted(id);
+        path = await this.getEncryptedIdIfEncrypted(path);
+      }
 
       const response = await this.clientContext.replace<T>({
         body,
@@ -174,6 +193,10 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.decryptItem(response.result);
+      }
       return new ItemResponse(
         response.result,
         response.headers,
@@ -205,8 +228,14 @@ export class Item {
         this.partitionKey = undefinedPartitionKey(partitionKeyResponse);
       }
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
+        id = await this.getEncryptedIdIfEncrypted(id);
+        path = await this.getEncryptedIdIfEncrypted(path);
+      }
 
       const response = await this.clientContext.delete<T>({
         path,
@@ -216,6 +245,10 @@ export class Item {
         partitionKey: this.partitionKey,
         diagnosticNode,
       });
+
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.decryptItem(response.result);
+      }
 
       return new ItemResponse(
         response.result,
@@ -249,8 +282,20 @@ export class Item {
         this.partitionKey = extractPartitionKeys(body, partitionKeyResponse);
       }
 
-      const path = getPathFromLink(this.url);
-      const id = getIdFromLink(this.url);
+      let path = getPathFromLink(this.url);
+      let id = getIdFromLink(this.url);
+
+      if (this.clientContext.enableEncyption) {
+        const operations = Array.isArray(body) ? body : body.operations;
+        for (const operation of operations) {
+          if ("value" in operation) {
+            operation.value = await this.encryptValue(operation.path, operation.value);
+          }
+        }
+        this.partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(this.partitionKey);
+        id = await this.getEncryptedIdIfEncrypted(id);
+        path = await this.getEncryptedIdIfEncrypted(path);
+      }
 
       const response = await this.clientContext.patch<T>({
         body,
@@ -262,6 +307,10 @@ export class Item {
         diagnosticNode,
       });
 
+      if (this.clientContext.enableEncyption) {
+        response.result = await this.decryptItem(response.result);
+      }
+
       return new ItemResponse(
         response.result,
         response.headers,
@@ -271,5 +320,123 @@ export class Item {
         getEmptyCosmosDiagnostics(),
       );
     }, this.clientContext);
+  }
+
+  async encryptItem<T extends ItemDefinition>(item: T): Promise<T> {
+    const key = this.container.database.id + "/" + this.container.id;
+    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    if (encryptionSettings === undefined) {
+      await this.container.initializeEncryption();
+      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    }
+
+    if (encryptionSettings.pathsToEncrypt.length === 0) return item;
+    const encryptedItem = await EncryptionProcessor.encrypt(
+      item,
+      encryptionSettings,
+      this.clientContext.encryptionKeyStoreProvider,
+      this.container,
+    );
+    return encryptedItem;
+  }
+
+  async getEncryptedPartitionKeyIfEncrypted(
+    partitionKeyList: PartitionKeyInternal,
+  ): Promise<PartitionKeyInternal> {
+    const key = this.container.database.id + "/" + this.container.id;
+    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+
+    if (encryptionSettings === undefined) {
+      await this.container.initializeEncryption();
+      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    }
+    const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
+    for (let i = 0; i < partitionKeyPaths.length; i++) {
+      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPaths[i])) {
+        const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(
+          partitionKeyPaths[i],
+        );
+        const clientEncryptionKeyProperties = await this.container.getClientEncryptionKeyProperties(
+          partitionKeyPaths[i],
+        );
+        partitionKeyList[i] = await EncryptionProcessor.encryptToken(
+          partitionKeyList[i],
+          settingForProperty,
+          partitionKeyPaths[i] === "/id",
+          this.clientContext.encryptionKeyStoreProvider,
+          clientEncryptionKeyProperties,
+        );
+      }
+    }
+    return partitionKeyList;
+  }
+
+  async IdEncryptionHelper(id: string): Promise<string> {
+    const key = this.container.database.id + "/" + this.container.id;
+    const encryptionSettings =
+      this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty("/id");
+
+    if (settingForProperty == null) return id;
+    const clientEncryptionKeyProperties =
+      await this.container.getClientEncryptionKeyProperties("/id");
+    if (settingForProperty != null) {
+      id = await EncryptionProcessor.encryptToken(
+        id,
+        settingForProperty,
+        true,
+        this.clientContext.encryptionKeyStoreProvider,
+        clientEncryptionKeyProperties,
+      );
+    }
+    return id;
+  }
+
+  async getEncryptedIdIfEncrypted(id: string): Promise<string> {
+    const parts = id.split("/");
+    const lastPart = parts[parts.length - 1];
+    const encryptedLastPart = await this.IdEncryptionHelper(lastPart);
+    parts[parts.length - 1] = encryptedLastPart;
+    return parts.join("/");
+  }
+
+  async decryptItem<T extends ItemDefinition>(item: T): Promise<T> {
+    const key = this.container.database.id + "/" + this.container.id;
+    const encryptionSettings =
+      this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    item = await EncryptionProcessor.decrypt(
+      item,
+      encryptionSettings,
+      this.clientContext.encryptionKeyStoreProvider,
+      this.container,
+    );
+    return item;
+  }
+
+  async encryptValue(
+    property: string,
+    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+    value: any,
+  ): Promise<any> {
+    const key = this.container.database.id + "/" + this.container.id;
+    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    if (encryptionSettings === undefined) {
+      await this.container.initializeEncryption();
+      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    }
+    const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(property);
+    if (settingForProperty == null) {
+      return value;
+    }
+    const clientEncryptionKeyProperties =
+      await this.container.getClientEncryptionKeyProperties(property);
+    value = await EncryptionProcessor.encryptToken(
+      value,
+      settingForProperty,
+      property === "/id",
+      this.clientContext.encryptionKeyStoreProvider,
+      clientEncryptionKeyProperties,
+    );
+    return value;
   }
 }
