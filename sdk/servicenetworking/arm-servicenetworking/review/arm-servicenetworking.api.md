@@ -4,23 +4,43 @@
 
 ```ts
 
-import * as coreAuth from '@azure/core-auth';
-import * as coreClient from '@azure/core-client';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
 import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import { Paged } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { Pipeline } from '@azure/core-rest-pipeline';
+import { PollerLike } from '@azure/core-lro';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = string;
 
 // @public
-export interface Association extends TrackedResource {
+export interface ArmResource extends ArmResourceBase {
+    readonly id: string;
+    readonly systemData?: SystemData;
+    readonly type: string;
+}
+
+// @public
+export interface ArmResourceBase {
+}
+
+// @public
+export interface Association extends TrackedResourceBase {
     properties?: AssociationProperties;
 }
 
 // @public
 export interface AssociationListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Association[];
 }
 
@@ -31,70 +51,41 @@ export interface AssociationProperties {
     subnet?: AssociationSubnet;
 }
 
-// @public
-export interface AssociationsInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<AssociationsInterfaceCreateOrUpdateResponse>, AssociationsInterfaceCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptionalParams): Promise<AssociationsInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceGetOptionalParams): Promise<AssociationsInterfaceGetResponse>;
-    listByTrafficController(resourceGroupName: string, trafficControllerName: string, options?: AssociationsInterfaceListByTrafficControllerOptionalParams): PagedAsyncIterableIterator<Association>;
-    update(resourceGroupName: string, trafficControllerName: string, associationName: string, properties: AssociationUpdate, options?: AssociationsInterfaceUpdateOptionalParams): Promise<AssociationsInterfaceUpdateResponse>;
-}
-
-// @public
-export interface AssociationsInterfaceCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface AssociationsInterfaceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface AssociationsInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export type AssociationsInterfaceCreateOrUpdateResponse = Association;
-
-// @public
-export interface AssociationsInterfaceDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface AssociationsInterfaceDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface AssociationsInterfaceDeleteOperationOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export interface AssociationsInterfaceGetOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface AssociationsInterfaceGetOptions extends OperationOptions {
 }
 
-// @public
-export type AssociationsInterfaceGetResponse = Association;
-
-// @public
-export interface AssociationsInterfaceListByTrafficControllerNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface AssociationsInterfaceListByTrafficControllerOptions extends OperationOptions {
 }
 
-// @public
-export type AssociationsInterfaceListByTrafficControllerNextResponse = AssociationListResult;
-
-// @public
-export interface AssociationsInterfaceListByTrafficControllerOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface AssociationsInterfaceOperations {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, resource: Association, options?: AssociationsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Association>, Association>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, options?: AssociationsInterfaceGetOptions) => Promise<Association>;
+    // (undocumented)
+    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: AssociationsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Association>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, associationName: string, properties: AssociationUpdate, options?: AssociationsInterfaceUpdateOptions) => Promise<Association>;
 }
 
-// @public
-export type AssociationsInterfaceListByTrafficControllerResponse = AssociationListResult;
-
-// @public
-export interface AssociationsInterfaceUpdateOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface AssociationsInterfaceUpdateOptions extends OperationOptions {
 }
-
-// @public
-export type AssociationsInterfaceUpdateResponse = Association;
 
 // @public
 export interface AssociationSubnet {
@@ -102,33 +93,32 @@ export interface AssociationSubnet {
 }
 
 // @public
-export interface AssociationSubnetUpdate {
-    id?: string;
-}
-
-// @public
 export type AssociationType = string;
 
 // @public
 export interface AssociationUpdate {
+    // (undocumented)
     properties?: AssociationUpdateProperties;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface AssociationUpdateProperties {
     associationType?: AssociationType;
-    subnet?: AssociationSubnetUpdate;
+    subnet?: AssociationSubnet;
 }
 
 // @public
-export type CreatedByType = string;
+export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
+    continuationToken?: string;
+};
+
+// @public
+export type createdByType = string;
 
 // @public
 export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, unknown>;
+    readonly info?: Record<string, any>;
     readonly type?: string;
 }
 
@@ -142,18 +132,13 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
-export interface Frontend extends TrackedResource {
+export interface Frontend extends TrackedResourceBase {
     properties?: FrontendProperties;
 }
 
 // @public
 export interface FrontendListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: Frontend[];
 }
 
@@ -163,120 +148,50 @@ export interface FrontendProperties {
     readonly provisioningState?: ProvisioningState;
 }
 
-// @public
-export interface FrontendsInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<FrontendsInterfaceCreateOrUpdateResponse>, FrontendsInterfaceCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptionalParams): Promise<FrontendsInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceGetOptionalParams): Promise<FrontendsInterfaceGetResponse>;
-    listByTrafficController(resourceGroupName: string, trafficControllerName: string, options?: FrontendsInterfaceListByTrafficControllerOptionalParams): PagedAsyncIterableIterator<Frontend>;
-    update(resourceGroupName: string, trafficControllerName: string, frontendName: string, properties: FrontendUpdate, options?: FrontendsInterfaceUpdateOptionalParams): Promise<FrontendsInterfaceUpdateResponse>;
-}
-
-// @public
-export interface FrontendsInterfaceCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface FrontendsInterfaceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface FrontendsInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export type FrontendsInterfaceCreateOrUpdateResponse = Frontend;
-
-// @public
-export interface FrontendsInterfaceDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface FrontendsInterfaceDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface FrontendsInterfaceDeleteOperationOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export interface FrontendsInterfaceGetOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface FrontendsInterfaceGetOptions extends OperationOptions {
 }
 
-// @public
-export type FrontendsInterfaceGetResponse = Frontend;
-
-// @public
-export interface FrontendsInterfaceListByTrafficControllerNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface FrontendsInterfaceListByTrafficControllerOptions extends OperationOptions {
 }
 
-// @public
-export type FrontendsInterfaceListByTrafficControllerNextResponse = FrontendListResult;
-
-// @public
-export interface FrontendsInterfaceListByTrafficControllerOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface FrontendsInterfaceOperations {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, resource: Frontend, options?: FrontendsInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<Frontend>, Frontend>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, options?: FrontendsInterfaceGetOptions) => Promise<Frontend>;
+    // (undocumented)
+    listByTrafficController: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: FrontendsInterfaceListByTrafficControllerOptions) => PagedAsyncIterableIterator<Frontend>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, frontendName: string, properties: FrontendUpdate, options?: FrontendsInterfaceUpdateOptions) => Promise<Frontend>;
 }
 
-// @public
-export type FrontendsInterfaceListByTrafficControllerResponse = FrontendListResult;
-
-// @public
-export interface FrontendsInterfaceUpdateOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface FrontendsInterfaceUpdateOptions extends OperationOptions {
 }
-
-// @public
-export type FrontendsInterfaceUpdateResponse = Frontend;
 
 // @public
 export interface FrontendUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
-}
-
-// @public
-export function getContinuationToken(page: unknown): string | undefined;
-
-// @public
-export enum KnownActionType {
-    Internal = "Internal"
-}
-
-// @public
-export enum KnownAssociationType {
-    Subnets = "subnets"
-}
-
-// @public
-export enum KnownCreatedByType {
-    Application = "Application",
-    Key = "Key",
-    ManagedIdentity = "ManagedIdentity",
-    User = "User"
-}
-
-// @public
-export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
-}
-
-// @public
-export enum KnownProvisioningState {
-    Accepted = "Accepted",
-    Canceled = "Canceled",
-    Deleting = "Deleting",
-    Failed = "Failed",
-    Provisioning = "Provisioning",
-    Succeeded = "Succeeded",
-    Updating = "Updating"
+    tags?: Record<string, string>;
 }
 
 // @public
 export interface Operation {
-    readonly actionType?: ActionType;
+    actionType?: ActionType;
     display?: OperationDisplay;
     readonly isDataAction?: boolean;
     readonly name?: string;
@@ -285,188 +200,146 @@ export interface Operation {
 
 // @public
 export interface OperationDisplay {
-    readonly description?: string;
-    readonly operation?: string;
-    readonly provider?: string;
-    readonly resource?: string;
+    description?: string;
+    operation?: string;
+    provider?: string;
+    resource?: string;
 }
 
-// @public
-export interface OperationListResult {
-    readonly nextLink?: string;
-    readonly value?: Operation[];
+// @public (undocumented)
+export interface OperationsListOptions extends OperationOptions {
 }
 
-// @public
-export interface Operations {
-    list(options?: OperationsListOptionalParams): PagedAsyncIterableIterator<Operation>;
+// @public (undocumented)
+export interface OperationsOperations {
+    // (undocumented)
+    list: (options?: OperationsListOptions) => PagedAsyncIterableIterator<Operation>;
 }
-
-// @public
-export interface OperationsListNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListNextResponse = OperationListResult;
-
-// @public
-export interface OperationsListOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type OperationsListResponse = OperationListResult;
 
 // @public
 export type Origin = string;
 
 // @public
-export type ProvisioningState = string;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export interface Resource {
-    readonly id?: string;
-    readonly name?: string;
-    readonly systemData?: SystemData;
-    readonly type?: string;
+export interface PagedOperation {
+    readonly nextLink?: string;
+    value: Operation[];
 }
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
+
+// @public
+export type ProvisioningState = string;
 
 // @public
 export interface ResourceId {
     id: string;
 }
 
+// @public
+export type ResourceProvisioningState = string;
+
+// Warning: (ae-forgotten-export) The symbol "ServiceNetworkingContext" needs to be exported by the entry point index.d.ts
+//
+// @public
+export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(client: ServiceNetworkingContext | ServiceNetworkingClient, serializedState: string, sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>, options?: RestorePollerOptions<TResult>): PollerLike<OperationState<TResult>, TResult>;
+
 // @public (undocumented)
-export class ServiceNetworkingManagementClient extends coreClient.ServiceClient {
-    // (undocumented)
-    $host: string;
-    constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: ServiceNetworkingManagementClientOptionalParams);
-    // (undocumented)
-    apiVersion: string;
-    // (undocumented)
-    associationsInterface: AssociationsInterface;
-    // (undocumented)
-    frontendsInterface: FrontendsInterface;
-    // (undocumented)
-    operations: Operations;
-    // (undocumented)
-    subscriptionId: string;
-    // (undocumented)
-    trafficControllerInterface: TrafficControllerInterface;
+export interface RestorePollerOptions<TResult, TResponse extends PathUncheckedResponse = PathUncheckedResponse> extends OperationOptions {
+    abortSignal?: AbortSignalLike;
+    processResponseBody?: (result: TResponse) => PromiseLike<TResult>;
+    updateIntervalInMs?: number;
 }
 
-// @public
-export interface ServiceNetworkingManagementClientOptionalParams extends coreClient.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
+// @public (undocumented)
+export class ServiceNetworkingClient {
+    constructor(credential: TokenCredential, options?: ServiceNetworkingClientOptions);
+    readonly associationsInterface: AssociationsInterfaceOperations;
+    readonly frontendsInterface: FrontendsInterfaceOperations;
+    readonly operations: OperationsOperations;
+    readonly pipeline: Pipeline;
+    readonly trafficControllerInterface: TrafficControllerInterfaceOperations;
+}
+
+// @public (undocumented)
+export interface ServiceNetworkingClientOptions extends ClientOptions {
 }
 
 // @public
 export interface SystemData {
-    createdAt?: Date;
-    createdBy?: string;
-    createdByType?: CreatedByType;
-    lastModifiedAt?: Date;
-    lastModifiedBy?: string;
-    lastModifiedByType?: CreatedByType;
+    readonly createdAt?: Date;
+    readonly createdBy?: string;
+    readonly createdByType?: createdByType;
+    readonly lastModifiedAt?: Date;
+    readonly lastModifiedBy?: string;
+    readonly lastModifiedByType?: createdByType;
 }
 
 // @public
-export interface TrackedResource extends Resource {
+export interface TrackedResourceBase extends ArmResource {
     location: string;
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // @public
-export interface TrafficController extends TrackedResource {
+export interface TrafficController extends TrackedResourceBase {
     properties?: TrafficControllerProperties;
 }
 
-// @public
-export interface TrafficControllerInterface {
-    beginCreateOrUpdate(resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>, TrafficControllerInterfaceCreateOrUpdateResponse>>;
-    beginCreateOrUpdateAndWait(resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams): Promise<TrafficControllerInterfaceCreateOrUpdateResponse>;
-    beginDelete(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
-    beginDeleteAndWait(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOptionalParams): Promise<void>;
-    get(resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceGetOptionalParams): Promise<TrafficControllerInterfaceGetResponse>;
-    listByResourceGroup(resourceGroupName: string, options?: TrafficControllerInterfaceListByResourceGroupOptionalParams): PagedAsyncIterableIterator<TrafficController>;
-    listBySubscription(options?: TrafficControllerInterfaceListBySubscriptionOptionalParams): PagedAsyncIterableIterator<TrafficController>;
-    update(resourceGroupName: string, trafficControllerName: string, properties: TrafficControllerUpdate, options?: TrafficControllerInterfaceUpdateOptionalParams): Promise<TrafficControllerInterfaceUpdateResponse>;
-}
-
-// @public
-export interface TrafficControllerInterfaceCreateOrUpdateHeaders {
-    retryAfter?: number;
-}
-
-// @public
-export interface TrafficControllerInterfaceCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface TrafficControllerInterfaceCreateOrUpdateOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export type TrafficControllerInterfaceCreateOrUpdateResponse = TrafficController;
-
-// @public
-export interface TrafficControllerInterfaceDeleteHeaders {
-    location?: string;
-    retryAfter?: number;
-}
-
-// @public
-export interface TrafficControllerInterfaceDeleteOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
+// @public (undocumented)
+export interface TrafficControllerInterfaceDeleteOperationOptions extends OperationOptions {
     updateIntervalInMs?: number;
 }
 
-// @public
-export interface TrafficControllerInterfaceGetOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface TrafficControllerInterfaceGetOptions extends OperationOptions {
 }
 
-// @public
-export type TrafficControllerInterfaceGetResponse = TrafficController;
-
-// @public
-export interface TrafficControllerInterfaceListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface TrafficControllerInterfaceListByResourceGroupOptions extends OperationOptions {
 }
 
-// @public
-export type TrafficControllerInterfaceListByResourceGroupNextResponse = TrafficControllerListResult;
-
-// @public
-export interface TrafficControllerInterfaceListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface TrafficControllerInterfaceListBySubscriptionOptions extends OperationOptions {
 }
 
-// @public
-export type TrafficControllerInterfaceListByResourceGroupResponse = TrafficControllerListResult;
-
-// @public
-export interface TrafficControllerInterfaceListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface TrafficControllerInterfaceOperations {
+    // (undocumented)
+    createOrUpdate: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, resource: TrafficController, options?: TrafficControllerInterfaceCreateOrUpdateOptions) => PollerLike<OperationState<TrafficController>, TrafficController>;
+    // (undocumented)
+    deleteOperation: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceDeleteOperationOptions) => PollerLike<OperationState<void>, void>;
+    // (undocumented)
+    get: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, options?: TrafficControllerInterfaceGetOptions) => Promise<TrafficController>;
+    // (undocumented)
+    listByResourceGroup: (subscriptionId: string, resourceGroupName: string, options?: TrafficControllerInterfaceListByResourceGroupOptions) => PagedAsyncIterableIterator<TrafficController>;
+    // (undocumented)
+    listBySubscription: (subscriptionId: string, options?: TrafficControllerInterfaceListBySubscriptionOptions) => PagedAsyncIterableIterator<TrafficController>;
+    // (undocumented)
+    update: (subscriptionId: string, resourceGroupName: string, trafficControllerName: string, properties: TrafficControllerUpdate, options?: TrafficControllerInterfaceUpdateOptions) => Promise<TrafficController>;
 }
 
-// @public
-export type TrafficControllerInterfaceListBySubscriptionNextResponse = TrafficControllerListResult;
-
-// @public
-export interface TrafficControllerInterfaceListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+// @public (undocumented)
+export interface TrafficControllerInterfaceUpdateOptions extends OperationOptions {
 }
-
-// @public
-export type TrafficControllerInterfaceListBySubscriptionResponse = TrafficControllerListResult;
-
-// @public
-export interface TrafficControllerInterfaceUpdateOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type TrafficControllerInterfaceUpdateResponse = TrafficController;
 
 // @public
 export interface TrafficControllerListResult {
-    nextLink?: string;
+    readonly nextLink?: string;
     value: TrafficController[];
 }
 
@@ -480,9 +353,7 @@ export interface TrafficControllerProperties {
 
 // @public
 export interface TrafficControllerUpdate {
-    tags?: {
-        [propertyName: string]: string;
-    };
+    tags?: Record<string, string>;
 }
 
 // (No @packageDocumentation comment for this package)

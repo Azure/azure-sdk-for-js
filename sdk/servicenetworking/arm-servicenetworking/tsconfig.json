@@ -1,33 +1,35 @@
 {
   "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
-    "strict": true,
-    "target": "es6",
-    "sourceMap": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
+    "target": "ES2017",
+    "module": "NodeNext",
     "lib": [
-      "es6",
+      "esnext",
       "dom"
     ],
     "declaration": true,
-    "outDir": "./dist-esm",
+    "declarationMap": true,
+    "inlineSources": true,
+    "sourceMap": true,
     "importHelpers": true,
-    "paths": {
-      "@azure/arm-servicenetworking": [
-        "./src/index"
-      ]
-    }
+    "strict": true,
+    "alwaysStrict": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "NodeNext",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "outDir": "./dist-esm",
+    "declarationDir": "./types",
+    "rootDir": "."
+  },
+  "ts-node": {
+    "esm": true
   },
   "include": [
     "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
+    "./test/**/*.ts"
   ]
 }
