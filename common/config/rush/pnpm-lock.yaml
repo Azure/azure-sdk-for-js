@@ -7187,8 +7187,8 @@ packages:
       xmlcreate: 2.0.4
     dev: false
 
-  /jsbi@3.2.5:
-    resolution: {integrity: sha512-aBE4n43IPvjaddScbvWRA2YlTzKEynHzu7MqOyTipdHucf/VxS63ViCjxYRg86M8Rxwbt/GfzHl1kKERkt45fQ==}
+  /jsbi@4.3.0:
+    resolution: {integrity: sha512-SnZNcinB4RIcnEyZqFPdGPVgrg2AcnykiBy0sHVJQKHYeaLUvi3Exj+iaPpLnFVkDPZIV4U0yvgC9/R4uEAZ9g==}
     dev: false
 
   /jsbn@1.1.0:
@@ -19002,7 +19002,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-QvMe4hvJqxGu27gFk9gSt5x0vTeAtrKAv2YfWx1f/lkIeVBhzS4PeFaw9+Gb3cfDLIqB1l9KUkOgoZzWbjgLAQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-XkYRrD323Zjt633gmqDsqhWIYqiyIvReAXUrUhpolI5FJdzKLz1vAAxY3ZO1Jnxq8sNR9q2ElGDmhX/53tYugA==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19028,7 +19028,7 @@ packages:
       esm: 3.2.25
       execa: 5.1.1
       fast-json-stable-stringify: 2.1.0
-      jsbi: 3.2.5
+      jsbi: 4.3.0
       mocha: 10.3.0
       nock: 12.0.3
       node-abort-controller: 3.1.1
