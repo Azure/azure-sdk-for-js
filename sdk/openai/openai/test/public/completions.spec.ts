@@ -136,7 +136,10 @@ describe("OpenAI", function () {
           await withDeployments(
             authMethod === "OpenAIKey" ? models : deployments,
             (deploymentName) =>
-              client.streamCompletions(deploymentName, prompt, { maxTokens: 2048 }),
+              client.streamCompletions(deploymentName, prompt, {
+                maxTokens: 2048,
+                requestOptions: { timeout: 10000 },
+              }),
 
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.

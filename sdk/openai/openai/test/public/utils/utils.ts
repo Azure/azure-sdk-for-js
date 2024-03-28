@@ -60,7 +60,8 @@ export async function withDeployments<T>(
         ["OperationNotSupported", "model_not_found", "rate_limit_exceeded", "429", 400].includes(
           error.code,
         ) ||
-        error.type === "invalid_request_error"
+        error.type === "invalid_request_error" ||
+        error.name === "AbortError"
       ) {
         console.log(`Handled error: ${errorStr}`);
         continue;
