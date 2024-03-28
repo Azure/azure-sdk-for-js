@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
+import { HttpResponse } from "@azure-rest/core-client";
 import {
   AudioTranscriptionOutput,
   AudioTranslationOutput,
@@ -210,4 +210,22 @@ export interface BeginAzureBatchImageGenerationDefaultResponse extends HttpRespo
 export interface BeginAzureBatchImageGenerationLogicalResponse extends HttpResponse {
   status: "200";
   body: BatchImageGenerationOperationResponseOutput;
+}
+
+/** A response containing error details. */
+export interface ErrorResponse{
+  /** The error object. */
+  body: ErrorModel
+}
+
+/** The error object. */
+export interface ErrorModel{
+  /** A human-readable representation of the error. */
+  message?: string;
+  /** The parameters of the error. */
+  param?: string;
+  /** Type of the error. */
+  type?: string;
+  /** The error code. */
+  code?: string;
 }
