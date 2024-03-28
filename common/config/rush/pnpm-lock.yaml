@@ -5707,6 +5707,18 @@ packages:
       - supports-color
     dev: false
 
+  /eslint-plugin-markdown@4.0.1(eslint@8.57.0):
+    resolution: {integrity: sha512-5/MnGvYU0i8MbHH5cg8S+Vl3DL+bqRNYshk1xUO86DilNBaxtTkhH+5FD0/yO03AmlI6+lfNFdk2yOw72EPzpA==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+    peerDependencies:
+      eslint: '>=8'
+    dependencies:
+      eslint: 8.57.0
+      mdast-util-from-markdown: 0.8.5
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /eslint-plugin-no-only-tests@3.1.0:
     resolution: {integrity: sha512-Lf4YW/bL6Un1R6A76pRZyE1dl1vr31G/ev8UzIc/geCgFWyrKil8hVjYqWVKGB/UIGmb6Slzs9T0wNezdSVegw==}
     engines: {node: '>=5.0.0'}
@@ -19002,7 +19014,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-QvMe4hvJqxGu27gFk9gSt5x0vTeAtrKAv2YfWx1f/lkIeVBhzS4PeFaw9+Gb3cfDLIqB1l9KUkOgoZzWbjgLAQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-DPMW/YNeZsqP4EtC29gFeyusENHapCXjwV38jKQ4p0H+A+17TRj7EBMbUAsdOyXu+3Ah4Aok6YK1okqHJqsNaQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:
@@ -19308,7 +19320,7 @@ packages:
     dev: false
 
   file:projects/eslint-plugin-azure-sdk.tgz:
-    resolution: {integrity: sha512-mR1epV+BmY9UBQdeY4k3O8HNXZyQVy2iUzkt1Xha8ZECScbRB86B8UkhI6QQFNV/iNglxlbvrZUyNhiYbC99OQ==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
+    resolution: {integrity: sha512-93THIU29jPMzUdG7ptPcp9dpa1THxhJlgcxtPD3w94hKgG0nuGflkDiTTEerPpOJsRULx59mHm5fM+XUVf6X+Q==, tarball: file:projects/eslint-plugin-azure-sdk.tgz}
     name: '@rush-temp/eslint-plugin-azure-sdk'
     version: 0.0.0
     dependencies:
@@ -19327,7 +19339,7 @@ packages:
       eslint: 8.57.0
       eslint-config-prettier: 9.1.0(eslint@8.57.0)
       eslint-plugin-import: 2.29.1(eslint@8.57.0)
-      eslint-plugin-markdown: 3.0.1(eslint@8.57.0)
+      eslint-plugin-markdown: 4.0.1(eslint@8.57.0)
       eslint-plugin-no-only-tests: 3.1.0
       eslint-plugin-promise: 6.1.1(eslint@8.57.0)
       eslint-plugin-tsdoc: 0.2.17
