@@ -119,9 +119,21 @@ export class OpenAIClient {
     let cred: KeyCredential | TokenCredential;
     if (isCred(credOrOptions)) {
       endpoint = endpointOrOpenAiKey as string;
-      cred = credOrOptions;
-      opts = options;
-      this._isAzure = true;
+      this._isAzure = /azure\.com[\/]?$/.test(endpoint);
+      if (this._isAzure) {
+        cred = credOrOptions;
+        opts = options;
+      } else {
+        cred = credOrOptions as KeyCredential;
+        const { credentials, ...restOpts } = options;
+        opts = {
+          credentials: {
+            apiKeyHeaderName: credentials?.apiKeyHeaderName ?? "Authorization",
+            scopes: credentials?.scopes,
+          },
+          ...restOpts,
+        };
+      }
     } else {
       endpoint = createOpenAIEndpoint(1);
       cred = endpointOrOpenAiKey as KeyCredential;
