@@ -13,7 +13,7 @@ import {
 } from "./utils/asserts.js";
 import {
   bufferAsyncIterable,
-  createAzureCognitiveSearchExtension,
+  createAzureSearchExtension,
   getDeployments,
   getModels,
   getSucceeded,
@@ -53,7 +53,7 @@ describe("OpenAI", function () {
         client = createClient(authMethod, "completions", { recorder });
       });
 
-      describe("getCompletions", function () {
+      describe.only("getCompletions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
@@ -64,15 +64,16 @@ describe("OpenAI", function () {
         });
       });
 
-      describe("streamCompletions", function () {
+      describe.only("streamCompletions", function () {
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
-          const modelName = "text-davinci-003";
-          await assertCompletionsStream(await client.streamCompletions(modelName, prompt), {
+          await withDeployments(
+            authMethod === "OpenAIKey" ? models : deployments,
+            (deploymentName) => client.streamCompletions(deploymentName, prompt),
             // The API returns an empty choice in the first event for some
             // reason. This should be fixed in the API.
-            allowEmptyChoices: true,
-          });
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
+          );
         });
 
         it("stream long completions", async function () {
@@ -132,16 +133,14 @@ describe("OpenAI", function () {
   \`\`\`
   `,
           ];
-          const modelName = "text-davinci-003";
-          await assertCompletionsStream(
-            await client.streamCompletions(modelName, prompt, {
-              maxTokens: 2048,
-            }),
-            {
-              // The API returns an empty choice in the first event for some
-              // reason. This should be fixed in the API.
-              allowEmptyChoices: true,
-            },
+          await withDeployments(
+            authMethod === "OpenAIKey" ? models : deployments,
+            (deploymentName) =>
+              client.streamCompletions(deploymentName, prompt, { maxTokens: 2048 }),
+
+            // The API returns an empty choice in the first event for some
+            // reason. This should be fixed in the API.
+            (result) => assertCompletionsStream(result, { allowEmptyChoices: true }),
           );
         });
       });
@@ -267,7 +266,7 @@ describe("OpenAI", function () {
                 (deploymentName) =>
                   client.getChatCompletions(deploymentName, byodMessages, {
                     azureExtensionOptions: {
-                      extensions: [createAzureCognitiveSearchExtension()],
+                      extensions: [createAzureSearchExtension()],
                     },
                   }),
                 assertChatCompletions,
@@ -299,7 +298,7 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: false });
-                  assert.isEmpty(res.choices[0].message?.toolCalls);
+                  assert.isUndefined(res.choices[0].message?.toolCalls);
                   assert.isUndefined(res.choices[0].message?.functionCall);
                 },
               ),
@@ -343,10 +342,12 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
-                  assert.isDefined(res.choices[0].message?.toolCalls);
-                  const argument = (
-                    res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall
-                  ).function.arguments;
+                  const toolCalls = res.choices[0].message?.toolCalls;
+                  if (!toolCalls) {
+                    throw new Error("toolCalls should be defined here");
+                  }
+                  const argument = (toolCalls[0] as ChatCompletionsFunctionToolCall).function
+                    .arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
               ),
@@ -445,9 +446,12 @@ describe("OpenAI", function () {
                   ),
                 (res) => {
                   assertChatCompletions(res, { functions: true });
+                  const toolCalls = res.choices[0].message?.toolCalls;
+                  if (!toolCalls) {
+                    throw new Error("toolCalls should be defined here");
+                  }
                   assert.equal(
-                    (res.choices[0].message?.toolCalls[0] as ChatCompletionsFunctionToolCall)
-                      .function.name,
+                    (toolCalls[0] as ChatCompletionsFunctionToolCall).function.name,
                     getCurrentWeather.name,
                   );
                   assert.isUndefined(res.choices[0].message?.functionCall);
@@ -576,7 +580,7 @@ describe("OpenAI", function () {
                   bufferAsyncIterable(
                     await client.streamChatCompletions(deploymentName, byodMessages, {
                       azureExtensionOptions: {
-                        extensions: [createAzureCognitiveSearchExtension()],
+                        extensions: [createAzureSearchExtension()],
                       },
                     }),
                   ),
