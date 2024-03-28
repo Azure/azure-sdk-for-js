@@ -115,6 +115,8 @@ You can enable sampling to limit the amount of telemetry records you receive. In
 const { ApplicationInsightsSampler } = require("@azure/monitor-opentelemetry-exporter");
 const { BatchSpanProcessor } = require("@opentelemetry/sdk-trace-base");
 const { NodeTracerProvider } = require("@opentelemetry/sdk-trace-node");
+const { Resource } = require("@opentelemetry/resources"); 
+const { SemanticResourceAttributes } = require("@opentelemetry/semantic-conventions"); 
 
 // Sampler expects a sample rate of between 0 and 1 inclusive
 // A rate of 0.75 means approximately 75 % of your traces will be sent
