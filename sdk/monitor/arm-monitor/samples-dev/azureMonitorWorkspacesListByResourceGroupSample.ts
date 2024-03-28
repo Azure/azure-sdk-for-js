@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all Azure Monitor Workspaces in the specified resource group
  *
  * @summary Lists all Azure Monitor Workspaces in the specified resource group
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesListByResourceGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesListByResourceGroup.json
  */
 async function listAzureMonitorWorkspacesByResourceGroup() {
   const subscriptionId =

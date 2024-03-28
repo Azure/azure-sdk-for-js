@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a scheduled query rule.
  *
  * @summary Creates or updates a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRule.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/createOrUpdateScheduledQueryRule.json
  */
 async function createOrUpdateAScheduledQueryRuleForSingleResource() {
   const subscriptionId =
@@ -33,6 +33,10 @@ async function createOrUpdateAScheduledQueryRuleForSingleResource() {
       actionGroups: [
         "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
+      actionProperties: {
+        icmTitle: "Custom title in ICM",
+        icmTsgId: "https://tsg.url",
+      },
       customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,
@@ -86,7 +90,7 @@ async function createOrUpdateAScheduledQueryRuleForSingleResource() {
  * This sample demonstrates how to Creates or updates a scheduled query rule.
  *
  * @summary Creates or updates a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRuleResourceGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/createOrUpdateScheduledQueryRuleResourceGroup.json
  */
 async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
   const subscriptionId =
@@ -101,6 +105,10 @@ async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
       actionGroups: [
         "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
+      actionProperties: {
+        icmTitle: "Custom title in ICM",
+        icmTsgId: "https://tsg.url",
+      },
       customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,
@@ -146,7 +154,7 @@ async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
  * This sample demonstrates how to Creates or updates a scheduled query rule.
  *
  * @summary Creates or updates a scheduled query rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/createOrUpdateScheduledQueryRuleSubscription.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/createOrUpdateScheduledQueryRuleSubscription.json
  */
 async function createOrUpdateAScheduledQueryRuleOnSubscription() {
   const subscriptionId =
@@ -161,6 +169,10 @@ async function createOrUpdateAScheduledQueryRuleOnSubscription() {
       actionGroups: [
         "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
+      actionProperties: {
+        icmTitle: "Custom title in ICM",
+        icmTsgId: "https://tsg.url",
+      },
       customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,

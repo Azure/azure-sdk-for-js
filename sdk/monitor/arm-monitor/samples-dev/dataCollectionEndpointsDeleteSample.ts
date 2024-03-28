@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a data collection endpoint.
  *
  * @summary Deletes a data collection endpoint.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsDelete.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionEndpointsDelete.json
  */
 async function deleteDataCollectionEndpoint() {
   const subscriptionId =

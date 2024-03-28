@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to **Lists the metric data for a subscription**.
  *
  * @summary **Lists the metric data for a subscription**.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMultiResourceMetric.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetric.json
  */
 async function getSubscriptionLevelMetricData() {
   const subscriptionId =
@@ -63,7 +63,7 @@ async function getSubscriptionLevelMetricData() {
  * This sample demonstrates how to **Lists the metric data for a subscription**.
  *
  * @summary **Lists the metric data for a subscription**.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMultiResourceMetricMetadata.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetricMetadata.json
  */
 async function getSubscriptionLevelMetricMetadata() {
   const subscriptionId =

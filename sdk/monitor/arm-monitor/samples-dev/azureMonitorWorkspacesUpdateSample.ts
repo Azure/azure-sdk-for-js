@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Updates part of an Azure Monitor Workspace
  *
  * @summary Updates part of an Azure Monitor Workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesUpdate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesUpdate.json
  */
 async function updateAnAzureMonitorWorkspace() {
   const subscriptionId =

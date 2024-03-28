@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the metric namespaces for the resource.
  *
  * @summary Lists the metric namespaces for the resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2017-12-01-preview/examples/GetMetricNamespaces.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricNamespaces.json
  */
 async function getMetricNamespacesWithoutFilter() {
   const resourceUri =

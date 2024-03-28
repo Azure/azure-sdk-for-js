@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an association.
  *
  * @summary Deletes an association.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsDelete.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsDelete.json
  */
 async function deleteAssociation() {
   const resourceUri =

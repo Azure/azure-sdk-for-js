@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an association.
  *
  * @summary Creates or updates an association.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsCreate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsCreate.json
  */
 async function createOrUpdateAssociation() {
   const resourceUri =

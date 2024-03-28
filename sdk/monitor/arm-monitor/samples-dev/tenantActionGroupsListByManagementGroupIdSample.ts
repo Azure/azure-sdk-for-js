@@ -15,23 +15,28 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Lists available Operations for this Resource Provider
+ * This sample demonstrates how to Get a list of all tenant action groups in a management group.
  *
- * @summary Lists available Operations for this Resource Provider
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/OperationsGet.json
+ * @summary Get a list of all tenant action groups in a management group.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/listTenantActionGroups.json
  */
-async function getOperationsList() {
+async function listTenantActionGroupsAtManagementGroupLevel() {
+  const managementGroupId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
+  const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
   const resArray = new Array();
-  for await (let item of client.monitorOperations.list()) {
+  for await (let item of client.tenantActionGroups.listByManagementGroupId(
+    managementGroupId,
+    xMsClientTenantId,
+  )) {
     resArray.push(item);
   }
   console.log(resArray);
 }
 
 async function main() {
-  getOperationsList();
+  listTenantActionGroupsAtManagementGroupLevel();
 }
 
 main().catch(console.error);

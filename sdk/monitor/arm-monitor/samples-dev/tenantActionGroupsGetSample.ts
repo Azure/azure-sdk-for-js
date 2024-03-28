@@ -15,26 +15,27 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Returns the specified association.
+ * This sample demonstrates how to Get a tenant action group.
  *
- * @summary Returns the specified association.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsGet.json
+ * @summary Get a tenant action group.
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2023-05-01-preview/examples/getTenantActionGroup.json
  */
-async function getAssociation() {
-  const resourceUri =
-    "subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm";
-  const associationName = "myAssociation";
+async function getAnActionGroup() {
+  const managementGroupId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
+  const tenantActionGroupName = "testTenantActionGroup";
+  const xMsClientTenantId = "72f988bf-86f1-41af-91ab-2d7cd011db47";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential);
-  const result = await client.dataCollectionRuleAssociations.get(
-    resourceUri,
-    associationName,
+  const result = await client.tenantActionGroups.get(
+    managementGroupId,
+    tenantActionGroupName,
+    xMsClientTenantId,
   );
   console.log(result);
 }
 
 async function main() {
-  getAssociation();
+  getAnActionGroup();
 }
 
 main().catch(console.error);

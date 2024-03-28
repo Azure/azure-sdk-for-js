@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to **Lists the metric values for a resource**.
  *
  * @summary **Lists the metric values for a resource**.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetric.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetric.json
  */
 async function getMetricForData() {
   const resourceUri =
@@ -55,7 +55,7 @@ async function getMetricForData() {
  * This sample demonstrates how to **Lists the metric values for a resource**.
  *
  * @summary **Lists the metric values for a resource**.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetricMetadata.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricMetadata.json
  */
 async function getMetricForMetadata() {
   const resourceUri =
@@ -78,7 +78,7 @@ async function getMetricForMetadata() {
  * This sample demonstrates how to **Lists the metric values for a resource**.
  *
  * @summary **Lists the metric values for a resource**.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetricError.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricError.json
  */
 async function getMetricWithError() {
   const resourceUri =

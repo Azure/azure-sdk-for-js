@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
  * @summary Lists the metric definitions for the resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetricDefinitionsApplicationInsights.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricDefinitionsApplicationInsights.json
  */
 async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
   const resourceUri =
@@ -41,7 +41,7 @@ async function getApplicationInsightsMetricDefinitionsWithoutFilter() {
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
  * @summary Lists the metric definitions for the resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetricDefinitions.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricDefinitions.json
  */
 async function getMetricDefinitionsWithoutFilter() {
   const resourceUri =
@@ -61,7 +61,7 @@ async function getMetricDefinitionsWithoutFilter() {
  * This sample demonstrates how to Lists the metric definitions for the resource.
  *
  * @summary Lists the metric definitions for the resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMetricDefinitionsMetricClass.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMetricDefinitionsMetricClass.json
  */
 async function getStorageCacheMetricDefinitionsWithMetricClass() {
   const resourceUri =

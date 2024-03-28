@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the metric definitions for the subscription.
  *
  * @summary Lists the metric definitions for the subscription.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMultiResourceMetricDefinitions.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetricDefinitions.json
  */
 async function getSubscriptionLevelMetricDefinitionsWithoutFilter() {
   const subscriptionId =

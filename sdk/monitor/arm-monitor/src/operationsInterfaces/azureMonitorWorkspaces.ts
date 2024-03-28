@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   AzureMonitorWorkspaceResource,
   AzureMonitorWorkspacesListByResourceGroupOptionalParams,
@@ -18,6 +19,7 @@ import {
   AzureMonitorWorkspacesUpdateOptionalParams,
   AzureMonitorWorkspacesUpdateResponse,
   AzureMonitorWorkspacesDeleteOptionalParams,
+  AzureMonitorWorkspacesDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -85,9 +87,26 @@ export interface AzureMonitorWorkspaces {
    *                                  insensitive
    * @param options The options parameters.
    */
-  delete(
+  beginDelete(
     resourceGroupName: string,
     azureMonitorWorkspaceName: string,
     options?: AzureMonitorWorkspacesDeleteOptionalParams,
-  ): Promise<void>;
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AzureMonitorWorkspacesDeleteResponse>,
+      AzureMonitorWorkspacesDeleteResponse
+    >
+  >;
+  /**
+   * Deletes an Azure Monitor Workspace
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param azureMonitorWorkspaceName The name of the Azure Monitor Workspace. The name is case
+   *                                  insensitive
+   * @param options The options parameters.
+   */
+  beginDeleteAndWait(
+    resourceGroupName: string,
+    azureMonitorWorkspaceName: string,
+    options?: AzureMonitorWorkspacesDeleteOptionalParams,
+  ): Promise<AzureMonitorWorkspacesDeleteResponse>;
 }

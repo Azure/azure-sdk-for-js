@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates an Azure Monitor Workspace
  *
  * @summary Creates or updates an Azure Monitor Workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesCreate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesCreate.json
  */
 async function createOrUpdateAnAzureMonitorWorkspace() {
   const subscriptionId =

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists associations for the specified resource.
  *
  * @summary Lists associations for the specified resource.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsListByResource.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRuleAssociationsListByResource.json
  */
 async function listAssociationsForSpecifiedResource() {
   const resourceUri =

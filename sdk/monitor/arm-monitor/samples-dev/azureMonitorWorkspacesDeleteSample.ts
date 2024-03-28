@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes an Azure Monitor Workspace
  *
  * @summary Deletes an Azure Monitor Workspace
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/preview/2021-06-03-preview/examples/AzureMonitorWorkspacesDelete.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Monitor/stable/2023-04-03/examples/AzureMonitorWorkspacesDelete.json
  */
 async function deleteAnAzureMonitorWorkspace() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function deleteAnAzureMonitorWorkspace() {
   const azureMonitorWorkspaceName = "myAzureMonitorWorkspace";
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
-  const result = await client.azureMonitorWorkspaces.delete(
+  const result = await client.azureMonitorWorkspaces.beginDeleteAndWait(
     resourceGroupName,
     azureMonitorWorkspaceName,
   );

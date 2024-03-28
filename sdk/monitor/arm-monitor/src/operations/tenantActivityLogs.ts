@@ -134,9 +134,9 @@ const listOperationSpec: coreClient.OperationSpec = {
     },
   },
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.filter,
+    Parameters.apiVersion3,
     Parameters.select,
-    Parameters.filter1,
   ],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],

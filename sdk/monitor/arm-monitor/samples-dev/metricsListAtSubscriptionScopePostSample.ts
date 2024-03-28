@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  *
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMultiResourceMetric.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetric.json
  */
 async function postRequestForSubscriptionLevelMetricData() {
   const subscriptionId =
@@ -64,7 +64,7 @@ async function postRequestForSubscriptionLevelMetricData() {
  * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  *
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/PostMultiResourceMetricBody.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/PostMultiResourceMetricBody.json
  */
 async function postRequestForSubscriptionLevelMetricDataUsingBodyParams() {
   const subscriptionId =
@@ -98,7 +98,7 @@ async function postRequestForSubscriptionLevelMetricDataUsingBodyParams() {
  * This sample demonstrates how to **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
  *
  * @summary **Lists the metric data for a subscription**. Parameters can be specified on either query params or the body.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-05-01/examples/GetMultiResourceMetricMetadata.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2024-02-01/examples/GetMultiResourceMetricMetadata.json
  */
 async function postRequestForSubscriptionLevelMetricMetadata() {
   const subscriptionId =

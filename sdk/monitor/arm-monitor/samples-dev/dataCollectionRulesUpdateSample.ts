@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Updates part of a data collection rule.
  *
  * @summary Updates part of a data collection rule.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesUpdate.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-06-01/examples/DataCollectionRulesUpdate.json
  */
 async function updateDataCollectionRule() {
   const subscriptionId =
