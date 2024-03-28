@@ -19,6 +19,7 @@ import { createPrinter } from "../../util/printer";
 import path from "path";
 import { readFile } from "fs-extra";
 import { readdir } from "node:fs/promises";
+import { resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
