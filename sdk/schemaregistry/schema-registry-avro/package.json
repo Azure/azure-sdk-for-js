@@ -75,7 +75,7 @@
     "@azure/logger": "^1.0.0",
     "@azure/schema-registry": "1.2.0",
     "avsc": "^5.5.1",
-    "lru-cache": "^7.4.1",
+    "lru-cache": "^10.2.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {

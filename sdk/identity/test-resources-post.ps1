@@ -11,8 +11,16 @@ param (
   [hashtable] $DeploymentOutputs,
 
   [Parameter()]
-  [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
+  [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
+
+  [Parameter()]
+  [hashtable] $AdditionalParameters = @{}
 )
+
+if (!$AdditionalParameters['deployMIResources']) {
+    Write-Host "Skipping post-provisioning script because resources weren't deployed"
+    return
+}
 
 $MIClientId = $DeploymentOutputs['IDENTITY_USER_DEFINED_CLIENT_ID']
 $MIName = $DeploymentOutputs['IDENTITY_USER_DEFINED_IDENTITY_NAME']
