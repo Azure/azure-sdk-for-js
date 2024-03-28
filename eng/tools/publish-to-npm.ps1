@@ -158,11 +158,16 @@ try {
             }
         }
         elseif ($addTag -and $publishToNpm) {
+            $nameAndVersion = "$($p.Project.name)@$($p.Project)"
             if ($tag) {
-                npm dist-tag add "$($p.Project.name)@$($p.Project)" $tag
+                Write-Host "Adding tag for package"
+                Write-Host "npm dist-tag add $nameAndVersion $tag"
+                npm dist-tag add $nameAndVersion $tag
             }
             if ($additionalTag -ne "" && $additionalTag -ne $tag) {
-                npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
+                Write-Host "Adding additional tag for package"
+                Write-Host "npm dist-tag add $nameAndVersion $additionalTag"
+                npm dist-tag add $nameAndVersion $additionalTag
             }
         }
         else {
