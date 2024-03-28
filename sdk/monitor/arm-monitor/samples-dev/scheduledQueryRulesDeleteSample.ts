@@ -31,7 +31,7 @@ async function deleteAScheduledQueryRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.delete(
     resourceGroupName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

@@ -15,7 +15,7 @@ import {
   PrivateEndpointConnectionsCreateOrUpdateResponse,
   PrivateEndpointConnectionsDeleteOptionalParams,
   PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
-  PrivateEndpointConnectionsListByPrivateLinkScopeResponse
+  PrivateEndpointConnectionsListByPrivateLinkScopeResponse,
 } from "../models";
 
 /** Interface representing a PrivateEndpointConnections. */
@@ -31,7 +31,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetOptionalParams
+    options?: PrivateEndpointConnectionsGetOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetResponse>;
   /**
    * Approve or reject a private endpoint connection with a given name.
@@ -46,7 +46,7 @@ export interface PrivateEndpointConnections {
     scopeName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateEndpointConnectionsCreateOrUpdateResponse>,
@@ -66,7 +66,7 @@ export interface PrivateEndpointConnections {
     scopeName: string,
     privateEndpointConnectionName: string,
     parameters: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams
+    options?: PrivateEndpointConnectionsCreateOrUpdateOptionalParams,
   ): Promise<PrivateEndpointConnectionsCreateOrUpdateResponse>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -79,7 +79,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a private endpoint connection with a given name.
@@ -92,7 +92,7 @@ export interface PrivateEndpointConnections {
     resourceGroupName: string,
     scopeName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteOptionalParams
+    options?: PrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets all private endpoint connections on a private link scope.
@@ -103,6 +103,6 @@ export interface PrivateEndpointConnections {
   listByPrivateLinkScope(
     resourceGroupName: string,
     scopeName: string,
-    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
+    options?: PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByPrivateLinkScopeResponse>;
 }

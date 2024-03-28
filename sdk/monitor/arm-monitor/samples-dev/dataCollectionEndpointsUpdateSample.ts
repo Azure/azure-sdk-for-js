@@ -11,7 +11,7 @@
 import {
   ResourceForUpdate,
   DataCollectionEndpointsUpdateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -38,7 +38,7 @@ async function updateDataCollectionEndpoint() {
   const result = await client.dataCollectionEndpoints.update(
     resourceGroupName,
     dataCollectionEndpointName,
-    options
+    options,
   );
   console.log(result);
 }

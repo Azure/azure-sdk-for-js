@@ -31,7 +31,7 @@ async function getDataCollectionRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionRules.get(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   );
   console.log(result);
 }

@@ -15,7 +15,7 @@ import { MonitorClient } from "../monitorClient";
 import {
   LocalizableString,
   EventCategoriesListOptionalParams,
-  EventCategoriesListResponse
+  EventCategoriesListResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export class EventCategoriesImpl implements EventCategories {
    * @param options The options parameters.
    */
   public list(
-    options?: EventCategoriesListOptionalParams
+    options?: EventCategoriesListOptionalParams,
   ): PagedAsyncIterableIterator<LocalizableString> {
     const iter = this.listPagingAll(options);
     return {
@@ -52,13 +52,13 @@ export class EventCategoriesImpl implements EventCategories {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: EventCategoriesListOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<LocalizableString[]> {
     let result: EventCategoriesListResponse;
     result = await this._list(options);
@@ -66,7 +66,7 @@ export class EventCategoriesImpl implements EventCategories {
   }
 
   private async *listPagingAll(
-    options?: EventCategoriesListOptionalParams
+    options?: EventCategoriesListOptionalParams,
   ): AsyncIterableIterator<LocalizableString> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -79,7 +79,7 @@ export class EventCategoriesImpl implements EventCategories {
    * @param options The options parameters.
    */
   private _list(
-    options?: EventCategoriesListOptionalParams
+    options?: EventCategoriesListOptionalParams,
   ): Promise<EventCategoriesListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -92,14 +92,14 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventCategoryCollection
+      bodyMapper: Mappers.EventCategoryCollection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion1],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

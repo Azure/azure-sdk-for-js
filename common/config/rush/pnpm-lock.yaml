@@ -15153,7 +15153,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-LGe1iNUoZQYZrNM4/RNoR1/+EF8IbcjoApmtx/watdJQTkPGiiGJoZCf4s6VitBSLdthc+xSJ9+72cKXFvPLEw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-72OaOgSIVA3LlO3kfPOOsj1gawNyVDLuGDV9mXkOwxs++BA4xqGlRbs1dOZ/W0pAJS6V/SivVTlNEbhT9EOROA==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -15166,6 +15166,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5
@@ -19002,7 +19003,7 @@ packages:
     dev: false
 
   file:projects/cosmos.tgz:
-    resolution: {integrity: sha512-QvMe4hvJqxGu27gFk9gSt5x0vTeAtrKAv2YfWx1f/lkIeVBhzS4PeFaw9+Gb3cfDLIqB1l9KUkOgoZzWbjgLAQ==, tarball: file:projects/cosmos.tgz}
+    resolution: {integrity: sha512-DPMW/YNeZsqP4EtC29gFeyusENHapCXjwV38jKQ4p0H+A+17TRj7EBMbUAsdOyXu+3Ah4Aok6YK1okqHJqsNaQ==, tarball: file:projects/cosmos.tgz}
     name: '@rush-temp/cosmos'
     version: 0.0.0
     dependencies:

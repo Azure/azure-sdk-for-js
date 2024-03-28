@@ -30,7 +30,7 @@ async function listScheduledQueryRulesByResourceGroup() {
   const client = new MonitorClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.scheduledQueryRules.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

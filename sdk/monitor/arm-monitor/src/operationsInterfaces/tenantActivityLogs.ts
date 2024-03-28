@@ -20,6 +20,6 @@ export interface TenantActivityLogs {
    * @param options The options parameters.
    */
   list(
-    options?: TenantActivityLogsListOptionalParams
+    options?: TenantActivityLogsListOptionalParams,
   ): PagedAsyncIterableIterator<EventData>;
 }

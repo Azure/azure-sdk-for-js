@@ -31,7 +31,7 @@ async function getDataCollectionEndpoint() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionEndpoints.get(
     resourceGroupName,
-    dataCollectionEndpointName
+    dataCollectionEndpointName,
   );
   console.log(result);
 }

@@ -40,7 +40,7 @@ import {
   DataCollectionRuleAssociationsImpl,
   DataCollectionRulesImpl,
   AzureMonitorWorkspacesImpl,
-  MonitorOperationsImpl
+  MonitorOperationsImpl,
 } from "./operations";
 import {
   AutoscaleSettings,
@@ -73,13 +73,13 @@ import {
   DataCollectionRuleAssociations,
   DataCollectionRules,
   AzureMonitorWorkspaces,
-  MonitorOperations
+  MonitorOperations,
 } from "./operationsInterfaces";
 import { MonitorClientOptionalParams } from "./models";
 
 export class MonitorClient extends coreClient.ServiceClient {
   $host: string;
-  subscriptionId: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the MonitorClient class.
@@ -90,13 +90,27 @@ export class MonitorClient extends coreClient.ServiceClient {
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: MonitorClientOptionalParams
+    options?: MonitorClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: MonitorClientOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?: MonitorClientOptionalParams | string,
+    options?: MonitorClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
     }
-    if (subscriptionId === undefined) {
-      throw new Error("'subscriptionId' cannot be null");
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -105,7 +119,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     }
     const defaults: MonitorClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
     const packageDetails = `azsdk-js-arm-monitor/8.0.0-beta.5`;
@@ -118,20 +132,21 @@ export class MonitorClient extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -141,7 +156,7 @@ export class MonitorClient extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -151,9 +166,9 @@ export class MonitorClient extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -182,17 +197,15 @@ export class MonitorClient extends coreClient.ServiceClient {
     this.metricNamespaces = new MetricNamespacesImpl(this);
     this.vMInsights = new VMInsightsImpl(this);
     this.privateLinkScopes = new PrivateLinkScopesImpl(this);
-    this.privateLinkScopeOperationStatus = new PrivateLinkScopeOperationStatusImpl(
-      this
-    );
+    this.privateLinkScopeOperationStatus =
+      new PrivateLinkScopeOperationStatusImpl(this);
     this.privateLinkResources = new PrivateLinkResourcesImpl(this);
     this.privateEndpointConnections = new PrivateEndpointConnectionsImpl(this);
     this.privateLinkScopedResources = new PrivateLinkScopedResourcesImpl(this);
     this.activityLogAlerts = new ActivityLogAlertsImpl(this);
     this.dataCollectionEndpoints = new DataCollectionEndpointsImpl(this);
-    this.dataCollectionRuleAssociations = new DataCollectionRuleAssociationsImpl(
-      this
-    );
+    this.dataCollectionRuleAssociations =
+      new DataCollectionRuleAssociationsImpl(this);
     this.dataCollectionRules = new DataCollectionRulesImpl(this);
     this.azureMonitorWorkspaces = new AzureMonitorWorkspacesImpl(this);
     this.monitorOperations = new MonitorOperationsImpl(this);

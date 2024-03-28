@@ -31,7 +31,7 @@ async function getAScheduledQueryRuleForSingleResource() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.get(
     resourceGroupName,
-    ruleName
+    ruleName,
   );
   console.log(result);
 }

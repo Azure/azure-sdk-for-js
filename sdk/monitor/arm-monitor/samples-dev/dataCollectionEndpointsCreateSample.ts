@@ -11,7 +11,7 @@
 import {
   DataCollectionEndpointResource,
   DataCollectionEndpointsCreateOptionalParams,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -33,7 +33,7 @@ async function createOrUpdateDataCollectionEndpoint() {
   const dataCollectionEndpointName = "myCollectionEndpoint";
   const body: DataCollectionEndpointResource = {
     location: "eastus",
-    networkAcls: { publicNetworkAccess: "Enabled" }
+    networkAcls: { publicNetworkAccess: "Enabled" },
   };
   const options: DataCollectionEndpointsCreateOptionalParams = { body };
   const credential = new DefaultAzureCredential();
@@ -41,7 +41,7 @@ async function createOrUpdateDataCollectionEndpoint() {
   const result = await client.dataCollectionEndpoints.create(
     resourceGroupName,
     dataCollectionEndpointName,
-    options
+    options,
   );
   console.log(result);
 }

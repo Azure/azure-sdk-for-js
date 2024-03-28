@@ -32,7 +32,7 @@ async function listAssociationsForSpecifiedDataCollectionRule() {
   const resArray = new Array();
   for await (let item of client.dataCollectionRuleAssociations.listByRule(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   )) {
     resArray.push(item);
   }

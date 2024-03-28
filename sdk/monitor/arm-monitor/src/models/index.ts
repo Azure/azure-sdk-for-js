@@ -989,6 +989,56 @@ export interface EventCategoryCollection {
 }
 
 /** Represents collection of metric definitions. */
+export interface SubscriptionScopeMetricDefinitionCollection {
+  /** The values for the metric definitions. */
+  value: SubscriptionScopeMetricDefinition[];
+}
+
+/** Metric definition class specifies the metadata for a metric. */
+export interface SubscriptionScopeMetricDefinition {
+  /** Flag to indicate whether the dimension is required. */
+  isDimensionRequired?: boolean;
+  /** the resource identifier of the resource that emitted the metric. */
+  resourceId?: string;
+  /** the namespace the metric belongs to. */
+  namespace?: string;
+  /** the name and the display name of the metric, i.e. it is a localizable string. */
+  name?: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** Custom category name for this metric. */
+  category?: string;
+  /** The class of the metric. */
+  metricClass?: MetricClass;
+  /** the unit of the metric. */
+  unit?: MetricUnit;
+  /** the primary aggregation type value defining how to use the values for display. */
+  primaryAggregationType?: MetricAggregationType;
+  /** the collection of what aggregation types are supported. */
+  supportedAggregationTypes?: MetricAggregationType[];
+  /** the collection of what aggregation intervals are available to be queried. */
+  metricAvailabilities?: MetricAvailability[];
+  /** the resource identifier of the metric definition. */
+  id?: string;
+  /** the name and the display name of the dimension, i.e. it is a localizable string. */
+  dimensions?: LocalizableString[];
+}
+
+/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
+export interface MetricAvailability {
+  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
+  timeGrain?: string;
+  /** the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
+  retention?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.) */
+export interface ErrorContract {
+  /** The error object. */
+  error?: ErrorResponse;
+}
+
+/** Represents collection of metric definitions. */
 export interface MetricDefinitionCollection {
   /** the values for the metric definitions. */
   value: MetricDefinition[];
@@ -1010,7 +1060,7 @@ export interface MetricDefinition {
   category?: string;
   /** The class of the metric. */
   metricClass?: MetricClass;
-  /** The unit of the metric. */
+  /** the unit of the metric. */
   unit?: MetricUnit;
   /** the primary aggregation type value defining how to use the values for display. */
   primaryAggregationType?: AggregationType;
@@ -1024,16 +1074,8 @@ export interface MetricDefinition {
   dimensions?: LocalizableString[];
 }
 
-/** Metric availability specifies the time grain (aggregation interval or frequency) and the retention period for that time grain. */
-export interface MetricAvailability {
-  /** the time grain specifies the aggregation interval for the metric. Expressed as a duration 'PT1M', 'P1D', etc. */
-  timeGrain?: string;
-  /** the retention period for the metric at the specified timegrain.  Expressed as a duration 'PT1M', 'P1D', etc. */
-  retention?: string;
-}
-
-/** The response to a metrics query. */
-export interface Response {
+/** The response to a subscription scope metrics query. */
+export interface SubscriptionScopeMetricResponse {
   /** The integer value representing the relative cost of the query. */
   cost?: number;
   /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
@@ -1045,11 +1087,11 @@ export interface Response {
   /** The region of the resource being queried for metrics. */
   resourceregion?: string;
   /** the value of the collection. */
-  value: Metric[];
+  value: SubscriptionScopeMetric[];
 }
 
 /** The result data of a query. */
-export interface Metric {
+export interface SubscriptionScopeMetric {
   /** the metric Id. */
   id: string;
   /** the resource type of the metric resource. */
@@ -1098,6 +1140,81 @@ export interface MetricValue {
   total?: number;
   /** the number of samples in the time range. Can be used to determine the number of values that contributed to the average value. */
   count?: number;
+}
+
+/** Query parameters can also be specified in the body, specifying the same parameter in both the body and query parameters will result in an error. */
+export interface SubscriptionScopeMetricsRequestBodyParameters {
+  /**
+   * The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
+   * This value should be an ISO-8601 formatted string representing time. E.g. "HH:MM:SS" or "HH:MM:SS.mm".
+   */
+  timespan?: string;
+  /** The interval (i.e. timegrain) of the query. */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricNames?: string;
+  /** The list of aggregation types (comma separated) to retrieve. */
+  aggregation?: string;
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if $filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * Examples: sum asc.
+   */
+  orderBy?: string;
+  /** Dimension name(s) to rollup results by. For example if you only want to see metric values with a filter like 'City eq Seattle or City eq Tacoma' but don't want to see separate values for each city, you can specify 'RollUpBy=City' to see the results for Seattle and Tacoma rolled up into one timeseries. */
+  rollUpBy?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** Metric namespace where the metrics you want reside. */
+  metricNamespace?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+}
+
+/** The response to a metrics query. */
+export interface Response {
+  /** The integer value representing the relative cost of the query. */
+  cost?: number;
+  /** The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested. */
+  timespan: string;
+  /** The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made. */
+  interval?: string;
+  /** The namespace of the metrics being queried */
+  namespace?: string;
+  /** The region of the resource being queried for metrics. */
+  resourceregion?: string;
+  /** the value of the collection. */
+  value: Metric[];
+}
+
+/** The result data of a query. */
+export interface Metric {
+  /** the metric Id. */
+  id: string;
+  /** the resource type of the metric resource. */
+  type: string;
+  /** the name and the display name of the metric, i.e. it is localizable string. */
+  name: LocalizableString;
+  /** Detailed description of this metric. */
+  displayDescription?: string;
+  /** 'Success' or the error details on query failures for this metric. */
+  errorCode?: string;
+  /** Error message encountered querying this specific metric. */
+  errorMessage?: string;
+  /** The unit of the metric. */
+  unit: Unit;
+  /** the time series returned when a data query is performed. */
+  timeseries: TimeSeriesElement[];
 }
 
 /** A list of metric baselines. */
@@ -1470,7 +1587,7 @@ export interface RuleResolveConfiguration {
 }
 
 /** Describes the format of Error response. */
-export interface ErrorContract {
+export interface ErrorContractAutoGenerated {
   /** The error details. */
   error?: ErrorResponseDetails;
 }
@@ -2401,20 +2518,20 @@ export interface AzureMonitorWorkspaceResourceListResult {
   nextLink?: string;
 }
 
-/** Properties of an Azure Monitor workspace */
+/** Properties of an Azure Monitor Workspace */
 export interface AzureMonitorWorkspace {
   /**
-   * The immutable ID of the Azure Monitor workspace. This property is read-only.
+   * The immutable Id of the Azure Monitor Workspace. This property is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountId?: string;
   /**
-   * Information about metrics for the Azure Monitor workspace
+   * Properties related to the metrics container in the Azure Monitor Workspace
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metrics?: AzureMonitorWorkspaceMetrics;
   /**
-   * The provisioning state of the Azure Monitor workspace. Set to Succeeded if everything is healthy.
+   * The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is healthy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -2425,10 +2542,10 @@ export interface AzureMonitorWorkspace {
   readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
 }
 
-/** Information about metrics for the workspace */
+/** Properties related to the metrics container in the Azure Monitor Workspace */
 export interface Metrics {
   /**
-   * The Prometheus query endpoint for the workspace
+   * The Prometheus query endpoint for the Azure Monitor Workspace
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly prometheusQueryEndpoint?: string;
@@ -2442,12 +2559,12 @@ export interface Metrics {
 /** Settings for data ingestion */
 export interface IngestionSettings {
   /**
-   * The Azure resource Id of the default data collection rule for this workspace.
+   * The Azure resource Id of the default data collection rule for this Azure Monitor Workspace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataCollectionRuleResourceId?: string;
   /**
-   * The Azure resource Id of the default data collection endpoint for this workspace.
+   * The Azure resource Id of the default data collection endpoint for this Azure Monitor Workspace.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly dataCollectionEndpointResourceId?: string;
@@ -2512,7 +2629,7 @@ export interface ErrorDetailAutoGenerated {
   readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
-/** Definition of ARM tracked top level resource properties for update operation */
+/** Definition of ARM tracked top level resource properties for the Update operation */
 export interface AzureMonitorWorkspaceResourceForUpdate {
   /** Resource tags */
   tags?: { [propertyName: string]: string };
@@ -3056,7 +3173,7 @@ export interface DestinationsSpecAzureMonitorMetrics
 export interface AzureMonitorWorkspaceResourceProperties
   extends AzureMonitorWorkspace {}
 
-/** Information about metrics for the Azure Monitor workspace */
+/** Properties related to the metrics container in the Azure Monitor Workspace */
 export interface AzureMonitorWorkspaceMetrics extends Metrics {}
 
 /** The Data Collection Rule and Endpoint used for ingestion by default. */
@@ -3141,17 +3258,17 @@ export interface AzureMonitorWorkspaceResource
    */
   readonly etag?: string;
   /**
-   * The immutable ID of the Azure Monitor workspace. This property is read-only.
+   * The immutable Id of the Azure Monitor Workspace. This property is read-only.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly accountId?: string;
   /**
-   * Information about metrics for the Azure Monitor workspace
+   * Properties related to the metrics container in the Azure Monitor Workspace
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly metrics?: AzureMonitorWorkspaceMetrics;
   /**
-   * The provisioning state of the Azure Monitor workspace. Set to Succeeded if everything is healthy.
+   * The provisioning state of the Azure Monitor Workspace. Set to Succeeded if everything is healthy.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: ProvisioningState;
@@ -3160,18 +3277,6 @@ export interface AzureMonitorWorkspaceResource
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly defaultIngestionSettings?: AzureMonitorWorkspaceDefaultIngestionSettings;
-}
-
-/** Defines headers for ActionGroups_postTestNotifications operation. */
-export interface ActionGroupsPostTestNotificationsHeaders {
-  /** The location header that has the polling uri. */
-  location?: string;
-}
-
-/** Defines headers for ActionGroups_createNotificationsAtResourceGroupLevel operation. */
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders {
-  /** The location header that has the polling uri. */
-  location?: string;
 }
 
 /** Defines headers for ActionGroups_createNotificationsAtActionGroupResourceLevel operation. */
@@ -3185,7 +3290,7 @@ export enum KnownScaleRuleMetricDimensionOperationType {
   /** Equals */
   Equals = "Equals",
   /** NotEquals */
-  NotEquals = "NotEquals"
+  NotEquals = "NotEquals",
 }
 
 /**
@@ -3207,7 +3312,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -3227,7 +3332,7 @@ export enum KnownCategoryType {
   /** Metrics */
   Metrics = "Metrics",
   /** Logs */
-  Logs = "Logs"
+  Logs = "Logs",
 }
 
 /**
@@ -3251,7 +3356,7 @@ export enum KnownMetricClass {
   /** Latency */
   Latency = "Latency",
   /** Saturation */
-  Saturation = "Saturation"
+  Saturation = "Saturation",
 }
 
 /**
@@ -3294,7 +3399,7 @@ export enum KnownMetricUnit {
   /** NanoCores */
   NanoCores = "NanoCores",
   /** BitsPerSecond */
-  BitsPerSecond = "BitsPerSecond"
+  BitsPerSecond = "BitsPerSecond",
 }
 
 /**
@@ -3318,6 +3423,54 @@ export enum KnownMetricUnit {
  */
 export type MetricUnit = string;
 
+/** Known values of {@link MetricAggregationType} that the service accepts. */
+export enum KnownMetricAggregationType {
+  /** None */
+  None = "None",
+  /** Average */
+  Average = "Average",
+  /** Count */
+  Count = "Count",
+  /** Minimum */
+  Minimum = "Minimum",
+  /** Maximum */
+  Maximum = "Maximum",
+  /** Total */
+  Total = "Total",
+}
+
+/**
+ * Defines values for MetricAggregationType. \
+ * {@link KnownMetricAggregationType} can be used interchangeably with MetricAggregationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Average** \
+ * **Count** \
+ * **Minimum** \
+ * **Maximum** \
+ * **Total**
+ */
+export type MetricAggregationType = string;
+
+/** Known values of {@link MetricResultType} that the service accepts. */
+export enum KnownMetricResultType {
+  /** Data */
+  Data = "Data",
+  /** Metadata */
+  Metadata = "Metadata",
+}
+
+/**
+ * Defines values for MetricResultType. \
+ * {@link KnownMetricResultType} can be used interchangeably with MetricResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Data** \
+ * **Metadata**
+ */
+export type MetricResultType = string;
+
 /** Known values of {@link BaselineSensitivity} that the service accepts. */
 export enum KnownBaselineSensitivity {
   /** Low */
@@ -3325,7 +3478,7 @@ export enum KnownBaselineSensitivity {
   /** Medium */
   Medium = "Medium",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -3346,7 +3499,7 @@ export enum KnownOdatatype {
   /** MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria */
   MicrosoftAzureMonitorMultipleResourceMultipleMetricCriteria = "Microsoft.Azure.Monitor.MultipleResourceMultipleMetricCriteria",
   /** MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria */
-  MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria"
+  MicrosoftAzureMonitorWebtestLocationAvailabilityCriteria = "Microsoft.Azure.Monitor.WebtestLocationAvailabilityCriteria",
 }
 
 /**
@@ -3365,7 +3518,7 @@ export enum KnownKind {
   /** LogAlert */
   LogAlert = "LogAlert",
   /** LogToMetric */
-  LogToMetric = "LogToMetric"
+  LogToMetric = "LogToMetric",
 }
 
 /**
@@ -3389,7 +3542,7 @@ export enum KnownAlertSeverity {
   /** Three */
   Three = 3,
   /** Four */
-  Four = 4
+  Four = 4,
 }
 
 /**
@@ -3412,7 +3565,7 @@ export enum KnownPublicNetworkAccess {
   /** Disabled */
   Disabled = "Disabled",
   /** SecuredByPerimeter */
-  SecuredByPerimeter = "SecuredByPerimeter"
+  SecuredByPerimeter = "SecuredByPerimeter",
 }
 
 /**
@@ -3437,7 +3590,7 @@ export enum KnownTimeAggregation {
   /** Maximum */
   Maximum = "Maximum",
   /** Total */
-  Total = "Total"
+  Total = "Total",
 }
 
 /**
@@ -3458,7 +3611,7 @@ export enum KnownDimensionOperator {
   /** Include */
   Include = "Include",
   /** Exclude */
-  Exclude = "Exclude"
+  Exclude = "Exclude",
 }
 
 /**
@@ -3478,7 +3631,7 @@ export enum KnownNamespaceClassification {
   /** Custom */
   Custom = "Custom",
   /** Qos */
-  Qos = "Qos"
+  Qos = "Qos",
 }
 
 /**
@@ -3499,7 +3652,7 @@ export enum KnownOnboardingStatus {
   /** NotOnboarded */
   NotOnboarded = "notOnboarded",
   /** Unknown */
-  Unknown = "unknown"
+  Unknown = "unknown",
 }
 
 /**
@@ -3518,7 +3671,7 @@ export enum KnownDataStatus {
   /** Present */
   Present = "present",
   /** NotPresent */
-  NotPresent = "notPresent"
+  NotPresent = "notPresent",
 }
 
 /**
@@ -3538,7 +3691,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Approved */
   Approved = "Approved",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -3561,7 +3714,7 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
   /** Deleting */
   Deleting = "Deleting",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3581,7 +3734,7 @@ export enum KnownAccessMode {
   /** Open */
   Open = "Open",
   /** PrivateOnly */
-  PrivateOnly = "PrivateOnly"
+  PrivateOnly = "PrivateOnly",
 }
 
 /**
@@ -3599,7 +3752,7 @@ export enum KnownKnownPublicNetworkAccessOptions {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -3623,7 +3776,7 @@ export enum KnownKnownDataCollectionEndpointProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3644,7 +3797,7 @@ export enum KnownKnownDataCollectionEndpointResourceKind {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -3668,7 +3821,7 @@ export enum KnownKnownDataCollectionRuleAssociationProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -3699,7 +3852,7 @@ export enum KnownKnownColumnDefinitionType {
   /** Datetime */
   Datetime = "datetime",
   /** Dynamic */
-  Dynamic = "dynamic"
+  Dynamic = "dynamic",
 }
 
 /**
@@ -3722,7 +3875,7 @@ export enum KnownKnownPerfCounterDataSourceStreams {
   /** MicrosoftPerf */
   MicrosoftPerf = "Microsoft-Perf",
   /** MicrosoftInsightsMetrics */
-  MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics"
+  MicrosoftInsightsMetrics = "Microsoft-InsightsMetrics",
 }
 
 /**
@@ -3740,7 +3893,7 @@ export enum KnownKnownWindowsEventLogDataSourceStreams {
   /** MicrosoftWindowsEvent */
   MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
   /** MicrosoftEvent */
-  MicrosoftEvent = "Microsoft-Event"
+  MicrosoftEvent = "Microsoft-Event",
 }
 
 /**
@@ -3756,7 +3909,7 @@ export type KnownWindowsEventLogDataSourceStreams = string;
 /** Known values of {@link KnownSyslogDataSourceStreams} that the service accepts. */
 export enum KnownKnownSyslogDataSourceStreams {
   /** MicrosoftSyslog */
-  MicrosoftSyslog = "Microsoft-Syslog"
+  MicrosoftSyslog = "Microsoft-Syslog",
 }
 
 /**
@@ -3811,7 +3964,7 @@ export enum KnownKnownSyslogDataSourceFacilityNames {
   /** Local7 */
   Local7 = "local7",
   /** Asterisk */
-  Asterisk = "*"
+  Asterisk = "*",
 }
 
 /**
@@ -3862,7 +4015,7 @@ export enum KnownKnownSyslogDataSourceLogLevels {
   /** Emergency */
   Emergency = "Emergency",
   /** Asterisk */
-  Asterisk = "*"
+  Asterisk = "*",
 }
 
 /**
@@ -3893,7 +4046,7 @@ export enum KnownKnownExtensionDataSourceStreams {
   /** MicrosoftSyslog */
   MicrosoftSyslog = "Microsoft-Syslog",
   /** MicrosoftWindowsEvent */
-  MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
+  MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
 }
 
 /**
@@ -3912,7 +4065,7 @@ export type KnownExtensionDataSourceStreams = string;
 /** Known values of {@link KnownLogFilesDataSourceFormat} that the service accepts. */
 export enum KnownKnownLogFilesDataSourceFormat {
   /** Text */
-  Text = "text"
+  Text = "text",
 }
 
 /**
@@ -3943,7 +4096,7 @@ export enum KnownKnownLogFileTextSettingsRecordStartTimestampFormat {
   /** DdMMMYyyyHHMmSsZzz */
   DdMMMYyyyHHMmSsZzz = "dd/MMM/yyyy:HH:mm:ss zzz",
   /** YyyyMMDdTHHMmSsK */
-  YyyyMMDdTHHMmSsK = "yyyy-MM-ddTHH:mm:ssK"
+  YyyyMMDdTHHMmSsK = "yyyy-MM-ddTHH:mm:ssK",
 }
 
 /**
@@ -3974,7 +4127,7 @@ export enum KnownKnownDataFlowStreams {
   /** MicrosoftSyslog */
   MicrosoftSyslog = "Microsoft-Syslog",
   /** MicrosoftWindowsEvent */
-  MicrosoftWindowsEvent = "Microsoft-WindowsEvent"
+  MicrosoftWindowsEvent = "Microsoft-WindowsEvent",
 }
 
 /**
@@ -4001,7 +4154,7 @@ export enum KnownKnownDataCollectionRuleProvisioningState {
   /** Succeeded */
   Succeeded = "Succeeded",
   /** Failed */
-  Failed = "Failed"
+  Failed = "Failed",
 }
 
 /**
@@ -4022,7 +4175,7 @@ export enum KnownKnownDataCollectionRuleResourceKind {
   /** Linux */
   Linux = "Linux",
   /** Windows */
-  Windows = "Windows"
+  Windows = "Windows",
 }
 
 /**
@@ -4046,7 +4199,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -4069,7 +4222,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -4086,7 +4239,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -4109,7 +4262,7 @@ export enum KnownOperator {
   /** LessThan */
   LessThan = "LessThan",
   /** LessThanOrEqual */
-  LessThanOrEqual = "LessThanOrEqual"
+  LessThanOrEqual = "LessThanOrEqual",
 }
 
 /**
@@ -4130,7 +4283,7 @@ export enum KnownCriterionType {
   /** StaticThresholdCriterion */
   StaticThresholdCriterion = "StaticThresholdCriterion",
   /** DynamicThresholdCriterion */
-  DynamicThresholdCriterion = "DynamicThresholdCriterion"
+  DynamicThresholdCriterion = "DynamicThresholdCriterion",
 }
 
 /**
@@ -4154,7 +4307,7 @@ export enum KnownAggregationTypeEnum {
   /** Maximum */
   Maximum = "Maximum",
   /** Total */
-  Total = "Total"
+  Total = "Total",
 }
 
 /**
@@ -4177,7 +4330,7 @@ export enum KnownDynamicThresholdOperator {
   /** LessThan */
   LessThan = "LessThan",
   /** GreaterOrLessThan */
-  GreaterOrLessThan = "GreaterOrLessThan"
+  GreaterOrLessThan = "GreaterOrLessThan",
 }
 
 /**
@@ -4198,7 +4351,7 @@ export enum KnownDynamicThresholdSensitivity {
   /** Medium */
   Medium = "Medium",
   /** High */
-  High = "High"
+  High = "High",
 }
 
 /**
@@ -4271,6 +4424,21 @@ export type AggregationType =
   | "Total";
 /** Defines values for ResultType. */
 export type ResultType = "Data" | "Metadata";
+/** Defines values for Unit. */
+export type Unit =
+  | "Count"
+  | "Bytes"
+  | "Seconds"
+  | "CountPerSecond"
+  | "BytesPerSecond"
+  | "Percent"
+  | "MilliSeconds"
+  | "ByteSeconds"
+  | "Unspecified"
+  | "Cores"
+  | "MilliCores"
+  | "NanoCores"
+  | "BitsPerSecond";
 /** Defines values for IdentityType. */
 export type IdentityType = "SystemAssigned" | "UserAssigned" | "None";
 /** Defines values for ConditionOperator. */
@@ -4293,7 +4461,8 @@ export interface AutoscaleSettingsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AutoscaleSettingsListByResourceGroupResponse = AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListByResourceGroupResponse =
+  AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsCreateOrUpdateOptionalParams
@@ -4325,21 +4494,24 @@ export interface AutoscaleSettingsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AutoscaleSettingsListBySubscriptionResponse = AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListBySubscriptionResponse =
+  AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AutoscaleSettingsListByResourceGroupNextResponse = AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListByResourceGroupNextResponse =
+  AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface AutoscaleSettingsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AutoscaleSettingsListBySubscriptionNextResponse = AutoscaleSettingResourceCollection;
+export type AutoscaleSettingsListBySubscriptionNextResponse =
+  AutoscaleSettingResourceCollection;
 
 /** Optional parameters. */
 export interface PredictiveMetricGetOptionalParams
@@ -4452,7 +4624,8 @@ export interface DiagnosticSettingsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type DiagnosticSettingsCreateOrUpdateResponse = DiagnosticSettingsResource;
+export type DiagnosticSettingsCreateOrUpdateResponse =
+  DiagnosticSettingsResource;
 
 /** Optional parameters. */
 export interface DiagnosticSettingsDeleteOptionalParams
@@ -4463,21 +4636,24 @@ export interface DiagnosticSettingsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DiagnosticSettingsListResponse = DiagnosticSettingsResourceCollection;
+export type DiagnosticSettingsListResponse =
+  DiagnosticSettingsResourceCollection;
 
 /** Optional parameters. */
 export interface DiagnosticSettingsCategoryGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DiagnosticSettingsCategoryGetResponse = DiagnosticSettingsCategoryResource;
+export type DiagnosticSettingsCategoryGetResponse =
+  DiagnosticSettingsCategoryResource;
 
 /** Optional parameters. */
 export interface DiagnosticSettingsCategoryListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DiagnosticSettingsCategoryListResponse = DiagnosticSettingsCategoryResourceCollection;
+export type DiagnosticSettingsCategoryListResponse =
+  DiagnosticSettingsCategoryResourceCollection;
 
 /** Optional parameters. */
 export interface ActionGroupsCreateOrUpdateOptionalParams
@@ -4505,30 +4681,6 @@ export interface ActionGroupsUpdateOptionalParams
 export type ActionGroupsUpdateResponse = ActionGroupResource;
 
 /** Optional parameters. */
-export interface ActionGroupsPostTestNotificationsOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the postTestNotifications operation. */
-export type ActionGroupsPostTestNotificationsResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the createNotificationsAtResourceGroupLevel operation. */
-export type ActionGroupsCreateNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
 export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -4538,28 +4690,16 @@ export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOption
 }
 
 /** Contains response data for the createNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotifications operation. */
-export type ActionGroupsGetTestNotificationsResponse = TestNotificationDetailsResponse;
-
-/** Optional parameters. */
-export interface ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the getTestNotificationsAtResourceGroupLevel operation. */
-export type ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
+export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
 
 /** Optional parameters. */
 export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getTestNotificationsAtActionGroupResourceLevel operation. */
-export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
+export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse =
+  TestNotificationDetailsResponse;
 
 /** Optional parameters. */
 export interface ActionGroupsListBySubscriptionIdOptionalParams
@@ -4623,9 +4763,20 @@ export interface TenantActivityLogsListNextOptionalParams
 export type TenantActivityLogsListNextResponse = EventDataCollection;
 
 /** Optional parameters. */
+export interface MetricDefinitionsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type MetricDefinitionsListAtSubscriptionScopeResponse =
+  SubscriptionScopeMetricDefinitionCollection;
+
+/** Optional parameters. */
 export interface MetricDefinitionsListOptionalParams
   extends coreClient.OperationOptions {
-  /** Metric namespace to query metric definitions for. */
+  /** Metric namespace where the metrics you want reside. */
   metricnamespace?: string;
 }
 
@@ -4633,16 +4784,17 @@ export interface MetricDefinitionsListOptionalParams
 export type MetricDefinitionsListResponse = MetricDefinitionCollection;
 
 /** Optional parameters. */
-export interface MetricsListOptionalParams extends coreClient.OperationOptions {
-  /** The **$filter** is used to reduce the set of metric data returned. Example: Metric contains metadata A, B and C. - Return all time series of C where A = a1 and B = b1 or b2 **$filter=A eq 'a1' and B eq 'b1' or B eq 'b2' and C eq '*'** - Invalid variant: **$filter=A eq 'a1' and B eq 'b1' and C eq '*' or B = 'b2'** This is invalid because the logical or operator cannot separate two different metadata names. - Return all time series where A = a1, B = b1 and C = c1: **$filter=A eq 'a1' and B eq 'b1' and C eq 'c1'** - Return all time series where A = a1 **$filter=A eq 'a1' and B eq '*' and C eq '*'**. Special case: When dimension name or dimension value uses round brackets. Eg: When dimension name is **dim (test) 1** Instead of using $filter= "dim (test) 1 eq '*' " use **$filter= "dim %2528test%2529 1 eq '*' "** When dimension name is **dim (test) 3** and dimension value is **dim3 (test) val** Instead of using $filter= "dim (test) 3 eq 'dim3 (test) val' " use **$filter= "dim %2528test%2529 3 eq 'dim3 %2528test%2529 val' "** */
+export interface MetricsListAtSubscriptionScopeOptionalParams
+  extends coreClient.OperationOptions {
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
   filter?: string;
-  /** Metric namespace to query metric definitions for. */
+  /** Metric namespace where the metrics you want reside. */
   metricnamespace?: string;
   /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
   timespan?: string;
   /** The interval (i.e. timegrain) of the query. */
   interval?: string;
-  /** The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'** */
+  /** The names of the metrics (comma separated) to retrieve. */
   metricnames?: string;
   /** The list of aggregation types (comma separated) to retrieve. */
   aggregation?: string;
@@ -4658,6 +4810,89 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
    * Examples: sum asc.
    */
   orderby?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+}
+
+/** Contains response data for the listAtSubscriptionScope operation. */
+export type MetricsListAtSubscriptionScopeResponse =
+  SubscriptionScopeMetricResponse;
+
+/** Optional parameters. */
+export interface MetricsListAtSubscriptionScopePostOptionalParams
+  extends coreClient.OperationOptions {
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /** The interval (i.e. timegrain) of the query. */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /** The list of aggregation types (comma separated) to retrieve. */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if $filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * Examples: sum asc.
+   */
+  orderby?: string;
+  /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
+  resultType?: MetricResultType;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
+  /** Parameters serialized in the body */
+  body?: SubscriptionScopeMetricsRequestBodyParameters;
+}
+
+/** Contains response data for the listAtSubscriptionScopePost operation. */
+export type MetricsListAtSubscriptionScopePostResponse =
+  SubscriptionScopeMetricResponse;
+
+/** Optional parameters. */
+export interface MetricsListOptionalParams extends coreClient.OperationOptions {
+  /** The **$filter** is used to reduce the set of metric data returned.<br>Example:<br>Metric contains metadata A, B and C.<br>- Return all time series of C where A = a1 and B = b1 or b2<br>**$filter=A eq ‘a1’ and B eq ‘b1’ or B eq ‘b2’ and C eq ‘*’**<br>- Invalid variant:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘*’ or B = ‘b2’**<br>This is invalid because the logical or operator cannot separate two different metadata names.<br>- Return all time series where A = a1, B = b1 and C = c1:<br>**$filter=A eq ‘a1’ and B eq ‘b1’ and C eq ‘c1’**<br>- Return all time series where A = a1<br>**$filter=A eq ‘a1’ and B eq ‘*’ and C eq ‘*’**. */
+  filter?: string;
+  /** Metric namespace where the metrics you want reside. */
+  metricnamespace?: string;
+  /** The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'. */
+  timespan?: string;
+  /** The interval (i.e. timegrain) of the query. */
+  interval?: string;
+  /** The names of the metrics (comma separated) to retrieve. */
+  metricnames?: string;
+  /** The list of aggregation types (comma separated) to retrieve. */
+  aggregation?: string;
+  /**
+   * The maximum number of records to retrieve.
+   * Valid only if $filter is specified.
+   * Defaults to 10.
+   */
+  top?: number;
+  /**
+   * The aggregation to use for sorting results and the direction of the sort.
+   * Only one order can be specified.
+   * Examples: sum asc.
+   */
+  orderby?: string;
+  /** When set to true, if the timespan passed in is not supported by this metric, the API will return the result using the closest supported timespan. When set to false, an error is returned for invalid timespan parameters. Defaults to false. */
+  autoAdjustTimegrain?: boolean;
+  /** When set to false, invalid filter parameter values will be ignored. When set to true, an error is returned for invalid filter parameters. Defaults to true. */
+  validateDimensions?: boolean;
   /** Reduces the set of data collected. The syntax allowed depends on the operation. See the operation's description for details. */
   resultType?: ResultType;
 }
@@ -4694,14 +4929,16 @@ export interface MetricAlertsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type MetricAlertsListBySubscriptionResponse = MetricAlertResourceCollection;
+export type MetricAlertsListBySubscriptionResponse =
+  MetricAlertResourceCollection;
 
 /** Optional parameters. */
 export interface MetricAlertsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type MetricAlertsListByResourceGroupResponse = MetricAlertResourceCollection;
+export type MetricAlertsListByResourceGroupResponse =
+  MetricAlertResourceCollection;
 
 /** Optional parameters. */
 export interface MetricAlertsGetOptionalParams
@@ -4747,14 +4984,16 @@ export interface ScheduledQueryRulesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type ScheduledQueryRulesListBySubscriptionResponse = ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListBySubscriptionResponse =
+  ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type ScheduledQueryRulesListByResourceGroupResponse = ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListByResourceGroupResponse =
+  ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesGetOptionalParams
@@ -4768,7 +5007,8 @@ export interface ScheduledQueryRulesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type ScheduledQueryRulesCreateOrUpdateResponse = ScheduledQueryRuleResource;
+export type ScheduledQueryRulesCreateOrUpdateResponse =
+  ScheduledQueryRuleResource;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesUpdateOptionalParams
@@ -4786,14 +5026,16 @@ export interface ScheduledQueryRulesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type ScheduledQueryRulesListBySubscriptionNextResponse = ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListBySubscriptionNextResponse =
+  ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
 export interface ScheduledQueryRulesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type ScheduledQueryRulesListByResourceGroupNextResponse = ScheduledQueryRuleResourceCollection;
+export type ScheduledQueryRulesListByResourceGroupNextResponse =
+  ScheduledQueryRuleResourceCollection;
 
 /** Optional parameters. */
 export interface MetricNamespacesListOptionalParams
@@ -4817,14 +5059,16 @@ export interface PrivateLinkScopesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateLinkScopesListResponse = AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListResponse =
+  AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type PrivateLinkScopesListByResourceGroupResponse = AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListByResourceGroupResponse =
+  AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesDeleteOptionalParams
@@ -4847,7 +5091,8 @@ export interface PrivateLinkScopesCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateLinkScopesCreateOrUpdateResponse = AzureMonitorPrivateLinkScope;
+export type PrivateLinkScopesCreateOrUpdateResponse =
+  AzureMonitorPrivateLinkScope;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesUpdateTagsOptionalParams
@@ -4861,14 +5106,16 @@ export interface PrivateLinkScopesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateLinkScopesListNextResponse = AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListNextResponse =
+  AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type PrivateLinkScopesListByResourceGroupNextResponse = AzureMonitorPrivateLinkScopeListResult;
+export type PrivateLinkScopesListByResourceGroupNextResponse =
+  AzureMonitorPrivateLinkScopeListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopeOperationStatusGetOptionalParams
@@ -4882,7 +5129,8 @@ export interface PrivateLinkResourcesListByPrivateLinkScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
-export type PrivateLinkResourcesListByPrivateLinkScopeResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByPrivateLinkScopeResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesGetOptionalParams
@@ -4908,7 +5156,8 @@ export interface PrivateEndpointConnectionsCreateOrUpdateOptionalParams
 }
 
 /** Contains response data for the createOrUpdate operation. */
-export type PrivateEndpointConnectionsCreateOrUpdateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateOrUpdateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsDeleteOptionalParams
@@ -4924,7 +5173,8 @@ export interface PrivateEndpointConnectionsListByPrivateLinkScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
-export type PrivateEndpointConnectionsListByPrivateLinkScopeResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListByPrivateLinkScopeResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopedResourcesGetOptionalParams
@@ -4959,14 +5209,16 @@ export interface PrivateLinkScopedResourcesListByPrivateLinkScopeOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScope operation. */
-export type PrivateLinkScopedResourcesListByPrivateLinkScopeResponse = ScopedResourceListResult;
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeResponse =
+  ScopedResourceListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkScopedResourcesListByPrivateLinkScopeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByPrivateLinkScopeNext operation. */
-export type PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse = ScopedResourceListResult;
+export type PrivateLinkScopedResourcesListByPrivateLinkScopeNextResponse =
+  ScopedResourceListResult;
 
 /** Optional parameters. */
 export interface ActivityLogAlertsCreateOrUpdateOptionalParams
@@ -5026,14 +5278,16 @@ export interface DataCollectionEndpointsListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DataCollectionEndpointsListByResourceGroupResponse = DataCollectionEndpointResourceListResult;
+export type DataCollectionEndpointsListByResourceGroupResponse =
+  DataCollectionEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DataCollectionEndpointsListBySubscriptionResponse = DataCollectionEndpointResourceListResult;
+export type DataCollectionEndpointsListBySubscriptionResponse =
+  DataCollectionEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsGetOptionalParams
@@ -5050,7 +5304,8 @@ export interface DataCollectionEndpointsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type DataCollectionEndpointsCreateResponse = DataCollectionEndpointResource;
+export type DataCollectionEndpointsCreateResponse =
+  DataCollectionEndpointResource;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsUpdateOptionalParams
@@ -5060,7 +5315,8 @@ export interface DataCollectionEndpointsUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type DataCollectionEndpointsUpdateResponse = DataCollectionEndpointResource;
+export type DataCollectionEndpointsUpdateResponse =
+  DataCollectionEndpointResource;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsDeleteOptionalParams
@@ -5071,42 +5327,48 @@ export interface DataCollectionEndpointsListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DataCollectionEndpointsListByResourceGroupNextResponse = DataCollectionEndpointResourceListResult;
+export type DataCollectionEndpointsListByResourceGroupNextResponse =
+  DataCollectionEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionEndpointsListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DataCollectionEndpointsListBySubscriptionNextResponse = DataCollectionEndpointResourceListResult;
+export type DataCollectionEndpointsListBySubscriptionNextResponse =
+  DataCollectionEndpointResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResource operation. */
-export type DataCollectionRuleAssociationsListByResourceResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByResourceResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByRuleOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRule operation. */
-export type DataCollectionRuleAssociationsListByRuleResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByRuleResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByDataCollectionEndpointOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataCollectionEndpoint operation. */
-export type DataCollectionRuleAssociationsListByDataCollectionEndpointResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByDataCollectionEndpointResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsGetOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
-export type DataCollectionRuleAssociationsGetResponse = DataCollectionRuleAssociationProxyOnlyResource;
+export type DataCollectionRuleAssociationsGetResponse =
+  DataCollectionRuleAssociationProxyOnlyResource;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsCreateOptionalParams
@@ -5116,7 +5378,8 @@ export interface DataCollectionRuleAssociationsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type DataCollectionRuleAssociationsCreateResponse = DataCollectionRuleAssociationProxyOnlyResource;
+export type DataCollectionRuleAssociationsCreateResponse =
+  DataCollectionRuleAssociationProxyOnlyResource;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsDeleteOptionalParams
@@ -5127,35 +5390,40 @@ export interface DataCollectionRuleAssociationsListByResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceNext operation. */
-export type DataCollectionRuleAssociationsListByResourceNextResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByResourceNextResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByRuleNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByRuleNext operation. */
-export type DataCollectionRuleAssociationsListByRuleNextResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByRuleNextResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRuleAssociationsListByDataCollectionEndpointNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDataCollectionEndpointNext operation. */
-export type DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse = DataCollectionRuleAssociationProxyOnlyResourceListResult;
+export type DataCollectionRuleAssociationsListByDataCollectionEndpointNextResponse =
+  DataCollectionRuleAssociationProxyOnlyResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRulesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type DataCollectionRulesListByResourceGroupResponse = DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListByResourceGroupResponse =
+  DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRulesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type DataCollectionRulesListBySubscriptionResponse = DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListBySubscriptionResponse =
+  DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRulesGetOptionalParams
@@ -5193,28 +5461,32 @@ export interface DataCollectionRulesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type DataCollectionRulesListByResourceGroupNextResponse = DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListByResourceGroupNextResponse =
+  DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
 export interface DataCollectionRulesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type DataCollectionRulesListBySubscriptionNextResponse = DataCollectionRuleResourceListResult;
+export type DataCollectionRulesListBySubscriptionNextResponse =
+  DataCollectionRuleResourceListResult;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListByResourceGroupOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroup operation. */
-export type AzureMonitorWorkspacesListByResourceGroupResponse = AzureMonitorWorkspaceResourceListResult;
+export type AzureMonitorWorkspacesListByResourceGroupResponse =
+  AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListBySubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscription operation. */
-export type AzureMonitorWorkspacesListBySubscriptionResponse = AzureMonitorWorkspaceResourceListResult;
+export type AzureMonitorWorkspacesListBySubscriptionResponse =
+  AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesGetOptionalParams
@@ -5228,7 +5500,8 @@ export interface AzureMonitorWorkspacesCreateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
-export type AzureMonitorWorkspacesCreateResponse = AzureMonitorWorkspaceResource;
+export type AzureMonitorWorkspacesCreateResponse =
+  AzureMonitorWorkspaceResource;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesUpdateOptionalParams
@@ -5238,7 +5511,8 @@ export interface AzureMonitorWorkspacesUpdateOptionalParams
 }
 
 /** Contains response data for the update operation. */
-export type AzureMonitorWorkspacesUpdateResponse = AzureMonitorWorkspaceResource;
+export type AzureMonitorWorkspacesUpdateResponse =
+  AzureMonitorWorkspaceResource;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesDeleteOptionalParams
@@ -5249,14 +5523,16 @@ export interface AzureMonitorWorkspacesListByResourceGroupNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
-export type AzureMonitorWorkspacesListByResourceGroupNextResponse = AzureMonitorWorkspaceResourceListResult;
+export type AzureMonitorWorkspacesListByResourceGroupNextResponse =
+  AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
 export interface AzureMonitorWorkspacesListBySubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listBySubscriptionNext operation. */
-export type AzureMonitorWorkspacesListBySubscriptionNextResponse = AzureMonitorWorkspaceResourceListResult;
+export type AzureMonitorWorkspacesListBySubscriptionNextResponse =
+  AzureMonitorWorkspaceResourceListResult;
 
 /** Optional parameters. */
 export interface MonitorOperationsListOptionalParams
@@ -5270,7 +5546,8 @@ export interface MonitorOperationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type MonitorOperationsListNextResponse = OperationListResultAutoGenerated;
+export type MonitorOperationsListNextResponse =
+  OperationListResultAutoGenerated;
 
 /** Optional parameters. */
 export interface MonitorClientOptionalParams

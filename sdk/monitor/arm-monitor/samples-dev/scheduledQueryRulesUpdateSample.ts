@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScheduledQueryRuleResourcePatch,
-  MonitorClient
+  MonitorClient,
 } from "@azure/arm-monitor";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ async function createOrUpdateAScheduledQueryRule() {
   const result = await client.scheduledQueryRules.update(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

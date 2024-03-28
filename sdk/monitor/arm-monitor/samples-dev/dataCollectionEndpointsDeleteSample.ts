@@ -31,7 +31,7 @@ async function deleteDataCollectionEndpoint() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionEndpoints.delete(
     resourceGroupName,
-    dataCollectionEndpointName
+    dataCollectionEndpointName,
   );
   console.log(result);
 }

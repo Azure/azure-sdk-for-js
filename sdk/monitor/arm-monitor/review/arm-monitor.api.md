@@ -80,17 +80,11 @@ export interface ActionGroupResource extends AzureResource {
 export interface ActionGroups {
     beginCreateNotificationsAtActionGroupResourceLevel(resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams): Promise<SimplePollerLike<OperationState<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>, ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>>;
     beginCreateNotificationsAtActionGroupResourceLevelAndWait(resourceGroupName: string, actionGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtActionGroupResourceLevelOptionalParams): Promise<ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse>;
-    beginCreateNotificationsAtResourceGroupLevel(resourceGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams): Promise<SimplePollerLike<OperationState<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>, ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>>;
-    beginCreateNotificationsAtResourceGroupLevelAndWait(resourceGroupName: string, notificationRequest: NotificationRequestBody, options?: ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams): Promise<ActionGroupsCreateNotificationsAtResourceGroupLevelResponse>;
-    beginPostTestNotifications(notificationRequest: NotificationRequestBody, options?: ActionGroupsPostTestNotificationsOptionalParams): Promise<SimplePollerLike<OperationState<ActionGroupsPostTestNotificationsResponse>, ActionGroupsPostTestNotificationsResponse>>;
-    beginPostTestNotificationsAndWait(notificationRequest: NotificationRequestBody, options?: ActionGroupsPostTestNotificationsOptionalParams): Promise<ActionGroupsPostTestNotificationsResponse>;
     createOrUpdate(resourceGroupName: string, actionGroupName: string, actionGroup: ActionGroupResource, options?: ActionGroupsCreateOrUpdateOptionalParams): Promise<ActionGroupsCreateOrUpdateResponse>;
     delete(resourceGroupName: string, actionGroupName: string, options?: ActionGroupsDeleteOptionalParams): Promise<void>;
     enableReceiver(resourceGroupName: string, actionGroupName: string, enableRequest: EnableRequest, options?: ActionGroupsEnableReceiverOptionalParams): Promise<void>;
     get(resourceGroupName: string, actionGroupName: string, options?: ActionGroupsGetOptionalParams): Promise<ActionGroupsGetResponse>;
-    getTestNotifications(notificationId: string, options?: ActionGroupsGetTestNotificationsOptionalParams): Promise<ActionGroupsGetTestNotificationsResponse>;
     getTestNotificationsAtActionGroupResourceLevel(resourceGroupName: string, actionGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptionalParams): Promise<ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse>;
-    getTestNotificationsAtResourceGroupLevel(resourceGroupName: string, notificationId: string, options?: ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams): Promise<ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse>;
     listByResourceGroup(resourceGroupName: string, options?: ActionGroupsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<ActionGroupResource>;
     listBySubscriptionId(options?: ActionGroupsListBySubscriptionIdOptionalParams): PagedAsyncIterableIterator<ActionGroupResource>;
     update(resourceGroupName: string, actionGroupName: string, actionGroupPatch: ActionGroupPatchBody, options?: ActionGroupsUpdateOptionalParams): Promise<ActionGroupsUpdateResponse>;
@@ -109,20 +103,6 @@ export interface ActionGroupsCreateNotificationsAtActionGroupResourceLevelOption
 
 // @public
 export type ActionGroupsCreateNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
-
-// @public
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelHeaders {
-    location?: string;
-}
-
-// @public
-export interface ActionGroupsCreateNotificationsAtResourceGroupLevelOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ActionGroupsCreateNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
 
 // @public
 export interface ActionGroupsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
@@ -154,20 +134,6 @@ export interface ActionGroupsGetTestNotificationsAtActionGroupResourceLevelOptio
 export type ActionGroupsGetTestNotificationsAtActionGroupResourceLevelResponse = TestNotificationDetailsResponse;
 
 // @public
-export interface ActionGroupsGetTestNotificationsAtResourceGroupLevelOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ActionGroupsGetTestNotificationsAtResourceGroupLevelResponse = TestNotificationDetailsResponse;
-
-// @public
-export interface ActionGroupsGetTestNotificationsOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type ActionGroupsGetTestNotificationsResponse = TestNotificationDetailsResponse;
-
-// @public
 export interface ActionGroupsListByResourceGroupOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -180,20 +146,6 @@ export interface ActionGroupsListBySubscriptionIdOptionalParams extends coreClie
 
 // @public
 export type ActionGroupsListBySubscriptionIdResponse = ActionGroupList;
-
-// @public
-export interface ActionGroupsPostTestNotificationsHeaders {
-    location?: string;
-}
-
-// @public
-export interface ActionGroupsPostTestNotificationsOptionalParams extends coreClient.OperationOptions {
-    resumeFrom?: string;
-    updateIntervalInMs?: number;
-}
-
-// @public
-export type ActionGroupsPostTestNotificationsResponse = TestNotificationDetailsResponse;
 
 // @public
 export interface ActionGroupsUpdateOptionalParams extends coreClient.OperationOptions {
@@ -1383,6 +1335,11 @@ export interface ErrorAdditionalInfo {
 
 // @public
 export interface ErrorContract {
+    error?: ErrorResponse;
+}
+
+// @public
+export interface ErrorContractAutoGenerated {
     error?: ErrorResponseDetails;
 }
 
@@ -1853,12 +1810,28 @@ export type KnownLogFilesDataSourceFormat = string;
 export type KnownLogFileTextSettingsRecordStartTimestampFormat = string;
 
 // @public
+export enum KnownMetricAggregationType {
+    Average = "Average",
+    Count = "Count",
+    Maximum = "Maximum",
+    Minimum = "Minimum",
+    None = "None",
+    Total = "Total"
+}
+
+// @public
 export enum KnownMetricClass {
     Availability = "Availability",
     Errors = "Errors",
     Latency = "Latency",
     Saturation = "Saturation",
     Transactions = "Transactions"
+}
+
+// @public
+export enum KnownMetricResultType {
+    Data = "Data",
+    Metadata = "Metadata"
 }
 
 // @public
@@ -2147,8 +2120,11 @@ export interface Metric {
     name: LocalizableString;
     timeseries: TimeSeriesElement[];
     type: string;
-    unit: MetricUnit;
+    unit: Unit;
 }
+
+// @public
+export type MetricAggregationType = string;
 
 // @public
 export interface MetricAlertAction {
@@ -2358,7 +2334,16 @@ export interface MetricDefinitionCollection {
 // @public
 export interface MetricDefinitions {
     list(resourceUri: string, options?: MetricDefinitionsListOptionalParams): PagedAsyncIterableIterator<MetricDefinition>;
+    listAtSubscriptionScope(region: string, options?: MetricDefinitionsListAtSubscriptionScopeOptionalParams): PagedAsyncIterableIterator<SubscriptionScopeMetricDefinition>;
 }
+
+// @public
+export interface MetricDefinitionsListAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+    metricnamespace?: string;
+}
+
+// @public
+export type MetricDefinitionsListAtSubscriptionScopeResponse = SubscriptionScopeMetricDefinitionCollection;
 
 // @public
 export interface MetricDefinitionsListOptionalParams extends coreClient.OperationOptions {
@@ -2408,6 +2393,9 @@ export interface MetricNamespacesListOptionalParams extends coreClient.Operation
 export type MetricNamespacesListResponse = MetricNamespaceCollection;
 
 // @public
+export type MetricResultType = string;
+
+// @public
 export interface Metrics {
     readonly internalId?: string;
     readonly prometheusQueryEndpoint?: string;
@@ -2428,8 +2416,46 @@ export interface MetricSingleDimension {
 }
 
 // @public
+export interface MetricsListAtSubscriptionScopeOptionalParams extends coreClient.OperationOptions {
+    aggregation?: string;
+    autoAdjustTimegrain?: boolean;
+    filter?: string;
+    interval?: string;
+    metricnames?: string;
+    metricnamespace?: string;
+    orderby?: string;
+    resultType?: MetricResultType;
+    timespan?: string;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export interface MetricsListAtSubscriptionScopePostOptionalParams extends coreClient.OperationOptions {
+    aggregation?: string;
+    autoAdjustTimegrain?: boolean;
+    body?: SubscriptionScopeMetricsRequestBodyParameters;
+    filter?: string;
+    interval?: string;
+    metricnames?: string;
+    metricnamespace?: string;
+    orderby?: string;
+    resultType?: MetricResultType;
+    timespan?: string;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
+export type MetricsListAtSubscriptionScopePostResponse = SubscriptionScopeMetricResponse;
+
+// @public
+export type MetricsListAtSubscriptionScopeResponse = SubscriptionScopeMetricResponse;
+
+// @public
 export interface MetricsListOptionalParams extends coreClient.OperationOptions {
     aggregation?: string;
+    autoAdjustTimegrain?: boolean;
     filter?: string;
     interval?: string;
     metricnames?: string;
@@ -2438,6 +2464,7 @@ export interface MetricsListOptionalParams extends coreClient.OperationOptions {
     resultType?: ResultType;
     timespan?: string;
     top?: number;
+    validateDimensions?: boolean;
 }
 
 // @public
@@ -2446,6 +2473,8 @@ export type MetricsListResponse = Response_2;
 // @public
 export interface MetricsOperations {
     list(resourceUri: string, options?: MetricsListOptionalParams): Promise<MetricsListResponse>;
+    listAtSubscriptionScope(region: string, options?: MetricsListAtSubscriptionScopeOptionalParams): Promise<MetricsListAtSubscriptionScopeResponse>;
+    listAtSubscriptionScopePost(region: string, options?: MetricsListAtSubscriptionScopePostOptionalParams): Promise<MetricsListAtSubscriptionScopePostResponse>;
 }
 
 // @public
@@ -2485,6 +2514,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
     constructor(credentials: coreAuth.TokenCredential, subscriptionId: string, options?: MonitorClientOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: MonitorClientOptionalParams);
     // (undocumented)
     actionGroups: ActionGroups;
     // (undocumented)
@@ -2544,7 +2574,7 @@ export class MonitorClient extends coreClient.ServiceClient {
     // (undocumented)
     scheduledQueryRules: ScheduledQueryRules;
     // (undocumented)
-    subscriptionId: string;
+    subscriptionId?: string;
     // (undocumented)
     tenantActivityLogs: TenantActivityLogs;
     // (undocumented)
@@ -3391,6 +3421,66 @@ export interface StreamDeclaration {
 }
 
 // @public
+export interface SubscriptionScopeMetric {
+    displayDescription?: string;
+    errorCode?: string;
+    errorMessage?: string;
+    id: string;
+    name: LocalizableString;
+    timeseries: TimeSeriesElement[];
+    type: string;
+    unit: MetricUnit;
+}
+
+// @public
+export interface SubscriptionScopeMetricDefinition {
+    category?: string;
+    dimensions?: LocalizableString[];
+    displayDescription?: string;
+    id?: string;
+    isDimensionRequired?: boolean;
+    metricAvailabilities?: MetricAvailability[];
+    metricClass?: MetricClass;
+    name?: LocalizableString;
+    namespace?: string;
+    primaryAggregationType?: MetricAggregationType;
+    resourceId?: string;
+    supportedAggregationTypes?: MetricAggregationType[];
+    unit?: MetricUnit;
+}
+
+// @public
+export interface SubscriptionScopeMetricDefinitionCollection {
+    value: SubscriptionScopeMetricDefinition[];
+}
+
+// @public
+export interface SubscriptionScopeMetricResponse {
+    cost?: number;
+    interval?: string;
+    namespace?: string;
+    resourceregion?: string;
+    timespan: string;
+    value: SubscriptionScopeMetric[];
+}
+
+// @public
+export interface SubscriptionScopeMetricsRequestBodyParameters {
+    aggregation?: string;
+    autoAdjustTimegrain?: boolean;
+    filter?: string;
+    interval?: string;
+    metricNames?: string;
+    metricNamespace?: string;
+    orderBy?: string;
+    resultType?: MetricResultType;
+    rollUpBy?: string;
+    timespan?: string;
+    top?: number;
+    validateDimensions?: boolean;
+}
+
+// @public
 export interface SyslogDataSource {
     facilityNames?: KnownSyslogDataSourceFacilityNames[];
     logLevels?: KnownSyslogDataSourceLogLevels[];
@@ -3500,6 +3590,9 @@ export interface TrackedResourceAutoGenerated extends ResourceAutoGenerated5 {
         [propertyName: string]: string;
     };
 }
+
+// @public
+export type Unit = "Count" | "Bytes" | "Seconds" | "CountPerSecond" | "BytesPerSecond" | "Percent" | "MilliSeconds" | "ByteSeconds" | "Unspecified" | "Cores" | "MilliCores" | "NanoCores" | "BitsPerSecond";
 
 // @public
 export interface UserIdentityProperties {

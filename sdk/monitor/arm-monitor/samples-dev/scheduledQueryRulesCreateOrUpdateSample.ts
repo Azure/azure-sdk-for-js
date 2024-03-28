@@ -31,9 +31,9 @@ async function createOrUpdateAScheduledQueryRuleForSingleResource() {
     description: "Performance rule",
     actions: {
       actionGroups: [
-        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
-      customProperties: { key11: "value11", key12: "value12" }
+      customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,
     criteria: {
@@ -43,22 +43,22 @@ async function createOrUpdateAScheduledQueryRuleForSingleResource() {
             {
               name: "ComputerIp",
               operator: "Exclude",
-              values: ["192.168.1.1"]
+              values: ["192.168.1.1"],
             },
-            { name: "OSType", operator: "Include", values: ["*"] }
+            { name: "OSType", operator: "Include", values: ["*"] },
           ],
           failingPeriods: {
             minFailingPeriodsToAlert: 1,
-            numberOfEvaluationPeriods: 1
+            numberOfEvaluationPeriods: 1,
           },
           metricMeasureColumn: "% Processor Time",
           operator: "GreaterThan",
           query: 'Perf | where ObjectName == "Processor"',
           resourceIdColumn: "resourceId",
           threshold: 70,
-          timeAggregation: "Average"
-        }
-      ]
+          timeAggregation: "Average",
+        },
+      ],
     },
     enabled: true,
     evaluationFrequency: "PT5M",
@@ -66,18 +66,18 @@ async function createOrUpdateAScheduledQueryRuleForSingleResource() {
     muteActionsDuration: "PT30M",
     ruleResolveConfiguration: { autoResolved: true, timeToResolve: "PT10M" },
     scopes: [
-      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1/providers/Microsoft.Compute/virtualMachines/vm1"
+      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1/providers/Microsoft.Compute/virtualMachines/vm1",
     ],
     severity: 4,
     skipQueryValidation: true,
-    windowSize: "PT10M"
+    windowSize: "PT10M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -99,9 +99,9 @@ async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
     description: "Health check rule",
     actions: {
       actionGroups: [
-        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
-      customProperties: { key11: "value11", key12: "value12" }
+      customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,
     criteria: {
@@ -110,14 +110,14 @@ async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
           dimensions: [],
           failingPeriods: {
             minFailingPeriodsToAlert: 1,
-            numberOfEvaluationPeriods: 1
+            numberOfEvaluationPeriods: 1,
           },
           operator: "GreaterThan",
           query: "Heartbeat",
           threshold: 360,
-          timeAggregation: "Count"
-        }
-      ]
+          timeAggregation: "Count",
+        },
+      ],
     },
     enabled: true,
     evaluationFrequency: "PT5M",
@@ -125,19 +125,19 @@ async function createOrUpdateAScheduledQueryRuleOnResourceGroupS() {
     muteActionsDuration: "PT30M",
     ruleResolveConfiguration: { autoResolved: true, timeToResolve: "PT10M" },
     scopes: [
-      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1"
+      "/subscriptions/aaf177ed-1330-a9f2-80ea-fd3d7783b147/resourceGroups/scopeResourceGroup1",
     ],
     severity: 4,
     skipQueryValidation: true,
     targetResourceTypes: ["Microsoft.Compute/virtualMachines"],
-    windowSize: "PT10M"
+    windowSize: "PT10M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -159,9 +159,9 @@ async function createOrUpdateAScheduledQueryRuleOnSubscription() {
     description: "Performance rule",
     actions: {
       actionGroups: [
-        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup"
+        "/subscriptions/1cf177ed-1330-4692-80ea-fd3d7783b147/resourcegroups/sqrapi/providers/microsoft.insights/actiongroups/myactiongroup",
       ],
-      customProperties: { key11: "value11", key12: "value12" }
+      customProperties: { key11: "value11", key12: "value12" },
     },
     checkWorkspaceAlertsStorageConfigured: true,
     criteria: {
@@ -171,22 +171,22 @@ async function createOrUpdateAScheduledQueryRuleOnSubscription() {
             {
               name: "ComputerIp",
               operator: "Exclude",
-              values: ["192.168.1.1"]
+              values: ["192.168.1.1"],
             },
-            { name: "OSType", operator: "Include", values: ["*"] }
+            { name: "OSType", operator: "Include", values: ["*"] },
           ],
           failingPeriods: {
             minFailingPeriodsToAlert: 1,
-            numberOfEvaluationPeriods: 1
+            numberOfEvaluationPeriods: 1,
           },
           metricMeasureColumn: "% Processor Time",
           operator: "GreaterThan",
           query: 'Perf | where ObjectName == "Processor"',
           resourceIdColumn: "resourceId",
           threshold: 70,
-          timeAggregation: "Average"
-        }
-      ]
+          timeAggregation: "Average",
+        },
+      ],
     },
     enabled: true,
     evaluationFrequency: "PT5M",
@@ -197,14 +197,14 @@ async function createOrUpdateAScheduledQueryRuleOnSubscription() {
     severity: 4,
     skipQueryValidation: true,
     targetResourceTypes: ["Microsoft.Compute/virtualMachines"],
-    windowSize: "PT10M"
+    windowSize: "PT10M",
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.scheduledQueryRules.createOrUpdate(
     resourceGroupName,
     ruleName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

@@ -75,7 +75,7 @@ describe("Monitor test", () => {
     location = "eastus";
     resourceGroup = "myjstest";
     workflowName = "myworkflowxxx";
-    storageAccountName = "mystorageaccountyyy";
+    storageAccountName = "mystorageaccountyyy1";
     namespaceName = "mynamespacexxx";
     eventhubName = "myeventhubxxx";
     workspaceName = "myworkspacexxx";
@@ -89,7 +89,7 @@ describe("Monitor test", () => {
     await recorder.stop();
   });
 
-  it("create parameters for diagnosticSettings", async function () {
+  it.only("create parameters for diagnosticSettings", async function () {
     //workflows.createOrUpdate
     const res = await logic_client.workflows.createOrUpdate(resourceGroup, workflowName, {
       location: location,
@@ -284,6 +284,15 @@ describe("Monitor test", () => {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);
+  });
+
+  it("metric list test", async function () {
+    const res = await client.metricsOperations.listAtSubscriptionScope(
+      location,
+      {
+        metricnamespace: "microsoft.compute/virtualmachines"
+      }
+    );
   });
 
   it("delete parameters for diagnosticSettings", async function () {

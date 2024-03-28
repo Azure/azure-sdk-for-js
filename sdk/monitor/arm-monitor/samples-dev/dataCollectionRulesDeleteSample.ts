@@ -31,7 +31,7 @@ async function deleteDataCollectionRule() {
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.dataCollectionRules.delete(
     resourceGroupName,
-    dataCollectionRuleName
+    dataCollectionRuleName,
   );
   console.log(result);
 }

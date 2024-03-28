@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   LocalizableString,
-  EventCategoriesListOptionalParams
+  EventCategoriesListOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -21,6 +21,6 @@ export interface EventCategories {
    * @param options The options parameters.
    */
   list(
-    options?: EventCategoriesListOptionalParams
+    options?: EventCategoriesListOptionalParams,
   ): PagedAsyncIterableIterator<LocalizableString>;
 }
