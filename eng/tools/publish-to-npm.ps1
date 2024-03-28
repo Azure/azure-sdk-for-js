@@ -9,7 +9,8 @@ param (
   $basicDeployment=$false,
   $devopsFeed=$false,
   $skipDiff=$false,
-  $packagesToPublishPath
+  $packagesToPublishPath,
+  $addTag=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -156,15 +157,12 @@ try {
                 exit 1
             }
         }
-        elseif ($p.Publish -and $publishToNpm) {
-            if ($additionalTag -eq "") {
-                write-host "Copy $($p.TarGz) to $packagesToPublishPath"
-                New-Item -ItemType Directory -Path $packagesToPublishPath -Force
-                Copy-Item -Path $($p.TarGz) -Destination $packagesToPublishPath -Force
+        elseif ($addTag -and $publishToNpm) {
+            if ($tag) {
+                npm dist-tag add "$($p.Project.name)@$($p.Project)" $tag
             }
-            elseif ($additionalTag -ne $tag) {
+            if ($additionalTag -ne "" && $additionalTag -ne $tag) {
                 npm dist-tag add "$($p.Project.name)@$($p.Project)" $additionalTag
-                . $(Build.SourcesDirectory)/eng/scripts/npm-admin-tasks.ps1 -taskType AddTag -packageName $p.Project.name -pkgVersion $p.Project.version -tagName $AdditionalTag -npmToken $(azure-sdk-npm-token)
             }
         }
         else {

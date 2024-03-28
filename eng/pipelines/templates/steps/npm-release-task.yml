@@ -9,21 +9,13 @@ parameters:
 steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
   - ${{if eq(parameters.Registry, 'https://registry.npmjs.org/')}}:
-      - task: PowerShell@2
-        displayName: Create publish package directory
-        inputs:
-          targetType: filePath
-          filePath: eng/tools/publish-to-npm.ps1
-          arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token) -packagesToPublishPath "$(Pipeline.Workspace)/temp/${{parameters.ArtifactName}}"
-          pwsh: true
-        condition: succeeded()
       - task: EsrpRelease@6
         inputs:
           displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
           ConnectedServiceName: 'ESRP Release Service'
           Intent: 'PackageDistribution'
           ContentType: 'npm'
-          FolderLocation: $(Pipeline.Workspace)/temp/${{parameters.ArtifactName}}
+          FolderLocation: ${{parameters.PathToArtifacts}}
           Owners: $(Build.RequestedForEmail)
           Approvers: 'azuresdk@microsoft.com'
           ServiceEndpointUrl: 'https://api.esrp.microsoft.com'
@@ -37,12 +29,9 @@ steps:
           inputs:
             targetType: filePath
             filePath: eng/tools/publish-to-npm.ps1
-            arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.Tag}}" -additionalTag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
+            arguments: -addTag $true -pathToArtifacts ${{parameters.PathToArtifacts}} -accessLevel "public" -tag "${{parameters.AdditionalTag}}" -registry ${{parameters.Registry}} -npmToken $(azure-sdk-npm-token)
             pwsh: true
           condition: succeeded()
-      - pwsh: |
-          Remove-Item $(Pipeline.Workspace)/temp/${{parameters.ArtifactName}} -Recurse
-        displayName: Remove Temp Packages Publish Directory
 
   - ${{ else }}:
       - task: PowerShell@2
