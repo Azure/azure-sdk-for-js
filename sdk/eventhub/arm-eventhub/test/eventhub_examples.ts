@@ -64,7 +64,7 @@ describe("Eventhub test", () => {
     eventhubName = "myeventhubxxx";
     namespaceName = "mynamespacexxx";
     virtualNetworkName = "myvirtualnetwork";
-    storageAccountName = "mystorageaccountxxx11a";
+    storageAccountName = "mystorageaccountxxx11";
   });
 
   afterEach(async function () {
