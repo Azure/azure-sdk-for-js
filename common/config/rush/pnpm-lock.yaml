@@ -21671,7 +21671,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-avro.tgz:
-    resolution: {integrity: sha512-fTfD2+7n9NHR2kPJ4Y97XoiAXcyitqxCO0tdIihtQ0ts+CQztRLgCcUUXHjKG82hz11yy4leGElUSxFt8tn7Nw==, tarball: file:projects/schema-registry-avro.tgz}
+    resolution: {integrity: sha512-ff4AvVaJX2zIp7KBwJGVIBuqWA/whI5bR3bKBNjVYvCyUP64oxXpud3K2a9TI8FwauHgjvOG6xeQzRy7HhodTA==, tarball: file:projects/schema-registry-avro.tgz}
     name: '@rush-temp/schema-registry-avro'
     version: 0.0.0
     dependencies:
@@ -21703,7 +21703,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
-      lru-cache: 7.18.3
+      lru-cache: 10.2.0
       mocha: 10.3.0
       process: 0.11.10
       rimraf: 5.0.5
@@ -21722,7 +21722,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-GSGOQLbma/YMfXl0VYpxXgIxnakU60LsqNcVqhtbhAPPR3GJ8+zleVnfws5gRq+IFfwpl8Lh5LMb4MkXWRdsDw==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-30G6DkoTNePVLBevgEsQPCFP6tUplvSGGVbf5WxYPNXw8tIN7y1fHgkcEcezD3+1kua8dqoBY8V0NGnsSA4Fyg==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
@@ -21747,7 +21747,7 @@ packages:
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.3)
       karma-sourcemap-loader: 0.3.8
-      lru-cache: 7.18.3
+      lru-cache: 10.2.0
       mocha: 10.3.0
       rimraf: 5.0.5
       ts-node: 10.9.2(@types/node@18.19.26)(typescript@5.3.3)
