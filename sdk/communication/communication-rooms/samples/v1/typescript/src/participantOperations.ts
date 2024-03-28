@@ -124,7 +124,7 @@ export async function main() {
  * @param participants - The Participants being printed to console.
  */
 async function printParticipants(
-  participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>
+  participants: PagedAsyncIterableIterator<Partial<RoomParticipant>>,
 ): Promise<void> {
   var count = 0;
   for await (const participant of participants) {
