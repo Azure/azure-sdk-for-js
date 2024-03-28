@@ -1341,11 +1341,11 @@ export const StartCallRecordingRequest: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
-      externalStorage: {
-        serializedName: "externalStorage",
+      recordingStorage: {
+        serializedName: "recordingStorage",
         type: {
           name: "Composite",
-          className: "ExternalStorage",
+          className: "RecordingStorage",
         },
       },
     },
@@ -1405,10 +1405,10 @@ export const ChannelAffinity: coreClient.CompositeMapper = {
   },
 };
 
-export const ExternalStorage: coreClient.CompositeMapper = {
+export const RecordingStorage: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExternalStorage",
+    className: "RecordingStorage",
     modelProperties: {
       recordingStorageKind: {
         serializedName: "recordingStorageKind",
@@ -1417,25 +1417,8 @@ export const ExternalStorage: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      azureBlobStorage: {
-        serializedName: "azureBlobStorage",
-        type: {
-          name: "Composite",
-          className: "AzureBlobStorage",
-        },
-      },
-    },
-  },
-};
-
-export const AzureBlobStorage: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "AzureBlobStorage",
-    modelProperties: {
-      containerUri: {
-        serializedName: "containerUri",
-        required: true,
+      recordingDestinationContainerUrl: {
+        serializedName: "recordingDestinationContainerUrl",
         type: {
           name: "String",
         },

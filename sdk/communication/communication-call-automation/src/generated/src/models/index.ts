@@ -497,9 +497,9 @@ export interface StartCallRecordingRequest {
    * ///
    */
   channelAffinity?: ChannelAffinity[];
-  /** When set to true will start recording in Pause mode, which could be resumed. */
+  /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
-  externalStorage?: ExternalStorage;
+  recordingStorage?: RecordingStorage;
 }
 
 /** The locator used for joining or taking action on a call. */
@@ -523,17 +523,11 @@ export interface ChannelAffinity {
   participant: CommunicationIdentifierModel;
 }
 
-export interface ExternalStorage {
+export interface RecordingStorage {
   /** Defines the kind of external storage */
   recordingStorageKind: RecordingStorageKind;
-  /** Defines the Azure Blob storage location where the recording will be stored */
-  azureBlobStorage?: AzureBlobStorage;
-}
-
-/** Used to specify Azure Blob container url to recording storage */
-export interface AzureBlobStorage {
-  /** Url of a container or a location within a container */
-  containerUri: string;
+  /** Uri of a container or a location within a container */
+  recordingDestinationContainerUrl?: string;
 }
 
 export interface RecordingStateResponse {
@@ -1218,10 +1212,10 @@ export type RecordingFormatType = string;
 
 /** Known values of {@link RecordingStorageKind} that the service accepts. */
 export enum KnownRecordingStorageKind {
-  /** AzureCommunicationServices */
-  AzureCommunicationServices = "azureCommunicationServices",
-  /** AzureBlobStorage */
-  AzureBlobStorage = "azureBlobStorage",
+  /** Storage managed by Azure Communication Services */
+  AzureCommunicationServices = "AzureCommunicationServices",
+  /** Storage managed by provided Azure blob */
+  AzureBlobStorage = "AzureBlobStorage",
 }
 
 /**
@@ -1229,8 +1223,8 @@ export enum KnownRecordingStorageKind {
  * {@link KnownRecordingStorageKind} can be used interchangeably with RecordingStorageKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureCommunicationServices** \
- * **azureBlobStorage**
+ * **AzureCommunicationServices**: Storage managed by Azure Communication Services \
+ * **AzureBlobStorage**: Storage managed by provided Azure blob
  */
 export type RecordingStorageKind = string;
 
@@ -1254,14 +1248,12 @@ export type RecordingState = string;
 
 /** Known values of {@link RecordingKind} that the service accepts. */
 export enum KnownRecordingKind {
-  /** AzureCommunicationServices */
-  AzureCommunicationServices = "azureCommunicationServices",
-  /** Teams */
-  Teams = "teams",
-  /** TeamsCompliance */
-  TeamsCompliance = "teamsCompliance",
-  /** Others */
-  Others = "others",
+  /** Recording initiated by Azure Communication Services */
+  AzureCommunicationServices = "AzureCommunicationServices",
+  /** Recording initiated by Teams user */
+  Teams = "Teams",
+  /** Recording initiated by Teams compliance policy */
+  TeamsCompliance = "TeamsCompliance",
 }
 
 /**
@@ -1269,10 +1261,9 @@ export enum KnownRecordingKind {
  * {@link KnownRecordingKind} can be used interchangeably with RecordingKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureCommunicationServices** \
- * **teams** \
- * **teamsCompliance** \
- * **others**
+ * **AzureCommunicationServices**: Recording initiated by Azure Communication Services \
+ * **Teams**: Recording initiated by Teams user \
+ * **TeamsCompliance**: Recording initiated by Teams compliance policy
  */
 export type RecordingKind = string;
 

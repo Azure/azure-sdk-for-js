@@ -62,6 +62,17 @@ export interface AnswerCallOptions extends OperationOptions {
 export type AnswerCallResult = CallResult;
 
 // @public
+export interface AzureBlobContainerRecordingStorage extends RecordingStorage {
+    recordingDestinationContainerUrl?: string;
+    recordingStorageKind: 'azureBlobStorage';
+}
+
+// @public
+export interface AzureCommunicationsRecordingStorage extends RecordingStorage {
+    recordingStorageKind: 'azureCommunicationServices';
+}
+
+// @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
@@ -544,6 +555,9 @@ export type RecordingContent = "audio" | "audioVideo";
 export type RecordingFormat = "mp3" | "mp4" | "wav";
 
 // @public
+export type RecordingKind = "azureCommunicationServices" | "teams" | "teamsCompliance";
+
+// @public
 export type RecordingState = string;
 
 // @public
@@ -558,12 +572,21 @@ export interface RecordingStateChanged extends Omit<RestRecordingStateChanged, "
 export interface RecordingStateResult {
     // (undocumented)
     recordingId: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingKind_2" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    recordingKind: RecordingKind_2;
     // (undocumented)
     recordingState: RecordingState;
 }
 
 // @public
-export type RecordingStorage = "azureCommunicationServices" | "azureBlobStorage";
+export interface RecordingStorage {
+    recordingStorageKind: RecordingStorageKind;
+}
+
+// @public
+export type RecordingStorageKind = "azureCommunicationServices" | "azureBlobStorage";
 
 // @public
 export type RedirectCallOptions = OperationOptions;
@@ -781,10 +804,8 @@ export interface RestRecordingStateChanged {
     callConnectionId?: string;
     correlationId?: string;
     readonly recordingId?: string;
-    // Warning: (ae-forgotten-export) The symbol "RecordingKind" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
-    recordingKind?: RecordingKind;
+    recordingKind?: RecordingKind_2;
     serverCallId?: string;
     readonly startDateTime?: Date;
     // (undocumented)
@@ -914,6 +935,8 @@ export interface StartRecordingOptions extends OperationOptions {
     recordingContent?: RecordingContent;
     recordingFormat?: RecordingFormat;
     recordingStateCallbackEndpointUrl?: string;
+    // Warning: (ae-forgotten-export) The symbol "RecordingStorage_2" needs to be exported by the entry point index.d.ts
+    recordingStorage?: RecordingStorage_2;
 }
 
 // @public
