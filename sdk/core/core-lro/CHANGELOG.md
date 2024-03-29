@@ -1,16 +1,14 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 3.0.0-beta.2 (2023-04-2)
+
+Compared with 3.0.0-beta.1 we have following changes:
 
 ### Features Added
 
 - Add interface `SimplePollerLike` for Poller without `Promise` inerface
 - Add a builder function `createInitializedHttpPoller` to create an initialized poller
 - Add overloads for `createHttpPoller` to support `PollerLike` and `SimplePollerLike` creation
-
-### Bugs Fixed
-
-### Other Changes
 
 ## 2.7.1 (2024-03-20)
 
