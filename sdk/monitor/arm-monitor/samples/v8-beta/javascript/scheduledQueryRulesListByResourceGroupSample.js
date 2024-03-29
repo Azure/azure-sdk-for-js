@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Retrieve scheduled query rule definitions in a resource group.
  *
  * @summary Retrieve scheduled query rule definitions in a resource group.
- * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2022-08-01-preview/examples/listScheduledQueryRulesByResourceGroup.json
+ * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2023-12-01/examples/listScheduledQueryRulesByResourceGroup.json
  */
 async function listScheduledQueryRulesByResourceGroup() {
   const subscriptionId =
