@@ -16,13 +16,14 @@ import { TelemetryItem as EnvelopeMapper } from "./models/mappers";
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
 
-  assert.ok(actual.baseData);
-  for (const [key, value] of Object.entries(expected.baseData!)) {
+  assert.ok(actual.baseData, "Actual base data must be defined.");
+  assert.ok(expected.baseData, "Expected base data must be defined.");
+  for (const [key, value] of Object.entries(expected.baseData)) {
     const serializedKey = (EnvelopeMapper.type as any).modelProperties![key]?.serializedName ?? key;
     if (typeof value === "object") {
       for (const [nestedKey, nestedValue] of Object.entries(value)) {
         assert.deepStrictEqual(
-          expected.baseData![serializedKey][nestedKey],
+          expected.baseData[serializedKey][nestedKey],
           nestedValue,
           `baseData.${serializedKey}.${nestedKey} should be equal\nActual: ${JSON.stringify(actual.baseData[serializedKey][nestedKey])}\nExpected: ${JSON.stringify(nestedValue)}`,
         );
