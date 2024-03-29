@@ -105,6 +105,7 @@ export type RestorableOperationState<T> = T & {
 
 // @public
 export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    readonly [Symbol.toStringTag]: string;
     readonly isDone: boolean;
     readonly isStopped: boolean;
     onProgress(callback: (state: TState) => void): CancelOnProgress;

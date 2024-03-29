@@ -231,7 +231,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 
         return state;
       },
-      // [Symbol.toStringTag]: "Poller"
+      [Symbol.toStringTag]: "Poller",
     };
     if (type === "SimplePoller") {
       return poller;
@@ -252,7 +252,6 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
     ): Promise<TResult> => {
       return poller.pollUntilDone().finally(onfinally);
     };
-    // (poller as PollerLike<TState, TResult>)[Symbol.toStringTag] = "Poller";
     return poller as PollerLike<TState, TResult>;
   };
 }

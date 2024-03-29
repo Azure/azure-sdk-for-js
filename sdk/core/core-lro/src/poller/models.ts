@@ -198,6 +198,10 @@ export interface SimplePollerLike<TState extends OperationState<TResult>, TResul
    */
   readonly result: TResult | undefined;
   /**
+   * A String value that is used in the creation of the default string description of an object.
+   */
+  readonly [Symbol.toStringTag]: string;
+  /**
    * Returns a promise that will resolve once a single polling request finishes.
    * It does this by calling the update method of the Poller's operation.
    */
