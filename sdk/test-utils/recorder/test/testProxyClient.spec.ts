@@ -11,8 +11,7 @@ import { Recorder } from "../src/index.js";
 import { createRecordingRequest } from "../src/utils/createRecordingRequest.js";
 import { paths } from "../src/utils/paths.js";
 import { getTestMode, isLiveMode, isRecordMode, RecorderError } from "../src/utils/utils.js";
-import { describe, it, beforeEach, afterEach, expect } from "vitest";
-import type { TaskContext } from "vitest";
+import { describe, it, beforeEach, afterEach, expect, type TaskContext } from "vitest";
 import { env } from "../src/index.js";
 
 const testRedirectedRequest = (
