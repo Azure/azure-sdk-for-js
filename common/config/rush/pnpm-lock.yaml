@@ -15155,7 +15155,7 @@ packages:
     dev: false
 
   file:projects/arm-monitor.tgz:
-    resolution: {integrity: sha512-LGe1iNUoZQYZrNM4/RNoR1/+EF8IbcjoApmtx/watdJQTkPGiiGJoZCf4s6VitBSLdthc+xSJ9+72cKXFvPLEw==, tarball: file:projects/arm-monitor.tgz}
+    resolution: {integrity: sha512-k86cO8ZuQDGKWF9cqapX6Hri4OTXpFNC5LCtoA9U6WY8g2azrtjRld4UnAwLryq1EMQyJEW53tiqE9HTluYOgw==, tarball: file:projects/arm-monitor.tgz}
     name: '@rush-temp/arm-monitor'
     version: 0.0.0
     dependencies:
@@ -15168,6 +15168,7 @@ packages:
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
+      esm: 3.2.25
       mkdirp: 2.1.6
       mocha: 10.3.0
       rimraf: 5.0.5

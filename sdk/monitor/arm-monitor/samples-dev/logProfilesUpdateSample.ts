@@ -32,13 +32,13 @@ async function patchALogProfile() {
     serviceBusRuleId: "",
     storageAccountId:
       "/subscriptions/df602c9c-7aa0-407d-a6fb-eb20c8bd1192/resourceGroups/JohnKemTest/providers/Microsoft.Storage/storageAccounts/johnkemtest8162",
-    tags: { key1: "value1" }
+    tags: { key1: "value1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new MonitorClient(credential, subscriptionId);
   const result = await client.logProfiles.update(
     logProfileName,
-    logProfilesResource
+    logProfilesResource,
   );
   console.log(result);
 }
