@@ -4,12 +4,9 @@
 
 ### Features Added
 
-- Add interface `SimplePollerLike` for poller interface without promise
+- Add interface `SimplePollerLike` for Poller without `Promise` inerface
 - Add a builder function `createInitializedHttpPoller` to create an initialized poller
-
-### Breaking Changes
-
-- Add new parameter `type` in `createHttpPoller` to support creating `PollerLike` and `SimplePollerLike`
+- Add overloads for `createHttpPoller` to support `PollerLike` and `SimplePollerLike` creation
 
 ### Bugs Fixed
 
