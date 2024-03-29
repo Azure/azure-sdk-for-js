@@ -10,6 +10,8 @@
 
 ### Other Changes
 
+- Revert TypeScript output target to ES2017.
+
 ## 2.1.1 (2024-03-20)
 
 ### Other Changes
