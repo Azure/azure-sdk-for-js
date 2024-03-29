@@ -23,7 +23,7 @@ const credentialName = "OnBehalfOfCredential";
 const logger = credentialLogger(credentialName);
 
 /**
- * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
  */
 export class OnBehalfOfCredential implements TokenCredential {
   private tenantId: string;

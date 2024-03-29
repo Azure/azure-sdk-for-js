@@ -79,7 +79,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
         enabled: false,
         connectionString: "",
     },
-    resource: resource
+    resource: resource,
     logRecordProcessors: [],
     spanProcessors: []
 };
@@ -95,11 +95,12 @@ useAzureMonitor(options);
 | instrumentationOptions| Allow configuration of OpenTelemetry Instrumentations. |  {"http": { enabled: true },"azureSdk": { enabled: false },"mongoDb": { enabled: false },"mySql": { enabled: false },"postgreSql": { enabled: false },"redis": { enabled: false },"bunyan": { enabled: false }}|
 | browserSdkLoaderOptions| Allow configuration of Web Instrumentations. | { enabled: false, connectionString: "" } |
 | resource       | Opentelemetry Resource. [More info here](https://github.com/open-telemetry/opentelemetry-js/tree/main/packages/opentelemetry-resources) ||
-| samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. |
-| enableLiveMetrics          | Enable/Disable Live Metrics. |
-| enableStandardMetrics      | Enable/Disable Standard Metrics. |
-| logRecordProcessors        | Array of log record processors to register to the global logger provider. |
-| spanProcessors             | Array of span processors to register to the global tracer provider. |
+| samplingRatio              | Sampling ratio must take a value in the range [0,1], 1 meaning all data will sampled and 0 all Tracing data will be sampled out. |1|
+| enableLiveMetrics          | Enable/Disable Live Metrics. |false|
+| enableStandardMetrics      | Enable/Disable Standard Metrics. |true|
+<!--- TODO: Enable when feature is released | enableTraceBasedSamplingForLogs      | Enable log sampling based on trace. |true|-->
+| logRecordProcessors        | Array of log record processors to register to the global logger provider. ||
+| spanProcessors             | Array of span processors to register to the global tracer provider. ||
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 
 
@@ -226,13 +227,10 @@ Any [attributes](#add-span-attributes) you add to spans are exported as custom p
 Use a custom processor:
 
 ```typescript
-import { useAzureMonitor } from "@azure/monitor-opentelemetry";
-import { ProxyTracerProvider, trace } from "@opentelemetry/api";
+import { useAzureMonitor, AzureMonitorOpenTelemetryOptions } from "@azure/monitor-opentelemetry";
 import { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SemanticAttributes } from "@opentelemetry/semantic-conventions";
 
-useAzureMonitor();
 
 class SpanEnrichingProcessor implements SpanProcessor{
   forceFlush(): Promise<void>{
@@ -249,8 +247,12 @@ class SpanEnrichingProcessor implements SpanProcessor{
   }
 }
 
-const tracerProvider = (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider;
-tracerProvider.addSpanProcessor(new SpanEnrichingProcessor());
+// Enable Azure Monitor integration.
+const options: AzureMonitorOpenTelemetryOptions = {
+    // Add the SpanEnrichingProcessor
+    spanProcessors: [new SpanEnrichingProcessor()] 
+}
+useAzureMonitor(options);
 ```
 
 ### Filter telemetry

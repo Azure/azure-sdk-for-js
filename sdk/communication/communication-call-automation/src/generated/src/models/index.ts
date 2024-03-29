@@ -202,11 +202,6 @@ export interface AnswerCallRequest {
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
-  /**
-   * The source caller Id, a phone number, that's will be used when inviting a pstn target.
-   * Required only when transferring call to PSTN, if this is an incoming voip call.
-   */
-  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The request payload for redirecting the call. */
@@ -242,6 +237,8 @@ export interface TransferToParticipantRequest {
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
    */
   operationCallbackUri?: string;
+  /** The source caller Id, a phone number, that's will be used as the transferor's(Contoso) caller id when transfering a call a pstn target. */
+  sourceCallerIdNumber?: PhoneNumberIdentifierModel;
 }
 
 /** The response payload for transferring the call. */
