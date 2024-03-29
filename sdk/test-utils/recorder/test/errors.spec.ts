@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { RecorderError, RecordingStateManager } from "../src/utils/utils.js";
-import { expect } from "chai";
+import { expect } from "vitest";
 import { Recorder } from "../src/recorder.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { encodeBase64 } from "../src/utils/encoding.js";

@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-
-import { expect } from "chai";
+import { expect } from "vitest";
 import { describe, it } from "vitest";
 
 import { calculatePaths } from "../src/recorder.js";
