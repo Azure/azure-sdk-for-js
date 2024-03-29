@@ -53,7 +53,7 @@ describe("OpenAI", function () {
         client = createClient(authMethod, "completions", { recorder });
       });
 
-      describe.only("getCompletions", function () {
+      describe("getCompletions", function () {
         it("returns completions across all models", async function () {
           const prompt = ["What is Azure OpenAI?"];
           await withDeployments(
@@ -64,7 +64,7 @@ describe("OpenAI", function () {
         });
       });
 
-      describe.only("streamCompletions", function () {
+      describe("streamCompletions", function () {
         it("returns completions stream", async function () {
           const prompt = ["This is Azure OpenAI?"];
           await withDeployments(
