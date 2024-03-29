@@ -20,8 +20,7 @@ import { CreateHttpPollerOptions } from "./models.js";
 import { buildCreatePoller } from "../poller/poller.js";
 
 /**
- * Create a SimplePoller that will poll the LRO until it is done
- * Awaitting this would return an initialized poller
+ * Create a SimplePoller and awaitting this would return an initialized poller
  */
 export function createInitializedHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
@@ -59,7 +58,7 @@ export async function createInitializedHttpPoller<TResult, TState extends Operat
 }
 
 /**
- * The default creation function in which returns poller extending promise interface
+ * Create a PollerLike object and awaitting this would return the final result of polling
  */
 export function createHttpPoller<TResult, TState extends OperationState<TResult>>(
   lro: LongRunningOperation,
