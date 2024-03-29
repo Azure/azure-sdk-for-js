@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 8.0.0-beta.6 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 8.0.0-beta.5 (2024-03-28)
     
 **Features**
