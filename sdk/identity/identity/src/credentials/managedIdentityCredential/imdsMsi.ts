@@ -76,7 +76,7 @@ function prepareRequestOptions(
   };
 }
 
-// 800ms -> 1600ms -> 3200ms
+// 800ms -> 1600ms -> 3200ms -> 6400ms -> 12800ms
 export const imdsMsiRetryConfig = {
   maxRetries: 5,
   startDelayInMs: 800,
