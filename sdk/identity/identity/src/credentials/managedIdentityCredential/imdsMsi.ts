@@ -142,17 +142,13 @@ export const imdsMsi: MSI = {
           if (isError(err)) {
             logger.verbose(`${msiName}: Caught error ${err.name}: ${err.message}`);
           }
-          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network"
+          // This is a special case for Docker Desktop which responds with a 403 with a message that contains "A socket operation was attempted to an unreachable network" or "A socket operation was attempted to an unreachable host"
           // rather than just timing out, as expected.
           logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
           return false;
         }
         if (response.status === 403) {
-          if (
-            response.bodyAsText?.includes(
-              "A socket operation was attempted to an unreachable network"
-            )
-          ) {
+          if (response.bodyAsText?.includes("unreachable")) {
             logger.info(`${msiName}: The Azure IMDS endpoint is unavailable`);
             logger.info(`${msiName}: ${response.bodyAsText}`);
             return false;
