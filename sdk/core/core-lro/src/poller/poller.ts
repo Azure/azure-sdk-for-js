@@ -231,7 +231,7 @@ export function buildCreatePoller<TResponse, TResult, TState extends OperationSt
 
         return state;
       },
-      [Symbol.toStringTag]: "Poller",
+      [Symbol.toStringTag]: type,
     };
     if (type === "SimplePoller") {
       return poller;
