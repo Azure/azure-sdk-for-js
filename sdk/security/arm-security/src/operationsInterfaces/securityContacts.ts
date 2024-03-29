@@ -10,6 +10,7 @@ import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   SecurityContact,
   SecurityContactsListOptionalParams,
+  SecurityContactName,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
@@ -33,7 +34,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   get(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse>;
   /**
@@ -43,7 +44,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   create(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     securityContact: SecurityContact,
     options?: SecurityContactsCreateOptionalParams,
   ): Promise<SecurityContactsCreateResponse>;
@@ -53,7 +54,7 @@ export interface SecurityContacts {
    * @param options The options parameters.
    */
   delete(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void>;
 }

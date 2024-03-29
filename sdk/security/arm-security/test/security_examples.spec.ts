@@ -54,7 +54,12 @@ describe("security test", () => {
     resourceGroup = "myjstest";
     securityContactName = "default";
     securityContact = {
-      alertNotifications: { minimalSeverity: "Low", state: "On" },
+      notificationsSources: [
+        {
+          minimalSeverity: "Low",
+          sourceType: "Alert"
+        }
+      ],
       emails: "john@contoso.com;jane@contoso.com",
       notificationsByRole: { roles: ["Owner"], state: "On" },
       phone: "+214-2754038"

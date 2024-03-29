@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
  *
  * @summary Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutAutomationAllAssessments_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/PutAutomationAllAssessments_example.json
  */
 async function createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSeverities() {
   const subscriptionId =
@@ -62,7 +62,7 @@ async function createOrUpdateASecurityAutomationForAllAssessmentsIncludingAllSev
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
  *
  * @summary Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutAutomationHighSeverityAssessments_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/PutAutomationHighSeverityAssessments_example.json
  */
 async function createOrUpdateASecurityAutomationForAllHighSeverityAssessments() {
   const subscriptionId =
@@ -124,7 +124,7 @@ async function createOrUpdateASecurityAutomationForAllHighSeverityAssessments() 
  * This sample demonstrates how to Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
  *
  * @summary Creates or updates a security automation. If a security automation is already created and a subsequent request is issued for the same automation id, then it will be updated.
- * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/Automations/PutDisableAutomation_example.json
+ * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2023-12-01-preview/examples/Automations/PutDisableAutomation_example.json
  */
 async function disableOrEnableASecurityAutomation() {
   const subscriptionId =

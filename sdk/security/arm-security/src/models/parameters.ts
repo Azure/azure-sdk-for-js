@@ -17,6 +17,7 @@ import {
   WorkspaceSetting as WorkspaceSettingMapper,
   AlertsSuppressionRule as AlertsSuppressionRuleMapper,
   Automation as AutomationMapper,
+  AutomationUpdateModel as AutomationUpdateModelMapper,
   ConnectorSetting as ConnectorSettingMapper,
   SecurityContact as SecurityContactMapper,
   CustomAssessmentAutomationRequest as CustomAssessmentAutomationRequestMapper,
@@ -306,6 +307,18 @@ export const alertsSuppressionRule: OperationParameter = {
   mapper: AlertsSuppressionRuleMapper,
 };
 
+export const apiVersion3: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    defaultValue: "2023-12-01-preview",
+    isConstant: true,
+    serializedName: "api-version",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const automationName: OperationURLParameter = {
   parameterPath: "automationName",
   mapper: {
@@ -320,6 +333,11 @@ export const automationName: OperationURLParameter = {
 export const automation: OperationParameter = {
   parameterPath: "automation",
   mapper: AutomationMapper,
+};
+
+export const automation1: OperationParameter = {
+  parameterPath: "automation",
+  mapper: AutomationUpdateModelMapper,
 };
 
 export const regulatoryComplianceStandardName: OperationURLParameter = {
@@ -377,7 +395,7 @@ export const subAssessmentName: OperationURLParameter = {
   },
 };
 
-export const apiVersion3: OperationQueryParameter = {
+export const apiVersion4: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-01-01-preview",
@@ -454,7 +472,7 @@ export const resourceName: OperationURLParameter = {
   },
 };
 
-export const apiVersion4: OperationQueryParameter = {
+export const apiVersion5: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-05-01-preview",
@@ -477,7 +495,7 @@ export const softwareName: OperationURLParameter = {
   },
 };
 
-export const apiVersion5: OperationQueryParameter = {
+export const apiVersion6: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-07-01-preview",
@@ -521,7 +539,7 @@ export const customEntityStoreAssignmentRequestBody: OperationParameter = {
   mapper: CustomEntityStoreAssignmentRequestMapper,
 };
 
-export const apiVersion6: OperationQueryParameter = {
+export const apiVersion7: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-10-01-preview",
@@ -533,7 +551,7 @@ export const apiVersion6: OperationQueryParameter = {
   },
 };
 
-export const apiVersion7: OperationQueryParameter = {
+export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01-preview",
@@ -618,7 +636,7 @@ export const operationId: OperationURLParameter = {
   },
 };
 
-export const apiVersion8: OperationQueryParameter = {
+export const apiVersion9: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-07-01-preview",
@@ -657,7 +675,7 @@ export const securityConnectorName: OperationURLParameter = {
   },
 };
 
-export const apiVersion9: OperationQueryParameter = {
+export const apiVersion10: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-12-01-preview",
@@ -697,7 +715,7 @@ export const defenderForStorageSetting: OperationParameter = {
   mapper: DefenderForStorageSettingMapper,
 };
 
-export const apiVersion10: OperationQueryParameter = {
+export const apiVersion11: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-01-01-preview",
@@ -757,7 +775,7 @@ export const workspaceId: OperationQueryParameter = {
   },
 };
 
-export const apiVersion11: OperationQueryParameter = {
+export const apiVersion12: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-01-preview",
@@ -801,7 +819,7 @@ export const sensitivitySettings: OperationParameter = {
   mapper: UpdateSensitivitySettingsRequestMapper,
 };
 
-export const apiVersion12: OperationQueryParameter = {
+export const apiVersion13: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-02-15-preview",
@@ -813,7 +831,7 @@ export const apiVersion12: OperationQueryParameter = {
   },
 };
 
-export const apiVersion13: OperationQueryParameter = {
+export const apiVersion14: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-05-01-preview",
@@ -871,7 +889,7 @@ export const resourceGroupName1: OperationURLParameter = {
   },
 };
 
-export const apiVersion14: OperationQueryParameter = {
+export const apiVersion15: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-09-01-preview",
@@ -969,7 +987,7 @@ export const operationResultId: OperationURLParameter = {
   },
 };
 
-export const apiVersion15: OperationQueryParameter = {
+export const apiVersion16: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-10-01-preview",
@@ -986,7 +1004,7 @@ export const securityConnector: OperationParameter = {
   mapper: SecurityConnectorMapper,
 };
 
-export const apiVersion16: OperationQueryParameter = {
+export const apiVersion17: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2017-08-01",
@@ -1009,7 +1027,7 @@ export const complianceResultName: OperationURLParameter = {
   },
 };
 
-export const apiVersion17: OperationQueryParameter = {
+export const apiVersion18: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2019-01-01",
@@ -1038,7 +1056,7 @@ export const advancedThreatProtectionSetting: OperationParameter = {
   mapper: AdvancedThreatProtectionSettingMapper,
 };
 
-export const apiVersion18: OperationQueryParameter = {
+export const apiVersion19: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2019-08-01",
@@ -1119,7 +1137,7 @@ export const updateIotSecuritySolutionData: OperationParameter = {
   mapper: UpdateIotSecuritySolutionDataMapper,
 };
 
-export const apiVersion19: OperationQueryParameter = {
+export const apiVersion20: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2020-01-01",
@@ -1316,7 +1334,7 @@ export const topologyResourceName: OperationURLParameter = {
   },
 };
 
-export const apiVersion20: OperationQueryParameter = {
+export const apiVersion21: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2021-06-01",
@@ -1359,7 +1377,7 @@ export const assessment: OperationParameter = {
   mapper: SecurityAssessmentMapper,
 };
 
-export const apiVersion21: OperationQueryParameter = {
+export const apiVersion22: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-01-01",
@@ -1387,7 +1405,7 @@ export const alertSimulatorRequestBody: OperationParameter = {
   mapper: AlertSimulatorRequestBodyMapper,
 };
 
-export const apiVersion22: OperationQueryParameter = {
+export const apiVersion23: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01",
@@ -1415,7 +1433,7 @@ export const setting1: OperationParameter = {
   mapper: SettingMapper,
 };
 
-export const apiVersion23: OperationQueryParameter = {
+export const apiVersion24: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-05-01",
@@ -1443,7 +1461,7 @@ export const serverVulnerabilityAssessmentsSetting: OperationParameter = {
   mapper: ServerVulnerabilityAssessmentsSettingMapper,
 };
 
-export const apiVersion24: OperationQueryParameter = {
+export const apiVersion25: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2023-11-15",
@@ -1487,7 +1505,7 @@ export const apiId: OperationURLParameter = {
   },
 };
 
-export const apiVersion25: OperationQueryParameter = {
+export const apiVersion26: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2024-01-01",

@@ -15,6 +15,9 @@ import {
   AutomationsGetResponse,
   AutomationsCreateOrUpdateOptionalParams,
   AutomationsCreateOrUpdateResponse,
+  AutomationUpdateModel,
+  AutomationsUpdateOptionalParams,
+  AutomationsUpdateResponse,
   AutomationsDeleteOptionalParams,
   AutomationsValidateOptionalParams,
   AutomationsValidateResponse,
@@ -69,6 +72,20 @@ export interface Automations {
     automation: Automation,
     options?: AutomationsCreateOrUpdateOptionalParams,
   ): Promise<AutomationsCreateOrUpdateResponse>;
+  /**
+   * Updates a security automation
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name is
+   *                          case insensitive.
+   * @param automationName The security automation name.
+   * @param automation The update model of security automation resource
+   * @param options The options parameters.
+   */
+  update(
+    resourceGroupName: string,
+    automationName: string,
+    automation: AutomationUpdateModel,
+    options?: AutomationsUpdateOptionalParams,
+  ): Promise<AutomationsUpdateResponse>;
   /**
    * Deletes a security automation.
    * @param resourceGroupName The name of the resource group within the user's subscription. The name is

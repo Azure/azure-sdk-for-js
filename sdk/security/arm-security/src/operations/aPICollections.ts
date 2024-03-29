@@ -526,7 +526,7 @@ const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
   serializer,
@@ -542,7 +542,7 @@ const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -562,7 +562,7 @@ const listByAzureApiManagementServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -583,7 +583,7 @@ const getByAzureApiManagementServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -614,7 +614,7 @@ const onboardAzureApiManagementApiOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -635,7 +635,7 @@ const offboardAzureApiManagementApiOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion24],
+  queryParameters: [Parameters.apiVersion25],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -27,6 +27,10 @@ export type AuthenticationDetailsPropertiesUnion =
   | AwsCredsAuthenticationDetailsProperties
   | AwAssumeRoleAuthenticationDetailsProperties
   | GcpCredentialsDetailsProperties;
+export type NotificationsSourceUnion =
+  | NotificationsSource
+  | NotificationsSourceAlert
+  | NotificationsSourceAttackPath;
 export type CloudOfferingUnion =
   | CloudOffering
   | CspmMonitorAwsOffering
@@ -638,11 +642,8 @@ export interface AuthenticationDetailsProperties {
 
 /** List of security contacts response */
 export interface SecurityContactList {
-  /**
-   * List of security contacts
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: SecurityContact[];
+  /** List of security contacts */
+  value: SecurityContact[];
   /**
    * The URI to fetch the next page.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -650,12 +651,10 @@ export interface SecurityContactList {
   readonly nextLink?: string;
 }
 
-/** Defines whether to send email notifications about new security alerts */
-export interface SecurityContactPropertiesAlertNotifications {
-  /** Defines if email notifications will be sent about new security alerts */
-  state?: State;
-  /** Defines the minimal alert severity which will be sent as email notifications */
-  minimalSeverity?: MinimalSeverity;
+/** A valid notification source type */
+export interface NotificationsSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sourceType: "Alert" | "AttackPath";
 }
 
 /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
@@ -663,7 +662,7 @@ export interface SecurityContactPropertiesNotificationsByRole {
   /** Defines whether to send email notifications from AMicrosoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
   state?: State;
   /** Defines which RBAC roles will get email notifications from Microsoft Defender for Cloud. List of allowed RBAC roles: */
-  roles?: Roles[];
+  roles?: SecurityContactRole[];
 }
 
 /** Represents the software inventory of the virtual machine. */
@@ -3717,8 +3716,10 @@ export interface SecurityContact extends Resource {
   emails?: string;
   /** The security contact's phone number */
   phone?: string;
-  /** Defines whether to send email notifications about new security alerts */
-  alertNotifications?: SecurityContactPropertiesAlertNotifications;
+  /** Indicates whether the security contact is enabled. */
+  isEnabled?: boolean;
+  /** A collection of sources types which evaluate the email notification. */
+  notificationsSources?: NotificationsSourceUnion[];
   /** Defines whether to send email notifications from Microsoft Defender for Cloud to persons with specific RBAC roles on the subscription. */
   notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
 }
@@ -4761,14 +4762,30 @@ export interface AutomationActionEventHub extends AutomationAction {
   readonly sasPolicyName?: string;
   /** The target Event Hub connection string (it will not be included in any response). */
   connectionString?: string;
+  /** Indicates whether the trusted service is enabled or not. */
+  isTrustedServiceEnabled?: boolean;
 }
 
-/** The Log Analytics Workspace to which event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
+/** The�Log�Analytics�Workspace�to�which�event data will be exported. Security alerts data will reside in the 'SecurityAlert' table and the assessments data will reside in the 'SecurityRecommendation' table (under the 'Security'/'SecurityCenterFree' solutions). Note that in order to view the data in the workspace, the Security Center Log Analytics free/standard solution needs to be enabled on that workspace. To learn more about Microsoft Defender for Cloud continuous export capabilities, visit https://aka.ms/ASCExportLearnMore */
 export interface AutomationActionWorkspace extends AutomationAction {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   actionType: "Workspace";
   /** The fully qualified Log Analytics Workspace Azure Resource ID. */
   workspaceResourceId?: string;
+}
+
+/** The update model of security automation resource. */
+export interface AutomationUpdateModel extends Tags {
+  /** The security automation description. */
+  description?: string;
+  /** Indicates whether the security automation is enabled. */
+  isEnabled?: boolean;
+  /** A collection of scopes on which the security automations logic is applied. Supported scopes are the subscription itself or a resource group under that subscription. The automation will only apply on defined scopes. */
+  scopes?: AutomationScope[];
+  /** A collection of the source event types which evaluate the security automation set of rules. */
+  sources?: AutomationSource[];
+  /** A collection of the actions which are triggered if all the configured rules evaluations, within at least one rule set, are true. */
+  actions?: AutomationActionUnion[];
 }
 
 /** Details of the Azure resource that was assessed */
@@ -4953,6 +4970,22 @@ export interface GcpCredentialsDetailsProperties
   authProviderX509CertUrl: string;
   /** Client x509 certificate URL field of the API key (write only) */
   clientX509CertUrl: string;
+}
+
+/** Alert notification source */
+export interface NotificationsSourceAlert extends NotificationsSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sourceType: "Alert";
+  /** Defines the minimal alert severity which will be sent as email notifications */
+  minimalSeverity?: MinimalSeverity;
+}
+
+/** Attack path notification source */
+export interface NotificationsSourceAttackPath extends NotificationsSource {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  sourceType: "AttackPath";
+  /** Defines the minimal attach path risk level which will be sent as email notifications */
+  minimalRiskLevel?: MinimalRiskLevel;
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
@@ -5884,6 +5917,10 @@ export enum KnownEventSource {
   RegulatoryComplianceAssessment = "RegulatoryComplianceAssessment",
   /** RegulatoryComplianceAssessmentSnapshot */
   RegulatoryComplianceAssessmentSnapshot = "RegulatoryComplianceAssessmentSnapshot",
+  /** AttackPaths */
+  AttackPaths = "AttackPaths",
+  /** AttackPathsSnapshot */
+  AttackPathsSnapshot = "AttackPathsSnapshot",
 }
 
 /**
@@ -5901,7 +5938,9 @@ export enum KnownEventSource {
  * **SecureScoreControls** \
  * **SecureScoreControlsSnapshot** \
  * **RegulatoryComplianceAssessment** \
- * **RegulatoryComplianceAssessmentSnapshot**
+ * **RegulatoryComplianceAssessmentSnapshot** \
+ * **AttackPaths** \
+ * **AttackPathsSnapshot**
  */
 export type EventSource = string;
 
@@ -6187,29 +6226,26 @@ export enum KnownAuthenticationType {
  */
 export type AuthenticationType = string;
 
-/** Known values of {@link MinimalSeverity} that the service accepts. */
-export enum KnownMinimalSeverity {
-  /** Get notifications on new alerts with High severity */
-  High = "High",
-  /** Get notifications on new alerts with medium or high severity */
-  Medium = "Medium",
-  /** Don't get notifications on new alerts with low, medium or high severity */
-  Low = "Low",
+/** Known values of {@link SourceType} that the service accepts. */
+export enum KnownSourceType {
+  /** Alert */
+  Alert = "Alert",
+  /** AttackPath */
+  AttackPath = "AttackPath",
 }
 
 /**
- * Defines values for MinimalSeverity. \
- * {@link KnownMinimalSeverity} can be used interchangeably with MinimalSeverity,
+ * Defines values for SourceType. \
+ * {@link KnownSourceType} can be used interchangeably with SourceType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **High**: Get notifications on new alerts with High severity \
- * **Medium**: Get notifications on new alerts with medium or high severity \
- * **Low**: Don't get notifications on new alerts with low, medium or high severity
+ * **Alert** \
+ * **AttackPath**
  */
-export type MinimalSeverity = string;
+export type SourceType = string;
 
-/** Known values of {@link Roles} that the service accepts. */
-export enum KnownRoles {
+/** Known values of {@link SecurityContactRole} that the service accepts. */
+export enum KnownSecurityContactRole {
   /** If enabled, send notification on new alerts to the account admins */
   AccountAdmin = "AccountAdmin",
   /** If enabled, send notification on new alerts to the service admins */
@@ -6221,8 +6257,8 @@ export enum KnownRoles {
 }
 
 /**
- * Defines values for Roles. \
- * {@link KnownRoles} can be used interchangeably with Roles,
+ * Defines values for SecurityContactRole. \
+ * {@link KnownSecurityContactRole} can be used interchangeably with SecurityContactRole,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **AccountAdmin**: If enabled, send notification on new alerts to the account admins \
@@ -6230,7 +6266,22 @@ export enum KnownRoles {
  * **Owner**: If enabled, send notification on new alerts to the subscription owners \
  * **Contributor**: If enabled, send notification on new alerts to the subscription contributors
  */
-export type Roles = string;
+export type SecurityContactRole = string;
+
+/** Known values of {@link SecurityContactName} that the service accepts. */
+export enum KnownSecurityContactName {
+  /** The single applicable name of the security contact object */
+  Default = "default",
+}
+
+/**
+ * Defines values for SecurityContactName. \
+ * {@link KnownSecurityContactName} can be used interchangeably with SecurityContactName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **default**: The single applicable name of the security contact object
+ */
+export type SecurityContactName = string;
 
 /** Known values of {@link EndOfSupportStatus} that the service accepts. */
 export enum KnownEndOfSupportStatus {
@@ -8428,6 +8479,51 @@ export enum KnownCode {
  */
 export type Code = string;
 
+/** Known values of {@link MinimalSeverity} that the service accepts. */
+export enum KnownMinimalSeverity {
+  /** Get notifications on new alerts with High severity */
+  High = "High",
+  /** Get notifications on new alerts with Medium or High severity */
+  Medium = "Medium",
+  /** Get notifications on new alerts with Low, Medium or High severity */
+  Low = "Low",
+}
+
+/**
+ * Defines values for MinimalSeverity. \
+ * {@link KnownMinimalSeverity} can be used interchangeably with MinimalSeverity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **High**: Get notifications on new alerts with High severity \
+ * **Medium**: Get notifications on new alerts with Medium or High severity \
+ * **Low**: Get notifications on new alerts with Low, Medium or High severity
+ */
+export type MinimalSeverity = string;
+
+/** Known values of {@link MinimalRiskLevel} that the service accepts. */
+export enum KnownMinimalRiskLevel {
+  /** Get notifications on new attack paths with Critical risk level */
+  Critical = "Critical",
+  /** Get notifications on new attack paths with High or Critical risk level */
+  High = "High",
+  /** Get notifications on new attach paths with Medium, High or Critical risk level */
+  Medium = "Medium",
+  /** Get notifications on new attach paths with Low, Medium, High or Critical risk level */
+  Low = "Low",
+}
+
+/**
+ * Defines values for MinimalRiskLevel. \
+ * {@link KnownMinimalRiskLevel} can be used interchangeably with MinimalRiskLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Critical**: Get notifications on new attack paths with Critical risk level \
+ * **High**: Get notifications on new attack paths with High or Critical risk level \
+ * **Medium**: Get notifications on new attach paths with Medium, High or Critical risk level \
+ * **Low**: Get notifications on new attach paths with Low, Medium, High or Critical risk level
+ */
+export type MinimalRiskLevel = string;
+
 /** Known values of {@link GovernanceRuleConditionOperator} that the service accepts. */
 export enum KnownGovernanceRuleConditionOperator {
   /** Checks that the string value of the data defined in Property equals the given value - exact fit */
@@ -8923,6 +9019,13 @@ export interface AutomationsCreateOrUpdateOptionalParams
 
 /** Contains response data for the createOrUpdate operation. */
 export type AutomationsCreateOrUpdateResponse = Automation;
+
+/** Optional parameters. */
+export interface AutomationsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type AutomationsUpdateResponse = Automation;
 
 /** Optional parameters. */
 export interface AutomationsDeleteOptionalParams

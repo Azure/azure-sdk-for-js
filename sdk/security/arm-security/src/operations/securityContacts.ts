@@ -18,6 +18,7 @@ import {
   SecurityContactsListNextOptionalParams,
   SecurityContactsListOptionalParams,
   SecurityContactsListResponse,
+  SecurityContactName,
   SecurityContactsGetOptionalParams,
   SecurityContactsGetResponse,
   SecurityContactsCreateOptionalParams,
@@ -109,7 +110,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   get(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsGetOptionalParams,
   ): Promise<SecurityContactsGetResponse> {
     return this.client.sendOperationRequest(
@@ -125,7 +126,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   create(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     securityContact: SecurityContact,
     options?: SecurityContactsCreateOptionalParams,
   ): Promise<SecurityContactsCreateResponse> {
@@ -141,7 +142,7 @@ export class SecurityContactsImpl implements SecurityContacts {
    * @param options The options parameters.
    */
   delete(
-    securityContactName: string,
+    securityContactName: SecurityContactName,
     options?: SecurityContactsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(

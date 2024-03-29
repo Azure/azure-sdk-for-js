@@ -1272,7 +1272,7 @@ export const SecurityContactList: coreClient.CompositeMapper = {
     modelProperties: {
       value: {
         serializedName: "value",
-        readOnly: true,
+        required: true,
         type: {
           name: "Sequence",
           element: {
@@ -1294,27 +1294,26 @@ export const SecurityContactList: coreClient.CompositeMapper = {
   },
 };
 
-export const SecurityContactPropertiesAlertNotifications: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "SecurityContactPropertiesAlertNotifications",
-      modelProperties: {
-        state: {
-          serializedName: "state",
-          type: {
-            name: "String",
-          },
-        },
-        minimalSeverity: {
-          serializedName: "minimalSeverity",
-          type: {
-            name: "String",
-          },
+export const NotificationsSource: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "NotificationsSource",
+    uberParent: "NotificationsSource",
+    polymorphicDiscriminator: {
+      serializedName: "sourceType",
+      clientName: "sourceType",
+    },
+    modelProperties: {
+      sourceType: {
+        serializedName: "sourceType",
+        required: true,
+        type: {
+          name: "String",
         },
       },
     },
-  };
+  },
+};
 
 export const SecurityContactPropertiesNotificationsByRole: coreClient.CompositeMapper =
   {
@@ -8556,11 +8555,22 @@ export const SecurityContact: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      alertNotifications: {
-        serializedName: "properties.alertNotifications",
+      isEnabled: {
+        serializedName: "properties.isEnabled",
         type: {
-          name: "Composite",
-          className: "SecurityContactPropertiesAlertNotifications",
+          name: "Boolean",
+        },
+      },
+      notificationsSources: {
+        serializedName: "properties.notificationsSources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NotificationsSource",
+            },
+          },
         },
       },
       notificationsByRole: {
@@ -11114,6 +11124,12 @@ export const AutomationActionEventHub: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      isTrustedServiceEnabled: {
+        serializedName: "isTrustedServiceEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
     },
   },
 };
@@ -11131,6 +11147,64 @@ export const AutomationActionWorkspace: coreClient.CompositeMapper = {
         serializedName: "workspaceResourceId",
         type: {
           name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AutomationUpdateModel: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AutomationUpdateModel",
+    modelProperties: {
+      ...Tags.type.modelProperties,
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String",
+        },
+      },
+      isEnabled: {
+        serializedName: "properties.isEnabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      scopes: {
+        serializedName: "properties.scopes",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationScope",
+            },
+          },
+        },
+      },
+      sources: {
+        serializedName: "properties.sources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationSource",
+            },
+          },
+        },
+      },
+      actions: {
+        serializedName: "properties.actions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "AutomationAction",
+            },
+          },
         },
       },
     },
@@ -11541,6 +11615,44 @@ export const GcpCredentialsDetailsProperties: coreClient.CompositeMapper = {
       clientX509CertUrl: {
         serializedName: "clientX509CertUrl",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NotificationsSourceAlert: coreClient.CompositeMapper = {
+  serializedName: "Alert",
+  type: {
+    name: "Composite",
+    className: "NotificationsSourceAlert",
+    uberParent: "NotificationsSource",
+    polymorphicDiscriminator: NotificationsSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...NotificationsSource.type.modelProperties,
+      minimalSeverity: {
+        serializedName: "minimalSeverity",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const NotificationsSourceAttackPath: coreClient.CompositeMapper = {
+  serializedName: "AttackPath",
+  type: {
+    name: "Composite",
+    className: "NotificationsSourceAttackPath",
+    uberParent: "NotificationsSource",
+    polymorphicDiscriminator: NotificationsSource.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...NotificationsSource.type.modelProperties,
+      minimalRiskLevel: {
+        serializedName: "minimalRiskLevel",
         type: {
           name: "String",
         },
@@ -13619,6 +13731,7 @@ export let discriminators = {
   ResourceDetails: ResourceDetails,
   AdditionalData: AdditionalData,
   AuthenticationDetailsProperties: AuthenticationDetailsProperties,
+  NotificationsSource: NotificationsSource,
   CloudOffering: CloudOffering,
   EnvironmentData: EnvironmentData,
   CustomAlertRule: CustomAlertRule,
@@ -13642,6 +13755,8 @@ export let discriminators = {
     AwAssumeRoleAuthenticationDetailsProperties,
   "AuthenticationDetailsProperties.gcpCredentials":
     GcpCredentialsDetailsProperties,
+  "NotificationsSource.Alert": NotificationsSourceAlert,
+  "NotificationsSource.AttackPath": NotificationsSourceAttackPath,
   "CloudOffering.CspmMonitorAws": CspmMonitorAwsOffering,
   "CloudOffering.DefenderForContainersAws": DefenderForContainersAwsOffering,
   "CloudOffering.DefenderForServersAws": DefenderForServersAwsOffering,

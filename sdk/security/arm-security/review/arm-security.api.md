@@ -929,6 +929,7 @@ export interface AutomationActionEventHub extends AutomationAction {
     actionType: "EventHub";
     connectionString?: string;
     eventHubResourceId?: string;
+    isTrustedServiceEnabled?: boolean;
     readonly sasPolicyName?: string;
 }
 
@@ -967,6 +968,7 @@ export interface Automations {
     get(resourceGroupName: string, automationName: string, options?: AutomationsGetOptionalParams): Promise<AutomationsGetResponse>;
     list(options?: AutomationsListOptionalParams): PagedAsyncIterableIterator<Automation>;
     listByResourceGroup(resourceGroupName: string, options?: AutomationsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<Automation>;
+    update(resourceGroupName: string, automationName: string, automation: AutomationUpdateModel, options?: AutomationsUpdateOptionalParams): Promise<AutomationsUpdateResponse>;
     validate(resourceGroupName: string, automationName: string, automation: Automation, options?: AutomationsValidateOptionalParams): Promise<AutomationsValidateResponse>;
 }
 
@@ -1029,6 +1031,13 @@ export interface AutomationSource {
 }
 
 // @public
+export interface AutomationsUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AutomationsUpdateResponse = Automation;
+
+// @public
 export interface AutomationsValidateOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1041,6 +1050,15 @@ export interface AutomationTriggeringRule {
     operator?: Operator;
     propertyJPath?: string;
     propertyType?: PropertyType;
+}
+
+// @public
+export interface AutomationUpdateModel extends Tags {
+    actions?: AutomationActionUnion[];
+    description?: string;
+    isEnabled?: boolean;
+    scopes?: AutomationScope[];
+    sources?: AutomationSource[];
 }
 
 // @public
@@ -4276,6 +4294,8 @@ export enum KnownEventSource {
     Alerts = "Alerts",
     Assessments = "Assessments",
     AssessmentsSnapshot = "AssessmentsSnapshot",
+    AttackPaths = "AttackPaths",
+    AttackPathsSnapshot = "AttackPathsSnapshot",
     RegulatoryComplianceAssessment = "RegulatoryComplianceAssessment",
     RegulatoryComplianceAssessmentSnapshot = "RegulatoryComplianceAssessmentSnapshot",
     SecureScoreControls = "SecureScoreControls",
@@ -4403,6 +4423,14 @@ export enum KnownIsEnabled {
 // @public
 export enum KnownKind {
     Bundles = "Bundles"
+}
+
+// @public
+export enum KnownMinimalRiskLevel {
+    Critical = "Critical",
+    High = "High",
+    Low = "Low",
+    Medium = "Medium"
 }
 
 // @public
@@ -4582,14 +4610,6 @@ export enum KnownResourceStatus {
 }
 
 // @public
-export enum KnownRoles {
-    AccountAdmin = "AccountAdmin",
-    Contributor = "Contributor",
-    Owner = "Owner",
-    ServiceAdmin = "ServiceAdmin"
-}
-
-// @public
 export enum KnownRuleCategory {
     Artifacts = "Artifacts",
     Code = "Code",
@@ -4640,6 +4660,19 @@ export enum KnownScanState {
 export enum KnownScanTriggerType {
     OnDemand = "OnDemand",
     Recurring = "Recurring"
+}
+
+// @public
+export enum KnownSecurityContactName {
+    Default = "default"
+}
+
+// @public
+export enum KnownSecurityContactRole {
+    AccountAdmin = "AccountAdmin",
+    Contributor = "Contributor",
+    Owner = "Owner",
+    ServiceAdmin = "ServiceAdmin"
 }
 
 // @public
@@ -4729,6 +4762,12 @@ export enum KnownSourceSystem {
     NonAzureAppLocker = "NonAzure_AppLocker",
     NonAzureAuditD = "NonAzure_AuditD",
     None = "None"
+}
+
+// @public
+export enum KnownSourceType {
+    Alert = "Alert",
+    AttackPath = "AttackPath"
 }
 
 // @public
@@ -5051,6 +5090,9 @@ export interface MdeOnboardingsListOptionalParams extends coreClient.OperationOp
 export type MdeOnboardingsListResponse = MdeOnboardingDataList;
 
 // @public
+export type MinimalRiskLevel = string;
+
+// @public
 export type MinimalSeverity = string;
 
 // @public
@@ -5070,6 +5112,26 @@ export interface MqttC2DRejectedMessagesNotInAllowedRange extends TimeWindowCust
 export interface MqttD2CMessagesNotInAllowedRange extends TimeWindowCustomAlertRule {
     ruleType: "MqttD2CMessagesNotInAllowedRange";
 }
+
+// @public
+export interface NotificationsSource {
+    sourceType: "Alert" | "AttackPath";
+}
+
+// @public
+export interface NotificationsSourceAlert extends NotificationsSource {
+    minimalSeverity?: MinimalSeverity;
+    sourceType: "Alert";
+}
+
+// @public
+export interface NotificationsSourceAttackPath extends NotificationsSource {
+    minimalRiskLevel?: MinimalRiskLevel;
+    sourceType: "AttackPath";
+}
+
+// @public (undocumented)
+export type NotificationsSourceUnion = NotificationsSource | NotificationsSourceAlert | NotificationsSourceAttackPath;
 
 // @public
 export type OfferingType = string;
@@ -5527,9 +5589,6 @@ export type ResourcesCoverageStatus = string;
 
 // @public
 export type ResourceStatus = string;
-
-// @public
-export type Roles = string;
 
 // @public
 export interface Rule {
@@ -6245,35 +6304,36 @@ export type SecurityConnectorsUpdateResponse = SecurityConnector;
 
 // @public
 export interface SecurityContact extends Resource {
-    alertNotifications?: SecurityContactPropertiesAlertNotifications;
     emails?: string;
+    isEnabled?: boolean;
     notificationsByRole?: SecurityContactPropertiesNotificationsByRole;
+    notificationsSources?: NotificationsSourceUnion[];
     phone?: string;
 }
 
 // @public
 export interface SecurityContactList {
     readonly nextLink?: string;
-    readonly value?: SecurityContact[];
+    value: SecurityContact[];
 }
 
 // @public
-export interface SecurityContactPropertiesAlertNotifications {
-    minimalSeverity?: MinimalSeverity;
-    state?: State;
-}
+export type SecurityContactName = string;
 
 // @public
 export interface SecurityContactPropertiesNotificationsByRole {
-    roles?: Roles[];
+    roles?: SecurityContactRole[];
     state?: State;
 }
 
 // @public
+export type SecurityContactRole = string;
+
+// @public
 export interface SecurityContacts {
-    create(securityContactName: string, securityContact: SecurityContact, options?: SecurityContactsCreateOptionalParams): Promise<SecurityContactsCreateResponse>;
-    delete(securityContactName: string, options?: SecurityContactsDeleteOptionalParams): Promise<void>;
-    get(securityContactName: string, options?: SecurityContactsGetOptionalParams): Promise<SecurityContactsGetResponse>;
+    create(securityContactName: SecurityContactName, securityContact: SecurityContact, options?: SecurityContactsCreateOptionalParams): Promise<SecurityContactsCreateResponse>;
+    delete(securityContactName: SecurityContactName, options?: SecurityContactsDeleteOptionalParams): Promise<void>;
+    get(securityContactName: SecurityContactName, options?: SecurityContactsGetOptionalParams): Promise<SecurityContactsGetResponse>;
     list(options?: SecurityContactsListOptionalParams): PagedAsyncIterableIterator<SecurityContact>;
 }
 
@@ -6763,6 +6823,9 @@ export type Source = string;
 
 // @public
 export type SourceSystem = string;
+
+// @public
+export type SourceType = string;
 
 // @public
 export interface SqlServerVulnerabilityProperties extends AdditionalData {
