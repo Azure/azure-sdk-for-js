@@ -28,7 +28,7 @@ import {
 import { readPartitionKeyDefinition } from "../ClientUtils";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition, PartitionKeyInternal } from "../../documents";
+import { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache } from "../../routing";
 import {
   ChangeFeedPullModelIterator,
@@ -317,7 +317,7 @@ export class Items {
 
       if (this.clientContext.enableEncyption) {
         body = await this.encryptItem(body);
-        partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(partitionKey);
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
       const err = {};
@@ -342,7 +342,6 @@ export class Items {
         response.result = await this.decryptItem(response.result);
         partitionKey = extractPartitionKeys(response.result, partitionKeyDefinition);
       }
-
       const ref = new Item(
         this.container,
         (response.result as any).id,
@@ -406,7 +405,7 @@ export class Items {
 
       if (this.clientContext.enableEncyption) {
         body = await this.encryptItem(body);
-        partitionKey = await this.getEncryptedPartitionKeyIfEncrypted(partitionKey);
+        partitionKey = extractPartitionKeys(body, partitionKeyDefinition);
       }
 
       const err = {};
@@ -663,42 +662,14 @@ export class Items {
     return encryptedItem;
   }
 
-  async getEncryptedPartitionKeyIfEncrypted(
-    partitionKeyList: PartitionKeyInternal,
-  ): Promise<PartitionKeyInternal> {
-    const key = this.container.database.id + "/" + this.container.id;
-    let encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-
-    if (encryptionSettings === undefined) {
-      await this.container.initializeEncryption();
-      encryptionSettings = this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
-    }
-
-    const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
-    for (let i = 0; i < partitionKeyPaths.length; i++) {
-      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPaths[i])) {
-        const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(
-          partitionKeyPaths[i],
-        );
-        const clientEncryptionKeyProperties = await this.container.getClientEncryptionKeyProperties(
-          partitionKeyPaths[i],
-        );
-        partitionKeyList[i] = await EncryptionProcessor.encryptToken(
-          partitionKeyList[i],
-          settingForProperty,
-          partitionKeyPaths[i] === "/id",
-          this.clientContext.encryptionKeyStoreProvider,
-          clientEncryptionKeyProperties,
-        );
-      }
-    }
-    return partitionKeyList;
-  }
-
   async decryptItem<T extends ItemDefinition>(item: T): Promise<T> {
     const key = this.container.database.id + "/" + this.container.id;
     const encryptionSettings =
       this.clientContext.encryptionSettingsCache.getEncryptionSettings(key);
+    if (encryptionSettings == null) await this.container.initializeEncryption();
+    if (encryptionSettings == null) {
+      throw new Error("Encryption Settings is not defined");
+    }
     item = await EncryptionProcessor.decrypt(
       item,
       encryptionSettings,

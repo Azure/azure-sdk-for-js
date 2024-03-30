@@ -26,7 +26,7 @@ export class EncryptionSettings {
     clientEncryptionPolicy: ClientEncryptionPolicy,
   ): EncryptionSettings {
     const encryptionSettings = new EncryptionSettings(id, partitionKeyPaths);
-    //TODO: basic checks on clientEncryptionPolicy
+    // TODO: basic checks on clientEncryptionPolicy
     encryptionSettings.validatePolicyFormatVersion(clientEncryptionPolicy, partitionKeyPaths);
 
     for (const includedPath of clientEncryptionPolicy.includedPaths) {
@@ -51,15 +51,11 @@ export class EncryptionSettings {
       const isPartitionKeyEncrypted = includedPaths.some((path) =>
         partitionKeyPaths.includes(path.path),
       );
-      if (isPartitionKeyEncrypted) {
-        throw new Error(
-          "Encryption of partition key is only supported with policy format version 2.",
-        );
-      }
-
       const isIdEncrypted = includedPaths.some((path) => path.path === "/id");
-      if (isIdEncrypted) {
-        throw new Error("Encryption of id is only supported with policy format version 2.");
+      if (isIdEncrypted || isPartitionKeyEncrypted) {
+        throw new Error(
+          "Encryption of partition key or id is only supported with policy format version 2.",
+        );
       }
     }
 

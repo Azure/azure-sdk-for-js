@@ -352,23 +352,29 @@ export class Item {
     }
     const partitionKeyPaths = encryptionSettings.partitionKeyPaths;
     for (let i = 0; i < partitionKeyPaths.length; i++) {
-      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPaths[i])) {
-        const settingForProperty = encryptionSettings.getEncryptionSettingForProperty(
-          partitionKeyPaths[i],
-        );
-        const clientEncryptionKeyProperties = await this.container.getClientEncryptionKeyProperties(
-          partitionKeyPaths[i],
-        );
+      const partitionKeyPath = this.extractPartitionKeyPath(partitionKeyPaths[i]);
+      if (encryptionSettings.pathsToEncrypt.includes(partitionKeyPath)) {
+        const settingForProperty =
+          encryptionSettings.getEncryptionSettingForProperty(partitionKeyPath);
+        const clientEncryptionKeyProperties =
+          await this.container.getClientEncryptionKeyProperties(partitionKeyPath);
         partitionKeyList[i] = await EncryptionProcessor.encryptToken(
           partitionKeyList[i],
           settingForProperty,
-          partitionKeyPaths[i] === "/id",
+          partitionKeyPath === "/id",
           this.clientContext.encryptionKeyStoreProvider,
           clientEncryptionKeyProperties,
         );
       }
     }
     return partitionKeyList;
+  }
+  extractPartitionKeyPath(path: string): string {
+    const secondSlashIndex = path.indexOf("/", path.indexOf("/") + 1);
+    if (secondSlashIndex === -1) {
+      return path;
+    }
+    return path.substring(0, secondSlashIndex);
   }
 
   async IdEncryptionHelper(id: string): Promise<string> {
